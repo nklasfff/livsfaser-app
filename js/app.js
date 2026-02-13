@@ -1693,11 +1693,17 @@ function renderIdagCheckin() {
   var checkins = getCheckins();
   var done = checkins.some(function(c) { return c.date && c.date.substring(0, 10) === today; });
 
+  var html = '<div class="idag__group-header">';
+  html += '<h3>M\u00e6rk efter</h3>';
+  html += '<p>Et \u00f8jeblik til at registrere hvordan du har det</p>';
+  html += '</div>';
+
   if (done) {
-    el.innerHTML = '<button class="idag__checkin-btn" onclick="App.loadScreen(\'min-udvikling\')" style="opacity:0.6;">\u2713 Tjekket ind i dag \u00B7 Se din udvikling</button>';
+    html += '<button class="idag__checkin-btn" onclick="App.loadScreen(\'min-udvikling\')" style="opacity:0.6;">\u2713 Tjekket ind i dag \u00B7 Se din udvikling</button>';
   } else {
-    el.innerHTML = '<button class="idag__checkin-btn" onclick="App.loadScreen(\'min-udvikling\')">\uD83C\uDF3F Dagens check-in \u2014 hvordan f\u00F8les din energi?</button>';
+    html += '<button class="idag__checkin-btn" onclick="App.loadScreen(\'min-udvikling\')">\uD83C\uDF3F Dagens check-in \u2014 hvordan f\u00F8les din energi?</button>';
   }
+  el.innerHTML = html;
 }
 
 // ---- Home Screen Sections (ny navigation) ----
@@ -1777,6 +1783,7 @@ function renderKontekstuelleForslag() {
   var primaryEl = insight.dominantElement;
 
   var html = '<h3 class="idag__section-title idag__section-title--sub">Forslag til dig</h3>';
+  html += '<p class="idag__section-text idag__section-text--muted">Baseret på dine elementer og årstiden</p>';
   html += '<div class="idag__forslag-kort">';
 
   // Kort 1: Øvelse baseret på element
@@ -1838,7 +1845,11 @@ function renderHovedkort() {
     { screen: 'min-rejse', colorClass: 'hoved-kort--rejse', icon: '<svg width="32" height="32" viewBox="0 0 32 32"><path d="M8 28C8 28 10 4 16 4s8 24 8 24" fill="none" stroke="#7690C1" stroke-width="1.5"/><circle cx="16" cy="16" r="2" fill="#7690C1"/></svg>', title: 'Min Rejse', subtitle: rejseSub }
   ];
 
-  var html = '';
+  var html = '<div class="idag__group-header">';
+  html += '<h3>Dine fire verdener</h3>';
+  html += '<p>Udforsk dine cyklusser, relationer, praksis og rejse</p>';
+  html += '</div>';
+
   for (var i = 0; i < kort.length; i++) {
     var k = kort[i];
     html += '<div class="hoved-kort ' + k.colorClass + '" onclick="App.loadScreen(\'' + k.screen + '\')">';
@@ -6262,6 +6273,7 @@ function renderNotifikationer() {
   var maxVisible = 3;
   var html = '<div class="idag__timeline">';
   html += '<p class="idag__section-title idag__section-title--sub">Kommende</p>';
+  html += '<p class="idag__section-text idag__section-text--muted">Forandringer og skift i dine cyklusser</p>';
   html += '<div class="idag__timeline-list">';
 
   for (var i = 0; i < notifs.length; i++) {
@@ -6306,7 +6318,11 @@ function renderForloebCard() {
   var seasonName = d ? d.season.season : 'Vinter';
   var forlob = FORLOB_DATA[seasonName] || FORLOB_DATA['Vinter'];
 
-  var html = '<div class="forloeb-kort" onclick="window.open(\'' + forlob.url + '\', \'_blank\')">';
+  var html = '<div class="idag__group-header">';
+  html += '<h3>G\u00e5 dybere</h3>';
+  html += '<p>Isabelles s\u00e6sonforl\u00f8b med yoga, vejrtr\u00e6kning og f\u00e6llesskab</p>';
+  html += '</div>';
+  html += '<div class="forloeb-kort" onclick="window.open(\'' + forlob.url + '\', \'_blank\')">';
   html += '<span class="forloeb-kort__label">Isabelles forl\u00f8b \u00B7 Eksternt</span>';
   html += '<h3 class="forloeb-kort__title">' + forlob.title + '</h3>';
   html += '<p class="forloeb-kort__subtitle">' + forlob.subtitle + '</p>';

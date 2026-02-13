@@ -203,6 +203,38 @@
   margin: 0;
 }
 
+/* Extra spacing between section groups */
+.idag__section--gap-before {
+  margin-top: 24px;
+}
+
+.idag__section--biggap-before {
+  margin-top: 48px;
+}
+
+/* Section group headers (intro text above a group) */
+.idag__group-header {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.idag__group-header h3 {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: var(--weight-bold);
+  color: var(--morkebla);
+  margin: 0 0 6px 0;
+}
+
+.idag__group-header p {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
 .idag__section-title {
   font-family: var(--font-serif);
   font-size: 28px;
