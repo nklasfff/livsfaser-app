@@ -1197,6 +1197,16 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
+// Lotus section divider HTML
+function sectionDivider() {
+  return '<div class="section-divider"><img class="section-divider__img" src="assets/images/lotus-divider.png" alt="" /></div>';
+}
+
+// Scroll-to-top footer
+function scrollTopFooter() {
+  return '<div class="scroll-top-footer" onclick="window.scrollTo({top:0,behavior:\'smooth\'})">\u2191 Tilbage til toppen</div>';
+}
+
 function getRelationTypeLabel(typeValue) {
   for (var i = 0; i < RELATION_TYPES.length; i++) {
     if (RELATION_TYPES[i].value === typeValue) return RELATION_TYPES[i].label;
@@ -1836,7 +1846,7 @@ function renderHvadKanDu() {
 
   // Card 1: Krop (yoga)
   if (yogaPose) {
-    html += '<div class="hvadkandu__card" onclick="navigateToYogaWithElement(\'' + dominantEl + '\')">';
+    html += '<div class="hvadkandu__card hvadkandu__card--first" onclick="navigateToYogaWithElement(\'' + dominantEl + '\')">';
     html += '<p class="hvadkandu__label">Krop</p>';
     html += '<p class="hvadkandu__title">' + yogaPose.pose.split('(')[0].trim() + '</p>';
     html += '<p class="hvadkandu__desc">' + yogaPose.desc.split('.')[0] + '. ' + yogaPose.tid + '.</p>';
@@ -1846,7 +1856,7 @@ function renderHvadKanDu() {
 
   // Card 2: Åndedræt (healing sound)
   if (healingSound) {
-    html += '<div class="hvadkandu__card" onclick="App.loadScreen(\'samlede-indsigt\')">';
+    html += '<div class="hvadkandu__card hvadkandu__card--second" onclick="App.loadScreen(\'samlede-indsigt\')">';
     html += '<p class="hvadkandu__label">Åndedræt</p>';
     html += '<p class="hvadkandu__title">Healinglyd: ' + healingSound.lyd + '</p>';
     html += '<p class="hvadkandu__desc">' + healingSound.desc + '</p>';
@@ -1856,7 +1866,7 @@ function renderHvadKanDu() {
 
   // Card 3: Næring (food)
   if (foodItem) {
-    html += '<div class="hvadkandu__card" onclick="App.loadScreen(\'samlede-indsigt\')">';
+    html += '<div class="hvadkandu__card hvadkandu__card--third" onclick="App.loadScreen(\'samlede-indsigt\')">';
     html += '<p class="hvadkandu__label">Næring</p>';
     html += '<p class="hvadkandu__title">' + foodItem.item + '</p>';
     html += '<p class="hvadkandu__desc">' + foodItem.desc + '</p>';
@@ -1932,16 +1942,16 @@ function renderHovedkort() {
   var rejseSub = generateRejseSubtitle();
 
   var kort = [
-    { screen: 'mine-cyklusser', icon: '<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#244382" stroke-width="1.5"/><circle cx="16" cy="16" r="10" fill="none" stroke="#3A5A9A" stroke-width="1.5"/><circle cx="16" cy="16" r="6" fill="none" stroke="#5070AD" stroke-width="1.5"/><circle cx="16" cy="16" r="2.5" fill="#244382"/></svg>', title: 'Mine Cyklusser', subtitle: cyklusserSub },
-    { screen: 'mine-relationer', icon: '<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="12" cy="16" r="9" fill="none" stroke="#B8A6C0" stroke-width="1.5"/><circle cx="20" cy="16" r="9" fill="none" stroke="#B8A6C0" stroke-width="1.5"/></svg>', title: 'Mine Relationer', subtitle: relationerSub },
-    { screen: 'min-praksis', icon: '<svg width="32" height="32" viewBox="0 0 32 32"><path d="M16 4c-2 4-6 6-6 10a6 6 0 0012 0c0-4-4-6-6-10z" fill="none" stroke="#8B9A9D" stroke-width="1.5"/><path d="M16 18v6M12 28h8" stroke="#8B9A9D" stroke-width="1.5" stroke-linecap="round"/></svg>', title: 'Min Praksis', subtitle: praksisSub },
-    { screen: 'min-rejse', icon: '<svg width="32" height="32" viewBox="0 0 32 32"><path d="M8 28C8 28 10 4 16 4s8 24 8 24" fill="none" stroke="#7690C1" stroke-width="1.5"/><circle cx="16" cy="16" r="2" fill="#7690C1"/></svg>', title: 'Min Rejse', subtitle: rejseSub }
+    { screen: 'mine-cyklusser', colorClass: 'hoved-kort--cyklusser', icon: '<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#244382" stroke-width="1.5"/><circle cx="16" cy="16" r="10" fill="none" stroke="#3A5A9A" stroke-width="1.5"/><circle cx="16" cy="16" r="6" fill="none" stroke="#5070AD" stroke-width="1.5"/><circle cx="16" cy="16" r="2.5" fill="#244382"/></svg>', title: 'Mine Cyklusser', subtitle: cyklusserSub },
+    { screen: 'mine-relationer', colorClass: 'hoved-kort--relationer', icon: '<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="12" cy="16" r="9" fill="none" stroke="#B8A6C0" stroke-width="1.5"/><circle cx="20" cy="16" r="9" fill="none" stroke="#B8A6C0" stroke-width="1.5"/></svg>', title: 'Mine Relationer', subtitle: relationerSub },
+    { screen: 'min-praksis', colorClass: 'hoved-kort--praksis', icon: '<svg width="32" height="32" viewBox="0 0 32 32"><path d="M16 4c-2 4-6 6-6 10a6 6 0 0012 0c0-4-4-6-6-10z" fill="none" stroke="#8B9A9D" stroke-width="1.5"/><path d="M16 18v6M12 28h8" stroke="#8B9A9D" stroke-width="1.5" stroke-linecap="round"/></svg>', title: 'Min Praksis', subtitle: praksisSub },
+    { screen: 'min-rejse', colorClass: 'hoved-kort--rejse', icon: '<svg width="32" height="32" viewBox="0 0 32 32"><path d="M8 28C8 28 10 4 16 4s8 24 8 24" fill="none" stroke="#7690C1" stroke-width="1.5"/><circle cx="16" cy="16" r="2" fill="#7690C1"/></svg>', title: 'Min Rejse', subtitle: rejseSub }
   ];
 
   var html = '';
   for (var i = 0; i < kort.length; i++) {
     var k = kort[i];
-    html += '<div class="hoved-kort" onclick="App.loadScreen(\'' + k.screen + '\')">';
+    html += '<div class="hoved-kort ' + k.colorClass + '" onclick="App.loadScreen(\'' + k.screen + '\')">';
     html += '<div class="hoved-kort__icon">' + k.icon + '</div>';
     html += '<div class="hoved-kort__content">';
     html += '<h3 class="hoved-kort__title">' + k.title + '</h3>';
@@ -2369,7 +2379,7 @@ function initSamledeIndsigtScreen() {
   // Action bar
   var screenEl = document.querySelector('.screen--indsigt');
   if (screenEl) {
-    screenEl.insertAdjacentHTML('beforeend', renderActionBar('samlede-indsigt'));
+    screenEl.insertAdjacentHTML('beforeend', sectionDivider() + renderActionBar('samlede-indsigt'));
   }
 }
 
@@ -3313,6 +3323,7 @@ function renderTidsrejseResult() {
   html += renderTidsrejseRecommendations(results, isRelation, isPast);
 
   // Action bar
+  html += sectionDivider();
   html += renderActionBar('tidsrejse');
 
   // Back button
@@ -3687,7 +3698,7 @@ function initAlleFaserScreen() {
   // Action bar
   var screenEl = document.querySelector('.screen--alle-faser');
   if (screenEl) {
-    screenEl.insertAdjacentHTML('beforeend', renderActionBar('alle-faser'));
+    screenEl.insertAdjacentHTML('beforeend', sectionDivider() + renderActionBar('alle-faser'));
   }
 }
 
@@ -3780,29 +3791,49 @@ function initMineCyklusserScreen() {
     });
   }
 
-  var kort = [
+  // Group 1: Tid og bevægelse
+  var group1 = [
     { screen: 'cyklusser-i-cyklusser', title: 'Cyklusser i Cyklusser', subtitle: climateLabel ? climateLabel + ' \u2014 livsfase, \u00e5rstid, m\u00e5ned, uge og d\u00f8gn. Nogle gange tr\u00e6kker de samme vej, andre gange kolliderer de. Udforsk samspillet her.' : 'Fem lag af energi der hele tiden bev\u00e6ger sig. Nogle gange tr\u00e6kker de samme vej, andre gange kolliderer de. Udforsk samspillet her.' },
     { screen: 'tidsrejse', title: 'Forst\u00e5 din fortid', subtitle: 'Se tilbage p\u00e5 en bestemt dag eller periode i dit liv. M\u00e5ske var der et \u00e5r, hvor alt f\u00f8ltes tungt \u2014 eller en tid med uforklarlig energi. Dine cyklusser kan vise dig hvorfor.', onclick: "navigateToTidsrejse('fortid-selv')" },
-    { screen: 'tidsrejse', title: 'Forbered din fremtid', subtitle: 'Hvilke cyklusser venter dig om et halvt \u00e5r, om fem \u00e5r? Din krop ved allerede hvad der kommer. Her kan du m\u00f8de det p\u00e5 forh\u00e5nd.', onclick: "navigateToTidsrejse('fremtid-selv')" },
+    { screen: 'tidsrejse', title: 'Forbered din fremtid', subtitle: 'Hvilke cyklusser venter dig om et halvt \u00e5r, om fem \u00e5r? Din krop ved allerede hvad der kommer. Her kan du m\u00f8de det p\u00e5 forh\u00e5nd.', onclick: "navigateToTidsrejse('fremtid-selv')" }
+  ];
+  // Group 2: Kroppen
+  var group2 = [
     { screen: 'alle-faser', title: 'Kroppens store overgange', subtitle: 'Fra pubertetens Tr\u00e6-energi til overgangsalderens Metal \u2014 din krop gennemg\u00e5r vendepunkter, der \u00e6ndrer alt. Se dem i sammenh\u00e6ng med dine cyklusser.' },
-    { screen: 'samlede-indsigt', title: 'Samlet indsigt for i dag', subtitle: 'Yoga, kost, fokusomr\u00e5der og konkrete forslag tilpasset netop din energi i dag.' },
+    { screen: 'samlede-indsigt', title: 'Samlet indsigt for i dag', subtitle: 'Yoga, kost, fokusomr\u00e5der og konkrete forslag tilpasset netop din energi i dag.', highlighted: true }
+  ];
+  // Group 3: Livets kapitler
+  var group3 = [
     { screen: 'de-ni-livsfaser', title: 'De Ni Livsfaser', subtitle: 'Ni syv-\u00e5rs cyklusser fra f\u00f8dsel til visdom. Udforsk hver fase i dybden \u2014 krop, sind, element og konkrete anbefalinger.' },
     { screen: 'de-fire-uger', title: 'De Fire Uger', subtitle: 'Din m\u00e5nedscyklus udfoldede \u2014 fire uger, fire elementer, fire kvaliteter af energi. Se hvor du er lige nu.' },
     { screen: 'kontrolcyklussen', title: 'Elementernes Samspil', subtitle: 'Hvert element n\u00e6rer \u00e9t og kontrollerer et andet. Vand n\u00e6rer Tr\u00e6 men kontrollerer Ild. Udforsk kroppens naturlige regulering.' }
   ];
 
-  var html = '';
-  for (var i = 0; i < kort.length; i++) {
-    var k = kort[i];
-    var clickAction = k.onclick || "App.loadScreen('" + k.screen + "')";
-    html += '<div class="tema__kort" onclick="' + clickAction + '">';
-    html += '<div class="tema__kort-content">';
-    html += '<h3 class="tema__kort-title">' + k.title + '</h3>';
-    html += '<p class="tema__kort-subtitle">' + k.subtitle + '</p>';
-    html += '</div>';
-    html += '<span class="tema__kort-arrow">\u203A</span>';
-    html += '</div>';
+  function renderCardGroup(heading, cards) {
+    var h = '<h4 class="tema__group-heading">' + heading + '</h4>';
+    h += '<div class="tema__group">';
+    for (var i = 0; i < cards.length; i++) {
+      var k = cards[i];
+      var clickAction = k.onclick || "App.loadScreen('" + k.screen + "')";
+      var extraClass = k.highlighted ? ' tema__kort--highlighted' : '';
+      h += '<div class="tema__kort' + extraClass + '" onclick="' + clickAction + '">';
+      h += '<div class="tema__kort-content">';
+      h += '<h3 class="tema__kort-title">' + k.title + '</h3>';
+      h += '<p class="tema__kort-subtitle">' + k.subtitle + '</p>';
+      h += '</div>';
+      h += '<span class="tema__kort-arrow">\u203A</span>';
+      h += '</div>';
+    }
+    h += '</div>';
+    return h;
   }
+
+  var html = '';
+  html += renderCardGroup('Tid og bev\u00e6gelse', group1);
+  html += sectionDivider();
+  html += renderCardGroup('Kroppen', group2);
+  html += sectionDivider();
+  html += renderCardGroup('Livets kapitler', group3);
   el.innerHTML = html;
 }
 
@@ -3870,25 +3901,39 @@ function initMineRelationerScreen() {
     });
   }
 
-  var kort = [
-    { screen: 'relationer', title: 'Relationer lige nu', subtitle: 'Se hvordan dine fem cyklusser m\u00f8der en andens lige nu. Hvor mange lag tr\u00e6kker jer sammen? Hvor kolliderer I? Og hvorn\u00e5r skifter det.' },
+  // Group 1: Lige nu
+  var group1 = [
+    { screen: 'relationer', title: 'Relationer lige nu', subtitle: 'Se hvordan dine fem cyklusser m\u00f8der en andens lige nu. Hvor mange lag tr\u00e6kker jer sammen? Hvor kolliderer I? Og hvorn\u00e5r skifter det.', highlighted: true }
+  ];
+  // Group 2: Tid
+  var group2 = [
     { screen: 'tidsrejse', title: 'Forst\u00e5 relationer i fortiden', subtitle: 'De konflikter, der aldrig blev l\u00f8st. De samtaler, der gik sk\u00e6vt. M\u00e5ske handlede det ikke om jer \u2014 men om to livsfaser, der trak i hver sin retning.', onclick: "navigateToTidsrejse('fortid-relation')" },
     { screen: 'tidsrejse', title: 'Forbered relationer i fremtiden', subtitle: 'En ferie med familien. Jul med tre generationer. Dit barns n\u00e6ste store overgang. Se hvilke elementer I m\u00f8des i \u2014 og hvorn\u00e5r timingen er bedst.', onclick: "navigateToTidsrejse('fremtid-relation')" }
   ];
 
-  var html = '';
-  for (var j = 0; j < kort.length; j++) {
-    var k = kort[j];
-    var clickAction = k.onclick || "App.loadScreen('" + k.screen + "')";
-    html += '<div class="tema__kort" onclick="' + clickAction + '">';
-    html += '<div class="tema__kort-content">';
-    html += '<h3 class="tema__kort-title">' + k.title + '</h3>';
-    html += '<p class="tema__kort-subtitle">' + k.subtitle + '</p>';
-    html += '</div>';
-    html += '<span class="tema__kort-arrow">\u203A</span>';
-    html += '</div>';
+  function renderRelationGroup(heading, cards) {
+    var h = '<h4 class="tema__group-heading">' + heading + '</h4>';
+    h += '<div class="tema__group">';
+    for (var i = 0; i < cards.length; i++) {
+      var k = cards[i];
+      var clickAction = k.onclick || "App.loadScreen('" + k.screen + "')";
+      var extraClass = k.highlighted ? ' tema__kort--highlighted' : '';
+      h += '<div class="tema__kort' + extraClass + '" onclick="' + clickAction + '">';
+      h += '<div class="tema__kort-content">';
+      h += '<h3 class="tema__kort-title">' + k.title + '</h3>';
+      h += '<p class="tema__kort-subtitle">' + k.subtitle + '</p>';
+      h += '</div>';
+      h += '<span class="tema__kort-arrow">\u203A</span>';
+      h += '</div>';
+    }
+    h += '</div>';
+    return h;
   }
 
+  var html = '';
+  html += renderRelationGroup('Lige nu', group1);
+  html += sectionDivider();
+  html += renderRelationGroup('Tid', group2);
   listEl.innerHTML = html;
 }
 
@@ -3927,31 +3972,52 @@ function initMinPraksisScreen() {
       '<p class="tema__kontekst-text">Disse \u00f8velser og denne kost er valgt ud fra dit krydsfelt i dag \u2014 s\u00e5 du n\u00e6rer hele dit system, ikke kun \u00e9n del.</p>';
   }
 
-  var kort = [
-    { screen: 'samlede-indsigt', title: '\u00d8velser \u2014 Forskellige indgange', subtitle: 'Seks veje ind i kroppen \u2014 fra yin yogas dybe str\u00e6k til EFT-tappingens lette banker. Nogle dage kalder p\u00e5 bev\u00e6gelse, andre p\u00e5 stilhed. Find den indgang der passer til dig.' },
-    { screen: 'samlede-indsigt', title: 'Kost & N\u00e6ring', subtitle: 'B\u00e5de kinesisk medicin og ayurveda ved, at mad er medicin. Her finder du f\u00f8devarer, urter og tilberedning der st\u00f8tter dit ' + ELEMENT_LABELS[primaryEl] + '-element.' },
-    { screen: 'samlede-indsigt', title: 'Fokusomr\u00e5der', subtitle: 'Hvad kan du rette opm\u00e6rksomheden mod i dag? M\u00e5ske er det stilhed, m\u00e5ske bev\u00e6gelse. Dine cyklusser peger i en retning \u2014 her kan du f\u00f8lge den.' },
-    { screen: 'yin-yoga', title: 'Yin Yoga', subtitle: 'Femten positioner fordelt p\u00e5 fem elementer. Find de str\u00e6k der st\u00f8tter netop dit ' + ELEMENT_LABELS[primaryEl] + '-element lige nu.' },
+  // Group 1: Krop og sind
+  var group1 = [
+    { screen: 'yin-yoga', title: 'Yin Yoga', subtitle: 'Femten positioner fordelt p\u00e5 fem elementer. Find de str\u00e6k der st\u00f8tter netop dit ' + ELEMENT_LABELS[primaryEl] + '-element lige nu.', highlighted: true },
     { screen: 'refleksion', title: 'Refleksion', subtitle: 'Tag et stille \u00f8jeblik. Sp\u00f8rgsm\u00e5l tilpasset din livsfase \u2014 du beh\u00f8ver ikke svare, bare lytte indad.' },
-    { screen: 'foelelser', title: 'F\u00f8lelsernes Hjul', subtitle: 'Alle f\u00f8lelser h\u00f8rer til et element. Udforsk hvad dine f\u00f8lelser fort\u00e6ller om din krop og energi.' }
+    { screen: 'foelelser', title: 'F\u00f8lelsernes Hjul', subtitle: 'Alle f\u00f8lelser h\u00f8rer til et element. Udforsk hvad dine f\u00f8lelser fort\u00e6ller om din krop og energi.' },
+    { screen: 'samlede-indsigt', title: '\u00d8velser \u2014 Forskellige indgange', subtitle: 'Seks veje ind i kroppen \u2014 fra yin yogas dybe str\u00e6k til EFT-tappingens lette banker. Nogle dage kalder p\u00e5 bev\u00e6gelse, andre p\u00e5 stilhed. Find den indgang der passer til dig.' }
+  ];
+  // Group 2: Næring
+  var group2 = [
+    { screen: 'samlede-indsigt', title: 'Kost & N\u00e6ring', subtitle: 'B\u00e5de kinesisk medicin og ayurveda ved, at mad er medicin. Her finder du f\u00f8devarer, urter og tilberedning der st\u00f8tter dit ' + ELEMENT_LABELS[primaryEl] + '-element.' }
+  ];
+  // Group 3: Fællesskab
+  var group3 = [
+    { screen: 'samlede-indsigt', title: 'Fokusomr\u00e5der', subtitle: 'Hvad kan du rette opm\u00e6rksomheden mod i dag? M\u00e5ske er det stilhed, m\u00e5ske bev\u00e6gelse. Dine cyklusser peger i en retning \u2014 her kan du f\u00f8lge den.' }
   ];
 
-  var html = '';
-  for (var k = 0; k < kort.length; k++) {
-    var item = kort[k];
-    html += '<div class="tema__kort" onclick="App.loadScreen(\'' + item.screen + '\')">';
-    html += '<div class="tema__kort-content">';
-    html += '<h3 class="tema__kort-title">' + item.title + '</h3>';
-    html += '<p class="tema__kort-subtitle">' + item.subtitle + '</p>';
-    html += '</div>';
-    html += '<span class="tema__kort-arrow">\u203A</span>';
-    html += '</div>';
+  function renderPraksisGroup(heading, cards) {
+    var h = '<h4 class="tema__group-heading">' + heading + '</h4>';
+    h += '<div class="tema__group">';
+    for (var i = 0; i < cards.length; i++) {
+      var c = cards[i];
+      var extraClass = c.highlighted ? ' tema__kort--highlighted' : '';
+      h += '<div class="tema__kort' + extraClass + '" onclick="App.loadScreen(\'' + c.screen + '\')">';
+      h += '<div class="tema__kort-content">';
+      h += '<h3 class="tema__kort-title">' + c.title + '</h3>';
+      h += '<p class="tema__kort-subtitle">' + c.subtitle + '</p>';
+      h += '</div>';
+      h += '<span class="tema__kort-arrow">\u203A</span>';
+      h += '</div>';
+    }
+    h += '</div>';
+    return h;
   }
+
+  var html = '';
+  html += renderPraksisGroup('Krop og sind', group1);
+  html += sectionDivider();
+  html += renderPraksisGroup('N\u00e6ring', group2);
+  html += sectionDivider();
+  html += renderPraksisGroup('F\u00e6llesskab', group3);
 
   // Forløb card (external)
   ensureIdagData();
   var seasonName = window._idagData ? window._idagData.season.season : 'Vinter';
   var forlob = FORLOB_DATA[seasonName] || FORLOB_DATA['Vinter'];
+  html += sectionDivider();
   html += '<div class="forloeb-kort" onclick="window.open(\'' + forlob.url + '\', \'_blank\')">';
   html += '<span class="forloeb-kort__label">Isabelles forl\u00f8b \u00B7 Eksternt</span>';
   html += '<h3 class="forloeb-kort__title">' + forlob.title + '</h3>';
@@ -3986,24 +4052,39 @@ function initMinRejseScreen() {
     ? checkinCount + ' check-ins registreret. Se dine m\u00F8nstre, din energikurve og elementbalance over tid \u2014 din krop ved mere end du tror.'
     : 'Registr\u00E9r din energi, dine aktiviteter og dine refleksioner dag for dag. Over tid tegner der sig m\u00F8nstre, du ikke kunne se i \u00F8jeblikket.';
 
-  var kort = [
-    { screen: 'min-udvikling', title: 'Min udvikling', subtitle: trackingSub },
-    { screen: 'favoritter', title: 'Mine favoritter', subtitle: 'Alt det du har gemt undervejs \u2014 \u00f8velser, kostvejledning, indsigter og faser der betyder noget for dig. Dit personlige bibliotek, samlet \u00e9t sted.' },
+  // Group 1: Dit spejl
+  var group1 = [
+    { screen: 'min-udvikling', title: 'Min udvikling', subtitle: trackingSub, highlighted: true },
+    { screen: 'favoritter', title: 'Mine favoritter', subtitle: 'Alt det du har gemt undervejs \u2014 \u00f8velser, kostvejledning, indsigter og faser der betyder noget for dig. Dit personlige bibliotek, samlet \u00e9t sted.' }
+  ];
+  // Group 2: Baggrund
+  var group2 = [
     { screen: 'alle-faser', title: 'Alle 9 faser', subtitle: 'Fra livets begyndelse til visdom \u2014 de ni syv-\u00e5rs cyklusser. Se dem alle og forst\u00e5 den rejse, du allerede er p\u00e5.' },
     { screen: 'samlede-indsigt', title: 'Baggrundsviden', subtitle: 'Ni forskellige kulturer har opdaget det samme: livet bev\u00e6ger sig i cyklusser og overgange. Udforsk den viden, appen bygger p\u00e5 \u2014 fra kinesisk medicin til vedisk filosofi.' }
   ];
 
-  var html = '';
-  for (var i = 0; i < kort.length; i++) {
-    var k = kort[i];
-    html += '<div class="tema__kort" onclick="App.loadScreen(\'' + k.screen + '\')">';
-    html += '<div class="tema__kort-content">';
-    html += '<h3 class="tema__kort-title">' + k.title + '</h3>';
-    html += '<p class="tema__kort-subtitle">' + k.subtitle + '</p>';
-    html += '</div>';
-    html += '<span class="tema__kort-arrow">\u203A</span>';
-    html += '</div>';
+  function renderRejseGroup(heading, cards) {
+    var h = '<h4 class="tema__group-heading">' + heading + '</h4>';
+    h += '<div class="tema__group">';
+    for (var i = 0; i < cards.length; i++) {
+      var k = cards[i];
+      var extraClass = k.highlighted ? ' tema__kort--highlighted' : '';
+      h += '<div class="tema__kort' + extraClass + '" onclick="App.loadScreen(\'' + k.screen + '\')">';
+      h += '<div class="tema__kort-content">';
+      h += '<h3 class="tema__kort-title">' + k.title + '</h3>';
+      h += '<p class="tema__kort-subtitle">' + k.subtitle + '</p>';
+      h += '</div>';
+      h += '<span class="tema__kort-arrow">\u203A</span>';
+      h += '</div>';
+    }
+    h += '</div>';
+    return h;
   }
+
+  var html = '';
+  html += renderRejseGroup('Dit spejl', group1);
+  html += sectionDivider();
+  html += renderRejseGroup('Baggrund', group2);
   el.innerHTML = html;
 }
 
@@ -4145,7 +4226,7 @@ function initCyklusserICyklusserScreen() {
   // Action bar
   var screenEl = document.querySelector('.screen--cyklusser-i-cyklusser');
   if (screenEl) {
-    screenEl.insertAdjacentHTML('beforeend', renderActionBar('cyklusser-i-cyklusser'));
+    screenEl.insertAdjacentHTML('beforeend', sectionDivider() + renderActionBar('cyklusser-i-cyklusser'));
   }
 }
 
@@ -4285,7 +4366,7 @@ function initMinUdviklingScreen() {
   // Action bar
   var screenEl = document.querySelector('.screen--tracking');
   if (screenEl) {
-    screenEl.insertAdjacentHTML('beforeend', renderActionBar('min-udvikling'));
+    screenEl.insertAdjacentHTML('beforeend', sectionDivider() + renderActionBar('min-udvikling'));
   }
 }
 
@@ -5782,6 +5863,7 @@ function initLivsfaseDetailScreen() {
   html += '</div>';
 
   // Action bar
+  html += sectionDivider();
   html += renderActionBar('livsfase-detail');
 
   el.innerHTML = html;
@@ -5864,6 +5946,7 @@ function initDeFireUgerScreen() {
       }
       html += '</div></div>';
     }
+    html += sectionDivider();
     html += renderActionBar('de-fire-uger');
     weeksEl.innerHTML = html;
   }
@@ -5912,6 +5995,7 @@ function initRefleksionScreen() {
   }
 
   html += '<button class="onboarding__btn" style="margin-top:16px" onclick="saveRefleksion()">Gem refleksion</button>';
+  html += sectionDivider();
   html += renderActionBar('refleksion');
   contentEl.innerHTML = html;
 }
@@ -6003,6 +6087,7 @@ function initKontrolcyklussenScreen() {
       html += '</div>';
     }
 
+    html += sectionDivider();
     html += renderActionBar('kontrolcyklussen');
     detailEl.innerHTML = html;
   }
@@ -6055,7 +6140,7 @@ function initFoelelserScreen() {
   // Action bar
   var screenEl = document.querySelector('.screen--foelelser');
   if (screenEl && !screenEl.querySelector('.action-bar')) {
-    screenEl.insertAdjacentHTML('beforeend', renderActionBar('foelelser'));
+    screenEl.insertAdjacentHTML('beforeend', sectionDivider() + renderActionBar('foelelser'));
   }
 }
 
@@ -6122,6 +6207,7 @@ function renderYinYogaContent() {
     html += '</div><span class="tema__kort-arrow">\u203A</span></div>';
   }
 
+  html += sectionDivider();
   html += renderActionBar('yin-yoga');
   posesEl.innerHTML = html;
 }

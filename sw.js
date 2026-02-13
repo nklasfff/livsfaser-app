@@ -1,4 +1,4 @@
-const CACHE_NAME = 'livsfaser-v35';
+const CACHE_NAME = 'livsfaser-v36';
 const urlsToCache = [
   './',
   './index.html',
@@ -26,7 +26,8 @@ const urlsToCache = [
   './screens/refleksion.html',
   './screens/kontrolcyklussen.html',
   './screens/foelelser.html',
-  './screens/yin-yoga.html'
+  './screens/yin-yoga.html',
+  './assets/images/lotus-divider.png'
 ];
 
 // Install - cache files, activate immediately

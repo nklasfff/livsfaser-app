@@ -322,7 +322,7 @@ ul, ol {
 /* Main Content */
 .main-content {
   flex: 1;
-  padding: var(--space-md);
+  padding: var(--space-md) 20px;
   padding-bottom: max(var(--space-lg), env(safe-area-inset-bottom));
   overflow-y: auto;
 }

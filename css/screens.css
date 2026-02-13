@@ -144,7 +144,7 @@
 .idag__viz {
   display: flex;
   justify-content: center;
-  margin-bottom: var(--space-xl);
+  margin-bottom: 24px;
 }
 
 .koncentriske-svg {
@@ -167,14 +167,16 @@
 }
 
 .idag__section {
-  margin-bottom: var(--space-xl);
+  margin-bottom: 0;
 }
 
 .idag__section-title {
   font-family: var(--font-serif);
-  font-size: var(--text-h2);
+  font-size: 28px;
   font-weight: var(--weight-bold);
-  color: var(--morkebla);
+  color: var(--blaa);
+  text-align: center;
+  margin-top: 0;
   margin-bottom: var(--space-md);
 }
 
@@ -183,6 +185,7 @@
   font-size: var(--text-body);
   line-height: var(--line-relaxed);
   color: var(--text-primary);
+  text-align: center;
   margin-bottom: var(--space-md);
 }
 
@@ -226,6 +229,9 @@
   border: none;
   cursor: pointer;
   padding: var(--space-sm) 0;
+  display: block;
+  text-align: center;
+  width: 100%;
 }
 
 /* Add button */
@@ -387,9 +393,11 @@
 
 .detail__recs-title {
   font-family: var(--font-serif);
-  font-size: var(--text-h3);
-  color: var(--morkebla);
-  font-weight: var(--weight-semibold);
+  font-size: 22px;
+  color: var(--blaa);
+  font-weight: var(--weight-bold);
+  text-align: center;
+  margin-top: var(--space-xxl);
   margin-bottom: var(--space-md);
 }
 
@@ -429,8 +437,11 @@
 }
 
 .indsigt-page__title {
-  font-size: var(--text-h1);
-  color: var(--text-primary);
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: var(--weight-bold);
+  color: var(--blaa);
+  margin-top: var(--space-xxl);
   margin-bottom: var(--space-lg);
   text-align: center;
 }
@@ -484,9 +495,11 @@
 }
 
 .indsigt-page__section-title {
-  font-size: var(--text-h3);
-  font-weight: var(--weight-semibold);
-  color: var(--text-primary);
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: var(--weight-bold);
+  color: var(--blaa);
+  margin-top: var(--space-xxl);
   margin-bottom: var(--space-md);
   text-align: center;
 }
@@ -1034,9 +1047,11 @@
 
 .relation-recs__title {
   font-family: var(--font-serif);
-  font-size: var(--text-h3);
-  color: var(--morkebla);
-  font-weight: var(--weight-semibold);
+  font-size: 22px;
+  color: var(--blaa);
+  font-weight: var(--weight-bold);
+  text-align: center;
+  margin-top: var(--space-xxl);
   margin-bottom: var(--space-md);
 }
 
@@ -1073,9 +1088,11 @@
 
 .partner-timeline__title {
   font-family: var(--font-serif);
-  font-size: var(--text-h3);
-  color: var(--morkebla);
-  font-weight: var(--weight-semibold);
+  font-size: 22px;
+  color: var(--blaa);
+  font-weight: var(--weight-bold);
+  text-align: center;
+  margin-top: var(--space-xxl);
   margin-bottom: var(--space-md);
 }
 
@@ -1228,8 +1245,9 @@
   font-family: var(--font-serif);
   font-size: 28px;
   font-weight: var(--weight-bold);
-  color: var(--morkebla);
-  margin: 0 0 var(--space-sm);
+  color: var(--blaa);
+  text-align: center;
+  margin: var(--space-xxl) 0 var(--space-sm);
 }
 
 .tidsrejse__subtitle {
@@ -1549,9 +1567,11 @@
 
 .tidsrejse__recs-title {
   font-family: var(--font-serif);
-  font-size: var(--text-h3);
-  color: var(--morkebla);
-  font-weight: var(--weight-semibold);
+  font-size: 22px;
+  color: var(--blaa);
+  font-weight: var(--weight-bold);
+  text-align: center;
+  margin-top: var(--space-xxl);
   margin-bottom: var(--space-md);
 }
 
@@ -1610,15 +1630,17 @@
   color: var(--blaa);
   text-transform: uppercase;
   letter-spacing: 1.5px;
+  text-align: center;
   margin-bottom: var(--space-sm);
 }
 
 /* Tidsdynamik */
 .idag__tidsdynamik {
-  font-family: var(--font-sans);
-  font-size: var(--text-small);
-  color: var(--text-light);
+  font-family: var(--font-serif);
+  font-size: 16px;
+  color: var(--text-secondary);
   font-style: italic;
+  text-align: center;
   margin-bottom: var(--space-md);
 }
 
@@ -1626,8 +1648,9 @@
 .hvadkandu__intro {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: var(--text-body);
+  font-size: 16px;
   color: var(--text-secondary);
+  text-align: center;
   margin-bottom: var(--space-md);
   line-height: var(--line-relaxed);
 }
@@ -1639,12 +1662,13 @@
 }
 
 .hvadkandu__card {
-  background: var(--bg-card);
-  border-radius: var(--radius-md);
-  padding: var(--space-md);
+  background: rgba(118, 144, 193, 0.08);
+  border: 1px solid rgba(118, 144, 193, 0.2);
+  border-radius: 16px;
+  padding: 24px;
   cursor: pointer;
   transition: transform 0.15s;
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 .hvadkandu__card:active {
@@ -1664,7 +1688,7 @@
 .hvadkandu__title {
   font-family: var(--font-serif);
   font-size: var(--text-h3);
-  color: var(--morkebla);
+  color: var(--blaa);
   margin-bottom: var(--space-xs);
   font-weight: var(--weight-semibold);
 }
@@ -1695,13 +1719,13 @@
   display: flex;
   align-items: center;
   gap: var(--space-md);
-  padding: var(--space-md) var(--space-lg);
-  background: var(--bg-card);
-  border: 1px solid rgba(118, 144, 193, 0.15);
-  border-radius: var(--radius-lg);
+  padding: 24px;
+  background: rgba(118, 144, 193, 0.08);
+  border: 1px solid rgba(118, 144, 193, 0.2);
+  border-radius: 16px;
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 .forslag-kort:active {
@@ -1738,20 +1762,19 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  padding-bottom: var(--space-lg);
+  padding-bottom: 0;
 }
 
 .hoved-kort {
   display: flex;
   align-items: center;
   gap: var(--space-md);
-  padding: var(--space-lg);
-  background: var(--bg-card);
-  border: 1px solid rgba(118, 144, 193, 0.12);
-  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid rgba(118, 144, 193, 0.2);
+  border-radius: 16px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 .hoved-kort:active {
@@ -1810,14 +1833,15 @@
   font-family: var(--font-serif);
   font-size: 28px;
   font-weight: var(--weight-bold);
-  color: var(--morkebla);
+  color: var(--blaa);
+  margin-top: var(--space-xxl);
   margin-bottom: var(--space-sm);
   text-align: center;
 }
 
 .tema__subtitle {
   font-family: var(--font-serif);
-  font-size: var(--text-body);
+  font-size: 16px;
   font-style: italic;
   color: var(--text-secondary);
   text-align: center;
@@ -1838,13 +1862,13 @@
   display: flex;
   align-items: flex-start;
   gap: var(--space-md);
-  padding: var(--space-lg);
-  background: var(--bg-card);
-  border: 1px solid rgba(118, 144, 193, 0.12);
-  border-radius: 20px;
+  padding: 24px;
+  background: rgba(118, 144, 193, 0.08);
+  border: 1px solid rgba(118, 144, 193, 0.2);
+  border-radius: 16px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 .tema__kort:active {
@@ -2001,7 +2025,8 @@
   font-family: var(--font-serif);
   font-size: 28px;
   font-weight: var(--weight-bold);
-  color: var(--morkebla);
+  color: var(--blaa);
+  margin-top: var(--space-xxl);
   margin-bottom: var(--space-sm);
   text-align: center;
 }
@@ -2244,7 +2269,8 @@
   font-family: var(--font-serif);
   font-size: 28px;
   font-weight: var(--weight-bold);
-  color: var(--morkebla);
+  color: var(--blaa);
+  margin-top: var(--space-xxl);
   margin-bottom: var(--space-sm);
   text-align: center;
 }
@@ -2363,9 +2389,10 @@
 
 .tracking__graph-title {
   font-family: var(--font-serif);
-  font-size: var(--text-h3);
-  font-weight: var(--weight-semibold);
-  color: var(--morkebla);
+  font-size: 22px;
+  font-weight: var(--weight-bold);
+  color: var(--blaa);
+  text-align: center;
   margin-bottom: var(--space-md);
 }
 
@@ -2408,9 +2435,9 @@
 
 .tracking__balance-title {
   font-family: var(--font-serif);
-  font-size: var(--text-h3);
-  font-weight: var(--weight-semibold);
-  color: var(--morkebla);
+  font-size: 22px;
+  font-weight: var(--weight-bold);
+  color: var(--blaa);
   margin-bottom: var(--space-md);
   text-align: center;
 }
@@ -2465,9 +2492,10 @@
 
 .tracking__checkin-title {
   font-family: var(--font-serif);
-  font-size: var(--text-h3);
-  font-weight: var(--weight-semibold);
-  color: var(--morkebla);
+  font-size: 22px;
+  font-weight: var(--weight-bold);
+  color: var(--blaa);
+  text-align: center;
   margin-bottom: var(--space-md);
 }
 
@@ -2609,9 +2637,10 @@
 
 .tracking__timeline-title {
   font-family: var(--font-serif);
-  font-size: var(--text-h3);
-  font-weight: var(--weight-semibold);
-  color: var(--morkebla);
+  font-size: 22px;
+  font-weight: var(--weight-bold);
+  color: var(--blaa);
+  text-align: center;
   margin-bottom: var(--space-sm);
 }
 
@@ -2887,9 +2916,10 @@
 
 .livsfase-detail__title {
   font-family: var(--font-serif);
-  font-size: var(--text-h1);
+  font-size: 28px;
   font-weight: var(--weight-bold);
-  color: var(--morkebla);
+  color: var(--blaa);
+  text-align: center;
   margin: 0;
 }
 
@@ -2950,9 +2980,10 @@
 
 .livsfase-detail__section-title {
   font-family: var(--font-serif);
-  font-size: var(--text-h3);
-  font-weight: var(--weight-semibold);
-  color: var(--morkebla);
+  font-size: 22px;
+  font-weight: var(--weight-bold);
+  color: var(--blaa);
+  margin-top: var(--space-xxl);
   margin-bottom: var(--space-md);
   text-align: center;
 }
@@ -3274,10 +3305,11 @@
 
 .fase-detail-recs__title {
   font-family: var(--font-serif);
-  font-size: var(--text-h3);
-  font-weight: 600;
-  color: var(--morkebla);
-  margin: 0 0 var(--space-md);
+  font-size: 22px;
+  font-weight: var(--weight-bold);
+  color: var(--blaa);
+  text-align: center;
+  margin: var(--space-xxl) 0 var(--space-md);
 }
 
 /* Favoritter */
@@ -3399,12 +3431,98 @@
 /* Scroll to top footer */
 .scroll-top-footer {
   text-align: center;
-  padding: var(--space-lg) var(--space-md);
+  padding: var(--space-xl) var(--space-md) var(--space-lg);
   font-family: var(--font-sans);
   font-size: var(--text-small);
   color: var(--blaa);
   opacity: 0.5;
   cursor: pointer;
-  margin-top: var(--space-xl);
+  margin-top: var(--space-md);
   -webkit-tap-highlight-color: transparent;
+}
+
+/* =========================================
+   SECTION DIVIDER (Lotus)
+   ========================================= */
+
+.section-divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 0;
+}
+
+.section-divider__img {
+  width: 45%;
+  max-width: 200px;
+  height: auto;
+  opacity: 0.18;
+  filter: sepia(1) saturate(0.3) hue-rotate(190deg) brightness(0.7);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* =========================================
+   CARD OPACITY VARIANTS
+   ========================================= */
+
+.hoved-kort--cyklusser {
+  background: rgba(118, 144, 193, 0.12);
+  border-color: rgba(118, 144, 193, 0.18);
+}
+.hoved-kort--relationer {
+  background: rgba(184, 166, 192, 0.12);
+  border-color: rgba(184, 166, 192, 0.18);
+}
+.hoved-kort--praksis {
+  background: rgba(139, 154, 157, 0.12);
+  border-color: rgba(139, 154, 157, 0.18);
+}
+.hoved-kort--rejse {
+  background: rgba(118, 144, 193, 0.08);
+  border-color: rgba(118, 144, 193, 0.14);
+}
+
+/* Card hierarchy */
+.tema__kort--highlighted {
+  background: rgba(118, 144, 193, 0.15);
+  border-color: rgba(118, 144, 193, 0.25);
+}
+.tema__kort--standard {
+  background: rgba(118, 144, 193, 0.08);
+  border-color: rgba(118, 144, 193, 0.15);
+}
+.tema__kort--secondary {
+  background: rgba(118, 144, 193, 0.04);
+  border-color: rgba(118, 144, 193, 0.10);
+}
+
+/* Hvadkandu card opacity variants */
+.hvadkandu__card--first {
+  background: rgba(118, 144, 193, 0.15);
+}
+.hvadkandu__card--second {
+  background: rgba(118, 144, 193, 0.10);
+}
+.hvadkandu__card--third {
+  background: rgba(118, 144, 193, 0.06);
+}
+
+/* =========================================
+   GROUP HEADINGS (Niveau 1 card groups)
+   ========================================= */
+
+.tema__group-heading {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: var(--weight-bold);
+  color: var(--blaa);
+  text-align: center;
+  margin-bottom: var(--space-md);
+}
+
+.tema__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
 }
