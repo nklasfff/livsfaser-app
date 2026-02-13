@@ -1616,24 +1616,9 @@ function renderConcentricCircles(container, data) {
   var organ = data.organ;
   var monthCycle = data.monthCycle;
 
-  // Dynamic ring colors: gradient from ugedag element → organur element
-  var outerBlue = ELEMENT_BLUES[weekday.element] || '#244382';
-  var innerBlue = ELEMENT_BLUES[organ.element] || '#8BA0D1';
-  var rc = [
-    outerBlue,
-    blendHex(outerBlue, innerBlue, 0.25),
-    blendHex(outerBlue, innerBlue, 0.50),
-    blendHex(outerBlue, innerBlue, 0.75),
-    innerBlue
-  ];
-  var centerBlue = rc[3]; // same color as ugedag ring
-
-  // Text contrast: dark text on lighter rings
-  function ringTextColor(hex) {
-    var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
-    var lum = (0.299*r + 0.587*g + 0.114*b);
-    return lum > 140 ? '#244382' : '#FFFFFF';
-  }
+  // Fixed ring colors (dark blue gradient)
+  var rc = [RING_COLORS[0], RING_COLORS[1], RING_COLORS[2], RING_COLORS[3], RING_COLORS[4]];
+  var centerBlue = RING_COLORS.center;
 
   // Build dynamic text values with element names
   var livsfaseText = 'Fase ' + lifePhase.phase + ' \u2013 ' + ELEMENT_LABELS[lifePhase.element];
@@ -1658,39 +1643,34 @@ function renderConcentricCircles(container, data) {
   svg += '<path id="curve4" d="M 135 284 A 75 50 0 0 1 265 284"/>';
   svg += '</defs>';
 
-  // Ring 0 - LIVSFASE (yderst)
-  var tc0 = ringTextColor(rc[0]);
+  // Ring 0 - LIVSFASE (yderst) — mørkeblå, hvid tekst
   svg += '<ellipse cx="200" cy="199" rx="220" ry="147" fill="' + rc[0] + '"/>';
-  svg += '<text x="200" y="74" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="' + tc0 + '" letter-spacing="1">LIVSFASE</text>';
-  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="' + tc0 + '" text-anchor="middle">';
+  svg += '<text x="200" y="74" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="#FFFFFF" letter-spacing="1">LIVSFASE</text>';
+  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="#FFFFFF" text-anchor="middle">';
   svg += '<textPath href="#curve0" startOffset="50%">' + livsfaseText + '</textPath></text>';
 
-  // Ring 1 - ÅRSTID
-  var tc1 = ringTextColor(rc[1]);
+  // Ring 1 - ÅRSTID — hvid tekst
   svg += '<ellipse cx="200" cy="220" rx="180" ry="120" fill="' + rc[1] + '"/>';
-  svg += '<text x="200" y="120" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="' + tc1 + '" letter-spacing="1">\u00C5RSTID</text>';
-  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="' + tc1 + '" text-anchor="middle">';
+  svg += '<text x="200" y="120" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="#FFFFFF" letter-spacing="1">\u00C5RSTID</text>';
+  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="#FFFFFF" text-anchor="middle">';
   svg += '<textPath href="#curve1" startOffset="50%">' + aarstidText + '</textPath></text>';
 
-  // Ring 2 - MÅNED
-  var tc2 = ringTextColor(rc[2]);
+  // Ring 2 - MÅNED — hvid tekst
   svg += '<ellipse cx="200" cy="241" rx="140" ry="93" fill="' + rc[2] + '"/>';
-  svg += '<text x="200" y="166" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="' + tc2 + '" letter-spacing="1">M\u00C5NED</text>';
-  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="' + tc2 + '" text-anchor="middle">';
+  svg += '<text x="200" y="166" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="#FFFFFF" letter-spacing="1">M\u00C5NED</text>';
+  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="#FFFFFF" text-anchor="middle">';
   svg += '<textPath href="#curve2" startOffset="50%">' + maanedText + '</textPath></text>';
 
-  // Ring 3 - UGEDAG
-  var tc3 = ringTextColor(rc[3]);
+  // Ring 3 - UGEDAG — mørkeblå tekst (lysere ring)
   svg += '<ellipse cx="200" cy="260" rx="105" ry="70" fill="' + rc[3] + '"/>';
-  svg += '<text x="200" y="207" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="' + tc3 + '" letter-spacing="1">UGEDAG</text>';
-  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="' + tc3 + '" text-anchor="middle">';
+  svg += '<text x="200" y="207" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="#244382" letter-spacing="1">UGEDAG</text>';
+  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="#244382" text-anchor="middle">';
   svg += '<textPath href="#curve3" startOffset="50%">' + ugedagText + '</textPath></text>';
 
-  // Ring 4 - ORGANUR (inderst)
-  var tc4 = ringTextColor(rc[4]);
+  // Ring 4 - ORGANUR (inderst) — mørkeblå tekst (lysere ring)
   svg += '<ellipse cx="200" cy="276" rx="75" ry="50" fill="' + rc[4] + '"/>';
-  svg += '<text x="200" y="245" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="' + tc4 + '" letter-spacing="1">ORGANUR</text>';
-  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="' + tc4 + '" text-anchor="middle">';
+  svg += '<text x="200" y="245" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="#244382" letter-spacing="1">ORGANUR</text>';
+  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="#244382" text-anchor="middle">';
   svg += '<textPath href="#curve4" startOffset="50%">' + organurText + '</textPath></text>';
 
   // Centrum - DIG (very dark, almost black)
