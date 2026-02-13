@@ -233,30 +233,52 @@ function calculateCyclesForDate(birthdate, targetDate, opts) {
 
 // ---- Onboarding ----
 
+// Lotus leaf phase data for onboarding step 2
+const LOTUS_LEAF_DATA = {
+  1: { fasenavn: 'Livets Begyndelse', alder: '0\u20137 \u00e5r', element: 'Vand', tegn: '\u6c34', organ: 'Nyrer', organTegn: '\u814e', aarstid: 'Vinter', aarstidTegn: '\u51ac', balance: 'Tillid, nysgerrighed, tryghed', ubalance: 'Frygt, usikkerhed', temaer: 'Tilknytning, tryghed, rod', gave: 'Alt begynder i dig' },
+  2: { fasenavn: 'Udforskning', alder: '7\u201314 \u00e5r', element: 'Vand/Tr\u00e6', tegn: '\u6c34\u6728', organ: 'Nyrer, Lever', organTegn: '\u814e\u809d', aarstid: 'Sen vinter', aarstidTegn: '\u51ac', balance: 'Mod, nysgerrighed, leg', ubalance: 'Tilbageholdelse, overforsigtighed', temaer: 'Gr\u00e6nser, identitet, leg', gave: 'Modet til at pr\u00f8ve' },
+  3: { fasenavn: 'Forvandling', alder: '14\u201321 \u00e5r', element: 'Tr\u00e6', tegn: '\u6728', organ: 'Lever', organTegn: '\u809d', aarstid: 'For\u00e5r', aarstidTegn: '\u6625', balance: 'Kreativitet, retning, mod', ubalance: 'Vrede, frustration, retningsl\u00f8shed', temaer: 'Opr\u00f8r, retning, seksualitet', gave: 'Kraften til at bryde fri' },
+  4: { fasenavn: 'Blomstring', alder: '21\u201328 \u00e5r', element: 'Tr\u00e6/Ild', tegn: '\u6728\u706b', organ: 'Lever, Hjerte', organTegn: '\u809d\u5fc3', aarstid: 'Sen for\u00e5r', aarstidTegn: '\u6625', balance: 'Vitalitet, \u00e5benhed, eventyrlyst', ubalance: 'Rastl\u00f8shed, overmod', temaer: 'Frihed, valg, udfoldelse', gave: 'Livet ligger \u00e5bent foran dig' },
+  5: { fasenavn: 'Ansvar', alder: '28\u201335 \u00e5r', element: 'Ild', tegn: '\u706b', organ: 'Hjerte', organTegn: '\u5fc3', aarstid: 'Sommer', aarstidTegn: '\u590f', balance: 'Gl\u00e6de, varme, forbindelse', ubalance: 'Udbr\u00e6ndthed, utilstr\u00e6kkelighed', temaer: 'Gr\u00e6nser, omsorg, identitet', gave: 'Du kan rumme andre' },
+  6: { fasenavn: 'Modning', alder: '35\u201342 \u00e5r', element: 'Ild/Jord', tegn: '\u706b\u571f', organ: 'Hjerte, Milt', organTegn: '\u5fc3\u813e', aarstid: 'Sen sommer', aarstidTegn: '\u590f', balance: 'Dybde, selvindsigt, n\u00e6rv\u00e6r', ubalance: 'Bekymring, tvivl, overansvar', temaer: 'Dybde, prioritering, sandhed', gave: 'Du ved hvad der er \u00e6gte' },
+  7: { fasenavn: 'H\u00f8st', alder: '42\u201349 \u00e5r', element: 'Jord/Metal', tegn: '\u571f\u91d1', organ: 'Milt, Lunger', organTegn: '\u813e\u80ba', aarstid: 'Efter\u00e5r', aarstidTegn: '\u79cb', balance: 'Klarhed, taknemmelighed, at slippe', ubalance: 'Sorg, tab, holde fast', temaer: 'Tab, frihed, essens', gave: 'Klarhed over hvad der t\u00e6ller' },
+  8: { fasenavn: 'Frig\u00f8relse', alder: '49\u201356 \u00e5r', element: 'Metal', tegn: '\u91d1', organ: 'Lunger', organTegn: '\u80ba', aarstid: 'Sen efter\u00e5r', aarstidTegn: '\u79cb', balance: 'Frihed, essens, autenticitet', ubalance: 'Sorg, tomhed, identitetstab', temaer: 'Identitet, stilhed, mod', gave: 'Du tilh\u00f8rer kun dig selv' },
+  9: { fasenavn: 'Visdom', alder: '56\u201363+ \u00e5r', element: 'Vand', tegn: '\u6c34', organ: 'Nyrer', organTegn: '\u814e', aarstid: 'Vinter', aarstidTegn: '\u51ac', balance: 'Visdom, ro, forbundethed', ubalance: 'Frygt, tilbagetr\u00e6kning, stagnation', temaer: 'Mening, arv, forbundethed', gave: 'Hele kredsl\u00f8bet lever i dig' }
+};
+
+function renderLotusLeafSVG(phaseNum) {
+  var d = LOTUS_LEAF_DATA[phaseNum];
+  if (!d) return '';
+  var esc = function(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
+  return '<svg viewBox="0 0 600 900" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:340px;height:auto;display:block;margin:0 auto">' +
+    '<path d="M300,750 C150,700 80,580 110,430 C140,280 240,180 300,150 C360,180 460,280 490,430 C520,580 450,700 300,750 Z" fill="#7690C1" stroke="#7690C1" stroke-width="3"/>' +
+    '<text x="300" y="280" text-anchor="middle" font-family="Times New Roman, serif" font-size="28" font-weight="bold" fill="#1A1A1A">' + esc(d.fasenavn) + '</text>' +
+    '<text x="300" y="315" text-anchor="middle" font-family="Times New Roman, serif" font-size="20" fill="#2A2A2A">(' + esc(d.alder) + ')</text>' +
+    '<text x="300" y="355" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="#3A3A3A"><tspan font-weight="bold">Element:</tspan> ' + esc(d.element) + ' <tspan font-weight="bold">' + d.tegn + '</tspan></text>' +
+    '<text x="300" y="380" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="#3A3A3A"><tspan font-weight="bold">Organ:</tspan> ' + esc(d.organ) + ' <tspan font-weight="bold">' + d.organTegn + '</tspan></text>' +
+    '<text x="300" y="405" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="#3A3A3A"><tspan font-weight="bold">\u00c5rstid:</tspan> ' + esc(d.aarstid) + ' <tspan font-weight="bold">' + d.aarstidTegn + '</tspan></text>' +
+    '<line x1="150" y1="425" x2="450" y2="425" stroke="#3A3A3A" stroke-width="1.5"/>' +
+    '<text x="300" y="455" text-anchor="middle" font-family="Times New Roman, serif" font-size="15" font-weight="bold" fill="#2A2A2A">F\u00f8lelser i balance:</text>' +
+    '<text x="300" y="480" text-anchor="middle" font-family="Times New Roman, serif" font-size="14" fill="#3A3A3A">' + esc(d.balance) + '</text>' +
+    '<text x="300" y="520" text-anchor="middle" font-family="Times New Roman, serif" font-size="15" font-weight="bold" fill="#2A2A2A">F\u00f8lelser i ubalance:</text>' +
+    '<text x="300" y="545" text-anchor="middle" font-family="Times New Roman, serif" font-size="14" fill="#3A3A3A">' + esc(d.ubalance) + '</text>' +
+    '<text x="300" y="585" text-anchor="middle" font-family="Times New Roman, serif" font-size="15" font-weight="bold" fill="#2A2A2A">Typiske temaer:</text>' +
+    '<text x="300" y="610" text-anchor="middle" font-family="Times New Roman, serif" font-size="14" fill="#3A3A3A">' + esc(d.temaer) + '</text>' +
+    '<text x="300" y="650" text-anchor="middle" font-family="Times New Roman, serif" font-size="15" font-weight="bold" fill="#2A2A2A">Din gave:</text>' +
+    '<text x="300" y="675" text-anchor="middle" font-family="Times New Roman, serif" font-size="14" fill="#3A3A3A">' + esc(d.gave) + '</text>' +
+    '</svg>';
+}
+
 const Onboarding = {
-  _relationType: null,
-  _tracksMenstruation: false,
-  _lastPeriodDate: null,
 
   init() {
-    // Render phase figure
     this.renderPhaseFigure();
 
-    // Bind birthdate change
     var input = document.getElementById('onboarding-birthdate');
     if (input && !input._bound) {
       input._bound = true;
       input.addEventListener('change', function() {
         Onboarding._onBirthdateChange();
-      });
-    }
-
-    // Bind period date change (auto-save, no button needed)
-    var periodInput = document.getElementById('onboarding-period-date');
-    if (periodInput && !periodInput._bound) {
-      periodInput._bound = true;
-      periodInput.addEventListener('change', function() {
-        Onboarding._onPeriodDateChange();
       });
     }
   },
@@ -291,7 +313,7 @@ const Onboarding = {
     var birthdate = new Date(input.value);
     var today = new Date();
     if (birthdate >= today) {
-      error.textContent = 'F\u00f8dselsdato skal v\u00e6re i fortiden';
+      error.textContent = 'Fødselsdato skal være i fortiden';
       return;
     }
     error.textContent = '';
@@ -303,117 +325,18 @@ const Onboarding = {
     // Update circle figure to highlight phase
     this.renderPhaseFigure();
 
-    // Show result text inline
+    // Show phase confirmation inline
     var resultEl = document.getElementById('onboarding-phase-result');
     if (resultEl) {
-      resultEl.innerHTML = '<p class="onboarding__phase-highlight">Du er i <strong>Fase ' + this._phase.phase + ': ' + this._phase.name + '</strong> (' + this._phase.startAge + '\u2013' + this._phase.endAge + ' \u00e5r) \u00B7 ' + ELEMENT_LABELS[this._phase.element] + '-element</p><p style="font-family:var(--font-serif);font-style:italic;color:var(--text-secondary);font-size:14px;line-height:1.6;margin-top:8px">' + (PHASE_DESCRIPTIONS[this._phase.phase] || '') + '</p>';
+      resultEl.innerHTML = '<p class="onboarding__phase-highlight">Du er i <strong>Fase ' + this._phase.phase + ': ' + this._phase.name + '</strong> (' + this._phase.startAge + '\u2013' + this._phase.endAge + ' \u00e5r)</p>';
     }
 
-    // Show the result section at the bottom
-    this._showResult();
+    // Show "Se din fase" button
+    var nextBtn = document.getElementById('onboarding-next-btn');
+    if (nextBtn) nextBtn.style.display = '';
   },
 
-  setMenstruation(tracks) {
-    this._tracksMenstruation = tracks;
-    var choices = document.getElementById('onboarding-mens-choices');
-    var periodSection = document.getElementById('onboarding-period-section');
-
-    if (tracks) {
-      // Show period date picker
-      if (periodSection) periodSection.style.display = '';
-      // Dim the buttons to show selection
-      if (choices) {
-        var btns = choices.querySelectorAll('.onboarding__choice');
-        btns[0].classList.add('onboarding__choice--selected');
-        btns[0].style.opacity = '1';
-        btns[0].style.pointerEvents = 'none';
-        btns[1].style.display = 'none';
-      }
-    } else {
-      // No menstruation — hide period section, show nothing extra
-      this._lastPeriodDate = null;
-      if (periodSection) periodSection.style.display = 'none';
-      if (choices) {
-        var btns2 = choices.querySelectorAll('.onboarding__choice');
-        btns2[1].classList.add('onboarding__choice--selected');
-        btns2[1].style.opacity = '1';
-        btns2[1].style.pointerEvents = 'none';
-        btns2[1].style.background = 'var(--blaa)';
-        btns2[1].style.color = '#fff';
-        btns2[1].style.borderColor = 'var(--blaa)';
-        btns2[0].style.display = 'none';
-      }
-      // Update result if birthdate already set
-      if (this._birthdate) this._showResult();
-    }
-  },
-
-  _onPeriodDateChange() {
-    var input = document.getElementById('onboarding-period-date');
-    var error = document.getElementById('onboarding-period-error');
-    if (!input || !input.value) return;
-
-    var periodDate = new Date(input.value);
-    var today = new Date();
-    if (periodDate > today) {
-      if (error) error.textContent = 'Datoen kan ikke v\u00e6re i fremtiden';
-      return;
-    }
-    if (error) error.textContent = '';
-    this._lastPeriodDate = input.value;
-
-    // Update result if birthdate already set
-    if (this._birthdate) this._showResult();
-  },
-
-  addRelation(type) {
-    this._relationType = type;
-    var gender = (type === 's\u00f8n' || type === 'far') ? 'mand' : 'kvinde';
-    this._relationGender = gender;
-
-    document.getElementById('onboarding-relation-buttons').style.display = 'none';
-    var form = document.getElementById('onboarding-relation-form');
-    if (form) form.style.display = '';
-    var label = document.getElementById('onboarding-relation-label');
-    if (label) label.textContent = (type.charAt(0).toUpperCase() + type.slice(1)) + 's navn';
-  },
-
-  submitRelation() {
-    var nameInput = document.getElementById('onboarding-relation-name');
-    var bdInput = document.getElementById('onboarding-relation-birthdate');
-    var error = document.getElementById('onboarding-relation-error');
-
-    if (!nameInput.value.trim()) { error.textContent = 'Indtast et navn'; return; }
-    if (!bdInput.value) { error.textContent = 'Indtast f\u00f8dselsdato'; return; }
-    var bd = new Date(bdInput.value);
-    if (bd >= new Date()) { error.textContent = 'Dato skal v\u00e6re i fortiden'; return; }
-    error.textContent = '';
-
-    var relation = {
-      name: nameInput.value.trim(),
-      birthdate: bdInput.value,
-      gender: this._relationGender || 'kvinde',
-      type: this._relationType || 'anden'
-    };
-
-    var relations = JSON.parse(localStorage.getItem('relations') || '[]');
-    relations.push(relation);
-    localStorage.setItem('relations', JSON.stringify(relations));
-
-    // Show confirmation and hide form
-    var form = document.getElementById('onboarding-relation-form');
-    if (form) form.style.display = 'none';
-    var added = document.getElementById('onboarding-relation-added');
-    if (added) {
-      added.style.display = '';
-      added.innerHTML = '<p class="onboarding__relation-added">\u2713 ' + relation.name + ' tilf\u00f8jet</p>';
-    }
-
-    // Update result
-    if (this._birthdate) this._showResult();
-  },
-
-  _showResult() {
+  goToStep2() {
     if (!this._birthdate || !this._phase) return;
 
     // Save user data
@@ -422,52 +345,31 @@ const Onboarding = {
       age: this._age,
       phase: this._phase.phase,
       element: this._phase.element,
-      tracksMenstruation: this._tracksMenstruation || false,
-      lastPeriodDate: this._lastPeriodDate || null,
+      tracksMenstruation: false,
+      lastPeriodDate: null,
       createdAt: new Date().toISOString()
     };
     localStorage.setItem('user', JSON.stringify(userData));
 
-    // Show result section
-    var section = document.getElementById('onboarding-result-section');
-    if (section) section.style.display = '';
+    // Hide step 1, show step 2
+    var step1 = document.getElementById('onboarding-step-1');
+    var step2 = document.getElementById('onboarding-step-2');
+    if (step1) step1.style.display = 'none';
+    if (step2) step2.style.display = '';
 
-    // Render concentric circles
-    var circlesEl = document.getElementById('onboarding-result-circles');
-    if (circlesEl) {
-      var now = new Date();
-      var d = {
-        lifePhase: this._phase,
-        season: calculateSeason(now),
-        weekday: calculateWeekday(now),
-        organ: calculateOrganClock(now),
-        monthCycle: (this._tracksMenstruation && this._lastPeriodDate)
-          ? { type: 'menstrual', data: calculateMenstrualDay(this._lastPeriodDate, now) }
-          : { type: 'calendar', data: calculateCalendarMonth(now) }
-      };
-      renderConcentricCircles(circlesEl, d);
+    // Render lotus leaf SVG
+    var leafEl = document.getElementById('onboarding-lotus-leaf');
+    if (leafEl) {
+      leafEl.innerHTML = renderLotusLeafSVG(this._phase.phase);
     }
 
-    // Dynamic text
-    var textEl = document.getElementById('onboarding-result-text');
-    if (textEl) {
-      textEl.innerHTML = '<p class="onboarding__result-desc">Fase ' + this._phase.phase + ': ' + this._phase.name + ' \u00B7 ' + ELEMENT_LABELS[this._phase.element] + '-element</p><p class="onboarding__result-desc onboarding__result-desc--poetic">' + (PHASE_DESCRIPTIONS[this._phase.phase] || '') + '</p>';
-    }
+    // Scroll to top
+    var content = document.getElementById('screen-content');
+    if (content) content.scrollTop = 0;
   },
 
   finish() {
-    // Data already saved in _showResult
-    var userData = {
-      birthdate: this._birthdate,
-      age: this._age,
-      phase: this._phase.phase,
-      element: this._phase.element,
-      tracksMenstruation: this._tracksMenstruation || false,
-      lastPeriodDate: this._lastPeriodDate || null,
-      createdAt: new Date().toISOString()
-    };
-    localStorage.setItem('user', JSON.stringify(userData));
-    console.log('[Livsfaser] User data gemt:', userData);
+    console.log('[Livsfaser] Onboarding fuldf\u00f8rt');
     App.loadScreen('idag');
   }
 };
@@ -5965,6 +5867,45 @@ function initDeFireUgerScreen() {
     html += renderActionBar('de-fire-uger');
     weeksEl.innerHTML = html;
   }
+
+  // Menstruation settings
+  var settingsEl = document.getElementById('fire-uger-settings');
+  if (settingsEl) {
+    var sHtml = '<h3 class="tema__kort-title" style="text-align:center;margin-bottom:12px">Cyklusindstillinger</h3>';
+    sHtml += '<div class="onboarding__choices" style="margin-bottom:16px">';
+    sHtml += '<button class="onboarding__choice' + (isMenstrual ? ' onboarding__choice--active' : ' onboarding__choice--outline') + '" onclick="setMenstruationSetting(true)">Menstruation</button>';
+    sHtml += '<button class="onboarding__choice' + (!isMenstrual ? ' onboarding__choice--active' : ' onboarding__choice--outline') + '" onclick="setMenstruationSetting(false)">M\u00e5necyklus</button>';
+    sHtml += '</div>';
+    if (isMenstrual) {
+      sHtml += '<p class="onboarding__label">Hvorn\u00e5r startede din sidste menstruation?</p>';
+      sHtml += '<input type="date" id="mens-period-date" class="onboarding__input" value="' + (user.lastPeriodDate || '') + '">';
+    }
+    settingsEl.innerHTML = sHtml;
+
+    if (isMenstrual) {
+      var pdInput = document.getElementById('mens-period-date');
+      if (pdInput) {
+        pdInput.addEventListener('change', function() {
+          var val = this.value;
+          if (!val) return;
+          var d = new Date(val);
+          if (d > new Date()) return;
+          var u = JSON.parse(localStorage.getItem('user') || '{}');
+          u.lastPeriodDate = val;
+          localStorage.setItem('user', JSON.stringify(u));
+          initDeFireUgerScreen();
+        });
+      }
+    }
+  }
+}
+
+function setMenstruationSetting(tracks) {
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  user.tracksMenstruation = tracks;
+  if (!tracks) user.lastPeriodDate = null;
+  localStorage.setItem('user', JSON.stringify(user));
+  initDeFireUgerScreen();
 }
 
 // ---- Feature: Refleksion ----

@@ -1,67 +1,34 @@
 <section class="onboarding onboarding--scroll">
 
-  <!-- Velkommen -->
-  <h1 class="onboarding__hero-title">De 9 Livsfasers Energi</h1>
-  <p class="onboarding__hero-subtitle">En rejse gennem livets årstider</p>
+  <!-- TRIN 1: VELKOMMEN -->
+  <div id="onboarding-step-1">
+    <h1 class="onboarding__hero-title">De 9 Livsfasers Energi</h1>
+    <p class="onboarding__hero-subtitle">En rejse gennem livets årstider</p>
 
-  <div class="section-divider"><img class="section-divider__img" src="assets/images/lotus-divider.png" alt="" /></div>
+    <div class="section-divider"><img class="section-divider__img" src="assets/images/lotus-divider.png" alt="" /></div>
 
-  <p class="onboarding__intro-text">Fem rytmer løber gennem dit liv på én gang. Denne app viser dig dem — og hvad du kan gøre med dem. For alle kvinder — med børn, uden børn, i parforhold eller alene.</p>
+    <p class="onboarding__intro-text">Fem rytmer løber gennem dit liv på én gang. Denne app viser dig dem — og hvad du kan gøre med dem. For alle kvinder.</p>
 
-  <!-- Cirkulær figur -->
-  <div id="onboarding-phase-figure" class="onboarding__phase-figure"></div>
+    <!-- Cirkulær figur -->
+    <div id="onboarding-phase-figure" class="onboarding__phase-figure"></div>
 
-  <div class="section-divider"><img class="section-divider__img" src="assets/images/lotus-divider.png" alt="" /></div>
+    <div class="section-divider"><img class="section-divider__img" src="assets/images/lotus-divider.png" alt="" /></div>
 
-  <!-- Fødselsdato -->
-  <h2 class="onboarding__section-title">Hvornår er du født?</h2>
-  <input type="date" id="onboarding-birthdate" class="onboarding__input">
-  <p class="onboarding__error" id="onboarding-error"></p>
-  <div id="onboarding-phase-result" class="onboarding__phase-result"></div>
+    <!-- Fødselsdato -->
+    <h2 class="onboarding__section-title">Hvornår er du født?</h2>
+    <input type="date" id="onboarding-birthdate" class="onboarding__input">
+    <p class="onboarding__error" id="onboarding-error"></p>
+    <div id="onboarding-phase-result" class="onboarding__phase-result"></div>
 
-  <div class="section-divider"><img class="section-divider__img" src="assets/images/lotus-divider.png" alt="" /></div>
-
-  <!-- Menstruation -->
-  <h2 class="onboarding__section-title">Har du menstruation?</h2>
-  <div class="onboarding__choices" id="onboarding-mens-choices">
-    <button class="onboarding__choice" onclick="Onboarding.setMenstruation(true)">Ja</button>
-    <button class="onboarding__choice onboarding__choice--outline" onclick="Onboarding.setMenstruation(false)">Nej</button>
-  </div>
-  <div id="onboarding-period-section" style="display:none">
-    <p class="onboarding__label">Hvornår startede din sidste menstruation?</p>
-    <input type="date" id="onboarding-period-date" class="onboarding__input">
-    <p class="onboarding__error" id="onboarding-period-error"></p>
+    <!-- Knap vises når dato er valgt -->
+    <div id="onboarding-next-btn" style="display:none">
+      <button class="onboarding__btn onboarding__btn--big" onclick="Onboarding.goToStep2()">Se din fase →</button>
+    </div>
   </div>
 
-  <div class="section-divider"><img class="section-divider__img" src="assets/images/lotus-divider.png" alt="" /></div>
-
-  <!-- Relationer -->
-  <h2 class="onboarding__section-title">Vil du tilføje nogen?</h2>
-  <p class="onboarding__hint">Du kan altid gøre det senere</p>
-  <div id="onboarding-relation-buttons" class="onboarding__relation-buttons">
-    <button class="onboarding__relation-btn" onclick="Onboarding.addRelation('partner')">Partner</button>
-    <button class="onboarding__relation-btn" onclick="Onboarding.addRelation('datter')">Datter</button>
-    <button class="onboarding__relation-btn" onclick="Onboarding.addRelation('søn')">Søn</button>
-    <button class="onboarding__relation-btn" onclick="Onboarding.addRelation('mor')">Mor</button>
-    <button class="onboarding__relation-btn" onclick="Onboarding.addRelation('veninde')">Veninde</button>
-  </div>
-  <div id="onboarding-relation-form" class="onboarding__relation-form" style="display:none">
-    <p class="onboarding__label" id="onboarding-relation-label">Navn</p>
-    <input type="text" id="onboarding-relation-name" class="onboarding__input onboarding__input--text" placeholder="Navn">
-    <p class="onboarding__label">Fødselsdato</p>
-    <input type="date" id="onboarding-relation-birthdate" class="onboarding__input">
-    <p class="onboarding__error" id="onboarding-relation-error"></p>
-    <button class="onboarding__btn onboarding__btn--small" onclick="Onboarding.submitRelation()">Tilføj</button>
-  </div>
-  <div id="onboarding-relation-added" style="display:none"></div>
-
-  <div class="section-divider"><img class="section-divider__img" src="assets/images/lotus-divider.png" alt="" /></div>
-
-  <!-- Resultat (vises når fødselsdato er udfyldt) -->
-  <div id="onboarding-result-section" style="display:none">
-    <div id="onboarding-result-circles" class="onboarding__result-circles"></div>
-    <h2 class="onboarding__section-title">Her er du lige nu</h2>
-    <div id="onboarding-result-text" class="onboarding__result-text"></div>
+  <!-- TRIN 2: DIN FASE — LOTUSBLADET -->
+  <div id="onboarding-step-2" style="display:none">
+    <div id="onboarding-lotus-leaf" class="onboarding__lotus-leaf"></div>
     <button class="onboarding__btn onboarding__btn--big" onclick="Onboarding.finish()">Gå til I dag →</button>
   </div>
 

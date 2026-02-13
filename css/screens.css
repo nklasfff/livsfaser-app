@@ -153,6 +153,12 @@
   pointer-events: none;
 }
 
+.onboarding__choice--active {
+  background: var(--blaa);
+  color: #fff;
+  border-color: var(--blaa);
+}
+
 .onboarding__choice:active {
   opacity: 0.85;
 }
@@ -2907,6 +2913,16 @@
   color: var(--text-secondary);
 }
 
+.onboarding__lotus-leaf {
+  margin: var(--space-lg) 0 var(--space-md);
+  padding: 0 var(--space-md);
+}
+
+.fire-uger__settings {
+  padding: var(--space-md);
+  text-align: center;
+}
+
 /* ============================
    LIVSFASE DETAIL
    ============================ */
@@ -3474,8 +3490,8 @@
   width: 80px;
   max-width: 80px;
   height: auto;
-  opacity: 0.2;
-  filter: sepia(1) saturate(0.2) hue-rotate(150deg) brightness(0.6);
+  opacity: 0.18;
+  filter: brightness(2) contrast(3) grayscale(1);
   mix-blend-mode: multiply;
   pointer-events: none;
   user-select: none;
