@@ -3491,22 +3491,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px 0;
-  /* Equal top/bottom padding ensures perfect centering between adjacent sections */
+  margin: 12px 0;
+  padding: 0;
 }
 
 .section-divider__lotus {
   width: 20px;
   height: auto;
-  opacity: 0.22;
+  opacity: 0.45;
   display: block;
 }
 
-/* Collapse margins on elements directly adjacent to dividers
-   so the lotus sits exactly centered between two sections.
-   :has() removes margin-bottom from the element BEFORE the divider.
-   Adjacent sibling (+) removes margin-top from the element AFTER. */
+/* Strip margin from direct siblings and their immediate children
+   so the divider's own margin is the only gap. */
 *:has(+ .section-divider) {
+  margin-bottom: 0 !important;
+}
+*:has(+ .section-divider) > :last-child {
   margin-bottom: 0 !important;
 }
 .section-divider + * {
