@@ -3499,6 +3499,8 @@ const App = {
           initFoelelserScreen();
         } else if (screenName === 'yin-yoga') {
           initYinYogaScreen();
+        } else if (screenName === 'favoritter') {
+          initFavoritterScreen();
         }
       } else {
         content.innerHTML = '<p>Indhold ikke tilg\u00E6ngeligt.</p>';
@@ -5021,6 +5023,106 @@ window.actionShare = actionShare;
 window.actionCopyLink = actionCopyLink;
 window.actionToggleSave = actionToggleSave;
 window.showActionToast = showActionToast;
+
+// ---- Favoritter Screen ----
+
+var SCREEN_INFO = {
+  'samlede-indsigt': { title: 'Samlet indsigt for i dag', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>' },
+  'alle-faser': { title: 'Alle 9 faser', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>' },
+  'cyklusser-i-cyklusser': { title: 'Cyklusser i Cyklusser', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><circle cx="9" cy="12" r="7"/><circle cx="15" cy="12" r="7"/></svg>' },
+  'min-udvikling': { title: 'Min udvikling', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>' },
+  'livsfase-detail': { title: 'Livsfase-detalje', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>' },
+  'de-fire-uger': { title: 'De Fire Uger', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 2v20M2 12h20"/></svg>' },
+  'refleksion': { title: 'Refleksion', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>' },
+  'kontrolcyklussen': { title: 'Elementernes Samspil', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><polygon points="12,2 22,8.5 19,19.5 5,19.5 2,8.5"/></svg>' },
+  'foelelser': { title: 'Følelsernes Hjul', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>' },
+  'yin-yoga': { title: 'Yin Yoga', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><circle cx="12" cy="5" r="2.5"/><path d="M8 22l1-7H6l4-8h4l-2 5h3l-5 10"/></svg>' },
+  'tidsrejse': { title: 'Tidsrejse', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>' },
+  'de-ni-livsfaser': { title: 'De Ni Livsfaser', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>' }
+};
+
+function initFavoritterScreen() {
+  var subtitleEl = document.getElementById('favoritter-subtitle');
+  var vennEl = document.getElementById('favoritter-venn');
+  var contentEl = document.getElementById('favoritter-content');
+  if (!contentEl) return;
+
+  var favs = JSON.parse(localStorage.getItem('favorites') || '{}');
+  var screens = favs.screens || [];
+
+  // Subtitle
+  if (subtitleEl) {
+    subtitleEl.textContent = screens.length > 0
+      ? screens.length + (screens.length === 1 ? ' side gemt' : ' sider gemt') + ' — dit personlige bibliotek'
+      : 'Du har endnu ikke gemt noget. Tryk Gem på de sider, der taler til dig.';
+  }
+
+  // Venn
+  if (vennEl) {
+    vennEl.innerHTML = renderVennTwo({
+      leftTitle: 'DET DU FINDER',
+      leftLines: ['Indsigter · Øvelser', 'Faser · Følelser'],
+      rightTitle: 'DET DU GEMMER',
+      rightLines: ['Det der rører', 'Det der virker'],
+      overlapTitle: 'DIN SAMLING',
+      overlapLines: ['*Dit personlige', '*bibliotek']
+    });
+  }
+
+  // Empty state
+  if (screens.length === 0) {
+    contentEl.innerHTML =
+      '<div class="favoritter-empty">' +
+        '<div class="favoritter-empty__icon">' +
+          '<svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#B8A6C0" stroke-width="1.2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>' +
+        '</div>' +
+        '<p class="favoritter-empty__text">' +
+          'Når du udforsker appen, vil du finde sider der taler til dig lige nu. ' +
+          'Tryk <strong>Gem</strong> på dem — så samler de sig her, som dit eget lille arkiv over det der betyder noget.' +
+        '</p>' +
+        '<button class="favoritter-empty__btn" onclick="App.loadScreen(\'idag\')">Gå til I dag</button>' +
+      '</div>';
+    return;
+  }
+
+  // Render saved screens
+  var html = '<div class="favoritter-list">';
+  for (var i = 0; i < screens.length; i++) {
+    var screenName = screens[i];
+    var info = SCREEN_INFO[screenName];
+    if (!info) continue;
+
+    html += '<div class="favoritter-item">';
+    html += '<div class="favoritter-item__main" onclick="App.loadScreen(\'' + screenName + '\')">';
+    html += '<div class="favoritter-item__icon">' + info.icon + '</div>';
+    html += '<div class="favoritter-item__text">';
+    html += '<h3 class="favoritter-item__title">' + info.title + '</h3>';
+    html += '</div>';
+    html += '<span class="favoritter-item__arrow">›</span>';
+    html += '</div>';
+    html += '<button class="favoritter-item__remove" onclick="removeFavorit(\'' + screenName + '\')" title="Fjern">';
+    html += '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#C85A54" stroke-width="1.8"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    html += '</button>';
+    html += '</div>';
+  }
+  html += '</div>';
+
+  contentEl.innerHTML = html;
+}
+
+function removeFavorit(screenName) {
+  var favs = JSON.parse(localStorage.getItem('favorites') || '{}');
+  if (!favs.screens) return;
+  var idx = favs.screens.indexOf(screenName);
+  if (idx !== -1) {
+    favs.screens.splice(idx, 1);
+    localStorage.setItem('favorites', JSON.stringify(favs));
+    showActionToast('Fjernet fra favoritter');
+    initFavoritterScreen();
+  }
+}
+
+window.removeFavorit = removeFavorit;
 
 // ---- Search Categories (12 categories with icons & descriptions) ----
 

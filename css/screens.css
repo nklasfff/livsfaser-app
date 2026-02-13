@@ -3244,3 +3244,119 @@
   font-size: var(--text-small);
   color: var(--blaa);
 }
+
+/* Favoritter */
+.favoritter-empty {
+  text-align: center;
+  padding: var(--space-xxl) var(--space-lg);
+}
+
+.favoritter-empty__icon {
+  margin-bottom: var(--space-lg);
+  opacity: 0.5;
+}
+
+.favoritter-empty__text {
+  font-family: var(--font-serif);
+  font-size: var(--text-body);
+  line-height: var(--line-relaxed);
+  color: var(--text-secondary);
+  max-width: 320px;
+  margin: 0 auto var(--space-xl);
+  font-style: italic;
+}
+
+.favoritter-empty__btn {
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  color: #fff;
+  background: var(--morkebla);
+  border: none;
+  border-radius: var(--radius-full);
+  padding: var(--space-sm) var(--space-xl);
+  cursor: pointer;
+}
+
+.favoritter-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.favoritter-item {
+  display: flex;
+  align-items: center;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.favoritter-item__main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  cursor: pointer;
+  min-width: 0;
+}
+
+.favoritter-item__icon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(118, 144, 193, 0.08);
+  border-radius: 10px;
+}
+
+.favoritter-item__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.favoritter-item__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.favoritter-item__title {
+  font-family: var(--font-serif);
+  font-size: var(--text-body);
+  font-weight: 600;
+  color: var(--morkebla);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.favoritter-item__arrow {
+  font-size: 22px;
+  color: var(--blaa);
+  opacity: 0.4;
+  flex-shrink: 0;
+}
+
+.favoritter-item__remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 100%;
+  min-height: 56px;
+  background: none;
+  border: none;
+  border-left: 1px solid rgba(0,0,0,0.06);
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+}
+
+.favoritter-item__remove:hover {
+  opacity: 1;
+}
