@@ -1602,11 +1602,7 @@ function hitTestRing(x, y) {
 }
 
 function handleRingClick(ring) {
-  if (ring === 'dig') {
-    App.loadScreen('relationer');
-  } else {
-    showDetail(ring);
-  }
+  showDetail(ring);
 }
 
 function renderConcentricCircles(container, data) {
@@ -1673,10 +1669,10 @@ function renderConcentricCircles(container, data) {
   svg += '<text font-family="Times New Roman, serif" font-size="11" fill="#244382" text-anchor="middle">';
   svg += '<textPath href="#curve4" startOffset="50%">' + organurText + '</textPath></text>';
 
-  // Centrum - DIG (very dark, almost black)
+  // Centrum - DIT LIV
   svg += '<ellipse cx="200" cy="294" rx="38" ry="25" fill="' + centerBlue + '"/>';
-  svg += '<text x="200" y="291" text-anchor="middle" font-family="Times New Roman, serif" font-size="14" font-weight="bold" fill="#FFFFFF">DIG</text>';
-  svg += '<text x="200" y="304" text-anchor="middle" font-family="Times New Roman, serif" font-size="9" fill="rgba(255,255,255,0.7)">Tryk for relationer</text>';
+  svg += '<text x="200" y="289" text-anchor="middle" font-family="Times New Roman, serif" font-size="13" font-weight="bold" fill="#FFFFFF">DIT</text>';
+  svg += '<text x="200" y="304" text-anchor="middle" font-family="Times New Roman, serif" font-size="13" font-weight="bold" fill="#FFFFFF">LIV</text>';
 
   svg += '</svg>';
 
@@ -2114,6 +2110,40 @@ function showDetail(type) {
         '<p class="detail__meta">' + ELEMENT_LABELS[cm.element] + '</p>' +
         '<p class="detail__text">' + MONTH_DESCRIPTIONS[cm.name] + '</p>';
     }
+
+  } else if (type === 'dig') {
+    // Count elements
+    var elCounts = {};
+    var els = window._activeElements || [];
+    for (var ei = 0; ei < els.length; ei++) elCounts[els[ei]] = (elCounts[els[ei]] || 0) + 1;
+    var domEl = els[0] || 'VAND';
+    var domC = 0;
+    var ks = Object.keys(elCounts);
+    for (var ki = 0; ki < ks.length; ki++) { if (elCounts[ks[ki]] > domC) { domC = elCounts[ks[ki]]; domEl = ks[ki]; } }
+    var domColor = ELEMENT_COLORS[domEl];
+    detailElement = domEl;
+    title = 'Dit liv \u2014 lige nu';
+
+    // Count unique and matching elements
+    var uniqueCount = ks.length;
+    var matchCount = domC;
+
+    html =
+      '<div class="detail__badge" style="background-color:' + domColor + '">\u2299</div>' +
+      '<p class="detail__meta">' + ELEMENT_LABELS[domEl] + ' dominerer (' + matchCount + '/5 cyklusser)</p>' +
+      '<p class="detail__text" style="font-style:italic;line-height:1.8">' +
+      'Du er altid i bev\u00e6gelse \u2014 ogs\u00e5 n\u00e5r du st\u00e5r stille. ' +
+      'Fem cyklusser l\u00f8ber gennem dig i dette \u00f8jeblik: din livsfase, \u00e5rstiden, din m\u00e5nedlige rytme, ugedagen og det organ der arbejder lige nu. ' +
+      'Nogle gange tr\u00e6kker de i samme retning \u2014 s\u00e5 m\u00e6rker du klarhed og flow. ' +
+      'Andre gange peger de forskellige veje \u2014 og s\u00e5 kan det f\u00f8les uroligt, uden at der er noget galt.</p>' +
+      '<p class="detail__text" style="line-height:1.8;margin-top:12px">' +
+      'Denne app viser dig ikke hvad du <em>skal</em> g\u00f8re. ' +
+      'Den viser dig hvor du <em>er</em>. ' +
+      'N\u00e5r du kan se dine cyklusser, kan du m\u00e6rke forskellen p\u00e5 hvad der kommer udefra og hvad der kommer indefra. ' +
+      'Du kan ogs\u00e5 se hvordan dine n\u00e6rmeste befinder sig i deres egne cyklusser \u2014 og forst\u00e5 hvorfor m\u00f8det mellem jer f\u00f8les let nogle dage og tungt andre.</p>' +
+      '<p class="detail__text" style="line-height:1.8;margin-top:12px">' +
+      'Der er ingen rigtig eller forkert fase. ' +
+      'Der er kun det sted du st\u00e5r lige nu \u2014 og den visdom der f\u00f8lger med, n\u00e5r du t\u00f8r se det.</p>';
   }
 
   // Append element-specific recommendations
