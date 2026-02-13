@@ -4795,12 +4795,28 @@ function renderVennTwo(opts) {
   var rightCX = 494;
   var overlapCX = 350;
 
-  // Helper: render a block of title + lines
+  // Helper: render a block of title (split over 2 lines) + lines
   function textBlock(cx, startY, title, lines, tSize, lSize, lineH) {
     var s = '';
-    if (title) s += '<text x="' + cx + '" y="' + startY + '" text-anchor="middle" font-family=' + font + ' font-size="' + tSize + '" font-weight="bold" fill="black">' + escapeHtml(title) + '</text>';
+    var titleLines = 0;
+    if (title) {
+      // Split title into two lines at middle space
+      var words = title.split(' ');
+      if (words.length >= 2) {
+        var mid = Math.ceil(words.length / 2);
+        var line1 = words.slice(0, mid).join(' ');
+        var line2 = words.slice(mid).join(' ');
+        s += '<text x="' + cx + '" y="' + startY + '" text-anchor="middle" font-family=' + font + ' font-size="' + tSize + '" font-weight="bold" fill="black">' + escapeHtml(line1) + '</text>';
+        s += '<text x="' + cx + '" y="' + (startY + lineH) + '" text-anchor="middle" font-family=' + font + ' font-size="' + tSize + '" font-weight="bold" fill="black">' + escapeHtml(line2) + '</text>';
+        titleLines = 2;
+      } else {
+        s += '<text x="' + cx + '" y="' + startY + '" text-anchor="middle" font-family=' + font + ' font-size="' + tSize + '" font-weight="bold" fill="black">' + escapeHtml(title) + '</text>';
+        titleLines = 1;
+      }
+    }
     for (var i = 0; i < lines.length; i++) {
-      var yy = startY + (i + 1) * lineH;
+      var yy = startY + (titleLines + i) * lineH;
+      if (titleLines > 0) yy = startY + titleLines * lineH + i * lineH;
       var italic = lines[i].charAt(0) === '*';
       var txt = italic ? lines[i].substring(1) : lines[i];
       s += '<text x="' + cx + '" y="' + yy + '" text-anchor="middle" font-family=' + font + ' font-size="' + lSize + '"' + (italic ? ' font-style="italic"' : '') + ' fill="black">' + escapeHtml(txt) + '</text>';
@@ -4820,20 +4836,20 @@ function renderVennTwo(opts) {
   svg += '<circle cx="' + cx1 + '" cy="' + cy1 + '" r="' + R + '" fill="#7690C1" fill-opacity="0.60"/>';
   svg += '<circle cx="' + cx2 + '" cy="' + cy2 + '" r="' + R + '" fill="#7690C1" fill-opacity="0.80"/>';
 
-  // Left zone text (centered vertically in circle)
+  // Left zone text (centered vertically in circle, title split over 2 lines)
   var ll = opts.leftLines || [];
-  var lsy = 305;
-  svg += textBlock(leftCX, lsy, opts.leftTitle, ll, 18, 13, 17);
+  var lsy = 290;
+  svg += textBlock(leftCX, lsy, opts.leftTitle, ll, 20, 14, 19);
 
-  // Right zone text (centered vertically in circle)
+  // Right zone text (centered vertically in circle, title split over 2 lines)
   var rl = opts.rightLines || [];
-  var rsy = 305;
-  svg += textBlock(rightCX, rsy, opts.rightTitle, rl, 18, 13, 17);
+  var rsy = 290;
+  svg += textBlock(rightCX, rsy, opts.rightTitle, rl, 20, 14, 19);
 
   // Overlap zone text (centered vertically)
   var ol = opts.overlapLines || [];
-  var osy = 310;
-  svg += textBlock(overlapCX, osy, opts.overlapTitle, ol, 16, 13, 17);
+  var osy = 300;
+  svg += textBlock(overlapCX, osy, opts.overlapTitle, ol, 18, 14, 19);
 
   // Optional subtitle below
   if (opts.subtitle) {
@@ -4889,31 +4905,31 @@ function renderVennThree(opts) {
 
   // Zone A (top)
   var tl = opts.topLines || [];
-  svg += t(tAx, tAy, opts.topTitle, 12, true);
-  for (var i = 0; i < tl.length; i++) svg += t(tAx, tAy + (i+1)*14, tl[i], 11, false);
+  svg += t(tAx, tAy, opts.topTitle, 13, true);
+  for (var i = 0; i < tl.length; i++) svg += t(tAx, tAy + (i+1)*15, tl[i], 12, false);
 
   // Zone B (bottom-left)
   var bl = opts.bottomLeftLines || [];
-  svg += t(tBx, tBy, opts.bottomLeftTitle, 12, true);
-  for (var j = 0; j < bl.length; j++) svg += t(tBx, tBy + (j+1)*14, bl[j], 11, false);
+  svg += t(tBx, tBy, opts.bottomLeftTitle, 13, true);
+  for (var j = 0; j < bl.length; j++) svg += t(tBx, tBy + (j+1)*15, bl[j], 12, false);
 
   // Zone C (bottom-right)
   var br = opts.bottomRightLines || [];
-  svg += t(tCx, tCy, opts.bottomRightTitle, 12, true);
-  for (var k = 0; k < br.length; k++) svg += t(tCx, tCy + (k+1)*14, br[k], 11, false);
+  svg += t(tCx, tCy, opts.bottomRightTitle, 13, true);
+  for (var k = 0; k < br.length; k++) svg += t(tCx, tCy + (k+1)*15, br[k], 12, false);
 
-  // Pairwise overlaps
-  svg += t(abX, abY, opts.overlapAB, 11, false);
-  svg += t(acX, acY, opts.overlapAC, 11, false);
-  svg += t(bcX, bcY, opts.overlapBC, 11, false);
+  // Pairwise overlaps (two sizes up)
+  svg += t(abX, abY, opts.overlapAB, 13, false);
+  svg += t(acX, acY, opts.overlapAC, 13, false);
+  svg += t(bcX, bcY, opts.overlapBC, 13, false);
 
   // Center
   var cl = opts.centerLines || [];
-  svg += t(cX, cY, opts.centerTitle, 13, true);
+  svg += t(cX, cY, opts.centerTitle, 14, true);
   for (var m = 0; m < cl.length; m++) {
     var cItalic = cl[m].charAt(0) === '*';
     var cTxt = cItalic ? cl[m].substring(1) : cl[m];
-    svg += t(cX, cY + (m+1)*14, cTxt, 11, false, cItalic);
+    svg += t(cX, cY + (m+1)*15, cTxt, 12, false, cItalic);
   }
 
   // Optional subtitle
@@ -4969,24 +4985,24 @@ function renderVennFour(opts) {
   svg += '<circle cx="' + cxC + '" cy="' + cyC + '" r="' + R + '" fill="#7690C1" fill-opacity="0.70"/>';
   svg += '<circle cx="' + cxD + '" cy="' + cyD + '" r="' + R + '" fill="#7690C1" fill-opacity="0.75"/>';
 
-  // Zone labels
+  // Zone labels (one size up)
   var al = opts.topLines || [];
-  svg += t(tAx, tAy, opts.topTitle, 12, true);
-  for (var i = 0; i < al.length; i++) svg += t(tAx, tAy + (i+1)*14, al[i], 11, false);
+  svg += t(tAx, tAy, opts.topTitle, 13, true);
+  for (var i = 0; i < al.length; i++) svg += t(tAx, tAy + (i+1)*15, al[i], 12, false);
 
   var bll = opts.leftLines || [];
-  svg += t(tBx, tBy, opts.leftTitle, 12, true);
-  for (var j = 0; j < bll.length; j++) svg += t(tBx, tBy + (j+1)*14, bll[j], 11, false);
+  svg += t(tBx, tBy, opts.leftTitle, 13, true);
+  for (var j = 0; j < bll.length; j++) svg += t(tBx, tBy + (j+1)*15, bll[j], 12, false);
 
   var crl = opts.rightLines || [];
-  svg += t(tCx, tCy, opts.rightTitle, 12, true);
-  for (var k = 0; k < crl.length; k++) svg += t(tCx, tCy + (k+1)*14, crl[k], 11, false);
+  svg += t(tCx, tCy, opts.rightTitle, 13, true);
+  for (var k = 0; k < crl.length; k++) svg += t(tCx, tCy + (k+1)*15, crl[k], 12, false);
 
   var dl = opts.bottomLines || [];
-  svg += t(tDx, tDy, opts.bottomTitle, 12, true);
-  for (var l = 0; l < dl.length; l++) svg += t(tDx, tDy + (l+1)*14, dl[l], 11, false);
+  svg += t(tDx, tDy, opts.bottomTitle, 13, true);
+  for (var l = 0; l < dl.length; l++) svg += t(tDx, tDy + (l+1)*15, dl[l], 12, false);
 
-  // Pairwise overlaps
+  // Pairwise overlaps (one size up)
   var hl = opts.highlights || [];
   for (var h = 0; h < hl.length; h++) {
     var hi = hl[h];
@@ -4994,18 +5010,18 @@ function renderVennFour(opts) {
     var p = pairs[hi.pair];
     if (p) {
       var mx = (p[0]+p[2])/2, my = (p[1]+p[3])/2;
-      svg += t(mx, my, hi.text, 11, false);
+      svg += t(mx, my, hi.text, 12, false);
     }
   }
 
-  // Center text
+  // Center text (one size up)
   var cll = opts.centerLines || [];
-  var csY = midY - (cll.length * 14) / 2;
-  svg += t(midX, csY, opts.centerTitle, 13, true);
+  var csY = midY - (cll.length * 15) / 2;
+  svg += t(midX, csY, opts.centerTitle, 14, true);
   for (var m = 0; m < cll.length; m++) {
     var cItalic = cll[m].charAt(0) === '*';
     var cTxt = cItalic ? cll[m].substring(1) : cll[m];
-    svg += t(midX, csY + (m+1)*14, cTxt, 11, false, cItalic);
+    svg += t(midX, csY + (m+1)*15, cTxt, 12, false, cItalic);
   }
 
   svg += '</svg></div>';
