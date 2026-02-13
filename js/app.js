@@ -1089,7 +1089,7 @@ function escapeHtml(str) {
 
 // Lotus section divider HTML
 function sectionDivider() {
-  return '<div class="section-divider"><div class="section-divider__line"></div></div>';
+  return '<div class="section-divider"><img src="lotus-transparent.png" alt="" class="section-divider__lotus"></div>';
 }
 
 // Scroll-to-top footer

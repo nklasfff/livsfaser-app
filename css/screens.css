@@ -3484,24 +3484,43 @@
 }
 
 /* =========================================
-   SECTION DIVIDER (thin line)
+   SECTION DIVIDER (lotus image)
    ========================================= */
 
 .section-divider {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 24px 0;
+  padding: 20px 0;
+  /* Equal top/bottom padding ensures perfect centering between adjacent sections */
 }
 
+.section-divider__lotus {
+  width: 80px;
+  height: auto;
+  opacity: 0.22;
+  display: block;
+}
+
+/* Collapse margins on elements directly adjacent to dividers
+   so the lotus sits exactly centered between two sections.
+   :has() removes margin-bottom from the element BEFORE the divider.
+   Adjacent sibling (+) removes margin-top from the element AFTER. */
+*:has(+ .section-divider) {
+  margin-bottom: 0 !important;
+}
+.section-divider + * {
+  margin-top: 0 !important;
+}
+.section-divider + * > :first-child {
+  margin-top: 0 !important;
+}
+
+/* Legacy: hide old line dividers */
 .section-divider__line {
-  width: 80%;
-  height: 1px;
-  background: #000000;
-  opacity: 0.15;
+  display: none;
 }
 
-/* Legacy: hide any leftover lotus images */
 .section-divider__img {
   display: none;
 }
