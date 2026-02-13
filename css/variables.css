@@ -19,9 +19,9 @@
   --gradient-header: linear-gradient(135deg, var(--blaa) 0%, var(--groen) 100%);
 
   /* Typography */
-  --font-serif: "Georgia", "Times New Roman", Times, serif;
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-system: var(--font-sans);
+  --font-serif: "Times New Roman", Times, Georgia, serif;
+  --font-sans: "Times New Roman", Times, Georgia, serif;
+  --font-system: "Times New Roman", Times, Georgia, serif;
 
   /* Font Sizes */
   --text-h1: 26px;
