@@ -4820,19 +4820,19 @@ function renderVennTwo(opts) {
   svg += '<circle cx="' + cx1 + '" cy="' + cy1 + '" r="' + R + '" fill="#7690C1" fill-opacity="0.60"/>';
   svg += '<circle cx="' + cx2 + '" cy="' + cy2 + '" r="' + R + '" fill="#7690C1" fill-opacity="0.80"/>';
 
-  // Left zone text
+  // Left zone text (centered vertically in circle)
   var ll = opts.leftLines || [];
-  var lsy = 270;
+  var lsy = 305;
   svg += textBlock(leftCX, lsy, opts.leftTitle, ll, 18, 13, 17);
 
-  // Right zone text
+  // Right zone text (centered vertically in circle)
   var rl = opts.rightLines || [];
-  var rsy = 270;
+  var rsy = 305;
   svg += textBlock(rightCX, rsy, opts.rightTitle, rl, 18, 13, 17);
 
-  // Overlap zone text
+  // Overlap zone text (centered vertically)
   var ol = opts.overlapLines || [];
-  var osy = 280;
+  var osy = 310;
   svg += textBlock(overlapCX, osy, opts.overlapTitle, ol, 16, 13, 17);
 
   // Optional subtitle below
@@ -4863,8 +4863,8 @@ function renderVennThree(opts) {
 
   // Text zone positions (exclusive areas)
   var tAx = 300, tAy = 115;   // top zone
-  var tBx = 155, tBy = 405;   // bottom-left zone
-  var tCx = 445, tCy = 405;   // bottom-right zone
+  var tBx = 155, tBy = 370;   // bottom-left zone (raised for balance)
+  var tCx = 445, tCy = 370;   // bottom-right zone (raised for balance)
 
   // Pairwise overlap midpoints
   var abX = 230, abY = 240;
