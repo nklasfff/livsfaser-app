@@ -1631,7 +1631,7 @@ function renderConcentricCircles(container, data) {
   // Dynamic ring colors: gradient from ugedag element → organur element
   var outerBlue = ELEMENT_BLUES[weekday.element] || '#244382';
   var innerBlue = ELEMENT_BLUES[organ.element] || '#8BA0D1';
-  var centerBlue = ELEMENT_BLUES[monthCycle.data.element] || '#244382';
+  var centerBlue = ELEMENT_BLUES[lifePhase.element] || '#244382';
   var rc = [
     outerBlue,
     blendHex(outerBlue, innerBlue, 0.25),
@@ -3641,7 +3641,10 @@ const App = {
           var footer = document.createElement('div');
           footer.className = 'scroll-top-footer';
           footer.textContent = '\u2191 Tilbage til toppen';
-          footer.onclick = function() { content.scrollTo({ top: 0, behavior: 'smooth' }); };
+          footer.onclick = function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            content.scrollTop = 0;
+          };
           content.appendChild(footer);
         }
 
