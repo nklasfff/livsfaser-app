@@ -1626,7 +1626,9 @@ function renderConcentricCircles(container, data) {
     blendHex(outerBlue, innerBlue, 0.75),
     innerBlue
   ];
-  var centerBlue = '#1A1A2E'; // very dark, almost black
+  // DIG = much darker version of the darkest ring color (same blue family)
+  var darkest = outerBlue < innerBlue ? outerBlue : innerBlue;
+  var centerBlue = blendHex(darkest, '#000000', 0.45);
 
   // Text contrast: dark text on lighter rings
   function ringTextColor(hex) {
@@ -1651,7 +1653,7 @@ function renderConcentricCircles(container, data) {
 
   // Defs - curved paths for textPath
   svg += '<defs>';
-  svg += '<path id="curve0" d="M 50 108 A 200 80 0 0 1 350 108"/>';
+  svg += '<path id="curve0" d="M 40 120 A 210 90 0 0 1 360 120"/>';
   svg += '<path id="curve1" d="M 40 200 A 180 120 0 0 1 360 200"/>';
   svg += '<path id="curve2" d="M 75 231 A 140 93 0 0 1 325 231"/>';
   svg += '<path id="curve3" d="M 105 260 A 105 70 0 0 1 295 260"/>';
