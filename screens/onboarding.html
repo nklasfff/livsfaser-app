@@ -1,62 +1,73 @@
 <section class="onboarding">
-  <!-- Step 1: Velkomst -->
+  <!-- Step 1: Find Din Livsfase -->
   <div class="onboarding__step active" data-step="1">
     <div class="onboarding__content">
-      <h2 class="onboarding__title">Velkommen!</h2>
+      <h2 class="onboarding__title">Find Din Livsfase</h2>
+      <p class="onboarding__subtitle">En rejse gennem livets årstider</p>
+      <div id="onboarding-phase-figure" class="onboarding__phase-figure"></div>
       <p class="onboarding__text">Denne app er for ALLE kvinder &mdash; med børn, uden børn, i parforhold eller alene. Faserne angår os alle.</p>
+      <p class="onboarding__label">Indtast din fødselsdato</p>
+      <input type="date" id="onboarding-birthdate" class="onboarding__input">
+      <p class="onboarding__error" id="onboarding-error"></p>
+      <div id="onboarding-phase-result" class="onboarding__phase-result"></div>
     </div>
-    <button class="onboarding__btn" onclick="Onboarding.goToStep(2)">Lad os starte</button>
+    <button class="onboarding__btn" id="onboarding-step1-btn" onclick="Onboarding.submitBirthdate()" style="display:none">Næste</button>
   </div>
 
-  <!-- Step 2: Fødselsdato -->
+  <!-- Step 2: Menstruation -->
   <div class="onboarding__step" data-step="2">
     <div class="onboarding__content">
-      <h2 class="onboarding__title">Hvornår er du født?</h2>
-      <input
-        type="date"
-        id="onboarding-birthdate"
-        class="onboarding__input"
-      >
-      <p class="onboarding__error" id="onboarding-error"></p>
-    </div>
-    <button class="onboarding__btn" onclick="Onboarding.submitBirthdate()">Næste</button>
-  </div>
-
-  <!-- Step 3: Menstruation spørgsmål -->
-  <div class="onboarding__step" data-step="3">
-    <div class="onboarding__content">
-      <h2 class="onboarding__title">Tracker du din menstruationscyklus?</h2>
-      <p class="onboarding__text">Vi bruger det til at vise din månedlige cyklus. Du kan altid ændre det senere.</p>
+      <h2 class="onboarding__title">Din månedlige cyklus</h2>
+      <p class="onboarding__text">Har du menstruation?</p>
       <div class="onboarding__choices">
-        <button class="onboarding__choice" onclick="Onboarding.setMenstruation(true)">Ja</button>
+        <button class="onboarding__choice" onclick="Onboarding.setMenstruation(true)">Ja, jeg har menstruation</button>
         <button class="onboarding__choice onboarding__choice--outline" onclick="Onboarding.setMenstruation(false)">Nej</button>
       </div>
+      <div id="onboarding-period-section" style="display:none">
+        <p class="onboarding__label">Hvornår startede din sidste menstruation?</p>
+        <input type="date" id="onboarding-period-date" class="onboarding__input">
+        <p class="onboarding__error" id="onboarding-period-error"></p>
+        <button class="onboarding__btn" onclick="Onboarding.submitPeriodDate()">Næste</button>
+      </div>
+      <div id="onboarding-moon-section" style="display:none">
+        <div class="onboarding__moon-text">
+          <p>Vi bruger månens cyklus i stedet — nymåne, tiltagende, fuldmåne og aftagende måne følger de samme fire elementer som menstruationscyklussen.</p>
+        </div>
+        <button class="onboarding__btn" onclick="Onboarding.goToStep(3)">Næste</button>
+      </div>
     </div>
   </div>
 
-  <!-- Step 4: Sidste menstruation dato -->
+  <!-- Step 3: Relationer (valgfrit) -->
+  <div class="onboarding__step" data-step="3">
+    <div class="onboarding__content">
+      <h2 class="onboarding__title">Tilføj en relation</h2>
+      <p class="onboarding__text">Vil du se hvordan dine cyklusser møder en andens? Du kan altid gøre det senere.</p>
+      <div id="onboarding-relation-buttons" class="onboarding__relation-buttons">
+        <button class="onboarding__relation-btn" onclick="Onboarding.addRelation('partner')">Partner</button>
+        <button class="onboarding__relation-btn" onclick="Onboarding.addRelation('datter')">Datter</button>
+        <button class="onboarding__relation-btn" onclick="Onboarding.addRelation('søn')">Søn</button>
+        <button class="onboarding__relation-btn" onclick="Onboarding.addRelation('mor')">Mor</button>
+        <button class="onboarding__relation-btn" onclick="Onboarding.addRelation('veninde')">Veninde</button>
+      </div>
+      <div id="onboarding-relation-form" class="onboarding__relation-form" style="display:none">
+        <p class="onboarding__label" id="onboarding-relation-label">Navn</p>
+        <input type="text" id="onboarding-relation-name" class="onboarding__input" placeholder="Navn">
+        <p class="onboarding__label">Fødselsdato</p>
+        <input type="date" id="onboarding-relation-birthdate" class="onboarding__input">
+        <p class="onboarding__error" id="onboarding-relation-error"></p>
+        <button class="onboarding__btn" onclick="Onboarding.submitRelation()">Tilføj</button>
+      </div>
+      <button class="onboarding__skip-btn" id="onboarding-skip-btn" onclick="Onboarding.skipRelation()">Spring over</button>
+    </div>
+  </div>
+
+  <!-- Step 4: Dit krydsfelt -->
   <div class="onboarding__step" data-step="4">
     <div class="onboarding__content">
-      <h2 class="onboarding__title">Hvornår startede din sidste menstruation?</h2>
-      <input
-        type="date"
-        id="onboarding-period-date"
-        class="onboarding__input"
-      >
-      <p class="onboarding__error" id="onboarding-period-error"></p>
-    </div>
-    <button class="onboarding__btn" onclick="Onboarding.submitPeriodDate()">Næste</button>
-  </div>
-
-  <!-- Step 5: Resultat -->
-  <div class="onboarding__step" data-step="5">
-    <div class="onboarding__content">
-      <div class="onboarding__result">
-        <div class="onboarding__element-badge" id="onboarding-badge"></div>
-        <h2 class="onboarding__title" id="onboarding-phase-title"></h2>
-        <p class="onboarding__phase-range" id="onboarding-phase-range"></p>
-        <p class="onboarding__text" id="onboarding-element-text"></p>
-      </div>
+      <div id="onboarding-result-circles" class="onboarding__result-circles"></div>
+      <h2 class="onboarding__title">Her er du lige nu</h2>
+      <div id="onboarding-result-text" class="onboarding__result-text"></div>
     </div>
     <button class="onboarding__btn" onclick="Onboarding.finish()">Gå til I dag</button>
   </div>

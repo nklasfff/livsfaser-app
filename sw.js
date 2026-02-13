@@ -1,4 +1,4 @@
-const CACHE_NAME = 'livsfaser-v15';
+const CACHE_NAME = 'livsfaser-v16';
 const urlsToCache = [
   './',
   './index.html',
@@ -19,7 +19,14 @@ const urlsToCache = [
   './screens/min-praksis.html',
   './screens/min-rejse.html',
   './screens/cyklusser-i-cyklusser.html',
-  './screens/min-udvikling.html'
+  './screens/min-udvikling.html',
+  './screens/de-ni-livsfaser.html',
+  './screens/livsfase-detail.html',
+  './screens/de-fire-uger.html',
+  './screens/refleksion.html',
+  './screens/kontrolcyklussen.html',
+  './screens/foelelser.html',
+  './screens/yin-yoga.html'
 ];
 
 // Install - cache files, activate immediately

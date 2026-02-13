@@ -2409,3 +2409,515 @@
   opacity: 0.2;
   fill: var(--blaa);
 }
+
+/* ============================
+   CIRCULAR FIGURE
+   ============================ */
+
+.circular-fig {
+  margin: var(--space-md) auto;
+}
+
+.circular-fig svg {
+  display: block;
+}
+
+/* ============================
+   ONBOARDING REDESIGN
+   ============================ */
+
+.onboarding__subtitle {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--text-body);
+  color: var(--text-secondary);
+  text-align: center;
+  margin: var(--space-sm) 0 var(--space-lg);
+  line-height: var(--line-relaxed);
+}
+
+.onboarding__phase-figure {
+  margin: var(--space-md) 0;
+}
+
+.onboarding__label {
+  font-size: var(--text-small);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-sm);
+}
+
+.onboarding__phase-result {
+  margin-top: var(--space-md);
+  text-align: center;
+}
+
+.onboarding__phase-highlight {
+  font-family: var(--font-serif);
+  font-size: var(--text-body);
+  color: var(--morkebla);
+  line-height: var(--line-relaxed);
+}
+
+.onboarding__moon-text {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin: var(--space-md) 0;
+}
+
+.onboarding__moon-text p {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--text-body);
+  color: var(--text-secondary);
+  line-height: var(--line-relaxed);
+}
+
+.onboarding__relation-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  justify-content: center;
+  margin: var(--space-lg) 0;
+}
+
+.onboarding__relation-btn {
+  background: var(--bg-card);
+  border: 1.5px solid rgba(118,144,193,0.2);
+  border-radius: var(--radius-full);
+  padding: var(--space-sm) var(--space-lg);
+  font-family: var(--font-serif);
+  font-size: var(--text-body);
+  color: var(--morkebla);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.onboarding__relation-btn:active {
+  background: var(--blaa);
+  color: white;
+  transform: scale(0.97);
+}
+
+.onboarding__relation-form {
+  margin-top: var(--space-md);
+}
+
+.onboarding__skip-btn {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-serif);
+  font-size: var(--text-body);
+  padding: var(--space-md);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.onboarding__result-circles {
+  margin: var(--space-md) 0;
+}
+
+.onboarding__result-desc {
+  font-family: var(--font-serif);
+  font-size: var(--text-body);
+  color: var(--morkebla);
+  text-align: center;
+  line-height: var(--line-relaxed);
+  margin-top: var(--space-sm);
+}
+
+.onboarding__result-desc--poetic {
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+/* ============================
+   LIVSFASE DETAIL
+   ============================ */
+
+.livsfase-detail__header {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+.livsfase-detail__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: var(--morkebla);
+  color: white;
+  font-family: var(--font-serif);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  margin-bottom: var(--space-sm);
+}
+
+.livsfase-detail__title {
+  font-family: var(--font-serif);
+  font-size: var(--text-h1);
+  font-weight: var(--weight-bold);
+  color: var(--morkebla);
+  margin: 0;
+}
+
+.livsfase-detail__range {
+  font-size: var(--text-small);
+  color: var(--text-secondary);
+  margin-top: var(--space-xs);
+}
+
+.livsfase-detail__intro {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--text-body);
+  color: var(--text-secondary);
+  line-height: var(--line-relaxed);
+  text-align: center;
+  max-width: 340px;
+  margin: 0 auto var(--space-lg);
+}
+
+.livsfase-detail__venn {
+  margin: var(--space-md) 0;
+}
+
+.livsfase-detail__info {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin: var(--space-lg) 0;
+  box-shadow: var(--shadow-card);
+}
+
+.livsfase-detail__info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--border);
+  font-size: var(--text-small);
+  line-height: var(--line-normal);
+  gap: var(--space-md);
+}
+
+.livsfase-detail__info-row:last-child {
+  border-bottom: none;
+}
+
+.livsfase-detail__info-label {
+  font-weight: var(--weight-semibold);
+  color: var(--morkebla);
+  flex-shrink: 0;
+  min-width: 90px;
+}
+
+.livsfase-detail__section {
+  margin: var(--space-xl) 0;
+}
+
+.livsfase-detail__section-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-semibold);
+  color: var(--morkebla);
+  margin-bottom: var(--space-md);
+  text-align: center;
+}
+
+.livsfase-detail__section-text {
+  font-family: var(--font-serif);
+  font-size: var(--text-body);
+  color: var(--text-primary);
+  line-height: var(--line-relaxed);
+}
+
+.livsfase-detail__recs {
+  margin: var(--space-xl) 0;
+}
+
+.livsfase-detail__rec-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+  box-shadow: var(--shadow-card);
+}
+
+.livsfase-detail__rec-label {
+  font-size: var(--text-tiny);
+  color: var(--blaa);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--space-xs);
+}
+
+.livsfase-detail__rec-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.livsfase-detail__rec-desc {
+  font-size: var(--text-small);
+  color: var(--text-secondary);
+  line-height: var(--line-relaxed);
+}
+
+.livsfase-detail__question {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--text-body);
+  color: var(--text-secondary);
+  line-height: var(--line-relaxed);
+  margin-bottom: var(--space-sm);
+}
+
+.livsfase-detail__nav {
+  display: flex;
+  justify-content: space-between;
+  margin: var(--space-xl) 0;
+}
+
+.livsfase-detail__nav-btn {
+  background: none;
+  border: 1.5px solid rgba(118,144,193,0.2);
+  border-radius: var(--radius-full);
+  padding: var(--space-sm) var(--space-lg);
+  font-family: var(--font-serif);
+  font-size: var(--text-small);
+  color: var(--blaa);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.livsfase-detail__nav-btn:active {
+  background: var(--blaa);
+  color: white;
+}
+
+/* Current fase/week highlight for kort */
+.tema__kort--current {
+  border-left: 3px solid var(--morkebla);
+}
+
+/* ============================
+   REFLEKSION
+   ============================ */
+
+.refleksion__question-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-md);
+  box-shadow: var(--shadow-card);
+}
+
+.refleksion__question {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--text-body);
+  color: var(--morkebla);
+  line-height: var(--line-relaxed);
+  margin-bottom: var(--space-md);
+}
+
+.refleksion__notes {
+  width: 100%;
+  min-height: 60px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  color: var(--text-primary);
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.refleksion__notes:focus {
+  outline: none;
+  border-color: var(--blaa);
+}
+
+/* ============================
+   YIN YOGA SELECTOR
+   ============================ */
+
+.yin-yoga__selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  justify-content: center;
+  margin: var(--space-lg) 0;
+}
+
+.yin-yoga__element-btn {
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-full);
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-serif);
+  font-size: var(--text-small);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.yin-yoga__element-btn--active {
+  background: var(--morkebla);
+  border-color: var(--morkebla);
+  color: white;
+}
+
+.yin-yoga__element-btn:active {
+  transform: scale(0.97);
+}
+
+/* ============================
+   NOTIFIKATIONER TIMELINE (I dag)
+   ============================ */
+
+.idag__timeline {
+  margin: var(--space-md) 0;
+}
+
+.idag__timeline-list {
+  position: relative;
+  padding-left: 20px;
+}
+
+.idag__timeline-list::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  bottom: 8px;
+  width: 1.5px;
+  background: var(--border);
+}
+
+.idag__timeline-item {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-sm) 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.idag__timeline-item--hidden {
+  display: none;
+}
+
+.idag__timeline-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+  margin-top: 4px;
+  position: absolute;
+  left: -20px;
+  z-index: 1;
+}
+
+.idag__timeline-content {
+  flex: 1;
+}
+
+.idag__timeline-time {
+  font-size: var(--text-tiny);
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.idag__timeline-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-small);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+  margin: 2px 0;
+}
+
+.idag__timeline-text {
+  font-size: var(--text-small);
+  color: var(--text-secondary);
+  line-height: var(--line-normal);
+}
+
+.idag__timeline-expand {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--blaa);
+  font-family: var(--font-serif);
+  font-size: var(--text-small);
+  padding: var(--space-sm) 0;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* ============================
+   FORLØB CARD (External)
+   ============================ */
+
+.forloeb-kort {
+  background: linear-gradient(145deg, #F0F4F8 0%, #EDE8F0 100%);
+  border: 1.5px dashed rgba(118,144,193,0.3);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin: var(--space-md) 0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.forloeb-kort:active {
+  transform: scale(0.98);
+}
+
+.forloeb-kort__label {
+  display: inline-block;
+  font-size: var(--text-tiny);
+  color: var(--lilla);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--space-sm);
+  background: rgba(184,166,192,0.1);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.forloeb-kort__title {
+  font-family: var(--font-serif);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-semibold);
+  color: var(--morkebla);
+  margin: 0 0 var(--space-sm);
+}
+
+.forloeb-kort__subtitle {
+  font-size: var(--text-small);
+  color: var(--text-secondary);
+  line-height: var(--line-relaxed);
+  margin: 0;
+}
+
+.forloeb-kort__link {
+  display: inline-block;
+  margin-top: var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: var(--text-small);
+  color: var(--blaa);
+}

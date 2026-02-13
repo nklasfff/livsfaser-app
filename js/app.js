@@ -210,90 +210,217 @@ function calculateCyclesForDate(birthdate, targetDate, opts) {
 // ---- Onboarding ----
 
 const Onboarding = {
+  _relationType: null,
+
   goToStep(step) {
     document.querySelectorAll('.onboarding__step').forEach(el => {
       el.classList.remove('active');
     });
-    const target = document.querySelector(`.onboarding__step[data-step="${step}"]`);
+    const target = document.querySelector('.onboarding__step[data-step="' + step + '"]');
     if (target) target.classList.add('active');
+
+    // Render phase figure on step 1
+    if (step === 1) this.renderPhaseFigure();
+    // Render result circles on step 4
+    if (step === 4) this.renderResult();
+  },
+
+  renderPhaseFigure() {
+    var el = document.getElementById('onboarding-phase-figure');
+    if (!el) return;
+    var items = [];
+    for (var i = 1; i <= 9; i++) {
+      var p = PHASE_DATA[i];
+      items.push({
+        label: 'Fase ' + i,
+        sublabel: p.startAge + '\u2013' + p.endAge + ' \u00e5r'
+      });
+    }
+    var activeIdx = this._phase ? (this._phase.phase - 1) : -1;
+    el.innerHTML = renderCircularFigure({
+      items: items,
+      centerLabel: 'De 9',
+      centerSublabel: 'Livsfaser',
+      activeIndex: activeIdx,
+      width: 320,
+      height: 320
+    });
+
+    // Bind date change
+    var input = document.getElementById('onboarding-birthdate');
+    if (input && !input._bound) {
+      input._bound = true;
+      input.addEventListener('change', function() {
+        Onboarding._onBirthdateChange();
+      });
+    }
+  },
+
+  _onBirthdateChange() {
+    var input = document.getElementById('onboarding-birthdate');
+    var error = document.getElementById('onboarding-error');
+    if (!input || !input.value) return;
+
+    var birthdate = new Date(input.value);
+    var today = new Date();
+    if (birthdate >= today) {
+      error.textContent = 'F\u00f8dselsdato skal v\u00e6re i fortiden';
+      return;
+    }
+    error.textContent = '';
+
+    this._birthdate = input.value;
+    this._age = calculateAge(input.value);
+    this._phase = calculateLifePhase(this._age);
+
+    // Update circle figure to highlight phase
+    this.renderPhaseFigure();
+
+    // Show result text
+    var resultEl = document.getElementById('onboarding-phase-result');
+    if (resultEl) {
+      resultEl.innerHTML = '<p class="onboarding__phase-highlight">Du er i <strong>Fase ' + this._phase.phase + ': ' + this._phase.name + '</strong> (' + this._phase.startAge + '\u2013' + this._phase.endAge + ' \u00e5r) \u00B7 ' + ELEMENT_LABELS[this._phase.element] + '-element</p>';
+    }
+
+    // Show next button
+    var btn = document.getElementById('onboarding-step1-btn');
+    if (btn) btn.style.display = '';
   },
 
   submitBirthdate() {
     var input = document.getElementById('onboarding-birthdate');
     var error = document.getElementById('onboarding-error');
-    var value = input.value;
-
-    if (!value) {
-      error.textContent = 'Indtast venligst din f\u00F8dselsdato';
+    if (!input || !input.value) {
+      error.textContent = 'Indtast venligst din f\u00f8dselsdato';
       return;
     }
-
-    var birthdate = new Date(value);
+    var birthdate = new Date(input.value);
     var today = new Date();
     if (birthdate >= today) {
-      error.textContent = 'F\u00F8dselsdato skal v\u00E6re i fortiden';
+      error.textContent = 'F\u00f8dselsdato skal v\u00e6re i fortiden';
       return;
     }
-
     error.textContent = '';
-    this._birthdate = value;
-    this._age = calculateAge(value);
+    this._birthdate = input.value;
+    this._age = calculateAge(input.value);
     this._phase = calculateLifePhase(this._age);
-
-    this.goToStep(3);
+    this.goToStep(2);
   },
 
   setMenstruation(tracks) {
     this._tracksMenstruation = tracks;
     if (tracks) {
-      this.goToStep(4);
+      document.getElementById('onboarding-period-section').style.display = '';
+      document.getElementById('onboarding-moon-section').style.display = 'none';
+      // Hide the choice buttons
+      var choices = document.querySelector('[data-step="2"] .onboarding__choices');
+      if (choices) choices.style.display = 'none';
     } else {
       this._lastPeriodDate = null;
-      this._showResult();
+      document.getElementById('onboarding-period-section').style.display = 'none';
+      document.getElementById('onboarding-moon-section').style.display = '';
+      var choices2 = document.querySelector('[data-step="2"] .onboarding__choices');
+      if (choices2) choices2.style.display = 'none';
     }
   },
 
   submitPeriodDate() {
     var input = document.getElementById('onboarding-period-date');
     var error = document.getElementById('onboarding-period-error');
-    var value = input.value;
-
-    if (!value) {
+    if (!input || !input.value) {
       error.textContent = 'Indtast venligst en dato';
       return;
     }
-
-    var periodDate = new Date(value);
+    var periodDate = new Date(input.value);
     var today = new Date();
     if (periodDate > today) {
-      error.textContent = 'Datoen kan ikke v\u00E6re i fremtiden';
+      error.textContent = 'Datoen kan ikke v\u00e6re i fremtiden';
       return;
     }
-
     error.textContent = '';
-    this._lastPeriodDate = value;
-    this._showResult();
+    this._lastPeriodDate = input.value;
+    this.goToStep(3);
   },
 
-  _showResult() {
-    var result = this._phase;
-    var badge = document.getElementById('onboarding-badge');
-    badge.textContent = ELEMENT_LABELS[result.element].charAt(0);
-    badge.style.backgroundColor = ELEMENT_COLORS[result.element];
+  addRelation(type) {
+    this._relationType = type;
+    var gender = (type === 's\u00f8n' || type === 'far') ? 'mand' : 'kvinde';
+    this._relationGender = gender;
 
-    document.getElementById('onboarding-phase-title').textContent =
-      'Du er i Fase ' + result.phase + ': ' + result.name;
+    document.getElementById('onboarding-relation-buttons').style.display = 'none';
+    document.getElementById('onboarding-relation-form').style.display = '';
+    document.getElementById('onboarding-skip-btn').textContent = 'Spring over';
+    var label = document.getElementById('onboarding-relation-label');
+    if (label) label.textContent = (type.charAt(0).toUpperCase() + type.slice(1)) + 's navn';
+  },
 
-    document.getElementById('onboarding-phase-range').textContent =
-      result.startAge + '\u2013' + result.endAge + ' \u00E5r';
+  submitRelation() {
+    var nameInput = document.getElementById('onboarding-relation-name');
+    var bdInput = document.getElementById('onboarding-relation-birthdate');
+    var error = document.getElementById('onboarding-relation-error');
 
-    document.getElementById('onboarding-element-text').textContent =
-      'Dit element er ' + ELEMENT_LABELS[result.element];
+    if (!nameInput.value.trim()) { error.textContent = 'Indtast et navn'; return; }
+    if (!bdInput.value) { error.textContent = 'Indtast f\u00f8dselsdato'; return; }
+    var bd = new Date(bdInput.value);
+    if (bd >= new Date()) { error.textContent = 'Dato skal v\u00e6re i fortiden'; return; }
+    error.textContent = '';
 
-    this.goToStep(5);
+    var relation = {
+      name: nameInput.value.trim(),
+      birthdate: bdInput.value,
+      gender: this._relationGender || 'kvinde',
+      type: this._relationType || 'anden'
+    };
+
+    var relations = JSON.parse(localStorage.getItem('relations') || '[]');
+    relations.push(relation);
+    localStorage.setItem('relations', JSON.stringify(relations));
+
+    this.goToStep(4);
+  },
+
+  skipRelation() {
+    this.goToStep(4);
+  },
+
+  renderResult() {
+    // Save user data first so calculations work
+    var userData = {
+      birthdate: this._birthdate,
+      age: this._age,
+      phase: this._phase.phase,
+      element: this._phase.element,
+      tracksMenstruation: this._tracksMenstruation || false,
+      lastPeriodDate: this._lastPeriodDate || null,
+      createdAt: new Date().toISOString()
+    };
+    localStorage.setItem('user', JSON.stringify(userData));
+
+    // Render concentric circles
+    var circlesEl = document.getElementById('onboarding-result-circles');
+    if (circlesEl) {
+      var now = new Date();
+      var d = {
+        lifePhase: this._phase,
+        season: calculateSeason(now),
+        weekday: calculateWeekday(now),
+        organ: calculateOrganClock(now),
+        monthCycle: (this._tracksMenstruation && this._lastPeriodDate)
+          ? { type: 'menstrual', data: calculateMenstrualDay(this._lastPeriodDate, now) }
+          : { type: 'calendar', data: calculateCalendarMonth(now) }
+      };
+      renderConcentricCircles(circlesEl, d);
+    }
+
+    // Dynamic text
+    var textEl = document.getElementById('onboarding-result-text');
+    if (textEl) {
+      textEl.innerHTML = '<p class="onboarding__result-desc">Fase ' + this._phase.phase + ': ' + this._phase.name + ' \u00B7 ' + ELEMENT_LABELS[this._phase.element] + '-element</p><p class="onboarding__result-desc onboarding__result-desc--poetic">' + (PHASE_DESCRIPTIONS[this._phase.phase] || '') + '</p>';
+    }
   },
 
   finish() {
+    // Data already saved in renderResult, but save again to be safe
     var userData = {
       birthdate: this._birthdate,
       age: this._age,
@@ -305,7 +432,6 @@ const Onboarding = {
     };
     localStorage.setItem('user', JSON.stringify(userData));
     console.log('[Livsfaser] User data gemt:', userData);
-    console.log('[Livsfaser] Verificeret fra localStorage:', localStorage.getItem('user'));
     App.loadScreen('idag');
   }
 };
@@ -410,6 +536,251 @@ function getElementInteraction(yourElement, theirElement, theirName, theirGender
   var text = interaction.text.replace(/\{pron\}/g, pron).replace(/\{navn\}/g, safeName);
   return { type: interaction.type, text: text };
 }
+
+// ---- De Ni Livsfaser: Detaljedata per fase ----
+
+var LIVSFASE_DETAIL = {
+  1: {
+    introText: 'Den spæde begyndelse. Barnet lever i ren sansning, uden filtre, uden grænser. Alt er flydende som vand — tillid, berøring, lyd. Her lægges grundstenen for alt det, der kommer.',
+    organPar: 'Nyrer og Blære',
+    smag: 'Salt',
+    aarstid: 'Vinter',
+    folelser: { balance: 'Tillid, tryghed, ro', ubalance: 'Frygt, utryghed, tilbagetrækning' },
+    vediskKobling: 'Brahmacharya — den tidlige læringsperiode',
+    livstemaer: ['Grundlæggende tillid', 'Sanselig udforskning', 'Tilknytning'],
+    psykOpgaver: ['Opbygge basal tillid', 'Kropslig sikkerhed', 'Emotionel tilknytning'],
+    kropTekst: 'Kroppen i denne fase er ren vækst og modtagelighed. Nyrerne — livskraftens rod i kinesisk medicin — etablerer sig. Knoglerne dannes, tænderne bryder frem. Alt er blødt og formbart. Barnets krop er som vand: den tilpasser sig, optager, flyder.',
+    sindTekst: 'Sindet er åbent som en stille sø. Barnet lever i nuet uden fortid eller fremtid. Fantasien er virkelig, drømmene er levende. Emotionelt handler alt om sikkerhed — at blive set, holdt, trøstet. Her grundlægges evnen til at mærke sig selv.',
+    oevelse: { title: 'Butterfly (Yin Yoga)', desc: 'Åbner hofterne og stimulerer nyremeridianen. Velegnet til at finde indre ro.' },
+    kost: { title: 'Sort sesam og valnødder', desc: 'Nærer nyreessensen og styrker livskraften. Varme supper med tang og bønner.' },
+    healingLyd: { title: 'Nyrelyd: Chuiii', desc: 'En lang, blød udånding med lyden "chuiii" — frigør frygt og nærer vandets energi.' },
+    refleksioner: ['Hvad føler du dig tryg ved i dit liv lige nu?', 'Hvornår mærkede du sidst en dyb ro i kroppen?', 'Hvad ville det betyde at give slip på en frygt?']
+  },
+  2: {
+    introText: 'Verden åbner sig. Barnet udforsker med hele kroppen, hele sindet. Vandets flow har nu fået retning — nysgerrigheden driver fremad, og leg er det vigtigste arbejde der findes.',
+    organPar: 'Nyrer og Blære',
+    smag: 'Salt',
+    aarstid: 'Vinter',
+    folelser: { balance: 'Nysgerrighed, mod, glæde', ubalance: 'Frygt, usikkerhed, uro' },
+    vediskKobling: 'Brahmacharya — den legende læringsperiode',
+    livstemaer: ['Udforskning', 'Fantasi og leg', 'Social forståelse'],
+    psykOpgaver: ['Udvikle selvstændighed', 'Lære at navigere i verden', 'Opbygge mod'],
+    kropTekst: 'Kroppen vokser hurtigt nu. Muskler og koordination udvikles gennem leg og bevægelse. Nyrernes energi driver stadig — vitaliteten er enorm. Immunforsvaret modnes. Kroppen lærer grænser gennem fald, skrammer og genrejsning.',
+    sindTekst: 'Sindet er en eksplosion af fantasi. Barnet begynder at forstå forskellen mellem sig selv og andre. Leg er ikke tidsfordriv — det er den vigtigste måde at forstå verden på. Emotionelt vokser evnen til empati, men også frustrationen over begrænsninger.',
+    oevelse: { title: 'Caterpillar (Yin Yoga)', desc: 'Dyb foroverbøjning der beroer nervesystemet og nærer nyrerne.' },
+    kost: { title: 'Varme supper med tang', desc: 'Tang er rig på mineraler der støtter nyrernes udvikling. Sorte bønner og ris.' },
+    healingLyd: { title: 'Nyrelyd: Chuiii', desc: 'Samme vandlyd som fase 1 — styrker den grundlæggende livskraft.' },
+    refleksioner: ['Hvad gør dig nysgerrig i dit liv lige nu?', 'Hvor i dit liv kunne du tillade dig at lege mere?', 'Hvad ville du udforske, hvis du ikke var bange?']
+  },
+  3: {
+    introText: 'Forvandlingens tid. Træets energi skyder op med en kraft der ikke kan stoppes. Kroppen ændrer sig, identiteten søger form — alt det gamle dør langsomt, mens noget nyt bryder igennem.',
+    organPar: 'Lever og Galdeblære',
+    smag: 'Sur',
+    aarstid: 'Forår',
+    folelser: { balance: 'Kreativitet, handlekraft, mod', ubalance: 'Vrede, frustration, rastløshed' },
+    vediskKobling: 'Brahmacharya — den transformative overgang',
+    livstemaer: ['Pubertet og forvandling', 'Identitetssøgen', 'Løsrivelse'],
+    psykOpgaver: ['Forme egen identitet', 'Navigere kroppens forandring', 'Etablere indre kompas'],
+    kropTekst: 'Puberteten er træets fulde kraft. Hormoner eksploderer, kroppen ændrer form. Menstruationen begynder — den første kontakt med den cykliske kvindekrop. Leveren arbejder intenst for at processere alle de nye hormoner. Energien er enorm men ofte kaotisk.',
+    sindTekst: 'Sindet søger desperat efter svar på spørgsmålet: hvem er jeg? Følelserne er intense og skiftende. Vrede er en naturlig del — den er træets kraft der søger retning. Den unge kvinde begynder at se verden med egne øjne, og det kan være både befriende og skræmmende.',
+    oevelse: { title: 'Dragefly (Yin Yoga)', desc: 'Åbner inderlår og stimulerer levermeridianen. Frigør stagneret energi.' },
+    kost: { title: 'Grønne bladgrøntsager', desc: 'Lever elsker grønt. Spirende korn, artiskokker, citronsaft om morgenen.' },
+    healingLyd: { title: 'Leverlyd: Shhhhh', desc: 'En lang "shhh"-udånding med let åben mund — frigør vrede og giver plads til kreativitet.' },
+    refleksioner: ['Hvilke dele af dig selv opdagede du i teenageårene?', 'Hvad ønsker du stadig at forvandle i dit liv?', 'Hvor mærker du træets drivkraft — behovet for at vokse — lige nu?']
+  },
+  4: {
+    introText: 'Blomstringens tid. Den unge kvinde træder frem med sin egen kraft og sine egne drømme. Uddannelse, de første store valg, kærlighed. Energien er ekspansiv — alt synes muligt.',
+    organPar: 'Lever og Galdeblære',
+    smag: 'Sur',
+    aarstid: 'Forår',
+    folelser: { balance: 'Selvtillid, passion, retning', ubalance: 'Utålmodighed, perfektionisme, overambitiøsitet' },
+    vediskKobling: 'Grihastha — den unge voksnes indtræden',
+    livstemaer: ['Blomstring', 'Karriere og drømme', 'Partnerskab'],
+    psykOpgaver: ['Realisere potentiale', 'Navigere voksenlivets valg', 'Opbygge fundamenter'],
+    kropTekst: 'Kroppen er i sin fulde kraft. Fertiliteten er høj, musklerne stærke, restitutionen hurtig. Leveren arbejder stabilt. Det er en tid hvor kroppen sjældent klager — den bærer, bygger, blomstrer. Men det er også her, de mønstre grundlægges som viser sig senere.',
+    sindTekst: 'Sindet er fokuseret og ambitiøst. Der er mod til at tage chancer, starte uddannelser, flytte, forelske sig. Identiteten tager form — ikke længere søgende men handlende. Skyggesiden er stress og følelsen af aldrig at være nok. Træets energi kan blive til pres.',
+    oevelse: { title: 'Twisted Roots (Yin Yoga)', desc: 'Drejning der stimulerer lever og galdeblære. Skaber flow og løsner stagnation.' },
+    kost: { title: 'Spirende korn og artiskokker', desc: 'Forårets mad der matcher træets energi. Fermenterede grøntsager, eddike, citronsaft.' },
+    healingLyd: { title: 'Leverlyd: Shhhhh', desc: 'Samme befriende lyd som fase 3 — slip frustration og find retning.' },
+    refleksioner: ['Hvilke drømme fra din ungdom lever stadig i dig?', 'Hvor blomstrer du i dit liv lige nu?', 'Hvad ville du gøre anderledes, hvis du vidste det var godt nok?']
+  },
+  5: {
+    introText: 'Ildens fase. Ansvar for karriere, måske børn, måske parforhold. Energien er intens og handlingsorienteret — kvinden brænder for det hun tror på, men flammen kræver brændstof.',
+    organPar: 'Hjerte og Tyndtarm',
+    smag: 'Bitter',
+    aarstid: 'Sommer',
+    folelser: { balance: 'Glæde, forbindelse, passion', ubalance: 'Rastløshed, angst, udbrændthed' },
+    vediskKobling: 'Grihastha — husholderfasen',
+    livstemaer: ['Ansvar og moderskab', 'Karrierens intensitet', 'Parforholdets prøvelser'],
+    psykOpgaver: ['Balancere ild og hvile', 'Navigere andres behov', 'Bevare kontakt med sig selv'],
+    kropTekst: 'Hjertet og kredsløbet er i centrum. Mange kvinder føder i denne fase — kroppen gennemgår en af sine mest transformerende oplevelser. Energien er høj men kan brænde ud. Hjertet arbejder hårdt, både fysisk og emotionelt. Søvnmangel og stress kan tære.',
+    sindTekst: 'Sindet jonglerer mange bolde. Karriere, børn, parforhold, identitet — alt kræver opmærksomhed. Glæden er stor men også sårbar. Ildens fælde er at brænde for alt og glemme sig selv. Mange kvinder opdager her, at de har mistet kontakten til deres egne behov.',
+    oevelse: { title: 'Melting Heart (Yin Yoga)', desc: 'Åbner bryst og hjertemeridian. En position der minder om at give slip og modtage.' },
+    kost: { title: 'Bitter salat og grøn te', desc: 'Bitter smag køler hjertet. Vandmelon, hibiscuste, røde bær der nærer blodet.' },
+    healingLyd: { title: 'Hjertelyd: Haaaa', desc: 'En åben, varm "haaaa"-udånding — åbner hjertet og frigør rastløshed.' },
+    refleksioner: ['Hvilke mønstre gentager du fra din mor?', 'Hvad ville du gøre anderledes, hvis du kun havde ansvar for dig selv?', 'Hvornår brændte du sidst for noget uden at brænde ud?']
+  },
+  6: {
+    introText: 'Modningens tid. Kvinden finder dybde og substans. Det der ikke længere tjener hende, begynder at falde væk. Erfaring bliver til visdom, og rødder vokser dybere end nogensinde.',
+    organPar: 'Milt og Mave',
+    smag: 'Sød',
+    aarstid: 'Sensommer',
+    folelser: { balance: 'Omsorg, stabilitet, medfølelse', ubalance: 'Bekymring, overtænkning, kontrol' },
+    vediskKobling: 'Vanaprastha — den reflektive overgang',
+    livstemaer: ['Modning', 'Selvindsigt', 'At finde sin plads'],
+    psykOpgaver: ['Acceptere det levede', 'Slippe det overflødige', 'Finde indre fundament'],
+    kropTekst: 'Kroppens stofskifte begynder at ændre sig. Fordøjelsen bliver vigtigere — milten og maven kræver mere opmærksomhed. Hormonniveauer begynder langsomt at skifte. Kroppen taler tydeligere nu: den belønner god næring og hvile, og den protesterer mod det der ikke passer.',
+    sindTekst: 'Sindet begynder den store sortering. Hvad er ægte, hvad er overtaget? Mange kvinder oplever en identitetskrise — ikke destruktiv men transformativ. Bekymring er jordens skygge, men dens gave er ægte omsorg. Der er en stille styrke i at vide hvad man vil.',
+    oevelse: { title: 'Childs Pose (Yin Yoga)', desc: 'Barnets stilling nærer milten og giver dyb tryghed. En position for tilbagevenden til det enkle.' },
+    kost: { title: 'Rodfrugter og varme gryder', desc: 'Jord elsker sødt fra naturen: søde kartofler, græskar, hirse. Varm, nærende mad.' },
+    healingLyd: { title: 'Miltlyd: Huuuuu', desc: 'En dyb "huuuu" fra maven — forankrer bekymring og nærer jordens stabilitet.' },
+    refleksioner: ['Hvad har du lært om dig selv de sidste ti år?', 'Hvad er du klar til at slippe?', 'Hvor finder du dit fundament, når alt andet vakler?']
+  },
+  7: {
+    introText: 'Høstens tid. Alt det levede bærer nu frugt. Kvinden ved hvad hun vil og hvad hun ikke vil. En stille styrke vokser — ikke af ambition, men af erfaring og accept.',
+    organPar: 'Milt og Mave',
+    smag: 'Sød',
+    aarstid: 'Sensommer',
+    folelser: { balance: 'Vished, taknemmelighed, ro', ubalance: 'Tab, tomhed, bekymring for fremtiden' },
+    vediskKobling: 'Vanaprastha — den modne tilbagetrækning',
+    livstemaer: ['Overgangsalder', 'Høst af livserfaring', 'Ny frihed'],
+    psykOpgaver: ['Omfavne forandring', 'Transformere tab til visdom', 'Genfinde sig selv'],
+    kropTekst: 'Overgangsalderen er jordens store omvæltning. Hormonerne ændrer sig markant — hedeture, søvnforstyrrelser, humørsvingninger. Kroppen beder om at blive lyttet til. Milten og maven er nøgler til stabilitet. Den kvinde der nærer sin jord-energi, navigerer overgangen med mere ro.',
+    sindTekst: 'Sindet oplever en frihed der kan være både skræmmende og befriende. Roller falder — mor, karrierekvinde, partner — og spørgsmålet melder sig: hvem er jeg, når rollerne er væk? Det er et vendepunkt. De kvinder der tør se indad, finder en visdom de ikke vidste de havde.',
+    oevelse: { title: 'Reclining Twist (Yin Yoga)', desc: 'Liggende drejning der masserer indre organer og støtter fordøjelsen.' },
+    kost: { title: 'Varm hirse og græskar', desc: 'Miltnærende kost. Undgå rå, kold mad. Ingefær, kanel, kardemomme.' },
+    healingLyd: { title: 'Miltlyd: Huuuuu', desc: 'Samme jordlyd som fase 6 — rodfæster og giver tryghed i overgangen.' },
+    refleksioner: ['Hvad er du mest taknemlig for i dit liv?', 'Hvad er du klar til at slippe — og hvad holder du fast i af vane?', 'Hvis du ikke skulle leve op til nogens forventninger, hvad ville du så gøre?']
+  },
+  8: {
+    introText: 'Frigørelsens tid. Det essentielle viser sig med klar tydelighed. Kvinden frigør sig fra det overflødige — roller, forventninger, ting — og en ny lethed opstår.',
+    organPar: 'Lunger og Tyktarm',
+    smag: 'Skarp',
+    aarstid: 'Efterår',
+    folelser: { balance: 'Klarhed, lethed, accept', ubalance: 'Sorg, tomhed, isolation' },
+    vediskKobling: 'Sannyasa — den frie fase',
+    livstemaer: ['Frigørelse', 'Essens', 'Ny begyndelse'],
+    psykOpgaver: ['Give slip med kærlighed', 'Finde det essentielle', 'Definere frihed'],
+    kropTekst: 'Lungerne og tyktarmen er i fokus. Åndedrættet bliver en nøgle — dyb vejrtrækning nærer kroppen og sindet. Kroppen beder om renhed: ren luft, enkel mad, gode vaner. Immunforsvaret kræver opmærksomhed. Det er en tid for at rydde ud — fysisk og energetisk.',
+    sindTekst: 'Sindet finder klarhed. Det overflødige falder som blade fra et træ — ikke med smerte, men med lethed. Sorg kan melde sig, men den er metallets gave: evnen til at slippe det der var, og se det der er. Mange kvinder oplever en ny skarphed og ærlighed.',
+    oevelse: { title: 'Open Wings (Yin Yoga)', desc: 'Åbner brystkassen og lungemeridianerne. En position for at give slip og modtage luft.' },
+    kost: { title: 'Hvide fødevarer og ingefær', desc: 'Lunger elsker hvidt: pærer, radiser, ris. Skarp smag der åbner luftvejene.' },
+    healingLyd: { title: 'Lungelyd: Sssss', desc: 'En lang, kontrolleret "sssss" — frigør sorg og åbner brystet.' },
+    refleksioner: ['Hvad kan du give slip på med kærlighed?', 'Hvad er det essentielle i dit liv lige nu?', 'Hvornår føler du dig mest fri?']
+  },
+  9: {
+    introText: 'Visdommens tid. Vandets tilbagevenden. Cirklen sluttes — den vise kvinde bærer alle fasers erfaring i sig. Hun flyder igen, men nu med en dybde der kun kommer af at have levet fuldt.',
+    organPar: 'Nyrer og Blære',
+    smag: 'Salt',
+    aarstid: 'Vinter',
+    folelser: { balance: 'Visdom, accept, dyb ro', ubalance: 'Frygt for afslutning, isolation, stivhed' },
+    vediskKobling: 'Sannyasa — den vise kvinde',
+    livstemaer: ['Visdom og integration', 'Arv og videregivelse', 'Tilbagevenden til essensen'],
+    psykOpgaver: ['Integrere alle faser', 'Videregive erfaring', 'Finde fred med helheden'],
+    kropTekst: 'Nyrerne lukker cirklen. Livskraften er roligere men dybere. Knoglerne kræver omsorg, leddene beder om blød bevægelse. Vand-energien er nu visdomsvand — ikke barnets åbne sø, men en dyb brønd af erfaring. Kroppen belønner mildhed, varme og regelmæssighed.',
+    sindTekst: 'Sindet er som en stille flod. Den vise kvinde har været ild, jord og metal — og nu vender hun tilbage til vandet med alt det, hun har lært. Der er en frihed i at have gennemlevet det meste. Intuition og indsigt smelter sammen. Hun ser mønstre, hun forstår cyklusser.',
+    oevelse: { title: 'Sleeping Swan (Yin Yoga)', desc: 'Dyb hofteåbner der stimulerer nyrerne. En stilling for integration og ro.' },
+    kost: { title: 'Varme supper med tang og sort sesam', desc: 'Tilbage til vandets mad. Valnødder, bønner, varm mad der nærer essensen.' },
+    healingLyd: { title: 'Nyrelyd: Chuiii', desc: 'Cirklen sluttes med den samme lyd som begyndte — men nu med hele livets resonans.' },
+    refleksioner: ['Hvad er den vigtigste ting du har lært om dig selv?', 'Hvad vil du videregive til de kvinder der kommer efter dig?', 'Hvis du kunne sige én ting til din yngre jeg, hvad ville det være?']
+  }
+};
+
+// ---- De Fire Uger: Menstrual cycle data ----
+
+var MENSTRUAL_WEEK_DATA = {
+  1: { name: 'Uge 1 \u2014 Menstruation', element: 'VAND', dagRange: 'Dag 1\u20137', kvalitet: 'Indadvendt energi',
+    bodyText: 'Kroppen renser og fornyer sig. Livmoderen frigiver det gamle slimhinde. Energien er lav, og kroppen beder om hvile. Nyrerne og blæren er aktive — vand-elementet dominerer.',
+    feelingsText: 'Følelserne trækker indad. Det er en naturlig tid for refleksion og stilhed. Intuition er stærk, men socialt overskud kan være lavt. Lyt til behovet for at trække dig tilbage.',
+    recommendations: ['Hvile og varme', 'Yin yoga med hofteåbnere', 'Varme supper og te', 'Journalskrivning og refleksion'] },
+  2: { name: 'Uge 2 \u2014 Opbygning', element: 'TR\u00C6', dagRange: 'Dag 8\u201314', kvalitet: 'Stigende energi',
+    bodyText: 'Follikelfasen begynder. En ny æg modnes, østrogen stiger. Energien vokser gradvist — kroppen føler sig stærkere dag for dag. Leveren arbejder aktivt med at processere hormoner.',
+    feelingsText: 'Optimisme og kreativitet vokser. Det er en god tid for nye projekter, planlægning og social aktivitet. Selvtilliden stiger, og der er mod til at tage initiativer.',
+    recommendations: ['Dynamisk bevægelse', 'Kreative projekter', 'Grønne grøntsager og spirende mad', 'Nye initiativer og planlægning'] },
+  3: { name: 'Uge 3 \u2014 \u00C6gløsning', element: 'ILD', dagRange: 'Dag 15\u201321', kvalitet: 'Udadvendt energi',
+    bodyText: 'Ægløsning sker, og østrogen er på sit højeste. Kroppen stråler — huden lyser, energien er på toppen. Hjertet og kredsløbet er i flow. Det er kroppens sommer.',
+    feelingsText: 'Følelserne er varme og åbne. Social energi er høj, kommunikation flyder. Det er en tid for forbindelse, intimitet og glæde. Pas på rastløshed og overaktivitet.',
+    recommendations: ['Intens bevægelse og social aktivitet', 'Rå salater og frisk frugt', 'Forbindelse og samtaler', 'Kreativt udtryk'] },
+  4: { name: 'Uge 4 \u2014 Luteal', element: 'JORD', dagRange: 'Dag 22\u201328', kvalitet: 'Faldende energi',
+    bodyText: 'Progesteron dominerer. Kroppen forbereder sig på menstruation. Fordøjelsen kan være følsom, kroppen beder om næring og regelmæssighed. Milten og maven er aktive.',
+    feelingsText: 'Følelserne kan svinge — bekymring, irritation eller sårbarhed. Det er kroppens måde at sige: sænk tempoet. Det er en tid for at runde af, rydde op og forberede sig.',
+    recommendations: ['Rolige aktiviteter og tidlig sengetid', 'Varm, nærende mad', 'Undgå store beslutninger', 'Selvomsorgsritualer'] }
+};
+
+var MOON_CYCLE_DATA = {
+  1: { name: 'Nymåne', element: 'VAND', kvalitet: 'Indadvendt energi',
+    text: 'Nymånen er vandets tid — stille, mørk, reflekterende. En tid for nye intentioner, indre lytning og hvile. Energien er på sit laveste, og det er en gave.' },
+  2: { name: 'Tiltagende måne', element: 'TR\u00C6', kvalitet: 'Stigende energi',
+    text: 'Månen vokser, og med den din energi. Træets fase — vækst, planlægning, handling. En god tid for at sætte ting i gang og følge dine intentioner.' },
+  3: { name: 'Fuldmåne', element: 'ILD', kvalitet: 'Udadvendt energi',
+    text: 'Alt er i fuld blomst. Ildens kulminationspunkt — følelser, drømme og energi er på sit højeste. En tid for forbindelse, fejring og kulminationer.' },
+  4: { name: 'Aftagende måne', element: 'JORD', kvalitet: 'Faldende energi',
+    text: 'Månen mindskes, og vi samler ind. Jordens fase — sortering, eftertanke, taknemmelighed. Slip det der ikke tjener dig, og forbered en ny cyklus.' }
+};
+
+// ---- Refleksion: Fasespecifikke spørgsmål ----
+
+var REFLEKSION_DATA = {
+  1: ['Hvad føler du dig tryg ved i dit liv lige nu?', 'Hvor i kroppen mærker du stilhed — og hvor mærker du uro?', 'Hvis du kunne give slip på én frygt, hvad ville det være?'],
+  2: ['Hvad gør dig nysgerrig i dit liv lige nu?', 'Hvor kunne du tillade dig at lege mere?', 'Hvad ville du udforske, hvis ingen så på?'],
+  3: ['Hvad forvandler sig i dit liv lige nu?', 'Hvilken del af dig selv er ved at bryde igennem?', 'Hvad er du vred over — og hvad gemmer sig bag vreden?'],
+  4: ['Hvilke drømme lever stadig i dig?', 'Hvor blomstrer du allerede — uden at bemærke det?', 'Hvad ville du gøre, hvis du vidste det var godt nok?'],
+  5: ['Hvilke mønstre gentager du fra din mor?', 'Hvad ville du gøre anderledes, hvis du kun havde ansvar for dig selv?', 'Hvornår brændte du sidst for noget uden at brænde ud?'],
+  6: ['Hvad har du lært om dig selv de sidste ti år?', 'Hvad er du klar til at slippe?', 'Hvor finder du dit fundament, når alt andet vakler?'],
+  7: ['Hvad er du mest taknemlig for?', 'Hvad holder du fast i af vane — og hvad holder du fast i af kærlighed?', 'Hvem er du, når rollerne er væk?'],
+  8: ['Hvad kan du give slip på med kærlighed?', 'Hvad er det essentielle i dit liv lige nu?', 'Hvornår føler du dig mest fri?'],
+  9: ['Hvad er den vigtigste ting du har lært om dig selv?', 'Hvad vil du videregive?', 'Hvis du kunne sige én ting til din yngre jeg, hvad ville det være?']
+};
+
+// ---- Kontrolcyklus: TCM element texts ----
+
+var KONTROL_TEKST = {
+  'VAND': { naerer: 'Dit Vand nærer Træ — din dybde og intuition giver vækst og retning til ny energi.', kontrollerer: 'Vand kontrollerer Ild — din ro kan dæmpe overaktivitet og bringe balance til flammerne.', naeret_af: 'Metal nærer dit Vand — klarhed og evnen til at slippe beriger din dybde.', kontrolleret_af: 'Jord kontrollerer dit Vand — omsorgens fundament giver dit flow retning og grænser.' },
+  'TR\u00C6': { naerer: 'Dit Træ nærer Ild — din vækst og kreativitet tænder glæde og forbindelse.', kontrollerer: 'Træ kontrollerer Jord — din fremadrettede energi bryder igennem stagnation.', naeret_af: 'Vand nærer dit Træ — dybde og intuition giver din vækst rod og retning.', kontrolleret_af: 'Metal kontrollerer dit Træ — klarhed beskærer overflødige grene og giver form.' },
+  'ILD': { naerer: 'Din Ild nærer Jord — din varme og passion skaber fundament og omsorg.', kontrollerer: 'Ild kontrollerer Metal — din varme smelter stivhed og åbner for flow.', naeret_af: 'Træ nærer din Ild — vækst og retning giver dine flammer brændstof.', kontrolleret_af: 'Vand kontrollerer din Ild — dybde og ro forhindrer udbrændthed.' },
+  'JORD': { naerer: 'Din Jord nærer Metal — din stabilitet og omsorg skaber grundlag for klarhed.', kontrollerer: 'Jord kontrollerer Vand — dit fundament giver det flydende retning og form.', naeret_af: 'Ild nærer din Jord — passion og varme gør dit fundament levende.', kontrolleret_af: 'Træ kontrollerer din Jord — vækst og forandring forhindrer stagnation.' },
+  'METAL': { naerer: 'Dit Metal nærer Vand — din klarhed og evne til at slippe beriger dybden.', kontrollerer: 'Metal kontrollerer Træ — din præcision giver ukontrolleret vækst form.', naeret_af: 'Jord nærer dit Metal — stabilitet og omsorg giver din klarhed varme.', kontrolleret_af: 'Ild kontrollerer dit Metal — varme og forbindelse forhindrer isolation.' }
+};
+
+// ---- Forløb: Sæsonbaserede eksterne links ----
+
+var FORLOB_DATA = {
+  'Vinter': { title: 'Vinterforl\u00f8bet', subtitle: 'F\u00f8lg \u00e5rets energi sammen med andre kvinder. Yin yoga, vejrtr\u00e6kning, refleksion \u2014 og et f\u00e6llesskab tilpasset vinterens stille energi.', url: 'https://isabelleeita.dk' },
+  'For\u00e5r': { title: 'For\u00e5rsforl\u00f8bet', subtitle: 'Ny energi bryder frem. \u00d8velser, kost og f\u00e6llesskab der matcher for\u00e5rets Tr\u00e6-energi og nye begyndelser.', url: 'https://isabelleeita.dk' },
+  'Sommer': { title: 'Sommerforl\u00f8bet', subtitle: 'Ildens \u00e5rstid. Bevægelse, forbindelse og glæde \u2014 et forl\u00f8b der fejrer sommerens fulde energi.', url: 'https://isabelleeita.dk' },
+  'Sensommer': { title: 'Sensommerforl\u00f8bet', subtitle: 'Jordens tid. N\u00e6ring, omsorg og fordøjelse af sommerens oplevelser \u2014 sammen med andre kvinder.', url: 'https://isabelleeita.dk' },
+  'Efter\u00e5r': { title: 'Efter\u00e5rsforl\u00f8bet', subtitle: 'Metallets \u00e5rstid. Slip det overfl\u00f8dige og find det essentielle \u2014 guidet af Isabelle.', url: 'https://isabelleeita.dk' }
+};
+
+// ---- Extended Yin Yoga data (5 elements × full poses) ----
+
+var YIN_YOGA_FULL = {
+  'VAND': [
+    { pose: 'Butterfly (Baddha Konasana)', desc: '\u00c5bner hofterne og stimulerer nyremeridianen. Sid med fodsåler mod hinanden, fold fremover.', tid: '3\u20135 min', meridian: 'Nyre \u00B7 Bl\u00e6re' },
+    { pose: 'Liggende Butterfly (Supta Baddha Konasana)', desc: 'Samme position men liggende p\u00e5 ryggen. \u00c5bner bryst og hofte. Dyb afslapning.', tid: '5\u201310 min', meridian: 'Nyre \u00B7 Hjerte' },
+    { pose: 'Caterpillar (Paschimottanasana)', desc: 'Foroverbøjning med strakte ben. Beroer nervesystemet og n\u00e6rer nyrerne.', tid: '3\u20135 min', meridian: 'Bl\u00e6re \u00B7 Nyre' }
+  ],
+  'TR\u00C6': [
+    { pose: 'Dragonfly (Straddle)', desc: 'Bredt spreddede ben med foroverbøjning. \u00c5bner inderlår og lever/galdeblære.', tid: '3\u20135 min', meridian: 'Lever \u00B7 Galdeblære' },
+    { pose: 'Sleeping Swan (Pigeon)', desc: 'Dyb hofteåbner med \u00e9t ben bøjet foran. Frigør stagneret energi i hoften.', tid: '3\u20135 min pr side', meridian: 'Galdeblære \u00B7 Lever' },
+    { pose: 'Firben (Lizard)', desc: 'Dybt lungeudstræk. Intens hofteåbner der stimulerer levermeridianen.', tid: '3\u20135 min pr side', meridian: 'Lever \u00B7 Milt' }
+  ],
+  'ILD': [
+    { pose: 'Melting Heart (Anahatasana)', desc: '\u00c5bner bryst og hjertemeridian. Armene strakt frem, brystet synker mod gulvet.', tid: '3\u20135 min', meridian: 'Hjerte \u00B7 Tyndtarm' },
+    { pose: '\u00d8rnens Vinger (Eagle Arms)', desc: 'Armene krydset i \u00f8rneposition. \u00c5bner skuldrene og rummet mellem skulderbladene.', tid: '2\u20133 min pr side', meridian: 'Hjerte \u00B7 Perikardium' },
+    { pose: 'Sphinx (Salamba Bhujangasana)', desc: 'Mild rygbøjning på underarmene. \u00c5bner brystet og stimulerer hjertet.', tid: '3\u20135 min', meridian: 'Hjerte \u00B7 Mave' }
+  ],
+  'JORD': [
+    { pose: 'Barnet (Balasana)', desc: 'Hvileposition med panden mod gulvet. N\u00e6rer milten og giver dyb tryghed.', tid: '3\u20135 min', meridian: 'Milt \u00B7 Mave' },
+    { pose: 'Square (Firkantet Pigeon)', desc: 'Begge skinneben parallelle i firkant foran kroppen. Dyb hofteåbner.', tid: '3\u20135 min pr side', meridian: 'Milt \u00B7 Galdeblære' },
+    { pose: 'Liggende Drejning (Supine Twist)', desc: 'Liggende p\u00e5 ryggen med knæene til siden. Masserer indre organer.', tid: '3\u20135 min pr side', meridian: 'Mave \u00B7 Milt' }
+  ],
+  'METAL': [
+    { pose: '\u00c5ben Vinge (Open Wing)', desc: 'Liggende p\u00e5 maven med \u00e9n arm strakt ud. \u00c5bner brystkassen og lungerne.', tid: '3\u20135 min pr side', meridian: 'Lunger \u00B7 Tyktarm' },
+    { pose: 'Bananform (Banana Pose)', desc: 'Liggende p\u00e5 ryggen i en bue. Str\u00e6kker hele siden og åbner lungemeridianerne.', tid: '3\u20135 min pr side', meridian: 'Lunger \u00B7 Galdeblære' },
+    { pose: 'Fisk (Matsyasana)', desc: 'Rygb\u00f8jning med åbent bryst. Stimulerer lungerne og frigør sorg.', tid: '2\u20134 min', meridian: 'Lunger \u00B7 Hjerte' }
+  ]
+};
 
 // ---- Cyklusser i Cyklusser: Cyklus-til-cyklus interaktioner ----
 
@@ -1301,7 +1672,9 @@ function initIdagScreen() {
 
   // Render new home sections
   renderDynamiskTekst();
+  renderNotifikationer();
   renderKontekstuelleForslag();
+  renderForloebCard();
   renderIdagCheckin();
   renderHovedkort();
 }
@@ -2474,13 +2847,20 @@ const App = {
     'min-praksis': 'screens/min-praksis.html',
     'min-rejse': 'screens/min-rejse.html',
     'cyklusser-i-cyklusser': 'screens/cyklusser-i-cyklusser.html',
-    'min-udvikling': 'screens/min-udvikling.html'
+    'min-udvikling': 'screens/min-udvikling.html',
+    'de-ni-livsfaser': 'screens/de-ni-livsfaser.html',
+    'livsfase-detail': 'screens/livsfase-detail.html',
+    'de-fire-uger': 'screens/de-fire-uger.html',
+    'refleksion': 'screens/refleksion.html',
+    'kontrolcyklussen': 'screens/kontrolcyklussen.html',
+    'foelelser': 'screens/foelelser.html',
+    'yin-yoga': 'screens/yin-yoga.html'
   },
 
   // Niveau 1 skærme (tema-overblik)
   niveau1: ['mine-cyklusser', 'mine-relationer', 'min-praksis', 'min-rejse'],
   // Niveau 2 skærme (specifikt indhold)
-  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling'],
+  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga'],
 
   init() {
     const user = localStorage.getItem('user');
@@ -2501,7 +2881,14 @@ const App = {
     'tidsrejse': 'mine-cyklusser',
     'relationer': 'mine-relationer',
     'favoritter': 'min-rejse',
-    'min-udvikling': 'min-rejse'
+    'min-udvikling': 'min-rejse',
+    'de-ni-livsfaser': 'mine-cyklusser',
+    'livsfase-detail': 'de-ni-livsfaser',
+    'de-fire-uger': 'mine-cyklusser',
+    'refleksion': 'min-praksis',
+    'kontrolcyklussen': 'mine-cyklusser',
+    'foelelser': 'min-praksis',
+    'yin-yoga': 'min-praksis'
   },
 
   goBack() {
@@ -2558,7 +2945,9 @@ const App = {
       const response = await fetch(this.screens[screenName] + '?v=' + Date.now());
       if (response.ok) {
         content.innerHTML = await response.text();
-        if (screenName === 'idag') {
+        if (screenName === 'onboarding') {
+          Onboarding.renderPhaseFigure();
+        } else if (screenName === 'idag') {
           initIdagScreen();
         } else if (screenName === 'samlede-indsigt') {
           initSamledeIndsigtScreen();
@@ -2580,6 +2969,20 @@ const App = {
           initCyklusserICyklusserScreen();
         } else if (screenName === 'min-udvikling') {
           initMinUdviklingScreen();
+        } else if (screenName === 'de-ni-livsfaser') {
+          initDeNiLivsfaserScreen();
+        } else if (screenName === 'livsfase-detail') {
+          initLivsfaseDetailScreen();
+        } else if (screenName === 'de-fire-uger') {
+          initDeFireUgerScreen();
+        } else if (screenName === 'refleksion') {
+          initRefleksionScreen();
+        } else if (screenName === 'kontrolcyklussen') {
+          initKontrolcyklussenScreen();
+        } else if (screenName === 'foelelser') {
+          initFoelelserScreen();
+        } else if (screenName === 'yin-yoga') {
+          initYinYogaScreen();
         }
       } else {
         content.innerHTML = '<p>Indhold ikke tilg\u00E6ngeligt.</p>';
@@ -2685,7 +3088,10 @@ function initMineCyklusserScreen() {
     { screen: 'tidsrejse', title: 'Forst\u00e5 din fortid', subtitle: 'Se tilbage p\u00e5 en bestemt dag eller periode i dit liv. M\u00e5ske var der et \u00e5r, hvor alt f\u00f8ltes tungt \u2014 eller en tid med uforklarlig energi. Dine cyklusser kan vise dig hvorfor.', onclick: "navigateToTidsrejse('fortid-selv')" },
     { screen: 'tidsrejse', title: 'Forbered din fremtid', subtitle: 'Hvilke cyklusser venter dig om et halvt \u00e5r, om fem \u00e5r? Din krop ved allerede hvad der kommer. Her kan du m\u00f8de det p\u00e5 forh\u00e5nd.', onclick: "navigateToTidsrejse('fremtid-selv')" },
     { screen: 'alle-faser', title: 'Kroppens store overgange', subtitle: 'Fra pubertetens Tr\u00e6-energi til overgangsalderens Metal \u2014 din krop gennemg\u00e5r vendepunkter, der \u00e6ndrer alt. Se dem i sammenh\u00e6ng med dine cyklusser.' },
-    { screen: 'samlede-indsigt', title: 'Samlet indsigt for i dag', subtitle: 'Yoga, kost, fokusomr\u00e5der og konkrete forslag tilpasset netop din energi i dag.' }
+    { screen: 'samlede-indsigt', title: 'Samlet indsigt for i dag', subtitle: 'Yoga, kost, fokusomr\u00e5der og konkrete forslag tilpasset netop din energi i dag.' },
+    { screen: 'de-ni-livsfaser', title: 'De Ni Livsfaser', subtitle: 'Ni syv-\u00e5rs cyklusser fra f\u00f8dsel til visdom. Udforsk hver fase i dybden \u2014 krop, sind, element og konkrete anbefalinger.' },
+    { screen: 'de-fire-uger', title: 'De Fire Uger', subtitle: 'Din m\u00e5nedscyklus udfoldede \u2014 fire uger, fire elementer, fire kvaliteter af energi. Se hvor du er lige nu.' },
+    { screen: 'kontrolcyklussen', title: 'Elementernes Samspil', subtitle: 'Hvert element n\u00e6rer \u00e9t og kontrollerer et andet. Vand n\u00e6rer Tr\u00e6 men kontrollerer Ild. Udforsk kroppens naturlige regulering.' }
   ];
 
   var html = '';
@@ -2839,7 +3245,10 @@ function initMinPraksisScreen() {
   var kort = [
     { screen: 'samlede-indsigt', title: '\u00d8velser \u2014 Forskellige indgange', subtitle: 'Seks veje ind i kroppen \u2014 fra yin yogas dybe str\u00e6k til EFT-tappingens lette banker. Nogle dage kalder p\u00e5 bev\u00e6gelse, andre p\u00e5 stilhed. Find den indgang der passer til dig.' },
     { screen: 'samlede-indsigt', title: 'Kost & N\u00e6ring', subtitle: 'B\u00e5de kinesisk medicin og ayurveda ved, at mad er medicin. Her finder du f\u00f8devarer, urter og tilberedning der st\u00f8tter dit ' + ELEMENT_LABELS[primaryEl] + '-element.' },
-    { screen: 'samlede-indsigt', title: 'Fokusomr\u00e5der', subtitle: 'Hvad kan du rette opm\u00e6rksomheden mod i dag? M\u00e5ske er det stilhed, m\u00e5ske bev\u00e6gelse. Dine cyklusser peger i en retning \u2014 her kan du f\u00f8lge den.' }
+    { screen: 'samlede-indsigt', title: 'Fokusomr\u00e5der', subtitle: 'Hvad kan du rette opm\u00e6rksomheden mod i dag? M\u00e5ske er det stilhed, m\u00e5ske bev\u00e6gelse. Dine cyklusser peger i en retning \u2014 her kan du f\u00f8lge den.' },
+    { screen: 'yin-yoga', title: 'Yin Yoga', subtitle: 'Femten positioner fordelt p\u00e5 fem elementer. Find de str\u00e6k der st\u00f8tter netop dit ' + ELEMENT_LABELS[primaryEl] + '-element lige nu.' },
+    { screen: 'refleksion', title: 'Refleksion', subtitle: 'Tag et stille \u00f8jeblik. Sp\u00f8rgsm\u00e5l tilpasset din livsfase \u2014 du beh\u00f8ver ikke svare, bare lytte indad.' },
+    { screen: 'foelelser', title: 'F\u00f8lelsernes Hjul', subtitle: 'Alle f\u00f8lelser h\u00f8rer til et element. Udforsk hvad dine f\u00f8lelser fort\u00e6ller om din krop og energi.' }
   ];
 
   var html = '';
@@ -2853,6 +3262,17 @@ function initMinPraksisScreen() {
     html += '<span class="tema__kort-arrow">\u203A</span>';
     html += '</div>';
   }
+
+  // Forløb card (external)
+  ensureIdagData();
+  var seasonName = window._idagData ? window._idagData.season.season : 'Vinter';
+  var forlob = FORLOB_DATA[seasonName] || FORLOB_DATA['Vinter'];
+  html += '<div class="forloeb-kort" onclick="window.open(\'' + forlob.url + '\', \'_blank\')">';
+  html += '<span class="forloeb-kort__label">Isabelles forl\u00f8b \u00B7 Eksternt</span>';
+  html += '<h3 class="forloeb-kort__title">' + forlob.title + '</h3>';
+  html += '<p class="forloeb-kort__subtitle">' + forlob.subtitle + '</p>';
+  html += '<span class="forloeb-kort__link">L\u00e6s mere \u2192</span>';
+  html += '</div>';
 
   listEl.innerHTML = html;
 }
@@ -3856,6 +4276,74 @@ window.renderVennTwo = renderVennTwo;
 window.renderVennThree = renderVennThree;
 window.renderVennFour = renderVennFour;
 
+// ---- Circular Figure: Reusable ring of circles ----
+
+var CIRCLE_PALETTE = ['#244382','#2E5196','#3860AA','#426FBE','#4F7DC8','#5E8AD0','#6E97D6','#7FA4DC','#8BA0D1'];
+
+function renderCircularFigure(opts) {
+  var items = opts.items || [];
+  var n = items.length;
+  var W = opts.width || 340;
+  var H = opts.height || 340;
+  var cR = opts.centerRadius || (n > 6 ? 52 : 44);
+  var iR = opts.itemRadius || (n > 6 ? 30 : 34);
+  var ringR = opts.ringRadius || (W / 2 - iR - 8);
+  var cx = W / 2, cy = H / 2;
+  var activeIdx = (opts.activeIndex != null) ? opts.activeIndex : -1;
+  var font = VENN_FONT;
+  var svg = '<div class="circular-fig" style="max-width:' + W + 'px;margin:0 auto"><svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" xmlns="http://www.w3.org/2000/svg">';
+
+  // Center circle
+  svg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + cR + '" fill="#F0F4F8" stroke="#244382" stroke-width="2"/>';
+  var cLabel = opts.centerLabel || '';
+  var cSub = opts.centerSublabel || '';
+  if (cLabel) {
+    var cfs = cLabel.length > 12 ? 9 : (cLabel.length > 8 ? 10 : 11);
+    svg += '<text x="' + cx + '" y="' + (cy - (cSub ? 5 : 0)) + '" text-anchor="middle" dominant-baseline="central" font-family="' + font + '" font-size="' + cfs + '" font-weight="700" fill="#244382">' + cLabel + '</text>';
+  }
+  if (cSub) {
+    svg += '<text x="' + cx + '" y="' + (cy + 10) + '" text-anchor="middle" dominant-baseline="central" font-family="' + font + '" font-size="9" fill="#666">' + cSub + '</text>';
+  }
+
+  // Item circles
+  var startAngle = -Math.PI / 2; // top
+  for (var i = 0; i < n; i++) {
+    var angle = startAngle + (2 * Math.PI * i / n);
+    var ix = cx + ringR * Math.cos(angle);
+    var iy = cy + ringR * Math.sin(angle);
+    var item = items[i];
+    var isActive = (i === activeIdx);
+    var col = item.color || CIRCLE_PALETTE[i % CIRCLE_PALETTE.length];
+    var fillOpacity = isActive ? 0.25 : 0.1;
+    var strokeW = isActive ? 3 : 1.5;
+    var r = isActive ? iR + 3 : iR;
+
+    // Glow for active
+    if (isActive) {
+      svg += '<circle cx="' + ix + '" cy="' + iy + '" r="' + (r + 4) + '" fill="none" stroke="' + col + '" stroke-width="1" opacity="0.3"/>';
+    }
+
+    // Clickable circle
+    var onclick = item.onClick ? ' onclick="' + item.onClick + '" style="cursor:pointer"' : '';
+    svg += '<circle cx="' + ix + '" cy="' + iy + '" r="' + r + '" fill="' + col + '" fill-opacity="' + fillOpacity + '" stroke="' + col + '" stroke-width="' + strokeW + '"' + onclick + '/>';
+
+    // Label (main)
+    var label = item.label || '';
+    var fs = label.length > 10 ? 9 : 10;
+    svg += '<text x="' + ix + '" y="' + (iy - (item.sublabel ? 4 : 0)) + '" text-anchor="middle" dominant-baseline="central" font-family="' + font + '" font-size="' + fs + '" font-weight="' + (isActive ? '700' : '600') + '" fill="' + (isActive ? '#244382' : '#333') + '"' + onclick + '>' + label + '</text>';
+
+    // Sublabel
+    if (item.sublabel) {
+      svg += '<text x="' + ix + '" y="' + (iy + 9) + '" text-anchor="middle" dominant-baseline="central" font-family="' + font + '" font-size="8" fill="#666"' + onclick + '>' + item.sublabel + '</text>';
+    }
+  }
+
+  svg += '</svg></div>';
+  return svg;
+}
+
+window.renderCircularFigure = renderCircularFigure;
+
 // ---- Del / Gem / Kopier — Global Action Bar ----
 
 function renderActionBar(screenName) {
@@ -4001,7 +4489,7 @@ var SEARCH_CATEGORIES = [
   {
     id: 'foelelser', title: 'Følelser',
     desc: 'Vrede, frygt, bekymring, sorg og glæde — hver følelse hører til et element. Forstå hvad din krop prøver at fortælle dig, og find veje til at møde det med omsorg.',
-    screen: 'samlede-indsigt',
+    screen: 'foelelser',
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>'
   },
   {
@@ -4273,6 +4761,725 @@ window.handleSearch = handleSearch;
 window.handleSearchTag = handleSearchTag;
 window.handleSearchCategory = handleSearchCategory;
 window.renderSearchCategories = renderSearchCategories;
+
+// ---- Feature: De Ni Livsfaser ----
+
+function navigateToFaseDetail(phaseNum) {
+  window._selectedPhase = phaseNum;
+  App.loadScreen('livsfase-detail');
+}
+window.navigateToFaseDetail = navigateToFaseDetail;
+
+function initDeNiLivsfaserScreen() {
+  var el = document.getElementById('livsfaser-circle-nav');
+  var listEl = document.getElementById('livsfaser-list');
+  if (!el) return;
+
+  var userData = JSON.parse(localStorage.getItem('user') || '{}');
+  var userPhase = userData.phase || 0;
+
+  var items = [];
+  for (var i = 1; i <= 9; i++) {
+    var p = PHASE_DATA[i];
+    items.push({
+      label: 'Fase ' + i,
+      sublabel: p.startAge + '\u2013' + p.endAge + ' \u00e5r',
+      onClick: 'navigateToFaseDetail(' + i + ')'
+    });
+  }
+
+  el.innerHTML = renderCircularFigure({
+    items: items,
+    centerLabel: 'De 9',
+    centerSublabel: 'Livsfaser',
+    activeIndex: userPhase - 1,
+    width: 340,
+    height: 340
+  });
+
+  // Also render as list below
+  if (listEl) {
+    var html = '';
+    for (var j = 1; j <= 9; j++) {
+      var ph = PHASE_DATA[j];
+      var isCurrent = (j === userPhase);
+      html += '<div class="tema__kort' + (isCurrent ? ' tema__kort--current' : '') + '" onclick="navigateToFaseDetail(' + j + ')">';
+      html += '<div class="tema__kort-content">';
+      html += '<h3 class="tema__kort-title">Fase ' + j + ': ' + ph.name + '</h3>';
+      html += '<p class="tema__kort-subtitle">' + ph.startAge + '\u2013' + ph.endAge + ' \u00e5r \u00B7 ' + ELEMENT_LABELS[ph.element] + (isCurrent ? ' \u00B7 Din aktuelle fase' : '') + '</p>';
+      html += '</div>';
+      html += '<span class="tema__kort-arrow">\u203A</span>';
+      html += '</div>';
+    }
+    listEl.innerHTML = html;
+  }
+}
+
+function initLivsfaseDetailScreen() {
+  var el = document.getElementById('livsfase-detail-content');
+  if (!el) return;
+
+  var phaseNum = window._selectedPhase || 1;
+  var phase = PHASE_DATA[phaseNum];
+  var detail = LIVSFASE_DETAIL[phaseNum];
+  if (!phase || !detail) return;
+
+  var html = '';
+
+  // Title + badge
+  html += '<div class="livsfase-detail__header">';
+  html += '<div class="livsfase-detail__badge">' + phaseNum + '</div>';
+  html += '<h2 class="livsfase-detail__title">' + phase.name + '</h2>';
+  html += '<p class="livsfase-detail__range">' + phase.startAge + '\u2013' + phase.endAge + ' \u00e5r \u00B7 ' + ELEMENT_LABELS[phase.element] + '-element</p>';
+  html += '</div>';
+
+  // Intro
+  html += '<p class="livsfase-detail__intro">' + detail.introText + '</p>';
+
+  // Venn diagram
+  html += '<div class="livsfase-detail__venn">' + renderVennTwo({
+    leftTitle: 'ELEMENT',
+    leftLines: [ELEMENT_LABELS[phase.element], detail.organPar, detail.smag + ' \u00B7 ' + detail.aarstid],
+    rightTitle: 'TEMAER',
+    rightLines: detail.livstemaer.slice(0, 3),
+    overlapTitle: 'KROPPEN VED',
+    overlapLines: [detail.folelser.balance.split(',')[0].trim()],
+    leftElement: phase.element,
+    rightElement: phase.element
+  }) + '</div>';
+
+  // Info box
+  html += '<div class="livsfase-detail__info">';
+  html += '<div class="livsfase-detail__info-row"><span class="livsfase-detail__info-label">Element</span><span>' + ELEMENT_LABELS[phase.element] + ' \u2014 ' + ELEMENT_QUALITIES[phase.element] + '</span></div>';
+  html += '<div class="livsfase-detail__info-row"><span class="livsfase-detail__info-label">Organpar</span><span>' + detail.organPar + '</span></div>';
+  html += '<div class="livsfase-detail__info-row"><span class="livsfase-detail__info-label">I balance</span><span>' + detail.folelser.balance + '</span></div>';
+  html += '<div class="livsfase-detail__info-row"><span class="livsfase-detail__info-label">I ubalance</span><span>' + detail.folelser.ubalance + '</span></div>';
+  html += '<div class="livsfase-detail__info-row"><span class="livsfase-detail__info-label">Vedisk kobling</span><span>' + detail.vediskKobling + '</span></div>';
+  html += '</div>';
+
+  // Body text
+  html += '<div class="livsfase-detail__section">';
+  html += '<h3 class="livsfase-detail__section-title">Kroppen i denne fase</h3>';
+  html += '<p class="livsfase-detail__section-text">' + detail.kropTekst + '</p>';
+  html += '</div>';
+
+  // Mind text
+  html += '<div class="livsfase-detail__section">';
+  html += '<h3 class="livsfase-detail__section-title">Sindet i denne fase</h3>';
+  html += '<p class="livsfase-detail__section-text">' + detail.sindTekst + '</p>';
+  html += '</div>';
+
+  // Recommendations
+  html += '<div class="livsfase-detail__recs">';
+  html += '<h3 class="livsfase-detail__section-title">Anbefalinger</h3>';
+  var recs = [detail.oevelse, detail.kost, detail.healingLyd];
+  var recLabels = ['\u00d8velse', 'Kost', 'Healing-lyd'];
+  for (var r = 0; r < recs.length; r++) {
+    html += '<div class="livsfase-detail__rec-card">';
+    html += '<p class="livsfase-detail__rec-label">' + recLabels[r] + '</p>';
+    html += '<p class="livsfase-detail__rec-title">' + recs[r].title + '</p>';
+    html += '<p class="livsfase-detail__rec-desc">' + recs[r].desc + '</p>';
+    html += '</div>';
+  }
+  html += '</div>';
+
+  // Reflections
+  html += '<div class="livsfase-detail__section">';
+  html += '<h3 class="livsfase-detail__section-title">Tjek ind med dig selv</h3>';
+  for (var q = 0; q < detail.refleksioner.length; q++) {
+    html += '<p class="livsfase-detail__question">\u2022 ' + detail.refleksioner[q] + '</p>';
+  }
+  html += '</div>';
+
+  // Nav: prev/next
+  html += '<div class="livsfase-detail__nav">';
+  if (phaseNum > 1) {
+    html += '<button class="livsfase-detail__nav-btn" onclick="navigateToFaseDetail(' + (phaseNum - 1) + ')">\u2039 Fase ' + (phaseNum - 1) + '</button>';
+  } else {
+    html += '<span></span>';
+  }
+  if (phaseNum < 9) {
+    html += '<button class="livsfase-detail__nav-btn" onclick="navigateToFaseDetail(' + (phaseNum + 1) + ')">Fase ' + (phaseNum + 1) + ' \u203A</button>';
+  } else {
+    html += '<span></span>';
+  }
+  html += '</div>';
+
+  // Action bar
+  html += renderActionBar('livsfase-detail');
+
+  el.innerHTML = html;
+}
+
+// ---- Feature: De Fire Uger ----
+
+function renderFourWeekCircle(currentWeek, isMenstrual, cycleDay) {
+  var W = 300, H = 300, cx = W/2, cy = H/2, R = 120;
+  var weekColors = ['#4A7FB5', '#5B8C5A', '#C85A54', '#8B9A9D'];
+  var weekLabels = isMenstrual ? ['Uge 1', 'Uge 2', 'Uge 3', 'Uge 4'] : ['Nym\u00e5ne', 'Tiltagende', 'Fuldm\u00e5ne', 'Aftagende'];
+
+  var svg = '<div class="circular-fig" style="max-width:' + W + 'px;margin:0 auto"><svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">';
+
+  // Draw 4 sectors
+  for (var i = 0; i < 4; i++) {
+    var startA = -Math.PI/2 + (Math.PI/2 * i);
+    var endA = startA + Math.PI/2;
+    var isActive = (i === (currentWeek - 1));
+    var x1 = cx + R * Math.cos(startA);
+    var y1 = cy + R * Math.sin(startA);
+    var x2 = cx + R * Math.cos(endA);
+    var y2 = cy + R * Math.sin(endA);
+    var opacity = isActive ? 0.35 : 0.12;
+    var strokeW = isActive ? 3 : 1;
+
+    svg += '<path d="M ' + cx + ' ' + cy + ' L ' + x1 + ' ' + y1 + ' A ' + R + ' ' + R + ' 0 0 1 ' + x2 + ' ' + y2 + ' Z" fill="' + weekColors[i] + '" fill-opacity="' + opacity + '" stroke="' + weekColors[i] + '" stroke-width="' + strokeW + '"/>';
+
+    // Label
+    var midA = startA + Math.PI/4;
+    var lx = cx + (R * 0.6) * Math.cos(midA);
+    var ly = cy + (R * 0.6) * Math.sin(midA);
+    svg += '<text x="' + lx + '" y="' + (ly - 5) + '" text-anchor="middle" font-family="' + VENN_FONT + '" font-size="10" font-weight="' + (isActive ? '700' : '500') + '" fill="#333">' + weekLabels[i] + '</text>';
+    svg += '<text x="' + lx + '" y="' + (ly + 8) + '" text-anchor="middle" font-family="' + VENN_FONT + '" font-size="8" fill="#666">' + ELEMENT_LABELS[['VAND','TR\u00C6','ILD','JORD'][i]] + '</text>';
+  }
+
+  // Center
+  svg += '<circle cx="' + cx + '" cy="' + cy + '" r="28" fill="#F0F4F8" stroke="#244382" stroke-width="1.5"/>';
+  svg += '<text x="' + cx + '" y="' + (cy - 5) + '" text-anchor="middle" dominant-baseline="central" font-family="' + VENN_FONT + '" font-size="10" fill="#666">' + (isMenstrual ? 'Dag' : 'Fase') + '</text>';
+  svg += '<text x="' + cx + '" y="' + (cy + 9) + '" text-anchor="middle" dominant-baseline="central" font-family="' + VENN_FONT + '" font-size="14" font-weight="700" fill="#244382">' + (cycleDay || currentWeek) + '</text>';
+
+  svg += '</svg></div>';
+  return svg;
+}
+
+function initDeFireUgerScreen() {
+  var circleEl = document.getElementById('fire-uger-circle');
+  var currentEl = document.getElementById('fire-uger-current');
+  var weeksEl = document.getElementById('fire-uger-weeks');
+  if (!circleEl) return;
+
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  var isMenstrual = user.tracksMenstruation && user.lastPeriodDate;
+  var currentWeek = 1;
+  var weekData = isMenstrual ? MENSTRUAL_WEEK_DATA : MOON_CYCLE_DATA;
+
+  var cycleDay = 1;
+  if (isMenstrual) {
+    var mData = calculateMenstrualDay(user.lastPeriodDate, new Date());
+    cycleDay = mData.day;
+    currentWeek = cycleDay <= 7 ? 1 : cycleDay <= 14 ? 2 : cycleDay <= 21 ? 3 : 4;
+  } else {
+    // Moon phase approximation
+    var now = new Date();
+    var moonDays = Math.floor((now.getTime() / 86400000 - 10.5) % 29.53);
+    currentWeek = moonDays < 7 ? 1 : moonDays < 15 ? 2 : moonDays < 22 ? 3 : 4;
+    cycleDay = moonDays + 1;
+  }
+
+  circleEl.innerHTML = renderFourWeekCircle(currentWeek, isMenstrual, cycleDay);
+
+  // Current week highlight
+  if (currentEl) {
+    var cw = weekData[currentWeek];
+    currentEl.innerHTML = '<p class="tema__kontekst-label">' + (isMenstrual ? 'Din aktuelle uge' : 'Aktuel m\u00e5nefase') + '</p>' +
+      '<p class="tema__kontekst-value">' + cw.name + '</p>' +
+      '<p class="tema__kontekst-text">' + cw.kvalitet + ' \u00B7 ' + ELEMENT_LABELS[cw.element] + '-element</p>';
+  }
+
+  // All 4 weeks
+  if (weeksEl) {
+    var html = '';
+    for (var w = 1; w <= 4; w++) {
+      var wk = weekData[w];
+      var isActive = (w === currentWeek);
+      html += '<div class="tema__kort' + (isActive ? ' tema__kort--current' : '') + '">';
+      html += '<div class="tema__kort-content">';
+      html += '<h3 class="tema__kort-title">' + wk.name + '</h3>';
+      if (isMenstrual) {
+        html += '<p class="tema__kort-subtitle">' + wk.dagRange + ' \u00B7 ' + ELEMENT_LABELS[wk.element] + ' \u00B7 ' + wk.kvalitet + '</p>';
+        html += '<p class="livsfase-detail__section-text" style="margin-top:8px">' + wk.bodyText + '</p>';
+        html += '<p class="livsfase-detail__section-text" style="font-style:italic;margin-top:4px">' + wk.feelingsText + '</p>';
+        html += '<p style="margin-top:8px;font-size:13px;color:#666">' + wk.recommendations.join(' \u00B7 ') + '</p>';
+      } else {
+        html += '<p class="tema__kort-subtitle">' + ELEMENT_LABELS[wk.element] + ' \u00B7 ' + wk.kvalitet + '</p>';
+        html += '<p class="livsfase-detail__section-text" style="margin-top:8px">' + wk.text + '</p>';
+      }
+      html += '</div></div>';
+    }
+    html += renderActionBar('de-fire-uger');
+    weeksEl.innerHTML = html;
+  }
+}
+
+// ---- Feature: Refleksion ----
+
+function initRefleksionScreen() {
+  var vennEl = document.getElementById('refleksion-venn');
+  var contentEl = document.getElementById('refleksion-content');
+  if (!contentEl) return;
+
+  // Venn diagram
+  if (vennEl) {
+    vennEl.innerHTML = renderVennTwo({
+      leftTitle: 'SP\u00d8RGSM\u00c5LET',
+      leftLines: ['Hvad b\u00e6rer du', 'lige nu?'],
+      rightTitle: 'STILHEDEN',
+      rightLines: ['Lad svaret komme.', 'Det beh\u00f8ver ikke ord.'],
+      overlapTitle: 'INDSIGTEN',
+      overlapLines: ['*Refleksion er en gave', '*du giver dig selv']
+    });
+  }
+
+  var userData = JSON.parse(localStorage.getItem('user') || '{}');
+  var phase = userData.phase || 5;
+  var questions = REFLEKSION_DATA[phase] || REFLEKSION_DATA[5];
+  var savedReflections = JSON.parse(localStorage.getItem('livsfaser_reflections') || '[]');
+
+  var html = '<h3 class="livsfase-detail__section-title" style="margin-top:24px">Refleksioner for Fase ' + phase + ': ' + (PHASE_DATA[phase] ? PHASE_DATA[phase].name : '') + '</h3>';
+
+  for (var i = 0; i < questions.length; i++) {
+    var qId = 'refleksion-' + phase + '-' + i;
+    // Check if there's a saved note for this question
+    var existing = '';
+    for (var s = savedReflections.length - 1; s >= 0; s--) {
+      if (savedReflections[s].phase === phase && savedReflections[s].questionIndex === i) {
+        existing = savedReflections[s].note || '';
+        break;
+      }
+    }
+    html += '<div class="refleksion__question-card">';
+    html += '<p class="refleksion__question">' + questions[i] + '</p>';
+    html += '<textarea class="refleksion__notes" id="' + qId + '" placeholder="Skriv hvad du vil huske\u2026">' + escapeHtml(existing) + '</textarea>';
+    html += '</div>';
+  }
+
+  html += '<button class="onboarding__btn" style="margin-top:16px" onclick="saveRefleksion()">Gem refleksion</button>';
+  html += renderActionBar('refleksion');
+  contentEl.innerHTML = html;
+}
+
+function saveRefleksion() {
+  var userData = JSON.parse(localStorage.getItem('user') || '{}');
+  var phase = userData.phase || 5;
+  var questions = REFLEKSION_DATA[phase] || REFLEKSION_DATA[5];
+  var saved = JSON.parse(localStorage.getItem('livsfaser_reflections') || '[]');
+
+  for (var i = 0; i < questions.length; i++) {
+    var textarea = document.getElementById('refleksion-' + phase + '-' + i);
+    if (textarea && textarea.value.trim()) {
+      saved.push({
+        date: getLocalDateStr(new Date()),
+        phase: phase,
+        questionIndex: i,
+        question: questions[i],
+        note: textarea.value.trim()
+      });
+    }
+  }
+  localStorage.setItem('livsfaser_reflections', JSON.stringify(saved));
+  showActionToast('Refleksion gemt \u2713');
+}
+window.saveRefleksion = saveRefleksion;
+
+// ---- Feature: Kontrolcyklussen ----
+
+function renderTCMCycleDiagram(dominantElement) {
+  var W = 320, H = 320, cx = W/2, cy = H/2, R = 110;
+  var elOrder = ['VAND', 'TR\u00C6', 'ILD', 'JORD', 'METAL'];
+  var font = VENN_FONT;
+
+  var svg = '<div class="circular-fig" style="max-width:' + W + 'px;margin:0 auto"><svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">';
+
+  // Positions (pentagon, top start)
+  var pos = [];
+  for (var i = 0; i < 5; i++) {
+    var angle = -Math.PI/2 + (2*Math.PI*i/5);
+    pos.push({ x: cx + R * Math.cos(angle), y: cy + R * Math.sin(angle) });
+  }
+
+  // Nourishing arrows (outer ring): 0->1->2->3->4->0
+  for (var n = 0; n < 5; n++) {
+    var next = (n + 1) % 5;
+    var mx = (pos[n].x + pos[next].x) / 2;
+    var my = (pos[n].y + pos[next].y) / 2;
+    // Curve outward slightly
+    var outX = mx + (mx - cx) * 0.15;
+    var outY = my + (my - cy) * 0.15;
+    svg += '<path d="M ' + pos[n].x + ' ' + pos[n].y + ' Q ' + outX + ' ' + outY + ' ' + pos[next].x + ' ' + pos[next].y + '" fill="none" stroke="#5B8C5A" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arrowGreen)"/>';
+  }
+
+  // Control arrows (star): 0->2, 1->3, 2->4, 3->0, 4->1
+  var controlPairs = [[0,2],[1,3],[2,4],[3,0],[4,1]];
+  for (var c = 0; c < controlPairs.length; c++) {
+    var from = controlPairs[c][0], to = controlPairs[c][1];
+    svg += '<line x1="' + pos[from].x + '" y1="' + pos[from].y + '" x2="' + pos[to].x + '" y2="' + pos[to].y + '" stroke="#C85A54" stroke-width="1" opacity="0.35" stroke-dasharray="3,4"/>';
+  }
+
+  // Arrow markers
+  svg += '<defs><marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#5B8C5A" opacity="0.6"/></marker></defs>';
+
+  // Element circles
+  for (var e = 0; e < 5; e++) {
+    var el = elOrder[e];
+    var isActive = (el === dominantElement);
+    var cR = isActive ? 28 : 24;
+    svg += '<circle cx="' + pos[e].x + '" cy="' + pos[e].y + '" r="' + cR + '" fill="' + (isActive ? '#244382' : '#F0F4F8') + '" fill-opacity="' + (isActive ? '0.15' : '1') + '" stroke="' + (isActive ? '#244382' : '#7690C1') + '" stroke-width="' + (isActive ? '2.5' : '1.5') + '"/>';
+    svg += '<text x="' + pos[e].x + '" y="' + pos[e].y + '" text-anchor="middle" dominant-baseline="central" font-family="' + font + '" font-size="10" font-weight="' + (isActive ? '700' : '500') + '" fill="' + (isActive ? '#244382' : '#333') + '">' + ELEMENT_LABELS[el] + '</text>';
+  }
+
+  // Legend
+  svg += '<text x="20" y="' + (H-10) + '" font-family="' + font + '" font-size="8" fill="#5B8C5A">\u2014 n\u00e6rende cyklus</text>';
+  svg += '<text x="' + (W-120) + '" y="' + (H-10) + '" font-family="' + font + '" font-size="8" fill="#C85A54">\u2014 kontrollerende cyklus</text>';
+
+  svg += '</svg></div>';
+  return svg;
+}
+
+function initKontrolcyklussenScreen() {
+  var diagramEl = document.getElementById('kontrol-diagram');
+  var dynamiskEl = document.getElementById('kontrol-dynamisk');
+  var detailEl = document.getElementById('kontrol-detail');
+  if (!diagramEl) return;
+
+  ensureIdagData();
+  var elements = window._activeElements || [];
+  var counts = {};
+  for (var i = 0; i < elements.length; i++) counts[elements[i]] = (counts[elements[i]] || 0) + 1;
+  var dominant = elements[0] || 'VAND';
+  var maxC = 0;
+  var keys = Object.keys(counts);
+  for (var j = 0; j < keys.length; j++) { if (counts[keys[j]] > maxC) { maxC = counts[keys[j]]; dominant = keys[j]; } }
+
+  diagramEl.innerHTML = renderTCMCycleDiagram(dominant);
+
+  var kt = KONTROL_TEKST[dominant] || KONTROL_TEKST['VAND'];
+  if (dynamiskEl) {
+    dynamiskEl.innerHTML = '<p class="tema__kontekst-label">Dit dominerende element</p>' +
+      '<p class="tema__kontekst-value">' + ELEMENT_LABELS[dominant] + ' (' + maxC + '/5 cyklusser)</p>' +
+      '<p class="tema__kontekst-text">' + kt.naerer + '</p>';
+  }
+
+  if (detailEl) {
+    var html = '<div class="livsfase-detail__section">';
+    html += '<h3 class="livsfase-detail__section-title">Samspillet lige nu</h3>';
+    var rows = [
+      { label: 'N\u00e6rer', text: kt.naerer },
+      { label: 'Kontrollerer', text: kt.kontrollerer },
+      { label: 'N\u00e6res af', text: kt.naeret_af },
+      { label: 'Kontrolleres af', text: kt.kontrolleret_af }
+    ];
+    for (var r = 0; r < rows.length; r++) {
+      html += '<div class="livsfase-detail__rec-card"><p class="livsfase-detail__rec-label">' + rows[r].label + '</p><p class="livsfase-detail__rec-desc">' + rows[r].text + '</p></div>';
+    }
+    html += '</div>';
+    html += renderActionBar('kontrolcyklussen');
+    detailEl.innerHTML = html;
+  }
+}
+
+// ---- Feature: Følelseshjul ----
+
+function renderEmotionWheel() {
+  var W = 300, H = 300, cx = W/2, cy = H/2, R = 100;
+  var zones = [
+    { label: 'Frygt', sub: 'Angst', element: 'VAND', color: '#4A7FB5' },
+    { label: 'Vrede', sub: 'Frustration', element: 'TR\u00C6', color: '#5B8C5A' },
+    { label: 'Gl\u00e6de', sub: 'Rastl\u00f8shed', element: 'ILD', color: '#C85A54' },
+    { label: 'Bekymring', sub: 'Overt\u00e6nkning', element: 'JORD', color: '#B8956A' },
+    { label: 'Sorg', sub: 'Tomhed', element: 'METAL', color: '#8B9A9D' }
+  ];
+  var font = VENN_FONT;
+
+  var svg = '<div class="circular-fig" style="max-width:' + W + 'px;margin:0 auto"><svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">';
+
+  for (var i = 0; i < 5; i++) {
+    var angle = -Math.PI/2 + (2*Math.PI*i/5);
+    var x = cx + R * Math.cos(angle);
+    var y = cy + R * Math.sin(angle);
+    var z = zones[i];
+    svg += '<circle cx="' + x + '" cy="' + y + '" r="36" fill="' + z.color + '" fill-opacity="0.12" stroke="' + z.color + '" stroke-width="1.5" onclick="showEmotionDetail(\'' + z.element + '\')" style="cursor:pointer"/>';
+    svg += '<text x="' + x + '" y="' + (y-5) + '" text-anchor="middle" font-family="' + font + '" font-size="10" font-weight="600" fill="#333" onclick="showEmotionDetail(\'' + z.element + '\')" style="cursor:pointer">' + z.label + '</text>';
+    svg += '<text x="' + x + '" y="' + (y+8) + '" text-anchor="middle" font-family="' + font + '" font-size="8" fill="#666" onclick="showEmotionDetail(\'' + z.element + '\')" style="cursor:pointer">' + z.sub + '</text>';
+  }
+
+  // Center
+  svg += '<circle cx="' + cx + '" cy="' + cy + '" r="30" fill="#F0F4F8" stroke="#244382" stroke-width="1.5"/>';
+  svg += '<text x="' + cx + '" y="' + (cy-4) + '" text-anchor="middle" font-family="' + font + '" font-size="10" font-weight="700" fill="#244382">HELE</text>';
+  svg += '<text x="' + cx + '" y="' + (cy+8) + '" text-anchor="middle" font-family="' + font + '" font-size="10" font-weight="700" fill="#244382">DIG</text>';
+
+  svg += '</svg></div>';
+  return svg;
+}
+
+function showEmotionDetail(element) {
+  var el = document.getElementById('foelelser-detail');
+  if (!el) return;
+
+  var emotionMap = { 'VAND': ['frygt','angst'], 'TR\u00C6': ['vrede','frustration','irritation'], 'ILD': ['gl\u00e6de','rastl\u00f8shed','uro'], 'JORD': ['bekymring','overt\u00e6nkning'], 'METAL': ['sorg','tomhed'] };
+  var organMap = { 'VAND': 'Nyrer \u00B7 Bl\u00e6re', 'TR\u00C6': 'Lever \u00B7 Galdebl\u00e6re', 'ILD': 'Hjerte \u00B7 Tyndtarm', 'JORD': 'Milt \u00B7 Mave', 'METAL': 'Lunger \u00B7 Tyktarm' };
+
+  var emotions = emotionMap[element] || [];
+  var yoga = INSIGHT_YOGA[element] || [];
+  var food = INSIGHT_FOOD[element] || [];
+
+  var html = '<div class="livsfase-detail__info" style="margin-top:16px">';
+  html += '<div class="livsfase-detail__info-row"><span class="livsfase-detail__info-label">Element</span><span>' + ELEMENT_LABELS[element] + '</span></div>';
+  html += '<div class="livsfase-detail__info-row"><span class="livsfase-detail__info-label">Organpar</span><span>' + organMap[element] + '</span></div>';
+  html += '<div class="livsfase-detail__info-row"><span class="livsfase-detail__info-label">F\u00f8lelser</span><span>' + emotions.map(function(e) { return e.charAt(0).toUpperCase() + e.slice(1); }).join(', ') + '</span></div>';
+  html += '</div>';
+
+  html += '<p class="livsfase-detail__intro" style="margin-top:12px">Disse f\u00f8lelser er ikke problemer der skal l\u00f8ses. De er signaler fra ' + ELEMENT_LABELS[element] + '-elementet \u2014 en invitation til at lytte til det din krop fort\u00e6ller dig.</p>';
+
+  if (yoga.length > 0) {
+    html += '<h3 class="livsfase-detail__section-title" style="margin-top:16px">\u00d8velse</h3>';
+    html += '<div class="livsfase-detail__rec-card"><p class="livsfase-detail__rec-title">' + yoga[0].pose + '</p><p class="livsfase-detail__rec-desc">' + yoga[0].desc + '</p></div>';
+  }
+  if (food.length > 0) {
+    html += '<h3 class="livsfase-detail__section-title">Kost</h3>';
+    html += '<div class="livsfase-detail__rec-card"><p class="livsfase-detail__rec-title">' + food[0].item + '</p><p class="livsfase-detail__rec-desc">' + food[0].desc + '</p></div>';
+  }
+
+  el.innerHTML = html;
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+window.showEmotionDetail = showEmotionDetail;
+
+function initFoelelserScreen() {
+  var wheelEl = document.getElementById('foelelser-wheel');
+  if (!wheelEl) return;
+  wheelEl.innerHTML = renderEmotionWheel();
+}
+
+// ---- Feature: Yin Yoga ----
+
+function initYinYogaScreen() {
+  var selectorEl = document.getElementById('yin-yoga-selector');
+  var posesEl = document.getElementById('yin-yoga-poses');
+  if (!selectorEl || !posesEl) return;
+
+  ensureIdagData();
+  var elements = window._activeElements || [];
+  var counts = {};
+  for (var i = 0; i < elements.length; i++) counts[elements[i]] = (counts[elements[i]] || 0) + 1;
+  var dominant = elements[0] || 'VAND';
+  var maxC = 0;
+  var ks = Object.keys(counts);
+  for (var j = 0; j < ks.length; j++) { if (counts[ks[j]] > maxC) { maxC = counts[ks[j]]; dominant = ks[j]; } }
+
+  window._yogaSelectedElement = dominant;
+  renderYinYogaContent();
+}
+
+function renderYinYogaContent() {
+  var selectorEl = document.getElementById('yin-yoga-selector');
+  var posesEl = document.getElementById('yin-yoga-poses');
+  if (!selectorEl || !posesEl) return;
+
+  var selected = window._yogaSelectedElement || 'VAND';
+  var elKeys = ['VAND', 'TR\u00C6', 'ILD', 'JORD', 'METAL'];
+
+  // Selector buttons
+  var sHtml = '<div class="yin-yoga__selector">';
+  for (var i = 0; i < elKeys.length; i++) {
+    var isActive = (elKeys[i] === selected);
+    sHtml += '<button class="yin-yoga__element-btn' + (isActive ? ' yin-yoga__element-btn--active' : '') + '" onclick="selectYogaElement(\'' + elKeys[i] + '\')">' + ELEMENT_LABELS[elKeys[i]] + '</button>';
+  }
+  sHtml += '</div>';
+  selectorEl.innerHTML = sHtml;
+
+  // Poses for selected element
+  var poses = YIN_YOGA_FULL[selected] || [];
+  var html = '<p class="livsfase-detail__intro" style="margin-top:16px">Dit dominerende element lige nu er ' + ELEMENT_LABELS[selected] + '. Disse positioner st\u00f8tter dig:</p>';
+
+  for (var p = 0; p < poses.length; p++) {
+    var pose = poses[p];
+    html += '<div class="livsfase-detail__rec-card">';
+    html += '<p class="livsfase-detail__rec-label">' + pose.meridian + '</p>';
+    html += '<p class="livsfase-detail__rec-title">' + pose.pose + '</p>';
+    html += '<p class="livsfase-detail__rec-desc">' + pose.desc + '</p>';
+    html += '<p style="font-size:11px;color:#999;margin-top:4px">' + pose.tid + '</p>';
+    html += '</div>';
+  }
+
+  // Show other elements collapsed
+  html += '<h3 class="livsfase-detail__section-title" style="margin-top:24px">Andre elementer</h3>';
+  for (var e = 0; e < elKeys.length; e++) {
+    if (elKeys[e] === selected) continue;
+    var otherPoses = YIN_YOGA_FULL[elKeys[e]] || [];
+    html += '<div class="tema__kort" onclick="selectYogaElement(\'' + elKeys[e] + '\')">';
+    html += '<div class="tema__kort-content">';
+    html += '<h3 class="tema__kort-title">' + ELEMENT_LABELS[elKeys[e]] + '</h3>';
+    html += '<p class="tema__kort-subtitle">' + otherPoses.map(function(p) { return p.pose.split('(')[0].trim(); }).join(' \u00B7 ') + '</p>';
+    html += '</div><span class="tema__kort-arrow">\u203A</span></div>';
+  }
+
+  html += renderActionBar('yin-yoga');
+  posesEl.innerHTML = html;
+}
+
+function selectYogaElement(element) {
+  window._yogaSelectedElement = element;
+  renderYinYogaContent();
+  window.scrollTo(0, 0);
+}
+window.selectYogaElement = selectYogaElement;
+
+// ---- Feature: Notifikationer Timeline (I dag) ----
+
+function generateNotifikationer() {
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  if (!user.birthdate) return [];
+
+  ensureIdagData();
+  var d = window._idagData;
+  if (!d) return [];
+
+  var notifs = [];
+  var now = new Date();
+
+  // 1. Phase transition check (within 90 days of boundary)
+  var age = d.age;
+  var phase = d.lifePhase;
+  var daysToNextPhase = Math.floor((phase.endAge - age) * 365.25);
+  if (daysToNextPhase <= 90 && daysToNextPhase > 0 && phase.phase < 9) {
+    var nextPhase = PHASE_DATA[phase.phase + 1];
+    notifs.push({
+      type: 'fase',
+      color: '#244382',
+      time: 'Om ' + (daysToNextPhase > 30 ? Math.round(daysToNextPhase/30) + ' mdr' : daysToNextPhase + ' dage'),
+      title: 'Din fase skifter snart',
+      text: 'Du bev\u00e6ger dig fra Fase ' + phase.phase + ' til Fase ' + nextPhase.phase + ': ' + nextPhase.name + '. En tid for ' + ELEMENT_LABELS[nextPhase.element].toLowerCase() + '.',
+      priority: 1
+    });
+  }
+
+  // 2. Season change (within 14 days of solstice/equinox)
+  var seasonDates = [
+    { month: 3, day: 21, season: 'For\u00e5r' },
+    { month: 6, day: 21, season: 'Sommer' },
+    { month: 8, day: 23, season: 'Sensommer' },
+    { month: 9, day: 23, season: 'Efter\u00e5r' },
+    { month: 12, day: 21, season: 'Vinter' }
+  ];
+  for (var s = 0; s < seasonDates.length; s++) {
+    var sd = seasonDates[s];
+    var sdDate = new Date(now.getFullYear(), sd.month - 1, sd.day);
+    var diff = Math.floor((sdDate - now) / 86400000);
+    if (diff > 0 && diff <= 14) {
+      notifs.push({
+        type: 'aarstid',
+        color: '#5B8C5A',
+        time: 'Om ' + diff + ' dage',
+        title: sd.season + ' n\u00e6rmer sig',
+        text: '\u00c5rstiden skifter snart. Din krop begynder m\u00e5ske allerede at m\u00e6rke den nye energi.',
+        priority: 2
+      });
+    }
+  }
+
+  // 3. Next organ clock shift
+  var currentHour = now.getHours();
+  var nextOrganHour = (Math.floor(currentHour / 2) + 1) * 2 + 1;
+  if (nextOrganHour > 23) nextOrganHour = 1;
+  var nextOrgan = null;
+  for (var o = 0; o < ORGAN_CLOCK.length; o++) {
+    if (ORGAN_CLOCK[o].startHour === nextOrganHour || (nextOrganHour >= ORGAN_CLOCK[o].startHour && nextOrganHour < ORGAN_CLOCK[o].startHour + 2)) {
+      nextOrgan = ORGAN_CLOCK[o];
+      break;
+    }
+  }
+  if (!nextOrgan && ORGAN_CLOCK.length > 0) nextOrgan = ORGAN_CLOCK[0];
+  if (nextOrgan) {
+    var displayHour = (Math.floor(currentHour / 2) + 1) * 2;
+    if (displayHour > 23) displayHour = 0;
+    notifs.push({
+      type: 'organur',
+      color: '#7690C1',
+      time: 'Kl. ' + (displayHour < 10 ? '0' : '') + displayHour + ':00',
+      title: nextOrgan.organ + '-tid (' + ELEMENT_LABELS[nextOrgan.element] + ')',
+      text: ORGAN_DESCRIPTIONS[nextOrgan.organ] ? ORGAN_DESCRIPTIONS[nextOrgan.organ].substring(0, 80) + '\u2026' : '',
+      priority: 4
+    });
+  }
+
+  // 4. Daily reflection prompt
+  notifs.push({
+    type: 'refleksion',
+    color: '#B8A6C0',
+    time: 'I aften',
+    title: 'Tid til refleksion',
+    text: 'Tag 5 minutter til at reflektere over din dag.',
+    priority: 5,
+    action: "App.loadScreen('refleksion')"
+  });
+
+  // Sort by priority
+  notifs.sort(function(a, b) { return a.priority - b.priority; });
+  return notifs;
+}
+
+function renderNotifikationer() {
+  var el = document.getElementById('idag-timeline');
+  if (!el) return;
+
+  var notifs = generateNotifikationer();
+  if (notifs.length === 0) return;
+
+  var maxVisible = 3;
+  var html = '<div class="idag__timeline">';
+  html += '<p class="idag__section-title">Kommende</p>';
+  html += '<div class="idag__timeline-list">';
+
+  for (var i = 0; i < notifs.length; i++) {
+    var n = notifs[i];
+    var hidden = i >= maxVisible ? ' idag__timeline-item--hidden' : '';
+    var onclick = n.action ? ' onclick="' + n.action + '"' : '';
+    html += '<div class="idag__timeline-item' + hidden + '"' + onclick + '>';
+    html += '<div class="idag__timeline-dot" style="background:' + n.color + '"></div>';
+    html += '<div class="idag__timeline-content">';
+    html += '<span class="idag__timeline-time">' + n.time + '</span>';
+    html += '<p class="idag__timeline-title">' + n.title + '</p>';
+    html += '<p class="idag__timeline-text">' + n.text + '</p>';
+    html += '</div></div>';
+  }
+
+  html += '</div>';
+  if (notifs.length > maxVisible) {
+    html += '<button class="idag__timeline-expand" onclick="toggleTimelineExpand()">Se alle \u203A</button>';
+  }
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function toggleTimelineExpand() {
+  var items = document.querySelectorAll('.idag__timeline-item--hidden');
+  var btn = document.querySelector('.idag__timeline-expand');
+  for (var i = 0; i < items.length; i++) {
+    items[i].classList.toggle('idag__timeline-item--hidden');
+  }
+  if (btn) btn.textContent = btn.textContent === 'Se alle \u203A' ? 'Vis f\u00e6rre' : 'Se alle \u203A';
+}
+window.toggleTimelineExpand = toggleTimelineExpand;
+
+// ---- Feature: Forløb (external links) ----
+
+function renderForloebCard() {
+  var el = document.getElementById('idag-forloeb');
+  if (!el) return;
+
+  ensureIdagData();
+  var d = window._idagData;
+  var seasonName = d ? d.season.season : 'Vinter';
+  var forlob = FORLOB_DATA[seasonName] || FORLOB_DATA['Vinter'];
+
+  var html = '<div class="forloeb-kort" onclick="window.open(\'' + forlob.url + '\', \'_blank\')">';
+  html += '<span class="forloeb-kort__label">Isabelles forl\u00f8b \u00B7 Eksternt</span>';
+  html += '<h3 class="forloeb-kort__title">' + forlob.title + '</h3>';
+  html += '<p class="forloeb-kort__subtitle">' + forlob.subtitle + '</p>';
+  html += '<span class="forloeb-kort__link">L\u00e6s mere \u2192</span>';
+  html += '</div>';
+
+  el.innerHTML = html;
+}
 
 // Register Service Worker - force update
 if ('serviceWorker' in navigator) {
