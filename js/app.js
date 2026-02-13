@@ -272,8 +272,6 @@ function renderLotusLeafSVG(phaseNum) {
 const Onboarding = {
 
   init() {
-    this.renderPhaseFigure();
-
     var input = document.getElementById('onboarding-birthdate');
     if (input && !input._bound) {
       input._bound = true;
@@ -281,28 +279,6 @@ const Onboarding = {
         Onboarding._onBirthdateChange();
       });
     }
-  },
-
-  renderPhaseFigure() {
-    var el = document.getElementById('onboarding-phase-figure');
-    if (!el) return;
-    var items = [];
-    for (var i = 1; i <= 9; i++) {
-      var p = PHASE_DATA[i];
-      items.push({
-        label: 'Fase ' + i,
-        sublabel: p.startAge + '\u2013' + p.endAge + ' \u00e5r'
-      });
-    }
-    var activeIdx = this._phase ? (this._phase.phase - 1) : -1;
-    el.innerHTML = renderCircularFigure({
-      items: items,
-      centerLabel: 'De 9',
-      centerSublabel: 'Livsfaser',
-      activeIndex: activeIdx,
-      width: 320,
-      height: 320
-    });
   },
 
   _onBirthdateChange() {
@@ -321,9 +297,6 @@ const Onboarding = {
     this._birthdate = input.value;
     this._age = calculateAge(input.value);
     this._phase = calculateLifePhase(this._age);
-
-    // Update circle figure to highlight phase
-    this.renderPhaseFigure();
 
     // Show phase confirmation inline
     var resultEl = document.getElementById('onboarding-phase-result');
@@ -1116,7 +1089,7 @@ function escapeHtml(str) {
 
 // Lotus section divider HTML
 function sectionDivider() {
-  return '<div class="section-divider"><img class="section-divider__img" src="assets/images/lotus-divider.png" alt="" /></div>';
+  return '<div class="section-divider"><div class="section-divider__line"></div></div>';
 }
 
 // Scroll-to-top footer

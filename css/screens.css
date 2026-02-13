@@ -2831,6 +2831,14 @@
   margin: var(--space-md) 0;
 }
 
+.onboarding__circles-img {
+  display: block;
+  width: 80%;
+  max-width: 320px;
+  height: auto;
+  margin: var(--space-md) auto;
+}
+
 .onboarding__label {
   font-size: var(--text-small);
   color: var(--text-secondary);
@@ -3476,25 +3484,26 @@
 }
 
 /* =========================================
-   SECTION DIVIDER (Lotus)
+   SECTION DIVIDER (thin line)
    ========================================= */
 
 .section-divider {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 28px 0;
+  padding: 24px 0;
 }
 
+.section-divider__line {
+  width: 80%;
+  height: 1px;
+  background: #000000;
+  opacity: 0.15;
+}
+
+/* Legacy: hide any leftover lotus images */
 .section-divider__img {
-  width: 80px;
-  max-width: 80px;
-  height: auto;
-  opacity: 0.18;
-  filter: brightness(2) contrast(3) grayscale(1);
-  mix-blend-mode: multiply;
-  pointer-events: none;
-  user-select: none;
+  display: none;
 }
 
 /* =========================================
