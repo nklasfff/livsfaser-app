@@ -1663,7 +1663,7 @@ function renderConcentricCircles(container, data) {
 
   // Defs - curved paths for textPath
   svg += '<defs>';
-  svg += '<path id="curve0" d="M 0 183 A 220 147 0 0 1 400 183"/>';
+  svg += '<path id="curve0" d="M 30 130 A 220 100 0 0 1 370 130"/>';
   svg += '<path id="curve1" d="M 40 200 A 180 120 0 0 1 360 200"/>';
   svg += '<path id="curve2" d="M 75 231 A 140 93 0 0 1 325 231"/>';
   svg += '<path id="curve3" d="M 105 260 A 105 70 0 0 1 295 260"/>';
