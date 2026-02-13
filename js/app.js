@@ -47,6 +47,39 @@ const RING_COLORS = {
   center: '#244382'
 };
 
+const ELEMENT_BLUES = {
+  'VAND':  '#244382',
+  'TRÆ':  '#3A5A9A',
+  'ILD':   '#6D88BF',
+  'JORD':  '#5070AD',
+  'METAL': '#8BA0D1'
+};
+
+function blendHex(c1, c2, t) {
+  var r1 = parseInt(c1.slice(1,3),16), g1 = parseInt(c1.slice(3,5),16), b1 = parseInt(c1.slice(5,7),16);
+  var r2 = parseInt(c2.slice(1,3),16), g2 = parseInt(c2.slice(3,5),16), b2 = parseInt(c2.slice(5,7),16);
+  var r = Math.round(r1 + (r2 - r1) * t), g = Math.round(g1 + (g2 - g1) * t), b = Math.round(b1 + (b2 - b1) * t);
+  return '#' + ((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);
+}
+
+function hexToRgba(hex, alpha) {
+  var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+}
+
+function getVennColors() {
+  var d = window._idagData;
+  var fallback = '#5070AD';
+  var c1 = fallback, c2 = fallback;
+  if (d) {
+    c1 = ELEMENT_BLUES[d.weekday.element] || fallback;
+    c2 = ELEMENT_BLUES[d.organ.element] || fallback;
+  }
+  var c3 = blendHex(c1, c2, 0.5);
+  var c4 = blendHex(c3, '#FFFFFF', 0.3);
+  return { c1: c1, c2: c2, c3: c3, c4: c4 };
+}
+
 const ELEMENT_LABELS = {
   'VAND': 'Vand',
   'TRÆ': 'Træ',
@@ -1595,6 +1628,25 @@ function renderConcentricCircles(container, data) {
   var organ = data.organ;
   var monthCycle = data.monthCycle;
 
+  // Dynamic ring colors: gradient from ugedag element → organur element
+  var outerBlue = ELEMENT_BLUES[weekday.element] || '#244382';
+  var innerBlue = ELEMENT_BLUES[organ.element] || '#8BA0D1';
+  var centerBlue = ELEMENT_BLUES[monthCycle.data.element] || '#244382';
+  var rc = [
+    outerBlue,
+    blendHex(outerBlue, innerBlue, 0.25),
+    blendHex(outerBlue, innerBlue, 0.50),
+    blendHex(outerBlue, innerBlue, 0.75),
+    innerBlue
+  ];
+
+  // Text contrast: dark text on lighter rings
+  function ringTextColor(hex) {
+    var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+    var lum = (0.299*r + 0.587*g + 0.114*b);
+    return lum > 140 ? '#244382' : '#FFFFFF';
+  }
+
   // Build dynamic text values with element names
   var livsfaseText = 'Fase ' + lifePhase.phase + ' \u2013 ' + ELEMENT_LABELS[lifePhase.element];
   var aarstidText = season.season + ' \u2013 ' + ELEMENT_LABELS[season.element];
@@ -1618,40 +1670,46 @@ function renderConcentricCircles(container, data) {
   svg += '<path id="curve4" d="M 135 284 A 75 50 0 0 1 265 284"/>';
   svg += '</defs>';
 
-  // Ring 0 - LIVSFASE (yderst) — mørkeblå
-  svg += '<ellipse cx="200" cy="199" rx="220" ry="147" fill="' + RING_COLORS[0] + '"/>';
-  svg += '<text x="200" y="74" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="#FFFFFF" letter-spacing="1">LIVSFASE</text>';
-  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="#FFFFFF" text-anchor="middle">';
+  // Ring 0 - LIVSFASE (yderst)
+  var tc0 = ringTextColor(rc[0]);
+  svg += '<ellipse cx="200" cy="199" rx="220" ry="147" fill="' + rc[0] + '"/>';
+  svg += '<text x="200" y="74" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="' + tc0 + '" letter-spacing="1">LIVSFASE</text>';
+  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="' + tc0 + '" text-anchor="middle">';
   svg += '<textPath href="#curve0" startOffset="50%">' + livsfaseText + '</textPath></text>';
 
   // Ring 1 - ÅRSTID
-  svg += '<ellipse cx="200" cy="220" rx="180" ry="120" fill="' + RING_COLORS[1] + '"/>';
-  svg += '<text x="200" y="120" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="#FFFFFF" letter-spacing="1">\u00C5RSTID</text>';
-  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="#FFFFFF" text-anchor="middle">';
+  var tc1 = ringTextColor(rc[1]);
+  svg += '<ellipse cx="200" cy="220" rx="180" ry="120" fill="' + rc[1] + '"/>';
+  svg += '<text x="200" y="120" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="' + tc1 + '" letter-spacing="1">\u00C5RSTID</text>';
+  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="' + tc1 + '" text-anchor="middle">';
   svg += '<textPath href="#curve1" startOffset="50%">' + aarstidText + '</textPath></text>';
 
   // Ring 2 - MÅNED
-  svg += '<ellipse cx="200" cy="241" rx="140" ry="93" fill="' + RING_COLORS[2] + '"/>';
-  svg += '<text x="200" y="166" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="#FFFFFF" letter-spacing="1">M\u00C5NED</text>';
-  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="#FFFFFF" text-anchor="middle">';
+  var tc2 = ringTextColor(rc[2]);
+  svg += '<ellipse cx="200" cy="241" rx="140" ry="93" fill="' + rc[2] + '"/>';
+  svg += '<text x="200" y="166" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="' + tc2 + '" letter-spacing="1">M\u00C5NED</text>';
+  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="' + tc2 + '" text-anchor="middle">';
   svg += '<textPath href="#curve2" startOffset="50%">' + maanedText + '</textPath></text>';
 
   // Ring 3 - UGEDAG
-  svg += '<ellipse cx="200" cy="260" rx="105" ry="70" fill="' + RING_COLORS[3] + '"/>';
-  svg += '<text x="200" y="207" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="#244382" letter-spacing="1">UGEDAG</text>';
-  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="#244382" text-anchor="middle">';
+  var tc3 = ringTextColor(rc[3]);
+  svg += '<ellipse cx="200" cy="260" rx="105" ry="70" fill="' + rc[3] + '"/>';
+  svg += '<text x="200" y="207" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="' + tc3 + '" letter-spacing="1">UGEDAG</text>';
+  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="' + tc3 + '" text-anchor="middle">';
   svg += '<textPath href="#curve3" startOffset="50%">' + ugedagText + '</textPath></text>';
 
   // Ring 4 - ORGANUR (inderst)
-  svg += '<ellipse cx="200" cy="276" rx="75" ry="50" fill="' + RING_COLORS[4] + '"/>';
-  svg += '<text x="200" y="245" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="#244382" letter-spacing="1">ORGANUR</text>';
-  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="#244382" text-anchor="middle">';
+  var tc4 = ringTextColor(rc[4]);
+  svg += '<ellipse cx="200" cy="276" rx="75" ry="50" fill="' + rc[4] + '"/>';
+  svg += '<text x="200" y="245" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" font-weight="bold" fill="' + tc4 + '" letter-spacing="1">ORGANUR</text>';
+  svg += '<text font-family="Times New Roman, serif" font-size="11" fill="' + tc4 + '" text-anchor="middle">';
   svg += '<textPath href="#curve4" startOffset="50%">' + organurText + '</textPath></text>';
 
-  // Centrum - DIG
-  svg += '<ellipse cx="200" cy="292" rx="45" ry="30" fill="' + RING_COLORS.center + '"/>';
-  svg += '<text x="200" y="289" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" font-weight="bold" fill="#FFFFFF">DIG</text>';
-  svg += '<text x="200" y="304" text-anchor="middle" font-family="Times New Roman, serif" font-size="10" fill="rgba(255,255,255,0.8)">Tryk for relationer</text>';
+  // Centrum - DIG (colored by måned element)
+  var tcCenter = ringTextColor(centerBlue);
+  svg += '<ellipse cx="200" cy="292" rx="45" ry="30" fill="' + centerBlue + '"/>';
+  svg += '<text x="200" y="289" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" font-weight="bold" fill="' + tcCenter + '">DIG</text>';
+  svg += '<text x="200" y="304" text-anchor="middle" font-family="Times New Roman, serif" font-size="10" fill="' + (tcCenter === '#FFFFFF' ? 'rgba(255,255,255,0.8)' : 'rgba(36,67,130,0.6)') + '">Tryk for relationer</text>';
 
   svg += '</svg>';
 
@@ -3024,11 +3082,12 @@ function renderTidsrejseOverview() {
   html += '<div class="tidsrejse__grid">';
   for (var i = 0; i < cards.length; i++) {
     var c = cards[i];
-    var disabled = c.needsRelations && !hasRelations;
-    html += '<div class="tidsrejse__card' + (disabled ? ' tidsrejse__card--disabled' : '') + '"' + (disabled ? '' : ' onclick="openTidsrejse(\'' + c.type + '\')"') + '>';
+    var needsRelation = c.needsRelations && !hasRelations;
+    var onclick = needsRelation ? "App.loadScreen('relationer')" : "openTidsrejse('" + c.type + "')";
+    html += '<div class="tidsrejse__card" onclick="' + onclick + '">';
     html += '<h3 class="tidsrejse__card-title">' + c.title + '</h3>';
     html += '<p class="tidsrejse__card-subtitle">' + c.subtitle + '</p>';
-    if (disabled) html += '<p class="tidsrejse__card-hint">Tilf\u00f8j en relation f\u00f8rst</p>';
+    if (needsRelation) html += '<p class="tidsrejse__card-hint">Tryk for at tilf\u00f8je en relation \u2192</p>';
     html += '</div>';
   }
   html += '</div>';
@@ -3176,6 +3235,33 @@ function renderTidsrejseResult() {
   var formattedDate = new Date(dateStr).toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric' });
 
   var html = '<h2 class="tidsrejse__result-title">' + formattedDate + '</h2>';
+
+  // Venn: Nu vs Fortid/Fremtid
+  var travelInsight = generateInsight(results.user.elements);
+  var travelEl = travelInsight.dominantElement;
+  if (isPast) {
+    html += renderVennTwo({
+      leftTitle: 'DENGANG',
+      leftLines: [ELEMENT_LABELS[travelEl] + ' dominerede', results.user.lifePhase.name],
+      rightTitle: 'NU',
+      rightLines: window._idagData ? [ELEMENT_LABELS[generateInsight(window._activeElements || []).dominantElement] + ' dominerer'] : ['Dit liv i dag'],
+      overlapTitle: 'FORST\u00c5ELSE',
+      overlapLines: ['*M\u00f8nstrene viser sig'],
+      leftElement: travelEl,
+      rightElement: window._idagData ? generateInsight(window._activeElements || []).dominantElement : null
+    });
+  } else {
+    html += renderVennTwo({
+      leftTitle: 'NU',
+      leftLines: window._idagData ? [ELEMENT_LABELS[generateInsight(window._activeElements || []).dominantElement] + ' dominerer'] : ['Dit liv i dag'],
+      rightTitle: 'DER',
+      rightLines: [ELEMENT_LABELS[travelEl] + ' venter', results.user.lifePhase.name],
+      overlapTitle: 'FORBEREDELSE',
+      overlapLines: ['*Du kan m\u00f8de det p\u00e5 forh\u00e5nd'],
+      leftElement: window._idagData ? generateInsight(window._activeElements || []).dominantElement : null,
+      rightElement: travelEl
+    });
+  }
 
   // User cycle grid
   html += renderCycleGrid(results.user, 'Dig');
@@ -3549,6 +3635,18 @@ const App = {
         } else if (screenName === 'favoritter') {
           initFavoritterScreen();
         }
+
+        // Append "Tilbage til toppen" footer (skip on onboarding)
+        if (screenName !== 'onboarding') {
+          var footer = document.createElement('div');
+          footer.className = 'scroll-top-footer';
+          footer.textContent = '\u2191 Tilbage til toppen';
+          footer.onclick = function() { content.scrollTo({ top: 0, behavior: 'smooth' }); };
+          content.appendChild(footer);
+        }
+
+        // Scroll content to top
+        content.scrollTop = 0;
       } else {
         content.innerHTML = '<p>Indhold ikke tilg\u00E6ngeligt.</p>';
       }
@@ -4690,7 +4788,11 @@ window.submitCheckin = submitCheckin;
 
 var VENN_FONT = '"Times New Roman", Times, Georgia, serif';
 
-// Element-specific fill colors with transparency for Venn circles
+// Dynamic blue-based Venn circle colors derived from ELEMENT_BLUES
+function vennFill(hex) { return hexToRgba(hex || '#5070AD', 0.18); }
+function vennStroke(hex) { return hexToRgba(hex || '#5070AD', 0.30); }
+
+// Legacy element color mappings (kept for backward compat)
 var VENN_ELEMENT_COLORS = {
   'VAND':  'rgba(30, 60, 90, 0.18)',
   'TRÆ':  'rgba(60, 120, 60, 0.18)',
@@ -4724,10 +4826,23 @@ function renderVennTwo(opts) {
   var cx2 = W / 2 + R * 0.6;
   var cy = H / 2;
 
-  var leftFill = (opts.leftElement && VENN_ELEMENT_COLORS[opts.leftElement]) || VENN_ELEMENT_COLORS['default'];
-  var rightFill = (opts.rightElement && VENN_ELEMENT_COLORS[opts.rightElement]) || VENN_ELEMENT_COLORS['default'];
-  var leftStroke = (opts.leftElement && VENN_ELEMENT_STROKES[opts.leftElement]) || VENN_ELEMENT_STROKES['default'];
-  var rightStroke = (opts.rightElement && VENN_ELEMENT_STROKES[opts.rightElement]) || VENN_ELEMENT_STROKES['default'];
+  // Dynamic blue coloring from current ugedag/organur
+  var vc = getVennColors();
+  var leftFill, rightFill, leftStroke, rightStroke;
+  if (opts.leftElement && ELEMENT_BLUES[opts.leftElement]) {
+    leftFill = vennFill(ELEMENT_BLUES[opts.leftElement]);
+    leftStroke = vennStroke(ELEMENT_BLUES[opts.leftElement]);
+  } else {
+    leftFill = vennFill(vc.c1);
+    leftStroke = vennStroke(vc.c1);
+  }
+  if (opts.rightElement && ELEMENT_BLUES[opts.rightElement]) {
+    rightFill = vennFill(ELEMENT_BLUES[opts.rightElement]);
+    rightStroke = vennStroke(ELEMENT_BLUES[opts.rightElement]);
+  } else {
+    rightFill = vennFill(vc.c2);
+    rightStroke = vennStroke(vc.c2);
+  }
 
   // Overlap x-range
   var overlapXL = cx2 - R;
@@ -4810,12 +4925,14 @@ function renderVennThree(opts) {
   var cxC = centroidX + spread * 0.87;
   var cyC = centroidY + spread * 0.52;
 
-  var fillA = (opts.elementA && VENN_ELEMENT_COLORS[opts.elementA]) || VENN_ELEMENT_COLORS['default'];
-  var fillB = (opts.elementB && VENN_ELEMENT_COLORS[opts.elementB]) || VENN_ELEMENT_COLORS['default'];
-  var fillC = (opts.elementC && VENN_ELEMENT_COLORS[opts.elementC]) || VENN_ELEMENT_COLORS['default'];
-  var strokeA = (opts.elementA && VENN_ELEMENT_STROKES[opts.elementA]) || VENN_ELEMENT_STROKES['default'];
-  var strokeB = (opts.elementB && VENN_ELEMENT_STROKES[opts.elementB]) || VENN_ELEMENT_STROKES['default'];
-  var strokeC = (opts.elementC && VENN_ELEMENT_STROKES[opts.elementC]) || VENN_ELEMENT_STROKES['default'];
+  // Dynamic blue coloring
+  var vc = getVennColors();
+  var fillA = vennFill(opts.elementA ? (ELEMENT_BLUES[opts.elementA] || vc.c1) : vc.c1);
+  var fillB = vennFill(opts.elementB ? (ELEMENT_BLUES[opts.elementB] || vc.c2) : vc.c2);
+  var fillC = vennFill(opts.elementC ? (ELEMENT_BLUES[opts.elementC] || vc.c3) : vc.c3);
+  var strokeA = vennStroke(opts.elementA ? (ELEMENT_BLUES[opts.elementA] || vc.c1) : vc.c1);
+  var strokeB = vennStroke(opts.elementB ? (ELEMENT_BLUES[opts.elementB] || vc.c2) : vc.c2);
+  var strokeC = vennStroke(opts.elementC ? (ELEMENT_BLUES[opts.elementC] || vc.c3) : vc.c3);
 
   var ts = 12; var ls = 10; var os = 10; var cts = 13; var cls = 10.5;
 
@@ -4904,14 +5021,16 @@ function renderVennFour(opts) {
   var cxC = midX + spread,    cyC = midY;                   // right
   var cxD = midX,             cyD = midY + spread;          // bottom
 
-  var fillA = (opts.elementA && VENN_ELEMENT_COLORS[opts.elementA]) || VENN_ELEMENT_COLORS['default'];
-  var fillB = (opts.elementB && VENN_ELEMENT_COLORS[opts.elementB]) || VENN_ELEMENT_COLORS['default'];
-  var fillC = (opts.elementC && VENN_ELEMENT_COLORS[opts.elementC]) || VENN_ELEMENT_COLORS['default'];
-  var fillD = (opts.elementD && VENN_ELEMENT_COLORS[opts.elementD]) || VENN_ELEMENT_COLORS['default'];
-  var strokeA = (opts.elementA && VENN_ELEMENT_STROKES[opts.elementA]) || VENN_ELEMENT_STROKES['default'];
-  var strokeB = (opts.elementB && VENN_ELEMENT_STROKES[opts.elementB]) || VENN_ELEMENT_STROKES['default'];
-  var strokeC = (opts.elementC && VENN_ELEMENT_STROKES[opts.elementC]) || VENN_ELEMENT_STROKES['default'];
-  var strokeD = (opts.elementD && VENN_ELEMENT_STROKES[opts.elementD]) || VENN_ELEMENT_STROKES['default'];
+  // Dynamic blue coloring
+  var vc = getVennColors();
+  var fillA = vennFill(opts.elementA ? (ELEMENT_BLUES[opts.elementA] || vc.c1) : vc.c1);
+  var fillB = vennFill(opts.elementB ? (ELEMENT_BLUES[opts.elementB] || vc.c2) : vc.c2);
+  var fillC = vennFill(opts.elementC ? (ELEMENT_BLUES[opts.elementC] || vc.c3) : vc.c3);
+  var fillD = vennFill(opts.elementD ? (ELEMENT_BLUES[opts.elementD] || vc.c4) : vc.c4);
+  var strokeA = vennStroke(opts.elementA ? (ELEMENT_BLUES[opts.elementA] || vc.c1) : vc.c1);
+  var strokeB = vennStroke(opts.elementB ? (ELEMENT_BLUES[opts.elementB] || vc.c2) : vc.c2);
+  var strokeC = vennStroke(opts.elementC ? (ELEMENT_BLUES[opts.elementC] || vc.c3) : vc.c3);
+  var strokeD = vennStroke(opts.elementD ? (ELEMENT_BLUES[opts.elementD] || vc.c4) : vc.c4);
 
   var ts = 11.5; var ls = 9.5; var os = 9; var cts = 13; var cls = 10.5;
 

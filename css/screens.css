@@ -3400,3 +3400,16 @@
 .favoritter-item__remove:hover {
   opacity: 1;
 }
+
+/* Scroll to top footer */
+.scroll-top-footer {
+  text-align: center;
+  padding: var(--space-lg) var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  color: var(--blaa);
+  opacity: 0.5;
+  cursor: pointer;
+  margin-top: var(--space-xl);
+  -webkit-tap-highlight-color: transparent;
+}
