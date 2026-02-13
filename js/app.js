@@ -1626,9 +1626,7 @@ function renderConcentricCircles(container, data) {
     blendHex(outerBlue, innerBlue, 0.75),
     innerBlue
   ];
-  // DIG = much darker version of the darkest ring color (same blue family)
-  var darkest = outerBlue < innerBlue ? outerBlue : innerBlue;
-  var centerBlue = blendHex(darkest, '#000000', 0.45);
+  var centerBlue = rc[3]; // same color as ugedag ring
 
   // Text contrast: dark text on lighter rings
   function ringTextColor(hex) {
