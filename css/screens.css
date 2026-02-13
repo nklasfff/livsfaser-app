@@ -378,6 +378,43 @@
   max-width: 100%;
 }
 
+/* Detail recommendations */
+.detail__recs {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border);
+}
+
+.detail__recs-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-h3);
+  color: var(--morkebla);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-md);
+}
+
+.detail__rec-item {
+  margin-bottom: var(--space-md);
+}
+
+.detail__rec-label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--text-tiny);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blaa);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-xs);
+}
+
+.detail__rec-text {
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  color: var(--text-secondary);
+  line-height: var(--line-normal);
+}
+
 /* Insight dot (reused in samlede-indsigt) */
 .indsigt__dot {
   width: 10px;
@@ -989,6 +1026,173 @@
   font-style: italic;
 }
 
+/* Relation recommendations */
+.relation-recs {
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.relation-recs__title {
+  font-family: var(--font-serif);
+  font-size: var(--text-h3);
+  color: var(--morkebla);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-md);
+}
+
+.relation-recs__card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin-bottom: var(--space-sm);
+  box-shadow: var(--shadow-card);
+}
+
+.relation-recs__label {
+  font-family: var(--font-sans);
+  font-size: var(--text-tiny);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blaa);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-xs);
+}
+
+.relation-recs__text {
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  color: var(--text-secondary);
+  line-height: var(--line-relaxed);
+}
+
+/* Partner timeline */
+.partner-timeline {
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.partner-timeline__title {
+  font-family: var(--font-serif);
+  font-size: var(--text-h3);
+  color: var(--morkebla);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-md);
+}
+
+.partner-timeline__text {
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  color: var(--text-secondary);
+  line-height: var(--line-relaxed);
+  margin-top: var(--space-sm);
+}
+
+.partner-timeline svg {
+  width: 100%;
+  height: auto;
+}
+
+/* Share button */
+.relationer__share-btn {
+  display: block;
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  color: var(--blaa);
+  background: none;
+  border: 1px solid var(--blaa);
+  border-radius: var(--radius-full);
+  padding: var(--space-md);
+  cursor: pointer;
+  margin-bottom: var(--space-sm);
+  font-weight: var(--weight-medium);
+  transition: background 0.15s;
+}
+
+.relationer__share-btn:active {
+  background: rgba(118, 144, 193, 0.08);
+}
+
+/* Share preview modal */
+.share-preview-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.share-preview-overlay--visible {
+  opacity: 1;
+}
+
+.share-preview {
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  max-width: 400px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.share-preview__title {
+  font-family: var(--font-serif);
+  font-size: var(--text-h2);
+  color: var(--morkebla);
+  margin-bottom: var(--space-md);
+  font-weight: var(--weight-semibold);
+}
+
+.share-preview__text {
+  width: 100%;
+  min-height: 200px;
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  color: var(--text-primary);
+  line-height: var(--line-relaxed);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-md);
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.share-preview__actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.share-preview__btn {
+  flex: 1;
+  padding: var(--space-md);
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  border: none;
+}
+
+.share-preview__btn--secondary {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+}
+
+.share-preview__btn--primary {
+  background: var(--morkebla);
+  color: #fff;
+}
+
 /* Delete button */
 .relationer__delete-btn {
   display: block;
@@ -1336,6 +1540,43 @@
   margin: 0;
 }
 
+/* Tidsrejse recommendations */
+.tidsrejse__recs {
+  margin: var(--space-lg) var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border);
+}
+
+.tidsrejse__recs-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-h3);
+  color: var(--morkebla);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-md);
+}
+
+.tidsrejse__rec-item {
+  margin-bottom: var(--space-md);
+}
+
+.tidsrejse__rec-label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--text-tiny);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blaa);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-xs);
+}
+
+.tidsrejse__rec-text {
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  color: var(--text-secondary);
+  line-height: var(--line-normal);
+}
+
 /* Back-to-input button */
 .tidsrejse__back-btn {
   display: block;
@@ -1374,6 +1615,68 @@
   color: var(--text-light);
   font-style: italic;
   margin-bottom: var(--space-md);
+}
+
+/* Hvad kan du gøre lige nu? */
+.hvadkandu__intro {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--text-body);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-md);
+  line-height: var(--line-relaxed);
+}
+
+.hvadkandu__cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.hvadkandu__card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  cursor: pointer;
+  transition: transform 0.15s;
+  box-shadow: var(--shadow-card);
+}
+
+.hvadkandu__card:active {
+  transform: scale(0.98);
+}
+
+.hvadkandu__label {
+  font-family: var(--font-sans);
+  font-size: var(--text-tiny);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blaa);
+  margin-bottom: var(--space-xs);
+  font-weight: var(--weight-semibold);
+}
+
+.hvadkandu__title {
+  font-family: var(--font-serif);
+  font-size: var(--text-h3);
+  color: var(--morkebla);
+  margin-bottom: var(--space-xs);
+  font-weight: var(--weight-semibold);
+}
+
+.hvadkandu__desc {
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  color: var(--text-secondary);
+  line-height: var(--line-normal);
+  margin-bottom: var(--space-sm);
+}
+
+.hvadkandu__link {
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  color: var(--blaa);
+  font-weight: var(--weight-medium);
 }
 
 /* Kontekstuelle forslag-kort */
@@ -1659,6 +1962,26 @@
   font-style: italic;
   color: var(--text-secondary);
   line-height: var(--line-relaxed);
+}
+
+.tema__kontekst-tid {
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  color: var(--text-light);
+  font-style: italic;
+  margin-top: var(--space-xs);
+}
+
+.cic__recommendation {
+  margin: var(--space-lg) var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border);
+}
+
+.livsfase-detail__tidsperspektiv {
+  background: var(--bg-highlight);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
 }
 
 /* =========================================

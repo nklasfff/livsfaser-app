@@ -752,6 +752,52 @@ var FORLOB_DATA = {
   'Efter\u00e5r': { title: 'Efter\u00e5rsforl\u00f8bet', subtitle: 'Metallets \u00e5rstid. Slip det overfl\u00f8dige og find det essentielle \u2014 guidet af Isabelle.', url: 'https://isabelleeita.dk' }
 };
 
+// ---- Healing Sounds (per element, from LIVSFASE_DETAIL) ----
+
+var HEALING_SOUNDS = {
+  'VAND': { lyd: 'Chuiii', organ: 'Nyrer', desc: 'Lad lyden vibrere dybt i lænden. Chuiii beroer nyrerne og nærer din grundlæggende livsenergi.' },
+  'TRÆ': { lyd: 'Shhhhh', organ: 'Lever', desc: 'En blid udånding som letter leveren. Shhhhh hjælper med at frigøre ophobede frustrationer.' },
+  'ILD': { lyd: 'Haaaa', organ: 'Hjerte', desc: 'Åbn munden og lad Haaaa strømme ud. Lyden køler hjertet og giver indre ro.' },
+  'JORD': { lyd: 'Huuuuu', organ: 'Milt', desc: 'Huuuuu masserer milten indefra. Lyden forankrer dig og styrker din evne til at fordøje — både mad og oplevelser.' },
+  'METAL': { lyd: 'Sssss', organ: 'Lunger', desc: 'Sssss renser lungerne med en hvislende udånding. Giv slip på det der ikke længere tjener dig.' }
+};
+
+// ---- Relation Recommendations (per element) ----
+
+var RELATION_RECOMMENDATIONS = {
+  'VAND': {
+    forDig: 'Vand-energien inviterer til stilhed og lytning. Giv dig selv lov til at trække dig lidt tilbage — det er ikke afvisning, det er opladning.',
+    sammen: 'Måske kan I mødes i ro. En gåtur ved vandet, en stille aften. Vand har ikke brug for ord, men for tilstedeværelse.'
+  },
+  'TRÆ': {
+    forDig: 'Træ-energien giver dig drivkraft og retning. Pas på ikke at lade utålmodighed styre. Din vækst behøver ikke andres tempo.',
+    sammen: 'I kan dele visioner og planer. Træ trives med bevægelse — gør noget aktivt sammen, måske en udflugt eller et nyt projekt.'
+  },
+  'ILD': {
+    forDig: 'Ild-energien gør dig varm og nærværende. Nyd forbindelsen, men husk at glæden ikke afhænger af andres bekræftelse.',
+    sammen: 'Det er tid til fest, latter og nærvær. Ild elsker samvær — invitér til noget spontant, lad hjertet lede.'
+  },
+  'JORD': {
+    forDig: 'Jord-energien nærer din omsorg. Du mærker måske en trang til at tage vare på andre. Husk også at nære dig selv.',
+    sammen: 'I kan mødes over mad, samtale og tryghed. Jord finder hvile i det kendte — lav noget hjemme sammen.'
+  },
+  'METAL': {
+    forDig: 'Metal-energien skærper din skelneevne. Du ser klarere hvad der tjener dig. Slip det overflødige med kærlighed, ikke dom.',
+    sammen: 'I kan mødes i ærlighed og klarhed. Metal tåler sandhed — måske er det tid til en oprigtig samtale om det der betyder noget.'
+  }
+};
+
+// ---- Share Templates (per relation type) ----
+
+var SHARE_TEMPLATES = {
+  'partner': { tone: 'direkte, kærlig', intro: 'Jeg har kigget på noget spændende om vores livscyklusser.' },
+  'datter': { tone: 'varm, anerkendende', intro: 'Der er noget, jeg gerne vil dele med dig om livets faser.' },
+  'søn': { tone: 'varm, respektfuld', intro: 'Jeg faldt over noget om livsfaser, som jeg tænkte, du måske ville finde interessant.' },
+  'mor': { tone: 'respektfuld, reflekterende', intro: 'Mor, jeg har opdaget noget om vores livsfaser, som sætter vores relation i et nyt lys.' },
+  'veninde': { tone: 'åben, nysgerrig', intro: 'Jeg fandt noget om livsfaser, som fik mig til at tænke på os.' },
+  'anden': { tone: 'neutral, imødekommende', intro: 'Jeg vil gerne dele noget med dig om livsfaser og vores energier.' }
+};
+
 // ---- Extended Yin Yoga data (5 elements × full poses) ----
 
 var YIN_YOGA_FULL = {
@@ -1672,6 +1718,7 @@ function initIdagScreen() {
 
   // Render new home sections
   renderDynamiskTekst();
+  renderHvadKanDu();
   renderNotifikationer();
   renderKontekstuelleForslag();
   renderForloebCard();
@@ -1740,7 +1787,58 @@ function renderDynamiskTekst() {
   html += '<p class="idag__climate-label">' + cycleAnalysis.climate.label + '</p>';
   html += '<p class="idag__section-text">' + dynamisk.text + '</p>';
   html += '<p class="idag__tidsdynamik">' + dynamisk.tidsdynamik + '</p>';
-  html += '<button class="idag__link-btn" onclick="App.loadScreen(\'mine-cyklusser\')">Se din samlede indsigt \u2192</button>';
+  html += '<button class="idag__link-btn" onclick="App.loadScreen(\'samlede-indsigt\')">Se din samlede indsigt \u2192</button>';
+  el.innerHTML = html;
+}
+
+function renderHvadKanDu() {
+  var el = document.getElementById('idag-hvadkandu');
+  if (!el || !window._activeElements || !window._idagData) return;
+
+  var insight = generateInsight(window._activeElements);
+  var dominantEl = insight.dominantElement;
+  var elLabel = ELEMENT_LABELS[dominantEl];
+
+  // Get data from existing constants
+  var yogaPose = YIN_YOGA_FULL[dominantEl] ? YIN_YOGA_FULL[dominantEl][0] : null;
+  var healingSound = HEALING_SOUNDS[dominantEl];
+  var foodItem = INSIGHT_FOOD[dominantEl] ? INSIGHT_FOOD[dominantEl][0] : null;
+
+  var html = '<h3 class="idag__section-title">Hvad kan du gøre lige nu?</h3>';
+  html += '<p class="hvadkandu__intro">' + elLabel + '-elementet præger din dag. Her er tre måder at møde det på.</p>';
+  html += '<div class="hvadkandu__cards">';
+
+  // Card 1: Krop (yoga)
+  if (yogaPose) {
+    html += '<div class="hvadkandu__card" onclick="navigateToYogaWithElement(\'' + dominantEl + '\')">';
+    html += '<p class="hvadkandu__label">Krop</p>';
+    html += '<p class="hvadkandu__title">' + yogaPose.pose.split('(')[0].trim() + '</p>';
+    html += '<p class="hvadkandu__desc">' + yogaPose.desc.split('.')[0] + '. ' + yogaPose.tid + '.</p>';
+    html += '<span class="hvadkandu__link">Prøv nu \u2192</span>';
+    html += '</div>';
+  }
+
+  // Card 2: Åndedræt (healing sound)
+  if (healingSound) {
+    html += '<div class="hvadkandu__card" onclick="App.loadScreen(\'refleksion\')">';
+    html += '<p class="hvadkandu__label">Åndedræt</p>';
+    html += '<p class="hvadkandu__title">Healinglyd: ' + healingSound.lyd + '</p>';
+    html += '<p class="hvadkandu__desc">' + healingSound.desc + '</p>';
+    html += '<span class="hvadkandu__link">Prøv nu \u2192</span>';
+    html += '</div>';
+  }
+
+  // Card 3: Næring (food)
+  if (foodItem) {
+    html += '<div class="hvadkandu__card" onclick="App.loadScreen(\'samlede-indsigt\')">';
+    html += '<p class="hvadkandu__label">Næring</p>';
+    html += '<p class="hvadkandu__title">' + foodItem.item + '</p>';
+    html += '<p class="hvadkandu__desc">' + foodItem.desc + '</p>';
+    html += '<span class="hvadkandu__link">Se alle anbefalinger \u2192</span>';
+    html += '</div>';
+  }
+
+  html += '</div>';
   el.innerHTML = html;
 }
 
@@ -1759,7 +1857,7 @@ function renderKontekstuelleForslag() {
   var yogaPoses = INSIGHT_YOGA[primaryEl];
   if (yogaPoses && yogaPoses.length > 0) {
     var pose = yogaPoses[0];
-    html += '<div class="forslag-kort" onclick="App.loadScreen(\'min-praksis\')">';
+    html += '<div class="forslag-kort" onclick="navigateToYogaWithElement(\'' + primaryEl + '\')">';
     html += '<p class="forslag-kort__label">' + ELEMENT_LABELS[primaryEl] + '-element øvelse</p>';
     html += '<p class="forslag-kort__text">' + pose.pose + ' passer til din energi i dag</p>';
     html += '<span class="forslag-kort__arrow">\u2192</span>';
@@ -1770,7 +1868,7 @@ function renderKontekstuelleForslag() {
   var foodItems = INSIGHT_FOOD[primaryEl];
   if (foodItems && foodItems.length > 0) {
     var food = foodItems[0];
-    html += '<div class="forslag-kort" onclick="App.loadScreen(\'min-praksis\')">';
+    html += '<div class="forslag-kort" onclick="App.loadScreen(\'samlede-indsigt\')">';
     html += '<p class="forslag-kort__label">' + data.season.season + 'kost</p>';
     html += '<p class="forslag-kort__text">' + food.item + ' \u2014 ' + food.desc.split('.')[0] + '</p>';
     html += '<span class="forslag-kort__arrow">\u2192</span>';
@@ -1869,16 +1967,65 @@ function generateRejseSubtitle() {
 
 // ---- Detail Views ----
 
+function getDetailRecommendations(element) {
+  var html = '<div class="detail__recs">';
+  html += '<p class="detail__recs-title">Hvad kan du gøre?</p>';
+
+  // 1. Øvelse
+  var yoga = INSIGHT_YOGA[element];
+  if (yoga && yoga.length > 0) {
+    html += '<div class="detail__rec-item">';
+    html += '<span class="detail__rec-label">Øvelse</span>';
+    html += '<span class="detail__rec-text">' + yoga[0].pose + ' — ' + yoga[0].desc + '</span>';
+    html += '</div>';
+  }
+
+  // 2. Næring
+  var food = INSIGHT_FOOD[element];
+  if (food && food.length > 0) {
+    html += '<div class="detail__rec-item">';
+    html += '<span class="detail__rec-label">Næring</span>';
+    html += '<span class="detail__rec-text">' + food[0].item + ' — ' + food[0].desc + '</span>';
+    html += '</div>';
+  }
+
+  // 3. Healinglyd
+  var sound = HEALING_SOUNDS[element];
+  if (sound) {
+    html += '<div class="detail__rec-item">';
+    html += '<span class="detail__rec-label">Healinglyd</span>';
+    html += '<span class="detail__rec-text">' + sound.lyd + ' (' + sound.organ + ') — ' + sound.desc + '</span>';
+    html += '</div>';
+  }
+
+  // 4. Refleksion
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  var age = user.birthdate ? calculateAge(user.birthdate) : 35;
+  var phase = calculateLifePhase(age);
+  var questions = REFLEKSION_DATA[phase.phase];
+  if (questions && questions.length > 0) {
+    html += '<div class="detail__rec-item">';
+    html += '<span class="detail__rec-label">Refleksion</span>';
+    html += '<span class="detail__rec-text">' + questions[0] + '</span>';
+    html += '</div>';
+  }
+
+  html += '</div>';
+  return html;
+}
+
 function showDetail(type) {
   var d = window._idagData;
   if (!d) return;
 
   var title = '';
   var html = '';
+  var detailElement = '';
 
   if (type === 'livsfase') {
     var lp = d.lifePhase;
     var color = ELEMENT_COLORS[lp.element];
+    detailElement = lp.element;
     title = 'Fase ' + lp.phase + ': ' + lp.name;
     html =
       '<div class="detail__badge" style="background-color:' + color + '">' + ELEMENT_LABELS[lp.element].charAt(0) + '</div>' +
@@ -1889,6 +2036,7 @@ function showDetail(type) {
   } else if (type === 'aarstid') {
     var s = d.season;
     var color2 = ELEMENT_COLORS[s.element];
+    detailElement = s.element;
     title = s.season;
     html =
       '<div class="detail__badge" style="background-color:' + color2 + '">' + ELEMENT_LABELS[s.element].charAt(0) + '</div>' +
@@ -1898,6 +2046,7 @@ function showDetail(type) {
   } else if (type === 'ugedag') {
     var w = d.weekday;
     var color3 = ELEMENT_COLORS[w.element];
+    detailElement = w.element;
     title = w.day;
     html =
       '<div class="detail__badge" style="background-color:' + color3 + '">' + ELEMENT_LABELS[w.element].charAt(0) + '</div>' +
@@ -1907,6 +2056,7 @@ function showDetail(type) {
   } else if (type === 'organur') {
     var o = d.organ;
     var color4 = ELEMENT_COLORS[o.element];
+    detailElement = o.element;
     title = o.organ;
     html =
       '<div class="detail__badge" style="background-color:' + color4 + '">' + ELEMENT_LABELS[o.element].charAt(0) + '</div>' +
@@ -1918,6 +2068,7 @@ function showDetail(type) {
     if (mc.type === 'menstrual') {
       var m = mc.data;
       var color5 = ELEMENT_COLORS[m.element];
+      detailElement = m.element;
       title = m.phase;
       html =
         '<div class="detail__badge" style="background-color:' + color5 + '">' + ELEMENT_LABELS[m.element].charAt(0) + '</div>' +
@@ -1926,12 +2077,18 @@ function showDetail(type) {
     } else {
       var cm = mc.data;
       var color6 = ELEMENT_COLORS[cm.element];
+      detailElement = cm.element;
       title = cm.name;
       html =
         '<div class="detail__badge" style="background-color:' + color6 + '">' + ELEMENT_LABELS[cm.element].charAt(0) + '</div>' +
         '<p class="detail__meta">' + ELEMENT_LABELS[cm.element] + '</p>' +
         '<p class="detail__text">' + MONTH_DESCRIPTIONS[cm.name] + '</p>';
     }
+  }
+
+  // Append element-specific recommendations
+  if (detailElement) {
+    html += getDetailRecommendations(detailElement);
   }
 
   // Build detail view
@@ -2126,6 +2283,27 @@ function initSamledeIndsigtScreen() {
       suggHtml += '<p class="indsigt-page__focus-item" style="--dot-color:' + ELEMENT_COLORS[primaryElement] + '">' + suggestions[sg] + '</p>';
     }
     suggestionsEl.innerHTML = suggHtml;
+  }
+
+  // 7. Render Tidsdynamik (time perspective)
+  var tidsEl = document.getElementById('indsigt-tidsdynamik');
+  if (tidsEl) {
+    ensureIdagData();
+    var d = window._idagData;
+    if (d) {
+      var tidsHtml = '<h3 class="indsigt-page__section-title">Tidsperspektiv</h3>';
+      var yearsLeft = Math.max(0, d.lifePhase.endAge - d.age);
+      if (yearsLeft > 0) {
+        tidsHtml += '<p class="indsigt-page__paragraph">Du er ' + Math.round((d.age - d.lifePhase.startAge) * 10) / 10 + ' år inde i din ' + d.lifePhase.name + '-fase. Om ca. ' + (yearsLeft < 1 ? 'under et år' : Math.round(yearsLeft) + ' år') + ' bevæger du dig videre.</p>';
+      } else {
+        tidsHtml += '<p class="indsigt-page__paragraph">Du er i slutningen af din ' + d.lifePhase.name + '-fase. En ny fase venter forude.</p>';
+      }
+      var dynamisk = generateDynamiskTekst(d, elements);
+      if (dynamisk.tidsdynamik) {
+        tidsHtml += '<p class="indsigt-page__paragraph" style="font-style:italic;color:var(--text-light);">' + dynamisk.tidsdynamik + '</p>';
+      }
+      tidsEl.innerHTML = tidsHtml;
+    }
   }
 
   // Action bar
@@ -2379,6 +2557,222 @@ function saveRelation() {
 
 // ---- Relation detail ----
 
+// ---- Partner Cycle Timeline (for male partners) ----
+
+function renderPartnerTimeline(userAge, theirAge) {
+  var W = 340, H = 180;
+  var padL = 30, padR = 10, padT = 30, padB = 25;
+  var trackW = W - padL - padR;
+  var trackH = 22;
+  var gap = 16;
+
+  // Timeline range: from youngest start age to oldest end age (max 64)
+  var minAge = Math.max(0, Math.min(userAge, theirAge) - 7);
+  var maxAge = Math.min(64, Math.max(userAge, theirAge) + 10);
+  var ageSpan = maxAge - minAge;
+
+  function xForAge(age) {
+    return padL + ((age - minAge) / ageSpan) * trackW;
+  }
+
+  // Element colors (subtle, distinct)
+  var elColors = {
+    'VAND': 'rgba(74,144,164,0.35)',
+    'TRÆ': 'rgba(91,140,90,0.35)',
+    'ILD': 'rgba(200,90,84,0.35)',
+    'JORD': 'rgba(184,149,106,0.35)',
+    'METAL': 'rgba(139,154,157,0.35)'
+  };
+
+  var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">';
+  svg += '<style>text{font-family:-apple-system,sans-serif;}</style>';
+
+  // Track labels
+  var y1 = padT;
+  var y2 = padT + trackH + gap;
+  svg += '<text x="' + (padL - 4) + '" y="' + (y1 + 14) + '" text-anchor="end" font-size="9" fill="#666">Hun</text>';
+  svg += '<text x="' + (padL - 4) + '" y="' + (y2 + 14) + '" text-anchor="end" font-size="9" fill="#666">Han</text>';
+
+  // Draw her 7-year phases (top track)
+  for (var i = 1; i <= 9; i++) {
+    var p = PHASE_DATA[i];
+    if (p.endAge <= minAge || p.startAge >= maxAge) continue;
+    var x1 = xForAge(Math.max(p.startAge, minAge));
+    var x2 = xForAge(Math.min(p.endAge, maxAge));
+    svg += '<rect x="' + x1 + '" y="' + y1 + '" width="' + (x2 - x1) + '" height="' + trackH + '" rx="4" fill="' + elColors[p.element] + '" stroke="#ddd" stroke-width="0.5"/>';
+    if (x2 - x1 > 25) {
+      svg += '<text x="' + ((x1 + x2) / 2) + '" y="' + (y1 + 14) + '" text-anchor="middle" font-size="8" fill="#333">' + ELEMENT_LABELS[p.element].substring(0, 4) + '</text>';
+    }
+  }
+
+  // Draw his 8-year phases (bottom track)
+  for (var j = 1; j <= 8; j++) {
+    var mp = MALE_PHASE_DATA[j];
+    if (mp.endAge <= minAge || mp.startAge >= maxAge) continue;
+    var mx1 = xForAge(Math.max(mp.startAge, minAge));
+    var mx2 = xForAge(Math.min(mp.endAge, maxAge));
+    svg += '<rect x="' + mx1 + '" y="' + y2 + '" width="' + (mx2 - mx1) + '" height="' + trackH + '" rx="4" fill="' + elColors[mp.element] + '" stroke="#ddd" stroke-width="0.5"/>';
+    if (mx2 - mx1 > 25) {
+      svg += '<text x="' + ((mx1 + mx2) / 2) + '" y="' + (y2 + 14) + '" text-anchor="middle" font-size="8" fill="#333">' + ELEMENT_LABELS[mp.element].substring(0, 4) + '</text>';
+    }
+  }
+
+  // "NU" vertical line
+  var nowX = xForAge(userAge);
+  svg += '<line x1="' + nowX + '" y1="' + (padT - 12) + '" x2="' + nowX + '" y2="' + (y2 + trackH + 4) + '" stroke="#244382" stroke-width="1.5" stroke-dasharray="3,2"/>';
+  svg += '<text x="' + nowX + '" y="' + (padT - 14) + '" text-anchor="middle" font-size="9" font-weight="600" fill="#244382">NU</text>';
+
+  // Age markers
+  var step = ageSpan > 30 ? 10 : (ageSpan > 15 ? 5 : 3);
+  var startMarker = Math.ceil(minAge / step) * step;
+  for (var a = startMarker; a <= maxAge; a += step) {
+    var ax = xForAge(a);
+    svg += '<text x="' + ax + '" y="' + (H - 5) + '" text-anchor="middle" font-size="8" fill="#999">' + a + ' år</text>';
+  }
+
+  // Highlight overlapping same-element periods (green highlight)
+  for (var fi = 1; fi <= 9; fi++) {
+    var fp = PHASE_DATA[fi];
+    for (var mi = 1; mi <= 8; mi++) {
+      var mmp = MALE_PHASE_DATA[mi];
+      if (fp.element === mmp.element) {
+        var overlapStart = Math.max(fp.startAge, mmp.startAge, minAge);
+        var overlapEnd = Math.min(fp.endAge, mmp.endAge, maxAge);
+        if (overlapStart < overlapEnd) {
+          var ox1 = xForAge(overlapStart);
+          var ox2 = xForAge(overlapEnd);
+          svg += '<rect x="' + ox1 + '" y="' + (y1 - 3) + '" width="' + (ox2 - ox1) + '" height="' + (y2 + trackH - y1 + 6) + '" rx="4" fill="rgba(91,140,90,0.08)" stroke="rgba(91,140,90,0.25)" stroke-width="0.5" stroke-dasharray="2,2"/>';
+        }
+      }
+    }
+  }
+
+  svg += '</svg>';
+  return svg;
+}
+
+function getPartnerTimelineText(userPhase, theirPhase, userAge, theirAge) {
+  var userEl = ELEMENT_LABELS[userPhase.element];
+  var theirEl = ELEMENT_LABELS[theirPhase.element];
+
+  var text = 'Du er i ' + userEl + ' (fase ' + userPhase.phase + '), han er i ' + theirEl + ' (fase ' + theirPhase.phase + '). ';
+
+  // Find next meeting point (same element)
+  var found = false;
+  for (var futureYears = 1; futureYears <= 20; futureYears++) {
+    var futureUserAge = userAge + futureYears;
+    var futureTheirAge = theirAge + futureYears;
+    var futureUserPhase = calculateLifePhase(futureUserAge);
+    var futureTheirPhase = calculateMalePhase(futureTheirAge);
+    if (futureUserPhase.element === futureTheirPhase.element && (userPhase.element !== theirPhase.element || futureUserPhase.phase !== userPhase.phase)) {
+      text += 'Om ca. ' + futureYears + ' år mødes I begge i ' + ELEMENT_LABELS[futureUserPhase.element] + '.';
+      found = true;
+      break;
+    }
+  }
+
+  if (!found && userPhase.element === theirPhase.element) {
+    text += 'I er begge i ' + userEl + ' lige nu — en periode med fælles resonans.';
+  } else if (!found) {
+    text += 'Jeres cyklusser bevæger sig i forskellige rytmer. Det kan skabe komplementaritet.';
+  }
+
+  return text;
+}
+
+// ---- "Del med person" Sharing ----
+
+function generateShareText(userPhase, theirPhase, interaction, relation) {
+  var template = SHARE_TEMPLATES[relation.relationType] || SHARE_TEMPLATES['anden'];
+  var userEl = ELEMENT_LABELS[userPhase.element];
+  var theirEl = ELEMENT_LABELS[theirPhase.element];
+  var name = relation.name;
+
+  var text = template.intro + '\n\n';
+  text += 'Lige nu er jeg i min ' + userPhase.name + '-fase (' + userEl + '-elementet), og du er i din ' + theirPhase.name + '-fase (' + theirEl + '). ';
+  text += interaction.text + '\n\n';
+
+  // Element-specific advice
+  var rec = RELATION_RECOMMENDATIONS[userPhase.element];
+  if (rec) {
+    text += rec.sammen + '\n\n';
+  }
+
+  text += 'Kærlig hilsen fra De 9 Livsfasers Energi ✨';
+  return text;
+}
+
+function shareWithRelation(index) {
+  var relations = JSON.parse(localStorage.getItem('relations') || '[]');
+  if (index < 0 || index >= relations.length) return;
+  var r = relations[index];
+
+  var userData = JSON.parse(localStorage.getItem('user') || '{}');
+  if (!userData.birthdate) return;
+  var userAge = calculateAge(userData.birthdate);
+  var userPhase = calculateLifePhase(userAge);
+
+  var theirAge = calculateAge(r.birthdate);
+  var theirPhase = (r.gender === 'mand') ? calculateMalePhase(theirAge) : calculateLifePhase(theirAge);
+  var interaction = getElementInteraction(userPhase.element, theirPhase.element, r.name, r.gender);
+
+  var text = generateShareText(userPhase, theirPhase, interaction, r);
+  showSharePreview(text, r.name);
+}
+window.shareWithRelation = shareWithRelation;
+
+function showSharePreview(text, name) {
+  var overlay = document.createElement('div');
+  overlay.className = 'share-preview-overlay';
+  overlay.id = 'share-preview-overlay';
+
+  var html = '<div class="share-preview">';
+  html += '<p class="share-preview__title">Del med ' + escapeHtml(name) + '</p>';
+  html += '<textarea class="share-preview__text" id="share-preview-text">' + escapeHtml(text) + '</textarea>';
+  html += '<div class="share-preview__actions">';
+  html += '<button class="share-preview__btn share-preview__btn--secondary" onclick="closeSharePreview()">Annullér</button>';
+  html += '<button class="share-preview__btn share-preview__btn--primary" onclick="executeShare()">Del \u2192</button>';
+  html += '</div>';
+  html += '</div>';
+
+  overlay.innerHTML = html;
+  document.body.appendChild(overlay);
+  requestAnimationFrame(function() { overlay.classList.add('share-preview-overlay--visible'); });
+}
+
+function closeSharePreview() {
+  var overlay = document.getElementById('share-preview-overlay');
+  if (overlay) {
+    overlay.classList.remove('share-preview-overlay--visible');
+    setTimeout(function() { overlay.remove(); }, 300);
+  }
+}
+window.closeSharePreview = closeSharePreview;
+
+function executeShare() {
+  var textEl = document.getElementById('share-preview-text');
+  if (!textEl) return;
+  var text = textEl.value;
+
+  if (navigator.share) {
+    navigator.share({ title: 'De 9 Livsfasers Energi', text: text })
+      .then(function() { closeSharePreview(); })
+      .catch(function() { fallbackCopy(text); });
+  } else {
+    fallbackCopy(text);
+  }
+}
+window.executeShare = executeShare;
+
+function fallbackCopy(text) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(function() {
+      closeSharePreview();
+      showActionToast('Tekst kopieret — indsæt i en besked ✓');
+    });
+  }
+}
+
 function showRelationDetail(index) {
   console.log('[Livsfaser] showRelationDetail →', index);
   var relations = JSON.parse(localStorage.getItem('relations') || '[]');
@@ -2437,6 +2831,70 @@ function showRelationDetail(index) {
   html += '<div class="relationer__interaction-type">' + escapeHtml(interaction.type) + '</div>';
   html += '<div class="relationer__interaction-text">' + escapeHtml(interaction.text) + '</div>';
   html += '</div>';
+
+  // Relation recommendations
+  var userRec = RELATION_RECOMMENDATIONS[userPhase.element];
+  var theirRec = RELATION_RECOMMENDATIONS[theirPhase.element];
+
+  if (userRec || theirRec) {
+    html += '<div class="relation-recs">';
+    html += '<p class="relation-recs__title">Hvad kan I gøre?</p>';
+
+    // For dig
+    if (userRec) {
+      html += '<div class="relation-recs__card">';
+      html += '<p class="relation-recs__label">For dig</p>';
+      html += '<p class="relation-recs__text">' + userRec.forDig + '</p>';
+      html += '</div>';
+    }
+
+    // For den anden
+    if (theirRec) {
+      html += '<div class="relation-recs__card">';
+      html += '<p class="relation-recs__label">For ' + escapeHtml(r.name) + '</p>';
+      html += '<p class="relation-recs__text">' + theirRec.forDig.replace('dig', escapeHtml(r.name)).replace('Din', escapeHtml(r.name) + 's').replace('Du ', escapeHtml(r.name) + ' ') + '</p>';
+      html += '</div>';
+    }
+
+    // Sammen
+    var sammenRec = userRec ? userRec.sammen : theirRec.sammen;
+    html += '<div class="relation-recs__card">';
+    html += '<p class="relation-recs__label">Sammen</p>';
+    html += '<p class="relation-recs__text">' + sammenRec + '</p>';
+    html += '</div>';
+
+    // Tidsperspektiv
+    var userYearsLeft = Math.max(0, userPhase.endAge - userAge);
+    var theirYearsLeft = Math.max(0, theirPhase.endAge - theirAge);
+    var nextShiftYears = Math.min(userYearsLeft, theirYearsLeft);
+    var tidText = '';
+    if (nextShiftYears <= 0) {
+      tidText = 'En af jer er tæt på et faseskift. Vær opmærksom på, at dynamikken mellem jer kan ændre sig.';
+    } else if (nextShiftYears <= 2) {
+      tidText = 'Om ca. ' + (nextShiftYears < 1 ? 'under et år' : Math.round(nextShiftYears) + ' år') + ' skifter en af jer fase. Det kan bringe ny energi — og nye udfordringer — ind i jeres relation.';
+    } else {
+      tidText = 'I har ca. ' + Math.round(nextShiftYears) + ' år i jeres nuværende konstellation. Brug dem bevidst — denne dynamik er midlertidig.';
+    }
+
+    html += '<div class="relation-recs__card">';
+    html += '<p class="relation-recs__label">Tidsperspektiv</p>';
+    html += '<p class="relation-recs__text">' + tidText + '</p>';
+    html += '</div>';
+
+    html += '</div>';
+  }
+
+  // Partner timeline (only for male partners)
+  if (r.gender === 'mand') {
+    html += '<div class="partner-timeline">';
+    html += '<p class="partner-timeline__title">Jeres livscyklusser</p>';
+    html += renderPartnerTimeline(userAge, theirAge);
+    html += '<p class="partner-timeline__text">' + getPartnerTimelineText(userPhase, theirPhase, userAge, theirAge) + '</p>';
+    html += '</div>';
+  }
+
+  // Share button
+  html += '<button class="relationer__share-btn" onclick="shareWithRelation(' + index + ')">Del med ' + escapeHtml(r.name) + ' \u2192</button>';
 
   // Delete button
   html += '<button class="relationer__delete-btn" onclick="deleteRelation(' + index + ')">Slet ' + escapeHtml(r.name) + '</button>';
@@ -2756,10 +3214,68 @@ function renderTidsrejseResult() {
     html += '</div>';
   }
 
+  // Recommendations
+  html += renderTidsrejseRecommendations(results, isRelation, isPast);
+
+  // Action bar
+  html += renderActionBar('tidsrejse');
+
   // Back button
   html += '<button class="tidsrejse__back-btn" onclick="tidsrejseBackToInput()">V\u00e6lg ny dato</button>';
 
   el.innerHTML = html;
+}
+
+function renderTidsrejseRecommendations(results, isRelation, isPast) {
+  var insight = generateInsight(results.user.elements);
+  var el = insight.dominantElement;
+  var framePrefix = isPast ? 'Dengang prægede ' + ELEMENT_LABELS[el].toLowerCase() + ' din krop. ' : 'Begynd allerede nu at forberede dig. ';
+
+  var html = '<div class="tidsrejse__recs">';
+  html += '<p class="tidsrejse__recs-title">' + (isPast ? 'Hvad prægede dig?' : 'Sådan kan du forberede dig') + '</p>';
+
+  // Øvelse
+  var yoga = INSIGHT_YOGA[el];
+  if (yoga && yoga.length > 0) {
+    html += '<div class="tidsrejse__rec-item">';
+    html += '<span class="tidsrejse__rec-label">Øvelse</span>';
+    html += '<span class="tidsrejse__rec-text">' + yoga[0].pose + ' — ' + yoga[0].desc + '</span>';
+    html += '</div>';
+  }
+
+  // Næring
+  var food = INSIGHT_FOOD[el];
+  if (food && food.length > 0) {
+    html += '<div class="tidsrejse__rec-item">';
+    html += '<span class="tidsrejse__rec-label">Næring</span>';
+    html += '<span class="tidsrejse__rec-text">' + food[0].item + ' — ' + food[0].desc + '</span>';
+    html += '</div>';
+  }
+
+  // Bevidsthed
+  var focus = INSIGHT_FOCUS[el];
+  if (focus && focus.length > 0) {
+    html += '<div class="tidsrejse__rec-item">';
+    html += '<span class="tidsrejse__rec-label">Bevidsthed</span>';
+    html += '<span class="tidsrejse__rec-text">' + framePrefix + focus[0] + '</span>';
+    html += '</div>';
+  }
+
+  // For relation mode: add "sammen" tip
+  if (isRelation && results.relations && results.relations.length > 0) {
+    var rr = results.relations[0];
+    var theirInsight = generateInsight(rr.elements);
+    var sammenRec = RELATION_RECOMMENDATIONS[theirInsight.dominantElement];
+    if (sammenRec) {
+      html += '<div class="tidsrejse__rec-item">';
+      html += '<span class="tidsrejse__rec-label">Sammen</span>';
+      html += '<span class="tidsrejse__rec-text">' + sammenRec.sammen + '</span>';
+      html += '</div>';
+    }
+  }
+
+  html += '</div>';
+  return html;
 }
 
 function renderCycleGrid(cycleData, label) {
@@ -3410,6 +3926,35 @@ function initCyklusserICyklusserScreen() {
       extraEl.style.display = showing ? 'none' : 'flex';
       expandBtn.textContent = showing ? 'Se alle 10 par' : 'Skjul';
     };
+  }
+
+  // Climate-based recommendation
+  var recEl = document.getElementById('cic-recommendation');
+  if (!recEl) {
+    // Create dynamically if not in HTML template
+    var screenContainer = document.querySelector('.screen--cyklusser-i-cyklusser');
+    if (screenContainer) {
+      var recDiv = document.createElement('div');
+      recDiv.id = 'cic-recommendation';
+      recDiv.className = 'cic__recommendation';
+      // Insert before action bar area
+      screenContainer.appendChild(recDiv);
+      recEl = recDiv;
+    }
+  }
+  if (recEl) {
+    var insight = generateInsight(window._activeElements || []);
+    var domEl = insight.dominantElement;
+    var yoga = INSIGHT_YOGA[domEl];
+    var food = INSIGHT_FOOD[domEl];
+    var recHtml = '<h3 class="livsfase-detail__section-title">Hvad kan du gøre?</h3>';
+    if (yoga && yoga.length > 0) {
+      recHtml += '<div class="detail__rec-item"><span class="detail__rec-label">Øvelse for ' + ELEMENT_LABELS[domEl] + '</span><span class="detail__rec-text">' + yoga[0].pose + ' — ' + yoga[0].desc + '</span></div>';
+    }
+    if (food && food.length > 0) {
+      recHtml += '<div class="detail__rec-item"><span class="detail__rec-label">Næring</span><span class="detail__rec-text">' + food[0].item + ' — ' + food[0].desc + '</span></div>';
+    }
+    recEl.innerHTML = recHtml;
   }
 
   // Action bar
@@ -4891,6 +5436,27 @@ function initLivsfaseDetailScreen() {
   }
   html += '</div>';
 
+  // Time perspective
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  if (user.birthdate) {
+    var userAge = calculateAge(user.birthdate);
+    var userPhase = calculateLifePhase(userAge);
+    if (userPhase.phase === phaseNum) {
+      var yearsIn = Math.round((userAge - phase.startAge) * 10) / 10;
+      var yearsLeft = Math.max(0, phase.endAge - userAge);
+      html += '<div class="livsfase-detail__section livsfase-detail__tidsperspektiv">';
+      html += '<h3 class="livsfase-detail__section-title">Tidsperspektiv</h3>';
+      html += '<p class="livsfase-detail__section-text">Du er ' + yearsIn + ' år inde i denne fase. ';
+      if (yearsLeft > 1) {
+        html += 'Om ca. ' + Math.round(yearsLeft) + ' år bevæger du dig videre til næste livsfase.';
+      } else if (yearsLeft > 0) {
+        html += 'Du nærmer dig slutningen af denne fase — en overgang venter.';
+      }
+      html += '</p>';
+      html += '</div>';
+    }
+  }
+
   // Nav: prev/next
   html += '<div class="livsfase-detail__nav">';
   if (phaseNum > 1) {
@@ -4983,6 +5549,17 @@ function initDeFireUgerScreen() {
     currentEl.innerHTML = '<p class="tema__kontekst-label">' + (isMenstrual ? 'Din aktuelle uge' : 'Aktuel m\u00e5nefase') + '</p>' +
       '<p class="tema__kontekst-value">' + cw.name + '</p>' +
       '<p class="tema__kontekst-text">' + cw.kvalitet + ' \u00B7 ' + ELEMENT_LABELS[cw.element] + '-element</p>';
+  }
+
+  // Time perspective: days until next week
+  if (currentEl && isMenstrual) {
+    var daysInWeek = cycleDay <= 7 ? cycleDay : cycleDay <= 14 ? cycleDay - 7 : cycleDay <= 21 ? cycleDay - 14 : cycleDay - 21;
+    var daysLeft = 7 - daysInWeek;
+    if (daysLeft > 0 && daysLeft < 7) {
+      var nextWeekNum = currentWeek < 4 ? currentWeek + 1 : 1;
+      var nextWeekName = weekData[nextWeekNum].name;
+      currentEl.innerHTML += '<p class="tema__kontekst-tid">Om ' + daysLeft + ' dage begynder ' + nextWeekName + '</p>';
+    }
   }
 
   // All 4 weeks
@@ -5171,6 +5748,21 @@ function initKontrolcyklussenScreen() {
       html += '<div class="livsfase-detail__rec-card"><p class="livsfase-detail__rec-label">' + rows[r].label + '</p><p class="livsfase-detail__rec-desc">' + rows[r].text + '</p></div>';
     }
     html += '</div>';
+
+    // Element-balancing exercise
+    var yogaForBalance = YIN_YOGA_FULL[dominant];
+    if (yogaForBalance && yogaForBalance.length > 0) {
+      html += '<div class="livsfase-detail__section">';
+      html += '<h3 class="livsfase-detail__section-title">Balancér dit element</h3>';
+      html += '<div class="livsfase-detail__rec-card">';
+      html += '<p class="livsfase-detail__rec-label">' + ELEMENT_LABELS[dominant] + '-øvelse</p>';
+      html += '<p class="livsfase-detail__rec-title">' + yogaForBalance[0].pose + '</p>';
+      html += '<p class="livsfase-detail__rec-desc">' + yogaForBalance[0].desc + ' (' + yogaForBalance[0].tid + ')</p>';
+      html += '</div>';
+      html += '<button class="idag__link-btn" onclick="navigateToYogaWithElement(\'' + dominant + '\')" style="margin-top:12px">Se flere øvelser \u2192</button>';
+      html += '</div>';
+    }
+
     html += renderActionBar('kontrolcyklussen');
     detailEl.innerHTML = html;
   }
@@ -5247,6 +5839,12 @@ function initFoelelserScreen() {
   var wheelEl = document.getElementById('foelelser-wheel');
   if (!wheelEl) return;
   wheelEl.innerHTML = renderEmotionWheel();
+
+  // Action bar
+  var screenEl = document.querySelector('.screen--foelelser');
+  if (screenEl && !screenEl.querySelector('.action-bar')) {
+    screenEl.insertAdjacentHTML('beforeend', renderActionBar('foelelser'));
+  }
 }
 
 // ---- Feature: Yin Yoga ----
@@ -5323,6 +5921,13 @@ function selectYogaElement(element) {
 }
 window.selectYogaElement = selectYogaElement;
 
+// Navigation helpers for I dag links
+function navigateToYogaWithElement(element) {
+  window._yogaSelectedElement = element;
+  App.loadScreen('yin-yoga');
+}
+window.navigateToYogaWithElement = navigateToYogaWithElement;
+
 // ---- Feature: Notifikationer Timeline (I dag) ----
 
 function generateNotifikationer() {
@@ -5348,7 +5953,8 @@ function generateNotifikationer() {
       time: 'Om ' + (daysToNextPhase > 30 ? Math.round(daysToNextPhase/30) + ' mdr' : daysToNextPhase + ' dage'),
       title: 'Din fase skifter snart',
       text: 'Du bev\u00e6ger dig fra Fase ' + phase.phase + ' til Fase ' + nextPhase.phase + ': ' + nextPhase.name + '. En tid for ' + ELEMENT_LABELS[nextPhase.element].toLowerCase() + '.',
-      priority: 1
+      priority: 1,
+      action: "App.loadScreen('de-ni-livsfaser')"
     });
   }
 
@@ -5371,7 +5977,8 @@ function generateNotifikationer() {
         time: 'Om ' + diff + ' dage',
         title: sd.season + ' n\u00e6rmer sig',
         text: '\u00c5rstiden skifter snart. Din krop begynder m\u00e5ske allerede at m\u00e6rke den nye energi.',
-        priority: 2
+        priority: 2,
+        action: "App.loadScreen('de-fire-uger')"
       });
     }
   }
@@ -5397,7 +6004,8 @@ function generateNotifikationer() {
       time: 'Kl. ' + (displayHour < 10 ? '0' : '') + displayHour + ':00',
       title: nextOrgan.organ + '-tid (' + ELEMENT_LABELS[nextOrgan.element] + ')',
       text: ORGAN_DESCRIPTIONS[nextOrgan.organ] ? ORGAN_DESCRIPTIONS[nextOrgan.organ].substring(0, 80) + '\u2026' : '',
-      priority: 4
+      priority: 4,
+      action: "showDetail('organur')"
     });
   }
 
