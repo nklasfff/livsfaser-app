@@ -28,8 +28,11 @@
 }
 
 .onboarding__title {
-  font-size: var(--text-h1);
-  color: var(--text-primary);
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: var(--weight-bold);
+  color: var(--blaa);
+  text-align: center;
 }
 
 .onboarding__text {
@@ -339,8 +342,11 @@
 }
 
 .detail__title {
-  font-size: var(--text-h1);
-  color: var(--text-primary);
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: var(--weight-bold);
+  color: var(--blaa);
+  text-align: center;
   margin-bottom: var(--space-lg);
 }
 
@@ -666,14 +672,20 @@
 }
 
 .relationer__title {
-  font-size: var(--text-h1);
-  color: var(--text-primary);
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: var(--weight-bold);
+  color: var(--blaa);
+  text-align: center;
   margin-bottom: var(--space-sm);
 }
 
 .relationer__subtitle {
-  font-size: var(--text-body);
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-style: italic;
   color: var(--text-secondary);
+  text-align: center;
 }
 
 /* Empty state */
@@ -1163,10 +1175,11 @@
 
 .share-preview__title {
   font-family: var(--font-serif);
-  font-size: var(--text-h2);
-  color: var(--morkebla);
+  font-size: 22px;
+  color: var(--blaa);
+  text-align: center;
   margin-bottom: var(--space-md);
-  font-weight: var(--weight-semibold);
+  font-weight: var(--weight-bold);
 }
 
 .share-preview__text {
@@ -1252,9 +1265,10 @@
 
 .tidsrejse__subtitle {
   font-family: var(--font-serif);
-  font-size: var(--text-body);
+  font-size: 16px;
   font-style: italic;
   color: var(--text-secondary);
+  text-align: center;
   margin: 0;
   line-height: var(--line-relaxed);
   max-width: 340px;
@@ -1324,9 +1338,11 @@
 
 /* Input view */
 .tidsrejse__input-title {
-  font-size: var(--text-h2);
+  font-family: var(--font-serif);
+  font-size: 22px;
   font-weight: var(--weight-bold);
-  color: var(--text-primary);
+  color: var(--blaa);
+  text-align: center;
   margin: 0;
   padding: var(--space-lg) var(--space-md) var(--space-md);
 }
@@ -1434,9 +1450,11 @@
 
 /* Result view */
 .tidsrejse__result-title {
-  font-size: var(--text-h2);
+  font-family: var(--font-serif);
+  font-size: 22px;
   font-weight: var(--weight-bold);
-  color: var(--text-primary);
+  color: var(--blaa);
+  text-align: center;
   margin: 0;
   padding: var(--space-lg) var(--space-md) var(--space-sm);
 }
@@ -2737,7 +2755,7 @@
 
 .venn {
   width: 100%;
-  margin: var(--space-md) auto var(--space-lg);
+  margin: 0 auto var(--space-md);
   max-width: 420px;
 }
 
@@ -3449,15 +3467,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 32px 0;
+  padding: 24px 0;
 }
 
 .section-divider__img {
-  width: 45%;
-  max-width: 200px;
+  width: 80px;
+  max-width: 80px;
   height: auto;
-  opacity: 0.18;
-  filter: sepia(1) saturate(0.3) hue-rotate(190deg) brightness(0.7);
+  opacity: 0.12;
+  filter: sepia(1) saturate(0.2) hue-rotate(150deg) brightness(0.6);
   pointer-events: none;
   user-select: none;
 }
