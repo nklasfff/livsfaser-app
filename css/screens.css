@@ -1558,6 +1558,11 @@
 .tidsrejse__rec-item {
   margin-bottom: var(--space-md);
 }
+.tidsrejse__rec-item--transition {
+  background: linear-gradient(135deg, rgba(118,144,193,0.08), rgba(184,166,192,0.08));
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-md);
+}
 
 .tidsrejse__rec-label {
   display: block;
@@ -3243,6 +3248,41 @@
   font-family: var(--font-serif);
   font-size: var(--text-small);
   color: var(--blaa);
+}
+
+/* De Fire Uger clickable recommendations */
+.fire-uger__recs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: var(--space-sm);
+}
+
+.fire-uger__rec {
+  font-size: var(--text-small);
+  color: var(--blaa);
+  background: rgba(118, 144, 193, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.fire-uger__rec:hover {
+  background: rgba(118, 144, 193, 0.15);
+}
+
+/* Fase detail inline recommendations */
+.fase-detail-recs {
+  margin-top: var(--space-lg);
+}
+
+.fase-detail-recs__title {
+  font-family: var(--font-serif);
+  font-size: var(--text-h3);
+  font-weight: 600;
+  color: var(--morkebla);
+  margin: 0 0 var(--space-md);
 }
 
 /* Favoritter */

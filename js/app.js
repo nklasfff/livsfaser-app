@@ -767,22 +767,27 @@ var HEALING_SOUNDS = {
 var RELATION_RECOMMENDATIONS = {
   'VAND': {
     forDig: 'Vand-energien inviterer til stilhed og lytning. Giv dig selv lov til at trække dig lidt tilbage — det er ikke afvisning, det er opladning.',
+    forAnden: '{navn}s krop kalder på stilhed og ro lige nu. Giv {pron} plads til at trække sig — det er ikke afvisning, men opladning. Vand-energien har brug for hvile.',
     sammen: 'Måske kan I mødes i ro. En gåtur ved vandet, en stille aften. Vand har ikke brug for ord, men for tilstedeværelse.'
   },
   'TRÆ': {
     forDig: 'Træ-energien giver dig drivkraft og retning. Pas på ikke at lade utålmodighed styre. Din vækst behøver ikke andres tempo.',
+    forAnden: '{navn} er i Træ-energi — alt i {pron_obj} vil vokse og bevæge sig fremad. Det er ikke utålmodighed, det er biologi. Mød {pron_obj} med bevægelse, ikke modstand.',
     sammen: 'I kan dele visioner og planer. Træ trives med bevægelse — gør noget aktivt sammen, måske en udflugt eller et nyt projekt.'
   },
   'ILD': {
     forDig: 'Ild-energien gør dig varm og nærværende. Nyd forbindelsen, men husk at glæden ikke afhænger af andres bekræftelse.',
+    forAnden: '{navn} brænder med Ild-energi lige nu — {pron} er varm, nærværende og søger forbindelse. Mød {pron_obj} der. Det kræver ikke store ord, bare tilstedeværelse.',
     sammen: 'Det er tid til fest, latter og nærvær. Ild elsker samvær — invitér til noget spontant, lad hjertet lede.'
   },
   'JORD': {
     forDig: 'Jord-energien nærer din omsorg. Du mærker måske en trang til at tage vare på andre. Husk også at nære dig selv.',
+    forAnden: '{navn} er i Jord-energi — {pron} har brug for tryghed og stabilitet. Mød {pron_obj} med omsorg, og lad {pron_obj} nære dig tilbage. Jord giver mest, når den selv får ro.',
     sammen: 'I kan mødes over mad, samtale og tryghed. Jord finder hvile i det kendte — lav noget hjemme sammen.'
   },
   'METAL': {
     forDig: 'Metal-energien skærper din skelneevne. Du ser klarere hvad der tjener dig. Slip det overflødige med kærlighed, ikke dom.',
+    forAnden: '{navn} er i Metal-energi — {pron} ser klarere og sorterer i det overflødige. Det kan føles som afstand, men det er klarhed. Giv {pron_obj} rum til det.',
     sammen: 'I kan mødes i ærlighed og klarhed. Metal tåler sandhed — måske er det tid til en oprigtig samtale om det der betyder noget.'
   }
 };
@@ -1820,11 +1825,11 @@ function renderHvadKanDu() {
 
   // Card 2: Åndedræt (healing sound)
   if (healingSound) {
-    html += '<div class="hvadkandu__card" onclick="App.loadScreen(\'refleksion\')">';
+    html += '<div class="hvadkandu__card" onclick="App.loadScreen(\'samlede-indsigt\')">';
     html += '<p class="hvadkandu__label">Åndedræt</p>';
     html += '<p class="hvadkandu__title">Healinglyd: ' + healingSound.lyd + '</p>';
     html += '<p class="hvadkandu__desc">' + healingSound.desc + '</p>';
-    html += '<span class="hvadkandu__link">Prøv nu \u2192</span>';
+    html += '<span class="hvadkandu__link">Se alle anbefalinger \u2192</span>';
     html += '</div>';
   }
 
@@ -2557,9 +2562,12 @@ function saveRelation() {
 
 // ---- Relation detail ----
 
-// ---- Partner Cycle Timeline (for male partners) ----
+// ---- Cycle Timeline (for all relations) ----
 
-function renderPartnerTimeline(userAge, theirAge) {
+function renderPartnerTimeline(userAge, theirAge, theirGender) {
+  var isMale = (theirGender === 'mand');
+  var theirPhaseData = isMale ? MALE_PHASE_DATA : PHASE_DATA;
+  var theirPhaseCount = isMale ? 8 : 9;
   var W = 340, H = 180;
   var padL = 30, padR = 10, padT = 30, padB = 25;
   var trackW = W - padL - padR;
@@ -2590,10 +2598,11 @@ function renderPartnerTimeline(userAge, theirAge) {
   // Track labels
   var y1 = padT;
   var y2 = padT + trackH + gap;
-  svg += '<text x="' + (padL - 4) + '" y="' + (y1 + 14) + '" text-anchor="end" font-size="9" fill="#666">Hun</text>';
-  svg += '<text x="' + (padL - 4) + '" y="' + (y2 + 14) + '" text-anchor="end" font-size="9" fill="#666">Han</text>';
+  svg += '<text x="' + (padL - 4) + '" y="' + (y1 + 14) + '" text-anchor="end" font-size="9" fill="#666">Dig</text>';
+  var theirLabel = isMale ? 'Han' : 'Hun';
+  svg += '<text x="' + (padL - 4) + '" y="' + (y2 + 14) + '" text-anchor="end" font-size="9" fill="#666">' + theirLabel + '</text>';
 
-  // Draw her 7-year phases (top track)
+  // Draw user's 7-year phases (top track)
   for (var i = 1; i <= 9; i++) {
     var p = PHASE_DATA[i];
     if (p.endAge <= minAge || p.startAge >= maxAge) continue;
@@ -2605,9 +2614,9 @@ function renderPartnerTimeline(userAge, theirAge) {
     }
   }
 
-  // Draw his 8-year phases (bottom track)
-  for (var j = 1; j <= 8; j++) {
-    var mp = MALE_PHASE_DATA[j];
+  // Draw their phases (bottom track)
+  for (var j = 1; j <= theirPhaseCount; j++) {
+    var mp = theirPhaseData[j];
     if (mp.endAge <= minAge || mp.startAge >= maxAge) continue;
     var mx1 = xForAge(Math.max(mp.startAge, minAge));
     var mx2 = xForAge(Math.min(mp.endAge, maxAge));
@@ -2633,8 +2642,8 @@ function renderPartnerTimeline(userAge, theirAge) {
   // Highlight overlapping same-element periods (green highlight)
   for (var fi = 1; fi <= 9; fi++) {
     var fp = PHASE_DATA[fi];
-    for (var mi = 1; mi <= 8; mi++) {
-      var mmp = MALE_PHASE_DATA[mi];
+    for (var mi = 1; mi <= theirPhaseCount; mi++) {
+      var mmp = theirPhaseData[mi];
       if (fp.element === mmp.element) {
         var overlapStart = Math.max(fp.startAge, mmp.startAge, minAge);
         var overlapEnd = Math.min(fp.endAge, mmp.endAge, maxAge);
@@ -2651,19 +2660,22 @@ function renderPartnerTimeline(userAge, theirAge) {
   return svg;
 }
 
-function getPartnerTimelineText(userPhase, theirPhase, userAge, theirAge) {
+function getPartnerTimelineText(userPhase, theirPhase, userAge, theirAge, theirGender) {
+  var isMale = (theirGender === 'mand');
+  var pron = isMale ? 'han' : 'hun';
   var userEl = ELEMENT_LABELS[userPhase.element];
   var theirEl = ELEMENT_LABELS[theirPhase.element];
 
-  var text = 'Du er i ' + userEl + ' (fase ' + userPhase.phase + '), han er i ' + theirEl + ' (fase ' + theirPhase.phase + '). ';
+  var text = 'Du er i ' + userEl + ' (fase ' + userPhase.phase + '), ' + pron + ' er i ' + theirEl + ' (fase ' + theirPhase.phase + '). ';
 
   // Find next meeting point (same element)
+  var calcTheirPhase = isMale ? calculateMalePhase : calculateLifePhase;
   var found = false;
   for (var futureYears = 1; futureYears <= 20; futureYears++) {
     var futureUserAge = userAge + futureYears;
     var futureTheirAge = theirAge + futureYears;
     var futureUserPhase = calculateLifePhase(futureUserAge);
-    var futureTheirPhase = calculateMalePhase(futureTheirAge);
+    var futureTheirPhase = calcTheirPhase(futureTheirAge);
     if (futureUserPhase.element === futureTheirPhase.element && (userPhase.element !== theirPhase.element || futureUserPhase.phase !== userPhase.phase)) {
       text += 'Om ca. ' + futureYears + ' år mødes I begge i ' + ELEMENT_LABELS[futureUserPhase.element] + '.';
       found = true;
@@ -2849,10 +2861,12 @@ function showRelationDetail(index) {
     }
 
     // For den anden
-    if (theirRec) {
+    if (theirRec && theirRec.forAnden) {
+      var pronoun = r.gender === 'mand' ? 'han' : 'hun';
+      var pronObj = r.gender === 'mand' ? 'ham' : 'hende';
       html += '<div class="relation-recs__card">';
       html += '<p class="relation-recs__label">For ' + escapeHtml(r.name) + '</p>';
-      html += '<p class="relation-recs__text">' + theirRec.forDig.replace('dig', escapeHtml(r.name)).replace('Din', escapeHtml(r.name) + 's').replace('Du ', escapeHtml(r.name) + ' ') + '</p>';
+      html += '<p class="relation-recs__text">' + theirRec.forAnden.replace(/\{navn\}/g, escapeHtml(r.name)).replace(/\{pron\}/g, pronoun).replace(/\{pron_obj\}/g, pronObj) + '</p>';
       html += '</div>';
     }
 
@@ -2884,14 +2898,12 @@ function showRelationDetail(index) {
     html += '</div>';
   }
 
-  // Partner timeline (only for male partners)
-  if (r.gender === 'mand') {
-    html += '<div class="partner-timeline">';
-    html += '<p class="partner-timeline__title">Jeres livscyklusser</p>';
-    html += renderPartnerTimeline(userAge, theirAge);
-    html += '<p class="partner-timeline__text">' + getPartnerTimelineText(userPhase, theirPhase, userAge, theirAge) + '</p>';
-    html += '</div>';
-  }
+  // Cycle timeline (for all relations)
+  html += '<div class="partner-timeline">';
+  html += '<p class="partner-timeline__title">Jeres livscyklusser</p>';
+  html += renderPartnerTimeline(userAge, theirAge, r.gender);
+  html += '<p class="partner-timeline__text">' + getPartnerTimelineText(userPhase, theirPhase, userAge, theirAge, r.gender) + '</p>';
+  html += '</div>';
 
   // Share button
   html += '<button class="relationer__share-btn" onclick="shareWithRelation(' + index + ')">Del med ' + escapeHtml(r.name) + ' \u2192</button>';
@@ -3234,21 +3246,56 @@ function renderTidsrejseRecommendations(results, isRelation, isPast) {
   var html = '<div class="tidsrejse__recs">';
   html += '<p class="tidsrejse__recs-title">' + (isPast ? 'Hvad prægede dig?' : 'Sådan kan du forberede dig') + '</p>';
 
+  // For future mode: show phase transition info
+  if (!isPast) {
+    var user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (user.birthdate) {
+      var currentAge = calculateAge(user.birthdate);
+      var currentPhase = calculateLifePhase(currentAge);
+      var futurePhase = results.user.lifePhase;
+      if (futurePhase.phase !== currentPhase.phase) {
+        var fromEl = ELEMENT_LABELS[currentPhase.element];
+        var toEl = ELEMENT_LABELS[futurePhase.element];
+        html += '<div class="tidsrejse__rec-item tidsrejse__rec-item--transition">';
+        html += '<span class="tidsrejse__rec-label">Faseskift</span>';
+        html += '<span class="tidsrejse__rec-text">Du går fra ' + currentPhase.name + ' (' + fromEl + ') til ' + futurePhase.name + ' (' + toEl + '). ';
+        if (currentPhase.element !== futurePhase.element) {
+          html += 'Det er et skift i element — din krop og psyke vil gradvist bevæge sig mod ' + toEl.toLowerCase() + '-kvaliteterne.';
+        } else {
+          html += 'I deler element, men fasens fokus skifter. Mærk forskellen i livstemaerne.';
+        }
+        html += '</span>';
+        html += '</div>';
+
+        // Kost transition advice
+        if (currentPhase.element !== futurePhase.element) {
+          var futureFood = INSIGHT_FOOD[futurePhase.element];
+          if (futureFood && futureFood.length > 0) {
+            html += '<div class="tidsrejse__rec-item">';
+            html += '<span class="tidsrejse__rec-label">Kost-overgang</span>';
+            html += '<span class="tidsrejse__rec-text">Begynd at tilføje ' + futureFood[0].item.toLowerCase() + ' — ' + futureFood[0].desc + '</span>';
+            html += '</div>';
+          }
+        }
+      }
+    }
+  }
+
   // Øvelse
   var yoga = INSIGHT_YOGA[el];
   if (yoga && yoga.length > 0) {
-    html += '<div class="tidsrejse__rec-item">';
+    html += '<div class="tidsrejse__rec-item" onclick="navigateToYogaWithElement(\'' + el + '\')" style="cursor:pointer">';
     html += '<span class="tidsrejse__rec-label">Øvelse</span>';
-    html += '<span class="tidsrejse__rec-text">' + yoga[0].pose + ' — ' + yoga[0].desc + '</span>';
+    html += '<span class="tidsrejse__rec-text">' + yoga[0].pose + ' — ' + yoga[0].desc + ' \u2192</span>';
     html += '</div>';
   }
 
   // Næring
   var food = INSIGHT_FOOD[el];
   if (food && food.length > 0) {
-    html += '<div class="tidsrejse__rec-item">';
+    html += '<div class="tidsrejse__rec-item" onclick="App.loadScreen(\'samlede-indsigt\')" style="cursor:pointer">';
     html += '<span class="tidsrejse__rec-label">Næring</span>';
-    html += '<span class="tidsrejse__rec-text">' + food[0].item + ' — ' + food[0].desc + '</span>';
+    html += '<span class="tidsrejse__rec-text">' + food[0].item + ' — ' + food[0].desc + ' \u2192</span>';
     html += '</div>';
   }
 
@@ -3554,6 +3601,39 @@ function showFaseDetail(phaseNum) {
   var container = document.getElementById('alle-faser-list');
   if (!container) return;
 
+  var detail = LIVSFASE_DETAIL[phaseNum];
+  var recsHtml = '';
+  if (detail) {
+    recsHtml += '<div class="fase-detail-recs">';
+    recsHtml += '<p class="fase-detail-recs__title">Hvad kan du g\u00f8re?</p>';
+    if (detail.oevelse) {
+      recsHtml += '<div class="hvadkandu__card" onclick="navigateToYogaWithElement(\'' + p.element + '\')">';
+      recsHtml += '<p class="hvadkandu__label">\u00d8velse</p>';
+      recsHtml += '<p class="hvadkandu__title">' + detail.oevelse.title + '</p>';
+      recsHtml += '<p class="hvadkandu__desc">' + detail.oevelse.desc.split('.')[0] + '.</p>';
+      recsHtml += '<span class="hvadkandu__link">Pr\u00f8v nu \u2192</span>';
+      recsHtml += '</div>';
+    }
+    if (detail.kost) {
+      recsHtml += '<div class="hvadkandu__card" onclick="App.loadScreen(\'samlede-indsigt\')">';
+      recsHtml += '<p class="hvadkandu__label">Kost</p>';
+      recsHtml += '<p class="hvadkandu__title">' + detail.kost.title + '</p>';
+      recsHtml += '<p class="hvadkandu__desc">' + detail.kost.desc.split('.')[0] + '.</p>';
+      recsHtml += '<span class="hvadkandu__link">Se alle anbefalinger \u2192</span>';
+      recsHtml += '</div>';
+    }
+    if (detail.healingLyd) {
+      recsHtml += '<div class="hvadkandu__card" onclick="App.loadScreen(\'samlede-indsigt\')">';
+      recsHtml += '<p class="hvadkandu__label">Healing-lyd</p>';
+      recsHtml += '<p class="hvadkandu__title">' + detail.healingLyd.title + '</p>';
+      recsHtml += '<p class="hvadkandu__desc">' + detail.healingLyd.desc.split('.')[0] + '.</p>';
+      recsHtml += '<span class="hvadkandu__link">Se alle anbefalinger \u2192</span>';
+      recsHtml += '</div>';
+    }
+    recsHtml += '</div>';
+    recsHtml += '<button class="idag__link-btn" onclick="navigateToFaseDetail(' + phaseNum + ')">Se den fulde beskrivelse \u2192</button>';
+  }
+
   container.innerHTML =
     '<div class="detail__body">' +
       '<div class="detail__badge" style="background-color:' + APP_COLORS.morkebla + '">' + phaseNum + '</div>' +
@@ -3561,6 +3641,7 @@ function showFaseDetail(phaseNum) {
       '<p class="detail__meta">' + p.startAge + '\u2013' + p.endAge + ' \u00E5r \u00B7 ' + ELEMENT_LABELS[p.element] + '</p>' +
       '<p class="detail__qualities">' + ELEMENT_QUALITIES[p.element] + '</p>' +
       '<p class="detail__text">' + PHASE_DESCRIPTIONS[phaseNum] + '</p>' +
+      recsHtml +
     '</div>' +
     '<button class="idag__link-btn" onclick="initAlleFaserScreen()">\u2190 Alle faser</button>';
 }
@@ -3949,12 +4030,28 @@ function initCyklusserICyklusserScreen() {
     var domEl = insight.dominantElement;
     var yoga = INSIGHT_YOGA[domEl];
     var food = INSIGHT_FOOD[domEl];
-    var recHtml = '<h3 class="livsfase-detail__section-title">Hvad kan du gøre?</h3>';
+    var focus = INSIGHT_FOCUS[domEl];
+    var recHtml = '<h3 class="livsfase-detail__section-title">Hvad kan du g\u00f8re med dette krydsfelt?</h3>';
     if (yoga && yoga.length > 0) {
-      recHtml += '<div class="detail__rec-item"><span class="detail__rec-label">Øvelse for ' + ELEMENT_LABELS[domEl] + '</span><span class="detail__rec-text">' + yoga[0].pose + ' — ' + yoga[0].desc + '</span></div>';
+      recHtml += '<div class="hvadkandu__card" onclick="navigateToYogaWithElement(\'' + domEl + '\')">';
+      recHtml += '<p class="hvadkandu__label">\u00d8velse for ' + ELEMENT_LABELS[domEl] + '</p>';
+      recHtml += '<p class="hvadkandu__title">' + yoga[0].pose + '</p>';
+      recHtml += '<p class="hvadkandu__desc">' + yoga[0].desc.split('.')[0] + '. ' + yoga[0].tid + '.</p>';
+      recHtml += '<span class="hvadkandu__link">Pr\u00f8v nu \u2192</span></div>';
     }
     if (food && food.length > 0) {
-      recHtml += '<div class="detail__rec-item"><span class="detail__rec-label">Næring</span><span class="detail__rec-text">' + food[0].item + ' — ' + food[0].desc + '</span></div>';
+      recHtml += '<div class="hvadkandu__card" onclick="App.loadScreen(\'samlede-indsigt\')">';
+      recHtml += '<p class="hvadkandu__label">N\u00e6ring</p>';
+      recHtml += '<p class="hvadkandu__title">' + food[0].item + '</p>';
+      recHtml += '<p class="hvadkandu__desc">' + food[0].desc + '</p>';
+      recHtml += '<span class="hvadkandu__link">Se alle anbefalinger \u2192</span></div>';
+    }
+    if (focus && focus.length > 0) {
+      recHtml += '<div class="hvadkandu__card" onclick="App.loadScreen(\'refleksion\')">';
+      recHtml += '<p class="hvadkandu__label">Fokus</p>';
+      recHtml += '<p class="hvadkandu__title">' + focus[0].split('\u2013')[0].trim() + '</p>';
+      recHtml += '<p class="hvadkandu__desc">' + (focus[0].split('\u2013')[1] || focus[0]).trim() + '</p>';
+      recHtml += '<span class="hvadkandu__link">\u00c5bn refleksion \u2192</span></div>';
     }
     recEl.innerHTML = recHtml;
   }
@@ -4095,6 +4192,7 @@ function initMinUdviklingScreen() {
 
   renderTrackingPeriod();
   renderTrackingContent();
+  renderTrackingRecommendations();
   renderCheckinForm();
   renderTimeline();
 
@@ -4471,6 +4569,69 @@ function submitCheckin() {
   renderTrackingContent();
   renderCheckinForm();
   renderTimeline();
+}
+
+function renderTrackingRecommendations() {
+  var el = document.getElementById('tracking-recommendations');
+  if (!el) return;
+
+  ensureIdagData();
+  var checkins = getCheckins();
+  var insight = generateInsight(window._activeElements || []);
+  var domEl = insight.dominantElement;
+  var elLabel = ELEMENT_LABELS[domEl];
+
+  var html = '<h3 class="livsfase-detail__section-title">Forslag til dig lige nu</h3>';
+
+  // If enough checkins, use pattern-based recommendations
+  if (checkins.length >= 3) {
+    // Find most common mood element
+    var moodCounts = {};
+    for (var i = 0; i < Math.min(checkins.length, 10); i++) {
+      var c = checkins[i];
+      if (c.mood) {
+        var moodOpt = MOOD_OPTIONS.find(function(m) { return m.name === c.mood; });
+        if (moodOpt) {
+          moodCounts[moodOpt.element] = (moodCounts[moodOpt.element] || 0) + 1;
+        }
+      }
+    }
+    var topMoodEl = domEl;
+    var topCount = 0;
+    for (var mel in moodCounts) {
+      if (moodCounts[mel] > topCount) { topCount = moodCounts[mel]; topMoodEl = mel; }
+    }
+    html += '<p class="hvadkandu__intro">Dine seneste check-ins peger mod ' + ELEMENT_LABELS[topMoodEl] + '-energi. Her er hvad der kan st\u00f8tte dig.</p>';
+    domEl = topMoodEl;
+  } else {
+    html += '<p class="hvadkandu__intro">' + elLabel + '-elementet pr\u00e6ger din dag. Her er forslag baseret p\u00e5 dine cyklusser.</p>';
+  }
+
+  var yoga = INSIGHT_YOGA[domEl];
+  var food = INSIGHT_FOOD[domEl];
+
+  if (yoga && yoga.length > 0) {
+    html += '<div class="hvadkandu__card" onclick="navigateToYogaWithElement(\'' + domEl + '\')">';
+    html += '<p class="hvadkandu__label">\u00d8velse</p>';
+    html += '<p class="hvadkandu__title">' + yoga[0].pose + '</p>';
+    html += '<p class="hvadkandu__desc">' + yoga[0].desc.split('.')[0] + '. ' + yoga[0].tid + '.</p>';
+    html += '<span class="hvadkandu__link">Pr\u00f8v nu \u2192</span></div>';
+  }
+  if (food && food.length > 0) {
+    html += '<div class="hvadkandu__card" onclick="App.loadScreen(\'samlede-indsigt\')">';
+    html += '<p class="hvadkandu__label">N\u00e6ring</p>';
+    html += '<p class="hvadkandu__title">' + food[0].item + '</p>';
+    html += '<p class="hvadkandu__desc">' + food[0].desc + '</p>';
+    html += '<span class="hvadkandu__link">Se anbefalinger \u2192</span></div>';
+  }
+
+  html += '<div class="hvadkandu__card" onclick="App.loadScreen(\'refleksion\')">';
+  html += '<p class="hvadkandu__label">Refleksion</p>';
+  html += '<p class="hvadkandu__title">Tag et stille \u00f8jeblik</p>';
+  html += '<p class="hvadkandu__desc">Sp\u00f8rgsm\u00e5l tilpasset din livsfase \u2014 du beh\u00f8ver ikke svare, bare lytte indad.</p>';
+  html += '<span class="hvadkandu__link">\u00c5bn refleksion \u2192</span></div>';
+
+  el.innerHTML = html;
 }
 
 function renderTimeline() {
@@ -5677,7 +5838,13 @@ function initDeFireUgerScreen() {
         html += '<p class="tema__kort-subtitle">' + wk.dagRange + ' \u00B7 ' + ELEMENT_LABELS[wk.element] + ' \u00B7 ' + wk.kvalitet + '</p>';
         html += '<p class="livsfase-detail__section-text" style="margin-top:8px">' + wk.bodyText + '</p>';
         html += '<p class="livsfase-detail__section-text" style="font-style:italic;margin-top:4px">' + wk.feelingsText + '</p>';
-        html += '<p style="margin-top:8px;font-size:13px;color:#666">' + wk.recommendations.join(' \u00B7 ') + '</p>';
+        html += '<div class="fire-uger__recs">';
+        for (var ri = 0; ri < wk.recommendations.length; ri++) {
+          var recText = wk.recommendations[ri];
+          var recOnclick = ri === 0 ? "navigateToYogaWithElement('" + wk.element + "')" : ri === 1 ? "App.loadScreen('samlede-indsigt')" : "App.loadScreen('refleksion')";
+          html += '<div class="fire-uger__rec" onclick="' + recOnclick + '">' + recText + ' \u2192</div>';
+        }
+        html += '</div>';
       } else {
         html += '<p class="tema__kort-subtitle">' + ELEMENT_LABELS[wk.element] + ' \u00B7 ' + wk.kvalitet + '</p>';
         html += '<p class="livsfase-detail__section-text" style="margin-top:8px">' + wk.text + '</p>';
