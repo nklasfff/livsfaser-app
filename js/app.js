@@ -4816,9 +4816,9 @@ function renderVennTwo(opts) {
     svg += '<text x="350" y="40" text-anchor="middle" font-family=' + font + ' font-size="20" font-weight="bold" fill="black">' + escapeHtml(opts.heading) + '</text>';
   }
 
-  // Circles — fixed lavender, no stroke
-  svg += '<circle cx="' + cx1 + '" cy="' + cy1 + '" r="' + R + '" fill="#9886B0" fill-opacity="0.55"/>';
-  svg += '<circle cx="' + cx2 + '" cy="' + cy2 + '" r="' + R + '" fill="#A896B8" fill-opacity="0.55"/>';
+  // Circles — fixed blue, no stroke
+  svg += '<circle cx="' + cx1 + '" cy="' + cy1 + '" r="' + R + '" fill="#7690C1" fill-opacity="0.60"/>';
+  svg += '<circle cx="' + cx2 + '" cy="' + cy2 + '" r="' + R + '" fill="#7690C1" fill-opacity="0.80"/>';
 
   // Left zone text
   var ll = opts.leftLines || [];
@@ -4882,10 +4882,10 @@ function renderVennThree(opts) {
   var svg = '<div class="venn venn--three" id="' + id + '">';
   svg += '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" class="venn__svg">';
 
-  // Circles — fixed lavender shades, no stroke
-  svg += '<circle cx="' + cxA + '" cy="' + cyA + '" r="' + R + '" fill="#8A7EA4" fill-opacity="0.55"/>';
-  svg += '<circle cx="' + cxB + '" cy="' + cyB + '" r="' + R + '" fill="#9886B0" fill-opacity="0.55"/>';
-  svg += '<circle cx="' + cxC + '" cy="' + cyC + '" r="' + R + '" fill="#A896B8" fill-opacity="0.55"/>';
+  // Circles — fixed blue shades, no stroke
+  svg += '<circle cx="' + cxA + '" cy="' + cyA + '" r="' + R + '" fill="#7690C1" fill-opacity="0.55"/>';
+  svg += '<circle cx="' + cxB + '" cy="' + cyB + '" r="' + R + '" fill="#7690C1" fill-opacity="0.65"/>';
+  svg += '<circle cx="' + cxC + '" cy="' + cyC + '" r="' + R + '" fill="#7690C1" fill-opacity="0.80"/>';
 
   // Zone A (top)
   var tl = opts.topLines || [];
@@ -4963,11 +4963,11 @@ function renderVennFour(opts) {
   var svg = '<div class="venn venn--four" id="' + id + '">';
   svg += '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" class="venn__svg">';
 
-  // Circles — fixed green-gray shades, no stroke
-  svg += '<circle cx="' + cxA + '" cy="' + cyA + '" r="' + R + '" fill="#6B8A8D" fill-opacity="0.55"/>';
-  svg += '<circle cx="' + cxB + '" cy="' + cyB + '" r="' + R + '" fill="#758A8D" fill-opacity="0.55"/>';
-  svg += '<circle cx="' + cxC + '" cy="' + cyC + '" r="' + R + '" fill="#859A9D" fill-opacity="0.55"/>';
-  svg += '<circle cx="' + cxD + '" cy="' + cyD + '" r="' + R + '" fill="#95AAAD" fill-opacity="0.55"/>';
+  // Circles — fixed blue shades, no stroke
+  svg += '<circle cx="' + cxA + '" cy="' + cyA + '" r="' + R + '" fill="#7690C1" fill-opacity="0.50"/>';
+  svg += '<circle cx="' + cxB + '" cy="' + cyB + '" r="' + R + '" fill="#7690C1" fill-opacity="0.60"/>';
+  svg += '<circle cx="' + cxC + '" cy="' + cyC + '" r="' + R + '" fill="#7690C1" fill-opacity="0.70"/>';
+  svg += '<circle cx="' + cxD + '" cy="' + cyD + '" r="' + R + '" fill="#7690C1" fill-opacity="0.75"/>';
 
   // Zone labels
   var al = opts.topLines || [];
