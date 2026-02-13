@@ -3894,22 +3894,10 @@ function initMinPraksisScreen() {
   var insight = generateInsight(elements);
   var primaryEl = insight.dominantElement;
 
-  // Venn diagram at top: KROP / NÆRING / SIND
+  // Din Krop circle diagram
   var vennEl = document.getElementById('min-praksis-venn');
   if (vennEl) {
-    vennEl.innerHTML = renderVennThree({
-      topTitle: 'KROP',
-      topLines: ['Bev\u00e6gelse', '\u00d8velser \u00B7 Yoga'],
-      bottomLeftTitle: 'N\u00c6RING',
-      bottomLeftLines: ['Mad \u00B7 Urter', ELEMENT_LABELS[primaryEl] + '-st\u00f8tte'],
-      bottomRightTitle: 'SIND',
-      bottomRightLines: ['Fokus \u00B7 Ro', 'Refleksion'],
-      overlapAB: 'styrke',
-      overlapAC: 'klarhed',
-      overlapBC: 'n\u00e6rv\u00e6r',
-      centerTitle: 'DIN',
-      centerLines: ['PRAKSIS']
-    });
+    vennEl.innerHTML = renderDinKropCircle();
   }
 
   // Kontekstboks
@@ -5792,13 +5780,33 @@ function initLivsfaseDetailScreen() {
 // ---- Feature: De Fire Uger ----
 
 function renderFourWeekCircle(currentWeek, isMenstrual, cycleDay) {
-  var W = 300, H = 300, cx = W/2, cy = H/2, R = 120;
-  var weekColors = ['#4A7FB5', '#5B8C5A', '#C85A54', '#8B9A9D'];
-  var weekLabels = isMenstrual ? ['Uge 1', 'Uge 2', 'Uge 3', 'Uge 4'] : ['Nym\u00e5ne', 'Tiltagende', 'Fuldm\u00e5ne', 'Aftagende'];
+  var W = 500, H = 530, cx = 250, cy = 260, R = 200;
+  var font = VENN_FONT;
+
+  // Sector data
+  var sectorColors = ['#7A8E91', '#8B9A9D', '#9EAAAD', '#B0B8BA'];
+  var activeColors = ['#6A7E81', '#7B8A8D', '#8E9A9D', '#A0A8AA'];
+  var weekData = isMenstrual ? [
+    { title: 'UGE 1', days: 'Dag 1-7', season: 'Vinter', element: 'VAND', chi: '\u6C34', quality: 'Indadvendt energi \u00B7 Hvile', phase: 'Menstruation' },
+    { title: 'UGE 2', days: 'Dag 8-14', season: 'For\u00e5r', element: 'TR\u00C6', chi: '\u6728', quality: 'Stigende energi \u00B7 V\u00e6kst', phase: 'Ny begyndelse' },
+    { title: 'UGE 3', days: 'Dag 15-21', season: 'Sommer', element: 'ILD', chi: '\u706B', quality: 'Udadvendt energi \u00B7 Toppunkt', phase: '\u00c6gl\u00f8sning' },
+    { title: 'UGE 4', days: 'Dag 22-28', season: 'Efter\u00e5r', element: 'METAL', chi: '\u91D1', quality: 'Faldende energi \u00B7 Slip', phase: 'Forberedelse' }
+  ] : [
+    { title: 'NYM\u00c5NE', days: '', season: 'Vinter', element: 'VAND', chi: '\u6C34', quality: 'Indadvendt energi \u00B7 Hvile', phase: 'Ny begyndelse' },
+    { title: 'TILTAGENDE', days: '', season: 'For\u00e5r', element: 'TR\u00C6', chi: '\u6728', quality: 'Stigende energi \u00B7 V\u00e6kst', phase: 'V\u00e6kst' },
+    { title: 'FULDM\u00c5NE', days: '', season: 'Sommer', element: 'ILD', chi: '\u706B', quality: 'Udadvendt energi \u00B7 Toppunkt', phase: 'H\u00f8jdepunkt' },
+    { title: 'AFTAGENDE', days: '', season: 'Efter\u00e5r', element: 'METAL', chi: '\u91D1', quality: 'Faldende energi \u00B7 Slip', phase: 'Frigørelse' }
+  ];
 
   var svg = '<div class="circular-fig" style="max-width:' + W + 'px;margin:0 auto"><svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">';
 
-  // Draw 4 sectors
+  // Defs
+  svg += '<defs><marker id="arrowSector" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#666" opacity="0.5"/></marker></defs>';
+
+  // Outer ring
+  svg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + (R + 18) + '" fill="none" stroke="#888" stroke-width="0.5"/>';
+
+  // 4 sectors
   for (var i = 0; i < 4; i++) {
     var startA = -Math.PI/2 + (Math.PI/2 * i);
     var endA = startA + Math.PI/2;
@@ -5807,23 +5815,49 @@ function renderFourWeekCircle(currentWeek, isMenstrual, cycleDay) {
     var y1 = cy + R * Math.sin(startA);
     var x2 = cx + R * Math.cos(endA);
     var y2 = cy + R * Math.sin(endA);
-    var opacity = isActive ? 0.35 : 0.12;
-    var strokeW = isActive ? 3 : 1;
+    var fillC = isActive ? activeColors[i] : sectorColors[i];
+    var fillO = isActive ? 0.45 : 0.3;
 
-    svg += '<path d="M ' + cx + ' ' + cy + ' L ' + x1 + ' ' + y1 + ' A ' + R + ' ' + R + ' 0 0 1 ' + x2 + ' ' + y2 + ' Z" fill="' + weekColors[i] + '" fill-opacity="' + opacity + '" stroke="' + weekColors[i] + '" stroke-width="' + strokeW + '"/>';
+    svg += '<path d="M ' + cx + ' ' + cy + ' L ' + x1 + ' ' + y1 + ' A ' + R + ' ' + R + ' 0 0 1 ' + x2 + ' ' + y2 + ' Z" fill="' + fillC + '" fill-opacity="' + fillO + '" stroke="#777" stroke-width="0.8"/>';
 
-    // Label
+    // Content in sector center
     var midA = startA + Math.PI/4;
-    var lx = cx + (R * 0.6) * Math.cos(midA);
-    var ly = cy + (R * 0.6) * Math.sin(midA);
-    svg += '<text x="' + lx + '" y="' + (ly - 5) + '" text-anchor="middle" font-family="' + VENN_FONT + '" font-size="10" font-weight="' + (isActive ? '700' : '500') + '" fill="#333">' + weekLabels[i] + '</text>';
-    svg += '<text x="' + lx + '" y="' + (ly + 8) + '" text-anchor="middle" font-family="' + VENN_FONT + '" font-size="8" fill="#666">' + ELEMENT_LABELS[['VAND','TR\u00C6','ILD','JORD'][i]] + '</text>';
+    var d = weekData[i];
+    var tx = cx + (R * 0.58) * Math.cos(midA);
+    var ty = cy + (R * 0.58) * Math.sin(midA);
+
+    var titleFw = isActive ? '900' : '800';
+    svg += '<text x="' + tx + '" y="' + (ty - 30) + '" text-anchor="middle" font-family="' + font + '" font-size="16" font-weight="' + titleFw + '" fill="' + (isActive ? '#fff' : '#222') + '">' + d.title + '</text>';
+    if (d.days) svg += '<text x="' + tx + '" y="' + (ty - 14) + '" text-anchor="middle" font-family="' + font + '" font-size="11" fill="' + (isActive ? '#eee' : '#444') + '">' + d.days + '</text>';
+    svg += '<text x="' + tx + '" y="' + (ty + 4) + '" text-anchor="middle" font-family="' + font + '" font-size="13" font-style="italic" fill="' + (isActive ? '#eee' : '#333') + '">' + d.season + '</text>';
+    svg += '<text x="' + tx + '" y="' + (ty + 22) + '" text-anchor="middle" font-family="' + font + '" font-size="14" font-weight="700" fill="' + (isActive ? '#fff' : '#222') + '">' + ELEMENT_LABELS[d.element] + ' ' + d.chi + '</text>';
+    svg += '<text x="' + tx + '" y="' + (ty + 42) + '" text-anchor="middle" font-family="' + font + '" font-size="9" fill="' + (isActive ? '#ddd' : '#555') + '">' + d.quality + '</text>';
+
+    // Phase label on outer ring (rotated)
+    var phaseAngle = midA;
+    var phaseR = R + 10;
+    var px = cx + phaseR * Math.cos(phaseAngle);
+    var py = cy + phaseR * Math.sin(phaseAngle);
+    var pDeg = phaseAngle * 180 / Math.PI;
+    // Rotate text to follow the arc
+    var textRotation = pDeg + 90;
+    if (pDeg > 0 && pDeg < 180) textRotation = pDeg - 90;
+    svg += '<text x="' + px + '" y="' + py + '" text-anchor="middle" dominant-baseline="central" transform="rotate(' + textRotation + ',' + px + ',' + py + ')" font-family="' + font + '" font-size="11" font-style="italic" fill="#555">' + d.phase + '</text>';
+
+    // Small arrow on outer ring between sectors
+    var arrowA = endA;
+    var ax1 = cx + (R + 4) * Math.cos(arrowA - 0.15);
+    var ay1 = cy + (R + 4) * Math.sin(arrowA - 0.15);
+    var ax2 = cx + (R + 4) * Math.cos(arrowA + 0.15);
+    var ay2 = cy + (R + 4) * Math.sin(arrowA + 0.15);
+    svg += '<line x1="' + ax1 + '" y1="' + ay1 + '" x2="' + ax2 + '" y2="' + ay2 + '" stroke="#666" stroke-width="1" marker-end="url(#arrowSector)"/>';
   }
 
-  // Center
-  svg += '<circle cx="' + cx + '" cy="' + cy + '" r="28" fill="#F0F4F8" stroke="#244382" stroke-width="1.5"/>';
-  svg += '<text x="' + cx + '" y="' + (cy - 5) + '" text-anchor="middle" dominant-baseline="central" font-family="' + VENN_FONT + '" font-size="10" fill="#666">' + (isMenstrual ? 'Dag' : 'Fase') + '</text>';
-  svg += '<text x="' + cx + '" y="' + (cy + 9) + '" text-anchor="middle" dominant-baseline="central" font-family="' + VENN_FONT + '" font-size="14" font-weight="700" fill="#244382">' + (cycleDay || currentWeek) + '</text>';
+  // Center circle with moon crescent
+  svg += '<circle cx="' + cx + '" cy="' + cy + '" r="32" fill="#E8ECEE" stroke="#888" stroke-width="1"/>';
+  // Moon crescent SVG
+  svg += '<circle cx="' + (cx + 2) + '" cy="' + cy + '" r="10" fill="#555"/>';
+  svg += '<circle cx="' + (cx + 6) + '" cy="' + (cy - 2) + '" r="9" fill="#E8ECEE"/>';
 
   svg += '</svg></div>';
   return svg;
@@ -5975,55 +6009,176 @@ function saveRefleksion() {
 }
 window.saveRefleksion = saveRefleksion;
 
-// ---- Feature: Kontrolcyklussen ----
+// ---- Din Krop Circle (Min Praksis) ----
 
-function renderTCMCycleDiagram(dominantElement) {
-  var W = 320, H = 320, cx = W/2, cy = H/2, R = 110;
-  var elOrder = ['VAND', 'TR\u00C6', 'ILD', 'JORD', 'METAL'];
+function renderDinKropCircle() {
+  var W = 500, H = 500, cx = 250, cy = 250, R = 155;
   var font = VENN_FONT;
+
+  var practices = [
+    { title: 'YIN YOGA', line1: 'Bindev\u00e6v \u00B7 Meridianer', line2: 'V\u00e6re \u00B7 Give slip', screen: 'yin-yoga' },
+    { title: 'FOD YOGA', line1: 'Reflekszoner \u00B7 Fundament', line2: 'V\u00e6kke \u00B7 Rodf\u00e6ste', screen: 'samlede-indsigt' },
+    { title: 'MERIDIAN-\nSTRYGNING', line1: 'Energiens floder', line2: 'V\u00e6kke \u00B7 Berolige', screen: 'samlede-indsigt' },
+    { title: 'AKUPRESSUR', line1: 'Punkter \u00B7 Fingertryk', line2: 'Bev\u00e6gelse \u00B7 Balance', screen: 'samlede-indsigt' },
+    { title: 'VEJRTR\u00c6KNING', line1: 'Nervesystem \u00B7 Ro', line2: 'Altid tilg\u00e6ngelig', screen: 'samlede-indsigt' },
+    { title: 'EFT/TAPPING', line1: 'Banker \u00B7 Ord', line2: 'Bearbejde \u00B7 Lette', screen: 'samlede-indsigt' }
+  ];
 
   var svg = '<div class="circular-fig" style="max-width:' + W + 'px;margin:0 auto"><svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">';
 
-  // Positions (pentagon, top start)
+  // Calculate 6 positions around the circle
+  var positions = [];
+  for (var i = 0; i < 6; i++) {
+    var angle = -Math.PI/2 + (2 * Math.PI * i / 6);
+    positions.push({
+      x: cx + R * Math.cos(angle),
+      y: cy + R * Math.sin(angle)
+    });
+  }
+
+  // Dashed connecting lines from each practice to center
+  for (var d = 0; d < 6; d++) {
+    svg += '<line x1="' + positions[d].x + '" y1="' + positions[d].y + '" x2="' + cx + '" y2="' + cy + '" stroke="#999" stroke-width="0.8" stroke-dasharray="3,4" opacity="0.4"/>';
+  }
+
+  // Dashed lines connecting adjacent practices
+  for (var a = 0; a < 6; a++) {
+    var nextA = (a + 1) % 6;
+    svg += '<line x1="' + positions[a].x + '" y1="' + positions[a].y + '" x2="' + positions[nextA].x + '" y2="' + positions[nextA].y + '" stroke="#999" stroke-width="0.8" stroke-dasharray="3,4" opacity="0.3"/>';
+  }
+
+  // Practice circles
+  var circleR = 62;
+  for (var p = 0; p < 6; p++) {
+    var pr = practices[p];
+    var px = positions[p].x;
+    var py = positions[p].y;
+
+    svg += '<circle cx="' + px + '" cy="' + py + '" r="' + circleR + '" fill="#8B9A9D" fill-opacity="0.35" stroke="#888" stroke-width="0.8" onclick="App.loadScreen(\'' + pr.screen + '\')" style="cursor:pointer"/>';
+
+    // Title (may contain \n for line break)
+    var titleParts = pr.title.split('\n');
+    if (titleParts.length === 1) {
+      svg += '<text x="' + px + '" y="' + (py - 18) + '" text-anchor="middle" font-family="' + font + '" font-size="12" font-weight="800" fill="#222" onclick="App.loadScreen(\'' + pr.screen + '\')" style="cursor:pointer">' + titleParts[0] + '</text>';
+    } else {
+      svg += '<text x="' + px + '" y="' + (py - 24) + '" text-anchor="middle" font-family="' + font + '" font-size="12" font-weight="800" fill="#222" onclick="App.loadScreen(\'' + pr.screen + '\')" style="cursor:pointer">' + titleParts[0] + '</text>';
+      svg += '<text x="' + px + '" y="' + (py - 11) + '" text-anchor="middle" font-family="' + font + '" font-size="12" font-weight="800" fill="#222" onclick="App.loadScreen(\'' + pr.screen + '\')" style="cursor:pointer">' + titleParts[1] + '</text>';
+    }
+
+    // Subtitle lines
+    var lineYstart = titleParts.length === 1 ? (py - 2) : (py + 5);
+    svg += '<text x="' + px + '" y="' + lineYstart + '" text-anchor="middle" font-family="' + font + '" font-size="10" fill="#444">' + pr.line1 + '</text>';
+    svg += '<text x="' + px + '" y="' + (lineYstart + 15) + '" text-anchor="middle" font-family="' + font + '" font-size="10" font-style="italic" fill="#555">' + pr.line2 + '</text>';
+  }
+
+  // Center circle (dark)
+  svg += '<circle cx="' + cx + '" cy="' + cy + '" r="52" fill="#3A3A3A" fill-opacity="0.85" stroke="#555" stroke-width="0.8"/>';
+  svg += '<text x="' + cx + '" y="' + (cy - 14) + '" text-anchor="middle" font-family="' + font + '" font-size="16" font-weight="900" fill="#fff">DIN</text>';
+  svg += '<text x="' + cx + '" y="' + (cy + 4) + '" text-anchor="middle" font-family="' + font + '" font-size="16" font-weight="900" fill="#fff">KROP</text>';
+  svg += '<text x="' + cx + '" y="' + (cy + 22) + '" text-anchor="middle" font-family="' + font + '" font-size="10" font-style="italic" fill="#ccc">V\u00e6lg det der kalder</text>';
+
+  svg += '</svg></div>';
+  return svg;
+}
+
+// ---- Feature: Kontrolcyklussen ----
+
+function renderTCMCycleDiagram(dominantElement) {
+  var W = 500, H = 540, cx = 250, cy = 290, R = 180;
+  var font = VENN_FONT;
+  var bgColor = '#8B9A9D';
+
+  // Element order: ILD(top), JORD(right), METAL(bottom-right), VAND(bottom-left), TRÆ(left)
+  var elOrder = ['ILD', 'JORD', 'METAL', 'VAND', 'TR\u00C6'];
+  var elChinese = { 'ILD': '\u706B', 'JORD': '\u571F', 'METAL': '\u91D1', 'VAND': '\u6C34', 'TR\u00C6': '\u6728' };
+
+  // Nourishing cycle labels (along outer circle, between elements)
+  var naerLabels = [
+    'Ild kontrollerer Metal (smelter metal)',
+    'Jord kontrollerer Vand (d\u00e6mninger holder vand)',
+    'Metal kontrollerer Tr\u00e6 (\u00f8ksen f\u00e6lder tr\u00e6et)',
+    'Vand kontrollerer Ild (slukker ilden)',
+    'Tr\u00e6 kontrollerer Jord (r\u00f8dder binder jorden)'
+  ];
+
+  var svg = '<div class="circular-fig" style="max-width:' + W + 'px;margin:0 auto"><svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">';
+
+  // Title
+  svg += '<text x="' + cx + '" y="30" text-anchor="middle" font-family="' + font + '" font-size="22" font-weight="900" fill="#222">KONTROLCYKLUS (KE)</text>';
+  svg += '<text x="' + cx + '" y="52" text-anchor="middle" font-family="' + font + '" font-size="13" font-style="italic" fill="#333">Bedstefor\u00e6lderen holder balance</text>';
+
+  // Background circle
+  svg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="' + bgColor + '" fill-opacity="0.25" stroke="#555" stroke-width="1.5"/>';
+
+  // Pentagon positions
   var pos = [];
   for (var i = 0; i < 5; i++) {
     var angle = -Math.PI/2 + (2*Math.PI*i/5);
-    pos.push({ x: cx + R * Math.cos(angle), y: cy + R * Math.sin(angle) });
+    pos.push({ x: cx + R*0.72 * Math.cos(angle), y: cy + R*0.72 * Math.sin(angle) });
   }
 
-  // Nourishing arrows (outer ring): 0->1->2->3->4->0
+  // Defs for arrow markers
+  svg += '<defs>';
+  svg += '<marker id="arrowCtrl" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#333" opacity="0.6"/></marker>';
+  svg += '<marker id="arrowOuter" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#444" opacity="0.5"/></marker>';
+  svg += '</defs>';
+
+  // Controlling star (dashed): ILD->METAL, JORD->VAND, METAL->TRÆ, VAND->ILD, TRÆ->JORD
+  var ctrlPairs = [[0,2],[1,3],[2,4],[3,0],[4,1]];
+  for (var c = 0; c < ctrlPairs.length; c++) {
+    var f = ctrlPairs[c][0], t2 = ctrlPairs[c][1];
+    svg += '<line x1="' + pos[f].x + '" y1="' + pos[f].y + '" x2="' + pos[t2].x + '" y2="' + pos[t2].y + '" stroke="#333" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.45" marker-end="url(#arrowCtrl)"/>';
+  }
+
+  // Outer ring arrows (clockwise between adjacent elements)
   for (var n = 0; n < 5; n++) {
     var next = (n + 1) % 5;
-    var mx = (pos[n].x + pos[next].x) / 2;
-    var my = (pos[n].y + pos[next].y) / 2;
-    // Curve outward slightly
-    var outX = mx + (mx - cx) * 0.15;
-    var outY = my + (my - cy) * 0.15;
-    svg += '<path d="M ' + pos[n].x + ' ' + pos[n].y + ' Q ' + outX + ' ' + outY + ' ' + pos[next].x + ' ' + pos[next].y + '" fill="none" stroke="#5B8C5A" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arrowGreen)"/>';
+    var a1 = -Math.PI/2 + (2*Math.PI*n/5);
+    var a2 = -Math.PI/2 + (2*Math.PI*next/5);
+    // Arc along the outer circle
+    var arcR = R * 0.92;
+    var sx = cx + arcR * Math.cos(a1);
+    var sy = cy + arcR * Math.sin(a1);
+    var ex = cx + arcR * Math.cos(a2);
+    var ey = cy + arcR * Math.sin(a2);
+    svg += '<path d="M ' + sx + ' ' + sy + ' A ' + arcR + ' ' + arcR + ' 0 0 1 ' + ex + ' ' + ey + '" fill="none" stroke="#444" stroke-width="1.2" opacity="0.5" marker-end="url(#arrowOuter)"/>';
+
+    // Controlling label along the line between controlling pairs (rotated text)
+    var midAngle = (a1 + a2) / 2;
+    if (a2 < a1) midAngle = (a1 + a2 + 2*Math.PI) / 2;
+    var labelR = R * 0.92 + 2;
+    var lx = cx + labelR * Math.cos(midAngle);
+    var ly = cy + labelR * Math.sin(midAngle);
+    var deg = midAngle * 180 / Math.PI;
+    // Flip text if on bottom half so it reads correctly
+    var textDeg = deg;
+    if (deg > 90 && deg < 270) textDeg = deg + 180;
+    if (deg > 90 || deg < -90) {
+      if (deg > 90 && deg <= 270) textDeg = deg + 180;
+    }
+    svg += '<text x="' + lx + '" y="' + ly + '" text-anchor="middle" dominant-baseline="central" transform="rotate(' + deg + ',' + lx + ',' + ly + ')" font-family="' + font + '" font-size="9" font-style="italic" fill="#333">' + naerLabels[n] + '</text>';
   }
 
-  // Control arrows (star): 0->2, 1->3, 2->4, 3->0, 4->1
-  var controlPairs = [[0,2],[1,3],[2,4],[3,0],[4,1]];
-  for (var c = 0; c < controlPairs.length; c++) {
-    var from = controlPairs[c][0], to = controlPairs[c][1];
-    svg += '<line x1="' + pos[from].x + '" y1="' + pos[from].y + '" x2="' + pos[to].x + '" y2="' + pos[to].y + '" stroke="#C85A54" stroke-width="1" opacity="0.35" stroke-dasharray="3,4"/>';
+  // Center label
+  svg += '<text x="' + cx + '" y="' + (cy - 8) + '" text-anchor="middle" font-family="' + font + '" font-size="14" font-weight="700" fill="#222">Kontrollerende</text>';
+  svg += '<text x="' + cx + '" y="' + (cy + 10) + '" text-anchor="middle" font-family="' + font + '" font-size="14" font-weight="700" fill="#222">Cyklus</text>';
+
+  // Element labels (outside the circle)
+  var labelPos = [];
+  for (var lp = 0; lp < 5; lp++) {
+    var la = -Math.PI/2 + (2*Math.PI*lp/5);
+    labelPos.push({ x: cx + (R + 28) * Math.cos(la), y: cy + (R + 28) * Math.sin(la) });
   }
 
-  // Arrow markers
-  svg += '<defs><marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#5B8C5A" opacity="0.6"/></marker></defs>';
-
-  // Element circles
   for (var e = 0; e < 5; e++) {
     var el = elOrder[e];
     var isActive = (el === dominantElement);
-    var cR = isActive ? 28 : 24;
-    svg += '<circle cx="' + pos[e].x + '" cy="' + pos[e].y + '" r="' + cR + '" fill="' + (isActive ? '#244382' : '#F0F4F8') + '" fill-opacity="' + (isActive ? '0.15' : '1') + '" stroke="' + (isActive ? '#244382' : '#7690C1') + '" stroke-width="' + (isActive ? '2.5' : '1.5') + '"/>';
-    svg += '<text x="' + pos[e].x + '" y="' + pos[e].y + '" text-anchor="middle" dominant-baseline="central" font-family="' + font + '" font-size="10" font-weight="' + (isActive ? '700' : '500') + '" fill="' + (isActive ? '#244382' : '#333') + '">' + ELEMENT_LABELS[el] + '</text>';
+    var lbl = ELEMENT_LABELS[el] + ' ' + elChinese[el];
+    var fw = isActive ? '900' : '800';
+    var fs = isActive ? '18' : '16';
+    var fc = isActive ? '#111' : '#222';
+    svg += '<text x="' + labelPos[e].x + '" y="' + labelPos[e].y + '" text-anchor="middle" dominant-baseline="central" font-family="' + font + '" font-size="' + fs + '" font-weight="' + fw + '" fill="' + fc + '">' + lbl + '</text>';
   }
-
-  // Legend
-  svg += '<text x="20" y="' + (H-10) + '" font-family="' + font + '" font-size="8" fill="#5B8C5A">\u2014 n\u00e6rende cyklus</text>';
-  svg += '<text x="' + (W-120) + '" y="' + (H-10) + '" font-family="' + font + '" font-size="8" fill="#C85A54">\u2014 kontrollerende cyklus</text>';
 
   svg += '</svg></div>';
   return svg;
@@ -6089,32 +6244,73 @@ function initKontrolcyklussenScreen() {
 // ---- Feature: Følelseshjul ----
 
 function renderEmotionWheel() {
-  var W = 300, H = 300, cx = W/2, cy = H/2, R = 100;
-  var zones = [
-    { label: 'Frygt', sub: 'Angst', element: 'VAND', color: '#4A7FB5' },
-    { label: 'Vrede', sub: 'Frustration', element: 'TR\u00C6', color: '#5B8C5A' },
-    { label: 'Gl\u00e6de', sub: 'Rastl\u00f8shed', element: 'ILD', color: '#C85A54' },
-    { label: 'Bekymring', sub: 'Overt\u00e6nkning', element: 'JORD', color: '#B8956A' },
-    { label: 'Sorg', sub: 'Tomhed', element: 'METAL', color: '#8B9A9D' }
-  ];
+  var W = 500, H = 540, cx = 250, cy = 290, R = 180;
   var font = VENN_FONT;
+  var bgColor = '#8B9A9D';
+
+  var zones = [
+    { label: 'FRYGT', sub: 'Angst', element: 'VAND', chi: '\u6C34', elLabel: 'Vand' },
+    { label: 'VREDE', sub: 'Frustration', element: 'TR\u00C6', chi: '\u6728', elLabel: 'Tr\u00e6' },
+    { label: 'GL\u00c6DE', sub: 'Rastl\u00f8shed', element: 'ILD', chi: '\u706B', elLabel: 'Ild' },
+    { label: 'BEKYMRING', sub: 'Overt\u00e6nkning', element: 'JORD', chi: '\u571F', elLabel: 'Jord' },
+    { label: 'SORG', sub: 'Tomhed', element: 'METAL', chi: '\u91D1', elLabel: 'Metal' }
+  ];
 
   var svg = '<div class="circular-fig" style="max-width:' + W + 'px;margin:0 auto"><svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">';
 
+  // Title
+  svg += '<text x="' + cx + '" y="30" text-anchor="middle" font-family="' + font + '" font-size="22" font-weight="900" fill="#222">F\u00d8LELSERNES HJUL</text>';
+  svg += '<text x="' + cx + '" y="52" text-anchor="middle" font-family="' + font + '" font-size="13" font-style="italic" fill="#333">Alle f\u00f8lelser h\u00f8rer til et element</text>';
+
+  // Background circle
+  svg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="' + bgColor + '" fill-opacity="0.2" stroke="#555" stroke-width="1.5"/>';
+
+  // Pentagon positions
+  var pos = [];
   for (var i = 0; i < 5; i++) {
     var angle = -Math.PI/2 + (2*Math.PI*i/5);
-    var x = cx + R * Math.cos(angle);
-    var y = cy + R * Math.sin(angle);
-    var z = zones[i];
-    svg += '<circle cx="' + x + '" cy="' + y + '" r="36" fill="' + z.color + '" fill-opacity="0.12" stroke="' + z.color + '" stroke-width="1.5" onclick="showEmotionDetail(\'' + z.element + '\')" style="cursor:pointer"/>';
-    svg += '<text x="' + x + '" y="' + (y-5) + '" text-anchor="middle" font-family="' + font + '" font-size="10" font-weight="600" fill="#333" onclick="showEmotionDetail(\'' + z.element + '\')" style="cursor:pointer">' + z.label + '</text>';
-    svg += '<text x="' + x + '" y="' + (y+8) + '" text-anchor="middle" font-family="' + font + '" font-size="8" fill="#666" onclick="showEmotionDetail(\'' + z.element + '\')" style="cursor:pointer">' + z.sub + '</text>';
+    pos.push({ x: cx + R*0.72 * Math.cos(angle), y: cy + R*0.72 * Math.sin(angle) });
   }
 
-  // Center
-  svg += '<circle cx="' + cx + '" cy="' + cy + '" r="30" fill="#F0F4F8" stroke="#244382" stroke-width="1.5"/>';
-  svg += '<text x="' + cx + '" y="' + (cy-4) + '" text-anchor="middle" font-family="' + font + '" font-size="10" font-weight="700" fill="#244382">HELE</text>';
-  svg += '<text x="' + cx + '" y="' + (cy+8) + '" text-anchor="middle" font-family="' + font + '" font-size="10" font-weight="700" fill="#244382">DIG</text>';
+  // Connecting lines (nourishing cycle - outer pentagon)
+  for (var n = 0; n < 5; n++) {
+    var next = (n + 1) % 5;
+    svg += '<line x1="' + pos[n].x + '" y1="' + pos[n].y + '" x2="' + pos[next].x + '" y2="' + pos[next].y + '" stroke="#666" stroke-width="0.8" stroke-dasharray="4,4" opacity="0.35"/>';
+  }
+
+  // Inner star connections (controlling cycle)
+  var ctrlPairs = [[0,2],[1,3],[2,4],[3,0],[4,1]];
+  for (var c = 0; c < ctrlPairs.length; c++) {
+    var f = ctrlPairs[c][0], t2 = ctrlPairs[c][1];
+    svg += '<line x1="' + pos[f].x + '" y1="' + pos[f].y + '" x2="' + pos[t2].x + '" y2="' + pos[t2].y + '" stroke="#555" stroke-width="0.6" stroke-dasharray="3,5" opacity="0.2"/>';
+  }
+
+  // Emotion circles
+  for (var e = 0; e < 5; e++) {
+    var z = zones[e];
+    var px = pos[e].x;
+    var py = pos[e].y;
+
+    svg += '<circle cx="' + px + '" cy="' + py + '" r="42" fill="' + bgColor + '" fill-opacity="0.3" stroke="#666" stroke-width="0.8" onclick="showEmotionDetail(\'' + z.element + '\')" style="cursor:pointer"/>';
+
+    // Emotion label (bold)
+    svg += '<text x="' + px + '" y="' + (py - 14) + '" text-anchor="middle" font-family="' + font + '" font-size="13" font-weight="800" fill="#222" onclick="showEmotionDetail(\'' + z.element + '\')" style="cursor:pointer">' + z.label + '</text>';
+    // Sub-emotion
+    svg += '<text x="' + px + '" y="' + (py + 2) + '" text-anchor="middle" font-family="' + font + '" font-size="10" fill="#444" onclick="showEmotionDetail(\'' + z.element + '\')" style="cursor:pointer">' + z.sub + '</text>';
+    // Element + Chinese
+    svg += '<text x="' + px + '" y="' + (py + 18) + '" text-anchor="middle" font-family="' + font + '" font-size="10" font-style="italic" fill="#555" onclick="showEmotionDetail(\'' + z.element + '\')" style="cursor:pointer">' + z.elLabel + ' ' + z.chi + '</text>';
+
+    // Element label outside the circle
+    var labelA = -Math.PI/2 + (2*Math.PI*e/5);
+    var elLabelX = cx + (R + 25) * Math.cos(labelA);
+    var elLabelY = cy + (R + 25) * Math.sin(labelA);
+    svg += '<text x="' + elLabelX + '" y="' + elLabelY + '" text-anchor="middle" dominant-baseline="central" font-family="' + font + '" font-size="14" font-weight="700" fill="#333" onclick="showEmotionDetail(\'' + z.element + '\')" style="cursor:pointer">' + z.elLabel + ' ' + z.chi + '</text>';
+  }
+
+  // Center circle
+  svg += '<circle cx="' + cx + '" cy="' + cy + '" r="38" fill="#3A3A3A" fill-opacity="0.8" stroke="#555" stroke-width="0.8"/>';
+  svg += '<text x="' + cx + '" y="' + (cy - 8) + '" text-anchor="middle" font-family="' + font + '" font-size="14" font-weight="900" fill="#fff">HELE</text>';
+  svg += '<text x="' + cx + '" y="' + (cy + 10) + '" text-anchor="middle" font-family="' + font + '" font-size="14" font-weight="900" fill="#fff">DIG</text>';
 
   svg += '</svg></div>';
   return svg;
