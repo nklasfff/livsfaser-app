@@ -1619,7 +1619,7 @@ function renderConcentricCircles(container, data) {
   // Dynamic ring colors: gradient from ugedag element → organur element
   var outerBlue = ELEMENT_BLUES[weekday.element] || '#244382';
   var innerBlue = ELEMENT_BLUES[organ.element] || '#8BA0D1';
-  var centerBlue = outerBlue; // same color as outermost ring (livsfase)
+  var centerBlue = ELEMENT_BLUES[monthCycle.data.element] || '#5070AD'; // same color as måned ring
   var rc = [
     outerBlue,
     blendHex(outerBlue, innerBlue, 0.25),
