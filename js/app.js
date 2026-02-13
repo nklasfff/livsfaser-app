@@ -39,12 +39,12 @@ const APP_COLORS = {
 };
 
 const RING_COLORS = {
-  0: '#244382',
+  0: '#2E4A88',
   1: '#3A5A9A',
   2: '#5070AD',
   3: '#6D88BF',
   4: '#8BA0D1',
-  center: '#244382'
+  center: '#2E4A88'
 };
 
 const ELEMENT_BLUES = {
