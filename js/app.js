@@ -1087,9 +1087,9 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-// Lotus section divider HTML
+// Section divider (removed — spacing handled by CSS)
 function sectionDivider() {
-  return '<div class="section-divider"><img src="lotus-transparent.png" alt="" class="section-divider__lotus"></div>';
+  return '';
 }
 
 // Scroll-to-top footer
