@@ -38,13 +38,16 @@ const APP_COLORS = {
   graaGroen: '#8B9A9D'
 };
 
+/* BACKUP — old RING_COLORS:
+  { 0: '#2E4A88', 1: '#3A5A9A', 2: '#5070AD', 3: '#6D88BF', 4: '#8BA0D1', center: '#2E4A88' }
+*/
 const RING_COLORS = {
-  0: '#2E4A88',
-  1: '#3A5A9A',
-  2: '#5070AD',
-  3: '#6D88BF',
-  4: '#8BA0D1',
-  center: '#2E4A88'
+  0: '#526999',
+  1: '#5d72a8',
+  2: '#7690c1',
+  3: '#8ea8cf',
+  4: '#a7bfdd',
+  center: 'rgba(167, 191, 221, 0.6)'
 };
 
 const ELEMENT_BLUES = {
@@ -1681,8 +1684,8 @@ function renderConcentricCircles(container, data) {
 
   // Centrum - DIT LIV
   svg += '<ellipse cx="200" cy="294" rx="38" ry="25" fill="' + centerBlue + '"/>';
-  svg += '<text x="200" y="289" text-anchor="middle" font-family="Times New Roman, serif" font-size="13" font-weight="bold" fill="#FFFFFF">DIT</text>';
-  svg += '<text x="200" y="304" text-anchor="middle" font-family="Times New Roman, serif" font-size="13" font-weight="bold" fill="#FFFFFF">LIV</text>';
+  svg += '<text x="200" y="289" text-anchor="middle" font-family="Times New Roman, serif" font-size="13" font-weight="bold" fill="#344e78">DIT</text>';
+  svg += '<text x="200" y="304" text-anchor="middle" font-family="Times New Roman, serif" font-size="13" font-weight="bold" fill="#344e78">LIV</text>';
 
   svg += '</svg>';
 
