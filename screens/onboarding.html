@@ -1,0 +1,63 @@
+<section class="onboarding">
+  <!-- Step 1: Velkomst -->
+  <div class="onboarding__step active" data-step="1">
+    <div class="onboarding__content">
+      <h2 class="onboarding__title">Velkommen!</h2>
+      <p class="onboarding__text">Denne app er for ALLE kvinder &mdash; med børn, uden børn, i parforhold eller alene. Faserne angår os alle.</p>
+    </div>
+    <button class="onboarding__btn" onclick="Onboarding.goToStep(2)">Lad os starte</button>
+  </div>
+
+  <!-- Step 2: Fødselsdato -->
+  <div class="onboarding__step" data-step="2">
+    <div class="onboarding__content">
+      <h2 class="onboarding__title">Hvornår er du født?</h2>
+      <input
+        type="date"
+        id="onboarding-birthdate"
+        class="onboarding__input"
+      >
+      <p class="onboarding__error" id="onboarding-error"></p>
+    </div>
+    <button class="onboarding__btn" onclick="Onboarding.submitBirthdate()">Næste</button>
+  </div>
+
+  <!-- Step 3: Menstruation spørgsmål -->
+  <div class="onboarding__step" data-step="3">
+    <div class="onboarding__content">
+      <h2 class="onboarding__title">Tracker du din menstruationscyklus?</h2>
+      <p class="onboarding__text">Vi bruger det til at vise din månedlige cyklus. Du kan altid ændre det senere.</p>
+      <div class="onboarding__choices">
+        <button class="onboarding__choice" onclick="Onboarding.setMenstruation(true)">Ja</button>
+        <button class="onboarding__choice onboarding__choice--outline" onclick="Onboarding.setMenstruation(false)">Nej</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4: Sidste menstruation dato -->
+  <div class="onboarding__step" data-step="4">
+    <div class="onboarding__content">
+      <h2 class="onboarding__title">Hvornår startede din sidste menstruation?</h2>
+      <input
+        type="date"
+        id="onboarding-period-date"
+        class="onboarding__input"
+      >
+      <p class="onboarding__error" id="onboarding-period-error"></p>
+    </div>
+    <button class="onboarding__btn" onclick="Onboarding.submitPeriodDate()">Næste</button>
+  </div>
+
+  <!-- Step 5: Resultat -->
+  <div class="onboarding__step" data-step="5">
+    <div class="onboarding__content">
+      <div class="onboarding__result">
+        <div class="onboarding__element-badge" id="onboarding-badge"></div>
+        <h2 class="onboarding__title" id="onboarding-phase-title"></h2>
+        <p class="onboarding__phase-range" id="onboarding-phase-range"></p>
+        <p class="onboarding__text" id="onboarding-element-text"></p>
+      </div>
+    </div>
+    <button class="onboarding__btn" onclick="Onboarding.finish()">Gå til I dag</button>
+  </div>
+</section>
