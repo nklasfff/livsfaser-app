@@ -235,18 +235,30 @@ function calculateCyclesForDate(birthdate, targetDate, opts) {
 
 const Onboarding = {
   _relationType: null,
+  _tracksMenstruation: false,
+  _lastPeriodDate: null,
 
-  goToStep(step) {
-    document.querySelectorAll('.onboarding__step').forEach(el => {
-      el.classList.remove('active');
-    });
-    const target = document.querySelector('.onboarding__step[data-step="' + step + '"]');
-    if (target) target.classList.add('active');
+  init() {
+    // Render phase figure
+    this.renderPhaseFigure();
 
-    // Render phase figure on step 1
-    if (step === 1) this.renderPhaseFigure();
-    // Render result circles on step 4
-    if (step === 4) this.renderResult();
+    // Bind birthdate change
+    var input = document.getElementById('onboarding-birthdate');
+    if (input && !input._bound) {
+      input._bound = true;
+      input.addEventListener('change', function() {
+        Onboarding._onBirthdateChange();
+      });
+    }
+
+    // Bind period date change (auto-save, no button needed)
+    var periodInput = document.getElementById('onboarding-period-date');
+    if (periodInput && !periodInput._bound) {
+      periodInput._bound = true;
+      periodInput.addEventListener('change', function() {
+        Onboarding._onPeriodDateChange();
+      });
+    }
   },
 
   renderPhaseFigure() {
@@ -269,15 +281,6 @@ const Onboarding = {
       width: 320,
       height: 320
     });
-
-    // Bind date change
-    var input = document.getElementById('onboarding-birthdate');
-    if (input && !input._bound) {
-      input._bound = true;
-      input.addEventListener('change', function() {
-        Onboarding._onBirthdateChange();
-      });
-    }
   },
 
   _onBirthdateChange() {
@@ -300,70 +303,67 @@ const Onboarding = {
     // Update circle figure to highlight phase
     this.renderPhaseFigure();
 
-    // Show result text
+    // Show result text inline
     var resultEl = document.getElementById('onboarding-phase-result');
     if (resultEl) {
-      resultEl.innerHTML = '<p class="onboarding__phase-highlight">Du er i <strong>Fase ' + this._phase.phase + ': ' + this._phase.name + '</strong> (' + this._phase.startAge + '\u2013' + this._phase.endAge + ' \u00e5r) \u00B7 ' + ELEMENT_LABELS[this._phase.element] + '-element</p>';
+      resultEl.innerHTML = '<p class="onboarding__phase-highlight">Du er i <strong>Fase ' + this._phase.phase + ': ' + this._phase.name + '</strong> (' + this._phase.startAge + '\u2013' + this._phase.endAge + ' \u00e5r) \u00B7 ' + ELEMENT_LABELS[this._phase.element] + '-element</p><p style="font-family:var(--font-serif);font-style:italic;color:var(--text-secondary);font-size:14px;line-height:1.6;margin-top:8px">' + (PHASE_DESCRIPTIONS[this._phase.phase] || '') + '</p>';
     }
 
-    // Show next button
-    var btn = document.getElementById('onboarding-step1-btn');
-    if (btn) btn.style.display = '';
-  },
-
-  submitBirthdate() {
-    var input = document.getElementById('onboarding-birthdate');
-    var error = document.getElementById('onboarding-error');
-    if (!input || !input.value) {
-      error.textContent = 'Indtast venligst din f\u00f8dselsdato';
-      return;
-    }
-    var birthdate = new Date(input.value);
-    var today = new Date();
-    if (birthdate >= today) {
-      error.textContent = 'F\u00f8dselsdato skal v\u00e6re i fortiden';
-      return;
-    }
-    error.textContent = '';
-    this._birthdate = input.value;
-    this._age = calculateAge(input.value);
-    this._phase = calculateLifePhase(this._age);
-    this.goToStep(2);
+    // Show the result section at the bottom
+    this._showResult();
   },
 
   setMenstruation(tracks) {
     this._tracksMenstruation = tracks;
+    var choices = document.getElementById('onboarding-mens-choices');
+    var periodSection = document.getElementById('onboarding-period-section');
+
     if (tracks) {
-      document.getElementById('onboarding-period-section').style.display = '';
-      document.getElementById('onboarding-moon-section').style.display = 'none';
-      // Hide the choice buttons
-      var choices = document.querySelector('[data-step="2"] .onboarding__choices');
-      if (choices) choices.style.display = 'none';
+      // Show period date picker
+      if (periodSection) periodSection.style.display = '';
+      // Dim the buttons to show selection
+      if (choices) {
+        var btns = choices.querySelectorAll('.onboarding__choice');
+        btns[0].classList.add('onboarding__choice--selected');
+        btns[0].style.opacity = '1';
+        btns[0].style.pointerEvents = 'none';
+        btns[1].style.display = 'none';
+      }
     } else {
+      // No menstruation — hide period section, show nothing extra
       this._lastPeriodDate = null;
-      document.getElementById('onboarding-period-section').style.display = 'none';
-      document.getElementById('onboarding-moon-section').style.display = '';
-      var choices2 = document.querySelector('[data-step="2"] .onboarding__choices');
-      if (choices2) choices2.style.display = 'none';
+      if (periodSection) periodSection.style.display = 'none';
+      if (choices) {
+        var btns2 = choices.querySelectorAll('.onboarding__choice');
+        btns2[1].classList.add('onboarding__choice--selected');
+        btns2[1].style.opacity = '1';
+        btns2[1].style.pointerEvents = 'none';
+        btns2[1].style.background = 'var(--blaa)';
+        btns2[1].style.color = '#fff';
+        btns2[1].style.borderColor = 'var(--blaa)';
+        btns2[0].style.display = 'none';
+      }
+      // Update result if birthdate already set
+      if (this._birthdate) this._showResult();
     }
   },
 
-  submitPeriodDate() {
+  _onPeriodDateChange() {
     var input = document.getElementById('onboarding-period-date');
     var error = document.getElementById('onboarding-period-error');
-    if (!input || !input.value) {
-      error.textContent = 'Indtast venligst en dato';
-      return;
-    }
+    if (!input || !input.value) return;
+
     var periodDate = new Date(input.value);
     var today = new Date();
     if (periodDate > today) {
-      error.textContent = 'Datoen kan ikke v\u00e6re i fremtiden';
+      if (error) error.textContent = 'Datoen kan ikke v\u00e6re i fremtiden';
       return;
     }
-    error.textContent = '';
+    if (error) error.textContent = '';
     this._lastPeriodDate = input.value;
-    this.goToStep(3);
+
+    // Update result if birthdate already set
+    if (this._birthdate) this._showResult();
   },
 
   addRelation(type) {
@@ -372,8 +372,8 @@ const Onboarding = {
     this._relationGender = gender;
 
     document.getElementById('onboarding-relation-buttons').style.display = 'none';
-    document.getElementById('onboarding-relation-form').style.display = '';
-    document.getElementById('onboarding-skip-btn').textContent = 'Spring over';
+    var form = document.getElementById('onboarding-relation-form');
+    if (form) form.style.display = '';
     var label = document.getElementById('onboarding-relation-label');
     if (label) label.textContent = (type.charAt(0).toUpperCase() + type.slice(1)) + 's navn';
   },
@@ -400,15 +400,23 @@ const Onboarding = {
     relations.push(relation);
     localStorage.setItem('relations', JSON.stringify(relations));
 
-    this.goToStep(4);
+    // Show confirmation and hide form
+    var form = document.getElementById('onboarding-relation-form');
+    if (form) form.style.display = 'none';
+    var added = document.getElementById('onboarding-relation-added');
+    if (added) {
+      added.style.display = '';
+      added.innerHTML = '<p class="onboarding__relation-added">\u2713 ' + relation.name + ' tilf\u00f8jet</p>';
+    }
+
+    // Update result
+    if (this._birthdate) this._showResult();
   },
 
-  skipRelation() {
-    this.goToStep(4);
-  },
+  _showResult() {
+    if (!this._birthdate || !this._phase) return;
 
-  renderResult() {
-    // Save user data first so calculations work
+    // Save user data
     var userData = {
       birthdate: this._birthdate,
       age: this._age,
@@ -419,6 +427,10 @@ const Onboarding = {
       createdAt: new Date().toISOString()
     };
     localStorage.setItem('user', JSON.stringify(userData));
+
+    // Show result section
+    var section = document.getElementById('onboarding-result-section');
+    if (section) section.style.display = '';
 
     // Render concentric circles
     var circlesEl = document.getElementById('onboarding-result-circles');
@@ -444,7 +456,7 @@ const Onboarding = {
   },
 
   finish() {
-    // Data already saved in renderResult, but save again to be safe
+    // Data already saved in _showResult
     var userData = {
       birthdate: this._birthdate,
       age: this._age,
@@ -1889,7 +1901,7 @@ function renderKontekstuelleForslag() {
   var data = window._idagData;
   var primaryEl = insight.dominantElement;
 
-  var html = '<h3 class="idag__section-title">Forslag til dig</h3>';
+  var html = '<h3 class="idag__section-title idag__section-title--sub">Forslag til dig</h3>';
   html += '<div class="idag__forslag-kort">';
 
   // Kort 1: Øvelse baseret på element
@@ -3606,7 +3618,7 @@ const App = {
       if (response.ok) {
         content.innerHTML = await response.text();
         if (screenName === 'onboarding') {
-          Onboarding.renderPhaseFigure();
+          Onboarding.init();
         } else if (screenName === 'idag') {
           initIdagScreen();
         } else if (screenName === 'samlede-indsigt') {
@@ -6335,7 +6347,7 @@ function renderNotifikationer() {
 
   var maxVisible = 3;
   var html = '<div class="idag__timeline">';
-  html += '<p class="idag__section-title">Kommende</p>';
+  html += '<p class="idag__section-title idag__section-title--sub">Kommende</p>';
   html += '<div class="idag__timeline-list">';
 
   for (var i = 0; i < notifs.length; i++) {
