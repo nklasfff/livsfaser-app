@@ -67,18 +67,6 @@ function hexToRgba(hex, alpha) {
   return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
 }
 
-function getVennColors() {
-  var d = window._idagData;
-  var fallback = '#5070AD';
-  var c1 = fallback, c2 = fallback;
-  if (d) {
-    c1 = ELEMENT_BLUES[d.weekday.element] || fallback;
-    c2 = ELEMENT_BLUES[d.organ.element] || fallback;
-  }
-  var c3 = blendHex(c1, c2, 0.5);
-  var c4 = blendHex(c3, '#FFFFFF', 0.3);
-  return { c1: c1, c2: c2, c3: c3, c4: c4 };
-}
 
 const ELEMENT_LABELS = {
   'VAND': 'Vand',
@@ -4792,214 +4780,156 @@ window.submitCheckin = submitCheckin;
 var VENN_FONT = '"Times New Roman", Times, Georgia, serif';
 
 // Dynamic blue-based Venn circle colors derived from ELEMENT_BLUES
-function vennFill(hex) { return hexToRgba(hex || '#5070AD', 0.18); }
-function vennStroke(hex) { return hexToRgba(hex || '#5070AD', 0.30); }
-
-// Legacy element color mappings (kept for backward compat)
-var VENN_ELEMENT_COLORS = {
-  'VAND':  'rgba(30, 60, 90, 0.18)',
-  'TRÆ':  'rgba(60, 120, 60, 0.18)',
-  'ILD':   'rgba(180, 60, 60, 0.18)',
-  'JORD':  'rgba(180, 140, 60, 0.18)',
-  'METAL': 'rgba(160, 165, 175, 0.22)',
-  'default': 'rgba(91, 107, 138, 0.20)'
-};
-
-var VENN_ELEMENT_STROKES = {
-  'VAND':  'rgba(30, 60, 90, 0.30)',
-  'TRÆ':  'rgba(60, 120, 60, 0.30)',
-  'ILD':   'rgba(180, 60, 60, 0.30)',
-  'JORD':  'rgba(180, 140, 60, 0.30)',
-  'METAL': 'rgba(160, 165, 175, 0.38)',
-  'default': 'rgba(91, 107, 138, 0.30)'
-};
-
 /**
- * VennTwo — Two overlapping circles with 3 text zones
- * Circles overlap ~40% of diameter for spacious overlap zone
+ * VennTwo — Two overlapping circles (master template)
+ * ViewBox 700×650, R=160, fixed lavender colors
  */
 function renderVennTwo(opts) {
   var id = 'venn2-' + Math.random().toString(36).substr(2, 6);
-  var compact = opts.compact || false;
-  var W = compact ? 340 : 400;
-  var H = compact ? 230 : 270;
-  var R = compact ? 90 : 105;
-  // ~40% overlap: distance between centers = R * 1.2 (so overlap width ≈ 0.8R)
-  var cx1 = W / 2 - R * 0.6;
-  var cx2 = W / 2 + R * 0.6;
-  var cy = H / 2;
+  var W = 700, H = 650, R = 160;
+  var cx1 = 265, cy1 = 320;
+  var cx2 = 435, cy2 = 320;
+  var font = VENN_FONT;
 
-  // Dynamic blue coloring from current ugedag/organur
-  var vc = getVennColors();
-  var leftFill, rightFill, leftStroke, rightStroke;
-  if (opts.leftElement && ELEMENT_BLUES[opts.leftElement]) {
-    leftFill = vennFill(ELEMENT_BLUES[opts.leftElement]);
-    leftStroke = vennStroke(ELEMENT_BLUES[opts.leftElement]);
-  } else {
-    leftFill = vennFill(vc.c1);
-    leftStroke = vennStroke(vc.c1);
-  }
-  if (opts.rightElement && ELEMENT_BLUES[opts.rightElement]) {
-    rightFill = vennFill(ELEMENT_BLUES[opts.rightElement]);
-    rightStroke = vennStroke(ELEMENT_BLUES[opts.rightElement]);
-  } else {
-    rightFill = vennFill(vc.c2);
-    rightStroke = vennStroke(vc.c2);
-  }
+  // Text zone X centers
+  var leftCX = 201;
+  var rightCX = 494;
+  var overlapCX = 350;
 
-  // Overlap x-range
-  var overlapXL = cx2 - R;
-  var overlapXR = cx1 + R;
-  var overlapW = overlapXR - overlapXL;
-
-  // Text zone centers
-  var leftCX = (cx1 - R + overlapXL) / 2;
-  var rightCX = (overlapXR + cx2 + R) / 2;
-  var overlapCX = (cx1 + cx2) / 2;
-
-  // Font sizes
-  var ts = compact ? 12 : 13.5;
-  var ls = compact ? 10 : 11;
-  var ots = compact ? 12 : 13;
-  var ols = compact ? 10 : 11;
-
-  // Helper to render text block
-  function textBlock(cx, startY, title, lines, titleFill, lineFill, tSize, lSize) {
+  // Helper: render a block of title + lines
+  function textBlock(cx, startY, title, lines, tSize, lSize, lineH) {
     var s = '';
-    s += '<text x="' + cx + '" y="' + startY + '" text-anchor="middle" font-family=' + VENN_FONT + ' font-size="' + tSize + '" font-weight="bold" fill="' + titleFill + '">' + escapeHtml(title || '') + '</text>';
+    if (title) s += '<text x="' + cx + '" y="' + startY + '" text-anchor="middle" font-family=' + font + ' font-size="' + tSize + '" font-weight="bold" fill="black">' + escapeHtml(title) + '</text>';
     for (var i = 0; i < lines.length; i++) {
-      var yy = startY + (i + 1) * (lSize + 3);
+      var yy = startY + (i + 1) * lineH;
       var italic = lines[i].charAt(0) === '*';
       var txt = italic ? lines[i].substring(1) : lines[i];
-      s += '<text x="' + cx + '" y="' + yy + '" text-anchor="middle" font-family=' + VENN_FONT + ' font-size="' + lSize + '"' + (italic ? ' font-style="italic"' : '') + ' fill="' + lineFill + '">' + escapeHtml(txt) + '</text>';
+      s += '<text x="' + cx + '" y="' + yy + '" text-anchor="middle" font-family=' + font + ' font-size="' + lSize + '"' + (italic ? ' font-style="italic"' : '') + ' fill="black">' + escapeHtml(txt) + '</text>';
     }
     return s;
   }
 
-  var svg = '<div class="venn venn--two' + (compact ? ' venn--compact' : '') + '" id="' + id + '">';
+  var svg = '<div class="venn venn--two" id="' + id + '">';
   svg += '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" class="venn__svg">';
-  svg += '<circle cx="' + cx1 + '" cy="' + cy + '" r="' + R + '" fill="' + leftFill + '" stroke="' + leftStroke + '" stroke-width="1.5"/>';
-  svg += '<circle cx="' + cx2 + '" cy="' + cy + '" r="' + R + '" fill="' + rightFill + '" stroke="' + rightStroke + '" stroke-width="1.5"/>';
 
-  // Left text
+  // Optional heading above diagram
+  if (opts.heading) {
+    svg += '<text x="350" y="40" text-anchor="middle" font-family=' + font + ' font-size="20" font-weight="bold" fill="black">' + escapeHtml(opts.heading) + '</text>';
+  }
+
+  // Circles — fixed lavender, no stroke
+  svg += '<circle cx="' + cx1 + '" cy="' + cy1 + '" r="' + R + '" fill="#9886B0" fill-opacity="0.55"/>';
+  svg += '<circle cx="' + cx2 + '" cy="' + cy2 + '" r="' + R + '" fill="#A896B8" fill-opacity="0.55"/>';
+
+  // Left zone text
   var ll = opts.leftLines || [];
-  var lsy = cy - ((1 + ll.length) * (ls + 3)) / 2 + ts / 2;
-  svg += textBlock(leftCX, lsy, opts.leftTitle, ll, '#5B6B8A', '#555', ts, ls);
+  var lsy = 270;
+  svg += textBlock(leftCX, lsy, opts.leftTitle, ll, 18, 13, 17);
 
-  // Right text
+  // Right zone text
   var rl = opts.rightLines || [];
-  var rsy = cy - ((1 + rl.length) * (ls + 3)) / 2 + ts / 2;
-  svg += textBlock(rightCX, rsy, opts.rightTitle, rl, '#5B6B8A', '#555', ts, ls);
+  var rsy = 270;
+  svg += textBlock(rightCX, rsy, opts.rightTitle, rl, 18, 13, 17);
 
-  // Overlap text
+  // Overlap zone text
   var ol = opts.overlapLines || [];
-  var osy = cy - ((1 + ol.length) * (ols + 3)) / 2 + ots / 2;
-  svg += textBlock(overlapCX, osy, opts.overlapTitle, ol, '#244382', '#333', ots, ols);
+  var osy = 280;
+  svg += textBlock(overlapCX, osy, opts.overlapTitle, ol, 16, 13, 17);
 
-  // Hit zones
-  if (opts.onLeftClick) svg += '<circle cx="' + leftCX + '" cy="' + cy + '" r="' + (R * 0.45) + '" fill="transparent" class="venn__zone" onclick="' + opts.onLeftClick + '" style="cursor:pointer"/>';
-  if (opts.onRightClick) svg += '<circle cx="' + rightCX + '" cy="' + cy + '" r="' + (R * 0.45) + '" fill="transparent" class="venn__zone" onclick="' + opts.onRightClick + '" style="cursor:pointer"/>';
-  if (opts.onOverlapClick) svg += '<rect x="' + overlapXL + '" y="' + (cy - R * 0.5) + '" width="' + overlapW + '" height="' + R + '" fill="transparent" class="venn__zone" onclick="' + opts.onOverlapClick + '" style="cursor:pointer"/>';
+  // Optional subtitle below
+  if (opts.subtitle) {
+    svg += '<text x="350" y="590" text-anchor="middle" font-family=' + font + ' font-size="14" font-style="italic" fill="black">' + escapeHtml(opts.subtitle) + '</text>';
+  }
+
+  // Hit zones for interactivity
+  if (opts.onLeftClick) svg += '<circle cx="' + leftCX + '" cy="320" r="70" fill="transparent" class="venn__zone" onclick="' + opts.onLeftClick + '" style="cursor:pointer"/>';
+  if (opts.onRightClick) svg += '<circle cx="' + rightCX + '" cy="320" r="70" fill="transparent" class="venn__zone" onclick="' + opts.onRightClick + '" style="cursor:pointer"/>';
+  if (opts.onOverlapClick) svg += '<rect x="275" y="250" width="150" height="140" fill="transparent" class="venn__zone" onclick="' + opts.onOverlapClick + '" style="cursor:pointer"/>';
 
   svg += '</svg></div>';
   return svg;
 }
 
 /**
- * VennThree — Three overlapping circles with 7 text zones
- * Circles pulled tightly toward center for large overlap regions
+ * VennThree — Three overlapping circles (master template)
+ * ViewBox 600×600, R=150, fixed lavender colors
  */
 function renderVennThree(opts) {
   var id = 'venn3-' + Math.random().toString(36).substr(2, 6);
-  var W = 400;
-  var H = 360;
-  var R = 100;
+  var W = 600, H = 600, R = 150;
+  var cxA = 300, cyA = 190;   // top
+  var cxB = 223, cyB = 330;   // bottom-left
+  var cxC = 377, cyC = 330;   // bottom-right
+  var font = VENN_FONT;
 
-  // Tight triangle: distance from center to each circle ≈ R * 0.58
-  // This gives ~45% overlap between pairs and a roomy center
-  var spread = R * 0.58;
-  var centroidX = W / 2;
-  var centroidY = H / 2 + 5;
-  // A top, B bottom-left, C bottom-right (equilateral-ish)
-  var cxA = centroidX;
-  var cyA = centroidY - spread * 1.0;
-  var cxB = centroidX - spread * 0.87;
-  var cyB = centroidY + spread * 0.52;
-  var cxC = centroidX + spread * 0.87;
-  var cyC = centroidY + spread * 0.52;
-
-  // Dynamic blue coloring
-  var vc = getVennColors();
-  var fillA = vennFill(opts.elementA ? (ELEMENT_BLUES[opts.elementA] || vc.c1) : vc.c1);
-  var fillB = vennFill(opts.elementB ? (ELEMENT_BLUES[opts.elementB] || vc.c2) : vc.c2);
-  var fillC = vennFill(opts.elementC ? (ELEMENT_BLUES[opts.elementC] || vc.c3) : vc.c3);
-  var strokeA = vennStroke(opts.elementA ? (ELEMENT_BLUES[opts.elementA] || vc.c1) : vc.c1);
-  var strokeB = vennStroke(opts.elementB ? (ELEMENT_BLUES[opts.elementB] || vc.c2) : vc.c2);
-  var strokeC = vennStroke(opts.elementC ? (ELEMENT_BLUES[opts.elementC] || vc.c3) : vc.c3);
-
-  var ts = 12; var ls = 10; var os = 10; var cts = 13; var cls = 10.5;
-
-  // Exclusive zone text positions (pushed outward from center)
-  var tAx = cxA, tAy = cyA - R * 0.42;
-  var tBx = cxB - R * 0.30, tBy = cyB + R * 0.35;
-  var tCx = cxC + R * 0.30, tCy = cyC + R * 0.35;
+  // Text zone positions (exclusive areas)
+  var tAx = 300, tAy = 115;   // top zone
+  var tBx = 155, tBy = 405;   // bottom-left zone
+  var tCx = 445, tCy = 405;   // bottom-right zone
 
   // Pairwise overlap midpoints
-  var abX = (cxA + cxB) / 2, abY = (cyA + cyB) / 2;
-  var acX = (cxA + cxC) / 2, acY = (cyA + cyC) / 2;
-  var bcX = (cxB + cxC) / 2, bcY = (cyB + cyC) / 2;
+  var abX = 230, abY = 240;
+  var acX = 370, acY = 240;
+  var bcX = 300, bcY = 370;
 
   // True centroid
-  var cX = (cxA + cxB + cxC) / 3, cY = (cyA + cyB + cyC) / 3;
+  var cX = 300, cY = 280;
+
+  // Helper
+  function t(x, y, text, size, weight, italic) {
+    return '<text x="' + x + '" y="' + y + '" text-anchor="middle" font-family=' + font + ' font-size="' + size + '"' + (weight ? ' font-weight="bold"' : '') + (italic ? ' font-style="italic"' : '') + ' fill="black">' + escapeHtml(text || '') + '</text>';
+  }
 
   var svg = '<div class="venn venn--three" id="' + id + '">';
   svg += '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" class="venn__svg">';
-  svg += '<circle cx="' + cxA + '" cy="' + cyA + '" r="' + R + '" fill="' + fillA + '" stroke="' + strokeA + '" stroke-width="1.5"/>';
-  svg += '<circle cx="' + cxB + '" cy="' + cyB + '" r="' + R + '" fill="' + fillB + '" stroke="' + strokeB + '" stroke-width="1.5"/>';
-  svg += '<circle cx="' + cxC + '" cy="' + cyC + '" r="' + R + '" fill="' + fillC + '" stroke="' + strokeC + '" stroke-width="1.5"/>';
 
-  // Helper
-  function t(x, y, text, size, weight, fill, italic) {
-    return '<text x="' + x + '" y="' + y + '" text-anchor="middle" font-family=' + VENN_FONT + ' font-size="' + size + '"' + (weight ? ' font-weight="bold"' : '') + (italic ? ' font-style="italic"' : '') + ' fill="' + fill + '">' + escapeHtml(text) + '</text>';
-  }
+  // Circles — fixed lavender shades, no stroke
+  svg += '<circle cx="' + cxA + '" cy="' + cyA + '" r="' + R + '" fill="#8A7EA4" fill-opacity="0.55"/>';
+  svg += '<circle cx="' + cxB + '" cy="' + cyB + '" r="' + R + '" fill="#9886B0" fill-opacity="0.55"/>';
+  svg += '<circle cx="' + cxC + '" cy="' + cyC + '" r="' + R + '" fill="#A896B8" fill-opacity="0.55"/>';
 
   // Zone A (top)
   var tl = opts.topLines || [];
-  svg += t(tAx, tAy, opts.topTitle || '', ts, true, '#5B6B8A');
-  for (var i = 0; i < Math.min(tl.length, 2); i++) svg += t(tAx, tAy + (i+1)*(ls+3), tl[i], ls, false, '#555');
+  svg += t(tAx, tAy, opts.topTitle, 12, true);
+  for (var i = 0; i < tl.length; i++) svg += t(tAx, tAy + (i+1)*14, tl[i], 11, false);
 
   // Zone B (bottom-left)
   var bl = opts.bottomLeftLines || [];
-  svg += t(tBx, tBy, opts.bottomLeftTitle || '', ts, true, '#5B6B8A');
-  for (var j = 0; j < Math.min(bl.length, 2); j++) svg += t(tBx, tBy + (j+1)*(ls+3), bl[j], ls, false, '#555');
+  svg += t(tBx, tBy, opts.bottomLeftTitle, 12, true);
+  for (var j = 0; j < bl.length; j++) svg += t(tBx, tBy + (j+1)*14, bl[j], 11, false);
 
   // Zone C (bottom-right)
   var br = opts.bottomRightLines || [];
-  svg += t(tCx, tCy, opts.bottomRightTitle || '', ts, true, '#5B6B8A');
-  for (var k = 0; k < Math.min(br.length, 2); k++) svg += t(tCx, tCy + (k+1)*(ls+3), br[k], ls, false, '#555');
+  svg += t(tCx, tCy, opts.bottomRightTitle, 12, true);
+  for (var k = 0; k < br.length; k++) svg += t(tCx, tCy + (k+1)*14, br[k], 11, false);
 
   // Pairwise overlaps
-  svg += t(abX, abY, opts.overlapAB || '', os, false, '#444', true);
-  svg += t(acX, acY, opts.overlapAC || '', os, false, '#444', true);
-  svg += t(bcX, bcY + 4, opts.overlapBC || '', os, false, '#444', true);
+  svg += t(abX, abY, opts.overlapAB, 11, false);
+  svg += t(acX, acY, opts.overlapAC, 11, false);
+  svg += t(bcX, bcY, opts.overlapBC, 11, false);
 
   // Center
   var cl = opts.centerLines || [];
-  var csY = cY - (cl.length * (cls + 2)) / 2;
-  svg += t(cX, csY, opts.centerTitle || '', cts, true, '#244382');
-  for (var m = 0; m < Math.min(cl.length, 2); m++) {
+  svg += t(cX, cY, opts.centerTitle, 13, true);
+  for (var m = 0; m < cl.length; m++) {
     var cItalic = cl[m].charAt(0) === '*';
     var cTxt = cItalic ? cl[m].substring(1) : cl[m];
-    svg += t(cX, csY + (m+1)*(cls+3), cTxt, cls, false, '#333', cItalic);
+    svg += t(cX, cY + (m+1)*14, cTxt, 11, false, cItalic);
+  }
+
+  // Optional subtitle
+  if (opts.subtitle) {
+    svg += t(300, 550, opts.subtitle, 11, false, true);
+    if (opts.subtitleLine2) svg += t(300, 564, opts.subtitleLine2, 11, false, true);
   }
 
   // Hit zones
   if (opts.onZoneClick) {
-    var zr = R * 0.3;
-    svg += '<circle cx="' + tAx + '" cy="' + (tAy+5) + '" r="' + zr + '" fill="transparent" class="venn__zone" onclick="' + opts.onZoneClick.replace('{zone}','A') + '" style="cursor:pointer"/>';
-    svg += '<circle cx="' + tBx + '" cy="' + (tBy+5) + '" r="' + zr + '" fill="transparent" class="venn__zone" onclick="' + opts.onZoneClick.replace('{zone}','B') + '" style="cursor:pointer"/>';
-    svg += '<circle cx="' + tCx + '" cy="' + (tCy+5) + '" r="' + zr + '" fill="transparent" class="venn__zone" onclick="' + opts.onZoneClick.replace('{zone}','C') + '" style="cursor:pointer"/>';
-    svg += '<circle cx="' + cX + '" cy="' + cY + '" r="' + (zr*0.8) + '" fill="transparent" class="venn__zone" onclick="' + opts.onZoneClick.replace('{zone}','center') + '" style="cursor:pointer"/>';
+    var zr = 45;
+    svg += '<circle cx="' + tAx + '" cy="' + (tAy+10) + '" r="' + zr + '" fill="transparent" class="venn__zone" onclick="' + opts.onZoneClick.replace('{zone}','A') + '" style="cursor:pointer"/>';
+    svg += '<circle cx="' + tBx + '" cy="' + (tBy+10) + '" r="' + zr + '" fill="transparent" class="venn__zone" onclick="' + opts.onZoneClick.replace('{zone}','B') + '" style="cursor:pointer"/>';
+    svg += '<circle cx="' + tCx + '" cy="' + (tCy+10) + '" r="' + zr + '" fill="transparent" class="venn__zone" onclick="' + opts.onZoneClick.replace('{zone}','C') + '" style="cursor:pointer"/>';
+    svg += '<circle cx="' + cX + '" cy="' + cY + '" r="' + (zr*0.7) + '" fill="transparent" class="venn__zone" onclick="' + opts.onZoneClick.replace('{zone}','center') + '" style="cursor:pointer"/>';
   }
 
   svg += '</svg></div>';
@@ -5007,94 +4937,76 @@ function renderVennThree(opts) {
 }
 
 /**
- * VennFour — Four overlapping circles in diamond formation
- * Shows the most important pairwise overlaps + center
+ * VennFour — Four overlapping circles in diamond (master template)
+ * ViewBox 600×600, R=150, fixed green-gray colors
  */
 function renderVennFour(opts) {
   var id = 'venn4-' + Math.random().toString(36).substr(2, 6);
-  var W = 420;
-  var H = 400;
-  var R = 88;
+  var W = 600, H = 600, R = 150;
+  var cxA = 300, cyA = 200;   // top
+  var cxB = 200, cyB = 300;   // left
+  var cxC = 400, cyC = 300;   // right
+  var cxD = 300, cyD = 400;   // bottom
+  var midX = 300, midY = 300;
+  var font = VENN_FONT;
 
-  // Diamond: top, left, right, bottom — all pulled tight toward center
-  var spread = R * 0.62;
-  var midX = W / 2, midY = H / 2;
-  var cxA = midX,             cyA = midY - spread;          // top
-  var cxB = midX - spread,    cyB = midY;                   // left
-  var cxC = midX + spread,    cyC = midY;                   // right
-  var cxD = midX,             cyD = midY + spread;          // bottom
-
-  // Dynamic blue coloring
-  var vc = getVennColors();
-  var fillA = vennFill(opts.elementA ? (ELEMENT_BLUES[opts.elementA] || vc.c1) : vc.c1);
-  var fillB = vennFill(opts.elementB ? (ELEMENT_BLUES[opts.elementB] || vc.c2) : vc.c2);
-  var fillC = vennFill(opts.elementC ? (ELEMENT_BLUES[opts.elementC] || vc.c3) : vc.c3);
-  var fillD = vennFill(opts.elementD ? (ELEMENT_BLUES[opts.elementD] || vc.c4) : vc.c4);
-  var strokeA = vennStroke(opts.elementA ? (ELEMENT_BLUES[opts.elementA] || vc.c1) : vc.c1);
-  var strokeB = vennStroke(opts.elementB ? (ELEMENT_BLUES[opts.elementB] || vc.c2) : vc.c2);
-  var strokeC = vennStroke(opts.elementC ? (ELEMENT_BLUES[opts.elementC] || vc.c3) : vc.c3);
-  var strokeD = vennStroke(opts.elementD ? (ELEMENT_BLUES[opts.elementD] || vc.c4) : vc.c4);
-
-  var ts = 11.5; var ls = 9.5; var os = 9; var cts = 13; var cls = 10.5;
-
-  // Exclusive zone text positions (pushed outward)
-  var tAx = cxA, tAy = cyA - R * 0.40;
-  var tBx = cxB - R * 0.35, tBy = cyB;
-  var tCx = cxC + R * 0.35, tCy = cyC;
-  var tDx = cxD, tDy = cyD + R * 0.45;
+  // Text zone positions (exclusive areas, pushed outward)
+  var tAx = 300, tAy = 110;
+  var tBx = 110, tBy = 300;
+  var tCx = 490, tCy = 300;
+  var tDx = 300, tDy = 490;
 
   // Helper
-  function t(x, y, text, size, weight, fill, italic) {
-    return '<text x="' + x + '" y="' + y + '" text-anchor="middle" font-family=' + VENN_FONT + ' font-size="' + size + '"' + (weight ? ' font-weight="bold"' : '') + (italic ? ' font-style="italic"' : '') + ' fill="' + fill + '">' + escapeHtml(text || '') + '</text>';
+  function t(x, y, text, size, weight, italic) {
+    return '<text x="' + x + '" y="' + y + '" text-anchor="middle" font-family=' + font + ' font-size="' + size + '"' + (weight ? ' font-weight="bold"' : '') + (italic ? ' font-style="italic"' : '') + ' fill="black">' + escapeHtml(text || '') + '</text>';
   }
 
   var svg = '<div class="venn venn--four" id="' + id + '">';
   svg += '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" class="venn__svg">';
 
-  // Draw circles
-  svg += '<circle cx="' + cxA + '" cy="' + cyA + '" r="' + R + '" fill="' + fillA + '" stroke="' + strokeA + '" stroke-width="1.5"/>';
-  svg += '<circle cx="' + cxB + '" cy="' + cyB + '" r="' + R + '" fill="' + fillB + '" stroke="' + strokeB + '" stroke-width="1.5"/>';
-  svg += '<circle cx="' + cxC + '" cy="' + cyC + '" r="' + R + '" fill="' + fillC + '" stroke="' + strokeC + '" stroke-width="1.5"/>';
-  svg += '<circle cx="' + cxD + '" cy="' + cyD + '" r="' + R + '" fill="' + fillD + '" stroke="' + strokeD + '" stroke-width="1.5"/>';
+  // Circles — fixed green-gray shades, no stroke
+  svg += '<circle cx="' + cxA + '" cy="' + cyA + '" r="' + R + '" fill="#6B8A8D" fill-opacity="0.55"/>';
+  svg += '<circle cx="' + cxB + '" cy="' + cyB + '" r="' + R + '" fill="#758A8D" fill-opacity="0.55"/>';
+  svg += '<circle cx="' + cxC + '" cy="' + cyC + '" r="' + R + '" fill="#859A9D" fill-opacity="0.55"/>';
+  svg += '<circle cx="' + cxD + '" cy="' + cyD + '" r="' + R + '" fill="#95AAAD" fill-opacity="0.55"/>';
 
   // Zone labels
   var al = opts.topLines || [];
-  svg += t(tAx, tAy, opts.topTitle, ts, true, '#5B6B8A');
-  for (var i = 0; i < Math.min(al.length, 2); i++) svg += t(tAx, tAy + (i+1)*(ls+2), al[i], ls, false, '#555');
+  svg += t(tAx, tAy, opts.topTitle, 12, true);
+  for (var i = 0; i < al.length; i++) svg += t(tAx, tAy + (i+1)*14, al[i], 11, false);
 
   var bll = opts.leftLines || [];
-  svg += t(tBx, tBy, opts.leftTitle, ts, true, '#5B6B8A');
-  for (var j = 0; j < Math.min(bll.length, 1); j++) svg += t(tBx, tBy + (j+1)*(ls+2), bll[j], ls, false, '#555');
+  svg += t(tBx, tBy, opts.leftTitle, 12, true);
+  for (var j = 0; j < bll.length; j++) svg += t(tBx, tBy + (j+1)*14, bll[j], 11, false);
 
   var crl = opts.rightLines || [];
-  svg += t(tCx, tCy, opts.rightTitle, ts, true, '#5B6B8A');
-  for (var k = 0; k < Math.min(crl.length, 1); k++) svg += t(tCx, tCy + (k+1)*(ls+2), crl[k], ls, false, '#555');
+  svg += t(tCx, tCy, opts.rightTitle, 12, true);
+  for (var k = 0; k < crl.length; k++) svg += t(tCx, tCy + (k+1)*14, crl[k], 11, false);
 
   var dl = opts.bottomLines || [];
-  svg += t(tDx, tDy, opts.bottomTitle, ts, true, '#5B6B8A');
-  for (var l = 0; l < Math.min(dl.length, 2); l++) svg += t(tDx, tDy + (l+1)*(ls+2), dl[l], ls, false, '#555');
+  svg += t(tDx, tDy, opts.bottomTitle, 12, true);
+  for (var l = 0; l < dl.length; l++) svg += t(tDx, tDy + (l+1)*14, dl[l], 11, false);
 
-  // Show highlighted pairwise overlaps (max 4 most important)
+  // Pairwise overlaps
   var hl = opts.highlights || [];
   for (var h = 0; h < hl.length; h++) {
     var hi = hl[h];
-    // Calculate midpoint of the two circles
     var pairs = { AB: [cxA,cyA,cxB,cyB], AC: [cxA,cyA,cxC,cyC], AD: [cxA,cyA,cxD,cyD], BC: [cxB,cyB,cxC,cyC], BD: [cxB,cyB,cxD,cyD], CD: [cxC,cyC,cxD,cyD] };
     var p = pairs[hi.pair];
     if (p) {
       var mx = (p[0]+p[2])/2, my = (p[1]+p[3])/2;
-      svg += t(mx, my, hi.text, os, false, '#444', true);
+      svg += t(mx, my, hi.text, 11, false);
     }
   }
 
   // Center text
   var cll = opts.centerLines || [];
-  var csY = midY - (cll.length * (cls + 2)) / 2;
-  svg += t(midX, csY, opts.centerTitle, cts, true, '#244382');
-  for (var m = 0; m < Math.min(cll.length, 2); m++) {
+  var csY = midY - (cll.length * 14) / 2;
+  svg += t(midX, csY, opts.centerTitle, 13, true);
+  for (var m = 0; m < cll.length; m++) {
     var cItalic = cll[m].charAt(0) === '*';
     var cTxt = cItalic ? cll[m].substring(1) : cll[m];
-    svg += t(midX, csY + (m+1)*(cls+3), cTxt, cls, false, '#333', cItalic);
+    svg += t(midX, csY + (m+1)*14, cTxt, 11, false, cItalic);
   }
 
   svg += '</svg></div>';

@@ -2712,11 +2712,6 @@
   max-width: 420px;
 }
 
-.venn--compact {
-  max-width: 340px;
-  margin: var(--space-sm) auto var(--space-md);
-}
-
 .venn__svg {
   width: 100%;
   height: auto;
