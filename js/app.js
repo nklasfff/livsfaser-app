@@ -1626,7 +1626,7 @@ function renderConcentricCircles(container, data) {
     blendHex(outerBlue, innerBlue, 0.75),
     innerBlue
   ];
-  var centerBlue = rc[2]; // exact same color as måned ring
+  var centerBlue = '#1A1A2E'; // very dark, almost black
 
   // Text contrast: dark text on lighter rings
   function ringTextColor(hex) {
@@ -1651,7 +1651,7 @@ function renderConcentricCircles(container, data) {
 
   // Defs - curved paths for textPath
   svg += '<defs>';
-  svg += '<path id="curve0" d="M 30 130 A 220 100 0 0 1 370 130"/>';
+  svg += '<path id="curve0" d="M 50 108 A 200 80 0 0 1 350 108"/>';
   svg += '<path id="curve1" d="M 40 200 A 180 120 0 0 1 360 200"/>';
   svg += '<path id="curve2" d="M 75 231 A 140 93 0 0 1 325 231"/>';
   svg += '<path id="curve3" d="M 105 260 A 105 70 0 0 1 295 260"/>';
@@ -1693,11 +1693,10 @@ function renderConcentricCircles(container, data) {
   svg += '<text font-family="Times New Roman, serif" font-size="11" fill="' + tc4 + '" text-anchor="middle">';
   svg += '<textPath href="#curve4" startOffset="50%">' + organurText + '</textPath></text>';
 
-  // Centrum - DIG (colored by måned element)
-  var tcCenter = ringTextColor(centerBlue);
-  svg += '<ellipse cx="200" cy="292" rx="45" ry="30" fill="' + centerBlue + '"/>';
-  svg += '<text x="200" y="289" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" font-weight="bold" fill="' + tcCenter + '">DIG</text>';
-  svg += '<text x="200" y="304" text-anchor="middle" font-family="Times New Roman, serif" font-size="10" fill="' + (tcCenter === '#FFFFFF' ? 'rgba(255,255,255,0.8)' : 'rgba(36,67,130,0.6)') + '">Tryk for relationer</text>';
+  // Centrum - DIG (very dark, almost black)
+  svg += '<ellipse cx="200" cy="294" rx="38" ry="25" fill="' + centerBlue + '"/>';
+  svg += '<text x="200" y="291" text-anchor="middle" font-family="Times New Roman, serif" font-size="14" font-weight="bold" fill="#FFFFFF">DIG</text>';
+  svg += '<text x="200" y="304" text-anchor="middle" font-family="Times New Roman, serif" font-size="9" fill="rgba(255,255,255,0.7)">Tryk for relationer</text>';
 
   svg += '</svg>';
 
