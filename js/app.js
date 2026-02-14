@@ -1695,7 +1695,7 @@ function renderIdagCheckin() {
 
   var html = '<div class="idag__group-header">';
   html += '<h3>M\u00e6rk efter</h3>';
-  html += '<p>Et \u00f8jeblik til at registrere hvordan du har det</p>';
+  html += '<p>Et \u00f8jeblik til at m\u00e6rke efter, hvordan du har det. Over tid viser dine check-ins m\u00f8nstre \u2014 hvorn\u00e5r din energi er h\u00f8j, hvorn\u00e5r den daler, og hvilke elementer der pr\u00e6ger dine uger. Det er din egen krops dagbog.</p>';
   html += '</div>';
 
   if (done) {
@@ -1716,7 +1716,7 @@ function renderDynamiskTekst() {
   var cycleAnalysis = analyzeCycleInteractions(window._idagData);
 
   var html = '<h3 class="idag__section-title">Lige nu</h3>';
-  html += '<p class="idag__section-text idag__section-text--muted">Dit indre klima baseret på fem samtidige cyklusser</p>';
+  html += '<p class="idag__section-text idag__section-text--muted">Dit indre klima lige nu \u2014 baseret p\u00e5 din livsfase, \u00e5rstiden, m\u00e5neden, ugedagen og dit organur. Fem rytmer der tilsammen tegner et billede af, hvordan din krop og dit sind har det i dag.</p>';
   html += '<p class="idag__climate-label">' + cycleAnalysis.climate.label + '</p>';
   html += '<p class="idag__section-text">' + dynamisk.text + '</p>';
   html += '<p class="idag__tidsdynamik">' + dynamisk.tidsdynamik + '</p>';
@@ -1738,7 +1738,7 @@ function renderHvadKanDu() {
   var foodItem = INSIGHT_FOOD[dominantEl] ? INSIGHT_FOOD[dominantEl][0] : null;
 
   var html = '<h3 class="idag__section-title">Hvad kan du gøre lige nu?</h3>';
-  html += '<p class="hvadkandu__intro">' + elLabel + '-elementet præger din dag. Her er tre måder at møde det på.</p>';
+  html += '<p class="hvadkandu__intro">' + elLabel + '-elementet pr\u00e6ger din dag. Her er tre m\u00e5der at m\u00f8de det p\u00e5 \u2014 en \u00f8velse for kroppen, en lyd for \u00e5ndedr\u00e6ttet, og noget n\u00e6ring der st\u00f8tter dig indefra. Du kan starte med \u00e9n af dem.</p>';
   html += '<div class="hvadkandu__cards">';
 
   // Card 1: Krop (yoga)
@@ -1784,7 +1784,7 @@ function renderKontekstuelleForslag() {
   var primaryEl = insight.dominantElement;
 
   var html = '<h3 class="idag__section-title idag__section-title--sub">Forslag til dig</h3>';
-  html += '<p class="idag__section-text idag__section-text--muted">Baseret på dine elementer og årstiden</p>';
+  html += '<p class="idag__section-text idag__section-text--muted">\u00d8velser, kost og refleksion udvalgt til dig lige nu \u2014 baseret p\u00e5 dine elementer, din \u00e5rstid og det din krop kalder p\u00e5 i dag. Jo mere du bruger appen, jo mere pr\u00e6cise bliver forslagene.</p>';
   html += '<div class="idag__forslag-kort">';
 
   // Kort 1: Øvelse baseret på element
@@ -1848,7 +1848,7 @@ function renderHovedkort() {
 
   var html = '<div class="idag__group-header">';
   html += '<h3>Dine fire verdener</h3>';
-  html += '<p>Udforsk dine cyklusser, relationer, praksis og rejse</p>';
+  html += '<p>Fire indgange til at forst\u00e5 dig selv. Dine cyklusser viser hvad der sker i dig. Dine relationer viser hvad der sker mellem dig og andre. Din praksis giver dig redskaber. Din rejse samler det hele over tid.</p>';
   html += '</div>';
 
   for (var i = 0; i < kort.length; i++) {
@@ -3828,7 +3828,7 @@ function initMineRelationerScreen() {
     for (var i = 0; i < cards.length; i++) {
       var k = cards[i];
       var clickAction = k.onclick || "App.loadScreen('" + k.screen + "')";
-      var extraClass = k.highlighted ? ' tema__kort--highlighted' : '';
+      var extraClass = ' tema__kort--lilla' + (k.highlighted ? ' tema__kort--highlighted' : '');
       h += '<div class="tema__kort' + extraClass + '" onclick="' + clickAction + '">';
       h += '<div class="tema__kort-content">';
       h += '<h3 class="tema__kort-title">' + k.title + '</h3>';
@@ -3904,7 +3904,7 @@ function initMinPraksisScreen() {
     h += '<div class="tema__group">';
     for (var i = 0; i < cards.length; i++) {
       var c = cards[i];
-      var extraClass = c.highlighted ? ' tema__kort--highlighted' : '';
+      var extraClass = ' tema__kort--groen' + (c.highlighted ? ' tema__kort--highlighted' : '');
       h += '<div class="tema__kort' + extraClass + '" onclick="App.loadScreen(\'' + c.screen + '\')">';
       h += '<div class="tema__kort-content">';
       h += '<h3 class="tema__kort-title">' + c.title + '</h3>';
@@ -3978,7 +3978,7 @@ function initMinRejseScreen() {
     h += '<div class="tema__group">';
     for (var i = 0; i < cards.length; i++) {
       var k = cards[i];
-      var extraClass = k.highlighted ? ' tema__kort--highlighted' : '';
+      var extraClass = ' tema__kort--blaa-light' + (k.highlighted ? ' tema__kort--highlighted' : '');
       h += '<div class="tema__kort' + extraClass + '" onclick="App.loadScreen(\'' + k.screen + '\')">';
       h += '<div class="tema__kort-content">';
       h += '<h3 class="tema__kort-title">' + k.title + '</h3>';
@@ -6578,7 +6578,7 @@ function renderNotifikationer() {
   var maxVisible = 3;
   var html = '<div class="idag__timeline">';
   html += '<p class="idag__section-title idag__section-title--sub">Kommende</p>';
-  html += '<p class="idag__section-text idag__section-text--muted">Forandringer og skift i dine cyklusser</p>';
+  html += '<p class="idag__section-text idag__section-text--muted">Forandringer og skift i dine cyklusser de n\u00e6ste timer og dage. Din krop forbereder sig allerede \u2014 her kan du se hvad der venter, og hvordan du kan m\u00f8de det.</p>';
   html += '<div class="idag__timeline-list">';
 
   for (var i = 0; i < notifs.length; i++) {
@@ -6625,7 +6625,7 @@ function renderForloebCard() {
 
   var html = '<div class="idag__group-header">';
   html += '<h3>G\u00e5 dybere</h3>';
-  html += '<p>Isabelles s\u00e6sonforl\u00f8b med yoga, vejrtr\u00e6kning og f\u00e6llesskab</p>';
+  html += '<p>Isabelles s\u00e6sonforl\u00f8b med yoga, vejrtr\u00e6kning og f\u00e6llesskab. F\u00f8lg \u00e5rets energi sammen med andre kvinder \u2014 guidet af den samme visdom som denne app bygger p\u00e5.</p>';
   html += '</div>';
   html += '<div class="forloeb-kort" onclick="window.open(\'' + forlob.url + '\', \'_blank\')">';
   html += '<span class="forloeb-kort__label">Isabelles forl\u00f8b \u00B7 Eksternt</span>';

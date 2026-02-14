@@ -203,13 +203,43 @@
   margin: 0;
 }
 
-/* Extra spacing between section groups */
-.idag__section--gap-before {
-  margin-top: 24px;
+/* Lotus divider between sections */
+.idag__lotus-divider {
+  text-align: center;
+  padding: 28px 0;
 }
 
-.idag__section--biggap-before {
-  margin-top: 48px;
+.idag__lotus-divider img {
+  width: 20px;
+  height: auto;
+  opacity: 0.35;
+  display: inline-block;
+}
+
+/* Section boxes with color coding */
+.idag__section-box {
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.idag__section-box--blaa {
+  background: rgba(118, 144, 193, 0.07);
+  border: 1px solid rgba(118, 144, 193, 0.15);
+}
+
+.idag__section-box--blaa-light {
+  background: rgba(118, 144, 193, 0.05);
+  border: 1px solid rgba(118, 144, 193, 0.1);
+}
+
+.idag__section-box--groen {
+  background: rgba(139, 154, 157, 0.07);
+  border: 1px solid rgba(139, 154, 157, 0.15);
+}
+
+.idag__section-box--lilla {
+  background: rgba(184, 166, 192, 0.07);
+  border: 1px solid rgba(184, 166, 192, 0.15);
 }
 
 /* Section group headers (intro text above a group) */
@@ -228,10 +258,10 @@
 
 .idag__group-header p {
   font-family: var(--font-serif);
-  font-size: 14px;
+  font-size: 15px;
   font-style: italic;
-  line-height: 1.6;
-  color: var(--text-secondary);
+  line-height: 1.7;
+  color: #777777;
   margin: 0;
 }
 
@@ -259,8 +289,10 @@
 }
 
 .idag__section-text--muted {
-  color: var(--text-light);
+  color: #777777;
   font-style: italic;
+  font-size: 15px;
+  line-height: 1.7;
 }
 
 /* Suggestions */
@@ -1762,11 +1794,11 @@
 .hvadkandu__intro {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 16px;
-  color: var(--text-secondary);
+  font-size: 15px;
+  color: #777777;
   text-align: center;
   margin-bottom: var(--space-md);
-  line-height: var(--line-relaxed);
+  line-height: 1.7;
 }
 
 .hvadkandu__cards {
@@ -1776,8 +1808,8 @@
 }
 
 .hvadkandu__card {
-  background: rgba(118, 144, 193, 0.08);
-  border: 1px solid rgba(118, 144, 193, 0.2);
+  background: rgba(139, 154, 157, 0.07);
+  border: 1px solid rgba(139, 154, 157, 0.15);
   border-radius: 16px;
   padding: 24px;
   cursor: pointer;
@@ -1794,7 +1826,7 @@
   font-size: var(--text-tiny);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--blaa);
+  color: #8B9A9D;
   margin-bottom: var(--space-xs);
   font-weight: var(--weight-semibold);
 }
@@ -1989,6 +2021,22 @@
 .tema__kort:active {
   transform: scale(0.97);
   box-shadow: var(--shadow-card-active);
+}
+
+/* Color variants for section-specific tema cards */
+.tema__kort--lilla {
+  background: rgba(184, 166, 192, 0.07);
+  border-color: rgba(184, 166, 192, 0.15);
+}
+
+.tema__kort--groen {
+  background: rgba(139, 154, 157, 0.07);
+  border-color: rgba(139, 154, 157, 0.15);
+}
+
+.tema__kort--blaa-light {
+  background: rgba(118, 144, 193, 0.06);
+  border-color: rgba(118, 144, 193, 0.14);
 }
 
 .tema__kort-content {
@@ -3359,8 +3407,8 @@
    ============================ */
 
 .forloeb-kort {
-  background: rgba(118, 144, 193, 0.08);
-  border: 1px solid rgba(118, 144, 193, 0.15);
+  background: rgba(184, 166, 192, 0.07);
+  border: 1px solid rgba(184, 166, 192, 0.15);
   border-radius: 16px;
   padding: 24px;
   margin: 0;
@@ -3763,4 +3811,85 @@
 .indstilling-btn--danger {
   border-color: var(--error);
   color: var(--error);
+}
+
+/* ====== Section Color System ====== */
+/* Relationer screens (lilla toning) */
+.screen--relationer .livsfase-detail__rec-card,
+.screen--relationer .relation-recs__card {
+  background: rgba(184, 166, 192, 0.07);
+  border: 1px solid rgba(184, 166, 192, 0.15);
+}
+
+.screen--relationer .livsfase-detail__rec-label,
+.screen--relationer .tema__kontekst-label {
+  color: #B8A6C0;
+}
+
+.screen--relationer .tema__kontekst {
+  background: linear-gradient(145deg, rgba(184, 166, 192, 0.08) 0%, rgba(184, 166, 192, 0.04) 100%);
+  border-color: rgba(184, 166, 192, 0.12);
+}
+
+/* Praksis screens (grå-grøn toning) */
+.screen--yin-yoga .livsfase-detail__rec-card,
+.screen--refleksion .livsfase-detail__rec-card,
+.screen--foelelser .livsfase-detail__rec-card {
+  background: rgba(139, 154, 157, 0.07);
+  border: 1px solid rgba(139, 154, 157, 0.15);
+}
+
+.screen--yin-yoga .livsfase-detail__rec-label,
+.screen--refleksion .livsfase-detail__rec-label,
+.screen--foelelser .livsfase-detail__rec-label {
+  color: #8B9A9D;
+}
+
+.screen--yin-yoga .tema__kontekst,
+.screen--refleksion .tema__kontekst,
+.screen--foelelser .tema__kontekst {
+  background: linear-gradient(145deg, rgba(139, 154, 157, 0.08) 0%, rgba(139, 154, 157, 0.04) 100%);
+  border-color: rgba(139, 154, 157, 0.12);
+}
+
+/* Kontrolcyklussen (blå — default, but explicit) */
+.screen--kontrolcyklussen .tema__kontekst {
+  background: linear-gradient(145deg, rgba(118, 144, 193, 0.08) 0%, rgba(118, 144, 193, 0.04) 100%);
+  border-color: rgba(118, 144, 193, 0.12);
+}
+
+/* Mine Relationer niveau 1 kontekst */
+.screen--mine-relationer .tema__kontekst {
+  background: linear-gradient(145deg, rgba(184, 166, 192, 0.08) 0%, rgba(184, 166, 192, 0.04) 100%);
+  border-color: rgba(184, 166, 192, 0.12);
+}
+
+.screen--mine-relationer .tema__kontekst-label {
+  color: #B8A6C0;
+}
+
+/* Min Praksis niveau 1 kontekst */
+.screen--min-praksis .tema__kontekst {
+  background: linear-gradient(145deg, rgba(139, 154, 157, 0.08) 0%, rgba(139, 154, 157, 0.04) 100%);
+  border-color: rgba(139, 154, 157, 0.12);
+}
+
+.screen--min-praksis .tema__kontekst-label {
+  color: #8B9A9D;
+}
+
+/* Min Rejse (lighter blue) */
+.screen--min-rejse .tema__kontekst {
+  background: linear-gradient(145deg, rgba(118, 144, 193, 0.06) 0%, rgba(118, 144, 193, 0.03) 100%);
+  border-color: rgba(118, 144, 193, 0.1);
+}
+
+/* Min Udvikling (praksis/grøn) */
+.screen--tracking .livsfase-detail__rec-card {
+  background: rgba(139, 154, 157, 0.07);
+  border: 1px solid rgba(139, 154, 157, 0.15);
+}
+
+.screen--tracking .livsfase-detail__rec-label {
+  color: #8B9A9D;
 }
