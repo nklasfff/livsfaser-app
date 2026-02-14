@@ -3500,6 +3500,16 @@ const App = {
       const response = await fetch(this.screens[screenName] + '?v=' + Date.now());
       if (response.ok) {
         content.innerHTML = await response.text();
+
+        // Add "← Forside" breadcrumb on all screens except home and onboarding
+        if (screenName !== 'idag' && screenName !== 'onboarding') {
+          var breadcrumb = document.createElement('button');
+          breadcrumb.className = 'breadcrumb-home';
+          breadcrumb.innerHTML = '\u2039 Forside';
+          breadcrumb.onclick = function() { App.loadScreen('idag'); };
+          content.insertBefore(breadcrumb, content.firstChild);
+        }
+
         if (screenName === 'onboarding') {
           Onboarding.init();
         } else if (screenName === 'idag') {
