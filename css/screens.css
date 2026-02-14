@@ -3901,9 +3901,10 @@
 }
 
 .hjulpet__hero-img {
-  width: 100%;
+  width: 50%;
+  display: block;
+  margin: var(--space-md) auto;
   border-radius: 20px;
-  margin-bottom: var(--space-md);
 }
 
 .hjulpet__section-title {
