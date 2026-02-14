@@ -3931,9 +3931,9 @@ function initMinPraksisScreen() {
   }
 
   var html = '';
-  html += renderPraksisGroup('Krop og sind', '\u00d8velser, refleksion og f\u00f8lelser tilpasset dit element', group1);
-  html += renderPraksisGroup('N\u00e6ring', 'Mad og urter der st\u00f8tter din energi', group2);
-  html += renderPraksisGroup('F\u00e6llesskab', 'Retning og fokus for din dag', group3);
+  html += renderPraksisGroup('Krop og sind', 'Yin yoga, refleksion og f\u00f8lelsesarbejde \u2014 tre veje ind i kroppen, tilpasset det element dine cyklusser kalder p\u00e5 lige nu.', group1);
+  html += renderPraksisGroup('N\u00e6ring', 'B\u00e5de kinesisk medicin og ayurveda ved, at mad er medicin. Find f\u00f8devarer, urter og tilberedning der st\u00f8tter din energi i dag.', group2);
+  html += renderPraksisGroup('F\u00e6llesskab', 'Hvad kalder p\u00e5 din opm\u00e6rksomhed i dag? Dine cyklusser peger i en retning \u2014 her finder du fokusomr\u00e5der og konkrete forslag.', group3);
 
   // Forløb card (external)
   ensureIdagData();
