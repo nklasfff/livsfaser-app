@@ -1716,6 +1716,7 @@ function renderDynamiskTekst() {
   var cycleAnalysis = analyzeCycleInteractions(window._idagData);
 
   var html = '<h3 class="idag__section-title">Lige nu</h3>';
+  html += '<p class="idag__section-text idag__section-text--muted">Dit indre klima baseret på fem samtidige cyklusser</p>';
   html += '<p class="idag__climate-label">' + cycleAnalysis.climate.label + '</p>';
   html += '<p class="idag__section-text">' + dynamisk.text + '</p>';
   html += '<p class="idag__tidsdynamik">' + dynamisk.tidsdynamik + '</p>';
@@ -2263,6 +2264,7 @@ function initSamledeIndsigtScreen() {
     var d = window._idagData;
     if (d) {
       var tidsHtml = '<h3 class="indsigt-page__section-title">Tidsperspektiv</h3>';
+      tidsHtml += '<p class="indsigt-page__section-subtitle">Hvor du er i din livsfase og hvad der venter</p>';
       var yearsLeft = Math.max(0, d.lifePhase.endAge - d.age);
       if (yearsLeft > 0) {
         tidsHtml += '<p class="indsigt-page__paragraph">Du er ' + Math.round((d.age - d.lifePhase.startAge) * 10) / 10 + ' år inde i din ' + d.lifePhase.name + '-fase. Om ca. ' + (yearsLeft < 1 ? 'under et år' : Math.round(yearsLeft) + ' år') + ' bevæger du dig videre.</p>';
@@ -3710,8 +3712,9 @@ function initMineCyklusserScreen() {
     { screen: 'kontrolcyklussen', title: 'Elementernes Samspil', subtitle: 'Hvert element n\u00e6rer \u00e9t og kontrollerer et andet. Vand n\u00e6rer Tr\u00e6 men kontrollerer Ild. Udforsk kroppens naturlige regulering.' }
   ];
 
-  function renderCardGroup(heading, cards) {
+  function renderCardGroup(heading, subtitle, cards) {
     var h = '<h4 class="tema__group-heading">' + heading + '</h4>';
+    h += '<p class="tema__group-subtitle">' + subtitle + '</p>';
     h += '<div class="tema__group">';
     for (var i = 0; i < cards.length; i++) {
       var k = cards[i];
@@ -3730,11 +3733,9 @@ function initMineCyklusserScreen() {
   }
 
   var html = '';
-  html += renderCardGroup('Tid og bev\u00e6gelse', group1);
-  html += sectionDivider();
-  html += renderCardGroup('Kroppen', group2);
-  html += sectionDivider();
-  html += renderCardGroup('Livets kapitler', group3);
+  html += renderCardGroup('Tid og bev\u00e6gelse', 'Dine fem cyklusser i bev\u00e6gelse \u2014 fortid, nutid og fremtid', group1);
+  html += renderCardGroup('Kroppen', 'Fysiske overgange og konkret st\u00f8tte til din energi i dag', group2);
+  html += renderCardGroup('Livets kapitler', 'De store m\u00f8nstre \u2014 faser, uger og elementernes samspil', group3);
   el.innerHTML = html;
 }
 
@@ -3812,8 +3813,9 @@ function initMineRelationerScreen() {
     { screen: 'tidsrejse', title: 'Forbered relationer i fremtiden', subtitle: 'En ferie med familien. Jul med tre generationer. Dit barns n\u00e6ste store overgang. Se hvilke elementer I m\u00f8des i \u2014 og hvorn\u00e5r timingen er bedst.', onclick: "navigateToTidsrejse('fremtid-relation')" }
   ];
 
-  function renderRelationGroup(heading, cards) {
+  function renderRelationGroup(heading, subtitle, cards) {
     var h = '<h4 class="tema__group-heading">' + heading + '</h4>';
+    h += '<p class="tema__group-subtitle">' + subtitle + '</p>';
     h += '<div class="tema__group">';
     for (var i = 0; i < cards.length; i++) {
       var k = cards[i];
@@ -3832,9 +3834,8 @@ function initMineRelationerScreen() {
   }
 
   var html = '';
-  html += renderRelationGroup('Lige nu', group1);
-  html += sectionDivider();
-  html += renderRelationGroup('Tid', group2);
+  html += renderRelationGroup('Lige nu', 'Se hvordan jeres faser m\u00f8des og kolliderer i dag', group1);
+  html += renderRelationGroup('Tid', 'Forst\u00e5 fortiden og forbered fremtidens m\u00f8der', group2);
   listEl.innerHTML = html;
 }
 
@@ -3889,8 +3890,9 @@ function initMinPraksisScreen() {
     { screen: 'samlede-indsigt', title: 'Fokusomr\u00e5der', subtitle: 'Hvad kan du rette opm\u00e6rksomheden mod i dag? M\u00e5ske er det stilhed, m\u00e5ske bev\u00e6gelse. Dine cyklusser peger i en retning \u2014 her kan du f\u00f8lge den.' }
   ];
 
-  function renderPraksisGroup(heading, cards) {
+  function renderPraksisGroup(heading, subtitle, cards) {
     var h = '<h4 class="tema__group-heading">' + heading + '</h4>';
+    h += '<p class="tema__group-subtitle">' + subtitle + '</p>';
     h += '<div class="tema__group">';
     for (var i = 0; i < cards.length; i++) {
       var c = cards[i];
@@ -3908,11 +3910,9 @@ function initMinPraksisScreen() {
   }
 
   var html = '';
-  html += renderPraksisGroup('Krop og sind', group1);
-  html += sectionDivider();
-  html += renderPraksisGroup('N\u00e6ring', group2);
-  html += sectionDivider();
-  html += renderPraksisGroup('F\u00e6llesskab', group3);
+  html += renderPraksisGroup('Krop og sind', '\u00d8velser, refleksion og f\u00f8lelser tilpasset dit element', group1);
+  html += renderPraksisGroup('N\u00e6ring', 'Mad og urter der st\u00f8tter din energi', group2);
+  html += renderPraksisGroup('F\u00e6llesskab', 'Retning og fokus for din dag', group3);
 
   // Forløb card (external)
   ensureIdagData();
@@ -3964,8 +3964,9 @@ function initMinRejseScreen() {
     { screen: 'samlede-indsigt', title: 'Baggrundsviden', subtitle: 'Ni forskellige kulturer har opdaget det samme: livet bev\u00e6ger sig i cyklusser og overgange. Udforsk den viden, appen bygger p\u00e5 \u2014 fra kinesisk medicin til vedisk filosofi.' }
   ];
 
-  function renderRejseGroup(heading, cards) {
+  function renderRejseGroup(heading, subtitle, cards) {
     var h = '<h4 class="tema__group-heading">' + heading + '</h4>';
+    h += '<p class="tema__group-subtitle">' + subtitle + '</p>';
     h += '<div class="tema__group">';
     for (var i = 0; i < cards.length; i++) {
       var k = cards[i];
@@ -3983,9 +3984,8 @@ function initMinRejseScreen() {
   }
 
   var html = '';
-  html += renderRejseGroup('Dit spejl', group1);
-  html += sectionDivider();
-  html += renderRejseGroup('Baggrund', group2);
+  html += renderRejseGroup('Dit spejl', 'F\u00f8lg din udvikling og find dine gemte favoritter', group1);
+  html += renderRejseGroup('Baggrund', 'Den viden og de faser appen bygger p\u00e5', group2);
   el.innerHTML = html;
 }
 
@@ -4100,6 +4100,7 @@ function initCyklusserICyklusserScreen() {
     var food = INSIGHT_FOOD[domEl];
     var focus = INSIGHT_FOCUS[domEl];
     var recHtml = '<h3 class="livsfase-detail__section-title">Hvad kan du g\u00f8re med dette krydsfelt?</h3>';
+    recHtml += '<p class="livsfase-detail__section-subtitle">Konkrete handlinger der møder dine cyklusser</p>';
     if (yoga && yoga.length > 0) {
       recHtml += '<div class="hvadkandu__card" onclick="navigateToYogaWithElement(\'' + domEl + '\')">';
       recHtml += '<p class="hvadkandu__label">\u00d8velse for ' + ELEMENT_LABELS[domEl] + '</p>';
@@ -4650,6 +4651,7 @@ function renderTrackingRecommendations() {
   var elLabel = ELEMENT_LABELS[domEl];
 
   var html = '<h3 class="livsfase-detail__section-title">Forslag til dig lige nu</h3>';
+  html += '<p class="livsfase-detail__section-subtitle">Øvelser og næring tilpasset din energi</p>';
 
   // If enough checkins, use pattern-based recommendations
   if (checkins.length >= 3) {
@@ -5697,18 +5699,21 @@ function initLivsfaseDetailScreen() {
   // Body text
   html += '<div class="livsfase-detail__section">';
   html += '<h3 class="livsfase-detail__section-title">Kroppen i denne fase</h3>';
+  html += '<p class="livsfase-detail__section-subtitle">Hvad din krop gennemg\u00e5r og har brug for</p>';
   html += '<p class="livsfase-detail__section-text">' + detail.kropTekst + '</p>';
   html += '</div>';
 
   // Mind text
   html += '<div class="livsfase-detail__section">';
   html += '<h3 class="livsfase-detail__section-title">Sindet i denne fase</h3>';
+  html += '<p class="livsfase-detail__section-subtitle">Tanker, f\u00f8lelser og indre processer</p>';
   html += '<p class="livsfase-detail__section-text">' + detail.sindTekst + '</p>';
   html += '</div>';
 
   // Recommendations
   html += '<div class="livsfase-detail__recs">';
   html += '<h3 class="livsfase-detail__section-title">Anbefalinger</h3>';
+  html += '<p class="livsfase-detail__section-subtitle">\u00d8velse, kost og healinglyd til denne fase</p>';
   var recs = [detail.oevelse, detail.kost, detail.healingLyd];
   var recLabels = ['\u00d8velse', 'Kost', 'Healing-lyd'];
   for (var r = 0; r < recs.length; r++) {
@@ -5723,6 +5728,7 @@ function initLivsfaseDetailScreen() {
   // Reflections
   html += '<div class="livsfase-detail__section">';
   html += '<h3 class="livsfase-detail__section-title">Tjek ind med dig selv</h3>';
+  html += '<p class="livsfase-detail__section-subtitle">Sp\u00f8rgsm\u00e5l til refleksion i denne fase</p>';
   for (var q = 0; q < detail.refleksioner.length; q++) {
     html += '<p class="livsfase-detail__question">\u2022 ' + detail.refleksioner[q] + '</p>';
   }
@@ -5738,6 +5744,7 @@ function initLivsfaseDetailScreen() {
       var yearsLeft = Math.max(0, phase.endAge - userAge);
       html += '<div class="livsfase-detail__section livsfase-detail__tidsperspektiv">';
       html += '<h3 class="livsfase-detail__section-title">Tidsperspektiv</h3>';
+      html += '<p class="livsfase-detail__section-subtitle">Hvor du er i denne fase og hvad der venter</p>';
       html += '<p class="livsfase-detail__section-text">Du er ' + yearsIn + ' år inde i denne fase. ';
       if (yearsLeft > 1) {
         html += 'Om ca. ' + Math.round(yearsLeft) + ' år bevæger du dig videre til næste livsfase.';
@@ -5917,6 +5924,7 @@ function initRefleksionScreen() {
   var savedReflections = JSON.parse(localStorage.getItem('livsfaser_reflections') || '[]');
 
   var html = '<h3 class="livsfase-detail__section-title" style="margin-top:24px">Refleksioner for Fase ' + phase + ': ' + (PHASE_DATA[phase] ? PHASE_DATA[phase].name : '') + '</h3>';
+  html += '<p class="livsfase-detail__section-subtitle">Spørgsmål til stilhed og selvindsigt</p>';
 
   for (var i = 0; i < questions.length; i++) {
     var qId = 'refleksion-' + phase + '-' + i;
@@ -6002,6 +6010,7 @@ function initKontrolcyklussenScreen() {
   if (detailEl) {
     var html = '<div class="livsfase-detail__section">';
     html += '<h3 class="livsfase-detail__section-title">Samspillet lige nu</h3>';
+    html += '<p class="livsfase-detail__section-subtitle">Hvordan dit element nærer og kontrollerer de andre</p>';
     var rows = [
       { label: 'N\u00e6rer', text: kt.naerer },
       { label: 'Kontrollerer', text: kt.kontrollerer },
@@ -6018,6 +6027,7 @@ function initKontrolcyklussenScreen() {
     if (yogaForBalance && yogaForBalance.length > 0) {
       html += '<div class="livsfase-detail__section">';
       html += '<h3 class="livsfase-detail__section-title">Balancér dit element</h3>';
+      html += '<p class="livsfase-detail__section-subtitle">En øvelse der støtter dit dominerende element</p>';
       html += '<div class="livsfase-detail__rec-card">';
       html += '<p class="livsfase-detail__rec-label">' + ELEMENT_LABELS[dominant] + '-øvelse</p>';
       html += '<p class="livsfase-detail__rec-title">' + yogaForBalance[0].pose + '</p>';
@@ -6137,6 +6147,7 @@ function renderYinYogaContent() {
 
   // Show other elements collapsed
   html += '<h3 class="livsfase-detail__section-title" style="margin-top:24px">Andre elementer</h3>';
+  html += '<p class="livsfase-detail__section-subtitle">Udforsk øvelser for de øvrige elementer</p>';
   for (var e = 0; e < elKeys.length; e++) {
     if (elKeys[e] === selected) continue;
     var otherPoses = YIN_YOGA_FULL[elKeys[e]] || [];

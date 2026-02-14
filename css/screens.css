@@ -567,6 +567,7 @@
 
 .indsigt-page__section {
   margin: 0;
+  margin-top: 40px;
 }
 
 .indsigt-page__section-title {
@@ -575,8 +576,18 @@
   font-weight: var(--weight-bold);
   color: var(--blaa);
   margin-top: 0;
-  margin-bottom: var(--space-md);
+  margin-bottom: 6px;
   text-align: center;
+}
+
+.indsigt-page__section-subtitle {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  text-align: center;
+  margin: 0 0 var(--space-md) 0;
 }
 
 .indsigt-page__list {
@@ -2485,7 +2496,7 @@
   font-weight: var(--weight-bold);
   color: var(--blaa);
   text-align: center;
-  margin-bottom: var(--space-md);
+  margin-bottom: 6px;
 }
 
 .tracking__graph {
@@ -2530,7 +2541,7 @@
   font-size: 22px;
   font-weight: var(--weight-bold);
   color: var(--blaa);
-  margin-bottom: var(--space-md);
+  margin-bottom: 6px;
   text-align: center;
 }
 
@@ -2588,7 +2599,17 @@
   font-weight: var(--weight-bold);
   color: var(--blaa);
   text-align: center;
-  margin-bottom: var(--space-md);
+  margin-bottom: 6px;
+}
+
+.tracking__section-subtitle {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  text-align: center;
+  margin: 0 0 var(--space-md) 0;
 }
 
 .tracking__checkin-card {
@@ -3067,9 +3088,19 @@
   font-size: 22px;
   font-weight: var(--weight-bold);
   color: var(--blaa);
-  margin-top: var(--space-xxl);
-  margin-bottom: var(--space-md);
+  margin-top: 48px;
+  margin-bottom: 6px;
   text-align: center;
+}
+
+.livsfase-detail__section-subtitle {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  text-align: center;
+  margin: 0 0 var(--space-md) 0;
 }
 
 .livsfase-detail__section-text {
@@ -3586,7 +3617,22 @@
   font-weight: var(--weight-bold);
   color: var(--blaa);
   text-align: center;
-  margin-bottom: var(--space-md);
+  margin-top: 40px;
+  margin-bottom: 6px;
+}
+
+.tema__group-heading:first-child {
+  margin-top: 24px;
+}
+
+.tema__group-subtitle {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  text-align: center;
+  margin: 0 0 var(--space-md) 0;
 }
 
 .tema__group {
