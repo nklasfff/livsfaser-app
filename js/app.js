@@ -2081,7 +2081,7 @@ function showDetail(type) {
   if (!container) return;
 
   container.innerHTML =
-    '<button class="detail__close" onclick="hideDetail()">\u00d7</button>' +
+    '<button class="breadcrumb-home" onclick="hideDetail()">\u2039 Forside</button>' +
     '<h2 class="detail__title">' + title + '</h2>' +
     '<div class="detail__body">' + html + '</div>';
 
