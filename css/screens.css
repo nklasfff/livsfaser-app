@@ -3900,6 +3900,12 @@
   padding-bottom: var(--space-xl);
 }
 
+.hjulpet__hero-img {
+  width: 100%;
+  border-radius: 20px;
+  margin-bottom: var(--space-md);
+}
+
 .hjulpet__section-title {
   font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 28px;
