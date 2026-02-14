@@ -1697,7 +1697,7 @@ function renderIdagCheckin() {
   var headerEl = document.getElementById('idag-checkin-header');
   if (headerEl) {
     headerEl.innerHTML = '<h3 class="idag__section-title">M\u00e6rk efter</h3>' +
-      '<p class="idag__section-subtitle">Et \u00f8jeblik til at m\u00e6rke efter, hvordan du har det. Over tid viser dine check-ins m\u00f8nstre \u2014 hvorn\u00e5r din energi er h\u00f8j, hvorn\u00e5r den daler, og hvilke elementer der pr\u00e6ger dine uger. Det er din egen krops dagbog.</p>';
+      '<p class="idag__section-subtitle">Et \u00f8jeblik til at m\u00e6rke efter, hvordan du har det. Over tid viser dine check-ins m\u00f8nstre \u2014 hvorn\u00e5r din energi er h\u00f8j, hvorn\u00e5r den daler, og hvilke elementer der pr\u00e6ger dine uger.</p>';
   }
 
   // Content INSIDE box
@@ -3754,9 +3754,9 @@ function initMineCyklusserScreen() {
   }
 
   var html = '';
-  html += renderCardGroup('Tid og bev\u00e6gelse', 'Dine fem cyklusser i bev\u00e6gelse \u2014 fortid, nutid og fremtid', group1);
-  html += renderCardGroup('Kroppen', 'Fysiske overgange og konkret st\u00f8tte til din energi i dag', group2);
-  html += renderCardGroup('Livets kapitler', 'De store m\u00f8nstre \u2014 faser, uger og elementernes samspil', group3);
+  html += renderCardGroup('Tid og bev\u00e6gelse', 'Dine fem cyklusser i bev\u00e6gelse \u2014 se hvor de tr\u00e6kker sammen, forst\u00e5 din fortid, og forbered dig p\u00e5 det der kommer.', group1);
+  html += renderCardGroup('Kroppen', 'Fysiske overgange og konkret st\u00f8tte til din energi i dag \u2014 fra pubertetens Tr\u00e6-energi til overgangsalderens Metal.', group2);
+  html += renderCardGroup('Livets kapitler', 'Ni syv-\u00e5rs faser og fire uger i din m\u00e5nedscyklus \u2014 de store og de sm\u00e5 rytmer der former din krop og dit sind.', group3);
   el.innerHTML = html;
 }
 

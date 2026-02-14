@@ -223,8 +223,8 @@
 }
 
 .idag__section-box--blaa-light {
-  background: rgba(118, 144, 193, 0.05);
-  border: 1px solid rgba(118, 144, 193, 0.1);
+  background: rgba(118, 144, 193, 0.07);
+  border: 1px solid rgba(118, 144, 193, 0.15);
 }
 
 .idag__section-box--groen {
@@ -250,22 +250,22 @@
 }
 
 .idag__section-title {
-  font-family: var(--font-serif);
-  font-size: 24px;
-  font-weight: var(--weight-bold);
-  color: var(--blaa);
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #7690C1;
   text-align: center;
-  margin: 0 0 8px 0;  /* 8px gap to subtitle */
+  margin: 0 0 8px 0;
 }
 
 .idag__section-subtitle {
-  font-family: var(--font-serif);
+  font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 15px;
   font-style: italic;
   line-height: 1.7;
   color: #777777;
   text-align: center;
-  margin: 0 0 16px 0;  /* 16px gap to content below */
+  margin: 0 0 16px 0;
 }
 
 .idag__section-text {
@@ -494,13 +494,13 @@
 }
 
 .detail__recs-title {
-  font-family: var(--font-serif);
-  font-size: 22px;
-  color: var(--blaa);
-  font-weight: var(--weight-bold);
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  color: #7690C1;
+  font-weight: bold;
   text-align: center;
-  margin-top: var(--space-xxl);
-  margin-bottom: var(--space-md);
+  margin-top: 48px;
+  margin-bottom: 8px;
 }
 
 .detail__rec-item {
@@ -612,17 +612,17 @@
 }
 
 .indsigt-page__section-title {
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: var(--weight-bold);
-  color: var(--blaa);
-  margin-top: 0;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #7690C1;
+  margin-top: 48px;
   margin-bottom: 8px;
   text-align: center;
 }
 
 .indsigt-page__section-subtitle {
-  font-family: var(--font-serif);
+  font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 15px;
   font-style: italic;
   line-height: 1.7;
@@ -1179,10 +1179,10 @@
 }
 
 .relation-recs__title {
-  font-family: var(--font-serif);
-  font-size: 20px;
-  color: var(--blaa);
-  font-weight: var(--weight-bold);
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  color: #7690C1;
+  font-weight: bold;
   text-align: center;
   margin-top: 48px;
   margin-bottom: 8px;
@@ -1220,13 +1220,13 @@
 }
 
 .partner-timeline__title {
-  font-family: var(--font-serif);
-  font-size: 22px;
-  color: var(--blaa);
-  font-weight: var(--weight-bold);
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  color: #7690C1;
+  font-weight: bold;
   text-align: center;
-  margin-top: var(--space-xxl);
-  margin-bottom: var(--space-md);
+  margin-top: 48px;
+  margin-bottom: 8px;
 }
 
 .partner-timeline__text {
@@ -1457,10 +1457,10 @@
 
 /* Input view */
 .tidsrejse__input-title {
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: var(--weight-bold);
-  color: var(--blaa);
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #7690C1;
   text-align: center;
   margin: 48px 0 8px;
   padding: 0 var(--space-md);
@@ -1569,10 +1569,10 @@
 
 /* Result view */
 .tidsrejse__result-title {
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: var(--weight-bold);
-  color: var(--blaa);
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #7690C1;
   text-align: center;
   margin: 48px 0 8px;
   padding: 0 var(--space-md);
@@ -1703,13 +1703,13 @@
 }
 
 .tidsrejse__recs-title {
-  font-family: var(--font-serif);
-  font-size: 22px;
-  color: var(--blaa);
-  font-weight: var(--weight-bold);
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  color: #7690C1;
+  font-weight: bold;
   text-align: center;
-  margin-top: var(--space-xxl);
-  margin-bottom: var(--space-md);
+  margin-top: 48px;
+  margin-bottom: 8px;
 }
 
 .tidsrejse__rec-item {
@@ -2544,10 +2544,10 @@
 }
 
 .tracking__graph-title {
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: var(--weight-bold);
-  color: var(--blaa);
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #7690C1;
   text-align: center;
   margin-bottom: 8px;
 }
@@ -2590,10 +2590,10 @@
 }
 
 .tracking__balance-title {
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: var(--weight-bold);
-  color: var(--blaa);
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #7690C1;
   margin-bottom: 8px;
   text-align: center;
 }
@@ -2647,16 +2647,16 @@
 }
 
 .tracking__checkin-title {
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: var(--weight-bold);
-  color: var(--blaa);
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #7690C1;
   text-align: center;
   margin-bottom: 8px;
 }
 
 .tracking__section-subtitle {
-  font-family: var(--font-serif);
+  font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 15px;
   font-style: italic;
   line-height: 1.7;
@@ -2802,12 +2802,13 @@
 }
 
 .tracking__timeline-title {
-  font-family: var(--font-serif);
-  font-size: 22px;
-  font-weight: var(--weight-bold);
-  color: var(--blaa);
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #7690C1;
   text-align: center;
-  margin-bottom: var(--space-sm);
+  margin-top: 48px;
+  margin-bottom: 8px;
 }
 
 .tracking__entry {
@@ -3137,17 +3138,17 @@
 }
 
 .livsfase-detail__section-title {
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: var(--weight-bold);
-  color: var(--blaa);
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #7690C1;
   margin-top: 48px;
   margin-bottom: 8px;
   text-align: center;
 }
 
 .livsfase-detail__section-subtitle {
-  font-family: var(--font-serif);
+  font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 15px;
   font-style: italic;
   line-height: 1.7;
@@ -3473,12 +3474,12 @@
 }
 
 .fase-detail-recs__title {
-  font-family: var(--font-serif);
-  font-size: 22px;
-  font-weight: var(--weight-bold);
-  color: var(--blaa);
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #7690C1;
   text-align: center;
-  margin: var(--space-xxl) 0 var(--space-md);
+  margin: 48px 0 8px;
 }
 
 /* Favoritter */
@@ -3651,13 +3652,13 @@
 
 /* Hvadkandu card opacity variants */
 .hvadkandu__card--first {
-  background: rgba(118, 144, 193, 0.15);
+  background: rgba(139, 154, 157, 0.07);
 }
 .hvadkandu__card--second {
-  background: rgba(118, 144, 193, 0.10);
+  background: rgba(139, 154, 157, 0.07);
 }
 .hvadkandu__card--third {
-  background: rgba(118, 144, 193, 0.06);
+  background: rgba(139, 154, 157, 0.07);
 }
 
 /* =========================================
@@ -3665,21 +3666,21 @@
    ========================================= */
 
 .tema__group-heading {
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: var(--weight-bold);
-  color: var(--blaa);
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #7690C1;
   text-align: center;
   margin-top: 48px;
   margin-bottom: 8px;
 }
 
 .tema__group-heading:first-child {
-  margin-top: 24px;
+  margin-top: 48px;
 }
 
 .tema__group-subtitle {
-  font-family: var(--font-serif);
+  font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 15px;
   font-style: italic;
   line-height: 1.7;
@@ -3691,7 +3692,7 @@
 .tema__group {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: 12px;
 }
 
 /* Indstillinger */
@@ -3709,11 +3710,13 @@
 }
 
 .indstilling-section__title {
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: var(--weight-bold);
-  color: var(--blaa);
-  margin-bottom: var(--space-md);
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #7690C1;
+  text-align: center;
+  margin-top: 48px;
+  margin-bottom: 8px;
 }
 
 .indstilling-label {
