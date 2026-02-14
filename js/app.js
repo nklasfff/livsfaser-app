@@ -5795,24 +5795,7 @@ function initDeNiLivsfaserScreen() {
   var userData = JSON.parse(localStorage.getItem('user') || '{}');
   var userPhase = userData.phase || 0;
 
-  var items = [];
-  for (var i = 1; i <= 9; i++) {
-    var p = PHASE_DATA[i];
-    items.push({
-      label: 'Fase ' + i,
-      sublabel: p.startAge + '\u2013' + p.endAge + ' \u00e5r',
-      onClick: 'navigateToFaseDetail(' + i + ')'
-    });
-  }
-
-  el.innerHTML = renderCircularFigure({
-    items: items,
-    centerLabel: 'De 9',
-    centerSublabel: 'Livsfaser',
-    activeIndex: userPhase - 1,
-    width: 340,
-    height: 340
-  });
+  el.innerHTML = '<img src="assets/images/9-cirkler.png" alt="De 9 Livsfaser" class="livsfaser-circle-img">';
 
   // Also render as list below
   if (listEl) {

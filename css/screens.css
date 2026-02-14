@@ -1965,6 +1965,13 @@
   padding-bottom: var(--space-xl);
 }
 
+.livsfaser-circle-img {
+  display: block;
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+}
+
 .tema__title {
   font-family: var(--font-serif);
   font-size: 28px;
