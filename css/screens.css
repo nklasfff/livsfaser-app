@@ -188,7 +188,7 @@
 .idag__home {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 0;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
@@ -199,21 +199,16 @@
   position: absolute;
 }
 
+/* Sections that follow a box or another section get 48px spacing */
+/* Sections with their own header-div don't need this (header-div handles it) */
 .idag__section {
   margin: 0;
 }
 
-/* Lotus divider between sections */
-.idag__lotus-divider {
-  text-align: center;
-  padding: 28px 0;
-}
-
-.idag__lotus-divider img {
-  width: 20px;
-  height: auto;
-  opacity: 0.35;
-  display: inline-block;
+.idag__section-box + .idag__section,
+.idag__section + .idag__section,
+.idag__kort + .idag__section {
+  margin-top: 48px;
 }
 
 /* Section boxes with color coding */
@@ -243,9 +238,15 @@
 }
 
 /* Section headers - ONE consistent format for ALL sections */
+/* 48px above header (space between sections) */
 .idag__section-header {
   text-align: center;
-  margin-bottom: 12px;
+  margin-top: 48px;
+}
+
+/* First item after venn has no extra top margin */
+.idag__home > .idag__section:first-child + .idag__section-header {
+  margin-top: 48px;
 }
 
 .idag__section-title {
@@ -254,7 +255,7 @@
   font-weight: var(--weight-bold);
   color: var(--blaa);
   text-align: center;
-  margin: 0 0 8px 0;
+  margin: 0 0 8px 0;  /* 8px gap to subtitle */
 }
 
 .idag__section-subtitle {
@@ -264,7 +265,7 @@
   line-height: 1.7;
   color: #777777;
   text-align: center;
-  margin: 0 0 4px 0;
+  margin: 0 0 16px 0;  /* 16px gap to content below */
 }
 
 .idag__section-text {
@@ -546,8 +547,19 @@
   font-weight: var(--weight-bold);
   color: var(--blaa);
   margin-top: var(--space-xxl);
-  margin-bottom: var(--space-lg);
+  margin-bottom: 8px;
   text-align: center;
+}
+
+.indsigt-page__subtitle {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-style: italic;
+  color: #777777;
+  text-align: center;
+  line-height: 1.7;
+  margin: 0 auto 16px auto;
+  max-width: 340px;
 }
 
 .indsigt-page__dots {
@@ -596,7 +608,7 @@
 
 .indsigt-page__section {
   margin: 0;
-  margin-top: 40px;
+  margin-top: 48px;
 }
 
 .indsigt-page__section-title {
@@ -605,18 +617,18 @@
   font-weight: var(--weight-bold);
   color: var(--blaa);
   margin-top: 0;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   text-align: center;
 }
 
 .indsigt-page__section-subtitle {
   font-family: var(--font-serif);
-  font-size: 14px;
+  font-size: 15px;
   font-style: italic;
-  line-height: 1.6;
-  color: var(--text-secondary);
+  line-height: 1.7;
+  color: #777777;
   text-align: center;
-  margin: 0 0 var(--space-md) 0;
+  margin: 0 0 16px 0;
 }
 
 .indsigt-page__list {
@@ -1168,12 +1180,12 @@
 
 .relation-recs__title {
   font-family: var(--font-serif);
-  font-size: 22px;
+  font-size: 20px;
   color: var(--blaa);
   font-weight: var(--weight-bold);
   text-align: center;
-  margin-top: var(--space-xxl);
-  margin-bottom: var(--space-md);
+  margin-top: 48px;
+  margin-bottom: 8px;
 }
 
 .relation-recs__card {
@@ -1369,20 +1381,18 @@
   font-weight: var(--weight-bold);
   color: var(--blaa);
   text-align: center;
-  margin: var(--space-xxl) 0 var(--space-sm);
+  margin: var(--space-xxl) 0 8px;
 }
 
 .tidsrejse__subtitle {
   font-family: var(--font-serif);
-  font-size: 16px;
+  font-size: 15px;
   font-style: italic;
-  color: var(--text-secondary);
+  color: #777777;
   text-align: center;
-  margin: 0;
-  line-height: var(--line-relaxed);
+  margin: 0 auto 16px auto;
+  line-height: 1.7;
   max-width: 340px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 /* Card grid (overview) — single column for rich text */
@@ -1448,12 +1458,12 @@
 /* Input view */
 .tidsrejse__input-title {
   font-family: var(--font-serif);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: var(--weight-bold);
   color: var(--blaa);
   text-align: center;
-  margin: 0;
-  padding: var(--space-lg) var(--space-md) var(--space-md);
+  margin: 48px 0 8px;
+  padding: 0 var(--space-md);
 }
 
 .tidsrejse__section {
@@ -1560,12 +1570,12 @@
 /* Result view */
 .tidsrejse__result-title {
   font-family: var(--font-serif);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: var(--weight-bold);
   color: var(--blaa);
   text-align: center;
-  margin: 0;
-  padding: var(--space-lg) var(--space-md) var(--space-sm);
+  margin: 48px 0 8px;
+  padding: 0 var(--space-md);
 }
 
 .tidsrejse__person-label {
@@ -1778,7 +1788,7 @@
   font-size: 15px;
   color: #777777;
   text-align: center;
-  margin-bottom: var(--space-md);
+  margin: 0 0 16px 0;
   line-height: 1.7;
 }
 
@@ -1965,18 +1975,18 @@
   font-weight: var(--weight-bold);
   color: var(--blaa);
   margin-top: var(--space-xxl);
-  margin-bottom: 0;
+  margin-bottom: 8px;
   text-align: center;
 }
 
 .tema__subtitle {
   font-family: var(--font-serif);
-  font-size: 16px;
+  font-size: 15px;
   font-style: italic;
-  color: var(--text-secondary);
+  color: #777777;
   text-align: center;
-  margin: 0 auto;
-  line-height: var(--line-relaxed);
+  margin: 0 auto 16px auto;
+  line-height: 1.7;
   max-width: 340px;
 }
 
@@ -2174,19 +2184,19 @@
   font-weight: var(--weight-bold);
   color: var(--blaa);
   margin-top: var(--space-xxl);
-  margin-bottom: var(--space-sm);
+  margin-bottom: 8px;
   text-align: center;
 }
 
 .cic__subtitle {
   font-family: var(--font-serif);
-  font-size: var(--text-body);
+  font-size: 15px;
   font-style: italic;
-  color: var(--text-secondary);
+  color: #777777;
   text-align: center;
-  margin: 0 auto;
+  margin: 0 auto 16px auto;
   max-width: 320px;
-  line-height: var(--line-relaxed);
+  line-height: 1.7;
 }
 
 /* Indre klima boks */
@@ -2419,21 +2429,19 @@
   font-weight: var(--weight-bold);
   color: var(--blaa);
   margin-top: var(--space-xxl);
-  margin-bottom: var(--space-sm);
+  margin-bottom: 8px;
   text-align: center;
 }
 
 .tracking__subtitle {
   font-family: var(--font-serif);
-  font-size: var(--text-body);
+  font-size: 15px;
   font-style: italic;
-  color: var(--text-secondary);
+  color: #777777;
   text-align: center;
-  margin-bottom: var(--space-xl);
-  line-height: var(--line-relaxed);
+  margin: 0 auto 16px auto;
+  line-height: 1.7;
   max-width: 340px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 /* Period selector */
@@ -2532,7 +2540,7 @@
 
 /* Graph section */
 .tracking__graph-section {
-  margin: 0;
+  margin-top: 48px;
 }
 
 .tracking__graph-title {
@@ -2541,7 +2549,7 @@
   font-weight: var(--weight-bold);
   color: var(--blaa);
   text-align: center;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .tracking__graph {
@@ -2578,7 +2586,7 @@
   border-radius: 18px;
   padding: var(--space-lg);
   box-shadow: var(--shadow-card);
-  margin: 0;
+  margin-top: 48px;
 }
 
 .tracking__balance-title {
@@ -2586,7 +2594,7 @@
   font-size: 20px;
   font-weight: var(--weight-bold);
   color: var(--blaa);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   text-align: center;
 }
 
@@ -2635,7 +2643,7 @@
 
 /* Check-in section */
 .tracking__checkin-section {
-  margin: 0;
+  margin-top: 48px;
 }
 
 .tracking__checkin-title {
@@ -2644,17 +2652,17 @@
   font-weight: var(--weight-bold);
   color: var(--blaa);
   text-align: center;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .tracking__section-subtitle {
   font-family: var(--font-serif);
-  font-size: 14px;
+  font-size: 15px;
   font-style: italic;
-  line-height: 1.6;
-  color: var(--text-secondary);
+  line-height: 1.7;
+  color: #777777;
   text-align: center;
-  margin: 0 0 var(--space-md) 0;
+  margin: 0 0 16px 0;
 }
 
 .tracking__checkin-card {
@@ -3070,7 +3078,7 @@
   font-weight: var(--weight-bold);
   color: var(--blaa);
   text-align: center;
-  margin: 0;
+  margin: 0 0 8px 0;
 }
 
 .livsfase-detail__range {
@@ -3082,12 +3090,12 @@
 .livsfase-detail__intro {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: var(--text-body);
-  color: var(--text-secondary);
-  line-height: var(--line-relaxed);
+  font-size: 15px;
+  color: #777777;
+  line-height: 1.7;
   text-align: center;
   max-width: 340px;
-  margin: 0 auto var(--space-lg);
+  margin: 0 auto 16px;
 }
 
 .livsfase-detail__venn {
@@ -3134,18 +3142,18 @@
   font-weight: var(--weight-bold);
   color: var(--blaa);
   margin-top: 48px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   text-align: center;
 }
 
 .livsfase-detail__section-subtitle {
   font-family: var(--font-serif);
-  font-size: 14px;
+  font-size: 15px;
   font-style: italic;
-  line-height: 1.6;
-  color: var(--text-secondary);
+  line-height: 1.7;
+  color: #777777;
   text-align: center;
-  margin: 0 0 var(--space-md) 0;
+  margin: 0 0 16px 0;
 }
 
 .livsfase-detail__section-text {
@@ -3662,8 +3670,8 @@
   font-weight: var(--weight-bold);
   color: var(--blaa);
   text-align: center;
-  margin-top: 40px;
-  margin-bottom: 6px;
+  margin-top: 48px;
+  margin-bottom: 8px;
 }
 
 .tema__group-heading:first-child {
@@ -3672,12 +3680,12 @@
 
 .tema__group-subtitle {
   font-family: var(--font-serif);
-  font-size: 14px;
+  font-size: 15px;
   font-style: italic;
-  line-height: 1.6;
-  color: var(--text-secondary);
+  line-height: 1.7;
+  color: #777777;
   text-align: center;
-  margin: 0 0 var(--space-md) 0;
+  margin: 0 0 16px 0;
 }
 
 .tema__group {
