@@ -1693,11 +1693,15 @@ function renderIdagCheckin() {
   var checkins = getCheckins();
   var done = checkins.some(function(c) { return c.date && c.date.substring(0, 10) === today; });
 
-  var html = '<div class="idag__group-header">';
-  html += '<h3>M\u00e6rk efter</h3>';
-  html += '<p>Et \u00f8jeblik til at m\u00e6rke efter, hvordan du har det. Over tid viser dine check-ins m\u00f8nstre \u2014 hvorn\u00e5r din energi er h\u00f8j, hvorn\u00e5r den daler, og hvilke elementer der pr\u00e6ger dine uger. Det er din egen krops dagbog.</p>';
-  html += '</div>';
+  // Header OUTSIDE box
+  var headerEl = document.getElementById('idag-checkin-header');
+  if (headerEl) {
+    headerEl.innerHTML = '<h3 class="idag__section-title">M\u00e6rk efter</h3>' +
+      '<p class="idag__section-subtitle">Et \u00f8jeblik til at m\u00e6rke efter, hvordan du har det. Over tid viser dine check-ins m\u00f8nstre \u2014 hvorn\u00e5r din energi er h\u00f8j, hvorn\u00e5r den daler, og hvilke elementer der pr\u00e6ger dine uger. Det er din egen krops dagbog.</p>';
+  }
 
+  // Content INSIDE box
+  var html = '';
   if (done) {
     html += '<button class="idag__checkin-btn" onclick="App.loadScreen(\'min-udvikling\')" style="opacity:0.6;">\u2713 Tjekket ind i dag \u00B7 Se din udvikling</button>';
   } else {
@@ -1710,14 +1714,20 @@ function renderIdagCheckin() {
 
 function renderDynamiskTekst() {
   var el = document.getElementById('idag-dynamisk');
+  var headerEl = document.getElementById('idag-dynamisk-header');
   if (!el || !window._activeElements || !window._idagData) return;
 
   var dynamisk = generateDynamiskTekst(window._idagData, window._activeElements);
   var cycleAnalysis = analyzeCycleInteractions(window._idagData);
 
-  var html = '<h3 class="idag__section-title">Lige nu</h3>';
-  html += '<p class="idag__section-text idag__section-text--muted">Dit indre klima lige nu \u2014 baseret p\u00e5 din livsfase, \u00e5rstiden, m\u00e5neden, ugedagen og dit organur. Fem rytmer der tilsammen tegner et billede af, hvordan din krop og dit sind har det i dag.</p>';
-  html += '<p class="idag__climate-label">' + cycleAnalysis.climate.label + '</p>';
+  // Header OUTSIDE box
+  if (headerEl) {
+    headerEl.innerHTML = '<h3 class="idag__section-title">Lige nu</h3>' +
+      '<p class="idag__section-subtitle">Dit indre klima lige nu \u2014 baseret p\u00e5 din livsfase, \u00e5rstiden, m\u00e5neden, ugedagen og dit organur. Fem rytmer der tilsammen tegner et billede af, hvordan din krop og dit sind har det i dag.</p>';
+  }
+
+  // Content INSIDE box
+  var html = '<p class="idag__climate-label">' + cycleAnalysis.climate.label + '</p>';
   html += '<p class="idag__section-text">' + dynamisk.text + '</p>';
   html += '<p class="idag__tidsdynamik">' + dynamisk.tidsdynamik + '</p>';
   html += '<button class="idag__link-btn" onclick="App.loadScreen(\'samlede-indsigt\')">Se din samlede indsigt \u2192</button>';
@@ -1737,8 +1747,8 @@ function renderHvadKanDu() {
   var healingSound = HEALING_SOUNDS[dominantEl];
   var foodItem = INSIGHT_FOOD[dominantEl] ? INSIGHT_FOOD[dominantEl][0] : null;
 
-  var html = '<h3 class="idag__section-title">Hvad kan du gøre lige nu?</h3>';
-  html += '<p class="hvadkandu__intro">' + elLabel + '-elementet pr\u00e6ger din dag. Her er tre m\u00e5der at m\u00f8de det p\u00e5 \u2014 en \u00f8velse for kroppen, en lyd for \u00e5ndedr\u00e6ttet, og noget n\u00e6ring der st\u00f8tter dig indefra. Du kan starte med \u00e9n af dem.</p>';
+  var html = '<h3 class="idag__section-title">Hvad kan du g\u00f8re lige nu?</h3>';
+  html += '<p class="idag__section-subtitle">' + elLabel + '-elementet pr\u00e6ger din dag. Her er tre m\u00e5der at m\u00f8de det p\u00e5 \u2014 en \u00f8velse for kroppen, en lyd for \u00e5ndedr\u00e6ttet, og noget n\u00e6ring der st\u00f8tter dig indefra. Du kan starte med \u00e9n af dem.</p>';
   html += '<div class="hvadkandu__cards">';
 
   // Card 1: Krop (yoga)
@@ -1783,8 +1793,8 @@ function renderKontekstuelleForslag() {
   var data = window._idagData;
   var primaryEl = insight.dominantElement;
 
-  var html = '<h3 class="idag__section-title idag__section-title--sub">Forslag til dig</h3>';
-  html += '<p class="idag__section-text idag__section-text--muted">\u00d8velser, kost og refleksion udvalgt til dig lige nu \u2014 baseret p\u00e5 dine elementer, din \u00e5rstid og det din krop kalder p\u00e5 i dag. Jo mere du bruger appen, jo mere pr\u00e6cise bliver forslagene.</p>';
+  var html = '<h3 class="idag__section-title">Forslag til dig</h3>';
+  html += '<p class="idag__section-subtitle">\u00d8velser, kost og refleksion udvalgt til dig lige nu \u2014 baseret p\u00e5 dine elementer, din \u00e5rstid og det din krop kalder p\u00e5 i dag. Jo mere du bruger appen, jo mere pr\u00e6cise bliver forslagene.</p>';
   html += '<div class="idag__forslag-kort">';
 
   // Kort 1: Øvelse baseret på element
@@ -1846,11 +1856,14 @@ function renderHovedkort() {
     { screen: 'min-rejse', colorClass: 'hoved-kort--rejse', icon: '<svg width="32" height="32" viewBox="0 0 32 32"><path d="M8 28C8 28 10 4 16 4s8 24 8 24" fill="none" stroke="#7690C1" stroke-width="1.5"/><circle cx="16" cy="16" r="2" fill="#7690C1"/></svg>', title: 'Min Rejse', subtitle: rejseSub }
   ];
 
-  var html = '<div class="idag__group-header">';
-  html += '<h3>Dine fire verdener</h3>';
-  html += '<p>Fire indgange til at forst\u00e5 dig selv. Dine cyklusser viser hvad der sker i dig. Dine relationer viser hvad der sker mellem dig og andre. Din praksis giver dig redskaber. Din rejse samler det hele over tid.</p>';
-  html += '</div>';
+  // Header OUTSIDE card area
+  var headerEl = document.getElementById('idag-kort-header');
+  if (headerEl) {
+    headerEl.innerHTML = '<h3 class="idag__section-title">Dine fire verdener</h3>' +
+      '<p class="idag__section-subtitle">Fire indgange til at forst\u00e5 dig selv. Dine cyklusser viser hvad der sker i dig. Dine relationer viser hvad der sker mellem dig og andre. Din praksis giver dig redskaber. Din rejse samler det hele over tid.</p>';
+  }
 
+  var html = '';
   for (var i = 0; i < kort.length; i++) {
     var k = kort[i];
     html += '<div class="hoved-kort ' + k.colorClass + '" onclick="App.loadScreen(\'' + k.screen + '\')">';
@@ -6575,10 +6588,16 @@ function renderNotifikationer() {
   var notifs = generateNotifikationer();
   if (notifs.length === 0) return;
 
+  // Header OUTSIDE box
+  var headerEl = document.getElementById('idag-timeline-header');
+  if (headerEl) {
+    headerEl.innerHTML = '<h3 class="idag__section-title">Kommende</h3>' +
+      '<p class="idag__section-subtitle">Forandringer og skift i dine cyklusser de n\u00e6ste timer og dage. Din krop forbereder sig allerede \u2014 her kan du se hvad der venter, og hvordan du kan m\u00f8de det.</p>';
+  }
+
+  // Content INSIDE box
   var maxVisible = 3;
   var html = '<div class="idag__timeline">';
-  html += '<p class="idag__section-title idag__section-title--sub">Kommende</p>';
-  html += '<p class="idag__section-text idag__section-text--muted">Forandringer og skift i dine cyklusser de n\u00e6ste timer og dage. Din krop forbereder sig allerede \u2014 her kan du se hvad der venter, og hvordan du kan m\u00f8de det.</p>';
   html += '<div class="idag__timeline-list">';
 
   for (var i = 0; i < notifs.length; i++) {
@@ -6623,11 +6642,14 @@ function renderForloebCard() {
   var seasonName = d ? d.season.season : 'Vinter';
   var forlob = FORLOB_DATA[seasonName] || FORLOB_DATA['Vinter'];
 
-  var html = '<div class="idag__group-header">';
-  html += '<h3>G\u00e5 dybere</h3>';
-  html += '<p>Isabelles s\u00e6sonforl\u00f8b med yoga, vejrtr\u00e6kning og f\u00e6llesskab. F\u00f8lg \u00e5rets energi sammen med andre kvinder \u2014 guidet af den samme visdom som denne app bygger p\u00e5.</p>';
-  html += '</div>';
-  html += '<div class="forloeb-kort" onclick="window.open(\'' + forlob.url + '\', \'_blank\')">';
+  // Header OUTSIDE card
+  var headerEl = document.getElementById('idag-forloeb-header');
+  if (headerEl) {
+    headerEl.innerHTML = '<h3 class="idag__section-title">G\u00e5 dybere</h3>' +
+      '<p class="idag__section-subtitle">Isabelles s\u00e6sonforl\u00f8b med yoga, vejrtr\u00e6kning og f\u00e6llesskab. F\u00f8lg \u00e5rets energi sammen med andre kvinder \u2014 guidet af den samme visdom som denne app bygger p\u00e5.</p>';
+  }
+
+  var html = '<div class="forloeb-kort" onclick="window.open(\'' + forlob.url + '\', \'_blank\')">';
   html += '<span class="forloeb-kort__label">Isabelles forl\u00f8b \u00B7 Eksternt</span>';
   html += '<h3 class="forloeb-kort__title">' + forlob.title + '</h3>';
   html += '<p class="forloeb-kort__subtitle">' + forlob.subtitle + '</p>';

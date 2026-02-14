@@ -242,41 +242,29 @@
   border: 1px solid rgba(184, 166, 192, 0.15);
 }
 
-/* Section group headers (intro text above a group) */
-.idag__group-header {
+/* Section headers - ONE consistent format for ALL sections */
+.idag__section-header {
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
-.idag__group-header h3 {
+.idag__section-title {
   font-family: var(--font-serif);
-  font-size: 22px;
+  font-size: 24px;
   font-weight: var(--weight-bold);
-  color: var(--morkebla);
-  margin: 0 0 6px 0;
+  color: var(--blaa);
+  text-align: center;
+  margin: 0 0 8px 0;
 }
 
-.idag__group-header p {
+.idag__section-subtitle {
   font-family: var(--font-serif);
   font-size: 15px;
   font-style: italic;
   line-height: 1.7;
   color: #777777;
-  margin: 0;
-}
-
-.idag__section-title {
-  font-family: var(--font-serif);
-  font-size: 28px;
-  font-weight: var(--weight-bold);
-  color: var(--blaa);
   text-align: center;
-  margin-top: 0;
-  margin-bottom: 8px;
-}
-
-.idag__section-title--sub {
-  font-size: 24px;
+  margin: 0 0 4px 0;
 }
 
 .idag__section-text {
@@ -286,13 +274,6 @@
   color: var(--text-primary);
   text-align: center;
   margin-bottom: 12px;
-}
-
-.idag__section-text--muted {
-  color: #777777;
-  font-style: italic;
-  font-size: 15px;
-  line-height: 1.7;
 }
 
 /* Suggestions */
@@ -620,7 +601,7 @@
 
 .indsigt-page__section-title {
   font-family: var(--font-serif);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: var(--weight-bold);
   color: var(--blaa);
   margin-top: 0;
@@ -2556,7 +2537,7 @@
 
 .tracking__graph-title {
   font-family: var(--font-serif);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: var(--weight-bold);
   color: var(--blaa);
   text-align: center;
@@ -2602,7 +2583,7 @@
 
 .tracking__balance-title {
   font-family: var(--font-serif);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: var(--weight-bold);
   color: var(--blaa);
   margin-bottom: 6px;
@@ -2659,7 +2640,7 @@
 
 .tracking__checkin-title {
   font-family: var(--font-serif);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: var(--weight-bold);
   color: var(--blaa);
   text-align: center;
@@ -3149,7 +3130,7 @@
 
 .livsfase-detail__section-title {
   font-family: var(--font-serif);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: var(--weight-bold);
   color: var(--blaa);
   margin-top: 48px;
@@ -3721,9 +3702,9 @@
 
 .indstilling-section__title {
   font-family: var(--font-serif);
-  font-size: var(--text-h3);
-  font-weight: var(--weight-semibold);
-  color: var(--morkebla);
+  font-size: 20px;
+  font-weight: var(--weight-bold);
+  color: var(--blaa);
   margin-bottom: var(--space-md);
 }
 
