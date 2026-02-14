@@ -199,15 +199,17 @@
   position: absolute;
 }
 
-/* Sections that follow a box or another section get 48px spacing */
-/* Sections with their own header-div don't need this (header-div handles it) */
 .idag__section {
   margin: 0;
 }
 
+/* 48px space between end of one section and start of next heading */
 .idag__section-box + .idag__section,
 .idag__section + .idag__section,
-.idag__kort + .idag__section {
+.idag__kort + .idag__section,
+.idag__section + .idag__section-header,
+.idag__section-box + .idag__section-header,
+.idag__kort + .idag__section-header {
   margin-top: 48px;
 }
 
@@ -237,16 +239,9 @@
   border: 1px solid rgba(184, 166, 192, 0.15);
 }
 
-/* Section headers - ONE consistent format for ALL sections */
-/* 48px above header (space between sections) */
+/* Section headers */
 .idag__section-header {
   text-align: center;
-  margin-top: 48px;
-}
-
-/* First item after venn has no extra top margin */
-.idag__home > .idag__section:first-child + .idag__section-header {
-  margin-top: 48px;
 }
 
 .idag__section-title {
@@ -537,7 +532,7 @@
 .screen--indsigt {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 0;
   padding-bottom: var(--space-xl);
 }
 
@@ -1965,7 +1960,7 @@
 .screen--tema {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 0;
   padding-bottom: var(--space-xl);
 }
 
@@ -2174,7 +2169,7 @@
 .screen--cyklusser-i-cyklusser {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 0;
   padding-bottom: var(--space-xl);
 }
 
@@ -2419,7 +2414,7 @@
 .screen--tracking {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 0;
   padding-bottom: var(--space-xl);
 }
 
