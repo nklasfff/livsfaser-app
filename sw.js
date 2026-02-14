@@ -1,4 +1,4 @@
-const CACHE_NAME = 'livsfaser-v43';
+const CACHE_NAME = 'livsfaser-v44';
 const urlsToCache = [
   './',
   './index.html',
@@ -27,6 +27,7 @@ const urlsToCache = [
   './screens/kontrolcyklussen.html',
   './screens/foelelser.html',
   './screens/yin-yoga.html',
+  './screens/indstillinger.html',
   './assets/images/lotus-divider.png',
   './assets/images/9-cirkler.png'
 ];

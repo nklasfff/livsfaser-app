@@ -2068,6 +2068,7 @@ function showDetail(type) {
   if (!container) return;
 
   container.innerHTML =
+    '<button class="detail__close" onclick="hideDetail()">\u00d7</button>' +
     '<h2 class="detail__title">' + title + '</h2>' +
     '<div class="detail__body">' + html + '</div>';
 
@@ -2076,10 +2077,6 @@ function showDetail(type) {
   if (homeEl) homeEl.classList.add('idag--hidden');
   container.classList.add('idag-detail--visible');
   App.detailVisible = true;
-
-  // Show back button
-  var backBtn = document.getElementById('back-button');
-  if (backBtn) backBtn.classList.add('header__back--visible');
 }
 
 function hideDetail() {
@@ -2087,10 +2084,6 @@ function hideDetail() {
   if (homeEl) homeEl.classList.remove('idag--hidden');
   document.getElementById('idag-detail').classList.remove('idag-detail--visible');
   App.detailVisible = false;
-
-  // Hide back button (we're back on home)
-  var backBtn = document.getElementById('back-button');
-  if (backBtn) backBtn.classList.remove('header__back--visible');
 }
 
 window.showDetail = showDetail;
@@ -3414,13 +3407,14 @@ const App = {
     'refleksion': 'screens/refleksion.html',
     'kontrolcyklussen': 'screens/kontrolcyklussen.html',
     'foelelser': 'screens/foelelser.html',
-    'yin-yoga': 'screens/yin-yoga.html'
+    'yin-yoga': 'screens/yin-yoga.html',
+    'indstillinger': 'screens/indstillinger.html'
   },
 
   // Niveau 1 skærme (tema-overblik)
   niveau1: ['mine-cyklusser', 'mine-relationer', 'min-praksis', 'min-rejse'],
   // Niveau 2 skærme (specifikt indhold)
-  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga'],
+  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger'],
 
   init() {
     const user = localStorage.getItem('user');
@@ -3448,7 +3442,8 @@ const App = {
     'refleksion': 'min-praksis',
     'kontrolcyklussen': 'mine-cyklusser',
     'foelelser': 'min-praksis',
-    'yin-yoga': 'min-praksis'
+    'yin-yoga': 'min-praksis',
+    'indstillinger': 'min-rejse'
   },
 
   goBack() {
@@ -3490,11 +3485,11 @@ const App = {
 
     window.scrollTo(0, 0);
 
-    // Show/hide back button
-    const backBtn = document.getElementById('back-button');
-    if (backBtn) {
-      const showBack = (screenName !== 'idag' && screenName !== 'onboarding');
-      backBtn.classList.toggle('header__back--visible', showBack);
+    // Close menu if open
+    var menuOverlay = document.getElementById('menu-overlay');
+    if (menuOverlay && menuOverlay.classList.contains('menu-overlay--open')) {
+      menuOverlay.classList.remove('menu-overlay--open');
+      document.body.style.overflow = '';
     }
 
     // Load screen content
@@ -3545,6 +3540,9 @@ const App = {
           initYinYogaScreen();
         } else if (screenName === 'favoritter') {
           initFavoritterScreen();
+        } else if (screenName === 'indstillinger') {
+          initIndstillingerScreen(window._indstillingerSection || null);
+          window._indstillingerSection = null;
         }
 
         // Append "Tilbage til toppen" footer (skip on onboarding)
@@ -5316,6 +5314,157 @@ function removeFavorit(screenName) {
 
 window.removeFavorit = removeFavorit;
 
+// ---- Hamburger Menu ----
+
+var MENU_DATA = [
+  {
+    id: 'mine-cyklusser',
+    title: 'Mine Cyklusser',
+    children: [
+      { label: 'Cyklusser i Cyklusser', action: "App.loadScreen('cyklusser-i-cyklusser')" },
+      { label: 'Forst\u00e5 din fortid', action: "navigateToTidsrejse('fortid-selv')" },
+      { label: 'Forbered din fremtid', action: "navigateToTidsrejse('fremtid-selv')" },
+      { label: 'Kroppens store overgange', action: "App.loadScreen('alle-faser')" },
+      { label: 'De Ni Livsfaser', action: "App.loadScreen('de-ni-livsfaser')" },
+      { label: 'De Fire Uger', action: "App.loadScreen('de-fire-uger')" },
+      { label: 'Elementernes Samspil', action: "App.loadScreen('kontrolcyklussen')" },
+      { label: 'Samlet indsigt for i dag', action: "App.loadScreen('samlede-indsigt')" }
+    ]
+  },
+  {
+    id: 'mine-relationer',
+    title: 'Mine Relationer',
+    children: [
+      { label: 'Relationer lige nu', action: "App.loadScreen('relationer')" },
+      { label: 'N\u00e5r faser m\u00f8des', action: "App.loadScreen('mine-relationer')" },
+      { label: 'Forst\u00e5 relationer i fortiden', action: "navigateToTidsrejse('fortid-relation')" },
+      { label: 'Forbered relationer i fremtiden', action: "navigateToTidsrejse('fremtid-relation')" }
+    ]
+  },
+  {
+    id: 'min-praksis',
+    title: 'Min Praksis',
+    children: [
+      { label: 'Yin Yoga', action: "App.loadScreen('yin-yoga')" },
+      { label: 'Refleksion', action: "App.loadScreen('refleksion')" },
+      { label: 'F\u00f8lelsernes Hjul', action: "App.loadScreen('foelelser')" },
+      { label: 'Kost & N\u00e6ring', action: "App.loadScreen('samlede-indsigt')" }
+    ]
+  },
+  {
+    id: 'min-rejse',
+    title: 'Min Rejse',
+    children: [
+      { label: 'Min udvikling', action: "App.loadScreen('min-udvikling')" },
+      { label: 'Mine favoritter', action: "App.loadScreen('favoritter')" },
+      { label: 'Alle 9 faser', action: "App.loadScreen('alle-faser')" },
+      { label: 'Baggrundsviden', action: "App.loadScreen('samlede-indsigt')" }
+    ]
+  },
+  {
+    id: 'soeg',
+    title: 'S\u00f8g',
+    direct: true
+  },
+  {
+    id: 'checkin',
+    title: 'Dagens check-in',
+    direct: true
+  },
+  {
+    id: 'indstillinger',
+    title: 'Indstillinger',
+    children: [
+      { label: 'Min profil', action: "App.loadScreen('indstillinger')" },
+      { label: 'Menstruation / Cyklus', action: "navigateToIndstillinger('menstruation')" },
+      { label: 'Mine relationer (tilf\u00f8j/rediger)', action: "App.loadScreen('relationer')" }
+    ]
+  }
+];
+
+var _menuExpandedSections = {};
+
+function toggleMenu() {
+  var overlay = document.getElementById('menu-overlay');
+  if (!overlay) return;
+  var isOpen = overlay.classList.contains('menu-overlay--open');
+
+  if (!isOpen) {
+    renderMenuContent();
+    overlay.classList.add('menu-overlay--open');
+    document.body.style.overflow = 'hidden';
+  } else {
+    overlay.classList.remove('menu-overlay--open');
+    document.body.style.overflow = '';
+  }
+}
+window.toggleMenu = toggleMenu;
+
+function renderMenuContent() {
+  var nav = document.getElementById('menu-nav');
+  if (!nav) return;
+
+  var html = '';
+  for (var i = 0; i < MENU_DATA.length; i++) {
+    var item = MENU_DATA[i];
+    var isExpanded = !!_menuExpandedSections[item.id];
+
+    if (item.direct) {
+      html += '<div class="menu-item">';
+      html += '<button class="menu-item__header menu-item__header--direct" onclick="menuDirectAction(\'' + item.id + '\')">';
+      html += '<span class="menu-item__title">' + item.title + '</span>';
+      html += '<span class="menu-item__arrow">\u203A</span>';
+      html += '</button>';
+      html += '</div>';
+    } else {
+      html += '<div class="menu-item' + (isExpanded ? ' menu-item--expanded' : '') + '" id="menu-section-' + item.id + '">';
+      html += '<button class="menu-item__header" onclick="toggleMenuSection(\'' + item.id + '\')">';
+      html += '<span class="menu-item__title">' + item.title + '</span>';
+      html += '<span class="menu-item__arrow">\u203A</span>';
+      html += '</button>';
+      html += '<div class="menu-item__children">';
+      for (var j = 0; j < item.children.length; j++) {
+        var child = item.children[j];
+        html += '<button class="menu-subitem" onclick="menuNavigate(' + i + ', ' + j + ')">' + child.label + '</button>';
+      }
+      html += '</div>';
+      html += '</div>';
+    }
+  }
+  nav.innerHTML = html;
+}
+
+function toggleMenuSection(sectionId) {
+  _menuExpandedSections[sectionId] = !_menuExpandedSections[sectionId];
+  var el = document.getElementById('menu-section-' + sectionId);
+  if (el) {
+    el.classList.toggle('menu-item--expanded', _menuExpandedSections[sectionId]);
+  }
+}
+window.toggleMenuSection = toggleMenuSection;
+
+function menuNavigate(itemIndex, childIndex) {
+  var item = MENU_DATA[itemIndex];
+  if (!item || !item.children || !item.children[childIndex]) return;
+  var child = item.children[childIndex];
+  toggleMenu();
+  setTimeout(function() {
+    eval(child.action);
+  }, 50);
+}
+window.menuNavigate = menuNavigate;
+
+function menuDirectAction(itemId) {
+  if (itemId === 'soeg') {
+    toggleMenu();
+    setTimeout(function() { toggleSearch(); }, 100);
+  } else if (itemId === 'checkin') {
+    toggleMenu();
+    setTimeout(function() { App.loadScreen('min-udvikling'); }, 50);
+  }
+}
+window.menuDirectAction = menuDirectAction;
+
 // ---- Search Categories (12 categories with icons & descriptions) ----
 
 var SEARCH_CATEGORIES = [
@@ -5438,6 +5587,12 @@ function handleSearchCategory(catId) {
 }
 
 function toggleSearch() {
+  // Close menu if open
+  var menuOv = document.getElementById('menu-overlay');
+  if (menuOv && menuOv.classList.contains('menu-overlay--open')) {
+    menuOv.classList.remove('menu-overlay--open');
+    document.body.style.overflow = '';
+  }
   var overlay = document.getElementById('search-overlay');
   if (!overlay) return;
   var isOpen = overlay.classList.contains('search-overlay--open');
@@ -6177,6 +6332,135 @@ function navigateToYogaWithElement(element) {
 }
 window.navigateToYogaWithElement = navigateToYogaWithElement;
 
+// ---- Feature: Indstillinger ----
+
+function navigateToIndstillinger(section) {
+  window._indstillingerSection = section;
+  App.loadScreen('indstillinger');
+}
+window.navigateToIndstillinger = navigateToIndstillinger;
+
+function initIndstillingerScreen(scrollToSection) {
+  var contentEl = document.getElementById('indstillinger-content');
+  if (!contentEl) return;
+
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  var relations = JSON.parse(localStorage.getItem('relations') || '[]');
+  var html = '';
+
+  // Section 1: Min Profil
+  html += '<div class="indstilling-section" id="indstilling-profil">';
+  html += '<h3 class="indstilling-section__title">Min profil</h3>';
+  html += '<div class="indstilling-section__content">';
+  html += '<label class="indstilling-label">F\u00f8dselsdato</label>';
+  html += '<input type="date" id="ind-birthdate" class="indstilling-input" value="' + (user.birthdate || '') + '">';
+  if (user.birthdate) {
+    var age = calculateAge(user.birthdate);
+    var phase = calculateLifePhase(age);
+    html += '<p class="indstilling-info">Du er ' + Math.floor(age) + ' \u00e5r \u00b7 Fase ' + phase.phase + ': ' + phase.name + ' \u00b7 ' + ELEMENT_LABELS[phase.element] + '</p>';
+  }
+  html += '</div></div>';
+
+  // Section 2: Menstruation / Cyklus
+  html += '<div class="indstilling-section" id="indstilling-menstruation">';
+  html += '<h3 class="indstilling-section__title">Menstruation / Cyklus</h3>';
+  html += '<div class="indstilling-section__content">';
+  html += '<div class="indstilling-toggle">';
+  html += '<button class="indstilling-choice' + (user.tracksMenstruation ? ' indstilling-choice--active' : '') + '" onclick="indstillingSetMenstruation(true)">Menstruation</button>';
+  html += '<button class="indstilling-choice' + (!user.tracksMenstruation ? ' indstilling-choice--active' : '') + '" onclick="indstillingSetMenstruation(false)">M\u00e5necyklus</button>';
+  html += '</div>';
+  if (user.tracksMenstruation) {
+    html += '<label class="indstilling-label" style="margin-top:12px">Sidste menstruations start</label>';
+    html += '<input type="date" id="ind-period-date" class="indstilling-input" value="' + (user.lastPeriodDate || '') + '">';
+  }
+  html += '</div></div>';
+
+  // Section 3: Mine Relationer
+  html += '<div class="indstilling-section" id="indstilling-relationer">';
+  html += '<h3 class="indstilling-section__title">Mine relationer</h3>';
+  html += '<div class="indstilling-section__content">';
+  if (relations.length === 0) {
+    html += '<p class="indstilling-info">Ingen relationer tilf\u00f8jet endnu.</p>';
+  } else {
+    for (var i = 0; i < relations.length; i++) {
+      var r = relations[i];
+      html += '<div class="indstilling-relation">';
+      html += '<span class="indstilling-relation__name">' + escapeHtml(r.name) + '</span>';
+      html += '<span class="indstilling-relation__type">' + (r.relationType || '') + '</span>';
+      html += '</div>';
+    }
+  }
+  html += '<button class="indstilling-btn" onclick="App.loadScreen(\'relationer\')">Tilf\u00f8j eller rediger relationer</button>';
+  html += '</div></div>';
+
+  // Section 4: Data
+  html += '<div class="indstilling-section">';
+  html += '<h3 class="indstilling-section__title">Data</h3>';
+  html += '<div class="indstilling-section__content">';
+  html += '<p class="indstilling-info">Alle dine data er gemt lokalt p\u00e5 denne enhed. Intet sendes til en server.</p>';
+  html += '<button class="indstilling-btn indstilling-btn--danger" onclick="confirmResetData()">Nulstil alle data</button>';
+  html += '</div></div>';
+
+  contentEl.innerHTML = html;
+
+  // Bind event listeners
+  var bdInput = document.getElementById('ind-birthdate');
+  if (bdInput) {
+    bdInput.addEventListener('change', function() {
+      var val = this.value;
+      if (!val) return;
+      var d = new Date(val);
+      if (d >= new Date()) return;
+      var u = JSON.parse(localStorage.getItem('user') || '{}');
+      u.birthdate = val;
+      u.age = calculateAge(val);
+      var ph = calculateLifePhase(u.age);
+      u.phase = ph.phase;
+      u.element = ph.element;
+      localStorage.setItem('user', JSON.stringify(u));
+      initIndstillingerScreen();
+    });
+  }
+
+  var pdInput = document.getElementById('ind-period-date');
+  if (pdInput) {
+    pdInput.addEventListener('change', function() {
+      var val = this.value;
+      if (!val) return;
+      var d = new Date(val);
+      if (d > new Date()) return;
+      var u = JSON.parse(localStorage.getItem('user') || '{}');
+      u.lastPeriodDate = val;
+      localStorage.setItem('user', JSON.stringify(u));
+    });
+  }
+
+  // Scroll to section if requested
+  if (scrollToSection) {
+    var target = document.getElementById('indstilling-' + scrollToSection);
+    if (target) {
+      setTimeout(function() { target.scrollIntoView({ behavior: 'smooth' }); }, 100);
+    }
+  }
+}
+
+function indstillingSetMenstruation(tracks) {
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  user.tracksMenstruation = tracks;
+  if (!tracks) user.lastPeriodDate = null;
+  localStorage.setItem('user', JSON.stringify(user));
+  initIndstillingerScreen();
+}
+window.indstillingSetMenstruation = indstillingSetMenstruation;
+
+function confirmResetData() {
+  if (confirm('Er du sikker? Alle data slettes permanent.')) {
+    localStorage.clear();
+    App.loadScreen('onboarding');
+  }
+}
+window.confirmResetData = confirmResetData;
+
 // ---- Feature: Notifikationer Timeline (I dag) ----
 
 function generateNotifikationer() {
@@ -6364,4 +6648,19 @@ if ('serviceWorker' in navigator) {
 // Start app
 document.addEventListener('DOMContentLoaded', () => {
   App.init();
+});
+
+// Escape key handler for overlays
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    var menuOv = document.getElementById('menu-overlay');
+    if (menuOv && menuOv.classList.contains('menu-overlay--open')) {
+      toggleMenu();
+      return;
+    }
+    var searchOv = document.getElementById('search-overlay');
+    if (searchOv && searchOv.classList.contains('search-overlay--open')) {
+      toggleSearch();
+    }
+  }
 });
