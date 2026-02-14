@@ -3514,12 +3514,22 @@ const App = {
       if (response.ok) {
         content.innerHTML = await response.text();
 
-        // Add "← Forside" breadcrumb on all screens except home and onboarding
+        // Add breadcrumb — navigates to parent (not always home)
         if (screenName !== 'idag' && screenName !== 'onboarding') {
+          var SCREEN_LABELS = {
+            'idag': 'Forside',
+            'mine-cyklusser': 'Mine Cyklusser',
+            'mine-relationer': 'Mine Relationer',
+            'min-praksis': 'Min Praksis',
+            'min-rejse': 'Min Rejse',
+            'de-ni-livsfaser': 'De Ni Livsfaser'
+          };
+          var parentId = this.parentScreen[screenName] || 'idag';
+          var parentLabel = SCREEN_LABELS[parentId] || 'Forside';
           var breadcrumb = document.createElement('button');
           breadcrumb.className = 'breadcrumb-home';
-          breadcrumb.innerHTML = '\u2039 Forside';
-          breadcrumb.onclick = function() { App.loadScreen('idag'); };
+          breadcrumb.innerHTML = '\u2039 ' + parentLabel;
+          breadcrumb.onclick = (function(pid) { return function() { App.loadScreen(pid); }; })(parentId);
           content.insertBefore(breadcrumb, content.firstChild);
         }
 
