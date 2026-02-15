@@ -1894,7 +1894,7 @@ function renderIdagTidsvinduetLink() {
   var el = document.getElementById('idag-tidsvindue-link');
   if (!el) return;
   el.innerHTML = '<div class="idag__tidsvindue-kort" onclick="App.loadScreen(\'din-energi\')">' +
-    '<p class="idag__tidsvindue-kort-subtitle">V\u00e6lg en dato og se dine cyklusser og relationer m\u00f8des.</p>' +
+    '<p class="idag__tidsvindue-kort-subtitle">Hvad skete der dengang du var 25? Hvordan ser din energi ud til sommer? V\u00e6lg en dato og se dine cyklusser og relationer m\u00f8des.</p>' +
     '<span class="idag__tidsvindue-kort-link">V\u00e6lg en dag \u2192</span>' +
     '</div>';
 }
