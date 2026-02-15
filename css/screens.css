@@ -259,9 +259,9 @@
 
 .idag__tidsvindue-img {
   display: block;
-  width: 75%;
-  max-width: 300px;
-  margin: 0 auto var(--space-md);
+  width: 94%;
+  max-width: 375px;
+  margin: 0 auto 0;
 }
 
 .idag__section-subtitle {
