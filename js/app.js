@@ -2613,7 +2613,6 @@ function renderRelationerOverview() {
     ],
     centerTitle: 'DIG',
     centerLines: [],
-    fillColor: '#B8A6C0',
     extraLabels: [
       { x: 300, y: 235, text: 'forsoning', italic: true },
       { x: 230, y: 300, text: 'erkendelse', italic: true },
