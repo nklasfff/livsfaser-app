@@ -4207,6 +4207,13 @@
   padding: 0 var(--space-md);
 }
 
+.tidsvindue__hero-img {
+  display: block;
+  width: 75%;
+  max-width: 300px;
+  margin: var(--space-md) auto var(--space-lg);
+}
+
 .tidsvindue__box--blaa {
   background: rgba(118, 144, 193, 0.07);
   border: 1px solid rgba(118, 144, 193, 0.15);

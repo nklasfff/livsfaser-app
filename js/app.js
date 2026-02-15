@@ -3753,6 +3753,7 @@ function renderDinEnergiStatic() {
   if (!el) return;
   var html = '<h2 class="tidsvindue__title">Din energi p\u00e5 en anden dag</h2>';
   html += '<p class="tidsvindue__subtitle">V\u00e6lg en dag \u2014 fortid eller fremtid \u2014 og se pr\u00e6cis hvilke cyklusser der var aktive, hvad du havde brug for, og hvad der kan hj\u00e6lpe dig. Du kan bruge det til at forst\u00e5 sv\u00e6re perioder, forberede vigtige begivenheder, eller bare se hvad der venter forude.</p>';
+  html += '<img src="assets/images/vindue_ny_side.svg" alt="Tidsvinduet" class="tidsvindue__hero-img">';
   html += '<div class="tidsvindue__box--blaa">';
   html += '<p class="tidsvindue__box-heading">Du kan bruge det til</p>';
   html += '<ul class="tidsvindue__box-list">';
