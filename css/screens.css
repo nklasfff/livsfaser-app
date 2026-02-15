@@ -253,6 +253,10 @@
   margin: 0 0 8px 0;
 }
 
+.idag__section-title--lilla {
+  color: #9678A4;
+}
+
 .idag__section-subtitle {
   font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 15px;
@@ -4429,8 +4433,8 @@
 
 /* Forside: Tidsvinduet kort */
 .idag__tidsvindue-kort {
-  background: rgba(184, 166, 192, 0.15);
-  border: 1px solid rgba(184, 166, 192, 0.35);
+  background: rgba(184, 166, 192, 0.12);
+  border: 1px solid rgba(184, 166, 192, 0.30);
   border-radius: 20px;
   padding: var(--space-lg) var(--space-lg);
   margin: var(--space-md) 0;

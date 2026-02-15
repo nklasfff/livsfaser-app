@@ -1884,12 +1884,18 @@ function toggleClimateExpand() {
 window.toggleClimateExpand = toggleClimateExpand;
 
 function renderIdagTidsvinduetLink() {
+  // Header over boksen
+  var headerEl = document.getElementById('idag-tidsvindue-header');
+  if (headerEl) {
+    headerEl.innerHTML = '<h3 class="idag__section-title idag__section-title--lilla">Tidsvinduet</h3>' +
+      '<p class="idag__section-subtitle">Rejs tilbage — eller se hvad der venter forude.</p>';
+  }
+  // Selve boksen
   var el = document.getElementById('idag-tidsvindue-link');
   if (!el) return;
   el.innerHTML = '<div class="idag__tidsvindue-kort" onclick="App.loadScreen(\'din-energi\')">' +
-    '<p class="idag__tidsvindue-kort-title">Udforsk en anden dag</p>' +
-    '<p class="idag__tidsvindue-kort-subtitle">Forstå hvad der skete dengang — eller forbered dig på det der kommer.</p>' +
-    '<span class="idag__tidsvindue-kort-link">Vælg en dag →</span>' +
+    '<p class="idag__tidsvindue-kort-subtitle">Hvad skete der dengang du var 25? Hvordan ser din energi ud til sommer? Vælg en dato og se dine cyklusser mødes.</p>' +
+    '<span class="idag__tidsvindue-kort-link">Vælg en dag \u2192</span>' +
     '</div>';
 }
 
@@ -3422,7 +3428,7 @@ function renderTidsrejseResult() {
   }
 
   // User cycle grid
-  html += renderCycleGrid(results.user, 'Dig');
+  html += renderCycleGrid(results.user, 'Dig', isPast);
 
   if (!isRelation) {
     // Insight for self
@@ -3443,7 +3449,7 @@ function renderTidsrejseResult() {
     // Relation grids + interactions
     for (var i = 0; i < results.relations.length; i++) {
       var rr = results.relations[i];
-      html += renderCycleGrid(rr, escapeHtml(rr.name));
+      html += renderCycleGrid(rr, escapeHtml(rr.name), isPast);
 
       var interaction = getElementInteraction(
         results.user.lifePhase.element,
@@ -3583,14 +3589,14 @@ function toggleCycleDetail(id) {
 }
 window.toggleCycleDetail = toggleCycleDetail;
 
-function renderCycleGrid(cycleData, label) {
+function renderCycleGrid(cycleData, label, isPast) {
   var lp = cycleData.lifePhase;
   var season = cycleData.season;
   var mc = cycleData.monthCycle;
   var insight = generateInsight(cycleData.elements);
   var uid = ++_cycleGridCounter;
 
-  // Robust aldersvisning — brug yearsDiff som fallback
+  // Robust aldersvisning
   var displayAge = cycleData.age;
   if (typeof displayAge !== 'number' || isNaN(displayAge) || displayAge > 150) {
     if (cycleData.date && cycleData.birthdate) {
@@ -3601,7 +3607,7 @@ function renderCycleGrid(cycleData, label) {
   }
   if (typeof displayAge !== 'number' || isNaN(displayAge) || displayAge > 150) displayAge = '?';
 
-  // Hent detaljetekster fra CM_PHASES og CM_SEASONS
+  // Hent detaljetekster
   var phaseKey = lp.phase || 1;
   var phaseData = CM_PHASES[phaseKey] || {};
   var seasonKey = cmGetSeason(cycleData.date || new Date());
@@ -3609,10 +3615,14 @@ function renderCycleGrid(cycleData, label) {
   var mcWeek = (mc.type === 'menstrual' && mc.data.week) ? mc.data.week : null;
   var mcData = mcWeek ? CM_MENSTRUATION[mcWeek] : null;
 
+  // Tid-kontekst for expand-tekster
+  var varBefandt = isPast ? 'var' : 'er';
+  var duVarEr = isPast ? 'Du var' : 'Du er';
+
   var html = '<div class="tidsrejse__person-label">' + label + ' \u00b7 ' + displayAge + ' \u00e5r</div>';
   html += '<div class="tidsrejse__cycle-grid">';
 
-  // Livsfase — klikbar
+  // Livsfase
   var lpId = 'cycle-detail-lp-' + uid;
   html += '<div class="tidsrejse__cycle-card tidsrejse__cycle-card--clickable" onclick="toggleCycleDetail(\'' + lpId + '\')">';
   html += '<div class="tidsrejse__cycle-label">Livsfase</div>';
@@ -3621,7 +3631,7 @@ function renderCycleGrid(cycleData, label) {
   html += '<div class="tidsrejse__cycle-element">' + ELEMENT_LABELS[lp.element] + '</div>';
   html += '</div>';
 
-  // \u00c5rstid — klikbar
+  // \u00c5rstid
   var sId = 'cycle-detail-s-' + uid;
   html += '<div class="tidsrejse__cycle-card tidsrejse__cycle-card--clickable" onclick="toggleCycleDetail(\'' + sId + '\')">';
   html += '<div class="tidsrejse__cycle-label">\u00c5rstid</div>';
@@ -3629,7 +3639,7 @@ function renderCycleGrid(cycleData, label) {
   html += '<div class="tidsrejse__cycle-element">' + ELEMENT_LABELS[season.element] + '</div>';
   html += '</div>';
 
-  // M\u00e5ned/Cyklus — klikbar
+  // M\u00e5ned/Cyklus
   var mcId = 'cycle-detail-mc-' + uid;
   html += '<div class="tidsrejse__cycle-card tidsrejse__cycle-card--clickable" onclick="toggleCycleDetail(\'' + mcId + '\')">';
   html += '<div class="tidsrejse__cycle-label">' + (mc.type === 'menstrual' ? 'Cyklus' : 'M\u00e5ned') + '</div>';
@@ -3637,7 +3647,7 @@ function renderCycleGrid(cycleData, label) {
   html += '<div class="tidsrejse__cycle-element">' + ELEMENT_LABELS[mc.data.element] + '</div>';
   html += '</div>';
 
-  // Dominant element — klikbar
+  // Dominant element
   var domId = 'cycle-detail-dom-' + uid;
   html += '<div class="tidsrejse__cycle-card tidsrejse__cycle-card--dominant tidsrejse__cycle-card--clickable" onclick="toggleCycleDetail(\'' + domId + '\')">';
   html += '<div class="tidsrejse__cycle-label">Dominant</div>';
@@ -3647,50 +3657,49 @@ function renderCycleGrid(cycleData, label) {
 
   html += '</div>'; // end cycle-grid
 
-  // Detalje-bokse (skjulte som standard, vises ved klik)
-  // Livsfase detalje
+  // === Detalje-bokse: KUN indsigt, INGEN \u00f8velser/praksis ===
+
+  // Livsfase: short + energy + emotion
   html += '<div id="' + lpId + '" class="tidsrejse__cycle-expand" style="display:none">';
-  html += '<p class="tidsrejse__expand-label">LIVSFASE ' + lp.phase + ' \u2014 ' + (phaseData.name || lp.name) + ' (' + (phaseData.age || '') + ')</p>';
+  html += '<p class="tidsrejse__expand-label">' + (phaseData.name || lp.name).toUpperCase() + ' \u2014 ' + (phaseData.age || '') + '</p>';
+  if (phaseData.short) html += '<p class="tidsrejse__expand-text">' + phaseData.short + '</p>';
   if (phaseData.energy) html += '<p class="tidsrejse__expand-text">' + phaseData.energy + '</p>';
-  if (phaseData.body) html += '<p class="tidsrejse__expand-text">' + phaseData.body + '</p>';
   if (phaseData.emotion) html += '<p class="tidsrejse__expand-text"><em>' + phaseData.emotion + '</em></p>';
   html += '</div>';
 
-  // \u00c5rstid detalje
+  // \u00c5rstid: short + energy (ingen r\u00e5d/advice)
   html += '<div id="' + sId + '" class="tidsrejse__cycle-expand" style="display:none">';
   html += '<p class="tidsrejse__expand-label">' + (seasonData.name || season.season).toUpperCase() + ' \u2014 ' + ELEMENT_LABELS[season.element] + '</p>';
+  if (seasonData.short) html += '<p class="tidsrejse__expand-text">' + seasonData.short + '</p>';
   if (seasonData.energy) html += '<p class="tidsrejse__expand-text">' + seasonData.energy + '</p>';
-  if (seasonData.body) html += '<p class="tidsrejse__expand-text">' + seasonData.body + '</p>';
-  if (seasonData.advice) html += '<p class="tidsrejse__expand-text"><em>' + seasonData.advice + '</em></p>';
   html += '</div>';
 
-  // M\u00e5nedscyklus detalje
+  // M\u00e5nedscyklus: menstruationstekst (indsigt, ikke instruktion)
   html += '<div id="' + mcId + '" class="tidsrejse__cycle-expand" style="display:none">';
   if (mcData) {
     html += '<p class="tidsrejse__expand-label">' + mcData.name.toUpperCase() + ' \u2014 ' + mcData.season + '</p>';
     html += '<p class="tidsrejse__expand-text">' + mcData.text + '</p>';
   } else {
+    // M\u00e5ne-cyklus eller ikke-menstruel: vis element-bevidsthed
     var mcElLower = mc.data.element ? mc.data.element.toLowerCase().replace(/\u00e6/g, 'ae').replace(/\u00c6/g, 'ae') : '';
     var mcPractice = CM_PRACTICE[mcElLower];
     if (mcPractice && mcPractice.mind) {
       html += '<p class="tidsrejse__expand-label">' + ELEMENT_LABELS[mc.data.element] + '-ENERGI</p>';
       html += '<p class="tidsrejse__expand-text">' + mcPractice.mind.description + '</p>';
     } else {
-      html += '<p class="tidsrejse__expand-text">Denne m\u00e5neds element er ' + ELEMENT_LABELS[mc.data.element] + '.</p>';
+      html += '<p class="tidsrejse__expand-text">' + ELEMENT_LABELS[mc.data.element] + '-elementet ' + varBefandt + ' aktivt i denne periode.</p>';
     }
   }
   html += '</div>';
 
-  // Dominant element detalje
+  // Dominant element: KUN bevidsthed/indsigt, INGEN \u00f8velser
   var domElLower = insight.dominantElement ? insight.dominantElement.toLowerCase().replace(/\u00e6/g, 'ae').replace(/\u00c6/g, 'ae') : '';
   var domPractice = CM_PRACTICE[domElLower];
   html += '<div id="' + domId + '" class="tidsrejse__cycle-expand" style="display:none">';
   html += '<p class="tidsrejse__expand-label">DOMINANT: ' + ELEMENT_LABELS[insight.dominantElement] + '</p>';
+  html += '<p class="tidsrejse__expand-text">' + ELEMENT_QUALITIES[insight.dominantElement] + '</p>';
   if (domPractice && domPractice.mind) {
-    html += '<p class="tidsrejse__expand-text">' + domPractice.mind.description + '</p>';
-  }
-  if (domPractice && domPractice.exercise) {
-    html += '<p class="tidsrejse__expand-text"><em>\u00d8velse: ' + domPractice.exercise.name + ' \u2014 ' + domPractice.exercise.description + '</em></p>';
+    html += '<p class="tidsrejse__expand-text"><em>' + domPractice.mind.description + '</em></p>';
   }
   html += '</div>';
 
@@ -3849,7 +3858,7 @@ function renderDinEnergiResults() {
   html += '<h2 class="tidsvindue__title tidsvindue__section-title">Dine cyklusser den ' + formattedDate + '</h2>';
   html += '<p class="tidsvindue__subtitle">' + (isPast ? 'S\u00e5dan s\u00e5 din energi ud dengang.' : 'S\u00e5dan ser din energi ud p\u00e5 den dag.') + '</p>';
   html += '<div class="tidsvindue__box--blaa">';
-  html += renderCycleGrid(results.user, 'Dig');
+  html += renderCycleGrid(results.user, 'Dig', isPast);
   html += '</div>';
 
   // Section 2: Indsigt (dynamisk genereret)
@@ -4149,14 +4158,14 @@ function renderJeresEnergiResults() {
 
   // User cycle grid
   html += '<div class="tidsvindue__box--lilla">';
-  html += renderCycleGrid(results.user, 'Dig');
+  html += renderCycleGrid(results.user, 'Dig', isPast);
   html += '</div>';
 
   // Relation cycle grids
   for (var i = 0; i < results.relations.length; i++) {
     var rel = results.relations[i];
     html += '<div class="tidsvindue__box--lilla" style="margin-top:12px">';
-    html += renderCycleGrid(rel, escapeHtml(rel.name));
+    html += renderCycleGrid(rel, escapeHtml(rel.name), isPast);
     html += '</div>';
   }
 
