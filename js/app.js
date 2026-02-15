@@ -1821,7 +1821,6 @@ function initIdagScreen() {
   renderForloebCard();
   renderIdagCheckin();
   renderHovedkort();
-  renderTidsvinduetNudge();
 }
 
 function renderIdagVenn() {
@@ -1956,51 +1955,6 @@ function renderIdagTidsvinduetLink() {
     '</div>';
 }
 
-function renderTidsvinduetNudge() {
-  // Nudge 1: Personlig tidsrejse (vises kun én gang)
-  if (!localStorage.getItem('tidsvinduet_nudge_shown')) {
-    var linkEl = document.getElementById('idag-tidsvindue-link');
-    if (linkEl && !linkEl.querySelector('.tidsvindue__nudge')) {
-      var nudgeHtml = '<div class="tidsvindue__nudge">';
-      nudgeHtml += '<p class="tidsvindue__nudge-text">Vidste du at du kan se din energi p\u00e5 en hvilken som helst dag? Pr\u00f8v at se hvordan du havde det for et \u00e5r siden.</p>';
-      nudgeHtml += '<div class="tidsvindue__nudge-actions">';
-      nudgeHtml += '<button class="tidsvindue__nudge-btn" onclick="dismissTidsvinduetNudge(); var d = new Date(); d.setFullYear(d.getFullYear() - 1); navigateToDinEnergiWithDate(getLocalDateStr(d));">Pr\u00f8v det \u2192</button>';
-      nudgeHtml += '<button class="tidsvindue__nudge-dismiss" onclick="dismissTidsvinduetNudge()">Senere</button>';
-      nudgeHtml += '</div></div>';
-      linkEl.insertAdjacentHTML('beforeend', nudgeHtml);
-    }
-  }
-
-  // Nudge 2: Relations tidsrejse (vises kun én gang, kun hvis relationer)
-  var relations = JSON.parse(localStorage.getItem('relations') || '[]');
-  if (relations.length > 0 && !localStorage.getItem('tidsvinduet_relation_nudge_shown')) {
-    var forslagEl = document.getElementById('idag-forslag');
-    if (forslagEl && !forslagEl.querySelector('.tidsvindue__nudge')) {
-      var rNudge = '<div class="tidsvindue__nudge tidsvindue__nudge--lilla">';
-      rNudge += '<p class="tidsvindue__nudge-text">Nu kan du se hvordan I m\u00f8des \u2014 i dag og p\u00e5 en hvilken som helst dato.</p>';
-      rNudge += '<div class="tidsvindue__nudge-actions">';
-      rNudge += '<button class="tidsvindue__nudge-btn" onclick="dismissRelationNudge(); App.loadScreen(\'jeres-energi\');">Se jeres energi \u2192</button>';
-      rNudge += '<button class="tidsvindue__nudge-dismiss" onclick="dismissRelationNudge()">Senere</button>';
-      rNudge += '</div></div>';
-      forslagEl.insertAdjacentHTML('afterbegin', rNudge);
-    }
-  }
-}
-
-function dismissTidsvinduetNudge() {
-  localStorage.setItem('tidsvinduet_nudge_shown', 'true');
-  var nudge = document.querySelector('#idag-tidsvindue-link .tidsvindue__nudge');
-  if (nudge) nudge.remove();
-}
-
-function dismissRelationNudge() {
-  localStorage.setItem('tidsvinduet_relation_nudge_shown', 'true');
-  var nudge = document.querySelector('#idag-forslag .tidsvindue__nudge');
-  if (nudge) nudge.remove();
-}
-
-window.dismissTidsvinduetNudge = dismissTidsvinduetNudge;
-window.dismissRelationNudge = dismissRelationNudge;
 
 function renderHvadKanDu() {
   var el = document.getElementById('idag-hvadkandu');
