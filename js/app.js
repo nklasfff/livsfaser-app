@@ -3609,7 +3609,22 @@ function renderDinEnergiResults() {
   if (!results) return;
   var isPast = DinEnergiState.isPast;
   var dateStr = DinEnergiState.selectedDate;
-  var formattedDate = new Date(dateStr).toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric' });
+  var targetDate = new Date(dateStr);
+  var formattedDate = targetDate.toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  // Content matrix beregninger
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  var phase = cmGetPhase(user.birthdate, dateStr);
+  var season = cmGetSeason(targetDate);
+  var menstruationWeek = null;
+  if (results.user.monthCycle && results.user.monthCycle.type === 'menstrual') {
+    menstruationWeek = results.user.monthCycle.data.week;
+  }
+  var dominant = cmGetDominantElement(phase, season, menstruationWeek);
+  var crossfieldKey = cmGetCrossfieldKey(phase, season);
+  var crossfieldText = CM_CROSSFIELDS[crossfieldKey] || '';
+  var practiceElement = (dominant !== 'blandet') ? dominant : CM_PHASES[phase].element;
+  var practice = CM_PRACTICE[practiceElement];
 
   var html = '';
 
@@ -3621,30 +3636,45 @@ function renderDinEnergiResults() {
   html += '</div>';
 
   // Section 2: Hvad der skete / Hvad du kan forvente
-  var insight = generateInsight(results.user.elements);
-  var dominantEl = insight.dominantElement;
-  var insightTexts = isPast ? TIDSREJSE_INSIGHT_PAST : TIDSREJSE_INSIGHT_FUTURE;
-
   html += '<h2 class="tidsvindue__title tidsvindue__section-title">' + (isPast ? 'Hvad der skete' : 'Hvad du kan forvente') + '</h2>';
   html += '<p class="tidsvindue__subtitle">' + (isPast ? 'Baseret p\u00e5 dine cyklusser dengang.' : 'Baseret p\u00e5 dine cyklusser p\u00e5 det tidspunkt.') + '</p>';
-  html += '<div class="tidsvindue__box--blaa">';
-  html += '<p class="tidsvindue__insight-text">' + (insightTexts[dominantEl] || '') + '</p>';
-  html += '</div>';
 
-  if (insight.suggestions && insight.suggestions.length > 0) {
-    html += '<div class="tidsvindue__box--blaa" style="margin-top:12px">';
-    for (var s = 0; s < insight.suggestions.length; s++) {
-      html += '<p class="tidsvindue__insight-text">\u2022 ' + insight.suggestions[s] + '</p>';
-    }
+  // Boks 1: Krydsfelt-tekst
+  if (crossfieldText) {
+    html += '<div class="tidsvindue__box--blaa">';
+    html += '<p class="tidsvindue__insight-text">' + crossfieldText + '</p>';
     html += '</div>';
   }
 
-  // Section 3: Anbefalinger
+  // Boks 2: Dominant element
+  var dominantText = CM_DOMINANT[dominant] || CM_DOMINANT['blandet'];
+  html += '<div class="tidsvindue__box--blaa" style="margin-top:12px">';
+  html += '<p class="tidsvindue__insight-text">' + dominantText + '</p>';
+  html += '</div>';
+
+  // Menstruation-tekst (hvis relevant)
+  if (menstruationWeek && CM_MENSTRUATION[menstruationWeek]) {
+    html += '<div class="tidsvindue__box--blaa" style="margin-top:12px">';
+    html += '<p class="tidsvindue__insight-text">' + CM_MENSTRUATION[menstruationWeek].text + '</p>';
+    html += '</div>';
+  }
+
+  // Section 3: Praksis
   html += '<h2 class="tidsvindue__title tidsvindue__section-title">' + (isPast ? 'Hvad der kunne have hjulpet' : 'S\u00e5dan forbereder du dig') + '</h2>';
   html += '<p class="tidsvindue__subtitle">Konkrete \u00f8velser og r\u00e5d der passer til din energi.</p>';
-  html += '<div class="tidsvindue__box--blaa">';
-  html += renderTidsrejseRecommendations(results, false, isPast);
-  html += '</div>';
+
+  if (practice) {
+    html += '<div class="tidsvindue__box--blaa">';
+    html += '<p class="tidsvindue__insight-text" style="margin-bottom:4px"><span class="tidsvindue__label" style="display:inline;margin:0">\u00d8VELSE</span></p>';
+    html += '<p class="tidsvindue__insight-text" style="cursor:pointer" onclick="navigateToYogaWithElement(\'' + practiceElement.toUpperCase() + '\')">' + practice.exercise.name + ' \u2014 ' + practice.exercise.description + ' \u2192</p>';
+    html += '<p class="tidsvindue__insight-text" style="margin-top:16px;margin-bottom:4px"><span class="tidsvindue__label" style="display:inline;margin:0">N\u00c6RING</span></p>';
+    html += '<p class="tidsvindue__insight-text" onclick="App.loadScreen(\'samlede-indsigt\')" style="cursor:pointer">' + practice.food.name + ' \u2014 ' + practice.food.description + ' \u2192</p>';
+    html += '<p class="tidsvindue__insight-text" style="margin-top:16px;margin-bottom:4px"><span class="tidsvindue__label" style="display:inline;margin:0">' + practice.mind.label + '</span></p>';
+    html += '<p class="tidsvindue__insight-text">' + practice.mind.description + '</p>';
+    html += '<p class="tidsvindue__insight-text" style="margin-top:16px;margin-bottom:4px"><span class="tidsvindue__label" style="display:inline;margin:0">VEJRTR\u00c6KNING</span></p>';
+    html += '<p class="tidsvindue__insight-text">' + practice.breathing.name + ' \u2014 ' + practice.breathing.description + '</p>';
+    html += '</div>';
+  }
 
   // Action bar
   html += sectionDivider();
@@ -3815,6 +3845,7 @@ function executeJeresEnergi() {
     rResult.name = r.name;
     rResult.gender = r.gender;
     rResult.relationType = r.relationType;
+    rResult.birthdate = r.birthdate;
     results.relations.push(rResult);
   }
 
@@ -3831,7 +3862,48 @@ function renderJeresEnergiResults() {
   if (!results) return;
   var isPast = JeresEnergiState.isPast;
   var dateStr = JeresEnergiState.selectedDate;
-  var formattedDate = new Date(dateStr).toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric' });
+  var targetDate = new Date(dateStr);
+  var formattedDate = targetDate.toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  // Content matrix beregninger — bruger
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  var userPhase = cmGetPhase(user.birthdate, dateStr);
+  var season = cmGetSeason(targetDate);
+  var userMenstruationWeek = null;
+  if (results.user.monthCycle && results.user.monthCycle.type === 'menstrual') {
+    userMenstruationWeek = results.user.monthCycle.data.week;
+  }
+  var userCrossfieldKey = cmGetCrossfieldKey(userPhase, season);
+  var userCrossfieldText = CM_CROSSFIELDS[userCrossfieldKey] || '';
+  var userPhaseElement = CM_PHASES[userPhase].element;
+
+  // Saml alle elementer til dominant-beregning
+  var allPhaseElements = [userPhaseElement];
+  var relationPhases = [];
+  for (var ri = 0; ri < results.relations.length; ri++) {
+    var rr = results.relations[ri];
+    var rPhase = cmGetPhase(rr.birthdate || (rr.name ? '' : ''), dateStr);
+    // Brug lifePhase element fra beregningsresultater som fallback
+    var rElement = rr.lifePhase ? rr.lifePhase.element.toLowerCase() : 'vand';
+    relationPhases.push({ phase: rPhase, element: rElement, name: rr.name });
+    allPhaseElements.push(rElement);
+  }
+
+  // Gruppe-dominant element (baseret på alle personers livsfase-elementer + årstid)
+  var seasonElement = CM_SEASONS[season].element;
+  var groupElements = allPhaseElements.concat([seasonElement]);
+  if (userMenstruationWeek && CM_MENSTRUATION[userMenstruationWeek]) {
+    groupElements.push(CM_MENSTRUATION[userMenstruationWeek].element);
+  }
+  var groupCounts = {};
+  for (var gi = 0; gi < groupElements.length; gi++) {
+    groupCounts[groupElements[gi]] = (groupCounts[groupElements[gi]] || 0) + 1;
+  }
+  var groupMaxCount = 0; var groupDominant = 'blandet';
+  for (var ge in groupCounts) {
+    if (groupCounts[ge] > groupMaxCount) { groupMaxCount = groupCounts[ge]; groupDominant = ge; }
+  }
+  if (groupMaxCount < 2) groupDominant = 'blandet';
 
   var html = '';
 
@@ -3844,45 +3916,101 @@ function renderJeresEnergiResults() {
   html += renderCycleGrid(results.user, 'Dig');
   html += '</div>';
 
-  // Relation cycle grids + interactions
+  // Relation cycle grids + CM_RELATIONS interaktioner
   for (var i = 0; i < results.relations.length; i++) {
-    var rr = results.relations[i];
-    html += '<div class="tidsvindue__box--lilla" style="margin-top:12px">';
-    html += renderCycleGrid(rr, escapeHtml(rr.name));
+    var rel = results.relations[i];
+    var relElement = rel.lifePhase ? rel.lifePhase.element.toLowerCase() : 'vand';
 
-    var interaction = getElementInteraction(
-      results.user.lifePhase.element,
-      rr.lifePhase.element,
-      rr.name,
-      rr.gender
-    );
-    html += '<div class="tidsvindue__interaction">';
-    html += '<span class="tidsvindue__interaction-type">' + escapeHtml(interaction.type) + '</span>';
-    html += '<p class="tidsvindue__interaction-text">' + escapeHtml(interaction.text) + '</p>';
-    html += '</div>';
+    html += '<div class="tidsvindue__box--lilla" style="margin-top:12px">';
+    html += renderCycleGrid(rel, escapeHtml(rel.name));
+
+    // Brug CM_RELATIONS for element-par interaktion
+    var relationKey = cmGetRelationKey(userPhaseElement, relElement);
+    var relationText = CM_RELATIONS[relationKey];
+    if (relationText) {
+      html += '<div class="tidsvindue__interaction">';
+      html += '<span class="tidsvindue__interaction-type">' + escapeHtml(userPhaseElement.charAt(0).toUpperCase() + userPhaseElement.slice(1)) + ' m\u00f8der ' + escapeHtml(relElement) + '</span>';
+      html += '<p class="tidsvindue__interaction-text">' + relationText + '</p>';
+      html += '</div>';
+    } else {
+      // Fallback til getElementInteraction
+      var interaction = getElementInteraction(
+        results.user.lifePhase.element,
+        rel.lifePhase.element,
+        rel.name,
+        rel.gender
+      );
+      html += '<div class="tidsvindue__interaction">';
+      html += '<span class="tidsvindue__interaction-type">' + escapeHtml(interaction.type) + '</span>';
+      html += '<p class="tidsvindue__interaction-text">' + escapeHtml(interaction.text) + '</p>';
+      html += '</div>';
+    }
     html += '</div>';
   }
 
   // Section 2: Hvad der skete mellem jer / Hvad I kan forvente
-  var allElements = results.user.elements.slice();
-  for (var j = 0; j < results.relations.length; j++) {
-    allElements = allElements.concat(results.relations[j].elements);
-  }
-  var groupInsight = generateInsight(allElements);
-  var gTexts = isPast ? TIDSREJSE_INSIGHT_PAST : TIDSREJSE_INSIGHT_FUTURE;
-
   html += '<h2 class="tidsvindue__title tidsvindue__section-title">' + (isPast ? 'Hvad der skete mellem jer' : 'Hvad I kan forvente') + '</h2>';
   html += '<p class="tidsvindue__subtitle">' + (isPast ? 'Baseret p\u00e5 jeres cyklusser dengang.' : 'Baseret p\u00e5 jeres cyklusser p\u00e5 det tidspunkt.') + '</p>';
-  html += '<div class="tidsvindue__box--lilla">';
-  html += '<p class="tidsvindue__insight-text">' + (gTexts[groupInsight.dominantElement] || '') + '</p>';
+
+  // Boks 1: Brugerens krydsfelt-tekst
+  if (userCrossfieldText) {
+    html += '<div class="tidsvindue__box--lilla">';
+    html += '<p class="tidsvindue__insight-text" style="margin-bottom:4px"><span class="tidsvindue__label" style="display:inline;margin:0">DIG \u2014 FASE ' + userPhase + ' \u00d7 ' + CM_SEASONS[season].name.toUpperCase() + '</span></p>';
+    html += '<p class="tidsvindue__insight-text">' + userCrossfieldText + '</p>';
+    html += '</div>';
+  }
+
+  // Boks 2: Hver relations krydsfelt (hvis de har fødselsdato)
+  for (var j = 0; j < results.relations.length; j++) {
+    var relJ = results.relations[j];
+    if (relJ.birthdate) {
+      var rjPhase = cmGetPhase(relJ.birthdate, dateStr);
+      var rjCrossfieldKey = cmGetCrossfieldKey(rjPhase, season);
+      var rjCrossfieldText = CM_CROSSFIELDS[rjCrossfieldKey] || '';
+      if (rjCrossfieldText) {
+        html += '<div class="tidsvindue__box--lilla" style="margin-top:12px">';
+        html += '<p class="tidsvindue__insight-text" style="margin-bottom:4px"><span class="tidsvindue__label" style="display:inline;margin:0">' + escapeHtml(relJ.name).toUpperCase() + ' \u2014 FASE ' + rjPhase + ' \u00d7 ' + CM_SEASONS[season].name.toUpperCase() + '</span></p>';
+        html += '<p class="tidsvindue__insight-text">' + rjCrossfieldText + '</p>';
+        html += '</div>';
+      }
+    }
+  }
+
+  // Boks 3: Gruppe-dominant element
+  var groupDominantText = CM_DOMINANT[groupDominant] || CM_DOMINANT['blandet'];
+  html += '<div class="tidsvindue__box--lilla" style="margin-top:12px">';
+  html += '<p class="tidsvindue__insight-text" style="margin-bottom:4px"><span class="tidsvindue__label" style="display:inline;margin:0">JERES F\u00c6LLES ENERGI</span></p>';
+  html += '<p class="tidsvindue__insight-text">' + groupDominantText + '</p>';
   html += '</div>';
 
-  // Section 3: Anbefalinger
+  // Menstruation-tekst (hvis relevant for brugeren)
+  if (userMenstruationWeek && CM_MENSTRUATION[userMenstruationWeek]) {
+    html += '<div class="tidsvindue__box--lilla" style="margin-top:12px">';
+    html += '<p class="tidsvindue__insight-text" style="margin-bottom:4px"><span class="tidsvindue__label" style="display:inline;margin:0">DIN M\u00c5NEDSCYKLUS</span></p>';
+    html += '<p class="tidsvindue__insight-text">' + CM_MENSTRUATION[userMenstruationWeek].text + '</p>';
+    html += '</div>';
+  }
+
+  // Section 3: Praksis — baseret på brugerens dominant element
+  var userDominant = cmGetDominantElement(userPhase, season, userMenstruationWeek);
+  var practiceElement = (userDominant !== 'blandet') ? userDominant : userPhaseElement;
+  var practice = CM_PRACTICE[practiceElement];
+
   html += '<h2 class="tidsvindue__title tidsvindue__section-title">' + (isPast ? 'Hvad der kunne have hjulpet' : 'S\u00e5dan forbereder I jer') + '</h2>';
   html += '<p class="tidsvindue__subtitle">Konkrete \u00f8velser og r\u00e5d tilpasset jeres energi.</p>';
-  html += '<div class="tidsvindue__box--lilla">';
-  html += renderTidsrejseRecommendations(results, true, isPast);
-  html += '</div>';
+
+  if (practice) {
+    html += '<div class="tidsvindue__box--lilla">';
+    html += '<p class="tidsvindue__insight-text" style="margin-bottom:4px"><span class="tidsvindue__label" style="display:inline;margin:0">\u00d8VELSE</span></p>';
+    html += '<p class="tidsvindue__insight-text" style="cursor:pointer" onclick="navigateToYogaWithElement(\'' + practiceElement.toUpperCase() + '\')">' + practice.exercise.name + ' \u2014 ' + practice.exercise.description + ' \u2192</p>';
+    html += '<p class="tidsvindue__insight-text" style="margin-top:16px;margin-bottom:4px"><span class="tidsvindue__label" style="display:inline;margin:0">N\u00c6RING</span></p>';
+    html += '<p class="tidsvindue__insight-text" onclick="App.loadScreen(\'samlede-indsigt\')" style="cursor:pointer">' + practice.food.name + ' \u2014 ' + practice.food.description + ' \u2192</p>';
+    html += '<p class="tidsvindue__insight-text" style="margin-top:16px;margin-bottom:4px"><span class="tidsvindue__label" style="display:inline;margin:0">' + practice.mind.label + '</span></p>';
+    html += '<p class="tidsvindue__insight-text">' + practice.mind.description + '</p>';
+    html += '<p class="tidsvindue__insight-text" style="margin-top:16px;margin-bottom:4px"><span class="tidsvindue__label" style="display:inline;margin:0">VEJRTR\u00c6KNING</span></p>';
+    html += '<p class="tidsvindue__insight-text">' + practice.breathing.name + ' \u2014 ' + practice.breathing.description + '</p>';
+    html += '</div>';
+  }
 
   // Action bar
   html += sectionDivider();
