@@ -3045,6 +3045,11 @@ function renderTidsrejseInput() {
 
   var html = '<h2 class="tidsrejse__input-title">' + titles[type] + '</h2>';
 
+  if (type === 'fremtid-relation') {
+    html += '<p class="tidsrejse__input-subtitle">Vælg en dato og de mennesker, du vil møde \u2014 så beregner vi hvilke livsfaser, elementer og energier I hver især befinder jer i. Måske er timingen perfekt. Måske kræver den lidt ekstra opmærksomhed.</p>';
+    html += '<img src="relationer_fremtid_cirkel.png" alt="Forbered relationer i fremtiden" class="tidsrejse__hero-img">';
+  }
+
   // Relation selection for B/D
   if (isRelation) {
     var relations = JSON.parse(localStorage.getItem('relations') || '[]');

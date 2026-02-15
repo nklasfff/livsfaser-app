@@ -1462,6 +1462,24 @@
   padding: 0 var(--space-md);
 }
 
+.tidsrejse__input-subtitle {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.6;
+  padding: 0 var(--space-lg);
+  margin: 0 0 var(--space-md);
+}
+
+.tidsrejse__hero-img {
+  width: 67%;
+  display: block;
+  margin: 0 auto var(--space-lg);
+  border-radius: 20px;
+}
+
 .tidsrejse__section {
   padding: 0 var(--space-md) var(--space-md);
 }
