@@ -131,6 +131,53 @@ function safeParseBirth(birthdate) {
   return d;
 }
 
+// Sanitize birthdate STRING before saving — fixes "0069-05-19" → "1969-05-19"
+function sanitizeBirthdate(dateStr) {
+  if (!dateStr) return dateStr;
+  var parts = dateStr.split('-');
+  if (parts.length === 3) {
+    var year = parseInt(parts[0], 10);
+    if (year > 0 && year < 100) {
+      year += 1900;
+      return year + '-' + parts[1] + '-' + parts[2];
+    }
+  }
+  return dateStr;
+}
+
+// Repair corrupted birthdate in localStorage (run once at startup)
+function repairStoredBirthdate() {
+  var raw = localStorage.getItem('user');
+  if (!raw) return;
+  try {
+    var user = JSON.parse(raw);
+    if (user && user.birthdate) {
+      var fixed = sanitizeBirthdate(user.birthdate);
+      if (fixed !== user.birthdate) {
+        user.birthdate = fixed;
+        user.age = calculateAge(fixed);
+        var ph = calculateLifePhase(user.age);
+        user.phase = ph.phase;
+        user.element = ph.element;
+        localStorage.setItem('user', JSON.stringify(user));
+        console.log('[Livsfaser] Repareret fødselsdato:', fixed, '| alder:', user.age);
+      }
+    }
+  } catch(e) {}
+  // Also repair relations
+  try {
+    var rels = JSON.parse(localStorage.getItem('relations') || '[]');
+    var changed = false;
+    for (var i = 0; i < rels.length; i++) {
+      if (rels[i] && rels[i].birthdate) {
+        var f = sanitizeBirthdate(rels[i].birthdate);
+        if (f !== rels[i].birthdate) { rels[i].birthdate = f; changed = true; }
+      }
+    }
+    if (changed) localStorage.setItem('relations', JSON.stringify(rels));
+  } catch(e) {}
+}
+
 function calculateAge(birthdate) {
   const today = new Date();
   const birth = safeParseBirth(birthdate);
@@ -296,7 +343,7 @@ const Onboarding = {
     var error = document.getElementById('onboarding-error');
     if (!input || !input.value) return;
 
-    var birthdate = new Date(input.value);
+    var birthdate = safeParseBirth(input.value);
     var today = new Date();
     if (birthdate >= today) {
       error.textContent = 'Fødselsdato skal være i fortiden';
@@ -304,8 +351,8 @@ const Onboarding = {
     }
     error.textContent = '';
 
-    this._birthdate = input.value;
-    this._age = calculateAge(input.value);
+    this._birthdate = sanitizeBirthdate(input.value);
+    this._age = calculateAge(this._birthdate);
     this._phase = calculateLifePhase(this._age);
 
     // Show phase confirmation inline
@@ -2728,7 +2775,7 @@ function addRelationNext() {
     }
   } else if (step === 2) {
     var dinp = document.getElementById('relation-date-input');
-    d.birthdate = dinp ? dinp.value : '';
+    d.birthdate = dinp ? sanitizeBirthdate(dinp.value) : '';
     if (!d.birthdate) {
       if (errorEl) errorEl.textContent = 'Vælg venligst en fødselsdato';
       return;
@@ -4314,6 +4361,7 @@ const App = {
   niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'jeres-energi'],
 
   init() {
+    repairStoredBirthdate();
     const user = localStorage.getItem('user');
     console.log('[Livsfaser] Init - user data:', user ? JSON.parse(user) : 'INGEN (starter onboarding)');
     if (!user) {
@@ -7480,9 +7528,9 @@ function initIndstillingerScreen(scrollToSection) {
   var bdInput = document.getElementById('ind-birthdate');
   if (bdInput) {
     bdInput.addEventListener('change', function() {
-      var val = this.value;
+      var val = sanitizeBirthdate(this.value);
       if (!val) return;
-      var d = new Date(val);
+      var d = safeParseBirth(val);
       if (d >= new Date()) return;
       var u = JSON.parse(localStorage.getItem('user') || '{}');
       u.birthdate = val;
