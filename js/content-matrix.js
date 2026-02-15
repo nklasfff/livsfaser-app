@@ -379,10 +379,8 @@ function generatePersonalInsight(person, targetDate, isPast) {
     ? getManPhase(person.birthDate, td)
     : getWomanPhase(person.birthDate, td);
   var season = tvGetSeason(td);
-  var age = person.birthDate ? yearsDiff(td, person.birthDate) : NaN;
-  if (typeof age !== 'number' || isNaN(age) || age < 0 || age > 150) {
-    age = null;
-  }
+  // Alder beregnes fra f\u00f8dselsdato (gemt i localStorage fra onboarding)
+  var age = yearsDiff(td, person.birthDate);
 
   var phaseElement = getPrimaryElement(phase.element);
   var seasonElement = season.element;
@@ -393,13 +391,12 @@ function generatePersonalInsight(person, targetDate, isPast) {
 
   var insight = "";
 
-  // Tidsangivelse — menneskelig
-  var ageStr = (age !== null) ? age : '?';
+  // Tidsangivelse
   if (isPast) {
-    insight += "Du var " + ageStr + " og i " + phase.name + " \u2014 " + pe.name.toLowerCase() + "ets \u00e5r. ";
+    insight += "Du var " + age + " og i " + phase.name + " \u2014 " + pe.name.toLowerCase() + "ets \u00e5r. ";
     insight += "Det var " + season.name.toLowerCase() + ", og " + se.name.toLowerCase() + "ets energi pr\u00e6gede verden omkring dig.";
   } else {
-    insight += "Du vil v\u00e6re " + ageStr + " og i " + phase.name + " \u2014 " + pe.name.toLowerCase() + "ets \u00e5r. ";
+    insight += "Du vil v\u00e6re " + age + " og i " + phase.name + " \u2014 " + pe.name.toLowerCase() + "ets \u00e5r. ";
     insight += "Det er " + season.name.toLowerCase() + ", og " + se.name.toLowerCase() + "ets energi pr\u00e6ger verden omkring dig.";
   }
 
@@ -519,9 +516,6 @@ function generateRelationInsight(person1, person2, targetDate, isPast) {
   var age1 = yearsDiff(td, person1.birthDate);
   var age2 = yearsDiff(td, person2.birthDate);
   // Safety: sikr at aldre er rimelige tal
-  if (typeof age1 !== 'number' || isNaN(age1) || age1 < 0 || age1 > 150) age1 = '?';
-  if (typeof age2 !== 'number' || isNaN(age2) || age2 < 0 || age2 > 150) age2 = '?';
-
   var p2name = person2.name || "den anden";
 
   var insight = "";

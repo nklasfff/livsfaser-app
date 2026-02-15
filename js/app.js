@@ -3596,18 +3596,8 @@ function renderCycleGrid(cycleData, label, isPast) {
   var insight = generateInsight(cycleData.elements);
   var uid = ++_cycleGridCounter;
 
-  // Aldersvisning: prøv cycleData.age, så calculateAgeAtDate, så yearsDiff
+  // Alder kommer direkte fra calculateCyclesForDate (som bruger localStorage birthdate)
   var displayAge = cycleData.age;
-  if (typeof displayAge !== 'number' || isNaN(displayAge) || displayAge < 0 || displayAge > 150) {
-    displayAge = null;
-  }
-  if (displayAge === null && cycleData.birthdate && cycleData.date) {
-    displayAge = calculateAgeAtDate(cycleData.birthdate, cycleData.date);
-  }
-  if (displayAge === null && cycleData.birthdate && cycleData.date && typeof yearsDiff === 'function') {
-    displayAge = yearsDiff(cycleData.date, cycleData.birthdate);
-  }
-  if (typeof displayAge !== 'number' || isNaN(displayAge) || displayAge < 0 || displayAge > 150) displayAge = '?';
 
   // Hent detaljetekster
   var phaseKey = lp.phase || 1;
