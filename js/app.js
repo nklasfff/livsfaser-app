@@ -1888,14 +1888,14 @@ function renderIdagTidsvinduetLink() {
   var headerEl = document.getElementById('idag-tidsvindue-header');
   if (headerEl) {
     headerEl.innerHTML = '<h3 class="idag__section-title idag__section-title--lilla">Tidsvinduet</h3>' +
-      '<p class="idag__section-subtitle">Rejs tilbage — eller se hvad der venter forude.</p>';
+      '<p class="idag__section-subtitle">Rejs tilbage i din egen historie \u2014 eller se hvad der venter forude. V\u00e6lg en dato og opdag hvordan dine cyklusser og relationer m\u00f8dtes dengang, eller hvordan de vil m\u00f8des i fremtiden.</p>';
   }
   // Selve boksen
   var el = document.getElementById('idag-tidsvindue-link');
   if (!el) return;
   el.innerHTML = '<div class="idag__tidsvindue-kort" onclick="App.loadScreen(\'din-energi\')">' +
-    '<p class="idag__tidsvindue-kort-subtitle">Hvad skete der dengang du var 25? Hvordan ser din energi ud til sommer? Vælg en dato og se dine cyklusser mødes.</p>' +
-    '<span class="idag__tidsvindue-kort-link">Vælg en dag \u2192</span>' +
+    '<p class="idag__tidsvindue-kort-subtitle">V\u00e6lg en dato og se dine cyklusser og relationer m\u00f8des.</p>' +
+    '<span class="idag__tidsvindue-kort-link">V\u00e6lg en dag \u2192</span>' +
     '</div>';
 }
 
