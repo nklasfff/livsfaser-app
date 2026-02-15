@@ -228,7 +228,7 @@ function calculateCyclesForDate(birthdate, targetDate, opts) {
     monthCycle = { type: 'calendar', data: calculateCalendarMonth(date) };
   }
   var elements = [lifePhase.element, season.element, monthCycle.data.element, weekday.element, organ.element];
-  return { age: age, lifePhase: lifePhase, season: season, weekday: weekday, organ: organ, monthCycle: monthCycle, elements: elements, date: date };
+  return { age: age, lifePhase: lifePhase, season: season, weekday: weekday, organ: organ, monthCycle: monthCycle, elements: elements, date: date, birthdate: birthdate };
 }
 
 // ---- Onboarding ----
@@ -1841,15 +1841,14 @@ function renderDynamiskTekst() {
       '<p class="idag__section-subtitle">Dit indre klima lige nu \u2014 baseret p\u00e5 din livsfase, \u00e5rstiden, m\u00e5neden, ugedagen og dit organur. Fem rytmer der tilsammen tegner et billede af, hvordan din krop og dit sind har det i dag.</p>';
   }
 
-  // Content INSIDE box — klikbar med udvidet visning
+  // Content INSIDE box — hele boksen er klikbar
   var data = window._idagData;
-  var html = '<div class="idag__climate-clickable" onclick="toggleClimateExpand()">';
+  var html = '<div class="idag__climate-clickable" onclick="toggleClimateExpand()" role="button" tabindex="0">';
   html += '<p class="idag__climate-label">' + cycleAnalysis.climate.label + '</p>';
   html += '<p class="idag__section-text">' + dynamisk.text + '</p>';
-  html += '<p class="idag__climate-hint">Tryk for at se hvorfor ↓</p>';
-  html += '</div>';
+  html += '<p class="idag__climate-hint">Tryk for at se hvorfor \u2193</p>';
 
-  // Udvidet visning (skjult som standard)
+  // Udvidet visning (skjult som standard, INSIDE clickable)
   html += '<div id="idag-climate-expand" class="idag__climate-expand" style="display:none">';
   html += '<p class="idag__climate-detail">LIVSFASE: Fase ' + (data.lifePhase.phaseNumber || '') + ' · ' + (data.lifePhase.name || '') + ' · ' + data.lifePhase.element + '</p>';
   html += '<p class="idag__climate-detail">\u00c5RSTID: ' + data.season.name + ' · ' + data.season.element + '</p>';
@@ -1863,7 +1862,8 @@ function renderDynamiskTekst() {
   html += '<p class="idag__climate-explain">' + dynamisk.tidsdynamik + '</p>';
   var morgenDate = new Date(); morgenDate.setDate(morgenDate.getDate() + 1);
   html += '<p class="idag__climate-link" onclick="event.stopPropagation(); navigateToDinEnergiWithDate(\'' + getLocalDateStr(morgenDate) + '\')">Se hvordan det \u00e6ndrer sig i morgen \u2192</p>';
-  html += '</div>';
+  html += '</div>'; // end expand
+  html += '</div>'; // end clickable
 
   html += '<button class="idag__link-btn" onclick="App.loadScreen(\'samlede-indsigt\')">Se din samlede indsigt \u2192</button>';
   el.innerHTML = html;
@@ -3570,45 +3570,130 @@ function renderTidsrejseRecommendations(results, isRelation, isPast) {
   return html;
 }
 
+var _cycleGridCounter = 0;
+
+function toggleCycleDetail(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  if (el.style.display === 'none' || !el.style.display) {
+    el.style.display = 'block';
+  } else {
+    el.style.display = 'none';
+  }
+}
+window.toggleCycleDetail = toggleCycleDetail;
+
 function renderCycleGrid(cycleData, label) {
   var lp = cycleData.lifePhase;
   var season = cycleData.season;
   var mc = cycleData.monthCycle;
   var insight = generateInsight(cycleData.elements);
+  var uid = ++_cycleGridCounter;
 
-  var html = '<div class="tidsrejse__person-label">' + label + ' \u00b7 ' + cycleData.age + ' \u00e5r</div>';
+  // Robust aldersvisning — brug yearsDiff som fallback
+  var displayAge = cycleData.age;
+  if (typeof displayAge !== 'number' || isNaN(displayAge) || displayAge > 150) {
+    if (cycleData.date && cycleData.birthdate) {
+      displayAge = typeof yearsDiff === 'function'
+        ? yearsDiff(cycleData.date, cycleData.birthdate)
+        : calculateAgeAtDate(cycleData.birthdate, cycleData.date);
+    }
+  }
+  if (typeof displayAge !== 'number' || isNaN(displayAge) || displayAge > 150) displayAge = '?';
+
+  // Hent detaljetekster fra CM_PHASES og CM_SEASONS
+  var phaseKey = lp.phase || 1;
+  var phaseData = CM_PHASES[phaseKey] || {};
+  var seasonKey = cmGetSeason(cycleData.date || new Date());
+  var seasonData = CM_SEASONS[seasonKey] || {};
+  var mcWeek = (mc.type === 'menstrual' && mc.data.week) ? mc.data.week : null;
+  var mcData = mcWeek ? CM_MENSTRUATION[mcWeek] : null;
+
+  var html = '<div class="tidsrejse__person-label">' + label + ' \u00b7 ' + displayAge + ' \u00e5r</div>';
   html += '<div class="tidsrejse__cycle-grid">';
 
-  // Livsfase
-  html += '<div class="tidsrejse__cycle-card">';
+  // Livsfase — klikbar
+  var lpId = 'cycle-detail-lp-' + uid;
+  html += '<div class="tidsrejse__cycle-card tidsrejse__cycle-card--clickable" onclick="toggleCycleDetail(\'' + lpId + '\')">';
   html += '<div class="tidsrejse__cycle-label">Livsfase</div>';
   html += '<div class="tidsrejse__cycle-value">Fase ' + lp.phase + '</div>';
   html += '<div class="tidsrejse__cycle-name">' + lp.name + '</div>';
   html += '<div class="tidsrejse__cycle-element">' + ELEMENT_LABELS[lp.element] + '</div>';
   html += '</div>';
 
-  // \u00c5rstid
-  html += '<div class="tidsrejse__cycle-card">';
+  // \u00c5rstid — klikbar
+  var sId = 'cycle-detail-s-' + uid;
+  html += '<div class="tidsrejse__cycle-card tidsrejse__cycle-card--clickable" onclick="toggleCycleDetail(\'' + sId + '\')">';
   html += '<div class="tidsrejse__cycle-label">\u00c5rstid</div>';
   html += '<div class="tidsrejse__cycle-value">' + season.season + '</div>';
   html += '<div class="tidsrejse__cycle-element">' + ELEMENT_LABELS[season.element] + '</div>';
   html += '</div>';
 
-  // M\u00e5ned/Cyklus
-  html += '<div class="tidsrejse__cycle-card">';
+  // M\u00e5ned/Cyklus — klikbar
+  var mcId = 'cycle-detail-mc-' + uid;
+  html += '<div class="tidsrejse__cycle-card tidsrejse__cycle-card--clickable" onclick="toggleCycleDetail(\'' + mcId + '\')">';
   html += '<div class="tidsrejse__cycle-label">' + (mc.type === 'menstrual' ? 'Cyklus' : 'M\u00e5ned') + '</div>';
   html += '<div class="tidsrejse__cycle-value">' + (mc.type === 'menstrual' ? mc.data.phase : mc.data.name) + '</div>';
   html += '<div class="tidsrejse__cycle-element">' + ELEMENT_LABELS[mc.data.element] + '</div>';
   html += '</div>';
 
-  // Dominant element
-  html += '<div class="tidsrejse__cycle-card tidsrejse__cycle-card--dominant">';
+  // Dominant element — klikbar
+  var domId = 'cycle-detail-dom-' + uid;
+  html += '<div class="tidsrejse__cycle-card tidsrejse__cycle-card--dominant tidsrejse__cycle-card--clickable" onclick="toggleCycleDetail(\'' + domId + '\')">';
   html += '<div class="tidsrejse__cycle-label">Dominant</div>';
   html += '<div class="tidsrejse__cycle-value">' + ELEMENT_LABELS[insight.dominantElement] + '</div>';
   html += '<div class="tidsrejse__cycle-qualities">' + ELEMENT_QUALITIES[insight.dominantElement] + '</div>';
   html += '</div>';
 
+  html += '</div>'; // end cycle-grid
+
+  // Detalje-bokse (skjulte som standard, vises ved klik)
+  // Livsfase detalje
+  html += '<div id="' + lpId + '" class="tidsrejse__cycle-expand" style="display:none">';
+  html += '<p class="tidsrejse__expand-label">LIVSFASE ' + lp.phase + ' \u2014 ' + (phaseData.name || lp.name) + ' (' + (phaseData.age || '') + ')</p>';
+  if (phaseData.energy) html += '<p class="tidsrejse__expand-text">' + phaseData.energy + '</p>';
+  if (phaseData.body) html += '<p class="tidsrejse__expand-text">' + phaseData.body + '</p>';
+  if (phaseData.emotion) html += '<p class="tidsrejse__expand-text"><em>' + phaseData.emotion + '</em></p>';
   html += '</div>';
+
+  // \u00c5rstid detalje
+  html += '<div id="' + sId + '" class="tidsrejse__cycle-expand" style="display:none">';
+  html += '<p class="tidsrejse__expand-label">' + (seasonData.name || season.season).toUpperCase() + ' \u2014 ' + ELEMENT_LABELS[season.element] + '</p>';
+  if (seasonData.energy) html += '<p class="tidsrejse__expand-text">' + seasonData.energy + '</p>';
+  if (seasonData.body) html += '<p class="tidsrejse__expand-text">' + seasonData.body + '</p>';
+  if (seasonData.advice) html += '<p class="tidsrejse__expand-text"><em>' + seasonData.advice + '</em></p>';
+  html += '</div>';
+
+  // M\u00e5nedscyklus detalje
+  html += '<div id="' + mcId + '" class="tidsrejse__cycle-expand" style="display:none">';
+  if (mcData) {
+    html += '<p class="tidsrejse__expand-label">' + mcData.name.toUpperCase() + ' \u2014 ' + mcData.season + '</p>';
+    html += '<p class="tidsrejse__expand-text">' + mcData.text + '</p>';
+  } else {
+    var mcElLower = mc.data.element ? mc.data.element.toLowerCase().replace(/\u00e6/g, 'ae').replace(/\u00c6/g, 'ae') : '';
+    var mcPractice = CM_PRACTICE[mcElLower];
+    if (mcPractice && mcPractice.mind) {
+      html += '<p class="tidsrejse__expand-label">' + ELEMENT_LABELS[mc.data.element] + '-ENERGI</p>';
+      html += '<p class="tidsrejse__expand-text">' + mcPractice.mind.description + '</p>';
+    } else {
+      html += '<p class="tidsrejse__expand-text">Denne m\u00e5neds element er ' + ELEMENT_LABELS[mc.data.element] + '.</p>';
+    }
+  }
+  html += '</div>';
+
+  // Dominant element detalje
+  var domElLower = insight.dominantElement ? insight.dominantElement.toLowerCase().replace(/\u00e6/g, 'ae').replace(/\u00c6/g, 'ae') : '';
+  var domPractice = CM_PRACTICE[domElLower];
+  html += '<div id="' + domId + '" class="tidsrejse__cycle-expand" style="display:none">';
+  html += '<p class="tidsrejse__expand-label">DOMINANT: ' + ELEMENT_LABELS[insight.dominantElement] + '</p>';
+  if (domPractice && domPractice.mind) {
+    html += '<p class="tidsrejse__expand-text">' + domPractice.mind.description + '</p>';
+  }
+  if (domPractice && domPractice.exercise) {
+    html += '<p class="tidsrejse__expand-text"><em>\u00d8velse: ' + domPractice.exercise.name + ' \u2014 ' + domPractice.exercise.description + '</em></p>';
+  }
+  html += '</div>';
+
   return html;
 }
 
@@ -3710,6 +3795,8 @@ function applyDinEnergiShortcut(index) {
   var date = shortcut.resolve(user);
   DinEnergiState.selectedDate = getLocalDateStr(date);
   renderDinEnergiInput();
+  // Auto-eksekvér s\u00e5 resultatet vises med det samme
+  executeDinEnergi();
 }
 
 function executeDinEnergi() {
@@ -3718,10 +3805,9 @@ function executeDinEnergi() {
   if (!dateStr) { alert('V\u00e6lg venligst en dato'); return; }
   DinEnergiState.selectedDate = dateStr;
 
-  var today = new Date();
-  today.setHours(0, 0, 0, 0);
-  var chosen = new Date(dateStr);
-  DinEnergiState.isPast = chosen < today;
+  // Robust isPast: sammenlign som lokale datostrenge for at undg\u00e5 UTC-forskydning
+  var todayStr = getLocalDateStr(new Date());
+  DinEnergiState.isPast = dateStr < todayStr;
 
   var user = JSON.parse(localStorage.getItem('user') || '{}');
   var userResult = calculateCyclesForDate(user.birthdate, dateStr, {
@@ -3991,6 +4077,8 @@ function applyJeresEnergiShortcut(index) {
   var date = shortcut.resolve(user, relations);
   JeresEnergiState.selectedDate = getLocalDateStr(date);
   renderJeresEnergiInput();
+  // Auto-eksekvér så resultatet vises med det samme
+  executeJeresEnergi();
 }
 
 function executeJeresEnergi() {
@@ -4000,10 +4088,9 @@ function executeJeresEnergi() {
   if (JeresEnergiState.selectedRelations.length === 0) { alert('V\u00e6lg mindst \u00e9n person'); return; }
   JeresEnergiState.selectedDate = dateStr;
 
-  var today = new Date();
-  today.setHours(0, 0, 0, 0);
-  var chosen = new Date(dateStr);
-  JeresEnergiState.isPast = chosen < today;
+  // Robust isPast: sammenlign som lokale datostrenge for at undg\u00e5 UTC-forskydning
+  var todayStr = getLocalDateStr(new Date());
+  JeresEnergiState.isPast = dateStr < todayStr;
 
   var user = JSON.parse(localStorage.getItem('user') || '{}');
   var relations = JSON.parse(localStorage.getItem('relations') || '[]');

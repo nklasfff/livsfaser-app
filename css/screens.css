@@ -1614,9 +1614,46 @@
   text-align: center;
 }
 
+.tidsrejse__cycle-card--clickable {
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.tidsrejse__cycle-card--clickable:active {
+  background: var(--bg-highlight);
+  box-shadow: 0 0 0 2px rgba(118, 144, 193, 0.25);
+}
+
 .tidsrejse__cycle-card--dominant {
   background: var(--bg-highlight);
   border: 1px solid var(--blaa);
+}
+
+.tidsrejse__cycle-expand {
+  margin: 0 var(--space-md) var(--space-sm);
+  padding: var(--space-md);
+  background: var(--bg-highlight);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--blaa);
+}
+.tidsrejse__expand-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--blaa);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.tidsrejse__expand-text {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+.tidsrejse__expand-text em {
+  font-style: italic;
+  color: var(--text-light);
 }
 
 .tidsrejse__cycle-label {
@@ -1788,6 +1825,14 @@
 /* Klikbar klima */
 .idag__climate-clickable {
   cursor: pointer;
+  -webkit-tap-highlight-color: rgba(118, 144, 193, 0.15);
+  transition: background 0.2s;
+  border-radius: 12px;
+  padding: 4px;
+  margin: -4px;
+}
+.idag__climate-clickable:active {
+  background: rgba(118, 144, 193, 0.08);
 }
 .idag__climate-hint {
   font-family: var(--font-sans);
@@ -4384,8 +4429,8 @@
 
 /* Forside: Tidsvinduet kort */
 .idag__tidsvindue-kort {
-  background: rgba(118, 144, 193, 0.07);
-  border: 1px solid rgba(118, 144, 193, 0.15);
+  background: rgba(184, 166, 192, 0.15);
+  border: 1px solid rgba(184, 166, 192, 0.35);
   border-radius: 20px;
   padding: var(--space-lg) var(--space-lg);
   margin: var(--space-md) 0;
@@ -4394,13 +4439,13 @@
   transition: background 0.2s;
 }
 .idag__tidsvindue-kort:active {
-  background: rgba(118, 144, 193, 0.13);
+  background: rgba(184, 166, 192, 0.25);
 }
 .idag__tidsvindue-kort-title {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 20px;
   font-weight: 700;
-  color: #7690C1;
+  color: #9678A4;
   margin: 0 0 8px;
 }
 .idag__tidsvindue-kort-subtitle {
@@ -4413,7 +4458,7 @@
 }
 .idag__tidsvindue-kort-link {
   font-size: 13px;
-  color: #7690C1;
+  color: #9678A4;
   font-weight: 500;
 }
 
