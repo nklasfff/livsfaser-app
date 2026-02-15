@@ -3596,16 +3596,18 @@ function renderCycleGrid(cycleData, label, isPast) {
   var insight = generateInsight(cycleData.elements);
   var uid = ++_cycleGridCounter;
 
-  // Robust aldersvisning
+  // Aldersvisning: prøv cycleData.age, så calculateAgeAtDate, så yearsDiff
   var displayAge = cycleData.age;
-  if (typeof displayAge !== 'number' || isNaN(displayAge) || displayAge > 150) {
-    if (cycleData.date && cycleData.birthdate) {
-      displayAge = typeof yearsDiff === 'function'
-        ? yearsDiff(cycleData.date, cycleData.birthdate)
-        : calculateAgeAtDate(cycleData.birthdate, cycleData.date);
-    }
+  if (typeof displayAge !== 'number' || isNaN(displayAge) || displayAge < 0 || displayAge > 150) {
+    displayAge = null;
   }
-  if (typeof displayAge !== 'number' || isNaN(displayAge) || displayAge > 150) displayAge = '?';
+  if (displayAge === null && cycleData.birthdate && cycleData.date) {
+    displayAge = calculateAgeAtDate(cycleData.birthdate, cycleData.date);
+  }
+  if (displayAge === null && cycleData.birthdate && cycleData.date && typeof yearsDiff === 'function') {
+    displayAge = yearsDiff(cycleData.date, cycleData.birthdate);
+  }
+  if (typeof displayAge !== 'number' || isNaN(displayAge) || displayAge < 0 || displayAge > 150) displayAge = '?';
 
   // Hent detaljetekster
   var phaseKey = lp.phase || 1;
@@ -3680,27 +3682,17 @@ function renderCycleGrid(cycleData, label, isPast) {
     html += '<p class="tidsrejse__expand-label">' + mcData.name.toUpperCase() + ' \u2014 ' + mcData.season + '</p>';
     html += '<p class="tidsrejse__expand-text">' + mcData.text + '</p>';
   } else {
-    // M\u00e5ne-cyklus eller ikke-menstruel: vis element-bevidsthed
-    var mcElLower = mc.data.element ? mc.data.element.toLowerCase().replace(/\u00e6/g, 'ae').replace(/\u00c6/g, 'ae') : '';
-    var mcPractice = CM_PRACTICE[mcElLower];
-    if (mcPractice && mcPractice.mind) {
-      html += '<p class="tidsrejse__expand-label">' + ELEMENT_LABELS[mc.data.element] + '-ENERGI</p>';
-      html += '<p class="tidsrejse__expand-text">' + mcPractice.mind.description + '</p>';
-    } else {
-      html += '<p class="tidsrejse__expand-text">' + ELEMENT_LABELS[mc.data.element] + '-elementet ' + varBefandt + ' aktivt i denne periode.</p>';
-    }
+    // M\u00e5ne-cyklus eller ikke-menstruel: vis element-kvaliteter (tidl\u00f8st)
+    html += '<p class="tidsrejse__expand-label">' + ELEMENT_LABELS[mc.data.element] + '-ENERGI</p>';
+    html += '<p class="tidsrejse__expand-text">' + ELEMENT_LABELS[mc.data.element] + '-elementet ' + varBefandt + ' aktivt denne m\u00e5ned. ' + (ELEMENT_QUALITIES[mc.data.element] || '') + '.</p>';
   }
   html += '</div>';
 
   // Dominant element: KUN bevidsthed/indsigt, INGEN \u00f8velser
-  var domElLower = insight.dominantElement ? insight.dominantElement.toLowerCase().replace(/\u00e6/g, 'ae').replace(/\u00c6/g, 'ae') : '';
-  var domPractice = CM_PRACTICE[domElLower];
   html += '<div id="' + domId + '" class="tidsrejse__cycle-expand" style="display:none">';
   html += '<p class="tidsrejse__expand-label">DOMINANT: ' + ELEMENT_LABELS[insight.dominantElement] + '</p>';
-  html += '<p class="tidsrejse__expand-text">' + ELEMENT_QUALITIES[insight.dominantElement] + '</p>';
-  if (domPractice && domPractice.mind) {
-    html += '<p class="tidsrejse__expand-text"><em>' + domPractice.mind.description + '</em></p>';
-  }
+  html += '<p class="tidsrejse__expand-text">' + ELEMENT_QUALITIES[insight.dominantElement] + '.</p>';
+  html += '<p class="tidsrejse__expand-text"><em>' + ELEMENT_LABELS[insight.dominantElement] + '-elementet ' + varBefandt + ' det st\u00e6rkeste tr\u00e6k i din energi p\u00e5 dette tidspunkt.</em></p>';
   html += '</div>';
 
   return html;
