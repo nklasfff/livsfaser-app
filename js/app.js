@@ -2595,6 +2595,33 @@ function renderRelationerOverview() {
   html += '<p class="relationer__subtitle">Se hvordan jeres faser mødes</p>';
   html += '</div>';
 
+  // Arv/Valg/Gave Venn-diagram
+  html += renderVennFour({
+    topTitle: 'ARVEN',
+    topLines: ['Mønstre fra', 'generationerne før dig'],
+    leftTitle: 'AT SE',
+    leftLines: ['Ærlighed om', 'hvad der er'],
+    rightTitle: 'AT VÆLGE',
+    rightLines: ['Bevidst handling,', 'bryde kæden'],
+    bottomTitle: 'GAVEN',
+    bottomLines: ['Hvad du giver videre'],
+    highlights: [
+      { pair: 'AB', text: 'at forstå' },
+      { pair: 'AC', text: 'at tilgive' },
+      { pair: 'BD', text: 'at transformere' },
+      { pair: 'CD', text: 'at frigøre' }
+    ],
+    centerTitle: 'DIG',
+    centerLines: [],
+    fillColor: '#B8A6C0',
+    extraLabels: [
+      { x: 300, y: 235, text: 'forsoning', italic: true },
+      { x: 230, y: 300, text: 'erkendelse', italic: true },
+      { x: 370, y: 300, text: 'mod', italic: true },
+      { x: 300, y: 370, text: 'frihed', italic: true }
+    ]
+  });
+
   if (relations.length === 0) {
     html += '<div class="relationer__empty">';
     html += '<div class="relationer__empty-icon">\u2661</div>';
@@ -5896,11 +5923,12 @@ function renderVennFour(opts) {
   var svg = '<div class="venn venn--four" id="' + id + '">';
   svg += '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" class="venn__svg">';
 
-  // Circles — fixed blue shades, no stroke
-  svg += '<circle cx="' + cxA + '" cy="' + cyA + '" r="' + R + '" fill="#7690C1" fill-opacity="0.50"/>';
-  svg += '<circle cx="' + cxB + '" cy="' + cyB + '" r="' + R + '" fill="#7690C1" fill-opacity="0.60"/>';
-  svg += '<circle cx="' + cxC + '" cy="' + cyC + '" r="' + R + '" fill="#7690C1" fill-opacity="0.70"/>';
-  svg += '<circle cx="' + cxD + '" cy="' + cyD + '" r="' + R + '" fill="#7690C1" fill-opacity="0.75"/>';
+  // Circles — configurable color, default blue
+  var fc = opts.fillColor || '#7690C1';
+  svg += '<circle cx="' + cxA + '" cy="' + cyA + '" r="' + R + '" fill="' + fc + '" fill-opacity="0.50"/>';
+  svg += '<circle cx="' + cxB + '" cy="' + cyB + '" r="' + R + '" fill="' + fc + '" fill-opacity="0.60"/>';
+  svg += '<circle cx="' + cxC + '" cy="' + cyC + '" r="' + R + '" fill="' + fc + '" fill-opacity="0.70"/>';
+  svg += '<circle cx="' + cxD + '" cy="' + cyD + '" r="' + R + '" fill="' + fc + '" fill-opacity="0.75"/>';
 
   // Zone labels (one size up)
   var al = opts.topLines || [];
@@ -5939,6 +5967,12 @@ function renderVennFour(opts) {
     var cItalic = cll[m].charAt(0) === '*';
     var cTxt = cItalic ? cll[m].substring(1) : cll[m];
     svg += t(midX, csY + (m+1)*15, cTxt, 12, false, cItalic);
+  }
+
+  // Extra positioned labels (for custom overlap text)
+  var el = opts.extraLabels || [];
+  for (var e = 0; e < el.length; e++) {
+    svg += t(el[e].x, el[e].y, el[e].text, 12, false, el[e].italic);
   }
 
   svg += '</svg></div>';
