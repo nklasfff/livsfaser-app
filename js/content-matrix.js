@@ -271,7 +271,106 @@ function getRelation(element1, element2) {
 
 
 // ================================================================
-// INDSIGT-GENERATORER
+// MENNESKELIGT SPROG FOR ELEMENTRELATIONER
+// ================================================================
+
+// Ko-cyklus (kontrollerende) — hvad det FØLES som
+var KO_HUMAN = {
+  vand_ild: {
+    past: "Din trang til hvile og stilhed dæmpede glæden og forbindelsen. Du mærkede måske at du trak dig fra samvær — ikke fordi du ikke elskede det, men fordi du simpelthen ikke havde energien.",
+    future: "Din trang til hvile og stilhed kan dæmpe glæden og forbindelsen. Du vil måske mærke at du trækker dig fra samvær — ikke fordi du ikke vil, men fordi du har brug for at være i dig selv."
+  },
+  ild_metal: {
+    past: "Din passion og intensitet overtrumfede behovet for klarhed og essens. Det var svært at finde ro — der var så meget at brænde for at du glemte at mærke hvad der virkelig betød noget.",
+    future: "Din passion og intensitet kan overtrumfe behovet for klarhed og essens. Det kan blive svært at finde ro — husk at stoppe op og mærke hvad der virkelig betyder noget."
+  },
+  metal_trae: {
+    past: "Din trang til at skære fra og forenkle bremsede væksten og den nye retning. Det der ville fremad i dig, blev holdt tilbage af det der ville rense ud.",
+    future: "Din trang til at skære fra og forenkle kan bremse væksten og den nye retning. Det der vil fremad, kan blive holdt tilbage af det der vil rense ud."
+  },
+  trae_jord: {
+    past: "Din fremadrettethed tærede på stabiliteten og næringen. Du gav måske mere end du havde — handlekraften kørte hurtigere end kroppen kunne følge med.",
+    future: "Din fremadrettethed kan tære på stabiliteten og næringen. Pas på at handlekraften ikke kører hurtigere end kroppen kan følge med."
+  },
+  jord_vand: {
+    past: "Din omsorg og bekymring blokerede den dybe hvile og tillid. Du havde svært ved at slippe kontrollen — fordi du følte dig ansvarlig for alting.",
+    future: "Din omsorg og bekymring kan blokere den dybe hvile og tillid. Det kan blive svært at slippe kontrollen — fordi du føler dig ansvarlig for alting."
+  }
+};
+
+// Sheng-cyklus (nærende) — hvad det FØLES som
+var SHENG_HUMAN = {
+  vand_trae: {
+    past: "Din hvile og dit fundament gav kraft til vækst og nye retninger. Den stilhed du samlede, blev til brændstof for det der ville fremad.",
+    future: "Din hvile og dit fundament giver kraft til vækst og nye retninger. Den stilhed du samler, bliver til brændstof for det der vil fremad."
+  },
+  trae_ild: {
+    past: "Din handlekraft og retning gav brændstof til passion og forbindelse. Det der drev dig fremad, tændte noget varmt i dig og omkring dig.",
+    future: "Din handlekraft og retning giver brændstof til passion og forbindelse. Det der driver dig fremad, tænder noget varmt i dig og omkring dig."
+  },
+  ild_jord: {
+    past: "Din varme og glæde gav næring til stabilitet og omsorg. Den forbindelse du følte, skabte en grund at stå på.",
+    future: "Din varme og glæde giver næring til stabilitet og omsorg. Den forbindelse du føler, skaber en grund at stå på."
+  },
+  jord_metal: {
+    past: "Din stabilitet og omsorg gav plads til klarhed og essens. Fordi du stod fast, kunne du se hvad der virkelig betød noget.",
+    future: "Din stabilitet og omsorg giver plads til klarhed og essens. Fordi du står fast, kan du se hvad der virkelig betyder noget."
+  },
+  metal_vand: {
+    past: "Din evne til at give slip gav rum til dyb hvile og fornyet tillid. Det du slap, skabte plads til noget dybere.",
+    future: "Din evne til at give slip giver rum til dyb hvile og fornyet tillid. Det du slipper, skaber plads til noget dybere."
+  }
+};
+
+// Par-ko (kontrol mellem to mennesker)
+var KO_PAIR = {
+  vand_ild: {
+    desc: "trang til hvile og stilhed dæmpede den andens glæde og forbindelse",
+    past: "Den ene trak sig ind, den anden ville ud. Det var ikke afvisning — det var to naturlige rytmer der ikke passede sammen lige der.",
+    future: "Den ene trækker sig ind, den anden vil ud. Det er ikke afvisning — det er to naturlige rytmer der ikke passer sammen lige nu."
+  },
+  ild_metal: {
+    desc: "passion og intensitet overtrumfede den andens behov for klarhed",
+    past: "Den ene brændte, den anden ville have ro. Intensiteten kan have følt overvældende.",
+    future: "Den ene brænder, den anden vil have ro. Intensiteten kan føles overvældende."
+  },
+  metal_trae: {
+    desc: "trang til at forenkle bremsede den andens vækst",
+    past: "Den ene ville skære til, den anden ville vokse. Det skabte en stille kamp om retning.",
+    future: "Den ene vil skære til, den anden vil vokse. Det kan skabe en stille kamp om retning."
+  },
+  trae_jord: {
+    desc: "fremadrettethed tærede på den andens stabilitet",
+    past: "Den ene pressede fremad, den anden havde brug for at stå stille. Tempoet passede ikke.",
+    future: "Den ene presser fremad, den anden har brug for at stå stille. Tempoet passer ikke."
+  },
+  jord_vand: {
+    desc: "omsorg og bekymring blokerede den andens dybe hvile",
+    past: "Den ene ville tage sig af, den anden ville have lov til bare at være. Omsorgen blev for tung.",
+    future: "Den ene vil tage sig af, den anden vil have lov til bare at være. Omsorgen kan blive for tung."
+  }
+};
+
+// Hjælpefunktion til at finde ko/sheng-nøglen
+function getKoKey(el1, el2) {
+  var key = el1 + "_" + el2;
+  if (KO_HUMAN[key]) return key;
+  return null;
+}
+function getShengKey(el1, el2) {
+  var key = el1 + "_" + el2;
+  if (SHENG_HUMAN[key]) return key;
+  return null;
+}
+function getKoPairKey(el1, el2) {
+  var key = el1 + "_" + el2;
+  if (KO_PAIR[key]) return key;
+  return null;
+}
+
+
+// ================================================================
+// INDSIGT-GENERATORER (menneskeligt sprog)
 // ================================================================
 
 function generatePersonalInsight(person, targetDate, isPast) {
@@ -291,90 +390,104 @@ function generatePersonalInsight(person, targetDate, isPast) {
 
   var insight = "";
 
-  // Tidsangivelse
+  // Tidsangivelse — menneskelig
   if (isPast) {
-    insight += "Du var " + age + " og i " + phase.name + " \u2014 " + pe.name + "-elementets \u00e5r. ";
-    insight += "Det var " + season.name.toLowerCase() + ", og " + se.name + "-elementet pr\u00e6gede \u00e5rstiden. ";
+    insight += "Du var " + age + " og i " + phase.name + " — " + pe.name.toLowerCase() + "ets år. ";
+    insight += "Det var " + season.name.toLowerCase() + ", og " + se.name.toLowerCase() + "ets energi prægede verden omkring dig.";
   } else {
-    insight += "Du vil v\u00e6re " + age + " og i " + phase.name + " \u2014 " + pe.name + "-elementets \u00e5r. ";
-    insight += "Det er " + season.name.toLowerCase() + ", og " + se.name + "-elementet pr\u00e6ger \u00e5rstiden. ";
+    insight += "Du vil være " + age + " og i " + phase.name + " — " + pe.name.toLowerCase() + "ets år. ";
+    insight += "Det er " + season.name.toLowerCase() + ", og " + se.name.toLowerCase() + "ets energi præger verden omkring dig.";
   }
 
-  // Elementrelation
+  // Elementrelation — menneskeligt sprog
+  insight += "\n\n";
+
   switch (relation) {
     case "same":
-      insight += "\n\n";
-      insight += pe.name + " m\u00f8der " + pe.name + ". ";
-      insight += "Din livsfase og \u00e5rstiden taler samme sprog \u2014 begge tr\u00e6kker " + pe.direction + ". ";
-      insight += "Det forst\u00e6rker alt: " + pe.emotion_balanced + ", men ogs\u00e5 risikoen for " + pe.emotion_challenged + ". ";
       if (isPast) {
-        insight += "Hvis du husker den periode, m\u00e6rkede du sandsynligvis det dobbelte af " + pe.name.toLowerCase() + "ets kvalitet \u2014 " + pe.quality + ". Det var ikke tilf\u00e6ldigt.";
+        insight += "Din fase og årstiden talte samme sprog. Begge trak " + pe.direction + ". ";
+        insight += "Det forstærkede alt — " + pe.emotion_balanced + ", men også risikoen for " + pe.emotion_challenged + ". ";
+        insight += "Hvis du husker den periode, mærkede du sandsynligvis det dobbelte af " + pe.name.toLowerCase() + "ets kvalitet — " + pe.quality + ". Det var ikke tilfældigt.";
       } else {
-        insight += "Du kan forvente at m\u00e6rke " + pe.name.toLowerCase() + "ets kvalitet ekstra st\u00e6rkt \u2014 " + pe.quality + ". Brug det, men v\u00e6r opm\u00e6rksom p\u00e5 at balancere.";
+        insight += "Din fase og årstiden taler samme sprog. Begge trækker " + pe.direction + ". ";
+        insight += "Det forstærker alt — " + pe.emotion_balanced + ", men også risikoen for " + pe.emotion_challenged + ". ";
+        insight += "Du kan forvente at mærke " + pe.name.toLowerCase() + "ets kvalitet ekstra stærkt — " + pe.quality + ". Brug det, men vær opmærksom på at balancere.";
       }
       break;
 
     case "nourish":
-      insight += "\n\n";
-      insight += pe.name + " n\u00e6rer " + se.name + ". ";
-      insight += "Din livsfases energi giver br\u00e6ndstof til \u00e5rstidens kvalitet. ";
-      insight += "Det kan f\u00f8les som en naturlig str\u00f8m \u2014 " + pe.gift + " st\u00f8tter " + se.quality + ". ";
-      if (isPast) {
-        insight += "Du gav sandsynligvis mere af dig selv end normalt i den periode.";
+      var shengKey = getShengKey(phaseElement, seasonElement);
+      if (shengKey && SHENG_HUMAN[shengKey]) {
+        insight += isPast ? SHENG_HUMAN[shengKey].past : SHENG_HUMAN[shengKey].future;
       } else {
-        insight += "Det er en god tid til at bruge den str\u00f8m \u2014 men husk at fylde op.";
+        if (isPast) {
+          insight += "Din livsfases energi gav brændstof til årstidens kvalitet. Du gav sandsynligvis mere af dig selv end normalt.";
+        } else {
+          insight += "Din livsfases energi giver brændstof til årstidens kvalitet. Det er en god tid til at bruge den strøm — men husk at fylde op.";
+        }
       }
       break;
 
     case "nourished":
-      insight += "\n\n";
-      insight += se.name + " n\u00e6rer " + pe.name + ". ";
-      insight += "\u00c5rstiden st\u00f8tter din livsfase \u2014 " + se.quality + " giver n\u00e6ring til " + pe.need + ". ";
-      if (isPast) {
-        insight += "Det var sandsynligvis en periode hvor du f\u00f8lte dig b\u00e5ret, m\u00e5ske uden at vide hvorfor.";
+      var shengKeyR = getShengKey(seasonElement, phaseElement);
+      if (shengKeyR && SHENG_HUMAN[shengKeyR]) {
+        insight += isPast ? SHENG_HUMAN[shengKeyR].past : SHENG_HUMAN[shengKeyR].future;
       } else {
-        insight += "\u00c5rstiden arbejder for dig. Brug den.";
+        if (isPast) {
+          insight += "Årstiden støttede din livsfase. Det var sandsynligvis en periode hvor du følte dig båret, måske uden at vide hvorfor.";
+        } else {
+          insight += "Årstiden støtter din livsfase. Du kan forvente at føle dig båret — årstiden arbejder for dig.";
+        }
       }
       break;
 
     case "control":
-      insight += "\n\n";
-      insight += pe.name + " kontrollerer " + se.name + ". ";
-      insight += "Din livsfases energi d\u00e6mper \u00e5rstidens naturlige udtryk. ";
-      insight += "Du m\u00e6rker m\u00e5ske at " + se.quality + " ikke rigtig slipper igennem \u2014 fordi " + pe.quality + " dominerer. ";
-      if (isPast) {
-        insight += "Det var en periode hvor din egen fase overstyrede \u00e5rstiden. Det er ikke forkert, men det kan have kostet energi.";
+      var koKey = getKoKey(phaseElement, seasonElement);
+      if (koKey && KO_HUMAN[koKey]) {
+        insight += isPast ? KO_HUMAN[koKey].past : KO_HUMAN[koKey].future;
       } else {
-        insight += "Giv bevidst plads til det \u00e5rstiden pr\u00f8ver at give dig.";
+        if (isPast) {
+          insight += "Din fase overstyrede årstiden. Det er ikke forkert, men det kan have kostet energi.";
+        } else {
+          insight += "Din fase kan overstyre årstiden. Giv bevidst plads til det årstiden prøver at give dig.";
+        }
       }
       break;
 
     case "controlled":
-      insight += "\n\n";
-      insight += se.name + " kontrollerer " + pe.name + ". ";
-      insight += "\u00c5rstiden bremser din livsfases naturlige bev\u00e6gelse. ";
-      if (isPast) {
-        insight += "Det kan have f\u00f8lt sig som modstand \u2014 din fase ville " + pe.direction + ", men \u00e5rstiden trak i en anden retning. Der var ingenting galt. Du blev trukket i to retninger af to naturlige kr\u00e6fter.";
+      var koKeyR = getKoKey(seasonElement, phaseElement);
+      if (koKeyR && KO_HUMAN[koKeyR]) {
+        insight += isPast ? KO_HUMAN[koKeyR].past : KO_HUMAN[koKeyR].future;
       } else {
-        insight += "Du kan opleve at \u00e5rstiden bremser dig. Det er ikke svaghed \u2014 det er to naturlige kr\u00e6fter der tr\u00e6kker i forskellige retninger. Lyt til begge.";
+        if (isPast) {
+          insight += "Årstiden bremsede din livsfases naturlige bevægelse. Det kan have følt sig som modstand — din fase ville " + pe.direction + ", men årstiden trak i en anden retning. Der var ingenting galt. Du blev trukket i to retninger af to naturlige kræfter.";
+        } else {
+          insight += "Årstiden bremser din livsfases naturlige bevægelse. Du kan opleve at du bremses. Det er ikke svaghed — det er to naturlige kræfter der trækker i forskellige retninger. Lyt til begge.";
+        }
       }
       break;
 
     default:
-      insight += "\n\n";
-      insight += pe.name + " og " + se.name + " m\u00f8des. ";
-      insight += "Din livsfase tr\u00e6kker " + pe.direction + ", mens \u00e5rstiden inviterer til " + se.quality + ". ";
-      insight += "De to energier udfordrer ikke hinanden direkte, men de taler heller ikke samme sprog.";
+      if (isPast) {
+        insight += "Din fase trak " + pe.direction + ", mens årstiden inviterede til " + se.quality + ". De to energier udfordrede ikke hinanden direkte, men de talte heller ikke samme sprog.";
+      } else {
+        insight += "Din fase trækker " + pe.direction + ", mens årstiden inviterer til " + se.quality + ". De to energier udfordrer ikke hinanden direkte, men de taler heller ikke samme sprog.";
+      }
       break;
   }
 
-  // Overgangsnotat
+  // Overgangsnotat — nuanceret (punkt 8)
   var secondary = getSecondaryElement(phase.element);
   if (secondary) {
     var secEl = ELEMENTS[secondary];
     insight += "\n\n";
-    insight += "Du er i en overgang \u2014 " + pe.name + " bevæger sig mod " + secEl.name + ". ";
-    insight += "Det betyder at du m\u00e5ske m\u00e6rker begge kvaliteter: " + pe.quality + " og begyndende " + secEl.quality + ".";
+    if (isPast) {
+      insight += "Du var i en overgang mellem to elementer. " + pe.name + "s kvaliteter — " + pe.quality + " — var stadig stærke i dig. Men " + secEl.name.toLowerCase() + "ets kvaliteter begyndte at melde sig: " + secEl.quality + ". ";
+      insight += "Du mærkede sandsynligvis begge. Nogle dage var det " + pe.name.toLowerCase() + " der fyldte mest, andre dage var det " + secEl.name.toLowerCase() + ". Det var ikke forvirring — det var to kræfter der langsomt skiftede plads i dig.";
+    } else {
+      insight += "Du er i en overgang mellem to elementer. " + pe.name + "s kvaliteter — " + pe.quality + " — er stadig stærke i dig. Men " + secEl.name.toLowerCase() + "ets kvaliteter begynder at melde sig: " + secEl.quality + ". ";
+      insight += "Du vil sandsynligvis mærke begge. Nogle dage er det " + pe.name.toLowerCase() + " der fylder mest, andre dage er det " + secEl.name.toLowerCase() + ". Det er ikke forvirring — det er to kræfter der langsomt skifter plads i dig.";
+    }
   }
 
   return insight;
@@ -406,93 +519,149 @@ function generateRelationInsight(person1, person2, targetDate, isPast) {
 
   var insight = "";
 
-  // Hvem er hvem
+  // Hvem er hvem — korrekt tid
   if (isPast) {
-    insight += "Du var " + age1 + " og i " + phase1.name + ". " + p2name + " var " + age2 + " og i " + phase2.name + ". ";
+    insight += "Du var " + age1 + " og i " + phase1.name + ". " + p2name + " var " + age2 + " og i " + phase2.name + ".\n\n";
   } else {
-    insight += "Du er " + age1 + " og i " + phase1.name + ". " + p2name + " er " + age2 + " og i " + phase2.name + ". ";
+    insight += "Du vil være " + age1 + " og i " + phase1.name + ". " + p2name + " vil være " + age2 + " og i " + phase2.name + ".\n\n";
   }
-  insight += e1.name + " m\u00f8der " + e2.name + ".\n\n";
 
-  // Dynamik baseret p\u00e5 elementrelation
+  // Dynamik — menneskeligt sprog
   switch (relation) {
     case "same":
-      insight += "I er i det samme element. Det betyder at I deler de samme grundl\u00e6ggende behov \u2014 " + e1.quality + ". ";
-      insight += "I forst\u00e5r hinanden intuitivt, fordi I tr\u00e6kker i samme retning. ";
-      insight += "Men det betyder ogs\u00e5 at I mangler det samme. ";
-      insight += "N\u00e5r begge har brug for " + e1.need + ", er der ingen der fylder op.";
+      if (isPast) {
+        insight += "I var i det samme element — " + e1.name.toLowerCase() + ". Det betød at I delte de samme grundlæggende behov: " + e1.quality + ". ";
+        insight += "I forstod hinanden intuitivt, fordi I trak i samme retning. ";
+        insight += "Men det betød også at I manglede det samme. Når begge havde brug for " + e1.need + ", var der ingen der fyldte op.";
+      } else {
+        insight += "I er i det samme element — " + e1.name.toLowerCase() + ". Det betyder at I deler de samme grundlæggende behov: " + e1.quality + ". ";
+        insight += "I forstår hinanden intuitivt, fordi I trækker i samme retning. ";
+        insight += "Men det betyder også at I mangler det samme. Når begge har brug for " + e1.need + ", er der ingen der fylder op.";
+      }
       break;
 
     case "nourish":
-      insight += "Dit element n\u00e6rer " + p2name + "s. " + e1.name + " giver " + e2.name + " kraft \u2014 " + e1.gift + " st\u00f8tter " + e2.need + ". ";
-      insight += "Det er en naturlig str\u00f8m, og den kan f\u00f8les god. ";
-      insight += "Men hvis du giver for meget, t\u00f8mmes du selv. ";
+      var shKey = getShengKey(el1, el2);
       if (isPast) {
-        insight += "M\u00e6rkede du at du gav mere end du fik tilbage i den periode?";
+        insight += "Dit element nærede " + p2name + "s. " + e1.name + " gav " + e2.name.toLowerCase() + " kraft. ";
+        if (shKey && SHENG_HUMAN[shKey]) {
+          insight += SHENG_HUMAN[shKey].past + " ";
+        }
+        insight += "Det var en naturlig strøm — men hvis du gav for meget, tømtes du selv. Mærkede du det?";
       } else {
-        insight += "V\u00e6r opm\u00e6rksom p\u00e5 at fylde dig selv op, mens du n\u00e6rer " + p2name + ".";
+        insight += "Dit element nærer " + p2name + "s. " + e1.name + " giver " + e2.name.toLowerCase() + " kraft. ";
+        if (shKey && SHENG_HUMAN[shKey]) {
+          insight += SHENG_HUMAN[shKey].future + " ";
+        }
+        insight += "Det er en naturlig strøm — men vær opmærksom på at fylde dig selv op, mens du nærer " + p2name + ".";
       }
       break;
 
     case "nourished":
-      insight += p2name + "s element n\u00e6rer dit. " + e2.name + " giver " + e1.name + " kraft. ";
-      insight += p2name + " st\u00f8tter dig med " + e2.gift + ", og du har brug for " + e1.need + ". ";
+      var shKeyR = getShengKey(el2, el1);
       if (isPast) {
-        insight += "Det var sandsynligvis en periode hvor " + p2name + " var en kilde til st\u00f8tte for dig \u2014 m\u00e5ske uden at nogen af jer var bevidste om det.";
+        insight += p2name + "s element nærede dit. " + e2.name + " gav " + e1.name.toLowerCase() + " kraft. ";
+        if (shKeyR && SHENG_HUMAN[shKeyR]) {
+          insight += SHENG_HUMAN[shKeyR].past + " ";
+        }
+        insight += "Det var sandsynligvis en periode hvor " + p2name + " var en kilde til støtte — måske uden at nogen af jer var bevidste om det.";
       } else {
-        insight += p2name + " kan v\u00e6re en vigtig st\u00f8tte for dig i denne periode.";
+        insight += p2name + "s element nærer dit. " + e2.name + " giver " + e1.name.toLowerCase() + " kraft. ";
+        if (shKeyR && SHENG_HUMAN[shKeyR]) {
+          insight += SHENG_HUMAN[shKeyR].future + " ";
+        }
+        insight += p2name + " kan være en vigtig støtte for dig i denne periode.";
       }
       break;
 
     case "control":
-      insight += "Dit element kontrollerer " + p2name + "s. " + e1.name + " bremser " + e2.name + ". ";
-      insight += "Det kan betyde at din tilstedev\u00e6relse d\u00e6mper det " + p2name + " har brug for \u2014 " + e2.need + ". ";
-      insight += "Det er ikke nogens skyld. Det er elementerne der tr\u00e6kker. ";
+      var koKey = getKoPairKey(el1, el2);
       if (isPast) {
-        insight += "Hvis der var friktion mellem jer, var det sandsynligvis her den sad. Ikke i viljen, men i energien.";
+        insight += "Dit element kontrollerede " + p2name + "s. ";
+        if (koKey && KO_PAIR[koKey]) {
+          insight += KO_PAIR[koKey].past + " ";
+        } else {
+          insight += "Din tilstedeværelse dæmpede det " + p2name + " havde brug for. ";
+        }
+        insight += "Det var ikke nogens skyld. Hvis der var friktion mellem jer, sad den sandsynligvis her — ikke i viljen, men i energien.";
       } else {
-        insight += "V\u00e6r bevidst om at give " + p2name + " plads til " + e2.quality + ", ogs\u00e5 n\u00e5r det strider mod din egen rytme.";
+        insight += "Dit element kontrollerer " + p2name + "s. ";
+        if (koKey && KO_PAIR[koKey]) {
+          insight += KO_PAIR[koKey].future + " ";
+        } else {
+          insight += "Din tilstedeværelse kan dæmpe det " + p2name + " har brug for. ";
+        }
+        insight += "Det er ikke nogens skyld. Vær bevidst om at give " + p2name + " plads, også når det strider mod din egen rytme.";
       }
       break;
 
     case "controlled":
-      insight += p2name + "s element kontrollerer dit. " + e2.name + " bremser " + e1.name + ". ";
-      insight += "Det kan f\u00f8les som at " + p2name + " holder dig tilbage \u2014 men det er ikke personligt. ";
-      insight += p2name + "s energi tr\u00e6kker " + e2.direction + ", og din tr\u00e6kker " + e1.direction + ". ";
+      var koKeyR = getKoPairKey(el2, el1);
       if (isPast) {
-        insight += "Den frustration du m\u00e5ske f\u00f8lte, var to naturlige kr\u00e6fter der m\u00f8dtes. Ingen af jer var forkerte.";
+        insight += p2name + "s element kontrollerede dit. ";
+        if (koKeyR && KO_PAIR[koKeyR]) {
+          insight += KO_PAIR[koKeyR].past + " ";
+        } else {
+          insight += "Det kan have følt sig som at " + p2name + " holdt dig tilbage. ";
+        }
+        insight += "Den frustration du måske følte, var to naturlige kræfter der mødtes. Ingen af jer var forkerte.";
       } else {
-        insight += "Det kan hj\u00e6lpe at vide, at sp\u00e6ndingen er energetisk, ikke personlig.";
+        insight += p2name + "s element kontrollerer dit. ";
+        if (koKeyR && KO_PAIR[koKeyR]) {
+          insight += KO_PAIR[koKeyR].future + " ";
+        } else {
+          insight += "Det kan føles som at " + p2name + " holder dig tilbage. ";
+        }
+        insight += "Det kan hjælpe at vide, at spændingen er energetisk, ikke personlig.";
       }
       break;
 
     default:
-      insight += e1.name + " og " + e2.name + " er hverken i direkte n\u00e6ring eller kontrol. ";
-      insight += "Jeres energier m\u00f8des p\u00e5 neutral grund \u2014 der er plads, men ogs\u00e5 afstand.";
+      if (isPast) {
+        insight += e1.name + " og " + e2.name.toLowerCase() + " var hverken i direkte næring eller kontrol. Jeres energier mødtes på neutral grund — der var plads, men også afstand.";
+      } else {
+        insight += e1.name + " og " + e2.name.toLowerCase() + " er hverken i direkte næring eller kontrol. Jeres energier mødes på neutral grund — der er plads, men også afstand.";
+      }
       break;
   }
 
-  // Tilf\u00f8j \u00e5rstiden som tredje faktor
+  // Årstiden som tredje faktor — også med korrekt tid
   var seasonRelToP1 = getRelation(season.element, el1);
   var seasonRelToP2 = getRelation(season.element, el2);
 
   insight += "\n\n";
-  insight += "\u00c5rstiden (" + season.name + ", " + ELEMENTS[season.element].name + ") ";
-
-  if (seasonRelToP1 === "same" || seasonRelToP1 === "nourished") {
-    insight += "st\u00f8tter dig ";
-  } else if (seasonRelToP1 === "controlled") {
-    insight += "presser dig ";
+  if (isPast) {
+    insight += "Årstiden (" + season.name + ") ";
+    if (seasonRelToP1 === "same" || seasonRelToP1 === "nourished") {
+      insight += "støttede dig ";
+    } else if (seasonRelToP1 === "controlled") {
+      insight += "pressede dig ";
+    } else {
+      insight += "påvirkede dig ";
+    }
+    if (seasonRelToP2 === "same" || seasonRelToP2 === "nourished") {
+      insight += "og støttede " + p2name + ".";
+    } else if (seasonRelToP2 === "controlled") {
+      insight += "og pressede " + p2name + ".";
+    } else {
+      insight += "og påvirkede " + p2name + " anderledes.";
+    }
   } else {
-    insight += "p\u00e5virker dig ";
-  }
-
-  if (seasonRelToP2 === "same" || seasonRelToP2 === "nourished") {
-    insight += "og st\u00f8tter " + p2name + ". ";
-  } else if (seasonRelToP2 === "controlled") {
-    insight += "og presser " + p2name + ". ";
-  } else {
-    insight += "og p\u00e5virker " + p2name + " anderledes. ";
+    insight += "Årstiden (" + season.name + ") ";
+    if (seasonRelToP1 === "same" || seasonRelToP1 === "nourished") {
+      insight += "støtter dig ";
+    } else if (seasonRelToP1 === "controlled") {
+      insight += "presser dig ";
+    } else {
+      insight += "påvirker dig ";
+    }
+    if (seasonRelToP2 === "same" || seasonRelToP2 === "nourished") {
+      insight += "og støtter " + p2name + ".";
+    } else if (seasonRelToP2 === "controlled") {
+      insight += "og presser " + p2name + ".";
+    } else {
+      insight += "og påvirker " + p2name + " anderledes.";
+    }
   }
 
   return insight;
@@ -516,13 +685,17 @@ function generateGroupInsight(persons, targetDate, isPast) {
 
   var insight = "";
 
-  // Hvem er i hvilken fase
+  // Hvem er i hvilken fase — med korrekt tid
   for (var j = 0; j < people.length; j++) {
     var pp = people[j];
     var el = ELEMENTS[pp.element];
-    insight += pp.name + ": " + pp.age + " \u00e5r, " + pp.phase.name + ", " + el.name + "\n";
+    if (isPast) {
+      insight += pp.name + " var " + pp.age + " år, " + pp.phase.name + " (" + el.name.toLowerCase() + ")\n";
+    } else {
+      insight += pp.name + " vil være " + pp.age + " år, " + pp.phase.name + " (" + el.name.toLowerCase() + ")\n";
+    }
   }
-  insight += "\u00c5rstid: " + season.name + " (" + ELEMENTS[season.element].name + ")\n\n";
+  insight += "Årstid: " + season.name + " (" + ELEMENTS[season.element].name.toLowerCase() + ")\n\n";
 
   // Find konflikter og harmonier
   var tensions = [];
@@ -540,34 +713,50 @@ function generateGroupInsight(persons, targetDate, isPast) {
   }
 
   if (tensions.length > 0) {
-    insight += isPast ? "Det der skabte sp\u00e6nding:\n" : "Hvor det kan presse:\n";
+    insight += isPast ? "Det der skabte spænding:\n" : "Hvor det kan presse:\n";
     for (var ti = 0; ti < tensions.length; ti++) {
       var t = tensions[ti];
-      var te1 = ELEMENTS[t.el1];
-      var te2 = ELEMENTS[t.el2];
+      var koKey;
       if (t.rel === "control") {
-        insight += t.p1.name + "s " + te1.name + " kontrollerer " + t.p2.name + "s " + te2.name + ". ";
-        insight += t.p1.name + " tr\u00e6kker " + te1.direction + ", " + t.p2.name + " har brug for " + te2.need + ". ";
-        insight += "Det kan skabe friktion.\n";
+        koKey = getKoPairKey(t.el1, t.el2);
+        if (koKey && KO_PAIR[koKey]) {
+          insight += t.p1.name + " og " + t.p2.name + ": " + (isPast ? KO_PAIR[koKey].past : KO_PAIR[koKey].future) + "\n";
+        } else {
+          insight += t.p1.name + "s " + ELEMENTS[t.el1].name.toLowerCase() + " " + (isPast ? "bremsede" : "bremser") + " " + t.p2.name + "s " + ELEMENTS[t.el2].name.toLowerCase() + ".\n";
+        }
       } else {
-        insight += t.p2.name + "s " + te2.name + " kontrollerer " + t.p1.name + "s " + te1.name + ". ";
-        insight += t.p1.name + "s behov for " + te1.need + " bremses.\n";
+        koKey = getKoPairKey(t.el2, t.el1);
+        if (koKey && KO_PAIR[koKey]) {
+          insight += t.p2.name + " og " + t.p1.name + ": " + (isPast ? KO_PAIR[koKey].past : KO_PAIR[koKey].future) + "\n";
+        } else {
+          insight += t.p2.name + "s " + ELEMENTS[t.el2].name.toLowerCase() + " " + (isPast ? "bremsede" : "bremser") + " " + t.p1.name + "s " + ELEMENTS[t.el1].name.toLowerCase() + ".\n";
+        }
       }
     }
   }
 
   if (harmonies.length > 0) {
-    insight += isPast ? "\nDet der bar jer:\n" : "\nHvor I kan st\u00f8tte hinanden:\n";
+    insight += isPast ? "\nDet der bar jer:\n" : "\nHvor I kan støtte hinanden:\n";
     for (var hi = 0; hi < harmonies.length; hi++) {
       var h = harmonies[hi];
-      var he1 = ELEMENTS[h.el1];
-      var he2 = ELEMENTS[h.el2];
       if (h.rel === "same") {
-        insight += h.p1.name + " og " + h.p2.name + " deler " + he1.name + ". I forst\u00e5r hinanden her.\n";
+        if (isPast) {
+          insight += h.p1.name + " og " + h.p2.name + " delte " + ELEMENTS[h.el1].name.toLowerCase() + ". I forstod hinanden her.\n";
+        } else {
+          insight += h.p1.name + " og " + h.p2.name + " deler " + ELEMENTS[h.el1].name.toLowerCase() + ". I forstår hinanden her.\n";
+        }
       } else if (h.rel === "nourish") {
-        insight += h.p1.name + "s " + he1.name + " n\u00e6rer " + h.p2.name + "s " + he2.name + ". Der er en naturlig str\u00f8m.\n";
+        if (isPast) {
+          insight += h.p1.name + "s " + ELEMENTS[h.el1].name.toLowerCase() + " nærede " + h.p2.name + "s " + ELEMENTS[h.el2].name.toLowerCase() + ". Der var en naturlig strøm.\n";
+        } else {
+          insight += h.p1.name + "s " + ELEMENTS[h.el1].name.toLowerCase() + " nærer " + h.p2.name + "s " + ELEMENTS[h.el2].name.toLowerCase() + ". Der er en naturlig strøm.\n";
+        }
       } else {
-        insight += h.p2.name + "s " + he2.name + " n\u00e6rer " + h.p1.name + "s " + he1.name + ". " + h.p2.name + " st\u00f8tter dig her.\n";
+        if (isPast) {
+          insight += h.p2.name + "s " + ELEMENTS[h.el2].name.toLowerCase() + " nærede " + h.p1.name + "s " + ELEMENTS[h.el1].name.toLowerCase() + ". " + h.p2.name + " støttede dig her.\n";
+        } else {
+          insight += h.p2.name + "s " + ELEMENTS[h.el2].name.toLowerCase() + " nærer " + h.p1.name + "s " + ELEMENTS[h.el1].name.toLowerCase() + ". " + h.p2.name + " støtter dig her.\n";
+        }
       }
     }
   }
@@ -577,7 +766,7 @@ function generateGroupInsight(persons, targetDate, isPast) {
 
 
 // ================================================================
-// PAR-FORSKYDNING (7-\u00e5rs vs 8-\u00e5rs cyklus)
+// PAR-FORSKYDNING (7-års vs 8-års cyklus)
 // ================================================================
 
 function getPhaseShift(womanBirthDate, manBirthDate, targetDate) {
@@ -600,24 +789,45 @@ function getPhaseShift(womanBirthDate, manBirthDate, targetDate) {
 
   // Generer beskrivelse
   var desc = "";
-  desc += "Hendes fase: " + wPhase.name + " (" + ELEMENTS[wEl].name + ", " + Math.round(wProgress * 100) + "% igennem). ";
-  desc += "Hans fase: " + mPhase.name + " (" + ELEMENTS[mEl].name + ", " + Math.round(mProgress * 100) + "% igennem). ";
+  desc += "Hendes fase: " + wPhase.name + " (" + ELEMENTS[wEl].name.toLowerCase() + ", " + Math.round(wProgress * 100) + "% igennem). ";
+  desc += "Hans fase: " + mPhase.name + " (" + ELEMENTS[mEl].name.toLowerCase() + ", " + Math.round(mProgress * 100) + "% igennem).";
 
   if (sameElement) {
-    desc += "\n\nI er i det samme element lige nu. Det sker ikke altid \u2014 hendes 7-\u00e5rs og hans 8-\u00e5rs cyklus f\u00f8lges ikke ad. N\u00e5r I m\u00f8des i det samme element, er der en naturlig genklang.";
+    desc += "\n\nI er i det samme element lige nu. Det sker ikke altid — hendes 7-års og hans 8-års cyklus følges ikke ad. Når I mødes i det samme element, er der en naturlig genklang. I trækker i samme retning og forstår hinandens behov intuitivt.";
   } else {
     var rel = getRelation(wEl, mEl);
     desc += "\n\nI er i forskellige elementer. ";
+    var koKey, shKey;
     if (rel === "nourish") {
-      desc += "Hendes " + ELEMENTS[wEl].name + " n\u00e6rer hans " + ELEMENTS[mEl].name + " \u2014 hun giver energi til ham i denne periode.";
+      shKey = getShengKey(wEl, mEl);
+      if (shKey && SHENG_HUMAN[shKey]) {
+        desc += SHENG_HUMAN[shKey].future + " Hun giver energi til ham i denne periode.";
+      } else {
+        desc += "Hendes " + ELEMENTS[wEl].name.toLowerCase() + " nærer hans " + ELEMENTS[mEl].name.toLowerCase() + " — hun giver energi til ham i denne periode.";
+      }
     } else if (rel === "nourished") {
-      desc += "Hans " + ELEMENTS[mEl].name + " n\u00e6rer hendes " + ELEMENTS[wEl].name + " \u2014 han st\u00f8tter hende i denne periode.";
+      shKey = getShengKey(mEl, wEl);
+      if (shKey && SHENG_HUMAN[shKey]) {
+        desc += SHENG_HUMAN[shKey].future + " Han støtter hende i denne periode.";
+      } else {
+        desc += "Hans " + ELEMENTS[mEl].name.toLowerCase() + " nærer hendes " + ELEMENTS[wEl].name.toLowerCase() + " — han støtter hende i denne periode.";
+      }
     } else if (rel === "control") {
-      desc += "Hendes " + ELEMENTS[wEl].name + " kontrollerer hans " + ELEMENTS[mEl].name + ". Det kan skabe en sp\u00e6nding der kr\u00e6ver bevidsthed.";
+      koKey = getKoPairKey(wEl, mEl);
+      if (koKey && KO_PAIR[koKey]) {
+        desc += KO_PAIR[koKey].future + " Det kræver bevidsthed.";
+      } else {
+        desc += "Hendes " + ELEMENTS[wEl].name.toLowerCase() + " kontrollerer hans " + ELEMENTS[mEl].name.toLowerCase() + ". Det kan skabe en spænding der kræver bevidsthed.";
+      }
     } else if (rel === "controlled") {
-      desc += "Hans " + ELEMENTS[mEl].name + " kontrollerer hendes " + ELEMENTS[wEl].name + ". Det kan f\u00f8les som at han bremser hendes naturlige rytme.";
+      koKey = getKoPairKey(mEl, wEl);
+      if (koKey && KO_PAIR[koKey]) {
+        desc += KO_PAIR[koKey].future + " Det kan føles som at han bremser hendes naturlige rytme.";
+      } else {
+        desc += "Hans " + ELEMENTS[mEl].name.toLowerCase() + " kontrollerer hendes " + ELEMENTS[wEl].name.toLowerCase() + ". Det kan føles som at han bremser hendes naturlige rytme.";
+      }
     } else {
-      desc += "Jeres elementer m\u00f8des p\u00e5 neutral grund.";
+      desc += "Jeres elementer mødes på neutral grund.";
     }
   }
 
@@ -630,7 +840,6 @@ function getPhaseShift(womanBirthDate, manBirthDate, targetDate) {
     description: desc
   };
 }
-
 
 // ================================================================
 // HARMONI-SCANNING

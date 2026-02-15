@@ -1201,19 +1201,116 @@ var TIDSREJSE_INSIGHT_FUTURE = {
 
 // ---- Tidsvinduet data ----
 
-var TIDSVINDUE_SHORTCUTS_SELV = [
-  { label: 'For et \u00e5r siden', resolve: function() { var d = new Date(); d.setFullYear(d.getFullYear() - 1); return d; } },
-  { label: 'Da du var 30', resolve: function(u) { var d = new Date(u.birthdate); d.setFullYear(d.getFullYear() + 30); return d; } },
-  { label: 'N\u00e6ste for\u00e5r', resolve: function() { var y = new Date().getFullYear(); var d = new Date(y, 2, 21); if (d <= new Date()) d.setFullYear(y + 1); return d; } },
-  { label: 'Om 6 m\u00e5neder', resolve: function() { var d = new Date(); d.setMonth(d.getMonth() + 6); return d; } }
-];
+// Dynamiske shortcuts baseret på brugerens fase og alder
+function getDynamicShortcutsSelf(user) {
+  var shortcuts = [];
+  if (!user || !user.birthdate) {
+    return [
+      { label: 'For et \u00e5r siden', resolve: function() { var d = new Date(); d.setFullYear(d.getFullYear() - 1); return d; } },
+      { label: 'Om 6 m\u00e5neder', resolve: function() { var d = new Date(); d.setMonth(d.getMonth() + 6); return d; } }
+    ];
+  }
+  var bd = new Date(user.birthdate);
+  var now = new Date();
+  var age = now.getFullYear() - bd.getFullYear();
+  var m = now.getMonth() - bd.getMonth();
+  if (m < 0 || (m === 0 && now.getDate() < bd.getDate())) age--;
 
-var TIDSVINDUE_SHORTCUTS_RELATION = [
-  { label: 'Da hun var 14', resolve: function(u, rels) { if (rels && rels.length > 0) { var d = new Date(rels[0].birthdate); d.setFullYear(d.getFullYear() + 14); return d; } var d2 = new Date(); d2.setFullYear(d2.getFullYear() - 10); return d2; } },
-  { label: 'For 5 \u00e5r siden', resolve: function() { var d = new Date(); d.setFullYear(d.getFullYear() - 5); return d; } },
-  { label: 'N\u00e6ste jul', resolve: function() { var y = new Date().getFullYear(); var d = new Date(y, 11, 24); if (d <= new Date()) d.setFullYear(y + 1); return d; } },
-  { label: 'Om et \u00e5r', resolve: function() { var d = new Date(); d.setFullYear(d.getFullYear() + 1); return d; } }
-];
+  // Beregn fasestart (kvinders 7-\u00e5rs cyklus)
+  var currentPhase = Math.min(Math.floor(age / 7) + 1, 9);
+  var phaseStartAge = (currentPhase - 1) * 7;
+  var phaseStartDate = new Date(bd.getTime()); phaseStartDate.setFullYear(bd.getFullYear() + phaseStartAge);
+
+  // Knap 1: Da din fase begyndte
+  shortcuts.push({ label: 'Da din fase begyndte', resolve: function() { return phaseStartDate; } });
+
+  // Knap 2: Vendepunkt / vigtig alder
+  if (currentPhase >= 6) {
+    var d35 = new Date(bd.getTime()); d35.setFullYear(bd.getFullYear() + 35);
+    shortcuts.push({ label: 'Da du var 35', resolve: function() { return d35; } });
+  } else if (currentPhase >= 4) {
+    var d21 = new Date(bd.getTime()); d21.setFullYear(bd.getFullYear() + 21);
+    shortcuts.push({ label: 'Da du var 21', resolve: function() { return d21; } });
+  } else {
+    var d1y = new Date(); d1y.setFullYear(d1y.getFullYear() - 1);
+    shortcuts.push({ label: 'For et \u00e5r siden', resolve: function() { return d1y; } });
+  }
+
+  // Knap 3: N\u00e6ste faseskift
+  var nextPhaseAge = currentPhase * 7;
+  if (nextPhaseAge <= 63) {
+    var nextPhaseDate = new Date(bd.getTime()); nextPhaseDate.setFullYear(bd.getFullYear() + nextPhaseAge);
+    shortcuts.push({ label: 'N\u00e6ste faseskift', resolve: function() { return nextPhaseDate; } });
+  } else {
+    var d6m = new Date(); d6m.setMonth(d6m.getMonth() + 6);
+    shortcuts.push({ label: 'Om 6 m\u00e5neder', resolve: function() { return d6m; } });
+  }
+
+  // Knap 4: Sæsonbetonet
+  var month = now.getMonth() + 1;
+  if (month >= 9 || month <= 2) {
+    var summerYear = month >= 9 ? now.getFullYear() + 1 : now.getFullYear();
+    var summer = new Date(summerYear, 5, 21);
+    shortcuts.push({ label: 'Til sommer', resolve: function() { return summer; } });
+  } else {
+    var winterYear = now.getFullYear();
+    var winter = new Date(winterYear, 11, 21);
+    shortcuts.push({ label: 'Til vinter', resolve: function() { return winter; } });
+  }
+
+  return shortcuts;
+}
+
+function getDynamicShortcutsRelation(user, selectedRelations) {
+  var shortcuts = [];
+  var relations = JSON.parse(localStorage.getItem('relations') || '[]');
+  var selRels = [];
+  for (var i = 0; i < selectedRelations.length; i++) {
+    if (relations[selectedRelations[i]]) selRels.push(relations[selectedRelations[i]]);
+  }
+  var firstRel = selRels.length > 0 ? selRels[0] : null;
+  var now = new Date();
+
+  if (firstRel && firstRel.birthdate) {
+    var rBd = new Date(firstRel.birthdate);
+    var rAge = now.getFullYear() - rBd.getFullYear();
+    var rm = now.getMonth() - rBd.getMonth();
+    if (rm < 0 || (rm === 0 && now.getDate() < rBd.getDate())) rAge--;
+    var rGender = firstRel.gender || 'kvinde';
+    var rCycleLen = rGender === 'mand' ? 8 : 7;
+    var rPhase = Math.min(Math.floor(rAge / rCycleLen) + 1, 9);
+    var rPhaseStartAge = (rPhase - 1) * rCycleLen;
+
+    // Knap 1: Da fasen begyndte for relationen
+    var rPhaseStart = new Date(rBd.getTime()); rPhaseStart.setFullYear(rBd.getFullYear() + rPhaseStartAge);
+    var rName = firstRel.name || 'den anden';
+    shortcuts.push({ label: rName.split(' ')[0] + 's fase begyndte', resolve: function() { return rPhaseStart; } });
+
+    // Knap 2: N\u00e6ste faseskift for relationen
+    var rNextAge = rPhase * rCycleLen;
+    var rNextDate = new Date(rBd.getTime()); rNextDate.setFullYear(rBd.getFullYear() + rNextAge);
+    shortcuts.push({ label: rName.split(' ')[0] + 's n\u00e6ste fase', resolve: function() { return rNextDate; } });
+  } else {
+    shortcuts.push({ label: 'For 5 \u00e5r siden', resolve: function() { var d = new Date(); d.setFullYear(d.getFullYear() - 5); return d; } });
+    shortcuts.push({ label: 'Om et \u00e5r', resolve: function() { var d = new Date(); d.setFullYear(d.getFullYear() + 1); return d; } });
+  }
+
+  // Knap 3: N\u00e6ste jul
+  var jy = now.getFullYear();
+  var jul = new Date(jy, 11, 24);
+  if (jul <= now) jul.setFullYear(jy + 1);
+  shortcuts.push({ label: 'N\u00e6ste jul', resolve: function() { return jul; } });
+
+  // Knap 4: Om 5 \u00e5r
+  var om5 = new Date(); om5.setFullYear(om5.getFullYear() + 5);
+  shortcuts.push({ label: 'Om 5 \u00e5r', resolve: function() { return om5; } });
+
+  return shortcuts;
+}
+
+// Fallbacks (bruges af applyDinEnergiShortcut/applyJeresEnergiShortcut)
+var TIDSVINDUE_SHORTCUTS_SELV = [];
+var TIDSVINDUE_SHORTCUTS_RELATION = [];
 
 var INSIGHT_SUGGESTIONS = {
   'VAND': [
@@ -1744,19 +1841,55 @@ function renderDynamiskTekst() {
       '<p class="idag__section-subtitle">Dit indre klima lige nu \u2014 baseret p\u00e5 din livsfase, \u00e5rstiden, m\u00e5neden, ugedagen og dit organur. Fem rytmer der tilsammen tegner et billede af, hvordan din krop og dit sind har det i dag.</p>';
   }
 
-  // Content INSIDE box
-  var html = '<p class="idag__climate-label">' + cycleAnalysis.climate.label + '</p>';
+  // Content INSIDE box — klikbar med udvidet visning
+  var data = window._idagData;
+  var html = '<div class="idag__climate-clickable" onclick="toggleClimateExpand()">';
+  html += '<p class="idag__climate-label">' + cycleAnalysis.climate.label + '</p>';
   html += '<p class="idag__section-text">' + dynamisk.text + '</p>';
-  html += '<p class="idag__tidsdynamik">' + dynamisk.tidsdynamik + '</p>';
+  html += '<p class="idag__climate-hint">Tryk for at se hvorfor ↓</p>';
+  html += '</div>';
+
+  // Udvidet visning (skjult som standard)
+  html += '<div id="idag-climate-expand" class="idag__climate-expand" style="display:none">';
+  html += '<p class="idag__climate-detail">LIVSFASE: Fase ' + (data.lifePhase.phaseNumber || '') + ' · ' + (data.lifePhase.name || '') + ' · ' + data.lifePhase.element + '</p>';
+  html += '<p class="idag__climate-detail">\u00c5RSTID: ' + data.season.name + ' · ' + data.season.element + '</p>';
+  if (data.monthCycle && data.monthCycle.data) {
+    var mcLabel = data.monthCycle.type === 'menstrual' ? 'M\u00c5NEDSCYKLUS' : 'M\u00c5NED';
+    var mcName = data.monthCycle.data.phaseName || data.monthCycle.data.name || '';
+    html += '<p class="idag__climate-detail">' + mcLabel + ': ' + mcName + ' · ' + data.monthCycle.data.element + '</p>';
+  }
+  html += '<p class="idag__climate-detail">UGEDAG: ' + data.weekday.name + ' · ' + data.weekday.element + '</p>';
+  html += '<p class="idag__climate-detail">ORGANUR: ' + (data.organ.organ || '') + ' · ' + data.organ.element + '</p>';
+  html += '<p class="idag__climate-explain">' + dynamisk.tidsdynamik + '</p>';
+  var morgenDate = new Date(); morgenDate.setDate(morgenDate.getDate() + 1);
+  html += '<p class="idag__climate-link" onclick="event.stopPropagation(); navigateToDinEnergiWithDate(\'' + getLocalDateStr(morgenDate) + '\')">Se hvordan det \u00e6ndrer sig i morgen \u2192</p>';
+  html += '</div>';
+
   html += '<button class="idag__link-btn" onclick="App.loadScreen(\'samlede-indsigt\')">Se din samlede indsigt \u2192</button>';
   el.innerHTML = html;
 }
 
+function toggleClimateExpand() {
+  var expand = document.getElementById('idag-climate-expand');
+  var hint = document.querySelector('.idag__climate-hint');
+  if (!expand) return;
+  if (expand.style.display === 'none') {
+    expand.style.display = 'block';
+    if (hint) hint.textContent = 'Tryk for at skjule \u2191';
+  } else {
+    expand.style.display = 'none';
+    if (hint) hint.textContent = 'Tryk for at se hvorfor \u2193';
+  }
+}
+window.toggleClimateExpand = toggleClimateExpand;
+
 function renderIdagTidsvinduetLink() {
   var el = document.getElementById('idag-tidsvindue-link');
   if (!el) return;
-  el.innerHTML = '<div class="idag__tidsvindue-link" onclick="App.loadScreen(\'din-energi\')">' +
-    '<span class="idag__tidsvindue-link-text">Se en anden dag \u2192</span>' +
+  el.innerHTML = '<div class="idag__tidsvindue-kort" onclick="App.loadScreen(\'din-energi\')">' +
+    '<p class="idag__tidsvindue-kort-title">Udforsk en anden dag</p>' +
+    '<p class="idag__tidsvindue-kort-subtitle">Forstå hvad der skete dengang — eller forbered dig på det der kommer.</p>' +
+    '<span class="idag__tidsvindue-kort-link">Vælg en dag →</span>' +
     '</div>';
 }
 
@@ -3557,6 +3690,7 @@ function renderDinEnergiInput() {
   html += '<input type="date" id="din-energi-date" class="tidsvindue__date-input" value="' + dateVal + '" onchange="dinEnergiDateChanged(this.value)">';
   html += '<div class="tidsvindue__shortcut-grid">';
   var user = JSON.parse(localStorage.getItem('user') || '{}');
+  TIDSVINDUE_SHORTCUTS_SELV = getDynamicShortcutsSelf(user);
   for (var i = 0; i < TIDSVINDUE_SHORTCUTS_SELV.length; i++) {
     html += '<button class="tidsvindue__shortcut-btn" onclick="applyDinEnergiShortcut(' + i + ')">' + TIDSVINDUE_SHORTCUTS_SELV[i].label + '</button>';
   }
@@ -3651,11 +3785,27 @@ function renderDinEnergiResults() {
   // Udforsk videre
   html += '<h2 class="tidsvindue__title tidsvindue__section-title">Udforsk videre</h2>';
   html += '<div class="tidsvindue__box--blaa">';
-  html += '<p class="tidsvindue__insight-text" style="cursor:pointer" onclick="dinEnergiBackToInput()">Se en anden dato \u2192</p>';
-  html += '<p class="tidsvindue__insight-text" style="cursor:pointer;margin-top:12px" onclick="App.loadScreen(\'jeres-energi\')">Tilf\u00f8j en relation \u2192</p>';
+  // Dagen før og efter
+  var dagenFoer = new Date(targetDate.getTime()); dagenFoer.setDate(dagenFoer.getDate() - 1);
+  var dagenEfter = new Date(targetDate.getTime()); dagenEfter.setDate(dagenEfter.getDate() + 1);
+  html += '<div style="display:flex;gap:12px;margin-bottom:12px">';
+  html += '<p class="tidsvindue__insight-text" style="cursor:pointer;flex:1" onclick="navigateToDinEnergiWithDate(\'' + getLocalDateStr(dagenFoer) + '\')">\u2190 Dagen f\u00f8r</p>';
+  html += '<p class="tidsvindue__insight-text" style="cursor:pointer;flex:1;text-align:right" onclick="navigateToDinEnergiWithDate(\'' + getLocalDateStr(dagenEfter) + '\')">Dagen efter \u2192</p>';
+  html += '</div>';
+  // Relationer
+  var dinRelations = JSON.parse(localStorage.getItem('relations') || '[]');
+  if (dinRelations.length > 0) {
+    html += '<p class="tidsvindue__insight-text" style="cursor:pointer" onclick="navigateToJeresEnergiWithDate(\'' + dateStr + '\')">Se hvordan denne dag s\u00e5 ud for dine relationer \u2192</p>';
+  } else {
+    html += '<p class="tidsvindue__insight-text" style="cursor:pointer" onclick="App.loadScreen(\'jeres-energi\')">Tilf\u00f8j en relation \u2192</p>';
+  }
+  // Længere frem
   var omEnMaaned = new Date(targetDate.getTime());
   omEnMaaned.setMonth(omEnMaaned.getMonth() + 1);
   html += '<p class="tidsvindue__insight-text" style="cursor:pointer;margin-top:12px" onclick="navigateToDinEnergiWithDate(\'' + getLocalDateStr(omEnMaaned) + '\')">Hvad sker der om en m\u00e5ned? \u2192</p>';
+  // Samme dag næste år
+  var nextYear = new Date(targetDate.getTime()); nextYear.setFullYear(nextYear.getFullYear() + 1);
+  html += '<p class="tidsvindue__insight-text" style="cursor:pointer;margin-top:12px" onclick="navigateToDinEnergiWithDate(\'' + getLocalDateStr(nextYear) + '\')">Samme dag n\u00e6ste \u00e5r \u2192</p>';
   html += '</div>';
 
   // Action bar
@@ -3714,17 +3864,62 @@ function renderJeresEnergiStatic() {
   var el = document.getElementById('jeres-energi-usebox');
   if (!el) return;
   var html = '<h2 class="tidsvindue__title">Jeres energi p\u00e5 en anden dag</h2>';
-  html += '<p class="tidsvindue__subtitle">V\u00e6lg hvem og hvorn\u00e5r \u2014 og se hvordan jeres cyklusser m\u00f8des. Forst\u00e5 det der er sket, eller forbered det der kommer. I kan bruge det til alt fra hverdagens konflikter til feriens planl\u00e6gning.</p>';
+  html += '<p class="tidsvindue__subtitle">V\u00e6lg hvem og hvorn\u00e5r \u2014 og se hvordan jeres cyklusser m\u00f8des. Forst\u00e5 det der er sket, eller forbered det der kommer.</p>';
   html += '<div class="tidsvindue__box--lilla">';
   html += '<p class="tidsvindue__box-heading">Du kan bruge det til</p>';
   html += '<ul class="tidsvindue__box-list tidsvindue__box-list--lilla">';
-  html += '<li>Forst\u00e5 konflikter med din teenager dengang</li>';
-  html += '<li>Dit forhold til din mor gennem \u00e5rene</li>';
+
+  // Dynamiske eksempler baseret p\u00e5 brugerens relationer
+  var rels = JSON.parse(localStorage.getItem('relations') || '[]');
+  var hasPersonalExamples = false;
+  var now = new Date();
+
+  for (var ri = 0; ri < rels.length && ri < 3; ri++) {
+    var r = rels[ri];
+    if (!r.birthdate || !r.name) continue;
+    var rBd = new Date(r.birthdate);
+    var rAge = now.getFullYear() - rBd.getFullYear();
+    var rm = now.getMonth() - rBd.getMonth();
+    if (rm < 0 || (rm === 0 && now.getDate() < rBd.getDate())) rAge--;
+    var rGender = r.gender || 'kvinde';
+    var rCycle = rGender === 'mand' ? 8 : 7;
+    var rPhaseNum = Math.min(Math.floor(rAge / rCycle) + 1, 9);
+    var phaseNames = rGender === 'mand'
+      ? ['', 'Fundament', 'Opv\u00e5gning', 'Udfoldelse', 'Toppunkt', 'Konsolidering', 'Vendepunkt', 'Forvandling', 'H\u00f8st', 'Visdom']
+      : ['', 'Livets begyndelse', 'Udforskning', 'Forvandling', 'Blomstring', 'Ansvar', 'Modning', 'H\u00f8st', 'Frig\u00f8relse', 'Visdom'];
+    var rPhaseName = phaseNames[rPhaseNum] || '';
+
+    var relType = r.relationType || '';
+    if (relType === 'partner' || relType === 'mand' || relType === 'k\u00e6reste') {
+      html += '<li>Hvor I er synkrone \u2014 og hvor forskydningen presser med ' + escapeHtml(r.name) + '</li>';
+      hasPersonalExamples = true;
+    } else if (relType === 'mor') {
+      html += '<li>Forst\u00e5 dit forhold til ' + escapeHtml(r.name) + ' \u2014 hun er i ' + rPhaseName + '</li>';
+      hasPersonalExamples = true;
+    } else if (relType === 'datter' || relType === 'barn') {
+      if (rAge >= 13 && rAge <= 21) {
+        html += '<li>Hvorfor ' + escapeHtml(r.name) + ' tr\u00e6kker sig lige nu \u2014 hun er i ' + rPhaseName + '</li>';
+      } else {
+        html += '<li>Forst\u00e5 ' + escapeHtml(r.name) + 's energi \u2014 ' + rAge + ' \u00e5r, i ' + rPhaseName + '</li>';
+      }
+      hasPersonalExamples = true;
+    } else {
+      html += '<li>Forst\u00e5 ' + escapeHtml(r.name) + 's fase \u2014 ' + rAge + ' \u00e5r, i ' + rPhaseName + '</li>';
+      hasPersonalExamples = true;
+    }
+  }
+
+  // Generiske eksempler som fallback
+  if (!hasPersonalExamples) {
+    html += '<li>Forst\u00e5 konflikter med din teenager dengang</li>';
+    html += '<li>Dit forhold til din mor gennem \u00e5rene</li>';
+    html += '<li>Weekend med veninder i forskellige faser</li>';
+  }
+
+  // Altid tilf\u00f8j et par generiske
   html += '<li>Forberede en ferie med hele familien</li>';
-  html += '<li>Jul med tre generationer</li>';
-  html += '<li>Dit barns skolestart \u2014 se hele familien</li>';
-  html += '<li>Weekend med veninder i forskellige faser</li>';
   html += '<li>Planl\u00e6gge vigtige samtaler</li>';
+
   html += '</ul></div>';
   el.innerHTML = html;
 }
@@ -3760,6 +3955,8 @@ function renderJeresEnergiInput() {
   var dateVal = JeresEnergiState.selectedDate || '';
   html += '<input type="date" id="jeres-energi-date" class="tidsvindue__date-input" value="' + dateVal + '" onchange="jeresEnergiDateChanged(this.value)">';
   html += '<div class="tidsvindue__shortcut-grid">';
+  var relUser = JSON.parse(localStorage.getItem('user') || '{}');
+  TIDSVINDUE_SHORTCUTS_RELATION = getDynamicShortcutsRelation(relUser, JeresEnergiState.selectedRelations);
   for (var j = 0; j < TIDSVINDUE_SHORTCUTS_RELATION.length; j++) {
     html += '<button class="tidsvindue__shortcut-btn tidsvindue__shortcut-btn--lilla" onclick="applyJeresEnergiShortcut(' + j + ')">' + TIDSVINDUE_SHORTCUTS_RELATION[j].label + '</button>';
   }
@@ -3938,7 +4135,8 @@ function renderJeresEnergiResults() {
   // Udforsk videre
   html += '<h2 class="tidsvindue__title tidsvindue__section-title">Udforsk videre</h2>';
   html += '<div class="tidsvindue__box--lilla">';
-  html += '<p class="tidsvindue__insight-text" style="cursor:pointer" onclick="jeresEnergiBackToInput()">Se en anden dato →</p>';
+  html += '<p class="tidsvindue__insight-text" style="cursor:pointer" onclick="jeresEnergiBackToInput()">Se en anden dato \u2192</p>';
+  html += '<p class="tidsvindue__insight-text" style="cursor:pointer;margin-top:12px" onclick="navigateToDinEnergiWithDate(\'' + dateStr + '\')">Se kun dig selv denne dag \u2192</p>';
 
   // Hvornår er vi mest i harmoni? (kun for par med én relation)
   if (results.relations.length === 1 && results.relations[0].birthdate && !isPast) {

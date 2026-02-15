@@ -1785,6 +1785,47 @@
   margin-bottom: 12px;
 }
 
+/* Klikbar klima */
+.idag__climate-clickable {
+  cursor: pointer;
+}
+.idag__climate-hint {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  color: var(--blaa);
+  text-align: center;
+  margin-top: 8px;
+  opacity: 0.6;
+}
+.idag__climate-expand {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(118, 144, 193, 0.15);
+}
+.idag__climate-detail {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--morkebla);
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+.idag__climate-explain {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin: 12px 0 8px;
+  line-height: 1.6;
+}
+.idag__climate-link {
+  font-size: 13px;
+  color: var(--blaa);
+  cursor: pointer;
+  margin-top: 8px;
+}
+
 /* Tidsdynamik */
 .idag__tidsdynamik {
   font-family: var(--font-serif);
@@ -4341,23 +4382,39 @@
   border-color: #B8A6C0;
 }
 
-/* Forside: "Se en anden dag" link */
-.idag__tidsvindue-link {
-  text-align: center;
+/* Forside: Tidsvinduet kort */
+.idag__tidsvindue-kort {
+  background: rgba(118, 144, 193, 0.07);
+  border: 1px solid rgba(118, 144, 193, 0.15);
+  border-radius: 20px;
+  padding: var(--space-lg) var(--space-lg);
+  margin: var(--space-md) 0;
   cursor: pointer;
-  padding: var(--space-sm) 0 0;
+  text-align: center;
+  transition: background 0.2s;
 }
-
-.idag__tidsvindue-link-text {
+.idag__tidsvindue-kort:active {
+  background: rgba(118, 144, 193, 0.13);
+}
+.idag__tidsvindue-kort-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #7690C1;
+  margin: 0 0 8px;
+}
+.idag__tidsvindue-kort-subtitle {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 13px;
   font-style: italic;
-  color: #7690C1;
-  opacity: 0.7;
+  color: #777;
+  margin: 0 0 12px;
+  line-height: 1.5;
 }
-
-.idag__tidsvindue-link:active .idag__tidsvindue-link-text {
-  opacity: 1;
+.idag__tidsvindue-kort-link {
+  font-size: 13px;
+  color: #7690C1;
+  font-weight: 500;
 }
 
 /* Forside: Lilla relations-kort */
