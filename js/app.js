@@ -3956,6 +3956,7 @@ function renderJeresEnergiStatic() {
   if (!el) return;
   var html = '<h2 class="tidsvindue__title">Jeres energi p\u00e5 en anden dag</h2>';
   html += '<p class="tidsvindue__subtitle">V\u00e6lg hvem og hvorn\u00e5r \u2014 og se hvordan jeres cyklusser m\u00f8des. Forst\u00e5 det der er sket, eller forbered det der kommer.</p>';
+  html += '<img src="assets/images/vindue_ny_side.svg" alt="Tidsvinduet" class="tidsvindue__hero-img">';
   html += '<div class="tidsvindue__box--lilla">';
   html += '<p class="tidsvindue__box-heading">Du kan bruge det til</p>';
   html += '<ul class="tidsvindue__box-list tidsvindue__box-list--lilla">';
