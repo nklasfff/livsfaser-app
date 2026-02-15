@@ -121,9 +121,19 @@ const MONTH_DATA = {
 
 // ---- Cycle Calculations ----
 
+// Safeguard: some browsers parse "1969-05-15" as year 69 instead of 1969
+function safeParseBirth(birthdate) {
+  var d = new Date(birthdate);
+  if (d.getFullYear() < 1900) {
+    var m = String(birthdate).match(/(\d{4})/);
+    if (m) d.setFullYear(parseInt(m[1], 10));
+  }
+  return d;
+}
+
 function calculateAge(birthdate) {
   const today = new Date();
-  const birth = new Date(birthdate);
+  const birth = safeParseBirth(birthdate);
   let age = today.getFullYear() - birth.getFullYear();
   const monthDiff = today.getMonth() - birth.getMonth();
   if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
@@ -205,7 +215,7 @@ function calculateCalendarMonth(date) {
 // ---- Tidsrejse helpers ----
 
 function calculateAgeAtDate(birthdate, atDate) {
-  var birth = new Date(birthdate);
+  var birth = safeParseBirth(birthdate);
   var at = new Date(atDate);
   var age = at.getFullYear() - birth.getFullYear();
   var m = at.getMonth() - birth.getMonth();
@@ -1161,8 +1171,8 @@ var INSIGHT_TEXTS = {
 var TIDSREJSE_SHORTCUTS = {
   'fortid-selv': [
     { label: 'For 3 \u00e5r siden', resolve: function() { var d = new Date(); d.setFullYear(d.getFullYear() - 3); return d; } },
-    { label: 'Da jeg var 14', resolve: function(u) { var d = new Date(u.birthdate); d.setFullYear(d.getFullYear() + 14); return d; } },
-    { label: 'Da jeg var 21', resolve: function(u) { var d = new Date(u.birthdate); d.setFullYear(d.getFullYear() + 21); return d; } },
+    { label: 'Da jeg var 14', resolve: function(u) { var d = safeParseBirth(u.birthdate); d.setFullYear(d.getFullYear() + 14); return d; } },
+    { label: 'Da jeg var 21', resolve: function(u) { var d = safeParseBirth(u.birthdate); d.setFullYear(d.getFullYear() + 21); return d; } },
     { label: 'For 1 \u00e5r siden', resolve: function() { var d = new Date(); d.setFullYear(d.getFullYear() - 1); return d; } }
   ],
   'fortid-relation': [
@@ -1174,7 +1184,7 @@ var TIDSREJSE_SHORTCUTS = {
     { label: 'Om 1 uge', resolve: function() { var d = new Date(); d.setDate(d.getDate() + 7); return d; } },
     { label: 'Om 3 m\u00e5neder', resolve: function() { var d = new Date(); d.setMonth(d.getMonth() + 3); return d; } },
     { label: 'N\u00e6ste sommer', resolve: function() { var y = new Date().getFullYear(); var d = new Date(y, 5, 21); if (d <= new Date()) d.setFullYear(y + 1); return d; } },
-    { label: 'N\u00e5r jeg bliver 50', resolve: function(u) { var d = new Date(u.birthdate); d.setFullYear(d.getFullYear() + 50); return d; } }
+    { label: 'N\u00e5r jeg bliver 50', resolve: function(u) { var d = safeParseBirth(u.birthdate); d.setFullYear(d.getFullYear() + 50); return d; } }
   ],
   'fremtid-relation': [
     { label: 'Om 6 m\u00e5neder', resolve: function() { var d = new Date(); d.setMonth(d.getMonth() + 6); return d; } },
@@ -1210,7 +1220,7 @@ function getDynamicShortcutsSelf(user) {
       { label: 'Om 6 m\u00e5neder', resolve: function() { var d = new Date(); d.setMonth(d.getMonth() + 6); return d; } }
     ];
   }
-  var bd = new Date(user.birthdate);
+  var bd = safeParseBirth(user.birthdate);
   var now = new Date();
   var age = now.getFullYear() - bd.getFullYear();
   var m = now.getMonth() - bd.getMonth();
@@ -1272,7 +1282,7 @@ function getDynamicShortcutsRelation(user, selectedRelations) {
   var now = new Date();
 
   if (firstRel && firstRel.birthdate) {
-    var rBd = new Date(firstRel.birthdate);
+    var rBd = safeParseBirth(firstRel.birthdate);
     var rAge = now.getFullYear() - rBd.getFullYear();
     var rm = now.getMonth() - rBd.getMonth();
     if (rm < 0 || (rm === 0 && now.getDate() < rBd.getDate())) rAge--;
@@ -2723,7 +2733,7 @@ function addRelationNext() {
       if (errorEl) errorEl.textContent = 'Vælg venligst en fødselsdato';
       return;
     }
-    var bdate = new Date(d.birthdate);
+    var bdate = safeParseBirth(d.birthdate);
     if (bdate >= new Date()) {
       if (errorEl) errorEl.textContent = 'Fødselsdato skal være i fortiden';
       return;
@@ -3806,6 +3816,7 @@ function executeDinEnergi() {
     tracksMenstruation: user.tracksMenstruation,
     lastPeriodDate: user.lastPeriodDate
   });
+  console.log('[Tidsvinduet] calculated age =', userResult.age);
 
   DinEnergiState.results = { user: userResult, relations: [] };
   renderDinEnergiResults();
@@ -3954,7 +3965,7 @@ function renderJeresEnergiStatic() {
   for (var ri = 0; ri < rels.length && ri < 3; ri++) {
     var r = rels[ri];
     if (!r.birthdate || !r.name) continue;
-    var rBd = new Date(r.birthdate);
+    var rBd = safeParseBirth(r.birthdate);
     var rAge = now.getFullYear() - rBd.getFullYear();
     var rm = now.getMonth() - rBd.getMonth();
     if (rm < 0 || (rm === 0 && now.getDate() < rBd.getDate())) rAge--;

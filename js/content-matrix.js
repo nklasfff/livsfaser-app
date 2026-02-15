@@ -52,6 +52,7 @@ function cmGetSeason(targetDate) {
 
 function cmGetPhase(birthDate, targetDate) {
   var bd = new Date(birthDate);
+  bd = fixBirthDate(bd, birthDate);
   var td = new Date(targetDate);
   var age = td.getFullYear() - bd.getFullYear();
   var m = td.getMonth() - bd.getMonth();
@@ -187,9 +188,18 @@ var MAN_PHASES = {
 // BEREGNINGSFUNKTIONER
 // ================================================================
 
+function fixBirthDate(d, original) {
+  if (d.getFullYear() < 1900 && original) {
+    var m = String(original).match(/(\d{4})/);
+    if (m) { d.setFullYear(parseInt(m[1], 10)); }
+  }
+  return d;
+}
+
 function yearsDiff(targetDate, birthDate) {
   var td = (targetDate instanceof Date) ? targetDate : new Date(targetDate);
   var bd = (birthDate instanceof Date) ? birthDate : new Date(birthDate);
+  bd = fixBirthDate(bd, birthDate);
   var age = td.getFullYear() - bd.getFullYear();
   var m = td.getMonth() - bd.getMonth();
   if (m < 0 || (m === 0 && td.getDate() < bd.getDate())) age--;
