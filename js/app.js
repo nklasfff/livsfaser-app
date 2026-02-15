@@ -1943,7 +1943,7 @@ function renderIdagTidsvinduetLink() {
   // Header over boksen
   var headerEl = document.getElementById('idag-tidsvindue-header');
   if (headerEl) {
-    headerEl.innerHTML = '<img src="assets/images/vindue.png" alt="Tidsvinduet \u2014 Livsfase, \u00c5rstid og Relationer" class="idag__tidsvindue-img">' +
+    headerEl.innerHTML = '<img src="assets/images/vindue_forside.svg" alt="Tidsvinduet \u2014 Livsfase, \u00c5rstid og Relationer" class="idag__tidsvindue-img">' +
       '<h3 class="idag__section-title idag__section-title--lilla">Tidsvinduet</h3>' +
       '<p class="idag__section-subtitle">Rejs tilbage i din egen historie \u2014 eller se hvad der venter forude. V\u00e6lg en dato og opdag hvordan dine cyklusser og relationer m\u00f8dtes dengang, eller hvordan de vil m\u00f8des i fremtiden.</p>';
   }
