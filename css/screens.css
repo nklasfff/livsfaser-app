@@ -4209,8 +4209,8 @@
 
 .tidsvindue__hero-img {
   display: block;
-  width: 75%;
-  max-width: 300px;
+  width: 94%;
+  max-width: 375px;
   margin: var(--space-md) auto var(--space-lg);
 }
 
