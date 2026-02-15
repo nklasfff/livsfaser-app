@@ -1,4 +1,4 @@
-const CACHE_NAME = 'livsfaser-v69';
+const CACHE_NAME = 'livsfaser-v70';
 const urlsToCache = [
   './',
   './index.html',
@@ -33,7 +33,8 @@ const urlsToCache = [
   './screens/din-energi.html',
   './screens/jeres-energi.html',
   './assets/images/lotus-divider.png',
-  './assets/images/9-cirkler.png'
+  './assets/images/9-cirkler.png',
+  './assets/images/vindue.png'
 ];
 
 // Install - cache files, activate immediately

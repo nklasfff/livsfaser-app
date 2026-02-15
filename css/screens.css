@@ -257,6 +257,13 @@
   color: #9678A4;
 }
 
+.idag__tidsvindue-img {
+  display: block;
+  width: 75%;
+  max-width: 300px;
+  margin: 0 auto var(--space-md);
+}
+
 .idag__section-subtitle {
   font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 15px;
