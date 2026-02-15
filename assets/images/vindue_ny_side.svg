@@ -2,13 +2,13 @@
 
   <!-- Tre cirkler i triangulær formation -->
   <!-- Top -->
-  <circle cx="300" cy="190" r="150" fill="#8A7EA4" fill-opacity="0.35"/>
+  <circle cx="300" cy="190" r="150" fill="#7690C1" fill-opacity="0.35"/>
 
   <!-- Bund venstre -->
-  <circle cx="223" cy="330" r="150" fill="#9886B0" fill-opacity="0.35"/>
+  <circle cx="223" cy="330" r="150" fill="#7690C1" fill-opacity="0.45"/>
 
   <!-- Bund højre -->
-  <circle cx="377" cy="330" r="150" fill="#A896B8" fill-opacity="0.35"/>
+  <circle cx="377" cy="330" r="150" fill="#7690C1" fill-opacity="0.55"/>
 
   <!-- Tekst i cirklerne -->
   <!-- Top cirkel - FORTIDEN -->
