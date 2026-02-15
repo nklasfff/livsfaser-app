@@ -261,7 +261,7 @@
   display: block;
   width: 94%;
   max-width: 375px;
-  margin: 0 auto -50px;
+  margin: 0 auto 16px;
 }
 
 .idag__section-subtitle {
