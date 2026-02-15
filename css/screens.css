@@ -4070,3 +4070,386 @@
   text-align: center;
   margin-top: 16px;
 }
+
+/* ---- Tidsvinduet (Din/Jeres energi p\00e5 en anden dag) ---- */
+
+.screen--tidsvindue {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-bottom: var(--space-xl);
+}
+
+.tidsvindue__title {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #7690C1;
+  text-align: center;
+  margin: 72px 0 8px;
+  padding: 0 var(--space-md);
+}
+
+.tidsvindue__title:first-child {
+  margin-top: 72px;
+}
+
+.tidsvindue__section-title {
+  margin-top: 72px;
+}
+
+.tidsvindue__subtitle {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 15px;
+  font-style: italic;
+  color: #777777;
+  text-align: center;
+  line-height: 1.7;
+  max-width: 340px;
+  margin: 0 auto 16px;
+  padding: 0 var(--space-md);
+}
+
+.tidsvindue__box--blaa {
+  background: rgba(118, 144, 193, 0.07);
+  border: 1px solid rgba(118, 144, 193, 0.15);
+  border-radius: 16px;
+  padding: 24px;
+  margin: 0 var(--space-md);
+}
+
+.tidsvindue__box--lilla {
+  background: rgba(184, 166, 192, 0.07);
+  border: 1px solid rgba(184, 166, 192, 0.15);
+  border-radius: 16px;
+  padding: 24px;
+  margin: 0 var(--space-md);
+}
+
+.tidsvindue__box-heading {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-sm);
+  text-align: center;
+}
+
+.tidsvindue__box-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.tidsvindue__box-list li {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: #666666;
+  padding: 3px 0;
+  line-height: 1.8;
+}
+
+.tidsvindue__box-list--lilla li::before {
+  color: #B8A6C0;
+}
+
+.tidsvindue__label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: #999999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  display: block;
+  margin-bottom: var(--space-sm);
+}
+
+.tidsvindue__date-input {
+  width: 100%;
+  padding: var(--space-md);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  color: #7690C1;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-primary);
+  -webkit-appearance: none;
+  box-sizing: border-box;
+}
+
+.tidsvindue__date-input:focus {
+  outline: none;
+  border-color: #7690C1;
+  box-shadow: 0 0 0 3px rgba(118, 144, 193, 0.15);
+}
+
+.screen--tidsvindue-lilla .tidsvindue__date-input:focus {
+  border-color: #B8A6C0;
+  box-shadow: 0 0 0 3px rgba(184, 166, 192, 0.15);
+}
+
+.tidsvindue__shortcut-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: 10px;
+  justify-content: center;
+}
+
+.tidsvindue__shortcut-btn {
+  padding: 6px 14px;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  color: #7690C1;
+  background: rgba(118, 144, 193, 0.08);
+  border: 1px solid rgba(118, 144, 193, 0.15);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.tidsvindue__shortcut-btn:active {
+  background: rgba(118, 144, 193, 0.2);
+  transform: scale(0.95);
+}
+
+.tidsvindue__shortcut-btn--lilla {
+  color: #B8A6C0;
+  background: rgba(184, 166, 192, 0.08);
+  border-color: rgba(184, 166, 192, 0.15);
+}
+
+.tidsvindue__shortcut-btn--lilla:active {
+  background: rgba(184, 166, 192, 0.2);
+}
+
+.tidsvindue__calculate-btn {
+  display: block;
+  width: calc(100% - 32px);
+  margin: var(--space-lg) var(--space-md) 0;
+  padding: var(--space-md);
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background: #7690C1;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.screen--tidsvindue-lilla .tidsvindue__calculate-btn {
+  background: #B8A6C0;
+}
+
+.tidsvindue__calculate-btn:active {
+  opacity: 0.85;
+  transform: scale(0.98);
+}
+
+.tidsvindue__relation-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  justify-content: center;
+}
+
+.tidsvindue__user-pill {
+  padding: 6px 14px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: white;
+  background: #B8A6C0;
+  border: none;
+  border-radius: 999px;
+  opacity: 0.6;
+}
+
+.tidsvindue__relation-pill {
+  padding: 6px 14px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tidsvindue__relation-pill--selected {
+  color: white;
+  background: #B8A6C0;
+  border-color: #B8A6C0;
+}
+
+.tidsvindue__insight-text {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 13px;
+  color: #555555;
+  line-height: 1.6;
+  margin: 0;
+  padding: 2px 0;
+}
+
+.tidsvindue__interaction {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(184, 166, 192, 0.15);
+}
+
+.tidsvindue__interaction-type {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #B8A6C0;
+  letter-spacing: 0.5px;
+}
+
+.tidsvindue__interaction-text {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 13px;
+  font-style: italic;
+  color: #666666;
+  line-height: 1.6;
+  margin: 4px 0 0;
+}
+
+.tidsvindue__back-btn {
+  display: block;
+  width: calc(100% - 32px);
+  margin: var(--space-lg) var(--space-md) 0;
+  padding: var(--space-md);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  color: #7690C1;
+  background: none;
+  border: 1px solid #7690C1;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: center;
+}
+
+.screen--tidsvindue-lilla .tidsvindue__back-btn {
+  color: #B8A6C0;
+  border-color: #B8A6C0;
+}
+
+/* Forside: "Se en anden dag" link */
+.idag__tidsvindue-link {
+  text-align: center;
+  cursor: pointer;
+  padding: var(--space-sm) 0 0;
+}
+
+.idag__tidsvindue-link-text {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 13px;
+  font-style: italic;
+  color: #7690C1;
+  opacity: 0.7;
+}
+
+.idag__tidsvindue-link:active .idag__tidsvindue-link-text {
+  opacity: 1;
+}
+
+/* Forside: Lilla relations-kort */
+.forslag-kort--lilla {
+  border-left: 3px solid #B8A6C0;
+}
+
+.forslag-kort--lilla .forslag-kort__label {
+  color: #B8A6C0;
+}
+
+/* Praksis-sider: Crosslink til tidsvinduet */
+.tidsvindue__crosslink {
+  margin-top: 72px;
+  padding: var(--space-lg) var(--space-md);
+  text-align: center;
+  cursor: pointer;
+}
+
+.tidsvindue__crosslink-text {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 12px;
+  font-style: italic;
+  color: #8B9A9D;
+}
+
+.tidsvindue__crosslink:active .tidsvindue__crosslink-text {
+  color: #7690C1;
+}
+
+/* Min Udvikling: Klikkbar tidslinje */
+.tracking__entry--clickable {
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.tracking__entry--clickable:active {
+  background: rgba(118, 144, 193, 0.08);
+}
+
+/* Nudge boks */
+.tidsvindue__nudge {
+  background: rgba(118, 144, 193, 0.07);
+  border: 1px solid rgba(118, 144, 193, 0.15);
+  border-radius: 16px;
+  padding: var(--space-lg);
+  margin: var(--space-md) var(--space-md) 0;
+  text-align: center;
+}
+
+.tidsvindue__nudge-text {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0 0 var(--space-md);
+}
+
+.tidsvindue__nudge-actions {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+}
+
+.tidsvindue__nudge-btn {
+  padding: 8px 20px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  background: #7690C1;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.tidsvindue__nudge-dismiss {
+  padding: 8px 20px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text-light);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.tidsvindue__nudge--lilla {
+  background: rgba(184, 166, 192, 0.07);
+  border-color: rgba(184, 166, 192, 0.15);
+}
+
+.tidsvindue__nudge--lilla .tidsvindue__nudge-btn {
+  background: #B8A6C0;
+}

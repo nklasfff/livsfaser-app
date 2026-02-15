@@ -1199,6 +1199,22 @@ var TIDSREJSE_INSIGHT_FUTURE = {
   'METAL': 'Metallets klarhed n\u00e6rmer sig. Tid for at give slip og finde essensen. Forbered dig ved allerede nu at sp\u00f8rge: hvad er vigtigt?'
 };
 
+// ---- Tidsvinduet data ----
+
+var TIDSVINDUE_SHORTCUTS_SELV = [
+  { label: 'For et \u00e5r siden', resolve: function() { var d = new Date(); d.setFullYear(d.getFullYear() - 1); return d; } },
+  { label: 'Da du var 30', resolve: function(u) { var d = new Date(u.birthdate); d.setFullYear(d.getFullYear() + 30); return d; } },
+  { label: 'N\u00e6ste for\u00e5r', resolve: function() { var y = new Date().getFullYear(); var d = new Date(y, 2, 21); if (d <= new Date()) d.setFullYear(y + 1); return d; } },
+  { label: 'Om 6 m\u00e5neder', resolve: function() { var d = new Date(); d.setMonth(d.getMonth() + 6); return d; } }
+];
+
+var TIDSVINDUE_SHORTCUTS_RELATION = [
+  { label: 'Da hun var 14', resolve: function(u, rels) { if (rels && rels.length > 0) { var d = new Date(rels[0].birthdate); d.setFullYear(d.getFullYear() + 14); return d; } var d2 = new Date(); d2.setFullYear(d2.getFullYear() - 10); return d2; } },
+  { label: 'For 5 \u00e5r siden', resolve: function() { var d = new Date(); d.setFullYear(d.getFullYear() - 5); return d; } },
+  { label: 'N\u00e6ste jul', resolve: function() { var y = new Date().getFullYear(); var d = new Date(y, 11, 24); if (d <= new Date()) d.setFullYear(y + 1); return d; } },
+  { label: 'Om et \u00e5r', resolve: function() { var d = new Date(); d.setFullYear(d.getFullYear() + 1); return d; } }
+];
+
 var INSIGHT_SUGGESTIONS = {
   'VAND': [
     'Priorit\u00E9r hvile og stille tid',
@@ -1644,12 +1660,14 @@ function initIdagScreen() {
 
   // Render new home sections
   renderDynamiskTekst();
+  renderIdagTidsvinduetLink();
   renderHvadKanDu();
   renderNotifikationer();
   renderKontekstuelleForslag();
   renderForloebCard();
   renderIdagCheckin();
   renderHovedkort();
+  renderTidsvinduetNudge();
 }
 
 function renderIdagVenn() {
@@ -1733,6 +1751,60 @@ function renderDynamiskTekst() {
   html += '<button class="idag__link-btn" onclick="App.loadScreen(\'samlede-indsigt\')">Se din samlede indsigt \u2192</button>';
   el.innerHTML = html;
 }
+
+function renderIdagTidsvinduetLink() {
+  var el = document.getElementById('idag-tidsvindue-link');
+  if (!el) return;
+  el.innerHTML = '<div class="idag__tidsvindue-link" onclick="App.loadScreen(\'din-energi\')">' +
+    '<span class="idag__tidsvindue-link-text">Se en anden dag \u2192</span>' +
+    '</div>';
+}
+
+function renderTidsvinduetNudge() {
+  // Nudge 1: Personlig tidsrejse (vises kun én gang)
+  if (!localStorage.getItem('tidsvinduet_nudge_shown')) {
+    var linkEl = document.getElementById('idag-tidsvindue-link');
+    if (linkEl && !linkEl.querySelector('.tidsvindue__nudge')) {
+      var nudgeHtml = '<div class="tidsvindue__nudge">';
+      nudgeHtml += '<p class="tidsvindue__nudge-text">Vidste du at du kan se din energi p\u00e5 en hvilken som helst dag? Pr\u00f8v at se hvordan du havde det for et \u00e5r siden.</p>';
+      nudgeHtml += '<div class="tidsvindue__nudge-actions">';
+      nudgeHtml += '<button class="tidsvindue__nudge-btn" onclick="dismissTidsvinduetNudge(); var d = new Date(); d.setFullYear(d.getFullYear() - 1); navigateToDinEnergiWithDate(getLocalDateStr(d));">Pr\u00f8v det \u2192</button>';
+      nudgeHtml += '<button class="tidsvindue__nudge-dismiss" onclick="dismissTidsvinduetNudge()">Senere</button>';
+      nudgeHtml += '</div></div>';
+      linkEl.insertAdjacentHTML('beforeend', nudgeHtml);
+    }
+  }
+
+  // Nudge 2: Relations tidsrejse (vises kun én gang, kun hvis relationer)
+  var relations = JSON.parse(localStorage.getItem('relations') || '[]');
+  if (relations.length > 0 && !localStorage.getItem('tidsvinduet_relation_nudge_shown')) {
+    var forslagEl = document.getElementById('idag-forslag');
+    if (forslagEl && !forslagEl.querySelector('.tidsvindue__nudge')) {
+      var rNudge = '<div class="tidsvindue__nudge tidsvindue__nudge--lilla">';
+      rNudge += '<p class="tidsvindue__nudge-text">Nu kan du se hvordan I m\u00f8des \u2014 i dag og p\u00e5 en hvilken som helst dato.</p>';
+      rNudge += '<div class="tidsvindue__nudge-actions">';
+      rNudge += '<button class="tidsvindue__nudge-btn" onclick="dismissRelationNudge(); App.loadScreen(\'jeres-energi\');">Se jeres energi \u2192</button>';
+      rNudge += '<button class="tidsvindue__nudge-dismiss" onclick="dismissRelationNudge()">Senere</button>';
+      rNudge += '</div></div>';
+      forslagEl.insertAdjacentHTML('afterbegin', rNudge);
+    }
+  }
+}
+
+function dismissTidsvinduetNudge() {
+  localStorage.setItem('tidsvinduet_nudge_shown', 'true');
+  var nudge = document.querySelector('#idag-tidsvindue-link .tidsvindue__nudge');
+  if (nudge) nudge.remove();
+}
+
+function dismissRelationNudge() {
+  localStorage.setItem('tidsvinduet_relation_nudge_shown', 'true');
+  var nudge = document.querySelector('#idag-forslag .tidsvindue__nudge');
+  if (nudge) nudge.remove();
+}
+
+window.dismissTidsvinduetNudge = dismissTidsvinduetNudge;
+window.dismissRelationNudge = dismissRelationNudge;
 
 function renderHvadKanDu() {
   var el = document.getElementById('idag-hvadkandu');
@@ -1839,6 +1911,30 @@ function renderKontekstuelleForslag() {
   html += '<p class="forslag-kort__text">' + hjData.yoga.pct + '% af kvinder i Fase ' + data.lifePhase.phase + ' anbefaler yin yoga. Se alle erfaringer.</p>';
   html += '<span class="forslag-kort__arrow">\u2192</span>';
   html += '</div>';
+
+  // Kort 5: Dine relationer lige nu
+  if (relations.length > 0) {
+    html += '<div class="forslag-kort forslag-kort--lilla" onclick="App.loadScreen(\'jeres-energi\')">';
+    html += '<p class="forslag-kort__label">RELATIONER</p>';
+    html += '<p class="forslag-kort__text">';
+    var maxShow = Math.min(relations.length, 3);
+    for (var ri = 0; ri < maxShow; ri++) {
+      var rel = relations[ri];
+      var relAge = calculateAge(rel.birthdate);
+      var relPhase = (rel.gender === 'mand') ? calculateMalePhase(relAge) : calculateLifePhase(relAge);
+      html += escapeHtml(rel.name) + ': Fase ' + relPhase.phase + ' \u00b7 ' + ELEMENT_LABELS[relPhase.element];
+      if (ri < maxShow - 1) html += '<br>';
+    }
+    html += '</p>';
+    html += '<span class="forslag-kort__arrow">Se jeres energi sammen \u2192</span>';
+    html += '</div>';
+  } else {
+    html += '<div class="forslag-kort forslag-kort--lilla" onclick="App.loadScreen(\'relationer\')">';
+    html += '<p class="forslag-kort__label">RELATIONER</p>';
+    html += '<p class="forslag-kort__text">Tilf\u00f8j dine n\u00e6rmeste og se hvordan jeres energi m\u00f8des</p>';
+    html += '<span class="forslag-kort__arrow">\u2192</span>';
+    html += '</div>';
+  }
 
   html += '</div>';
   el.innerHTML = html;
@@ -3407,6 +3503,412 @@ window.renderTidsrejseInput = renderTidsrejseInput;
 window.tidsrejseBackToInput = tidsrejseBackToInput;
 window.navigateToTidsrejse = navigateToTidsrejse;
 
+// ---- Tidsvinduet: Din energi p\u00e5 en anden dag ----
+
+var DinEnergiState = {
+  selectedDate: null,
+  results: null,
+  isPast: null
+};
+
+function initDinEnergiScreen() {
+  DinEnergiState.selectedDate = null;
+  DinEnergiState.results = null;
+  DinEnergiState.isPast = null;
+  if (window._preloadDinEnergiDate) {
+    DinEnergiState.selectedDate = window._preloadDinEnergiDate;
+    window._preloadDinEnergiDate = null;
+    renderDinEnergiStatic();
+    renderDinEnergiInput();
+    executeDinEnergi();
+  } else {
+    renderDinEnergiStatic();
+    renderDinEnergiInput();
+  }
+}
+
+function renderDinEnergiStatic() {
+  var el = document.getElementById('din-energi-usebox');
+  if (!el) return;
+  var html = '<h2 class="tidsvindue__title">Din energi p\u00e5 en anden dag</h2>';
+  html += '<p class="tidsvindue__subtitle">V\u00e6lg en dag \u2014 fortid eller fremtid \u2014 og se pr\u00e6cis hvilke cyklusser der var aktive, hvad du havde brug for, og hvad der kan hj\u00e6lpe dig. Du kan bruge det til at forst\u00e5 sv\u00e6re perioder, forberede vigtige begivenheder, eller bare se hvad der venter forude.</p>';
+  html += '<div class="tidsvindue__box--blaa">';
+  html += '<p class="tidsvindue__box-heading">Du kan bruge det til</p>';
+  html += '<ul class="tidsvindue__box-list">';
+  html += '<li>Forst\u00e5 en sv\u00e6r periode i dit liv</li>';
+  html += '<li>Se hvorfor du var udmattet dengang</li>';
+  html += '<li>Forberede en ferie eller rejse</li>';
+  html += '<li>Planl\u00e6gge et vigtigt m\u00f8de</li>';
+  html += '<li>Se din energi de n\u00e6ste m\u00e5neder</li>';
+  html += '<li>Forberede en ny fase du g\u00e5r ind i</li>';
+  html += '<li>Forst\u00e5 overgange i dit liv</li>';
+  html += '</ul></div>';
+  el.innerHTML = html;
+}
+
+function renderDinEnergiInput() {
+  var el = document.getElementById('din-energi-input');
+  if (!el) return;
+  var html = '<h2 class="tidsvindue__title tidsvindue__section-title">V\u00e6lg tidspunkt</h2>';
+  html += '<p class="tidsvindue__subtitle">Tryk p\u00e5 datoen for at v\u00e6lge en dag. Du kan se b\u00e5de fortid og fremtid.</p>';
+  html += '<div class="tidsvindue__box--blaa">';
+  html += '<label class="tidsvindue__label">V\u00c6LG DATO</label>';
+  var dateVal = DinEnergiState.selectedDate || '';
+  html += '<input type="date" id="din-energi-date" class="tidsvindue__date-input" value="' + dateVal + '" onchange="dinEnergiDateChanged(this.value)">';
+  html += '<div class="tidsvindue__shortcut-grid">';
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  for (var i = 0; i < TIDSVINDUE_SHORTCUTS_SELV.length; i++) {
+    html += '<button class="tidsvindue__shortcut-btn" onclick="applyDinEnergiShortcut(' + i + ')">' + TIDSVINDUE_SHORTCUTS_SELV[i].label + '</button>';
+  }
+  html += '</div></div>';
+  html += '<button class="tidsvindue__calculate-btn" onclick="executeDinEnergi()">Se din energi</button>';
+  el.innerHTML = html;
+}
+
+function dinEnergiDateChanged(val) {
+  DinEnergiState.selectedDate = val;
+}
+
+function applyDinEnergiShortcut(index) {
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  var shortcut = TIDSVINDUE_SHORTCUTS_SELV[index];
+  if (!shortcut) return;
+  var date = shortcut.resolve(user);
+  DinEnergiState.selectedDate = getLocalDateStr(date);
+  renderDinEnergiInput();
+}
+
+function executeDinEnergi() {
+  var dateInput = document.getElementById('din-energi-date');
+  var dateStr = (dateInput && dateInput.value) || DinEnergiState.selectedDate;
+  if (!dateStr) { alert('V\u00e6lg venligst en dato'); return; }
+  DinEnergiState.selectedDate = dateStr;
+
+  var today = new Date();
+  today.setHours(0, 0, 0, 0);
+  var chosen = new Date(dateStr);
+  DinEnergiState.isPast = chosen < today;
+
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  var userResult = calculateCyclesForDate(user.birthdate, dateStr, {
+    gender: 'kvinde',
+    tracksMenstruation: user.tracksMenstruation,
+    lastPeriodDate: user.lastPeriodDate
+  });
+
+  DinEnergiState.results = { user: userResult, relations: [] };
+  renderDinEnergiResults();
+  var resultsEl = document.getElementById('din-energi-results');
+  if (resultsEl) resultsEl.scrollIntoView({ behavior: 'smooth' });
+}
+
+function renderDinEnergiResults() {
+  var el = document.getElementById('din-energi-results');
+  if (!el) return;
+  var results = DinEnergiState.results;
+  if (!results) return;
+  var isPast = DinEnergiState.isPast;
+  var dateStr = DinEnergiState.selectedDate;
+  var formattedDate = new Date(dateStr).toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  var html = '';
+
+  // Section 1: Dine cyklusser
+  html += '<h2 class="tidsvindue__title tidsvindue__section-title">Dine cyklusser den ' + formattedDate + '</h2>';
+  html += '<p class="tidsvindue__subtitle">' + (isPast ? 'S\u00e5dan s\u00e5 din energi ud dengang.' : 'S\u00e5dan ser din energi ud p\u00e5 den dag.') + '</p>';
+  html += '<div class="tidsvindue__box--blaa">';
+  html += renderCycleGrid(results.user, 'Dig');
+  html += '</div>';
+
+  // Section 2: Hvad der skete / Hvad du kan forvente
+  var insight = generateInsight(results.user.elements);
+  var dominantEl = insight.dominantElement;
+  var insightTexts = isPast ? TIDSREJSE_INSIGHT_PAST : TIDSREJSE_INSIGHT_FUTURE;
+
+  html += '<h2 class="tidsvindue__title tidsvindue__section-title">' + (isPast ? 'Hvad der skete' : 'Hvad du kan forvente') + '</h2>';
+  html += '<p class="tidsvindue__subtitle">' + (isPast ? 'Baseret p\u00e5 dine cyklusser dengang.' : 'Baseret p\u00e5 dine cyklusser p\u00e5 det tidspunkt.') + '</p>';
+  html += '<div class="tidsvindue__box--blaa">';
+  html += '<p class="tidsvindue__insight-text">' + (insightTexts[dominantEl] || '') + '</p>';
+  html += '</div>';
+
+  if (insight.suggestions && insight.suggestions.length > 0) {
+    html += '<div class="tidsvindue__box--blaa" style="margin-top:12px">';
+    for (var s = 0; s < insight.suggestions.length; s++) {
+      html += '<p class="tidsvindue__insight-text">\u2022 ' + insight.suggestions[s] + '</p>';
+    }
+    html += '</div>';
+  }
+
+  // Section 3: Anbefalinger
+  html += '<h2 class="tidsvindue__title tidsvindue__section-title">' + (isPast ? 'Hvad der kunne have hjulpet' : 'S\u00e5dan forbereder du dig') + '</h2>';
+  html += '<p class="tidsvindue__subtitle">Konkrete \u00f8velser og r\u00e5d der passer til din energi.</p>';
+  html += '<div class="tidsvindue__box--blaa">';
+  html += renderTidsrejseRecommendations(results, false, isPast);
+  html += '</div>';
+
+  // Action bar
+  html += sectionDivider();
+  html += renderActionBar('din-energi');
+
+  // Back button
+  html += '<button class="tidsvindue__back-btn" onclick="dinEnergiBackToInput()">V\u00e6lg ny dato</button>';
+
+  el.innerHTML = html;
+}
+
+function dinEnergiBackToInput() {
+  DinEnergiState.results = null;
+  var el = document.getElementById('din-energi-results');
+  if (el) el.innerHTML = '';
+  var inputEl = document.getElementById('din-energi-input');
+  if (inputEl) inputEl.scrollIntoView({ behavior: 'smooth' });
+}
+
+function navigateToDinEnergiWithDate(dateStr) {
+  window._preloadDinEnergiDate = dateStr;
+  App.loadScreen('din-energi');
+}
+
+// Export din-energi functions
+window.executeDinEnergi = executeDinEnergi;
+window.applyDinEnergiShortcut = applyDinEnergiShortcut;
+window.dinEnergiBackToInput = dinEnergiBackToInput;
+window.dinEnergiDateChanged = dinEnergiDateChanged;
+window.navigateToDinEnergiWithDate = navigateToDinEnergiWithDate;
+
+// ---- Tidsvinduet: Jeres energi p\u00e5 en anden dag ----
+
+var JeresEnergiState = {
+  selectedDate: null,
+  selectedRelations: [],
+  results: null,
+  isPast: null
+};
+
+function initJeresEnergiScreen() {
+  JeresEnergiState.selectedDate = null;
+  JeresEnergiState.selectedRelations = [];
+  JeresEnergiState.results = null;
+  JeresEnergiState.isPast = null;
+  if (window._preloadJeresEnergiDate) {
+    JeresEnergiState.selectedDate = window._preloadJeresEnergiDate;
+    window._preloadJeresEnergiDate = null;
+  }
+  renderJeresEnergiStatic();
+  renderJeresEnergiInput();
+}
+
+function renderJeresEnergiStatic() {
+  var el = document.getElementById('jeres-energi-usebox');
+  if (!el) return;
+  var html = '<h2 class="tidsvindue__title">Jeres energi p\u00e5 en anden dag</h2>';
+  html += '<p class="tidsvindue__subtitle">V\u00e6lg hvem og hvorn\u00e5r \u2014 og se hvordan jeres cyklusser m\u00f8des. Forst\u00e5 det der er sket, eller forbered det der kommer. I kan bruge det til alt fra hverdagens konflikter til feriens planl\u00e6gning.</p>';
+  html += '<div class="tidsvindue__box--lilla">';
+  html += '<p class="tidsvindue__box-heading">Du kan bruge det til</p>';
+  html += '<ul class="tidsvindue__box-list tidsvindue__box-list--lilla">';
+  html += '<li>Forst\u00e5 konflikter med din teenager dengang</li>';
+  html += '<li>Dit forhold til din mor gennem \u00e5rene</li>';
+  html += '<li>Forberede en ferie med hele familien</li>';
+  html += '<li>Jul med tre generationer</li>';
+  html += '<li>Dit barns skolestart \u2014 se hele familien</li>';
+  html += '<li>Weekend med veninder i forskellige faser</li>';
+  html += '<li>Planl\u00e6gge vigtige samtaler</li>';
+  html += '</ul></div>';
+  el.innerHTML = html;
+}
+
+function renderJeresEnergiInput() {
+  var el = document.getElementById('jeres-energi-input');
+  if (!el) return;
+  var relations = JSON.parse(localStorage.getItem('relations') || '[]');
+
+  var html = '';
+
+  // Person selection
+  html += '<h2 class="tidsvindue__title tidsvindue__section-title">Hvem vil du se?</h2>';
+  html += '<p class="tidsvindue__subtitle">V\u00e6lg de personer du vil sammenligne med.</p>';
+  html += '<div class="tidsvindue__box--lilla">';
+  html += '<div class="tidsvindue__relation-pills">';
+  html += '<span class="tidsvindue__user-pill">Dig</span>';
+  if (relations.length === 0) {
+    html += '<button class="tidsvindue__shortcut-btn tidsvindue__shortcut-btn--lilla" onclick="App.loadScreen(\'relationer\')">+ Tilf\u00f8j en relation f\u00f8rst</button>';
+  } else {
+    for (var i = 0; i < relations.length; i++) {
+      var isSelected = JeresEnergiState.selectedRelations.indexOf(i) !== -1;
+      html += '<button class="tidsvindue__relation-pill' + (isSelected ? ' tidsvindue__relation-pill--selected' : '') + '" onclick="toggleJeresRelation(' + i + ')">' + escapeHtml(relations[i].name) + '</button>';
+    }
+  }
+  html += '</div></div>';
+
+  // Date selection
+  html += '<h2 class="tidsvindue__title tidsvindue__section-title">Hvorn\u00e5r?</h2>';
+  html += '<p class="tidsvindue__subtitle">V\u00e6lg en dato \u2014 fortid eller fremtid.</p>';
+  html += '<div class="tidsvindue__box--lilla">';
+  html += '<label class="tidsvindue__label">V\u00c6LG DATO</label>';
+  var dateVal = JeresEnergiState.selectedDate || '';
+  html += '<input type="date" id="jeres-energi-date" class="tidsvindue__date-input" value="' + dateVal + '" onchange="jeresEnergiDateChanged(this.value)">';
+  html += '<div class="tidsvindue__shortcut-grid">';
+  for (var j = 0; j < TIDSVINDUE_SHORTCUTS_RELATION.length; j++) {
+    html += '<button class="tidsvindue__shortcut-btn tidsvindue__shortcut-btn--lilla" onclick="applyJeresEnergiShortcut(' + j + ')">' + TIDSVINDUE_SHORTCUTS_RELATION[j].label + '</button>';
+  }
+  html += '</div></div>';
+
+  html += '<button class="tidsvindue__calculate-btn" onclick="executeJeresEnergi()">Se jeres energi</button>';
+  el.innerHTML = html;
+}
+
+function jeresEnergiDateChanged(val) {
+  JeresEnergiState.selectedDate = val;
+}
+
+function toggleJeresRelation(index) {
+  var idx = JeresEnergiState.selectedRelations.indexOf(index);
+  if (idx === -1) {
+    if (JeresEnergiState.selectedRelations.length >= 3) {
+      JeresEnergiState.selectedRelations.shift();
+    }
+    JeresEnergiState.selectedRelations.push(index);
+  } else {
+    JeresEnergiState.selectedRelations.splice(idx, 1);
+  }
+  renderJeresEnergiInput();
+}
+
+function applyJeresEnergiShortcut(index) {
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  var relations = JSON.parse(localStorage.getItem('relations') || '[]');
+  var shortcut = TIDSVINDUE_SHORTCUTS_RELATION[index];
+  if (!shortcut) return;
+  var date = shortcut.resolve(user, relations);
+  JeresEnergiState.selectedDate = getLocalDateStr(date);
+  renderJeresEnergiInput();
+}
+
+function executeJeresEnergi() {
+  var dateInput = document.getElementById('jeres-energi-date');
+  var dateStr = (dateInput && dateInput.value) || JeresEnergiState.selectedDate;
+  if (!dateStr) { alert('V\u00e6lg venligst en dato'); return; }
+  if (JeresEnergiState.selectedRelations.length === 0) { alert('V\u00e6lg mindst \u00e9n person'); return; }
+  JeresEnergiState.selectedDate = dateStr;
+
+  var today = new Date();
+  today.setHours(0, 0, 0, 0);
+  var chosen = new Date(dateStr);
+  JeresEnergiState.isPast = chosen < today;
+
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  var relations = JSON.parse(localStorage.getItem('relations') || '[]');
+
+  var userResult = calculateCyclesForDate(user.birthdate, dateStr, {
+    gender: 'kvinde',
+    tracksMenstruation: user.tracksMenstruation,
+    lastPeriodDate: user.lastPeriodDate
+  });
+
+  var results = { user: userResult, relations: [] };
+
+  for (var i = 0; i < JeresEnergiState.selectedRelations.length; i++) {
+    var ri = JeresEnergiState.selectedRelations[i];
+    var r = relations[ri];
+    if (!r) continue;
+    var rResult = calculateCyclesForDate(r.birthdate, dateStr, { gender: r.gender || 'kvinde' });
+    rResult.name = r.name;
+    rResult.gender = r.gender;
+    rResult.relationType = r.relationType;
+    results.relations.push(rResult);
+  }
+
+  JeresEnergiState.results = results;
+  renderJeresEnergiResults();
+  var resultsEl = document.getElementById('jeres-energi-results');
+  if (resultsEl) resultsEl.scrollIntoView({ behavior: 'smooth' });
+}
+
+function renderJeresEnergiResults() {
+  var el = document.getElementById('jeres-energi-results');
+  if (!el) return;
+  var results = JeresEnergiState.results;
+  if (!results) return;
+  var isPast = JeresEnergiState.isPast;
+  var dateStr = JeresEnergiState.selectedDate;
+  var formattedDate = new Date(dateStr).toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  var html = '';
+
+  // Section 1: Jeres cyklusser
+  html += '<h2 class="tidsvindue__title tidsvindue__section-title">' + (isPast ? 'Jeres cyklusser dengang' : 'Jeres cyklusser p\u00e5 det tidspunkt') + '</h2>';
+  html += '<p class="tidsvindue__subtitle">' + formattedDate + '</p>';
+
+  // User cycle grid
+  html += '<div class="tidsvindue__box--lilla">';
+  html += renderCycleGrid(results.user, 'Dig');
+  html += '</div>';
+
+  // Relation cycle grids + interactions
+  for (var i = 0; i < results.relations.length; i++) {
+    var rr = results.relations[i];
+    html += '<div class="tidsvindue__box--lilla" style="margin-top:12px">';
+    html += renderCycleGrid(rr, escapeHtml(rr.name));
+
+    var interaction = getElementInteraction(
+      results.user.lifePhase.element,
+      rr.lifePhase.element,
+      rr.name,
+      rr.gender
+    );
+    html += '<div class="tidsvindue__interaction">';
+    html += '<span class="tidsvindue__interaction-type">' + escapeHtml(interaction.type) + '</span>';
+    html += '<p class="tidsvindue__interaction-text">' + escapeHtml(interaction.text) + '</p>';
+    html += '</div>';
+    html += '</div>';
+  }
+
+  // Section 2: Hvad der skete mellem jer / Hvad I kan forvente
+  var allElements = results.user.elements.slice();
+  for (var j = 0; j < results.relations.length; j++) {
+    allElements = allElements.concat(results.relations[j].elements);
+  }
+  var groupInsight = generateInsight(allElements);
+  var gTexts = isPast ? TIDSREJSE_INSIGHT_PAST : TIDSREJSE_INSIGHT_FUTURE;
+
+  html += '<h2 class="tidsvindue__title tidsvindue__section-title">' + (isPast ? 'Hvad der skete mellem jer' : 'Hvad I kan forvente') + '</h2>';
+  html += '<p class="tidsvindue__subtitle">' + (isPast ? 'Baseret p\u00e5 jeres cyklusser dengang.' : 'Baseret p\u00e5 jeres cyklusser p\u00e5 det tidspunkt.') + '</p>';
+  html += '<div class="tidsvindue__box--lilla">';
+  html += '<p class="tidsvindue__insight-text">' + (gTexts[groupInsight.dominantElement] || '') + '</p>';
+  html += '</div>';
+
+  // Section 3: Anbefalinger
+  html += '<h2 class="tidsvindue__title tidsvindue__section-title">' + (isPast ? 'Hvad der kunne have hjulpet' : 'S\u00e5dan forbereder I jer') + '</h2>';
+  html += '<p class="tidsvindue__subtitle">Konkrete \u00f8velser og r\u00e5d tilpasset jeres energi.</p>';
+  html += '<div class="tidsvindue__box--lilla">';
+  html += renderTidsrejseRecommendations(results, true, isPast);
+  html += '</div>';
+
+  // Action bar
+  html += sectionDivider();
+  html += renderActionBar('jeres-energi');
+
+  // Back button
+  html += '<button class="tidsvindue__back-btn" onclick="jeresEnergiBackToInput()">V\u00e6lg ny dato</button>';
+
+  el.innerHTML = html;
+}
+
+function jeresEnergiBackToInput() {
+  JeresEnergiState.results = null;
+  var el = document.getElementById('jeres-energi-results');
+  if (el) el.innerHTML = '';
+  var inputEl = document.getElementById('jeres-energi-input');
+  if (inputEl) inputEl.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Export jeres-energi functions
+window.executeJeresEnergi = executeJeresEnergi;
+window.toggleJeresRelation = toggleJeresRelation;
+window.applyJeresEnergiShortcut = applyJeresEnergiShortcut;
+window.jeresEnergiBackToInput = jeresEnergiBackToInput;
+window.jeresEnergiDateChanged = jeresEnergiDateChanged;
+
 // ---- Main App ----
 
 const App = {
@@ -3435,13 +3937,15 @@ const App = {
     'foelelser': 'screens/foelelser.html',
     'yin-yoga': 'screens/yin-yoga.html',
     'indstillinger': 'screens/indstillinger.html',
-    'hvad-har-hjulpet': 'screens/hvad-har-hjulpet.html'
+    'hvad-har-hjulpet': 'screens/hvad-har-hjulpet.html',
+    'din-energi': 'screens/din-energi.html',
+    'jeres-energi': 'screens/jeres-energi.html'
   },
 
   // Niveau 1 skærme (tema-overblik)
   niveau1: ['mine-cyklusser', 'mine-relationer', 'min-praksis', 'min-rejse'],
   // Niveau 2 skærme (specifikt indhold)
-  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet'],
+  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'jeres-energi'],
 
   init() {
     const user = localStorage.getItem('user');
@@ -3471,12 +3975,18 @@ const App = {
     'foelelser': 'min-praksis',
     'yin-yoga': 'min-praksis',
     'hvad-har-hjulpet': 'min-praksis',
-    'indstillinger': 'min-rejse'
+    'indstillinger': 'min-rejse',
+    'din-energi': 'mine-cyklusser',
+    'jeres-energi': 'mine-relationer'
   },
 
   goBack() {
     if (this.detailVisible) {
       hideDetail();
+    } else if (this.currentScreen === 'din-energi' && DinEnergiState.results) {
+      dinEnergiBackToInput();
+    } else if (this.currentScreen === 'jeres-energi' && JeresEnergiState.results) {
+      jeresEnergiBackToInput();
     } else if (this.currentScreen === 'tidsrejse' && TidsrejseState.view !== 'overview') {
       if (TidsrejseState.subView === 'result') {
         tidsrejseBackToInput();
@@ -3537,7 +4047,9 @@ const App = {
             'mine-relationer': 'Mine Relationer',
             'min-praksis': 'Min Praksis',
             'min-rejse': 'Min Rejse',
-            'de-ni-livsfaser': 'De Ni Livsfaser'
+            'de-ni-livsfaser': 'De Ni Livsfaser',
+            'din-energi': 'Mine Cyklusser',
+            'jeres-energi': 'Mine Relationer'
           };
           var parentId = this.parentScreen[screenName] || 'idag';
           var parentLabel = SCREEN_LABELS[parentId] || 'Forside';
@@ -3593,6 +4105,10 @@ const App = {
         } else if (screenName === 'indstillinger') {
           initIndstillingerScreen(window._indstillingerSection || null);
           window._indstillingerSection = null;
+        } else if (screenName === 'din-energi') {
+          initDinEnergiScreen();
+        } else if (screenName === 'jeres-energi') {
+          initJeresEnergiScreen();
         }
 
         // Append "Tilbage til toppen" footer (skip on onboarding)
@@ -3745,8 +4261,7 @@ function initMineCyklusserScreen() {
   // Group 1: Tid og bevægelse
   var group1 = [
     { screen: 'cyklusser-i-cyklusser', title: 'Cyklusser i Cyklusser', subtitle: climateLabel ? climateLabel + ' \u2014 livsfase, \u00e5rstid, m\u00e5ned, uge og d\u00f8gn. Nogle gange tr\u00e6kker de samme vej, andre gange kolliderer de. Udforsk samspillet her.' : 'Fem lag af energi der hele tiden bev\u00e6ger sig. Nogle gange tr\u00e6kker de samme vej, andre gange kolliderer de. Udforsk samspillet her.' },
-    { screen: 'tidsrejse', title: 'Forst\u00e5 din fortid', subtitle: 'Se tilbage p\u00e5 en bestemt dag eller periode i dit liv. M\u00e5ske var der et \u00e5r, hvor alt f\u00f8ltes tungt \u2014 eller en tid med uforklarlig energi. Dine cyklusser kan vise dig hvorfor.', onclick: "navigateToTidsrejse('fortid-selv')" },
-    { screen: 'tidsrejse', title: 'Forbered din fremtid', subtitle: 'Hvilke cyklusser venter dig om et halvt \u00e5r, om fem \u00e5r? Din krop ved allerede hvad der kommer. Her kan du m\u00f8de det p\u00e5 forh\u00e5nd.', onclick: "navigateToTidsrejse('fremtid-selv')" }
+    { screen: 'din-energi', title: 'Din energi p\u00e5 en anden dag', subtitle: 'V\u00e6lg en dag \u2014 fortid eller fremtid \u2014 og se hvilke cyklusser der var aktive. Dine elementer forklarer mere end du tror.' }
   ];
   // Group 2: Kroppen
   var group2 = [
@@ -3857,8 +4372,7 @@ function initMineRelationerScreen() {
   ];
   // Group 2: Tid
   var group2 = [
-    { screen: 'tidsrejse', title: 'Forst\u00e5 relationer i fortiden', subtitle: 'De konflikter, der aldrig blev l\u00f8st. De samtaler, der gik sk\u00e6vt. M\u00e5ske handlede det ikke om jer \u2014 men om to livsfaser, der trak i hver sin retning.', onclick: "navigateToTidsrejse('fortid-relation')" },
-    { screen: 'tidsrejse', title: 'Forbered relationer i fremtiden', subtitle: 'En ferie med familien. Jul med tre generationer. Dit barns n\u00e6ste store overgang. Se hvilke elementer I m\u00f8des i \u2014 og hvorn\u00e5r timingen er bedst.', onclick: "navigateToTidsrejse('fremtid-relation')" }
+    { screen: 'jeres-energi', title: 'Jeres energi p\u00e5 en anden dag', subtitle: 'V\u00e6lg en dag og de mennesker I m\u00f8des med. Se hvordan jeres elementer m\u00f8dtes dengang \u2014 eller hvordan de vil m\u00f8des i fremtiden.' }
   ];
 
   function renderRelationGroup(heading, subtitle, cards) {
@@ -4775,7 +5289,8 @@ function renderTimeline() {
     var dateStr = dateObj.toLocaleDateString('da-DK', { weekday: 'short', day: 'numeric', month: 'short' });
     var timeStr = dateObj.toLocaleTimeString('da-DK', { hour: '2-digit', minute: '2-digit' });
 
-    html += '<div class="tracking__entry">';
+    var clickDate = getLocalDateStr(dateObj);
+    html += '<div class="tracking__entry tracking__entry--clickable" onclick="navigateToDinEnergiWithDate(\'' + clickDate + '\')">';
     html += '<p class="tracking__entry-date">' + dateStr + ' \u00B7 ' + timeStr + '</p>';
     if (moodInfo) {
       html += '<p class="tracking__entry-mood">' + moodInfo.icon + ' ' + moodInfo.name + '</p>';
@@ -5373,8 +5888,7 @@ var MENU_DATA = [
     title: 'Mine Cyklusser',
     children: [
       { label: 'Cyklusser i Cyklusser', action: "App.loadScreen('cyklusser-i-cyklusser')" },
-      { label: 'Forst\u00e5 din fortid', action: "navigateToTidsrejse('fortid-selv')" },
-      { label: 'Forbered din fremtid', action: "navigateToTidsrejse('fremtid-selv')" },
+      { label: 'Din energi p\u00e5 en anden dag', action: "App.loadScreen('din-energi')" },
       { label: 'Kroppens store overgange', action: "App.loadScreen('alle-faser')" },
       { label: 'De Ni Livsfaser', action: "App.loadScreen('de-ni-livsfaser')" },
       { label: 'De Fire Uger', action: "App.loadScreen('de-fire-uger')" },
@@ -5388,8 +5902,7 @@ var MENU_DATA = [
     children: [
       { label: 'Relationer lige nu', action: "App.loadScreen('relationer')" },
       { label: 'N\u00e5r faser m\u00f8des', action: "App.loadScreen('mine-relationer')" },
-      { label: 'Forst\u00e5 relationer i fortiden', action: "navigateToTidsrejse('fortid-relation')" },
-      { label: 'Forbered relationer i fremtiden', action: "navigateToTidsrejse('fremtid-relation')" }
+      { label: 'Jeres energi p\u00e5 en anden dag', action: "App.loadScreen('jeres-energi')" }
     ]
   },
   {
@@ -6133,6 +6646,9 @@ function initRefleksionScreen() {
   }
 
   html += '<button class="onboarding__btn" style="margin-top:16px" onclick="saveRefleksion()">Gem refleksion</button>';
+  html += '<div class="tidsvindue__crosslink" onclick="App.loadScreen(\'din-energi\')">';
+  html += '<span class="tidsvindue__crosslink-text">Se hvilke refleksioner der passer til dig p\u00e5 en anden dag \u2192</span>';
+  html += '</div>';
   html += sectionDivider();
   html += renderActionBar('refleksion');
   contentEl.innerHTML = html;
@@ -6280,7 +6796,10 @@ function initFoelelserScreen() {
   // Action bar
   var screenEl = document.querySelector('.screen--foelelser');
   if (screenEl && !screenEl.querySelector('.action-bar')) {
-    screenEl.insertAdjacentHTML('beforeend', sectionDivider() + renderActionBar('foelelser'));
+    var crosslink = '<div class="tidsvindue__crosslink" onclick="App.loadScreen(\'din-energi\')">';
+    crosslink += '<span class="tidsvindue__crosslink-text">Se hvilke f\u00f8lelser der passer til dig p\u00e5 en anden dag \u2192</span>';
+    crosslink += '</div>';
+    screenEl.insertAdjacentHTML('beforeend', crosslink + sectionDivider() + renderActionBar('foelelser'));
   }
 }
 
@@ -6347,6 +6866,10 @@ function renderYinYogaContent() {
     html += '<p class="tema__kort-subtitle">' + otherPoses.map(function(p) { return p.pose.split('(')[0].trim(); }).join(' \u00B7 ') + '</p>';
     html += '</div><span class="tema__kort-arrow">\u203A</span></div>';
   }
+
+  html += '<div class="tidsvindue__crosslink" onclick="App.loadScreen(\'din-energi\')">';
+  html += '<span class="tidsvindue__crosslink-text">Se hvilke stillinger der passer til dig p\u00e5 en anden dag \u2192</span>';
+  html += '</div>';
 
   html += sectionDivider();
   html += renderActionBar('yin-yoga');
@@ -6490,6 +7013,15 @@ function initHvadHarHjulpetScreen() {
     html3 += '</div>';
     html3 += '<p class="hjulpet__privacy">Alle data er anonyme \u00B7 Vi samler kun hvad der virker, aldrig hvem du er</p>';
     delEl.innerHTML = html3;
+  }
+
+  // Crosslink til tidsvinduet
+  var screenEl = document.querySelector('.screen--hvad-har-hjulpet');
+  if (screenEl) {
+    var crosslink = '<div class="tidsvindue__crosslink" onclick="App.loadScreen(\'din-energi\')">';
+    crosslink += '<span class="tidsvindue__crosslink-text">Se din energi p\u00e5 en anden dag \u2192</span>';
+    crosslink += '</div>';
+    screenEl.insertAdjacentHTML('beforeend', crosslink);
   }
 }
 
