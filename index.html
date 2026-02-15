@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="da-DK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#7690C1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>De 9 Livsfasers Energi</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/screens.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <button class="header__menu" id="menu-button" onclick="toggleMenu()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><line x1="2" y1="5" x2="18" y2="5" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/><line x1="2" y1="10" x2="18" y2="10" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/><line x1="2" y1="15" x2="18" y2="15" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <h1 class="header__title">De 9 Livsfaser</h1>
+      <button class="header__search" id="search-button" onclick="toggleSearch()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="6" stroke="#FFFFFF" stroke-width="1.8"/><line x1="13" y1="13" x2="18" y2="18" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </header>
+
+    <!-- Søge-overlay -->
+    <div class="search-overlay" id="search-overlay">
+      <div class="search-overlay__content">
+        <input type="text" class="search-overlay__input" id="search-input" placeholder="Søg efter følelser, faser, øvelser..." oninput="handleSearch(this.value)">
+        <button class="search-overlay__close" onclick="toggleSearch()">&times;</button>
+      </div>
+      <div class="search-overlay__tags" id="search-tags">
+        <div class="search-overlay__tag-row">
+          <button class="search-overlay__tag" onclick="handleSearchTag('Vrede')">Vrede</button>
+          <button class="search-overlay__tag" onclick="handleSearchTag('Bekymring')">Bekymring</button>
+          <button class="search-overlay__tag" onclick="handleSearchTag('Overgangsalder')">Overgangsalder</button>
+          <button class="search-overlay__tag" onclick="handleSearchTag('Frygt')">Frygt</button>
+          <button class="search-overlay__tag" onclick="handleSearchTag('Sorg')">Sorg</button>
+          <button class="search-overlay__tag" onclick="handleSearchTag('Glæde')">Glæde</button>
+        </div>
+        <div class="search-overlay__tag-row">
+          <button class="search-overlay__tag" onclick="handleSearchTag('Fase 5')">Fase 5</button>
+          <button class="search-overlay__tag" onclick="handleSearchTag('Vinterøvelser')">Vinterøvelser</button>
+          <button class="search-overlay__tag" onclick="handleSearchTag('Yin Yoga')">Yin Yoga</button>
+          <button class="search-overlay__tag" onclick="handleSearchTag('Epigenetik')">Epigenetik</button>
+          <button class="search-overlay__tag" onclick="handleSearchTag('Træ-element')">Træ-element</button>
+          <button class="search-overlay__tag" onclick="handleSearchTag('Kost')">Kost</button>
+        </div>
+      </div>
+      <div class="search-overlay__categories" id="search-categories"></div>
+      <div class="search-overlay__results" id="search-results"></div>
+    </div>
+
+    <!-- Menu overlay -->
+    <div class="menu-overlay" id="menu-overlay">
+      <div class="menu-panel" id="menu-panel">
+        <button class="menu-panel__close" onclick="toggleMenu()">&times;</button>
+        <nav class="menu-panel__nav" id="menu-nav"></nav>
+      </div>
+      <div class="menu-dim" id="menu-dim" onclick="toggleMenu()"></div>
+    </div>
+
+    <main class="main-content" id="screen-content">
+    </main>
+  </div>
+
+  <script src="js/content-matrix.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
