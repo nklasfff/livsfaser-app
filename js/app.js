@@ -9309,10 +9309,10 @@ function initDeNiLivsfaserScreen() {
   var userData = JSON.parse(localStorage.getItem('user') || '{}');
   var userPhase = userData.phase || 0;
 
-  // Bue-SVG
+  // Bue-billede
   var arcEl = document.getElementById('dnl-arc');
   if (arcEl) {
-    arcEl.innerHTML = renderDnlArcSvg(userPhase);
+    arcEl.innerHTML = '<img src="assets/images/de_ni_livsfaser.png" alt="De ni livsfaser" class="dnl-arc-img">';
   }
 
   // DU ER I FASE X indsigt-boks
