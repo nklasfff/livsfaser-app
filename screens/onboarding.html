@@ -1,0 +1,33 @@
+<section class="onboarding onboarding--scroll">
+
+  <!-- TRIN 1: VELKOMMEN -->
+  <div id="onboarding-step-1">
+    <h1 class="onboarding__hero-title">De 9 Livsfasers Energi</h1>
+    <p class="onboarding__hero-subtitle">En rejse gennem livets årstider</p>
+
+
+    <p class="onboarding__intro-text">Fem rytmer løber gennem dit liv på én gang. Denne app viser dig dem — og hvad du kan gøre med dem. For alle kvinder.</p>
+
+    <!-- Cirkulær figur -->
+    <img src="assets/images/9-cirkler.png" alt="De 9 Livsfaser" class="onboarding__circles-img" id="onboarding-circles-img">
+
+
+    <!-- Fødselsdato -->
+    <h2 class="onboarding__section-title">Hvornår er du født?</h2>
+    <input type="date" id="onboarding-birthdate" class="onboarding__input">
+    <p class="onboarding__error" id="onboarding-error"></p>
+    <div id="onboarding-phase-result" class="onboarding__phase-result"></div>
+
+    <!-- Knap vises når dato er valgt -->
+    <div id="onboarding-next-btn" style="display:none">
+      <button class="onboarding__btn onboarding__btn--big" onclick="Onboarding.goToStep2()">Se din fase →</button>
+    </div>
+  </div>
+
+  <!-- TRIN 2: DIN FASE — LOTUSBLADET -->
+  <div id="onboarding-step-2" style="display:none">
+    <div id="onboarding-lotus-leaf" class="onboarding__lotus-leaf"></div>
+    <button class="onboarding__btn onboarding__btn--big" onclick="Onboarding.finish()">Gå til I dag →</button>
+  </div>
+
+</section>
