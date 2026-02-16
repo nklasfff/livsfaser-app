@@ -8870,31 +8870,107 @@ function navigateToFaseDetail(phaseNum) {
 }
 window.navigateToFaseDetail = navigateToFaseDetail;
 
-function initDeNiLivsfaserScreen() {
-  var el = document.getElementById('livsfaser-circle-nav');
-  var listEl = document.getElementById('livsfaser-list');
-  if (!el) return;
+// Fase-kort beskrivelser (fra mockup) - element-tags bruger overgang-elementer
+var DNL_ELEMENT_TAGS = {
+  1: 'VAND', 2: 'VAND-TR\u00c6', 3: 'TR\u00c6', 4: 'TR\u00c6-ILD',
+  5: 'ILD', 6: 'ILD-JORD', 7: 'JORD-METAL', 8: 'METAL', 9: 'VAND'
+};
 
+var DNL_DESCRIPTIONS = {
+  1: 'Nyrernes tid. Opbygning af Jing. Den stille grundl\u00e6ggelse af alt der kommer.',
+  2: 'Fra vandets stille opbygning til tr\u00e6ets f\u00f8rste skud. Nysgerrighed og de f\u00f8rste gr\u00e6nser.',
+  3: 'Pubertet, identitet, opr\u00f8r. Leverens tid \u2014 vrede og v\u00e6kst som to sider af samme kraft.',
+  4: 'Ildens \u00e5r begynder. K\u00e6rlighed, ambition, udadvendthed. Kroppen p\u00e5 sit st\u00e6rkeste.',
+  5: 'Hjertets tid. Fuld Ild-energi. Karriere, familie, identitet \u2014 alt br\u00e6nder.',
+  6: 'Fra Ild til Jord. Det stille vendepunkt. Hvad er essentielt?',
+  7: 'Jordens tid. Overgangsalderen n\u00e6rmer sig. Kroppen beder om balance og ro.',
+  8: 'Lungernes tid. At give slip. Hvad har du brug for \u2014 og hvad kan du l\u00e6gge fra dig?',
+  9: 'Nyrernes tid igen. Cirklen sluttes. Energien vender hjem til det element, den begyndte i.'
+};
+
+function renderDnlArcSvg(userPhase) {
+  // 9 cirkler i en bue fra venstre-lav til h\u00f8jre-lav med top i midten
+  var positions = [
+    { x: 22, y: 58 }, { x: 56, y: 40 }, { x: 92, y: 26 },
+    { x: 128, y: 18 }, { x: 164, y: 18 }, { x: 200, y: 26 },
+    { x: 234, y: 40 }, { x: 262, y: 58 }, { x: 284, y: 74 }
+  ];
+
+  var svg = '<svg viewBox="0 0 300 85" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:300px;height:auto;display:block;margin:0 auto">';
+
+  for (var i = 0; i < 9; i++) {
+    var p = positions[i];
+    var num = i + 1;
+    var isActive = (num === userPhase);
+
+    if (isActive) {
+      svg += '<circle cx="' + p.x + '" cy="' + p.y + '" r="14" fill="rgba(118,144,193,0.1)" stroke="#5A74A5" stroke-width="1.5"/>';
+      svg += '<text x="' + p.x + '" y="' + (p.y + 4) + '" font-family="Georgia,\'Times New Roman\',serif" font-size="10" fill="#5A74A5" font-weight="600" text-anchor="middle">' + num + '</text>';
+    } else {
+      svg += '<circle cx="' + p.x + '" cy="' + p.y + '" r="13" fill="rgba(118,144,193,0.08)" stroke="rgba(118,144,193,0.2)" stroke-width="1"/>';
+      svg += '<text x="' + p.x + '" y="' + (p.y + 4) + '" font-family="Georgia,\'Times New Roman\',serif" font-size="10" fill="#7690C1" text-anchor="middle">' + num + '</text>';
+    }
+  }
+
+  svg += '</svg>';
+  return svg;
+}
+
+function initDeNiLivsfaserScreen() {
   var userData = JSON.parse(localStorage.getItem('user') || '{}');
   var userPhase = userData.phase || 0;
 
-  el.innerHTML = '<img src="assets/images/9-cirkler.png" alt="De 9 Livsfaser" class="livsfaser-circle-img">';
+  // Bue-SVG
+  var arcEl = document.getElementById('dnl-arc');
+  if (arcEl) {
+    arcEl.innerHTML = renderDnlArcSvg(userPhase);
+  }
 
-  // Also render as list below
-  if (listEl) {
-    var html = '';
-    for (var j = 1; j <= 9; j++) {
-      var ph = PHASE_DATA[j];
-      var isCurrent = (j === userPhase);
-      html += '<div class="tema__kort' + (isCurrent ? ' tema__kort--current' : '') + '" onclick="navigateToFaseDetail(' + j + ')">';
-      html += '<div class="tema__kort-content">';
-      html += '<h3 class="tema__kort-title">Fase ' + j + ': ' + ph.name + '</h3>';
-      html += '<p class="tema__kort-subtitle">' + ph.startAge + '\u2013' + ph.endAge + ' \u00e5r \u00B7 ' + ELEMENT_LABELS[ph.element] + (isCurrent ? ' \u00B7 Din aktuelle fase' : '') + '</p>';
-      html += '</div>';
-      html += '<span class="tema__kort-arrow">\u203A</span>';
-      html += '</div>';
+  // DU ER I FASE X indsigt-boks
+  var posEl = document.getElementById('dnl-position');
+  if (posEl && PHASE_DATA[userPhase]) {
+    var ph = PHASE_DATA[userPhase];
+    var posText = '';
+    if (userPhase === 9) {
+      posText = 'Visdommens tid. Vand-element. Cirklen sluttes \u2014 du er vendt tilbage til det element, du begyndte med. Men med alt, livet har l\u00e6rt dig.';
+    } else if (userPhase === 1) {
+      posText = 'Livets begyndelse. Vand-element. Alt er nyt \u2014 den stille grundl\u00e6ggelse af alt der kommer.';
+    } else {
+      posText = ph.name + '. ' + ELEMENT_LABELS[ph.element] + '-element. Du er i gang med et af livets vigtige kapitler \u2014 ' + ph.startAge + ' til ' + ph.endAge + ' \u00e5r.';
     }
-    listEl.innerHTML = html;
+    var html = '<div class="mc__ins">';
+    html += '<div class="mc__ins-label">DU ER I FASE ' + userPhase + '</div>';
+    html += '<div class="mc__ins-text">' + posText + '</div>';
+    html += '</div>';
+    posEl.innerHTML = html;
+  }
+
+  // 9 fase-kort
+  var faserEl = document.getElementById('dnl-faser');
+  if (faserEl) {
+    var fHtml = '';
+    for (var j = 1; j <= 9; j++) {
+      var p = PHASE_DATA[j];
+      var isCurrent = (j === userPhase);
+      var elTag = DNL_ELEMENT_TAGS[j] || ELEMENT_LABELS[p.element];
+      var desc = DNL_DESCRIPTIONS[j] || '';
+      var ageRange = p.startAge + '-' + (j === 9 ? '63+' : p.endAge);
+
+      fHtml += '<div class="mc__fc' + (isCurrent ? ' on' : '') + '" onclick="navigateToFaseDetail(' + j + ')">';
+      fHtml += '<div class="mc__fc-hd">';
+      fHtml += '<div class="mc__fc-num">FASE ' + j + ' \u00b7 ' + ageRange + ' \u00c5R</div>';
+      fHtml += '<div class="mc__fc-el">' + elTag + '</div>';
+      fHtml += '</div>';
+      fHtml += '<div class="mc__fc-name">' + p.name + '</div>';
+      fHtml += '<div class="mc__fc-text">' + desc + '</div>';
+      if (isCurrent) {
+        fHtml += '<div class="mc__fc-link">Du er i denne fase \u2014 udforsk den \u2192</div>';
+      } else {
+        fHtml += '<div class="mc__fc-link">Udforsk fase ' + j + ' \u2192</div>';
+      }
+      fHtml += '</div>';
+    }
+    faserEl.innerHTML = fHtml;
   }
 }
 

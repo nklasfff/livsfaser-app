@@ -6420,3 +6420,63 @@
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
 }
 
+/* --- Fase-kort (De Ni Livsfaser) --- */
+
+.mc__fc {
+  background: rgba(118,144,193,0.04);
+  border: 1px solid rgba(118,144,193,0.12);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+.mc__fc.on {
+  background: rgba(118,144,193,0.08);
+  border-left: 3px solid #5A74A5;
+}
+.mc__fc-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.mc__fc-num {
+  font-size: 10px;
+  color: #7690C1;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, sans-serif);
+  font-weight: 600;
+}
+.mc__fc-el {
+  font-size: 10px;
+  color: #7690C1;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, sans-serif);
+  background: rgba(118,144,193,0.08);
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+.mc__fc-name {
+  font-size: 17px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 4px;
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+}
+.mc__fc-text {
+  font-size: 14px;
+  color: #777;
+  font-style: italic;
+  line-height: 1.55;
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+}
+.mc__fc-link {
+  font-size: 13px;
+  color: #7690C1;
+  font-style: italic;
+  margin-top: 6px;
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+}
+
