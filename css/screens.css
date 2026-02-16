@@ -7006,6 +7006,14 @@
   border-radius: 12px;
 }
 
+.kso-arc-img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
 .mc__dots {
   text-align: center;
   color: #a8bbd8;

@@ -4357,10 +4357,10 @@ function initKroppensStoreOvergangeScreen() {
   if (!d) return;
   var age = d.age;
 
-  // Bue-SVG
+  // Bue-billede
   var arcEl = document.getElementById('kso-arc');
   if (arcEl) {
-    arcEl.innerHTML = renderKsoArcSvg(age);
+    arcEl.innerHTML = '<img src="assets/images/nyre_qi_generel.png" alt="Nyre-Qi gennem livets faser" class="kso-arc-img">';
   }
 
   // DIN POSITION indsigt-boks
