@@ -4538,6 +4538,8 @@ const App = {
           initToRytmerScreen();
         } else if (screenName === 'tre-generationer') {
           initTreGenerationerScreen();
+        } else if (screenName === 'mine-favoritter') {
+          initMineFavoritterScreen();
         }
 
         // Append "Tilbage til toppen" footer (skip on onboarding)
@@ -6269,6 +6271,93 @@ function udvSubmitCheckin() {
   initMinUdviklingScreen();
 }
 window.udvSubmitCheckin = udvSubmitCheckin;
+
+// ---- Niveau 2: Mine Favoritter (ny lavendel-version) ----
+
+var _favActiveTab = 'oevelser';
+
+var FAV_EXAMPLE_DATA = {
+  oevelser: [
+    { name: 'Yin Yoga \u2014 Tr\u00e6-element', desc: 'Drage, Sovende svane, Firben \u00B7 Lever og galdebl\u00e6re' },
+    { name: 'Meridian-strygning', desc: 'Energiens floder \u00B7 V\u00e6kke og berolige \u00B7 For alle elementer' },
+    { name: 'EFT Tapping', desc: '9 punkter p\u00e5 kroppen \u00B7 Til lettelse og balance' },
+    { name: 'Vejrtr\u00e6kning for nervesystemet', desc: 'Ventral vagus \u00f8velser \u00B7 Find ro og sikkerhed' },
+    { name: 'Vinterforl\u00f8bet', desc: 'For bl\u00e6re og nyrer \u00B7 Vand-elementet \u00B7 Ro og genopladning' }
+  ],
+  kost: [
+    { name: 'Vintersuppe med ingef\u00e6r', desc: 'Varmer nyreessensen \u00B7 Vand-element \u00B7 Nem at lave' },
+    { name: 'Sort sesam & valn\u00f8dder', desc: 'N\u00e6rer nyreessensen og styrker livskraften' },
+    { name: 'Gr\u00f8n te med mynte', desc: 'K\u00f8ler leverild \u00B7 Tr\u00e6-element \u00B7 Til for\u00e5ret' }
+  ],
+  temaer: [
+    { name: 'Stilhed og ro', desc: 'Vand-elementets gave \u00B7 At finde hvile i det ukendte' },
+    { name: 'Gr\u00e6nser med omsorg', desc: 'Metal-elementet \u00B7 At give slip uden at miste sig selv' },
+    { name: 'Kreativ fornyelse', desc: 'Tr\u00e6-elementet \u00B7 N\u00e5r noget nyt vil vokse' }
+  ],
+  faser: [
+    { name: 'Fase 7 \u2014 H\u00f8st', desc: 'Jord-elementet \u00B7 42-49 \u00e5r \u00B7 Modningens visdom' },
+    { name: 'Fase 9 \u2014 Visdom', desc: 'Vand-elementet \u00B7 56-63 \u00e5r \u00B7 Livets fuldendelse' }
+  ]
+};
+
+function initMineFavoritterScreen() {
+  var el = document.getElementById('mine-favoritter-content');
+  if (!el) return;
+
+  var h = '';
+  h += '<h1 class="rejse__t1">Mine favoritter</h1>';
+  h += '<p class="rejse__intr">Alt du har gemt med hjertet \u2014 \u00f8velser, kost, refleksioner og visdom</p>';
+
+  // Tab-filter
+  var tabs = [
+    { id: 'oevelser', label: '\u00d8velser' },
+    { id: 'kost', label: 'Kost' },
+    { id: 'temaer', label: 'Temaer' },
+    { id: 'faser', label: 'Faser' }
+  ];
+  h += '<div class="rejse__tabs">';
+  for (var i = 0; i < tabs.length; i++) {
+    var t = tabs[i];
+    var active = t.id === _favActiveTab ? ' rejse__tab--active' : '';
+    h += '<button class="rejse__tab' + active + '" onclick="favSetTab(\'' + t.id + '\')">' + t.label + '</button>';
+  }
+  h += '</div>';
+
+  // Favoritkort
+  var items = FAV_EXAMPLE_DATA[_favActiveTab] || [];
+  for (var j = 0; j < items.length; j++) {
+    var item = items[j];
+    h += '<div class="rejse__fav">';
+    h += '<div class="rejse__fav-heart">\u2665</div>';
+    h += '<div class="rejse__fav-info">';
+    h += '<div class="rejse__fav-name">' + item.name + '</div>';
+    h += '<div class="rejse__fav-desc">' + item.desc + '</div>';
+    h += '</div>';
+    h += '<div class="rejse__fav-arrow">\u2192</div>';
+    h += '</div>';
+  }
+
+  // Hint
+  h += '<div class="rejse__hint">Tryk p\u00e5 hjertet \u2665 p\u00e5 en side for at gemme den her</div>';
+
+  // Link
+  h += '<div class="rejse__link" onclick="App.loadScreen(\'samlede-indsigt\')">Se favoritter anbefalet til dig i dag \u2192</div>';
+
+  // Del/Kopiér/Gem
+  h += '<div class="rejse__acts">';
+  h += '<button class="rejse__act" onclick="actionShare()">Del</button>';
+  h += '<button class="rejse__act" onclick="actionCopyLink()">Kopi\u00e9r</button>';
+  h += '<button class="rejse__act" onclick="actionToggleSave(\'mine-favoritter\')">Gem</button>';
+  h += '</div>';
+
+  el.innerHTML = h;
+}
+
+function favSetTab(tabId) {
+  _favActiveTab = tabId;
+  initMineFavoritterScreen();
+}
+window.favSetTab = favSetTab;
 
 function renderTrackingPeriod() {
   var el = document.getElementById('tracking-period');
