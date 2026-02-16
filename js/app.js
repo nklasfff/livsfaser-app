@@ -4717,7 +4717,7 @@ const App = {
     'livsfase-detail': 'de-ni-livsfaser',
     'de-fire-uger': 'mine-cyklusser',
     'refleksion': 'min-praksis',
-    'kontrolcyklussen': 'mine-cyklusser',
+    'kontrolcyklussen': 'min-rejse',
     'foelelser': 'min-praksis',
     'yin-yoga': 'min-praksis',
     'hvad-har-hjulpet': 'min-praksis',
@@ -5577,7 +5577,7 @@ function initMineCyklusserScreen() {
   // Kroppen og tiden (1 kort)
   var kroppenEl = document.getElementById('mc-group-kroppen');
   if (kroppenEl) {
-    kroppenEl.innerHTML = renderMcNavCard('Kroppens store overgange', 'Fra pubertetens Tr\u00e6-energi til overgangsalderens Metal \u2014 din krop gennemg\u00e5r vendepunkter der \u00e6ndrer alt.', 'Se dine overgange \u2192', 'alle-faser');
+    kroppenEl.innerHTML = renderMcNavCard('Kroppens store overgange', 'Fra pubertetens Tr\u00e6-energi til overgangsalderens Metal \u2014 din krop gennemg\u00e5r vendepunkter der \u00e6ndrer alt.', 'Se dine overgange \u2192', 'kroppens-store-overgange');
   }
 
   // Livets kapitler (2 kort)
@@ -8425,12 +8425,11 @@ var MENU_DATA = [
     title: 'Mine Cyklusser',
     children: [
       { label: 'Cyklusser i Cyklusser', action: "App.loadScreen('cyklusser-i-cyklusser')" },
+      { label: 'Dine cyklusser lige nu', action: "App.loadScreen('dine-cyklusser-lige-nu')" },
       { label: 'Din energi p\u00e5 en anden dag', action: "App.loadScreen('din-energi')" },
-      { label: 'Kroppens store overgange', action: "App.loadScreen('alle-faser')" },
+      { label: 'Kroppens store overgange', action: "App.loadScreen('kroppens-store-overgange')" },
       { label: 'De Ni Livsfaser', action: "App.loadScreen('de-ni-livsfaser')" },
-      { label: 'De Fire Uger', action: "App.loadScreen('de-fire-uger')" },
-      { label: 'Elementernes Samspil', action: "App.loadScreen('kontrolcyklussen')" },
-      { label: 'Samlet indsigt for i dag', action: "App.loadScreen('samlede-indsigt')" }
+      { label: 'De Fire Uger', action: "App.loadScreen('de-fire-uger')" }
     ]
   },
   {
@@ -8619,7 +8618,7 @@ var SEARCH_CATEGORIES = [
   {
     id: 'overgange', title: 'Kroppens overgange',
     desc: 'Pubertet, graviditet, overgangsalder — de store vendepunkter, hvor ét element afløser et andet. Forstå dem som overgange, ikke sammenbrud.',
-    screen: 'alle-faser',
+    screen: 'kroppens-store-overgange',
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><path d="M4 14.9A7 7 0 1118 9"/><polyline points="15,9 18,9 18,12"/></svg>'
   },
   {
