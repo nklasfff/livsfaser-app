@@ -1814,7 +1814,6 @@ function initIdagScreen() {
 
   // Render new home sections
   renderDynamiskTekst();
-  renderVennIndsigt();
   renderIdagTidsvinduetLink();
   renderHvadKanDu();
   renderNotifikationer();
@@ -2027,6 +2026,10 @@ function renderIdagTidsvinduetLink() {
   if (!el) return;
 
   var html = '';
+
+  // Overskrift: Livets Vinduer
+  html += '<h1 class="rejse__t1" style="color:#6B5F7B">Livets Vinduer</h1>';
+  html += '<p class="rejse__intr">Fem slags tid l\u00f8ber gennem dig p\u00e5 \u00e9n gang, og flere relationer m\u00f8des i dig samtidigt. Her \u00e5bner du de vinduer der viser hvad der sker \u2014 i tiden og mellem mennesker.</p>';
 
   // ============================================
   // TIDSVINDUET \u2014 lavendel zone
