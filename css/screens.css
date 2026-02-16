@@ -4790,11 +4790,20 @@
   color: #9886B0;
 }
 
+.rel-twocol__quality {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 13px;
+  color: #9886B0;
+  font-style: italic;
+  margin-top: 2px;
+}
+
 .rel-twocol__note {
   font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 11px;
   color: #aaa;
   font-style: italic;
+  margin-top: 2px;
 }
 
 /* Forskydnings-box */

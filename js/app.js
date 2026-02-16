@@ -4726,18 +4726,22 @@ function initToRytmerScreen() {
   if (persEl) {
     var userCycleNum = userPhase.phase;
     var partnerCycleNum = partnerPhase.phase;
+    var userQuality = getElementQualityShort(userPhase.element);
+    var partnerQuality = getElementQualityShort(partnerPhase.element);
     persEl.innerHTML =
       '<div class="rel-twocol">' +
         '<div class="rel-twocol__box">' +
           '<div class="rel-twocol__sub">Dig</div>' +
           '<div class="rel-twocol__main">' + userAge + ' \u00e5r</div>' +
           '<div class="rel-twocol__phase">Fase ' + userCycleNum + ' \u00B7 ' + ELEMENT_LABELS[userPhase.element] + '</div>' +
+          '<div class="rel-twocol__quality">' + userQuality + '</div>' +
           '<div class="rel-twocol__note">7 \u00D7 ' + userCycleNum + ' = ' + (7 * userCycleNum) + '</div>' +
         '</div>' +
         '<div class="rel-twocol__box">' +
           '<div class="rel-twocol__sub">' + partnerName + '</div>' +
           '<div class="rel-twocol__main">' + partnerAge + ' \u00e5r</div>' +
           '<div class="rel-twocol__phase">' + partnerCycleNum + '. cyklus \u00B7 ' + ELEMENT_LABELS[partnerPhase.element] + '</div>' +
+          '<div class="rel-twocol__quality">' + partnerQuality + '</div>' +
           '<div class="rel-twocol__note">8 \u00D7 ' + partnerCycleNum + ' = ' + (8 * partnerCycleNum) + '</div>' +
         '</div>' +
       '</div>';
@@ -4808,7 +4812,8 @@ function initToRytmerScreen() {
     actEl.innerHTML =
       '<div style="height:12px;"></div>' +
       '<button class="rel-btn" onclick="shareToRytmer(' + partnerIndex + ')">Del dette med ' + partnerName + '</button>' +
-      '<div class="rel-soft-link" onclick="navigateToJeresEnergi()">Se jeres forskydning p\u00e5 en anden dato \u2192</div>';
+      '<div class="rel-soft-link" onclick="navigateToJeresEnergi()">Se jeres forskydning p\u00e5 en anden dato \u2192</div>' +
+      '<div class="rel-btt" onclick="window.scrollTo({top:0,behavior:\'smooth\'});">\u2191 Tilbage til toppen</div>';
   }
 }
 
