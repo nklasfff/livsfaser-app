@@ -2661,7 +2661,7 @@ function renderRelationerOverview() {
     html += '<div class="rel-add-person__sub">Partner, barn, for\u00e6lder, veninde...</div>';
     html += '</div>';
   }
-  html += '<div class="rel-btt" onclick="window.scrollTo({top:0,behavior:\'smooth\'});">\u2191 Tilbage til toppen</div>';
+  // Generic footer adds "Tilbage til toppen"
   el.innerHTML = html;
 }
 
@@ -3993,11 +3993,27 @@ function initJeresEnergiScreen() {
 }
 
 function renderJeresEnergiStatic() {
+  // VennThree diagram
+  var vennEl = document.getElementById('jeres-energi-venn');
+  if (vennEl) {
+    vennEl.innerHTML = renderVennThree({
+      topTitle: 'FORTIDEN',
+      topLines: ['*Forstå hvad der skete'],
+      bottomLeftTitle: 'FREMTIDEN',
+      bottomLeftLines: ['*Forbered det', '*der kommer'],
+      bottomRightTitle: 'RELATIONER',
+      bottomRightLines: ['*Se hvordan I', '*mødes over tid'],
+      overlapAB: 'mønstre',
+      overlapAC: 'genklang',
+      overlapBC: 'retning',
+      centerTitle: 'DIN',
+      centerLines: ['ENERGI']
+    });
+  }
+
   var el = document.getElementById('jeres-energi-usebox');
   if (!el) return;
-  var html = '<h2 class="tidsvindue__title">Jeres energi p\u00e5 en anden dag</h2>';
-  html += '<p class="tidsvindue__subtitle">V\u00e6lg hvem og hvorn\u00e5r \u2014 og se hvordan jeres cyklusser m\u00f8des. Forst\u00e5 det der er sket, eller forbered det der kommer.</p>';
-  html += '<img src="assets/images/vindue_ny_side.svg" alt="Tidsvinduet" class="tidsvindue__hero-img">';
+  var html = '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>';
   html += '<div class="tidsvindue__box--lilla">';
   html += '<p class="tidsvindue__box-heading">Du kan bruge det til</p>';
   html += '<ul class="tidsvindue__box-list tidsvindue__box-list--lilla">';
@@ -4821,16 +4837,14 @@ function initToRytmerScreen() {
       actEl.innerHTML =
         '<div style="height:32px;"></div>' +
         '<button class="rel-btn" onclick="shareToRytmer(' + partnerIndex + ')">Del dette med ' + partnerName + '</button>' +
-        '<div class="rel-soft-link" onclick="navigateToJeresEnergi()">Se jeres forskydning p\u00e5 en anden dato \u2192</div>' +
-        '<div class="rel-btt" onclick="window.scrollTo({top:0,behavior:\'smooth\'});">\u2191 Tilbage til toppen</div>';
+        '<div class="rel-soft-link" onclick="navigateToJeresEnergi()">Se jeres forskydning p\u00e5 en anden dato \u2192</div>';
     } else {
       actEl.innerHTML =
         '<div style="height:32px;"></div>' +
         '<div class="rel-add-person" onclick="App.loadScreen(\'relationer\')">' +
           '<div class="rel-add-person__main">+ Tilf\u00f8j din partner</div>' +
           '<div class="rel-add-person__sub">Se jeres personlige forskydning</div>' +
-        '</div>' +
-        '<div class="rel-btt" onclick="window.scrollTo({top:0,behavior:\'smooth\'});">\u2191 Tilbage til toppen</div>';
+        '</div>';
     }
   }
 }
@@ -5080,7 +5094,7 @@ function initTreGenerationerScreen() {
             '<div class="rel-add-person__sub">Se jeres personlige tre generationer</div>' +
           '</div>';
       }
-      tidEl.innerHTML += '<div class="rel-btt" onclick="window.scrollTo({top:0,behavior:\'smooth\'});">\u2191 Tilbage til toppen</div>';
+      // Generic footer adds "Tilbage til toppen"
     }
   }
 }
