@@ -6824,8 +6824,8 @@ var MENU_DATA = [
     id: 'mine-relationer',
     title: 'Mine Relationer',
     children: [
+      { label: 'Oversigt', action: "App.loadScreen('mine-relationer')" },
       { label: 'Relationer lige nu', action: "App.loadScreen('relationer')" },
-      { label: 'N\u00e5r faser m\u00f8des', action: "App.loadScreen('mine-relationer')" },
       { label: 'To Rytmer \u2014 Parforholdet', action: "App.loadScreen('to-rytmer')" },
       { label: 'Tre Generationer', action: "App.loadScreen('tre-generationer')" },
       { label: 'Jeres energi p\u00e5 en anden dag', action: "App.loadScreen('jeres-energi')" }
