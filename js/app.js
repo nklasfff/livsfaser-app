@@ -4544,6 +4544,8 @@ const App = {
           initMinJournalScreen();
         } else if (screenName === 'mine-samlinger') {
           initMineSamlingerScreen();
+        } else if (screenName === 'baggrundsviden') {
+          initBaggrundsvidenScreen();
         }
 
         // Append "Tilbage til toppen" footer (skip on onboarding)
@@ -6638,6 +6640,126 @@ function initMineSamlingerScreen() {
   h += '<button class="rejse__act" onclick="actionShare()">Del</button>';
   h += '<button class="rejse__act" onclick="actionCopyLink()">Kopi\u00e9r</button>';
   h += '<button class="rejse__act" onclick="actionToggleSave(\'mine-samlinger\')">Gem</button>';
+  h += '</div>';
+
+  el.innerHTML = h;
+}
+
+// ---- Niveau 2: Baggrundsviden (lavendel) ----
+
+function initBaggrundsvidenScreen() {
+  var el = document.getElementById('baggrundsviden-content');
+  if (!el) return;
+
+  var h = '';
+  h += '<h1 class="rejse__t1">Baggrundsviden</h1>';
+  h += '<p class="rejse__intr">Den dybere forst\u00e5else bag cyklusser, elementer og livets rytmer</p>';
+
+  // SVG pentagram
+  h += '<div class="rejse__fig">';
+  h += '<svg width="260" height="240" xmlns="http://www.w3.org/2000/svg">';
+  h += '<circle cx="130" cy="40" r="28" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.18)" stroke-width="1"/>';
+  h += '<circle cx="220" cy="100" r="28" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.15)" stroke-width="1"/>';
+  h += '<circle cx="185" cy="200" r="28" fill="rgba(139,125,155,0.055)" stroke="rgba(139,125,155,0.16)" stroke-width="1"/>';
+  h += '<circle cx="75" cy="200" r="28" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.15)" stroke-width="1"/>';
+  h += '<circle cx="40" cy="100" r="28" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.18)" stroke-width="1"/>';
+  h += '<line x1="130" y1="68" x2="220" y2="72" stroke="rgba(139,125,155,0.12)" stroke-width="0.5"/>';
+  h += '<line x1="220" y1="128" x2="185" y2="172" stroke="rgba(139,125,155,0.12)" stroke-width="0.5"/>';
+  h += '<line x1="157" y1="200" x2="103" y2="200" stroke="rgba(139,125,155,0.12)" stroke-width="0.5"/>';
+  h += '<line x1="75" y1="172" x2="40" y2="128" stroke="rgba(139,125,155,0.12)" stroke-width="0.5"/>';
+  h += '<line x1="40" y1="72" x2="130" y2="68" stroke="rgba(139,125,155,0.12)" stroke-width="0.5"/>';
+  h += '<text x="130" y="43" text-anchor="middle" font-size="11" fill="#6B5F7B" font-style="italic" font-family="Times New Roman, Georgia, serif">Ild</text>';
+  h += '<text x="220" y="103" text-anchor="middle" font-size="11" fill="#6B5F7B" font-style="italic" font-family="Times New Roman, Georgia, serif">Jord</text>';
+  h += '<text x="185" y="203" text-anchor="middle" font-size="11" fill="#6B5F7B" font-style="italic" font-family="Times New Roman, Georgia, serif">Metal</text>';
+  h += '<text x="75" y="203" text-anchor="middle" font-size="11" fill="#6B5F7B" font-style="italic" font-family="Times New Roman, Georgia, serif">Vand</text>';
+  h += '<text x="40" y="103" text-anchor="middle" font-size="11" fill="#6B5F7B" font-style="italic" font-family="Times New Roman, Georgia, serif">Tr\u00e6</text>';
+  h += '<text x="130" y="128" text-anchor="middle" font-size="10" fill="#8B7D9B" font-style="italic" font-family="Times New Roman, Georgia, serif">alt h\u00e6nger</text>';
+  h += '<text x="130" y="142" text-anchor="middle" font-size="10" fill="#8B7D9B" font-style="italic" font-family="Times New Roman, Georgia, serif">sammen</text>';
+  h += '</svg>';
+  h += '</div>';
+
+  // Indsigt-boks
+  h += '<div class="rejse__ins">';
+  h += '<div class="rejse__ins-label">VIDEN DER B\u00c6RER</div>';
+  h += '<div class="rejse__ins-text">Disse sider rummer den dybere baggrund \u2014 de traditioner, den forskning og den filosofi som bogens ni livsfaser hviler p\u00e5. Tag det i dit tempo.</div>';
+  h += '</div>';
+
+  // Separator
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // Traditioner og systemer
+  h += '<h2 class="rejse__t2">Traditioner og systemer</h2>';
+
+  var traditions = [
+    { tag: 'KINESISK MEDICIN', title: 'De fem elementer', desc: 'Vand, Tr\u00e6, Ild, Jord, Metal \u2014 elementernes cyklus, organer, f\u00f8lelser, \u00e5rstider og deres forbindelse til livets faser' },
+    { tag: 'INDISK TRADITION', title: 'Vedisk filosofi', desc: 'Ashramerne, dharma, karma og de vediske livsperioder \u2014 en indisk spejling af de kinesiske cyklusser' },
+    { tag: 'UNIVERSELT', title: 'Ni traditioner, \u00e9n visdom', desc: 'Fra Anishinaabe til nordisk, keltisk til sufisme \u2014 kulturer over hele verden har set de samme cykliske m\u00f8nstre' }
+  ];
+  for (var i = 0; i < traditions.length; i++) {
+    var t = traditions[i];
+    h += '<div class="rejse__bg">';
+    h += '<div class="rejse__bg-tag">' + t.tag + '</div>';
+    h += '<h3>' + t.title + '</h3>';
+    h += '<p>' + t.desc + '</p>';
+    h += '<div class="rejse__bg-arrow">L\u00e6s mere \u2192</div>';
+    h += '</div>';
+  }
+
+  // Separator
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // Traditionerne kort — scroll row
+  h += '<h2 class="rejse__t2">Traditionerne kort</h2>';
+
+  var tradKort = [
+    { name: 'Anishinaabe', desc: '7-\u00e5rs faser og 7 generationer' },
+    { name: 'Keltisk', desc: '\u00c5rets hjul, 8 tidspunkter' },
+    { name: 'Sufisme', desc: 'Sj\u00e6lens 7 stadier' },
+    { name: 'Nordisk', desc: '9 verdener, Nornerne' },
+    { name: 'M\u0101ori', desc: 'Whakapapa \u2014 alt forbundet' }
+  ];
+  h += '<div class="rejse__trad-row">';
+  for (var j = 0; j < tradKort.length; j++) {
+    var tk = tradKort[j];
+    h += '<div class="rejse__trad">';
+    h += '<div class="rejse__trad-name">' + tk.name + '</div>';
+    h += '<div class="rejse__trad-desc">' + tk.desc + '</div>';
+    h += '</div>';
+  }
+  h += '</div>';
+
+  // Separator
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // Videnskab og krop
+  h += '<h2 class="rejse__t2">Videnskab og krop</h2>';
+
+  var videnskab = [
+    { tag: 'FORSKNING', title: 'Videnskabens bekr\u00e6ftelse', desc: 'Hvad moderne forskning siger om de syv-\u00e5rige cyklusser \u2014 neurologi, hormoner, epigenetik og udviklingspsykologi' },
+    { tag: 'F\u00d8LELSER', title: 'F\u00f8lelsernes funktion', desc: 'Hvordan f\u00f8lelser h\u00e6nger sammen med organer og elementer \u2014 og hvorfor de er dine vigtigste vejvisere' },
+    { tag: 'KROPPEN', title: 'Yin, Yang og kvindekroppen', desc: 'Hvordan Yin og Yang skifter gennem livet \u2014 og hvad det betyder for din energi, din s\u00f8vn og din krop' }
+  ];
+  for (var k = 0; k < videnskab.length; k++) {
+    var v = videnskab[k];
+    h += '<div class="rejse__bg">';
+    h += '<div class="rejse__bg-tag">' + v.tag + '</div>';
+    h += '<h3>' + v.title + '</h3>';
+    h += '<p>' + v.desc + '</p>';
+    h += '<div class="rejse__bg-arrow">L\u00e6s mere \u2192</div>';
+    h += '</div>';
+  }
+
+  // Separator
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // Hint
+  h += '<div class="rejse__hint">Denne viden er altid tilg\u00e6ngelig via S\u00f8g \u2014 du beh\u00f8ver ikke huske den, bare vide at den er her.</div>';
+
+  // Del/Kopi\u00e9r/Gem
+  h += '<div class="rejse__acts">';
+  h += '<button class="rejse__act" onclick="actionShare()">Del</button>';
+  h += '<button class="rejse__act" onclick="actionCopyLink()">Kopi\u00e9r</button>';
+  h += '<button class="rejse__act" onclick="actionToggleSave(\'baggrundsviden\')">Gem</button>';
   h += '</div>';
 
   el.innerHTML = h;
