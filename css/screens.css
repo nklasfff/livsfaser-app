@@ -6920,6 +6920,16 @@
   margin-bottom: 8px;
 }
 
+.mc__section-sub {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-style: italic;
+  color: #888;
+  text-align: center;
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
 /* Nav-kort */
 .mc__nav-group {
   display: flex;

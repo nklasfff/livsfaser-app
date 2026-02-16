@@ -1918,7 +1918,7 @@ function renderIdagCheckin() {
   var headerEl = document.getElementById('idag-checkin-header');
   if (headerEl) {
     headerEl.innerHTML = '<h3 class="idag__section-title">M\u00e6rk efter</h3>' +
-      '<p class="idag__section-subtitle">Dine cyklussers invitation: m\u00e6rk efter, og se om energien stemmer.</p>';
+      '<p class="idag__section-subtitle">Dine cyklusser sender en invitation lige nu. M\u00e6rk efter i kroppen og se om energien stemmer \u2014 m\u00e5ske kender du allerede svaret, f\u00f8r du t\u00e6nker det.</p>';
   }
 
   var html = '';
@@ -1980,7 +1980,7 @@ function renderDynamiskTekst() {
   // Header OUTSIDE box — mockup: kursiv overskrift + intro
   if (headerEl) {
     headerEl.innerHTML = '<h3 class="idag__section-title">Lige nu</h3>' +
-      '<p class="idag__section-subtitle">Alle andre klokker lyder nu \u2014 livsfasen, \u00e5rstiden, m\u00e5neden, ugen og dit organur. Disse rytmer danner det krydsfelt du lever og \u00e5nder i. Herunder kan du se, hvad der er aktivt for dig i dag.</p>';
+      '<p class="idag__section-subtitle">Livsfasen, \u00e5rstiden, m\u00e5neden, ugen og dit organur \u2014 disse rytmer danner det krydsfelt du lever i. Her kan du se hvad der er aktivt for dig i dag.</p>';
   }
 
   // Gradient-boks (mockup: linear-gradient 135deg #5A74A5 → #7690C1)
@@ -2535,7 +2535,7 @@ function initSamledeIndsigtScreen() {
   // Yin Yoga
   html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
   html += '<h3 class="praksis__section-title">Yin Yoga</h3>';
-  html += '<p class="praksis__section-intro">Dybe str\u00e6k der st\u00f8tter dit element og \u00e5bner meridianer</p>';
+  html += '<p class="praksis__section-intro">Dybe str\u00e6k der \u00e5bner meridianerne og st\u00f8tter dit element. Hold stillingerne l\u00e6nge nok til at m\u00e6rke hvordan sp\u00e6ndingen slipper og energien begynder at flyde.</p>';
   var yogaPoses = INSIGHT_YOGA[primaryEl] || [];
   for (var yp = 0; yp < yogaPoses.length; yp++) {
     html += '<div class="praksis__card" onclick="navigateToYogaWithElement(\'' + primaryEl + '\')">';
@@ -2547,7 +2547,7 @@ function initSamledeIndsigtScreen() {
   // Mad & Urter
   html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
   html += '<h3 class="praksis__section-title">Mad & Urter</h3>';
-  html += '<p class="praksis__section-intro">F\u00f8devarer og urter der n\u00e6rer dit dominerende element</p>';
+  html += '<p class="praksis__section-intro">F\u00f8devarer og urter der n\u00e6rer dit dominerende element indefra. Kinesisk medicin har i tusind \u00e5r vidst at den rette mad kan genoprette balance i kroppen.</p>';
   var foodItems = INSIGHT_FOOD[primaryEl] || [];
   for (var fi = 0; fi < foodItems.length; fi++) {
     html += '<div class="praksis__card" onclick="App.loadScreen(\'kost-urter\')">';
@@ -2559,7 +2559,7 @@ function initSamledeIndsigtScreen() {
   // Fokusområder
   html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
   html += '<h3 class="praksis__section-title">Fokusomr\u00e5der</h3>';
-  html += '<p class="praksis__section-intro">Hvor du kan rette din opm\u00e6rksomhed i dag</p>';
+  html += '<p class="praksis__section-intro">Hvor du kan rette din opm\u00e6rksomhed i dag. Dine cyklusser peger mod bestemte temaer \u2014 m\u00e5ske genkender du dem allerede som det din krop beder om.</p>';
   var focusItems = INSIGHT_FOCUS[primaryEl] || [];
   html += '<div style="font-size:14px;color:#555;line-height:1.8;font-style:italic;font-family:var(--font-serif);padding:0 4px">';
   for (var fc = 0; fc < focusItems.length; fc++) {
@@ -2570,7 +2570,7 @@ function initSamledeIndsigtScreen() {
   // I dag kan du
   html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
   html += '<h3 class="praksis__section-title">I dag kan du</h3>';
-  html += '<p class="praksis__section-intro">Konkrete handlinger tilpasset dine cyklusser</p>';
+  html += '<p class="praksis__section-intro">Konkrete handlinger tilpasset dine cyklusser lige nu. Ikke alt beh\u00f8ver g\u00f8res \u2014 v\u00e6lg det der kalder p\u00e5 dig, og lad resten hvile til en anden dag.</p>';
   var suggestions = (INSIGHT_SUGGESTIONS[primaryEl] || []).slice();
   if (dominant.length > 1 && INSIGHT_SUGGESTIONS[dominant[1]]) {
     suggestions.push(INSIGHT_SUGGESTIONS[dominant[1]][0]);
@@ -2584,7 +2584,7 @@ function initSamledeIndsigtScreen() {
   // Tidsperspektiv
   html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
   html += '<h3 class="praksis__section-title">Tidsperspektiv</h3>';
-  html += '<p class="praksis__section-intro">Hvor du er i din livsfase og hvad der venter</p>';
+  html += '<p class="praksis__section-intro">Hvor du er i din livsfase og hvad der langsomt tr\u00e6kker n\u00e6rmere. Tid er ikke bare \u00e5r der g\u00e5r \u2014 det er elementer der skifter og nye kvaliteter der vokser frem.</p>';
   if (d) {
     var yearsIn = Math.round((d.age - d.lifePhase.startAge) * 10) / 10;
     var yearsLeft = Math.max(0, d.lifePhase.endAge - d.age);
@@ -2649,7 +2649,7 @@ function renderRelationerOverview() {
   var html = '';
 
   html += '<h1 class="rejse__t1">Relationer lige nu</h1>';
-  html += '<p class="rejse__intr">Hvordan jeres faser og elementer mødes netop i dag. Nogle dage flyder I sammen, andre dage trækker jeres energier i hver sin retning — begge dele er naturligt.</p>';
+  html += '<p class="rejse__intr">Hvordan jeres faser og elementer m\u00f8des i dag. Nogle dage flyder I sammen, andre dage tr\u00e6kker I i hver sin retning \u2014 begge dele er naturligt.</p>';
 
   // Arv/Valg/Gave Venn-diagram
   html += renderVennFour({
@@ -4047,6 +4047,7 @@ function renderDinEnergiCyklusser(r, isPast) {
 
   var html = '<div class="mc__dots">\u00b7 \u00b7 \u00b7</div>';
   html += '<h3 class="mc__section-title">Dine cyklusser den dag</h3>';
+  html += '<p class="mc__section-sub">Her ser du hvilke cyklusser der var aktive p\u00e5 den valgte dato. Hvert element fortæller noget om den energi du bar i dig dengang.</p>';
 
   // 1. Livsfase
   var lp = r.lifePhase;
@@ -4474,7 +4475,7 @@ function renderJeresEnergiInput() {
 
   // Person selection
   html += '<h2 class="tidsvindue__title tidsvindue__section-title">Hvem vil du se?</h2>';
-  html += '<p class="tidsvindue__subtitle">V\u00e6lg de personer du vil sammenligne med.</p>';
+  html += '<p class="tidsvindue__subtitle">V\u00e6lg de personer du vil sammenligne med. Hver relation b\u00e6rer sin egen kombination af cyklusser \u2014 og det er i m\u00f8det mellem jeres faser at forst\u00e5elsen vokser.</p>';
   html += '<div class="tidsvindue__box--lilla">';
   html += '<div class="tidsvindue__relation-pills">';
   html += '<span class="tidsvindue__user-pill">Dig</span>';
@@ -4493,7 +4494,7 @@ function renderJeresEnergiInput() {
 
   // Date selection
   html += '<h2 class="tidsvindue__title tidsvindue__section-title">Hvorn\u00e5r?</h2>';
-  html += '<p class="tidsvindue__subtitle">V\u00e6lg en dato \u2014 fortid eller fremtid.</p>';
+  html += '<p class="tidsvindue__subtitle">V\u00e6lg en dato \u2014 fortid eller fremtid. Et f\u00f8dselsdag, en ferie der gik sk\u00e6vt, eller et tidspunkt I alle skal m\u00f8des. Cyklusserne var aktive dengang ogs\u00e5.</p>';
   html += '<div class="tidsvindue__box--lilla">';
   html += '<label class="tidsvindue__label">V\u00c6LG DATO</label>';
   var dateVal = JeresEnergiState.selectedDate || '';
@@ -4620,7 +4621,7 @@ function renderJeresEnergiResults() {
 
   // Section 2: Dynamik — dynamisk genereret
   html += '<h2 class="tidsvindue__title tidsvindue__section-title">' + (isPast ? 'Hvad der skete mellem jer' : 'Hvad I kan forvente') + '</h2>';
-  html += '<p class="tidsvindue__subtitle">' + (isPast ? 'Baseret på jeres cyklusser dengang.' : 'Baseret på jeres cyklusser på det tidspunkt.') + '</p>';
+  html += '<p class="tidsvindue__subtitle">' + (isPast ? 'Baseret p\u00e5 jeres cyklusser dengang. M\u00e5ske handlede det ikke om jer \u2014 men om to livsfaser der trak i hver sin retning. Se det her.' : 'Baseret p\u00e5 jeres cyklusser p\u00e5 det tidspunkt. Forbered jer p\u00e5 hvad jeres elementer bringer \u2014 og brug det til n\u00e6rhed i stedet for afstand.') + '</p>';
 
   // Par-indsigt for hvert par (bruger + relation)
   for (var j = 0; j < results.relations.length; j++) {
@@ -4663,7 +4664,7 @@ function renderJeresEnergiResults() {
   if (hasMale && maleRel && user.birthdate && maleRel.birthdate) {
     var shift = getPhaseShift(user.birthdate, maleRel.birthdate, targetDate);
     html += '<h2 class="tidsvindue__title tidsvindue__section-title">Forskydningen mellem jer</h2>';
-    html += '<p class="tidsvindue__subtitle">Hendes 7-års cyklus møder hans 8-års cyklus.</p>';
+    html += '<p class="tidsvindue__subtitle">Hendes 7-\u00e5rs cyklus m\u00f8der hans 8-\u00e5rs cyklus. Forskydningen skaber b\u00e5de friktion og mulighed \u2014 og den \u00e6ndrer sig langsomt med tiden.</p>';
     html += '<div class="tidsvindue__box--lilla">';
     html += '<p class="tidsvindue__insight-text" style="white-space:pre-line">' + shift.description + '</p>';
     html += '</div>';
@@ -4679,6 +4680,7 @@ function renderJeresEnergiResults() {
 
   // Udforsk videre
   html += '<h2 class="tidsvindue__title tidsvindue__section-title">Udforsk videre</h2>';
+  html += '<p class="tidsvindue__subtitle">Der er altid mere at forst\u00e5. Pr\u00f8v en anden dato, se kun dig selv, eller dyk ned i jeres elementer og faser fra en ny vinkel.</p>';
   html += '<div class="tidsvindue__box--lilla">';
   html += '<p class="tidsvindue__insight-text" style="cursor:pointer" onclick="jeresEnergiBackToInput()">Se en anden dato \u2192</p>';
   html += '<p class="tidsvindue__insight-text" style="cursor:pointer;margin-top:12px" onclick="navigateToDinEnergiWithDate(\'' + dateStr + '\')">Se kun dig selv denne dag \u2192</p>';
@@ -5463,6 +5465,7 @@ function initTreGenerationerScreen() {
     if (forbEl) {
       var forbHtml = '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>';
       forbHtml += '<h3 class="rel-section-heading">De tre forbindelser</h3>';
+      forbHtml += '<p class="rel-section-subtitle">Tre b\u00e5nd binder jer sammen \u2014 arv, frihed og fornyelse. Hvert b\u00e5nd b\u00e6rer sin egen energi og sin egen invitation til at vokse n\u00e6rmere hinanden.</p>';
       forbHtml += '<div style="height:12px;"></div>';
 
       // Dig ↔ forælder
@@ -5925,7 +5928,7 @@ function initMinPraksisScreen() {
   // --- Krop og bevægelse ---
   html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
   html += '<h3 class="praksis__section-title">Krop og bev\u00e6gelse</h3>';
-  html += '<p class="praksis__section-intro">\u00d8velser der st\u00f8tter dit element lige nu</p>';
+  html += '<p class="praksis__section-intro">\u00d8velser der st\u00f8tter dit element lige nu. Fra yin yoga til vejrtr\u00e6kning \u2014 din krop ved hvad den har brug for, n\u00e5r du giver den de rette stillinger.</p>';
   html += renderPraksisCard(
     'Yin Yoga',
     'Dybe stillinger der arbejder med bindev\u00e6vet og meridianerne. V\u00e6lg dit element og find de positioner, der st\u00f8tter dig.',
@@ -5948,7 +5951,7 @@ function initMinPraksisScreen() {
   // --- Åndedræt og sind ---
   html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
   html += '<h3 class="praksis__section-title">\u00c5ndedr\u00e6t og sind</h3>';
-  html += '<p class="praksis__section-intro">N\u00e5r f\u00f8lelserne fylder, eller du har brug for ro</p>';
+  html += '<p class="praksis__section-intro">N\u00e5r f\u00f8lelserne fylder eller du har brug for ro, kan \u00e5ndedr\u00e6ttet v\u00e6re vejen ind. Her finder du refleksioner og \u00f8velser der bringer sindet i balance.</p>';
   html += renderPraksisCard(
     'Vejrtr\u00e6kning',
     '\u00c5ndedr\u00e6ttet er altid tilg\u00e6ngeligt og p\u00e5virker nervesystemet direkte. Start her, hvis du ikke ved, hvad du har brug for.',
@@ -5971,7 +5974,7 @@ function initMinPraksisScreen() {
   // --- Næring ---
   html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
   html += '<h3 class="praksis__section-title">N\u00e6ring</h3>';
-  html += '<p class="praksis__section-intro">Mad og urter der st\u00f8tter dit element indefra</p>';
+  html += '<p class="praksis__section-intro">Mad og urter der st\u00f8tter dit element indefra. Den rette n\u00e6ring kan \u00e5bne for energi du ikke vidste du havde \u2014 kroppen responderer n\u00e5r den f\u00e5r det den mangler.</p>';
   html += renderPraksisCard(
     'Kost & Urter',
     'F\u00f8devarer og urter fra den kinesiske og den indiske tradition, tilpasset dit element og din fase.',
@@ -5982,7 +5985,7 @@ function initMinPraksisScreen() {
   // --- Følelserne ---
   html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
   html += '<h3 class="praksis__section-title">F\u00f8lelserne</h3>';
-  html += '<p class="praksis__section-intro">Alle f\u00f8lelser h\u00f8rer til et element og et organpar</p>';
+  html += '<p class="praksis__section-intro">Alle f\u00f8lelser h\u00f8rer til et element og et organpar. N\u00e5r du forst\u00e5r hvor f\u00f8lelsen kommer fra, kan du m\u00f8de den med omsorg i stedet for modstand.</p>';
   html += renderPraksisCard(
     'F\u00f8lelsernes Hjul',
     'Frygt, vrede, gl\u00e6de, bekymring, sorg \u2014 se hvor dine f\u00f8lelser bor i kroppen, og hvad de fort\u00e6ller dig.',
@@ -5993,7 +5996,7 @@ function initMinPraksisScreen() {
   // --- Fællesskab ---
   html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
   html += '<h3 class="praksis__section-title">F\u00e6llesskab</h3>';
-  html += '<p class="praksis__section-intro">Anonyme erfaringer fra kvinder i samme situation</p>';
+  html += '<p class="praksis__section-intro">Anonyme erfaringer fra kvinder i samme situation som dig. Der er en s\u00e6rlig styrke i at vide at andre har g\u00e5et den samme vej og fundet noget der virker.</p>';
   html += renderPraksisCard(
     'Hvad har hjulpet andre',
     'Se hvad kvinder i din livsfase og med dit element anbefaler. Del dine egne erfaringer anonymt.',
@@ -6084,6 +6087,7 @@ function initMinRejseScreen() {
 
   // Sektion: Se dig selv over tid
   h += '<h2 class="rejse__t2">Se dig selv over tid</h2>';
+  h += '<p class="rejse__intr">Dine check-ins og refleksioner tegner et billede af din udvikling. Her kan du se m\u00f8nstrene \u2014 og m\u00e5ske genkende noget du ikke vidste om dig selv.</p>';
 
   h += '<div class="rejse__nc" onclick="App.loadScreen(\'min-udvikling\')">';
   h += '<h3>Min udvikling</h3>';
@@ -6101,6 +6105,7 @@ function initMinRejseScreen() {
 
   // Sektion: Det du har samlet
   h += '<h2 class="rejse__t2">Det du har samlet</h2>';
+  h += '<p class="rejse__intr">Dine favoritter og samlinger vokser stille frem undervejs. Her finder du de \u00f8velser, den kost og den visdom du har valgt at gemme til dig selv.</p>';
 
   h += '<div class="rejse__nc" onclick="App.loadScreen(\'mine-favoritter\')">';
   h += '<h3>Mine favoritter</h3>';
@@ -6118,6 +6123,7 @@ function initMinRejseScreen() {
 
   // Sektion: Forstå dybere
   h += '<h2 class="rejse__t2">Forst\u00e5 dybere</h2>';
+  h += '<p class="rejse__intr">Under overfladen ligger en dybere forst\u00e5else af livets cyklusser. Her kan du udforske baggrunden \u2014 de traditioner og den forskning som b\u00e6rer det hele.</p>';
 
   h += '<div class="rejse__nc" onclick="App.loadScreen(\'baggrundsviden\')">';
   h += '<h3>Baggrundsviden</h3>';
@@ -6663,28 +6669,28 @@ function initMinUdviklingScreen() {
 
   // Energi over tid
   h += '<h2 class="rejse__t2">Energi over tid</h2>';
-  h += '<p class="rejse__intr">Hvordan din energi har bev\u00e6get sig</p>';
+  h += '<p class="rejse__intr">Se hvordan din energi har bev\u00e6get sig fra dag til dag. M\u00f8nstrene viser sig langsomt \u2014 som b\u00f8lger der f\u00f8rst bliver synlige n\u00e5r du tr\u00e6der tilbage.</p>';
   h += udvBuildEnergyBars(checkinsPeriod);
 
   h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // Elementbalance
   h += '<h2 class="rejse__t2">Elementbalance</h2>';
-  h += '<p class="rejse__intr">Fordelingen af elementer i dine check-ins</p>';
+  h += '<p class="rejse__intr">Fordelingen af de fem elementer i dine check-ins. Nogle perioder kalder et element st\u00e6rkere frem end andre \u2014 det er kroppens naturlige visdom.</p>';
   h += udvBuildElementBalance(checkinsPeriod);
 
   h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // Forslag til dig lige nu
   h += '<h2 class="rejse__t2">Forslag til dig lige nu</h2>';
-  h += '<p class="rejse__intr">\u00d8velser og n\u00e6ring tilpasset din energi</p>';
+  h += '<p class="rejse__intr">\u00d8velser, n\u00e6ring og refleksion tilpasset dit dominerende element. Ikke regler du skal f\u00f8lge \u2014 men forslag din krop m\u00e5ske allerede beder om.</p>';
   h += udvBuildRecommendations(domEl);
 
   h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // Dagens check-in
   h += '<h2 class="rejse__t2">Dagens check-in</h2>';
-  h += '<p class="rejse__intr">M\u00e6rk efter og registr\u00e9r hvor du er lige nu</p>';
+  h += '<p class="rejse__intr">M\u00e6rk efter og registr\u00e9r hvor du er lige nu. Det tager et minut \u2014 og over tid vokser der et billede frem af din energis naturlige rytme.</p>';
   h += udvBuildCheckinForm(checkins);
 
   // Del/Kopiér/Gem
@@ -7148,6 +7154,7 @@ function initMinJournalScreen() {
 
   // Tidligere refleksioner
   h += '<h2 class="rejse__t2">Tidligere refleksioner</h2>';
+  h += '<p class="rejse__intr">Dine tanker samler sig her som blade p\u00e5 en sti. N\u00e5r du l\u00e6ser dem igen, kan du m\u00e5ske se hvad der var p\u00e5 vej \u2014 f\u00f8r du selv vidste det.</p>';
 
   // Filter-chips
   var filters = [
@@ -7374,6 +7381,7 @@ function initBaggrundsvidenScreen() {
 
   // Traditioner og systemer
   h += '<h2 class="rejse__t2">Traditioner og systemer</h2>';
+  h += '<p class="rejse__intr">Kinesisk medicin, vedisk filosofi og ni kulturers visdom \u2014 forskellige sprog for den samme sandhed. De har alle set livets cykliske natur og givet den form.</p>';
 
   var traditions = [
     { tag: 'KINESISK MEDICIN', title: 'De fem elementer', desc: 'Vand, Tr\u00e6, Ild, Jord, Metal \u2014 elementernes cyklus, organer, f\u00f8lelser, \u00e5rstider og deres forbindelse til livets faser' },
@@ -7395,6 +7403,7 @@ function initBaggrundsvidenScreen() {
 
   // Traditionerne kort — scroll row
   h += '<h2 class="rejse__t2">Traditionerne kort</h2>';
+  h += '<p class="rejse__intr">Fra Anishinaabe til nordisk, fra keltisk til M\u0101ori \u2014 et hurtigt overblik over de kulturer der alle har set de samme m\u00f8nstre i livets gang.</p>';
 
   var tradKort = [
     { name: 'Anishinaabe', desc: '7-\u00e5rs faser og 7 generationer' },
@@ -7418,6 +7427,7 @@ function initBaggrundsvidenScreen() {
 
   // Videnskab og krop
   h += '<h2 class="rejse__t2">Videnskab og krop</h2>';
+  h += '<p class="rejse__intr">Moderne forskning bekr\u00e6fter hvad traditionerne altid har vidst. Her m\u00f8des neurologi, hormoner og epigenetik med kroppens dybe visdom om cyklusser.</p>';
 
   var videnskab = [
     { tag: 'FORSKNING', title: 'Videnskabens bekr\u00e6ftelse', desc: 'Hvad moderne forskning siger om de syv-\u00e5rige cyklusser \u2014 neurologi, hormoner, epigenetik og udviklingspsykologi' },
@@ -7829,7 +7839,7 @@ function renderTrackingRecommendations() {
   var elLabel = ELEMENT_LABELS[domEl];
 
   var html = '<h3 class="livsfase-detail__section-title">Forslag til dig lige nu</h3>';
-  html += '<p class="livsfase-detail__section-subtitle">Øvelser og næring tilpasset din energi</p>';
+  html += '<p class="livsfase-detail__section-subtitle">\u00d8velser, n\u00e6ring og ro tilpasset dit element. Ikke regler du skal f\u00f8lge \u2014 men forslag din krop m\u00e5ske allerede beder om stille.</p>';
 
   // If enough checkins, use pattern-based recommendations
   if (checkins.length >= 3) {
@@ -7889,11 +7899,12 @@ function renderTimeline() {
   var checkins = getCheckinsForPeriod(TrackingState.period);
 
   if (checkins.length === 0) {
-    el.innerHTML = '<h3 class="tracking__timeline-title">Tidslinje</h3><p class="tracking__empty">Ingen check-ins endnu. Start med din f\u00F8rste ovenfor.</p>';
+    el.innerHTML = '<h3 class="tracking__timeline-title">Tidslinje</h3><p class="praksis__section-intro">Dine check-ins og refleksioner i kronologisk r\u00e6kkef\u00f8lge. Hver registrering b\u00e6rer \u00f8jeblikkets aftryk \u2014 og over tid viser de en bue du ikke kunne se indefra.</p><p class="tracking__empty">Ingen check-ins endnu. Start med din f\u00F8rste ovenfor.</p>';
     return;
   }
 
   var html = '<h3 class="tracking__timeline-title">Tidslinje</h3>';
+  html += '<p class="praksis__section-intro">Dine check-ins og refleksioner i kronologisk r\u00e6kkef\u00f8lge. Hver registrering b\u00e6rer \u00f8jeblikkets aftryk \u2014 og over tid viser de en bue du ikke kunne se indefra.</p>';
   html += '<div class="tracking__timeline">';
 
   var max = Math.min(checkins.length, 20);
@@ -9331,21 +9342,21 @@ function initLivsfaseDetailScreen() {
   // Body text
   html += '<div class="livsfase-detail__section">';
   html += '<h3 class="livsfase-detail__section-title">Kroppen i denne fase</h3>';
-  html += '<p class="livsfase-detail__section-subtitle">Hvad din krop gennemg\u00e5r og har brug for</p>';
+  html += '<p class="livsfase-detail__section-subtitle">Kroppen taler sit eget sprog i hver livsfase. Her kan du l\u00e6se hvad den gennemg\u00e5r, hvad den har brug for, og hvordan du bedst st\u00f8tter den.</p>';
   html += '<p class="livsfase-detail__section-text">' + detail.kropTekst + '</p>';
   html += '</div>';
 
   // Mind text
   html += '<div class="livsfase-detail__section">';
   html += '<h3 class="livsfase-detail__section-title">Sindet i denne fase</h3>';
-  html += '<p class="livsfase-detail__section-subtitle">Tanker, f\u00f8lelser og indre processer</p>';
+  html += '<p class="livsfase-detail__section-subtitle">Tanker, f\u00f8lelser og indre processer f\u00f8lger kroppens rytme. Det du oplever indeni er ikke tilf\u00e6ldigt \u2014 det er et udtryk for den fase du st\u00e5r i.</p>';
   html += '<p class="livsfase-detail__section-text">' + detail.sindTekst + '</p>';
   html += '</div>';
 
   // Recommendations
   html += '<div class="livsfase-detail__recs">';
   html += '<h3 class="livsfase-detail__section-title">Anbefalinger</h3>';
-  html += '<p class="livsfase-detail__section-subtitle">\u00d8velse, kost og healinglyd til denne fase</p>';
+  html += '<p class="livsfase-detail__section-subtitle">Tre veje ind \u2014 \u00f8velse, kost og healinglyd. Alle er tilpasset denne fases element og den energi der pr\u00e6ger dig. V\u00e6lg det der kalder.</p>';
   var recs = [detail.oevelse, detail.kost, detail.healingLyd];
   var recLabels = ['\u00d8velse', 'Kost', 'Healing-lyd'];
   for (var r = 0; r < recs.length; r++) {
@@ -9360,7 +9371,7 @@ function initLivsfaseDetailScreen() {
   // Reflections
   html += '<div class="livsfase-detail__section">';
   html += '<h3 class="livsfase-detail__section-title">Tjek ind med dig selv</h3>';
-  html += '<p class="livsfase-detail__section-subtitle">Sp\u00f8rgsm\u00e5l til refleksion i denne fase</p>';
+  html += '<p class="livsfase-detail__section-subtitle">Sp\u00f8rgsm\u00e5l der ikke kr\u00e6ver svar lige nu. Lad dem synke ind og m\u00e6rk hvad der r\u00f8rer sig \u2014 m\u00e5ske overrasker svaret dig n\u00e5r det kommer.</p>';
   for (var q = 0; q < detail.refleksioner.length; q++) {
     html += '<p class="livsfase-detail__question">\u2022 ' + detail.refleksioner[q] + '</p>';
   }
@@ -9376,7 +9387,7 @@ function initLivsfaseDetailScreen() {
       var yearsLeft = Math.max(0, phase.endAge - userAge);
       html += '<div class="livsfase-detail__section livsfase-detail__tidsperspektiv">';
       html += '<h3 class="livsfase-detail__section-title">Tidsperspektiv</h3>';
-      html += '<p class="livsfase-detail__section-subtitle">Hvor du er i denne fase og hvad der venter</p>';
+      html += '<p class="livsfase-detail__section-subtitle">Tid er ikke bare \u00e5r der g\u00e5r. Her kan du se hvor du er i denne fase, hvor l\u00e6nge den varer endnu, og hvad der langsomt tr\u00e6kker n\u00e6rmere.</p>';
       html += '<p class="livsfase-detail__section-text">Du er ' + yearsIn + ' år inde i denne fase. ';
       if (yearsLeft > 1) {
         html += 'Om ca. ' + Math.round(yearsLeft) + ' år bevæger du dig videre til næste livsfase.';
@@ -9621,7 +9632,7 @@ function initRefleksionScreen() {
 
   var html = '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
   html += '<h3 class="praksis__section-title">Refleksioner for Fase ' + phase + ': ' + (PHASE_DATA[phase] ? PHASE_DATA[phase].name : '') + '</h3>';
-  html += '<p class="praksis__section-intro">Sp\u00f8rgsm\u00e5l til stilhed og selvindsigt</p>';
+  html += '<p class="praksis__section-intro">Sp\u00f8rgsm\u00e5l til stilhed og selvindsigt. Du beh\u00f8ver ikke svare p\u00e5 dem alle \u2014 lad dem leve i dig og m\u00e6rk hvilke der kalder mest p\u00e5 din opm\u00e6rksomhed.</p>';
 
   for (var i = 0; i < questions.length; i++) {
     var qId = 'refleksion-' + phase + '-' + i;
@@ -9705,7 +9716,7 @@ function initKontrolcyklussenScreen() {
   if (detailEl) {
     var html = '<div class="livsfase-detail__section">';
     html += '<h3 class="livsfase-detail__section-title">Samspillet lige nu</h3>';
-    html += '<p class="livsfase-detail__section-subtitle">Hvordan dit element nærer og kontrollerer de andre</p>';
+    html += '<p class="livsfase-detail__section-subtitle">Hvert element st\u00e5r i relation til alle de andre. Her ser du hvordan dit dominerende element n\u00e6rer, kontrollerer og selv p\u00e5virkes af de \u00f8vrige.</p>';
     var rows = [
       { label: 'N\u00e6rer', text: kt.naerer },
       { label: 'Kontrollerer', text: kt.kontrollerer },
@@ -9721,8 +9732,8 @@ function initKontrolcyklussenScreen() {
     var yogaForBalance = YIN_YOGA_FULL[dominant];
     if (yogaForBalance && yogaForBalance.length > 0) {
       html += '<div class="livsfase-detail__section">';
-      html += '<h3 class="livsfase-detail__section-title">Balancér dit element</h3>';
-      html += '<p class="livsfase-detail__section-subtitle">En øvelse der støtter dit dominerende element</p>';
+      html += '<h3 class="livsfase-detail__section-title">Balanc\u00e9r dit element</h3>';
+      html += '<p class="livsfase-detail__section-subtitle">N\u00e5r et element dominerer, kan en stille \u00f8velse hj\u00e6lpe med at genoprette balancen. Her er en yin yoga-stilling tilpasset dit element lige nu.</p>';
       html += '<div class="livsfase-detail__rec-card">';
       html += '<p class="livsfase-detail__rec-label">' + ELEMENT_LABELS[dominant] + '-øvelse</p>';
       html += '<p class="livsfase-detail__rec-title">' + yogaForBalance[0].pose + '</p>';
@@ -9954,7 +9965,7 @@ function renderYinYogaContent() {
   if (andreEl) {
     var aHtml = '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
     aHtml += '<h3 class="praksis__section-title">Andre elementer</h3>';
-    aHtml += '<p class="praksis__section-intro">Udforsk \u00f8velser for de \u00f8vrige elementer</p>';
+    aHtml += '<p class="praksis__section-intro">Udforsk \u00f8velser for de \u00f8vrige elementer. Selvom dit dominerende element st\u00e5r st\u00e6rkest, kan de andre \u00e5bne for noget nyt n\u00e5r du er klar til det.</p>';
     for (var e = 0; e < elKeys.length; e++) {
       if (elKeys[e] === selected) continue;
       var otherPoses = YIN_YOGA_FULL[elKeys[e]] || [];
@@ -10126,6 +10137,7 @@ function initKostUrterScreen() {
 
   // Spis mere af
   html += '<h3 class="praksis__section-title">Spis mere af</h3>';
+  html += '<p class="praksis__section-intro">Din krop kalder på bestemte smagskvaliteter lige nu. Disse fødevarer støtter dit element og møder den sult dit system har brug for indefra.</p>';
   html += '<div style="height:12px"></div>';
   for (var i = 0; i < data.spisMere.length; i++) {
     var f = data.spisMere[i];
@@ -10139,6 +10151,7 @@ function initKostUrterScreen() {
   // Urter til fasen
   html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
   html += '<h3 class="praksis__section-title">Urter til fasen</h3>';
+  html += '<p class="praksis__section-intro">Urter arbejder langsomt og dybt. De følgende planter har i tusinder af år støttet kvinder i netop den fase du befinder dig i nu.</p>';
   html += '<div style="height:12px"></div>';
   for (var u = 0; u < data.urter.length; u++) {
     var ur = data.urter[u];
@@ -10208,7 +10221,7 @@ function initHvadHarHjulpetScreen() {
 
   // Din situation lige nu
   html += '<h3 class="praksis__section-title">Din situation lige nu</h3>';
-  html += '<p class="praksis__section-intro">Anbefalingerne nedenfor er tilpasset pr\u00e6cis din kombination af livsfase, element og \u00e5rstid.</p>';
+  html += '<p class="praksis__section-intro">Anbefalingerne nedenfor er tilpasset pr\u00e6cis din kombination af livsfase, element og \u00e5rstid \u2014 ikke generelle r\u00e5d, men noget der m\u00f8der dig hvor du st\u00e5r.</p>';
   html += '<div class="hjulpet__sit">';
   html += '<div class="hjulpet__sit-lbl">Din situation lige nu</div>';
   html += '<div class="hjulpet__sit-val">Fase ' + phase.phase + ' \u00B7 ' + elLabel + ' \u00B7 ' + season.season + '</div>';
@@ -10218,7 +10231,7 @@ function initHvadHarHjulpetScreen() {
 
   // Det virker for kvinder som dig
   html += '<h3 class="praksis__section-title">Det virker for kvinder som dig</h3>';
-  html += '<p class="praksis__section-intro">Baseret p\u00e5 anonyme erfaringer fra kvinder i samme livsfase og med samme element</p>';
+  html += '<p class="praksis__section-intro">Andre kvinder i din livsfase og med dit element har fundet noget der virker. Her er deres anonyme erfaringer \u2014 m\u00e5ske genkender du noget.</p>';
 
   // Kort 1: Yoga
   html += '<div class="hjulpet__pc">';
@@ -10259,7 +10272,7 @@ function initHvadHarHjulpetScreen() {
   // Hjælp andre kvinder
   html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
   html += '<h3 class="praksis__section-title">Hj\u00e6lp andre kvinder</h3>';
-  html += '<p class="praksis__section-intro">Hvad virker for dig? Dine erfaringer er anonyme og hj\u00e6lper andre kvinder i samme situation med at finde det der virker.</p>';
+  html += '<p class="praksis__section-intro">Hvad virker for dig? Dine anonyme erfaringer kan hj\u00e6lpe en anden kvinde i samme fase med at finde det hun har brug for.</p>';
   html += '<button class="refleksion__btn">Del din erfaring \u2192</button>';
   html += '<div class="hjulpet__disclaimer">Alle data er anonyme. Vi samler kun hvad der virker, aldrig hvem du er.</div>';
 
@@ -10813,7 +10826,7 @@ function renderNotifikationer() {
   var headerEl = document.getElementById('idag-timeline-header');
   if (headerEl) {
     headerEl.innerHTML = '<h3 class="idag__section-title">Kommende</h3>' +
-      '<p class="idag__section-subtitle">Tidsforskydninger og skift i dine cyklusser de n\u00e6ste timer og dage. S\u00e5 du kan forberede dig stille.</p>';
+      '<p class="idag__section-subtitle">Skift og forskydninger i dine cyklusser de n\u00e6ste timer og dage. N\u00e5r du ved hvad der kommer, kan du m\u00f8de det forberedt i stedet for overrasket.</p>';
   }
 
   var maxVisible = 3;
@@ -10863,7 +10876,7 @@ function renderForloebCard() {
   var headerEl = document.getElementById('idag-forloeb-header');
   if (headerEl) {
     headerEl.innerHTML = '<h3 class="idag__section-title">G\u00e5 dybere</h3>' +
-      '<p class="idag__section-subtitle">Isabelles s\u00e6sonforl\u00f8b med vejledning og \u00e5rstidskost. F\u00f8lg den rytme naturen s\u00e6tter \u2014 udbyg af den indsigt, denne app bygger p\u00e5.</p>';
+      '<p class="idag__section-subtitle">Isabelles s\u00e6sonforl\u00f8b med vejledning, \u00e5rstidskost og personlig praksis. F\u00f8lg den rytme naturen s\u00e6tter og udbyg den indsigt denne app bygger p\u00e5.</p>';
   }
 
   var html = '<div class="idag__indsigt-boks">';
