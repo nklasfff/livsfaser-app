@@ -5141,80 +5141,115 @@ function generateForbindelseTekst(element1, element2, theme, otherName) {
 
 // ---- Niveau 1: Mine Cyklusser ----
 
-function initMineCyklusserScreen() {
-  var el = document.getElementById('mine-cyklusser-list');
-  if (!el) return;
+function renderMcThreeCircleSvg(d) {
+  // Tre-cirkel SVG: LIVSFASE / ÅRSTID / CYKLUS med DIT KRYDSFELT i centrum
+  var phaseLabel = 'Fase ' + d.lifePhase.phase + ' \u00B7 ' + d.lifePhase.name;
+  var seasonLabel = d.season.season + ' \u00B7 ' + ELEMENT_LABELS[d.season.element];
+  var cyclusLabel = (d.monthCycle.data.name || d.monthCycle.data.phase || '') + ' \u00B7 ' + ELEMENT_LABELS[d.monthCycle.data.element];
 
-  // Ensure we have cycle data
-  ensureIdagData();
+  var svg = '<svg width="280" height="240" xmlns="http://www.w3.org/2000/svg">';
+  // Top circle (LIVSFASE)
+  svg += '<circle cx="140" cy="80" r="72" fill="rgba(118,144,193,0.08)" stroke="rgba(118,144,193,0.2)" stroke-width="1"/>';
+  // Bottom-left circle (ÅRSTID)
+  svg += '<circle cx="85" cy="168" r="72" fill="rgba(118,144,193,0.06)" stroke="rgba(118,144,193,0.18)" stroke-width="1"/>';
+  // Bottom-right circle (CYKLUS)
+  svg += '<circle cx="195" cy="168" r="72" fill="rgba(118,144,193,0.06)" stroke="rgba(118,144,193,0.18)" stroke-width="1"/>';
+  // Labels
+  svg += '<text x="140" y="50" font-family="\'Cormorant Garamond\',serif" font-size="11" fill="#5A74A5" text-anchor="middle" letter-spacing="1.5" font-weight="600">LIVSFASE</text>';
+  svg += '<text x="140" y="66" font-family="\'Cormorant Garamond\',serif" font-size="10" fill="#7690C1" font-style="italic" text-anchor="middle">' + phaseLabel + '</text>';
+  svg += '<text x="60" y="190" font-family="\'Cormorant Garamond\',serif" font-size="11" fill="#5A74A5" text-anchor="middle" letter-spacing="1.5" font-weight="600">\u00c5RSTID</text>';
+  svg += '<text x="60" y="206" font-family="\'Cormorant Garamond\',serif" font-size="10" fill="#7690C1" font-style="italic" text-anchor="middle">' + seasonLabel + '</text>';
+  svg += '<text x="220" y="190" font-family="\'Cormorant Garamond\',serif" font-size="11" fill="#5A74A5" text-anchor="middle" letter-spacing="1.5" font-weight="600">CYKLUS</text>';
+  svg += '<text x="220" y="206" font-family="\'Cormorant Garamond\',serif" font-size="10" fill="#7690C1" font-style="italic" text-anchor="middle">' + cyclusLabel + '</text>';
+  // Overlap labels
+  svg += '<text x="100" y="112" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#7690C1" font-style="italic" text-anchor="middle">tid \u00B7 natur</text>';
+  svg += '<text x="180" y="112" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#7690C1" font-style="italic" text-anchor="middle">tid \u00B7 krop</text>';
+  svg += '<text x="140" y="192" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#7690C1" font-style="italic" text-anchor="middle">natur \u00B7 krop</text>';
+  // Center
+  svg += '<text x="140" y="132" font-family="\'Cormorant Garamond\',serif" font-size="13" fill="#5A74A5" font-weight="600" text-anchor="middle">DIT</text>';
+  svg += '<text x="140" y="148" font-family="\'Cormorant Garamond\',serif" font-size="11" fill="#5A74A5" text-anchor="middle" letter-spacing="1">KRYDSFELT</text>';
+  svg += '</svg>';
+  return svg;
+}
+
+function generateMcInsightText(d) {
+  // Dynamisk indsigt-boks tekst baseret på aktive elementer
   var elements = window._activeElements || [];
-  var cycleAnalysis = window._idagData ? analyzeCycleInteractions(window._idagData) : null;
-  var climateLabel = cycleAnalysis ? cycleAnalysis.climate.label : '';
+  var counts = {};
+  for (var i = 0; i < elements.length; i++) {
+    counts[elements[i]] = (counts[elements[i]] || 0) + 1;
+  }
+  var dominant = '';
+  var maxCount = 0;
+  for (var el in counts) {
+    if (counts[el] > maxCount) { maxCount = counts[el]; dominant = el; }
+  }
+  var elLabel = ELEMENT_LABELS[dominant] || dominant;
 
-  // Venn diagram: LIVSFASE / ÅRSTID / CYKLUS
-  var vennEl = document.getElementById('mine-cyklusser-venn');
-  if (vennEl && window._idagData) {
-    var d = window._idagData;
-    vennEl.innerHTML = renderVennThree({
-      topTitle: 'LIVSFASE',
-      topLines: ['Fase ' + d.lifePhase.phase, d.lifePhase.name],
-      bottomLeftTitle: '\u00c5RSTID',
-      bottomLeftLines: [d.season.season, ELEMENT_LABELS[d.season.element]],
-      bottomRightTitle: 'CYKLUS',
-      bottomRightLines: [(d.monthCycle.data.name || d.monthCycle.data.phase || ''), ELEMENT_LABELS[d.monthCycle.data.element]],
-      overlapAB: 'tid \u00B7 natur',
-      overlapAC: 'tid \u00B7 krop',
-      overlapBC: 'natur \u00B7 krop',
-      centerTitle: 'DIT',
-      centerLines: ['KRYDSFELT'],
-      elementA: d.lifePhase.element,
-      elementB: d.season.element,
-      elementC: d.monthCycle.data.element
-    });
+  if (maxCount >= 4) {
+    return 'Fire af dine fem cyklusser peger mod ' + elLabel + '. Du er i en periode med dyb resonans \u2014 din livsfase, \u00e5rstiden og din m\u00e5nedscyklus synger sammen. M\u00e5ske kan du m\u00e6rke det som en stille ro, der ikke beh\u00f8ver forklaring.';
+  } else if (maxCount === 3) {
+    return 'Tre af dine cyklusser peger mod ' + elLabel + '. Der er en tydelig retning i din energi lige nu \u2014 en str\u00f8m du kan l\u00e6ne dig ind i, selvom ikke alt f\u00f8lger med.';
+  } else if (maxCount === 2) {
+    return 'Dine cyklusser peger i flere retninger. Der er dynamik og sp\u00e6nding mellem dine elementer \u2014 det kan f\u00f8les som kreativ uro eller indre dialog.';
+  } else {
+    return 'Hvert af dine fem cyklusser b\u00e6rer sit eget element. Du st\u00e5r i et rigt og komplekst krydsfelt \u2014 mange kr\u00e6fter, mange muligheder.';
+  }
+}
+
+function renderMcNavCard(title, desc, arrowText, screen) {
+  var html = '<div class="mc__nav-card" onclick="App.loadScreen(\'' + screen + '\')">';
+  html += '<h3>' + title + '</h3>';
+  html += '<p>' + desc + '</p>';
+  html += '<div class="mc__nav-arrow">' + arrowText + '</div>';
+  html += '</div>';
+  return html;
+}
+
+function initMineCyklusserScreen() {
+  ensureIdagData();
+  var d = window._idagData;
+
+  // Tre-cirkel SVG
+  var figEl = document.getElementById('mc-venn-fig');
+  if (figEl && d) {
+    figEl.innerHTML = renderMcThreeCircleSvg(d);
   }
 
-  // Group 1: Tid og bevægelse
-  var group1 = [
-    { screen: 'cyklusser-i-cyklusser', title: 'Cyklusser i Cyklusser', subtitle: climateLabel ? climateLabel + ' \u2014 livsfase, \u00e5rstid, m\u00e5ned, uge og d\u00f8gn. Nogle gange tr\u00e6kker de samme vej, andre gange kolliderer de. Udforsk samspillet her.' : 'Fem lag af energi der hele tiden bev\u00e6ger sig. Nogle gange tr\u00e6kker de samme vej, andre gange kolliderer de. Udforsk samspillet her.' },
-    { screen: 'din-energi', title: 'Din energi p\u00e5 en anden dag', subtitle: 'V\u00e6lg en dag \u2014 fortid eller fremtid \u2014 og se hvilke cyklusser der var aktive. Dine elementer forklarer mere end du tror.' }
-  ];
-  // Group 2: Kroppen
-  var group2 = [
-    { screen: 'alle-faser', title: 'Kroppens store overgange', subtitle: 'Fra pubertetens Tr\u00e6-energi til overgangsalderens Metal \u2014 din krop gennemg\u00e5r vendepunkter, der \u00e6ndrer alt. Se dem i sammenh\u00e6ng med dine cyklusser.' },
-    { screen: 'samlede-indsigt', title: 'Samlet indsigt for i dag', subtitle: 'Yoga, kost, fokusomr\u00e5der og konkrete forslag tilpasset netop din energi i dag.', highlighted: true }
-  ];
-  // Group 3: Livets kapitler
-  var group3 = [
-    { screen: 'de-ni-livsfaser', title: 'De Ni Livsfaser', subtitle: 'Ni syv-\u00e5rs cyklusser fra f\u00f8dsel til visdom. Udforsk hver fase i dybden \u2014 krop, sind, element og konkrete anbefalinger.' },
-    { screen: 'de-fire-uger', title: 'De Fire Uger', subtitle: 'Din m\u00e5nedscyklus udfoldede \u2014 fire uger, fire elementer, fire kvaliteter af energi. Se hvor du er lige nu.' },
-    { screen: 'kontrolcyklussen', title: 'Elementernes Samspil', subtitle: 'Hvert element n\u00e6rer \u00e9t og kontrollerer et andet. Vand n\u00e6rer Tr\u00e6 men kontrollerer Ild. Udforsk kroppens naturlige regulering.' }
-  ];
-
-  function renderCardGroup(heading, subtitle, cards) {
-    var h = '<h4 class="tema__group-heading">' + heading + '</h4>';
-    h += '<p class="tema__group-subtitle">' + subtitle + '</p>';
-    h += '<div class="tema__group">';
-    for (var i = 0; i < cards.length; i++) {
-      var k = cards[i];
-      var clickAction = k.onclick || "App.loadScreen('" + k.screen + "')";
-      var extraClass = k.highlighted ? ' tema__kort--highlighted' : '';
-      h += '<div class="tema__kort' + extraClass + '" onclick="' + clickAction + '">';
-      h += '<div class="tema__kort-content">';
-      h += '<h3 class="tema__kort-title">' + k.title + '</h3>';
-      h += '<p class="tema__kort-subtitle">' + k.subtitle + '</p>';
-      h += '</div>';
-      h += '<span class="tema__kort-arrow">\u203A</span>';
-      h += '</div>';
-    }
-    h += '</div>';
-    return h;
+  // Indsigt-boks
+  var insEl = document.getElementById('mc-indsigt');
+  if (insEl && d) {
+    var insHtml = '<div class="mc__ins">';
+    insHtml += '<div class="mc__ins-label">DINE CYKLUSSER LIGE NU</div>';
+    insHtml += '<div class="mc__ins-text">' + generateMcInsightText(d) + '</div>';
+    insHtml += '</div>';
+    insEl.innerHTML = insHtml;
   }
 
-  var html = '';
-  html += renderCardGroup('Tid og bev\u00e6gelse', 'Dine fem cyklusser i bev\u00e6gelse \u2014 se hvor de tr\u00e6kker sammen, forst\u00e5 din fortid, og forbered dig p\u00e5 det der kommer.', group1);
-  html += renderCardGroup('Kroppen', 'Fysiske overgange og konkret st\u00f8tte til din energi i dag \u2014 fra pubertetens Tr\u00e6-energi til overgangsalderens Metal.', group2);
-  html += renderCardGroup('Livets kapitler', 'Ni syv-\u00e5rs faser og fire uger i din m\u00e5nedscyklus \u2014 de store og de sm\u00e5 rytmer der former din krop og dit sind.', group3);
-  el.innerHTML = html;
+  // Forstå dine rytmer (3 kort)
+  var rytmerEl = document.getElementById('mc-group-rytmer');
+  if (rytmerEl) {
+    var h = '';
+    h += renderMcNavCard('Cyklusser i Cyklusser', 'De fem samtidige cyklusser der former dit liv \u2014 fra livets store bue til d\u00f8gnets puls. Se dem alle p\u00e5 \u00e9n gang.', 'Se blomsten \u2192', 'cyklusser-i-cyklusser');
+    h += renderMcNavCard('Dine cyklusser lige nu', 'Hvilke elementer dominerer i dag? Er du i medvind eller modvind? Den dybe analyse af dit \u00f8jeblik.', 'Se dit samspil \u2192', 'dine-cyklusser-lige-nu');
+    h += renderMcNavCard('Din energi p\u00e5 en anden dag', 'Rejs tilbage i din egen historie \u2014 eller se hvad der venter forude. V\u00e6lg en dag og se dine cyklusser dengang.', '\u00c5bn Tidsvinduet \u2192', 'din-energi');
+    rytmerEl.innerHTML = h;
+  }
+
+  // Kroppen og tiden (1 kort)
+  var kroppenEl = document.getElementById('mc-group-kroppen');
+  if (kroppenEl) {
+    kroppenEl.innerHTML = renderMcNavCard('Kroppens store overgange', 'Fra pubertetens Tr\u00e6-energi til overgangsalderens Metal \u2014 din krop gennemg\u00e5r vendepunkter der \u00e6ndrer alt.', 'Se dine overgange \u2192', 'alle-faser');
+  }
+
+  // Livets kapitler (2 kort)
+  var kapitlerEl = document.getElementById('mc-group-kapitler');
+  if (kapitlerEl) {
+    var k = '';
+    k += renderMcNavCard('De Ni Livsfaser', 'Ni syv-\u00e5rs cyklusser fra f\u00f8dsel til visdom. Udforsk hver fase i dybden \u2014 krop, sind, element og anbefalinger.', 'Udforsk faserne \u2192', 'de-ni-livsfaser');
+    k += renderMcNavCard('De Fire Uger', 'Din m\u00e5nedscyklus udfoldet \u2014 fire uger, fire elementer, fire kvaliteter af energi. Se hvor du er lige nu.', 'Se din m\u00e5ned \u2192', 'de-fire-uger');
+    kapitlerEl.innerHTML = k;
+  }
 }
 
 // ---- Niveau 1: Mine Relationer ----
