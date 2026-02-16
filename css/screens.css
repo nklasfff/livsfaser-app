@@ -4599,6 +4599,63 @@
 }
 
 /* =========================================
+   MINE SAMLINGER — collection cards, create
+   ========================================= */
+
+.rejse__coll {
+  background: rgba(139, 125, 155, 0.06);
+  border: 1px solid rgba(139, 125, 155, 0.14);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 14px;
+}
+.rejse__coll-icon {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+.rejse__coll h3 {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.rejse__coll-meta {
+  font-size: 12px;
+  color: #999;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  margin-bottom: 8px;
+}
+.rejse__coll-items {
+  font-size: 14px;
+  color: #777;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-style: italic;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.rejse__coll-arrow {
+  font-size: 13px;
+  color: #8B7D9B;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-style: italic;
+}
+.rejse__create {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: rgba(139, 125, 155, 0.04);
+  border: 1px dashed rgba(139, 125, 155, 0.25);
+  border-radius: 14px;
+  text-align: center;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 15px;
+  color: #8B7D9B;
+  font-style: italic;
+  cursor: pointer;
+}
+
+/* =========================================
    MIN UDVIKLING — lavendel (rejse__udv-)
    ========================================= */
 

@@ -4542,6 +4542,8 @@ const App = {
           initMineFavoritterScreen();
         } else if (screenName === 'min-journal') {
           initMinJournalScreen();
+        } else if (screenName === 'mine-samlinger') {
+          initMineSamlingerScreen();
         }
 
         // Append "Tilbage til toppen" footer (skip on onboarding)
@@ -6563,6 +6565,83 @@ function journalSetFilter(filterId) {
   initMinJournalScreen();
 }
 window.journalSetFilter = journalSetFilter;
+
+// ---- Niveau 2: Mine Samlinger (lavendel) ----
+
+var SAMLINGER_EXAMPLE = [
+  {
+    icon: '\u2600\uFE0F',
+    title: 'Min morgenrutine',
+    meta: '6 elementer \u00B7 Brugt 34 gange',
+    items: 'Vejrtr\u00e6kning (4-4-8) \u00B7 Meridian-strygning \u00B7 Varm citrondrik \u00B7 Yin Yoga Tr\u00e6...'
+  },
+  {
+    icon: '\uD83C\uDF19',
+    title: 'N\u00e5r jeg har brug for ro',
+    meta: '5 elementer \u00B7 Brugt 12 gange',
+    items: 'Ventral vagus vejrtr\u00e6kning \u00B7 Barnets stilling \u00B7 Varm suppe \u00B7 EFT for angst...'
+  },
+  {
+    icon: '\uD83D\uDC8C',
+    title: 'Til min datter',
+    meta: '3 elementer \u00B7 Delt 1 gang',
+    items: 'Fase 3 indsigt \u00B7 Tr\u00e6-element \u00f8velser \u00B7 Samtale\u00e5bnere mor-datter...'
+  },
+  {
+    icon: '\u2744\uFE0F',
+    title: 'Vinterens \u00f8velser',
+    meta: '3 elementer',
+    items: 'Nyre-strygning \u00B7 Vand-yoga \u00B7 Vinterkost...'
+  }
+];
+
+function initMineSamlingerScreen() {
+  var el = document.getElementById('mine-samlinger-content');
+  if (!el) return;
+
+  var h = '';
+  h += '<h1 class="rejse__t1">Mine samlinger</h1>';
+  h += '<p class="rejse__intr">Dine egne mapper med \u00f8velser, kost og visdom \u2014 samlet som du vil have det</p>';
+
+  // Indsigt-boks
+  h += '<div class="rejse__ins">';
+  h += '<div class="rejse__ins-label">DINE SAMLINGER</div>';
+  h += '<div class="rejse__ins-text">Du har 4 samlinger med 17 gemte elementer. Den du bruger mest er \u201cMin morgenrutine\u201d \u2014 m\u00e5ske kan du tilf\u00f8je en Vand-\u00f8velse der passer til vinteren.</div>';
+  h += '</div>';
+
+  // Separator
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // Samlings-kort
+  for (var i = 0; i < SAMLINGER_EXAMPLE.length; i++) {
+    var s = SAMLINGER_EXAMPLE[i];
+    h += '<div class="rejse__coll">';
+    h += '<div class="rejse__coll-icon">' + s.icon + '</div>';
+    h += '<h3>' + s.title + '</h3>';
+    h += '<div class="rejse__coll-meta">' + s.meta + '</div>';
+    h += '<div class="rejse__coll-items">' + s.items + '</div>';
+    h += '<div class="rejse__coll-arrow">\u00c5bn \u2192</div>';
+    h += '</div>';
+  }
+
+  // Separator
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // Opret ny samling
+  h += '<div class="rejse__create" onclick="showActionToast(\'Kommer snart\')">+ Opret ny samling</div>';
+
+  // Hint
+  h += '<div class="rejse__hint">Saml \u00f8velser, kost og visdom der h\u00f8rer sammen for dig. Du kan dele en hel samling med nogen du holder af.</div>';
+
+  // Del/Kopi\u00e9r/Gem
+  h += '<div class="rejse__acts">';
+  h += '<button class="rejse__act" onclick="actionShare()">Del</button>';
+  h += '<button class="rejse__act" onclick="actionCopyLink()">Kopi\u00e9r</button>';
+  h += '<button class="rejse__act" onclick="actionToggleSave(\'mine-samlinger\')">Gem</button>';
+  h += '</div>';
+
+  el.innerHTML = h;
+}
 
 function renderTrackingPeriod() {
   var el = document.getElementById('tracking-period');
