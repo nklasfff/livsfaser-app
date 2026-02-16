@@ -3396,34 +3396,132 @@
    YIN YOGA SELECTOR
    ============================ */
 
-.yin-yoga__selector {
+.yin-yoga__chips {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
+  gap: 8px;
   justify-content: center;
-  margin: var(--space-lg) 0;
+  margin: 16px 0;
+  flex-wrap: wrap;
 }
 
-.yin-yoga__element-btn {
-  background: var(--bg-secondary);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-full);
-  padding: var(--space-sm) var(--space-md);
-  font-family: var(--font-serif);
-  font-size: var(--text-small);
-  color: var(--text-primary);
+.yin-yoga__chip {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  border: 1px solid rgba(139, 154, 157, 0.2);
+  color: #777;
+  background: none;
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
-.yin-yoga__element-btn--active {
-  background: var(--morkebla);
-  border-color: var(--morkebla);
+.yin-yoga__chip--active {
+  background: #6B8273;
   color: white;
+  border-color: #6B8273;
 }
 
-.yin-yoga__element-btn:active {
+.yin-yoga__chip:active {
   transform: scale(0.97);
+}
+
+.yin-yoga__intro-text {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  color: #555;
+  font-style: italic;
+  text-align: center;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+/* Øvelseskort (Min Praksis grå-grøn stil) */
+.praksis__exercise {
+  background: rgba(139, 154, 157, 0.05);
+  border: 1px solid rgba(139, 154, 157, 0.12);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+
+.praksis__exercise-organ {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  color: #7A9080;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.praksis__exercise-title {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.praksis__exercise-desc {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: #666;
+  line-height: 1.55;
+  font-style: italic;
+}
+
+.praksis__exercise-time {
+  font-family: var(--font-serif);
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 6px;
+  font-style: italic;
+}
+
+.praksis__exercise-link {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: #7A9080;
+  font-style: italic;
+  margin-top: 6px;
+}
+
+/* Crosslink (Min Praksis stil) */
+.praksis__crosslink {
+  display: block;
+  text-align: center;
+  color: #7A9080;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-style: italic;
+  margin-top: 10px;
+  text-decoration: underline;
+  text-decoration-color: rgba(122, 144, 128, 0.3);
+  cursor: pointer;
+}
+
+/* Actionbar (Min Praksis stil) */
+.praksis__actionbar {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  padding: 14px 0;
+  border-top: 1px solid #eee;
+  margin-top: 24px;
+}
+
+.praksis__actionbar-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  color: #aaa;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 /* ============================

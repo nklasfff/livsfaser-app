@@ -7886,10 +7886,6 @@ function initFoelelserScreen() {
 // ---- Feature: Yin Yoga ----
 
 function initYinYogaScreen() {
-  var selectorEl = document.getElementById('yin-yoga-selector');
-  var posesEl = document.getElementById('yin-yoga-poses');
-  if (!selectorEl || !posesEl) return;
-
   ensureIdagData();
   var elements = window._activeElements || [];
   var counts = {};
@@ -7899,61 +7895,70 @@ function initYinYogaScreen() {
   var ks = Object.keys(counts);
   for (var j = 0; j < ks.length; j++) { if (counts[ks[j]] > maxC) { maxC = counts[ks[j]]; dominant = ks[j]; } }
 
-  window._yogaSelectedElement = dominant;
+  window._yogaSelectedElement = window._yogaSelectedElement || dominant;
   renderYinYogaContent();
 }
 
 function renderYinYogaContent() {
-  var selectorEl = document.getElementById('yin-yoga-selector');
+  var chipsEl = document.getElementById('yin-yoga-chips');
+  var introEl = document.getElementById('yin-yoga-intro');
   var posesEl = document.getElementById('yin-yoga-poses');
-  if (!selectorEl || !posesEl) return;
+  var andreEl = document.getElementById('yin-yoga-andre');
+  if (!posesEl) return;
 
   var selected = window._yogaSelectedElement || 'VAND';
   var elKeys = ['VAND', 'TR\u00C6', 'ILD', 'JORD', 'METAL'];
 
-  // Selector buttons
-  var sHtml = '<div class="yin-yoga__selector">';
-  for (var i = 0; i < elKeys.length; i++) {
-    var isActive = (elKeys[i] === selected);
-    sHtml += '<button class="yin-yoga__element-btn' + (isActive ? ' yin-yoga__element-btn--active' : '') + '" onclick="selectYogaElement(\'' + elKeys[i] + '\')">' + ELEMENT_LABELS[elKeys[i]] + '</button>';
+  // 1. Element chips
+  if (chipsEl) {
+    var cHtml = '<div class="yin-yoga__chips">';
+    for (var i = 0; i < elKeys.length; i++) {
+      var isActive = (elKeys[i] === selected);
+      cHtml += '<button class="yin-yoga__chip' + (isActive ? ' yin-yoga__chip--active' : '') + '" onclick="selectYogaElement(\'' + elKeys[i] + '\')">' + ELEMENT_LABELS[elKeys[i]] + '</button>';
+    }
+    cHtml += '</div>';
+    chipsEl.innerHTML = cHtml;
   }
-  sHtml += '</div>';
-  selectorEl.innerHTML = sHtml;
 
-  // Poses for selected element
+  // 2. Dynamisk intro-tekst
+  if (introEl) {
+    introEl.innerHTML = '<p class="yin-yoga__intro-text">Dit dominerende element lige nu er ' + ELEMENT_LABELS[selected] + '.<br>Disse positioner st\u00f8tter dig:</p>';
+  }
+
+  // 3. Øvelseskort for valgt element
   var poses = YIN_YOGA_FULL[selected] || [];
-  var html = '<p class="livsfase-detail__intro" style="margin-top:16px">Dit dominerende element lige nu er ' + ELEMENT_LABELS[selected] + '. Disse positioner st\u00f8tter dig:</p>';
-
+  var html = '';
   for (var p = 0; p < poses.length; p++) {
     var pose = poses[p];
-    html += '<div class="livsfase-detail__rec-card">';
-    html += '<p class="livsfase-detail__rec-label">' + pose.meridian + '</p>';
-    html += '<p class="livsfase-detail__rec-title">' + pose.pose + '</p>';
-    html += '<p class="livsfase-detail__rec-desc">' + pose.desc + '</p>';
-    html += '<p style="font-size:11px;color:#999;margin-top:4px">' + pose.tid + '</p>';
+    html += '<div class="praksis__exercise">';
+    html += '<div class="praksis__exercise-organ">' + pose.meridian + '</div>';
+    html += '<h3 class="praksis__exercise-title">' + pose.pose + '</h3>';
+    html += '<p class="praksis__exercise-desc">' + pose.desc + '</p>';
+    html += '<div class="praksis__exercise-time">' + pose.tid + '</div>';
+    html += '<div class="praksis__exercise-link">Pr\u00f8v nu \u2192</div>';
     html += '</div>';
   }
-
-  // Show other elements collapsed
-  html += '<h3 class="livsfase-detail__section-title" style="margin-top:24px">Andre elementer</h3>';
-  html += '<p class="livsfase-detail__section-subtitle">Udforsk øvelser for de øvrige elementer</p>';
-  for (var e = 0; e < elKeys.length; e++) {
-    if (elKeys[e] === selected) continue;
-    var otherPoses = YIN_YOGA_FULL[elKeys[e]] || [];
-    html += '<div class="tema__kort" onclick="selectYogaElement(\'' + elKeys[e] + '\')">';
-    html += '<div class="tema__kort-content">';
-    html += '<h3 class="tema__kort-title">' + ELEMENT_LABELS[elKeys[e]] + '</h3>';
-    html += '<p class="tema__kort-subtitle">' + otherPoses.map(function(p) { return p.pose.split('(')[0].trim(); }).join(' \u00B7 ') + '</p>';
-    html += '</div><span class="tema__kort-arrow">\u203A</span></div>';
-  }
-
-  html += '<div class="tidsvindue__crosslink" onclick="App.loadScreen(\'din-energi\')">';
-  html += '<span class="tidsvindue__crosslink-text">Se hvilke stillinger der passer til dig p\u00e5 en anden dag \u2192</span>';
-  html += '</div>';
-
-  html += sectionDivider();
-  html += renderActionBar('yin-yoga');
   posesEl.innerHTML = html;
+
+  // 4. Andre elementer + crosslink + actionbar
+  if (andreEl) {
+    var aHtml = '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+    aHtml += '<h3 class="praksis__section-title">Andre elementer</h3>';
+    aHtml += '<p class="praksis__section-intro">Udforsk \u00f8velser for de \u00f8vrige elementer</p>';
+    for (var e = 0; e < elKeys.length; e++) {
+      if (elKeys[e] === selected) continue;
+      var otherPoses = YIN_YOGA_FULL[elKeys[e]] || [];
+      var poseNames = otherPoses.map(function(op) { return op.pose.split('(')[0].trim(); }).join(' \u00B7 ');
+      aHtml += '<div class="praksis__card" onclick="selectYogaElement(\'' + elKeys[e] + '\')">';
+      aHtml += '<h3 class="praksis__card-title">' + ELEMENT_LABELS[elKeys[e]] + '</h3>';
+      aHtml += '<p class="praksis__card-desc">' + poseNames + '</p>';
+      aHtml += '<div class="praksis__card-link">\u2192</div>';
+      aHtml += '</div>';
+    }
+    aHtml += '<div class="praksis__crosslink" onclick="App.loadScreen(\'din-energi\')">Se hvilke stillinger der passer til dig p\u00e5 en anden dag \u2192</div>';
+    aHtml += renderActionBar('yin-yoga');
+    andreEl.innerHTML = aHtml;
+  }
 }
 
 function selectYogaElement(element) {
