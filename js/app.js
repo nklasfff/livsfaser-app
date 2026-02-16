@@ -2648,8 +2648,8 @@ function renderRelationerOverview() {
   var userData = localStorage.getItem('user');
   var html = '';
 
-  html += '<h2 class="tema__title">Relationer lige nu</h2>';
-  html += '<p class="tema__subtitle">Hvordan jeres faser og elementer m&oslash;des i dag</p>';
+  html += '<h1 class="rejse__t1">Relationer lige nu</h1>';
+  html += '<p class="rejse__intr">Hvordan jeres faser og elementer mødes netop i dag. Nogle dage flyder I sammen, andre dage trækker jeres energier i hver sin retning — begge dele er naturligt.</p>';
 
   // Arv/Valg/Gave Venn-diagram
   html += renderVennFour({
@@ -3335,8 +3335,8 @@ function renderTidsrejseOverview() {
   ];
 
   var html = '<div class="tidsrejse__header">';
-  html += '<h2 class="tidsrejse__title">Tidsrejse</h2>';
-  html += '<p class="tidsrejse__subtitle">Dine cyklusser var aktive l\u00e6nge f\u00f8r du kendte til dem. Og de forts\u00e6tter ud i fremtiden. Her kan du rejse tilbage og forst\u00e5 \u2014 eller frem og forberede dig.</p>';
+  html += '<h1 class="rejse__t1">Tidsrejse</h1>';
+  html += '<p class="rejse__intr">Dine cyklusser var aktive l\u00e6nge f\u00f8r du kendte til dem, og de forts\u00e6tter ud i fremtiden. Her kan du rejse tilbage og forst\u00e5 — eller frem og forberede dig.</p>';
   html += '</div>';
 
   // Venn diagram: FORTID / FREMTID / DIN FORSTÅELSE
@@ -6066,7 +6066,7 @@ function initMinRejseScreen() {
 
   var h = '';
   h += '<h1 class="rejse__t1">Min Rejse</h1>';
-  h += '<p class="rejse__intr">Dit personlige bibliotek og din udvikling over tid</p>';
+  h += '<p class="rejse__intr">Dit personlige bibliotek og din udvikling over tid. Her samler du tr\u00e5dene fra dine check-ins, refleksioner og gemte favoritter — et stille vidnesbyrd om din vej.</p>';
 
   // Tre-cirkel figur
   h += '<div class="rejse__fig">' + svg + '</div>';
@@ -6617,7 +6617,7 @@ function initMinUdviklingScreen() {
   // ---- Build HTML ----
   var h = '';
   h += '<h1 class="rejse__t1">Min udvikling</h1>';
-  h += '<p class="rejse__intr">Se m\u00f8nstre i din energi, dine \u00f8velser og dine f\u00f8lelser over tid</p>';
+  h += '<p class="rejse__intr">Se m\u00f8nstre i din energi, dine \u00f8velser og dine f\u00f8lelser over tid. N\u00e5r du ser tilbage p\u00e5 dine check-ins, tr\u00e6der der m\u00e5ske m\u00f8nstre frem du ikke kunne se indefra.</p>';
 
   // Tidsfilter chips
   var periods = [
@@ -6989,7 +6989,7 @@ function initMineFavoritterScreen() {
 
   var h = '';
   h += '<h1 class="rejse__t1">Mine favoritter</h1>';
-  h += '<p class="rejse__intr">Alt du har gemt med hjertet \u2014 \u00f8velser, kost, refleksioner og visdom</p>';
+  h += '<p class="rejse__intr">Alt du har gemt med hjertet \u2014 \u00f8velser, kost, refleksioner og visdom. Din egen samling af det der r\u00f8rte dig, som sm\u00e5 sten du har samlet p\u00e5 en lang strandtur.</p>';
 
   // Tab-filter
   var tabs = [
@@ -7109,7 +7109,7 @@ function initMinJournalScreen() {
 
   var h = '';
   h += '<h1 class="rejse__t1">Min journal</h1>';
-  h += '<p class="rejse__intr">Dine tanker, check-ins og refleksioner \u2014 forbundet med dine cyklusser</p>';
+  h += '<p class="rejse__intr">Dine tanker, check-ins og refleksioner \u2014 forbundet med dine cyklusser. Over tid bliver journalen et stille vidne til din rejse, dine m\u00f8nstre og din udvikling.</p>';
 
   // Dagens refleksion-boks
   var weekEl = d.menstrualCycle ? d.menstrualCycle.element : '';
@@ -7280,7 +7280,7 @@ function initMineSamlingerScreen() {
 
   var h = '';
   h += '<h1 class="rejse__t1">Mine samlinger</h1>';
-  h += '<p class="rejse__intr">Dine egne mapper med \u00f8velser, kost og visdom \u2014 samlet som du vil have det</p>';
+  h += '<p class="rejse__intr">Dine egne mapper med \u00f8velser, kost og visdom \u2014 samlet som du vil have det. Her skaber du dine egne kombinationer af det der virker bedst for dig.</p>';
 
   // Indsigt-boks
   h += '<div class="rejse__ins">';
@@ -7330,7 +7330,7 @@ function initBaggrundsvidenScreen() {
 
   var h = '';
   h += '<h1 class="rejse__t1">Baggrundsviden</h1>';
-  h += '<p class="rejse__intr">Den dybere forst\u00e5else bag cyklusser, elementer og livets rytmer</p>';
+  h += '<p class="rejse__intr">Den dybere forst\u00e5else bag cyklusser, elementer og livets rytmer. Her finder du den viden der b\u00e6rer hele appen \u2014 fra kinesisk medicin til vedisk filosofi og epigenetik.</p>';
 
   // SVG pentagram
   h += '<div class="rejse__fig">';
@@ -9291,8 +9291,8 @@ function initLivsfaseDetailScreen() {
   // Title + badge
   html += '<div class="livsfase-detail__header">';
   html += '<div class="livsfase-detail__badge">' + phaseNum + '</div>';
-  html += '<h2 class="livsfase-detail__title">' + phase.name + '</h2>';
-  html += '<p class="livsfase-detail__range">' + phase.startAge + '\u2013' + phase.endAge + ' \u00e5r \u00B7 ' + ELEMENT_LABELS[phase.element] + '-element</p>';
+  html += '<h1 class="rejse__t1">' + phase.name + '</h1>';
+  html += '<p class="rejse__intr">' + phase.startAge + '\u2013' + phase.endAge + ' \u00e5r \u00B7 ' + ELEMENT_LABELS[phase.element] + '-element. Hvert kapitel i livet b\u00e6rer sin egen energi og sine egne gaver — her udfolder du det, du st\u00e5r midt i.</p>';
   html += '</div>';
 
   // Intro
