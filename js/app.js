@@ -2590,10 +2590,8 @@ function renderRelationerOverview() {
   var userData = localStorage.getItem('user');
   var html = '';
 
-  html += '<div class="relationer__header">';
-  html += '<h2 class="relationer__title">Relationer</h2>';
-  html += '<p class="relationer__subtitle">Se hvordan jeres faser mødes</p>';
-  html += '</div>';
+  html += '<h2 class="tema__title">Relationer lige nu</h2>';
+  html += '<p class="tema__subtitle">Hvordan jeres faser og elementer m&oslash;des i dag</p>';
 
   // Arv/Valg/Gave Venn-diagram
   html += renderVennFour({
@@ -2605,12 +2603,7 @@ function renderRelationerOverview() {
     rightLines: ['Bevidst handling,', 'bryde kæden'],
     bottomTitle: 'GAVEN',
     bottomLines: ['Hvad du giver videre'],
-    highlights: [
-      { pair: 'AB', text: 'at forstå' },
-      { pair: 'AC', text: 'at tilgive' },
-      { pair: 'BD', text: 'at transformere' },
-      { pair: 'CD', text: 'at frigøre' }
-    ],
+    highlights: [],
     centerTitle: 'DIG',
     centerLines: [],
     extraLabels: [
@@ -2644,11 +2637,17 @@ function renderRelationerOverview() {
       var phaseLabel = (r.gender === 'mand') ? phase.phase + '. cyklus' : 'Fase ' + phase.phase;
       var interaction = getElementInteraction(userPhaseRel.element, phase.element, r.name, r.gender);
 
+      var relLabel = getRelationTypeLabel(r.relationType);
+      var nameDisplay = escapeHtml(r.name);
+      if (r.relationType && r.relationType !== 'partner' && r.relationType !== 'mand' && r.relationType !== 'k\u00e6reste') {
+        nameDisplay += ' (din ' + escapeHtml(relLabel.toLowerCase()) + ')';
+      }
+
       html += '<div class="rel-dyn-card" onclick="showRelationDetail(' + i + ')">';
       html += '<div class="rel-dyn-card__top">';
       html += '<div class="rel-dyn-card__dot">' + (r.gender === 'mand' ? phase.phase + '.' : 'F' + phase.phase) + '</div>';
       html += '<div class="rel-dyn-card__info">';
-      html += '<div class="rel-dyn-card__name">' + escapeHtml(r.name) + '</div>';
+      html += '<div class="rel-dyn-card__name">' + nameDisplay + '</div>';
       html += '<div class="rel-dyn-card__phase">' + phaseLabel + ' \u00B7 ' + ELEMENT_LABELS[phase.element] + ' \u00B7 ' + age + ' \u00e5r</div>';
       html += '</div>';
       html += '</div>';
@@ -2662,6 +2661,7 @@ function renderRelationerOverview() {
     html += '<div class="rel-add-person__sub">Partner, barn, for\u00e6lder, veninde...</div>';
     html += '</div>';
   }
+  html += '<div class="rel-btt" onclick="window.scrollTo({top:0,behavior:\'smooth\'});">\u2191 Tilbage til toppen</div>';
   el.innerHTML = html;
 }
 

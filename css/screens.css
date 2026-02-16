@@ -4654,6 +4654,15 @@
   font-style: italic;
 }
 
+.rel-btt {
+  text-align: center;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 13px;
+  color: #ccc;
+  margin-top: 28px;
+  cursor: pointer;
+}
+
 /* Dynamic person cards (Relationer lige nu) */
 .rel-dyn-card {
   background: rgba(184, 166, 192, 0.05);
