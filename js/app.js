@@ -5712,144 +5712,195 @@ function initMinRejseScreen() {
 
 // ---- Niveau 2: Cyklusser i Cyklusser ----
 
+function renderCicBlomstSvg() {
+  // Blomst-SVG: fem ellipser (blade) roteret 72° + center-cirkel
+  var svg = '<svg width="280" height="280" xmlns="http://www.w3.org/2000/svg">';
+  // 5 blade (ellipser roteret 0°, 72°, 144°, 216°, 288°)
+  var opacities = [0.07, 0.06, 0.05, 0.06, 0.07];
+  var strokes = [0.18, 0.16, 0.14, 0.16, 0.18];
+  for (var i = 0; i < 5; i++) {
+    svg += '<ellipse cx="140" cy="55" rx="44" ry="65" fill="rgba(118,144,193,' + opacities[i] + ')" stroke="rgba(118,144,193,' + strokes[i] + ')" stroke-width="1" transform="rotate(' + (i * 72) + ',140,140)"/>';
+  }
+  // Center-cirkel
+  svg += '<circle cx="140" cy="140" r="34" fill="rgba(118,144,193,0.1)" stroke="rgba(118,144,193,0.25)" stroke-width="1"/>';
+  svg += '<text x="140" y="136" font-family="serif" font-size="12" fill="#5A74A5" font-weight="600" text-anchor="middle">DIG</text>';
+  svg += '<text x="140" y="151" font-family="serif" font-size="9" fill="#7690C1" font-style="italic" text-anchor="middle">i alle rytmer</text>';
+  // Labels (positioneret som i mockup)
+  svg += '<text x="140" y="18" font-family="-apple-system,sans-serif" font-size="8" fill="#5A74A5" text-anchor="middle" letter-spacing="1.5">LIVETS BUE</text>';
+  svg += '<text x="140" y="30" font-family="serif" font-size="9" fill="#7690C1" font-style="italic" text-anchor="middle">9 faser \u00B7 63 \u00e5r</text>';
+  svg += '<text x="260" y="105" font-family="-apple-system,sans-serif" font-size="7" fill="#5A74A5" text-anchor="middle" letter-spacing="1">\u00c5RETS RYTME</text>';
+  svg += '<text x="232" y="248" font-family="-apple-system,sans-serif" font-size="7" fill="#5A74A5" text-anchor="middle" letter-spacing="1">M\u00c5NEDENS CYKLUS</text>';
+  svg += '<text x="48" y="248" font-family="-apple-system,sans-serif" font-size="7" fill="#5A74A5" text-anchor="middle" letter-spacing="1">UGENS DAGE</text>';
+  svg += '<text x="20" y="105" font-family="-apple-system,sans-serif" font-size="7" fill="#5A74A5" text-anchor="middle" letter-spacing="1">D\u00d8GNETS PULS</text>';
+  svg += '</svg>';
+  return svg;
+}
+
+// Dynamiske tekster for de fem cyklusser
+var CIC_CYCLE_TEXTS = {
+  VAND: { livsfase: 'Visdomstiden. Energien vender hjem til vandet, hvor den begyndte. Der er en cirkel der sluttes.',
+           aarstid_vinter: '\u00c5rets dybeste Vand-tid. M\u00f8rket kalder p\u00e5 hvile og indadvendthed \u2014 som fr\u00f8et under sneen.',
+           aarstid_default: 'Vand-energi i \u00e5rstiden. Stilhed og dybde pr\u00e6ger perioden.',
+           maaned_uge1: 'Menstruationens indre vinter \u2014 kroppen beder om ro og varme.',
+           maaned_default: 'Vand-energi i din cyklus. En tid for indadvendthed.',
+           uge_mandag: 'Ugens stille begyndelse. Vand-energi. Planl\u00e6g, men pres ikke.',
+           uge_default: 'Vand-energi i ugen. Tag det roligt.',
+           doegn: 'Den bedste tid til at n\u00e6re dig selv.' },
+  TRAE: { livsfase: 'V\u00e6kstens tid. Energien skyder op som nye skud. Der er en kraft der vil frem.',
+           aarstid_default: 'Tr\u00e6-energi. V\u00e6kst og fornyelse pr\u00e6ger perioden.',
+           maaned_default: 'Follikul\u00e6r fase \u2014 energien stiger. Ny begyndelse.',
+           uge_default: 'Tr\u00e6-energi i ugen. God tid til at starte nyt.',
+           doegn: 'Leveren arbejder. Kreativitet og planl\u00e6gning.' },
+  ILD:  { livsfase: 'Ildens tid. Fuld energi, udadvendthed, passion.',
+           aarstid_default: 'Ild-energi. Varme og udfoldelse pr\u00e6ger perioden.',
+           maaned_default: '\u00c6gl\u00f8sning. Mest energi, mest udadvendt. Hjertet \u00e5bner.',
+           uge_default: 'Ild-energi i ugen. Sociale m\u00f8der og kreativitet.',
+           doegn: 'Hjertets tid. V\u00e6r \u00e5ben og n\u00e6rv\u00e6rende.' },
+  JORD: { livsfase: 'Modningens tid. Hvad er essentielt? Hvad kan du give videre?',
+           aarstid_default: 'Jord-energi. N\u00e6ring og stabilitet pr\u00e6ger perioden.',
+           maaned_default: 'Luteal fase \u2014 energi falder. Kroppen sorterer.',
+           uge_default: 'Jord-energi i ugen. God tid til at n\u00e6re dig selv.',
+           doegn: 'Jord-element. Den bedste tid til at n\u00e6re dig selv med varm mad.' },
+  METAL:{ livsfase: 'Frigørelsens tid. At give slip. Hvad har du brug for \u2014 og hvad kan du l\u00e6gge fra dig?',
+           aarstid_default: 'Metal-energi. Klarhed og sortering pr\u00e6ger perioden.',
+           maaned_default: 'Sen luteal fase. Energi falder. Behov for ro.',
+           uge_default: 'Metal-energi i ugen. Afslut og ryd op.',
+           doegn: 'Lungernes tid. Dybe \u00e5ndedrag og ro.' }
+};
+
+function getCicCycleDesc(element, cycle, d) {
+  var t = CIC_CYCLE_TEXTS[element] || CIC_CYCLE_TEXTS.VAND;
+  if (cycle === 'livsfase') return t.livsfase || t.aarstid_default;
+  if (cycle === 'aarstid') {
+    if (element === 'VAND' && d.season.season === 'Vinter') return t.aarstid_vinter;
+    return t.aarstid_default;
+  }
+  if (cycle === 'maaned') {
+    if (element === 'VAND' && d.monthCycle && d.monthCycle.data && d.monthCycle.data.week === 1) return t.maaned_uge1;
+    return t.maaned_default;
+  }
+  if (cycle === 'uge') {
+    if (element === 'VAND' && d.weekday.day === 'Mandag') return t.uge_mandag;
+    return t.uge_default;
+  }
+  if (cycle === 'doegn') return t.doegn;
+  return '';
+}
+
+function generateCicDetBetyder(d) {
+  var elements = window._activeElements || [];
+  var counts = {};
+  for (var i = 0; i < elements.length; i++) {
+    counts[elements[i]] = (counts[elements[i]] || 0) + 1;
+  }
+  var dominant = '';
+  var maxCount = 0;
+  for (var el in counts) {
+    if (counts[el] > maxCount) { maxCount = counts[el]; dominant = el; }
+  }
+  var elLabel = ELEMENT_LABELS[dominant] || dominant;
+  // Find det element der bryder mønstret
+  var breaker = '';
+  var breakerCycle = '';
+  var cycleElements = [
+    { el: d.lifePhase.element, name: 'livsfasen' },
+    { el: d.season.element, name: '\u00e5rstiden' },
+    { el: d.monthCycle.data.element, name: 'm\u00e5nedscyklussen' },
+    { el: d.weekday.element, name: 'ugedagen' },
+    { el: d.organ.element, name: 'd\u00f8gnets organur' }
+  ];
+  for (var j = 0; j < cycleElements.length; j++) {
+    if (cycleElements[j].el !== dominant) {
+      breaker = ELEMENT_LABELS[cycleElements[j].el];
+      breakerCycle = cycleElements[j].name;
+      break;
+    }
+  }
+
+  if (maxCount >= 4) {
+    return maxCount + ' af dine cyklusser peger mod ' + elLabel + ' lige nu \u2014 kun ' + breakerCycle + ' bryder m\u00f8nstret med ' + breaker + '. Du er i dyb resonans. Det kan f\u00f8les som en stille kraft, der ikke beh\u00f8ver ord.';
+  } else if (maxCount === 3) {
+    return 'Tre af dine cyklusser peger mod ' + elLabel + '. Der er en tydelig retning \u2014 men ogs\u00e5 modstemmer der giver dynamik og sp\u00e6nding.';
+  } else {
+    return 'Dine cyklusser tr\u00e6kker i flere retninger. Der er kreativ sp\u00e6nding mellem dine elementer \u2014 det kan f\u00f8les som indre dialog.';
+  }
+}
+
 function initCyklusserICyklusserScreen() {
   ensureIdagData();
-  if (!window._idagData) return;
+  var d = window._idagData;
+  if (!d) return;
 
-  var analysis = analyzeCycleInteractions(window._idagData);
-
-  // 1. Render klima
-  var climateEl = document.getElementById('cic-climate');
-  if (climateEl) {
-    climateEl.innerHTML =
-      '<p class="cic__climate-label">' + analysis.climate.label + '</p>' +
-      '<p class="cic__climate-text">' + analysis.climate.text + '</p>';
+  // 1. Blomst-SVG
+  var blomstEl = document.getElementById('cic-blomst');
+  if (blomstEl) {
+    blomstEl.innerHTML = renderCicBlomstSvg();
   }
 
-  // 1b. Render VennFour for 4 fast cycles (årstid, måned, uge, døgn)
-  var vennEl = document.getElementById('cic-venn');
-  if (vennEl && window._idagData) {
-    var d = window._idagData;
-    // Analyze key pairwise relationships
-    var pSeason_Month = analyzePair(
-      { name: 'aarstid', label: '\u00c5rstid', element: d.season.element },
-      { name: 'maaned', label: 'Cyklus', element: d.monthCycle.data.element }
-    );
-    var pSeason_Week = analyzePair(
-      { name: 'aarstid', label: '\u00c5rstid', element: d.season.element },
-      { name: 'ugedag', label: 'Ugedag', element: d.weekday.element }
-    );
-    var pMonth_Organ = analyzePair(
-      { name: 'maaned', label: 'Cyklus', element: d.monthCycle.data.element },
-      { name: 'organur', label: 'Organur', element: d.organ.element }
-    );
-    var pWeek_Organ = analyzePair(
-      { name: 'ugedag', label: 'Ugedag', element: d.weekday.element },
-      { name: 'organur', label: 'Organur', element: d.organ.element }
-    );
-
-    vennEl.innerHTML = renderVennFour({
-      topTitle: '\u00c5RSTID',
-      topLines: [d.season.season, ELEMENT_LABELS[d.season.element]],
-      leftTitle: 'M\u00c5NED',
-      leftLines: [(d.monthCycle.data.name || d.monthCycle.data.phase || '')],
-      rightTitle: 'UGE',
-      rightLines: [d.weekday.day],
-      bottomTitle: 'D\u00d8GN',
-      bottomLines: [d.organ.organ, d.organ.hours],
-      highlights: [
-        { pair: 'AB', text: pSeason_Month.typeLabel },
-        { pair: 'AC', text: pSeason_Week.typeLabel },
-        { pair: 'BD', text: pMonth_Organ.typeLabel },
-        { pair: 'CD', text: pWeek_Organ.typeLabel }
-      ],
-      centerTitle: 'NU',
-      centerLines: ['*dit krydsfelt'],
-      elementA: d.season.element,
-      elementB: d.monthCycle.data.element,
-      elementC: d.weekday.element,
-      elementD: d.organ.element
-    });
+  // 2. "LIGE NU" indsigt-boks
+  var ligeNuEl = document.getElementById('cic-lige-nu');
+  if (ligeNuEl) {
+    var h = '<div class="mc__ins">';
+    h += '<div class="mc__ins-label">LIGE NU</div>';
+    h += '<div class="mc__ins-text">Vi lever altid i fem cyklusser p\u00e5 \u00e9n gang. Hver bev\u00e6ger sig gennem de samme elementer: Vand \u2192 Tr\u00e6 \u2192 Ild \u2192 Jord \u2192 Metal \u2192 Vand. Fra stilhed til v\u00e6kst til udfoldelse til h\u00f8st til slip.</div>';
+    h += '</div>';
+    ligeNuEl.innerHTML = h;
   }
 
-  // 2. Render prioritets-par (3 kort)
-  var pairsEl = document.getElementById('cic-pairs');
-  if (pairsEl) {
-    var html = '';
-    for (var i = 0; i < analysis.priorityPairs.length; i++) {
-      html += renderPairCard(analysis.priorityPairs[i]);
+  // 3. Fem cyklus-kort
+  var femEl = document.getElementById('cic-fem-cyklusser');
+  if (femEl) {
+    var now = new Date();
+    var hours = now.getHours();
+    var mins = String(now.getMinutes()).padStart(2, '0');
+    var timeStr = hours + ':' + mins;
+
+    var cycles = [
+      { name: 'Livets bue', tag: ELEMENT_LABELS[d.lifePhase.element] + ' \u00B7 FASE ' + d.lifePhase.phase,
+        desc: (d.lifePhase.phase >= 9 ? '63+ \u00e5r' : (d.lifePhase.startAge + '\u2013' + d.lifePhase.endAge + ' \u00e5r')) + ' \u00B7 ' + getCicCycleDesc(d.lifePhase.element, 'livsfase', d) },
+      { name: '\u00c5rets rytme', tag: ELEMENT_LABELS[d.season.element] + ' \u00B7 ' + d.season.season.toUpperCase(),
+        desc: ['Januar','Februar','Marts','April','Maj','Juni','Juli','August','September','Oktober','November','December'][now.getMonth()] + '. ' + getCicCycleDesc(d.season.element, 'aarstid', d) },
+      { name: 'M\u00e5nedens cyklus', tag: ELEMENT_LABELS[d.monthCycle.data.element] + ' \u00B7 ' + (d.monthCycle.data.phase || d.monthCycle.data.name || '').toUpperCase(),
+        desc: (d.monthCycle.data.day ? 'Dag ' + d.monthCycle.data.day + ' i din cyklus. ' : d.monthCycle.data.name + '. ') + getCicCycleDesc(d.monthCycle.data.element, 'maaned', d) },
+      { name: 'Ugens dage', tag: ELEMENT_LABELS[d.weekday.element] + ' \u00B7 ' + d.weekday.day.toUpperCase(),
+        desc: d.weekday.day + '. ' + getCicCycleDesc(d.weekday.element, 'uge', d) },
+      { name: 'D\u00f8gnets puls', tag: ELEMENT_LABELS[d.organ.element] + ' \u00B7 ' + d.organ.organ.toUpperCase(),
+        desc: 'Kl. ' + timeStr + ' \u2014 ' + d.organ.organ + 's tid (' + d.organ.hours + '). ' + getCicCycleDesc(d.organ.element, 'doegn', d) }
+    ];
+
+    var ch = '';
+    for (var i = 0; i < cycles.length; i++) {
+      ch += '<div class="mc__cycle-card">';
+      ch += '<div class="mc__cycle-header">';
+      ch += '<div class="mc__cycle-name">' + cycles[i].name + '</div>';
+      ch += '<div class="mc__cycle-tag">' + cycles[i].tag + '</div>';
+      ch += '</div>';
+      ch += '<div class="mc__cycle-desc">' + cycles[i].desc + '</div>';
+      ch += '</div>';
     }
-    pairsEl.innerHTML = html;
+    femEl.innerHTML = ch;
   }
 
-  // 3. Render expand-knap og ekstra par
-  var expandBtn = document.getElementById('cic-expand-btn');
-  var extraEl = document.getElementById('cic-pairs-extra');
-  if (expandBtn && extraEl && analysis.otherPairs.length > 0) {
-    expandBtn.style.display = 'block';
-    var extraHtml = '';
-    for (var j = 0; j < analysis.otherPairs.length; j++) {
-      extraHtml += renderPairCard(analysis.otherPairs[j]);
-    }
-    extraEl.innerHTML = extraHtml;
-
-    expandBtn.onclick = function() {
-      var showing = extraEl.style.display !== 'none';
-      extraEl.style.display = showing ? 'none' : 'flex';
-      expandBtn.textContent = showing ? 'Se alle 10 par' : 'Skjul';
-    };
+  // 4. "DET BETYDER" indsigt-boks
+  var betyderEl = document.getElementById('cic-det-betyder');
+  if (betyderEl) {
+    var bh = '<div class="mc__ins">';
+    bh += '<div class="mc__ins-label">DET BETYDER</div>';
+    bh += '<div class="mc__ins-text">' + generateCicDetBetyder(d) + '</div>';
+    bh += '</div>';
+    betyderEl.innerHTML = bh;
   }
 
-  // Climate-based recommendation
-  var recEl = document.getElementById('cic-recommendation');
-  if (!recEl) {
-    // Create dynamically if not in HTML template
-    var screenContainer = document.querySelector('.screen--cyklusser-i-cyklusser');
-    if (screenContainer) {
-      var recDiv = document.createElement('div');
-      recDiv.id = 'cic-recommendation';
-      recDiv.className = 'cic__recommendation';
-      // Insert before action bar area
-      screenContainer.appendChild(recDiv);
-      recEl = recDiv;
-    }
-  }
-  if (recEl) {
-    var insight = generateInsight(window._activeElements || []);
-    var domEl = insight.dominantElement;
-    var yoga = INSIGHT_YOGA[domEl];
-    var food = INSIGHT_FOOD[domEl];
-    var focus = INSIGHT_FOCUS[domEl];
-    var recHtml = '<h3 class="livsfase-detail__section-title">Hvad kan du g\u00f8re med dette krydsfelt?</h3>';
-    recHtml += '<p class="livsfase-detail__section-subtitle">Konkrete handlinger der møder dine cyklusser</p>';
-    if (yoga && yoga.length > 0) {
-      recHtml += '<div class="hvadkandu__card" onclick="navigateToYogaWithElement(\'' + domEl + '\')">';
-      recHtml += '<p class="hvadkandu__label">\u00d8velse for ' + ELEMENT_LABELS[domEl] + '</p>';
-      recHtml += '<p class="hvadkandu__title">' + yoga[0].pose + '</p>';
-      recHtml += '<p class="hvadkandu__desc">' + yoga[0].desc.split('.')[0] + '. ' + yoga[0].tid + '.</p>';
-      recHtml += '<span class="hvadkandu__link">Pr\u00f8v nu \u2192</span></div>';
-    }
-    if (food && food.length > 0) {
-      recHtml += '<div class="hvadkandu__card" onclick="App.loadScreen(\'samlede-indsigt\')">';
-      recHtml += '<p class="hvadkandu__label">N\u00e6ring</p>';
-      recHtml += '<p class="hvadkandu__title">' + food[0].item + '</p>';
-      recHtml += '<p class="hvadkandu__desc">' + food[0].desc + '</p>';
-      recHtml += '<span class="hvadkandu__link">Se alle anbefalinger \u2192</span></div>';
-    }
-    if (focus && focus.length > 0) {
-      recHtml += '<div class="hvadkandu__card" onclick="App.loadScreen(\'refleksion\')">';
-      recHtml += '<p class="hvadkandu__label">Fokus</p>';
-      recHtml += '<p class="hvadkandu__title">' + focus[0].split('\u2013')[0].trim() + '</p>';
-      recHtml += '<p class="hvadkandu__desc">' + (focus[0].split('\u2013')[1] || focus[0]).trim() + '</p>';
-      recHtml += '<span class="hvadkandu__link">\u00c5bn refleksion \u2192</span></div>';
-    }
-    recEl.innerHTML = recHtml;
+  // 5. Link
+  var linkEl = document.getElementById('cic-link');
+  if (linkEl) {
+    linkEl.innerHTML = '<div class="mc__link" onclick="App.loadScreen(\'din-energi\')">Se hvordan det ser ud en anden dag \u2192</div>';
   }
 
-  // Action bar
-  var screenEl = document.querySelector('.screen--cyklusser-i-cyklusser');
-  if (screenEl) {
-    screenEl.insertAdjacentHTML('beforeend', sectionDivider() + renderActionBar('cyklusser-i-cyklusser'));
+  // 6. Action bar
+  var actionsEl = document.getElementById('cic-actions');
+  if (actionsEl) {
+    actionsEl.innerHTML = renderActionBar('cyklusser-i-cyklusser');
   }
 }
 
