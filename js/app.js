@@ -4540,6 +4540,8 @@ const App = {
           initTreGenerationerScreen();
         } else if (screenName === 'mine-favoritter') {
           initMineFavoritterScreen();
+        } else if (screenName === 'min-journal') {
+          initMinJournalScreen();
         }
 
         // Append "Tilbage til toppen" footer (skip on onboarding)
@@ -6358,6 +6360,209 @@ function favSetTab(tabId) {
   initMineFavoritterScreen();
 }
 window.favSetTab = favSetTab;
+
+// ---- Niveau 2: Min Journal (lavendel) ----
+
+var _journalFilter = 'seneste';
+
+var JOURNAL_EXAMPLE_DATA = [
+  {
+    date: '14. FEBRUAR 2026',
+    q: 'Hvad giver dig ro for tiden?',
+    text: 'At g\u00e5 ture i m\u00f8rket om aftenen. Der er noget ved vinteren der passer til min rytme lige nu. Jeg beh\u00f8ver ikke s\u00e5 mange ord.',
+    tags: ['Fase 7', 'Vinter', 'Vand']
+  },
+  {
+    date: '10. FEBRUAR 2026',
+    q: 'Hvad overrasker dig ved denne livsfase?',
+    text: 'At jeg kan m\u00e6rke min mors erfaringer i min egen krop. Som om hendes overgangsalder p\u00e5 en m\u00e5de forbereder mig. Vi taler mere \u00e5bent om det nu.',
+    tags: ['Fase 7', 'Jord', 'Relationer']
+  },
+  {
+    date: '5. FEBRUAR 2026',
+    q: 'Dagens check-in \u2014 hvordan f\u00f8les din energi?',
+    text: 'Lav men stabil. Ikke tr\u00e6t, men stille. Har lyst til varm suppe og tidlig sengetid.',
+    tags: ['Check-in', 'Vand']
+  }
+];
+
+function initMinJournalScreen() {
+  var el = document.getElementById('min-journal-content');
+  if (!el) return;
+
+  var d = window._idagData || {};
+  var phaseObj = d.lifePhase || {};
+  var phaseNum = phaseObj.phase || 7;
+  var phaseName = phaseObj.name || 'H\u00f8st';
+  var season = d.season || { season: 'Vinter' };
+  var domEl = d.dominantElement || 'VAND';
+  var domName = domEl.charAt(0).toUpperCase() + domEl.slice(1).toLowerCase();
+
+  // Dynamisk sp\u00f8rgsm\u00e5l fra REFLEKSION_DATA
+  var questions = REFLEKSION_DATA[phaseNum] || REFLEKSION_DATA[7];
+  var dayIdx = new Date().getDate() % questions.length;
+  var todayQ = questions[dayIdx];
+
+  // Hent gemte refleksioner
+  var saved = [];
+  try {
+    var raw = localStorage.getItem('livsfaser_journal');
+    if (raw) saved = JSON.parse(raw);
+  } catch (e) {}
+
+  // Kombiner gemte + eksempler
+  var allEntries = saved.concat(JOURNAL_EXAMPLE_DATA);
+
+  // Filtr\u00e9r
+  var filtered = allEntries;
+  if (_journalFilter === 'seneste') {
+    filtered = allEntries.slice(0, 5);
+  } else if (_journalFilter === 'maaned') {
+    var now = new Date();
+    var monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    filtered = allEntries.filter(function(e) {
+      if (e.savedDate) return new Date(e.savedDate) >= monthStart;
+      return true; // eksempel-data vises altid
+    });
+  }
+
+  var h = '';
+  h += '<h1 class="rejse__t1">Min journal</h1>';
+  h += '<p class="rejse__intr">Dine tanker, check-ins og refleksioner \u2014 forbundet med dine cyklusser</p>';
+
+  // Dagens refleksion-boks
+  var weekEl = d.menstrualCycle ? d.menstrualCycle.element : '';
+  var weekName = weekEl ? weekEl.charAt(0).toUpperCase() + weekEl.slice(1).toLowerCase() : '';
+  var subParts = ['Fase ' + phaseNum, season.season];
+  if (weekName) subParts.push(weekName);
+  subParts.push(domName);
+  // Undg\u00e5 dubletter
+  var uniqueSub = [];
+  for (var s = 0; s < subParts.length; s++) {
+    if (uniqueSub.indexOf(subParts[s]) === -1) uniqueSub.push(subParts[s]);
+  }
+
+  h += '<div class="rejse__checkin">';
+  h += '<div class="rejse__checkin-label">DAGENS REFLEKSION</div>';
+  h += '<div class="rejse__checkin-title">' + todayQ + '</div>';
+  h += '<div class="rejse__checkin-sub">' + uniqueSub.join(' \u00B7 ') + '</div>';
+  h += '</div>';
+
+  // Textarea
+  h += '<div class="rejse__wf">';
+  h += '<textarea placeholder="Skriv her \u2014 eller lad det hvile..."></textarea>';
+  h += '</div>';
+
+  // Gem-knap
+  h += '<button class="rejse__btn" onclick="journalSave()">Gem refleksion</button>';
+
+  // Separator
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // Tidligere refleksioner
+  h += '<h2 class="rejse__t2">Tidligere refleksioner</h2>';
+
+  // Filter-chips
+  var filters = [
+    { id: 'seneste', label: 'Seneste' },
+    { id: 'maaned', label: 'Denne m\u00e5ned' },
+    { id: 'alle', label: 'Alle' }
+  ];
+  h += '<div class="rejse__chips">';
+  for (var f = 0; f < filters.length; f++) {
+    var fl = filters[f];
+    var active = fl.id === _journalFilter ? ' rejse__chip--active' : '';
+    h += '<button class="rejse__chip' + active + '" onclick="journalSetFilter(\'' + fl.id + '\')">' + fl.label + '</button>';
+  }
+  h += '</div>';
+
+  // Journal entries
+  for (var j = 0; j < filtered.length; j++) {
+    var entry = filtered[j];
+    var dateStr = entry.date || entry.savedDate || '';
+    if (entry.savedDate && !entry.date) {
+      var dd = new Date(entry.savedDate);
+      var months = ['januar','februar','marts','april','maj','juni','juli','august','september','oktober','november','december'];
+      dateStr = dd.getDate() + '. ' + months[dd.getMonth()].toUpperCase() + ' ' + dd.getFullYear();
+    }
+    h += '<div class="rejse__je">';
+    h += '<div class="rejse__je-date">' + dateStr + '</div>';
+    h += '<div class="rejse__je-q">' + (entry.q || '') + '</div>';
+    h += '<div class="rejse__je-t">' + (entry.text || '') + '</div>';
+    if (entry.tags && entry.tags.length) {
+      h += '<div class="rejse__je-tags">';
+      for (var t = 0; t < entry.tags.length; t++) {
+        h += '<span class="rejse__jtag">' + entry.tags[t] + '</span>';
+      }
+      h += '</div>';
+    }
+    h += '</div>';
+  }
+
+  // Separator
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // M\u00f8nster-indsigt
+  h += '<div class="rejse__ins">';
+  h += '<div class="rejse__ins-label">M\u00d8NSTER I DIN JOURNAL</div>';
+  h += '<div class="rejse__ins-text">Du skriver mest om ro og stilhed i vinterm\u00e5nederne. Dine refleksioner om relationer kommer oftest i Jord-perioder. M\u00e5ske er der en forbindelse der.</div>';
+  h += '</div>';
+
+  // Link
+  h += '<div class="rejse__link" onclick="App.loadScreen(\'refleksion\')">Se alle refleksioner fra Fase ' + phaseNum + ' \u2192</div>';
+
+  // Del/Kopi\u00e9r/Gem
+  h += '<div class="rejse__acts">';
+  h += '<button class="rejse__act" onclick="actionShare()">Del</button>';
+  h += '<button class="rejse__act" onclick="actionCopyLink()">Kopi\u00e9r</button>';
+  h += '<button class="rejse__act" onclick="actionToggleSave(\'min-journal\')">Gem</button>';
+  h += '</div>';
+
+  el.innerHTML = h;
+}
+
+function journalSave() {
+  var textarea = document.querySelector('.rejse__wf textarea');
+  if (!textarea || !textarea.value.trim()) {
+    showActionToast('Skriv noget f\u00f8rst');
+    return;
+  }
+
+  var d = window._idagData || {};
+  var phaseObj = d.lifePhase || {};
+  var phaseNum = phaseObj.phase || 7;
+  var season = d.season || { season: 'Vinter' };
+  var domEl = d.dominantElement || 'VAND';
+  var domName = domEl.charAt(0).toUpperCase() + domEl.slice(1).toLowerCase();
+
+  var questions = REFLEKSION_DATA[phaseNum] || REFLEKSION_DATA[7];
+  var dayIdx = new Date().getDate() % questions.length;
+
+  var entry = {
+    savedDate: getLocalDateStr(new Date()),
+    q: questions[dayIdx],
+    text: textarea.value.trim(),
+    tags: ['Fase ' + phaseNum, season.season, domName]
+  };
+
+  var saved = [];
+  try {
+    var raw = localStorage.getItem('livsfaser_journal');
+    if (raw) saved = JSON.parse(raw);
+  } catch (e) {}
+  saved.unshift(entry);
+  localStorage.setItem('livsfaser_journal', JSON.stringify(saved));
+
+  showActionToast('Refleksion gemt \u2713');
+  initMinJournalScreen();
+}
+window.journalSave = journalSave;
+
+function journalSetFilter(filterId) {
+  _journalFilter = filterId;
+  initMinJournalScreen();
+}
+window.journalSetFilter = journalSetFilter;
 
 function renderTrackingPeriod() {
   var el = document.getElementById('tracking-period');

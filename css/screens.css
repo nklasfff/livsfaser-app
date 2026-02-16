@@ -4524,6 +4524,81 @@
 }
 
 /* =========================================
+   MIN JOURNAL — journal entries, write field
+   ========================================= */
+
+/* Journal entry card */
+.rejse__je {
+  background: rgba(139, 125, 155, 0.05);
+  border: 1px solid rgba(139, 125, 155, 0.12);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.rejse__je-date {
+  font-size: 10px;
+  color: #8B7D9B;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 600;
+}
+.rejse__je-q {
+  font-size: 16px;
+  color: #333;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-style: italic;
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+.rejse__je-t {
+  font-size: 14px;
+  color: #666;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  line-height: 1.6;
+}
+.rejse__je-tags {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.rejse__jtag {
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: rgba(139, 125, 155, 0.08);
+  color: #8B7D9B;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Write field */
+.rejse__wf {
+  border: 1px dashed rgba(139, 125, 155, 0.25);
+  border-radius: 12px;
+  margin: 14px 0;
+}
+.rejse__wf textarea {
+  width: 100%;
+  min-height: 80px;
+  border: none;
+  background: transparent;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 14px;
+  color: #444;
+  font-style: italic;
+  line-height: 1.6;
+  padding: 18px;
+  resize: vertical;
+  outline: none;
+}
+.rejse__wf textarea::placeholder {
+  color: #bbb;
+  font-style: italic;
+}
+
+/* =========================================
    MIN UDVIKLING — lavendel (rejse__udv-)
    ========================================= */
 
