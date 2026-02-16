@@ -4290,157 +4290,155 @@
   padding-bottom: var(--space-xl);
 }
 
-.hjulpet__hero-img {
-  width: 67%;
-  display: block;
-  margin: var(--space-md) auto;
-  border-radius: 20px;
+/* Graf */
+.hjulpet__graph {
+  background: rgba(139,154,157,0.06);
+  border-radius: 14px;
+  padding: 18px;
+  margin: 16px 0;
 }
 
-.hjulpet__section-title {
-  font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 28px;
-  font-weight: bold;
-  color: #7690C1;
-  text-align: center;
-  margin-top: 72px;
+.hjulpet__bar {
+  display: flex;
+  align-items: center;
   margin-bottom: 8px;
+  gap: 8px;
 }
 
-.hjulpet__section-subtitle {
-  font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
-  font-style: italic;
-  line-height: 1.7;
-  color: #777777;
+.hjulpet__bar-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  color: #666;
+  width: 70px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.hjulpet__bar-fill {
+  height: 20px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #8B9A9D, #6B8273);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+}
+
+.hjulpet__bar-pct {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  color: white;
+  font-weight: 600;
+}
+
+.hjulpet__graph-foot {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  color: #bbb;
   text-align: center;
-  margin: 0 0 16px 0;
+  margin-top: 8px;
+  font-style: italic;
 }
 
 /* Situation-boks */
-.hjulpet__situation-box {
-  background: rgba(139, 154, 157, 0.07);
-  border: 1px solid rgba(139, 154, 157, 0.15);
-  border-radius: 16px;
-  padding: 24px;
+.hjulpet__sit {
+  background: rgba(139,154,157,0.06);
+  border-radius: 14px;
+  padding: 14px 18px;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  margin: 16px 0;
 }
 
-.hjulpet__situation-label {
-  font-family: var(--font-sans);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #8B9A9D;
-  font-weight: 600;
-}
-
-.hjulpet__situation-value {
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 700;
-  color: #7690C1;
-}
-
-/* Datakort */
-.hjulpet__kort {
-  background: rgba(139, 154, 157, 0.07);
-  border: 1px solid rgba(139, 154, 157, 0.15);
-  border-radius: 16px;
-  padding: 24px;
-  margin-top: 12px;
-}
-
-.hjulpet__kort:first-of-type {
-  margin-top: 0;
-}
-
-.hjulpet__kort-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.hjulpet__kort-pct {
-  font-family: var(--font-sans);
-  font-size: 20px;
-  font-weight: 700;
-  color: #7690C1;
-}
-
-.hjulpet__kort-badge {
+.hjulpet__sit-lbl {
   font-family: var(--font-sans);
   font-size: 10px;
+  color: #7A9080;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  color: #FFFFFF;
-  background: #8B9A9D;
-  padding: 3px 10px;
-  border-radius: 999px;
-}
-
-.hjulpet__kort-title {
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 700;
-  color: #555555;
   margin-bottom: 4px;
 }
 
-.hjulpet__kort-desc {
-  font-family: var(--font-sans);
-  font-size: 12px;
-  color: #666666;
-  line-height: 1.5;
+.hjulpet__sit-val {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  color: #333;
+}
+
+/* Procent-kort */
+.hjulpet__pc {
+  background: rgba(139,154,157,0.05);
+  border: 1px solid rgba(139,154,157,0.12);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+
+.hjulpet__pc-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 6px;
 }
 
-.hjulpet__kort-kilde {
-  font-family: var(--font-sans);
-  font-size: 10px;
-  font-style: italic;
-  color: #999999;
-  margin-bottom: 10px;
+.hjulpet__pc-num {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  color: #6B8273;
+  font-weight: 500;
 }
 
-.hjulpet__kort-link {
+.hjulpet__pc-tag {
   font-family: var(--font-sans);
-  font-size: 13px;
-  color: #8B9A9D;
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  background: rgba(139,154,157,0.12);
+  color: #6B8273;
+  letter-spacing: 0.5px;
   font-weight: 600;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
 }
 
-/* Del din erfaring */
-.hjulpet__del-box {
-  background: linear-gradient(135deg, #8B9A9D 0%, #7690C1 100%);
-  border-radius: 16px;
-  padding: 24px;
-  text-align: center;
-  cursor: pointer;
+.hjulpet__pc-title {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 4px;
 }
 
-.hjulpet__del-text {
-  font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 700;
-  color: #FFFFFF;
-}
-
-.hjulpet__privacy {
-  font-family: var(--font-sans);
-  font-size: 10px;
+.hjulpet__pc-desc {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: #777;
   font-style: italic;
-  color: #999999;
+}
+
+.hjulpet__pc-meta {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  color: #bbb;
+  margin-top: 6px;
+  font-style: italic;
+}
+
+.hjulpet__pc-link {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: #7A9080;
+  font-style: italic;
+  margin-top: 6px;
+  cursor: pointer;
+}
+
+/* Disclaimer */
+.hjulpet__disclaimer {
   text-align: center;
-  margin-top: 16px;
+  font-family: var(--font-serif);
+  font-size: 11px;
+  color: #bbb;
+  margin-top: 8px;
+  font-style: italic;
 }
 
 /* ---- Tidsvinduet (Din/Jeres energi p\00e5 en anden dag) ---- */

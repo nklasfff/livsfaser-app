@@ -8254,6 +8254,10 @@ function initHvadHarHjulpetScreen() {
   var d = window._idagData;
   if (!d) return;
 
+  var grafEl = document.getElementById('hjulpet-graf');
+  var contentEl = document.getElementById('hjulpet-content');
+  if (!contentEl) return;
+
   var elements = window._activeElements || [];
   var insight = generateInsight(elements);
   var el = insight.dominantElement;
@@ -8261,106 +8265,94 @@ function initHvadHarHjulpetScreen() {
   var phase = d.lifePhase;
   var season = d.season;
   var data = HJULPET_DATA[el] || HJULPET_DATA['VAND'];
+  var phaseName = phase.name || ('Fase ' + phase.phase);
 
-  // Sektion 1: Din situation
-  var sitEl = document.getElementById('hjulpet-situation');
-  if (sitEl) {
-    var html = '<h3 class="hjulpet__section-title">Din situation lige nu</h3>';
-    html += '<p class="hjulpet__section-subtitle">Anbefalingerne nedenfor er tilpasset pr\u00e6cis din kombination af livsfase, element og \u00e5rstid.</p>';
-    html += '<div class="hjulpet__situation-box">';
-    html += '<span class="hjulpet__situation-label">DIN SITUATION LIGE NU</span>';
-    html += '<span class="hjulpet__situation-value">Fase ' + phase.phase + ' \u00B7 ' + elLabel + ' \u00B7 ' + season.season + '</span>';
-    html += '</div>';
-    sitEl.innerHTML = html;
+  // 1. Horisontal bar-graf
+  if (grafEl) {
+    var bars = [
+      { label: 'Yin Yoga', pct: 82 },
+      { label: 'Vejrtr\u00e6kning', pct: 78 },
+      { label: 'Kost & urter', pct: 74 },
+      { label: 'EFT Tapping', pct: 67 },
+      { label: 'Refleksion', pct: 63 },
+      { label: 'F\u00e6llesskab', pct: 58 }
+    ];
+    var gHtml = '<div class="hjulpet__graph">';
+    for (var b = 0; b < bars.length; b++) {
+      gHtml += '<div class="hjulpet__bar">';
+      gHtml += '<div class="hjulpet__bar-label">' + bars[b].label + '</div>';
+      gHtml += '<div class="hjulpet__bar-fill" style="width:' + bars[b].pct + '%"><span class="hjulpet__bar-pct">' + bars[b].pct + '%</span></div>';
+      gHtml += '</div>';
+    }
+    gHtml += '<div class="hjulpet__graph-foot">Baseret p\u00e5 anonyme erfaringer fra kvinder i alle ni livsfaser</div>';
+    gHtml += '</div>';
+    grafEl.innerHTML = gHtml;
   }
 
-  // Sektion 2: Datakort
-  var kortEl = document.getElementById('hjulpet-kort');
-  if (kortEl) {
-    var html2 = '<h3 class="hjulpet__section-title">Det virker for kvinder som dig</h3>';
-    html2 += '<p class="hjulpet__section-subtitle">Baseret p\u00e5 anonyme erfaringer fra kvinder i samme livsfase og med samme element som dig.</p>';
+  // 2. Content
+  var html = '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
 
-    // Kort 1: Yoga
-    html2 += renderHjulpetKort({
-      pct: data.yoga.pct,
-      badge: 'FASE ' + phase.phase,
-      title: 'Yin Yoga for ' + elLabel + '-elementet',
-      desc: data.yoga.desc,
-      kilde: 'Baseret p\u00e5 ' + data.yoga.count + ' kvinder i Fase ' + phase.phase,
-      link: 'Pr\u00f8v nu \u2192',
-      onclick: "navigateToYogaWithElement('" + el + "')"
-    });
+  // Din situation lige nu
+  html += '<h3 class="praksis__section-title">Din situation lige nu</h3>';
+  html += '<p class="praksis__section-intro">Anbefalingerne nedenfor er tilpasset pr\u00e6cis din kombination af livsfase, element og \u00e5rstid.</p>';
+  html += '<div class="hjulpet__sit">';
+  html += '<div class="hjulpet__sit-lbl">Din situation lige nu</div>';
+  html += '<div class="hjulpet__sit-val">Fase ' + phase.phase + ' \u00B7 ' + elLabel + ' \u00B7 ' + season.season + '</div>';
+  html += '</div>';
 
-    // Kort 2: Kost
-    html2 += renderHjulpetKort({
-      pct: data.kost.pct,
-      badge: elLabel,
-      title: 'Kost til ' + elLabel + '-elementet',
-      desc: data.kost.desc,
-      kilde: 'Baseret p\u00e5 ' + data.kost.count + ' kvinder med ' + elLabel + '-dominans',
-      link: 'Se anbefalinger \u2192',
-      onclick: "App.loadScreen('samlede-indsigt')"
-    });
+  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
 
-    // Kort 3: Vejrtrækning
-    html2 += renderHjulpetKort({
-      pct: data.aande.pct,
-      badge: season.season.toUpperCase(),
-      title: 'Vejrtr\u00e6kning for ' + season.season.toLowerCase(),
-      desc: data.aande.desc,
-      kilde: 'Baseret p\u00e5 ' + data.aande.count + ' kvinder i ' + season.season.toLowerCase(),
-      link: 'Pr\u00f8v nu \u2192',
-      onclick: "App.loadScreen('samlede-indsigt')"
-    });
+  // Det virker for kvinder som dig
+  html += '<h3 class="praksis__section-title">Det virker for kvinder som dig</h3>';
+  html += '<p class="praksis__section-intro">Baseret p\u00e5 anonyme erfaringer fra kvinder i samme livsfase og med samme element</p>';
 
-    // Kort 4: EFT
-    html2 += renderHjulpetKort({
-      pct: data.eft.pct,
-      badge: phase.name ? phase.name.toUpperCase() : 'FASE ' + phase.phase,
-      title: data.eft.title,
-      desc: data.eft.desc,
-      kilde: 'Baseret p\u00e5 ' + data.eft.count + ' kvinder med ' + elLabel + '-element',
-      link: 'Pr\u00f8v nu \u2192',
-      onclick: "App.loadScreen('samlede-indsigt')"
-    });
+  // Kort 1: Yoga
+  html += '<div class="hjulpet__pc">';
+  html += '<div class="hjulpet__pc-top"><div class="hjulpet__pc-num">' + data.yoga.pct + '%</div><div class="hjulpet__pc-tag">Fase ' + phase.phase + '</div></div>';
+  html += '<h3 class="hjulpet__pc-title">Yin Yoga for ' + elLabel + '-elementet</h3>';
+  html += '<p class="hjulpet__pc-desc">' + data.yoga.desc + '</p>';
+  html += '<div class="hjulpet__pc-meta">Baseret p\u00e5 ' + data.yoga.count + ' kvinder i Fase ' + phase.phase + '</div>';
+  html += '<div class="hjulpet__pc-link" onclick="navigateToYogaWithElement(\'' + el + '\')">Pr\u00f8v nu \u2192</div>';
+  html += '</div>';
 
-    kortEl.innerHTML = html2;
-  }
+  // Kort 2: Kost
+  html += '<div class="hjulpet__pc">';
+  html += '<div class="hjulpet__pc-top"><div class="hjulpet__pc-num">' + data.kost.pct + '%</div><div class="hjulpet__pc-tag">' + elLabel + '</div></div>';
+  html += '<h3 class="hjulpet__pc-title">Kost til ' + elLabel + '-elementet</h3>';
+  html += '<p class="hjulpet__pc-desc">' + data.kost.desc + '</p>';
+  html += '<div class="hjulpet__pc-meta">Baseret p\u00e5 ' + data.kost.count + ' kvinder med ' + elLabel + '-dominans</div>';
+  html += '<div class="hjulpet__pc-link" onclick="App.loadScreen(\'kost-urter\')">Se anbefalinger \u2192</div>';
+  html += '</div>';
 
-  // Sektion 3: Del din erfaring
-  var delEl = document.getElementById('hjulpet-del');
-  if (delEl) {
-    var html3 = '<h3 class="hjulpet__section-title">Hj\u00e6lp andre kvinder</h3>';
-    html3 += '<p class="hjulpet__section-subtitle">Hvad virker for dig? Dine erfaringer er anonyme og hj\u00e6lper andre kvinder i samme situation med at finde det der virker.</p>';
-    html3 += '<div class="hjulpet__del-box">';
-    html3 += '<span class="hjulpet__del-text">Del din erfaring \u2192</span>';
-    html3 += '</div>';
-    html3 += '<p class="hjulpet__privacy">Alle data er anonyme \u00B7 Vi samler kun hvad der virker, aldrig hvem du er</p>';
-    delEl.innerHTML = html3;
-  }
+  // Kort 3: Vejrtrækning
+  html += '<div class="hjulpet__pc">';
+  html += '<div class="hjulpet__pc-top"><div class="hjulpet__pc-num">' + data.aande.pct + '%</div><div class="hjulpet__pc-tag">' + season.season + '</div></div>';
+  html += '<h3 class="hjulpet__pc-title">Vejrtr\u00e6kning for ' + season.season.toLowerCase() + '</h3>';
+  html += '<p class="hjulpet__pc-desc">' + data.aande.desc + '</p>';
+  html += '<div class="hjulpet__pc-meta">Baseret p\u00e5 ' + data.aande.count + ' kvinder i ' + season.season.toLowerCase() + '</div>';
+  html += '<div class="hjulpet__pc-link" onclick="App.loadScreen(\'samlede-indsigt\')">Pr\u00f8v nu \u2192</div>';
+  html += '</div>';
 
-  // Crosslink til tidsvinduet
-  var screenEl = document.querySelector('.screen--hvad-har-hjulpet');
-  if (screenEl) {
-    var crosslink = '<div class="tidsvindue__crosslink" onclick="App.loadScreen(\'din-energi\')">';
-    crosslink += '<span class="tidsvindue__crosslink-text">Se din energi p\u00e5 en anden dag \u2192</span>';
-    crosslink += '</div>';
-    screenEl.insertAdjacentHTML('beforeend', crosslink);
-  }
-}
+  // Kort 4: EFT
+  html += '<div class="hjulpet__pc">';
+  html += '<div class="hjulpet__pc-top"><div class="hjulpet__pc-num">' + data.eft.pct + '%</div><div class="hjulpet__pc-tag">' + phaseName + '</div></div>';
+  html += '<h3 class="hjulpet__pc-title">' + data.eft.title + '</h3>';
+  html += '<p class="hjulpet__pc-desc">' + data.eft.desc + '</p>';
+  html += '<div class="hjulpet__pc-meta">Baseret p\u00e5 ' + data.eft.count + ' kvinder med ' + elLabel + '-dominans</div>';
+  html += '<div class="hjulpet__pc-link" onclick="App.loadScreen(\'samlede-indsigt\')">Pr\u00f8v nu \u2192</div>';
+  html += '</div>';
 
-function renderHjulpetKort(opts) {
-  var h = '<div class="hjulpet__kort">';
-  h += '<div class="hjulpet__kort-header">';
-  h += '<span class="hjulpet__kort-pct">' + opts.pct + '%</span>';
-  h += '<span class="hjulpet__kort-badge">' + opts.badge + '</span>';
-  h += '</div>';
-  h += '<h4 class="hjulpet__kort-title">' + opts.title + '</h4>';
-  h += '<p class="hjulpet__kort-desc">' + opts.desc + '</p>';
-  h += '<p class="hjulpet__kort-kilde">' + opts.kilde + '</p>';
-  h += '<button class="hjulpet__kort-link" onclick="' + opts.onclick + '">' + opts.link + '</button>';
-  h += '</div>';
-  return h;
+  // Hjælp andre kvinder
+  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h3 class="praksis__section-title">Hj\u00e6lp andre kvinder</h3>';
+  html += '<p class="praksis__section-intro">Hvad virker for dig? Dine erfaringer er anonyme og hj\u00e6lper andre kvinder i samme situation med at finde det der virker.</p>';
+  html += '<button class="refleksion__btn">Del din erfaring \u2192</button>';
+  html += '<div class="hjulpet__disclaimer">Alle data er anonyme. Vi samler kun hvad der virker, aldrig hvem du er.</div>';
+
+  // Crosslink
+  html += '<div class="praksis__crosslink" onclick="App.loadScreen(\'din-energi\')">Se din energi p\u00e5 en anden dag \u2192</div>';
+
+  contentEl.innerHTML = html;
 }
 
 // ---- Feature: Indstillinger ----
