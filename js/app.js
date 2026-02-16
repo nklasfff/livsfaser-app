@@ -1809,11 +1809,12 @@ function initIdagScreen() {
     renderConcentricCircles(vizContainer, window._idagData);
   }
 
-  // Render Venn diagram
-  renderIdagVenn();
+  // Render status bubbles (replaces Venn)
+  renderStatusBubbles();
 
   // Render new home sections
   renderDynamiskTekst();
+  renderVennIndsigt();
   renderIdagTidsvinduetLink();
   renderHvadKanDu();
   renderNotifikationer();
@@ -1823,37 +1824,87 @@ function initIdagScreen() {
   renderHovedkort();
 }
 
-function renderIdagVenn() {
-  var el = document.getElementById('idag-venn');
+function renderStatusBubbles() {
+  var el = document.getElementById('idag-status-bubbles');
   if (!el || !window._idagData) return;
   var d = window._idagData;
-  var cycleAnalysis = analyzeCycleInteractions(d);
-  // Count elements
   var elements = window._activeElements || [];
   var counts = {};
   for (var i = 0; i < elements.length; i++) counts[elements[i]] = (counts[elements[i]] || 0) + 1;
-  var maxEl = elements[0]; var maxC = 0;
-  var ks = Object.keys(counts);
-  for (var j = 0; j < ks.length; j++) { if (counts[ks[j]] > maxC) { maxC = counts[ks[j]]; maxEl = ks[j]; } }
 
-  el.innerHTML = renderVennTwo({
-    leftTitle: 'DINE CYKLUSSER',
-    leftLines: [
-      'Fase ' + d.lifePhase.phase + ' \u00B7 ' + d.season.season,
-      ELEMENT_LABELS[maxEl] + ' dominerer'
-    ],
-    rightTitle: 'DIN KROP',
-    rightLines: [
-      d.organ.organ + ' (' + d.organ.hours + ')',
-      d.weekday.day + ' \u00B7 ' + ELEMENT_LABELS[d.weekday.element]
-    ],
-    overlapTitle: 'LIGE NU',
-    overlapLines: [
-      '*' + cycleAnalysis.climate.label
-    ],
-    leftElement: d.lifePhase.element,
-    rightElement: d.organ.element
-  });
+  // Build element summary (e.g. "4 Vand · 1 Jord")
+  var parts = [];
+  var ks = Object.keys(counts);
+  // Sort by count descending
+  ks.sort(function(a, b) { return counts[b] - counts[a]; });
+  for (var j = 0; j < ks.length; j++) {
+    parts.push(counts[ks[j]] + ' ' + ELEMENT_LABELS[ks[j]]);
+  }
+  var cyklusserText = parts.join(' \u00B7 ');
+
+  // Date
+  var now = new Date();
+  var months = ['januar','februar','marts','april','maj','juni','juli','august','september','oktober','november','december'];
+  var dateText = now.getDate() + '. ' + months[now.getMonth()] + ' ' + now.getFullYear();
+
+  // Body
+  var kropText = d.organ.organ + ' \u00B7 ' + ELEMENT_LABELS[d.organ.element];
+
+  var html = '<div class="status-bubbles">';
+  html += '<div class="status-bubble">';
+  html += '<div class="status-bubble__label">DINE CYKLUSSER</div>';
+  html += '<div class="status-bubble__value">' + cyklusserText + '</div>';
+  html += '</div>';
+  html += '<div class="status-bubble">';
+  html += '<div class="status-bubble__label">LIGE NU</div>';
+  html += '<div class="status-bubble__value">' + dateText + '</div>';
+  html += '</div>';
+  html += '<div class="status-bubble">';
+  html += '<div class="status-bubble__label">DIN KROP</div>';
+  html += '<div class="status-bubble__value">' + kropText + '</div>';
+  html += '</div>';
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function renderVennIndsigt() {
+  var el = document.getElementById('idag-venn-indsigt');
+  if (!el || !window._idagData) return;
+  var d = window._idagData;
+
+  var phaseLabel = ELEMENT_LABELS[d.lifePhase.element] + ' \u00B7 ' + d.lifePhase.name;
+  var seasonLabel = d.season.season + ' \u00B7 ' + ELEMENT_LABELS[d.season.element];
+
+  var serifFont = "'Cormorant Garamond','Times New Roman',Georgia,serif";
+  var svg = '<svg width="280" height="240" viewBox="0 0 280 240" xmlns="http://www.w3.org/2000/svg">';
+
+  // Tre overlappende cirkler
+  svg += '<circle cx="140" cy="80" r="72" fill="rgba(118,144,193,0.08)" stroke="rgba(118,144,193,0.2)" stroke-width="1"/>';
+  svg += '<circle cx="85" cy="168" r="72" fill="rgba(118,144,193,0.06)" stroke="rgba(118,144,193,0.18)" stroke-width="1"/>';
+  svg += '<circle cx="195" cy="168" r="72" fill="rgba(118,144,193,0.06)" stroke="rgba(118,144,193,0.18)" stroke-width="1"/>';
+
+  // Zone labels
+  svg += '<text x="140" y="50" font-family="' + serifFont + '" font-size="11" fill="#5A74A5" text-anchor="middle" letter-spacing="1.5" font-weight="600">LIVSFASE</text>';
+  svg += '<text x="140" y="66" font-family="' + serifFont + '" font-size="10" fill="#7690C1" font-style="italic" text-anchor="middle">' + phaseLabel + '</text>';
+
+  svg += '<text x="60" y="190" font-family="' + serifFont + '" font-size="11" fill="#5A74A5" text-anchor="middle" letter-spacing="1.5" font-weight="600">\u00C5RSTID</text>';
+  svg += '<text x="60" y="206" font-family="' + serifFont + '" font-size="10" fill="#7690C1" font-style="italic" text-anchor="middle">' + seasonLabel + '</text>';
+
+  svg += '<text x="220" y="190" font-family="' + serifFont + '" font-size="11" fill="#5A74A5" text-anchor="middle" letter-spacing="1.5" font-weight="600">RELATIONER</text>';
+  svg += '<text x="220" y="206" font-family="' + serifFont + '" font-size="10" fill="#7690C1" font-style="italic" text-anchor="middle">Dine n\u00e6rmeste</text>';
+
+  // Overlap labels
+  svg += '<text x="100" y="112" font-family="' + serifFont + '" font-size="8" fill="#7690C1" font-style="italic" text-anchor="middle">forst\u00e6rkning</text>';
+  svg += '<text x="180" y="112" font-family="' + serifFont + '" font-size="8" fill="#7690C1" font-style="italic" text-anchor="middle">forskydning</text>';
+  svg += '<text x="140" y="192" font-family="' + serifFont + '" font-size="8" fill="#7690C1" font-style="italic" text-anchor="middle">timing</text>';
+
+  // Center label
+  svg += '<text x="140" y="132" font-family="' + serifFont + '" font-size="13" fill="#5A74A5" font-weight="600" text-anchor="middle">DIN</text>';
+  svg += '<text x="140" y="148" font-family="' + serifFont + '" font-size="11" fill="#5A74A5" text-anchor="middle" letter-spacing="1">INDSIGT</text>';
+
+  svg += '</svg>';
+
+  el.innerHTML = '<div class="idag__venn-indsigt">' + svg + '</div>';
 }
 
 function renderIdagCheckin() {
@@ -1864,22 +1915,56 @@ function renderIdagCheckin() {
   var checkins = getCheckins();
   var done = checkins.some(function(c) { return c.date && c.date.substring(0, 10) === today; });
 
-  // Header OUTSIDE box
   var headerEl = document.getElementById('idag-checkin-header');
   if (headerEl) {
     headerEl.innerHTML = '<h3 class="idag__section-title">M\u00e6rk efter</h3>' +
-      '<p class="idag__section-subtitle">Et \u00f8jeblik til at m\u00e6rke efter, hvordan du har det. Over tid viser dine check-ins m\u00f8nstre \u2014 hvorn\u00e5r din energi er h\u00f8j, hvorn\u00e5r den daler, og hvilke elementer der pr\u00e6ger dine uger.</p>';
+      '<p class="idag__section-subtitle">Dine cyklussers invitation: m\u00e6rk efter, og se om energien stemmer.</p>';
   }
 
-  // Content INSIDE box
   var html = '';
   if (done) {
-    html += '<button class="idag__checkin-btn" onclick="App.loadScreen(\'min-udvikling\')" style="opacity:0.6;">\u2713 Tjekket ind i dag \u00B7 Se din udvikling</button>';
+    html += '<div class="idag__gradient-box" onclick="App.loadScreen(\'min-udvikling\')" style="opacity:0.7; cursor:pointer;">';
+    html += '<p class="idag__gradient-label">DAGENS CHECK-IN</p>';
+    html += '<p class="idag__gradient-text">\u2713 Tjekket ind i dag</p>';
+    html += '<p class="idag__gradient-sub">Se din udvikling</p>';
+    html += '</div>';
   } else {
-    html += '<button class="idag__checkin-btn" onclick="App.loadScreen(\'min-udvikling\')">\uD83C\uDF3F Dagens check-in \u2014 hvordan f\u00F8les din energi?</button>';
+    html += '<div class="idag__gradient-box">';
+    html += '<p class="idag__gradient-label">DAGENS CHECK-IN</p>';
+    html += '<p class="idag__gradient-text">Hvordan f\u00f8les din energi lige nu?</p>';
+    html += '<p class="idag__gradient-sub">Stille \u00b7 Voksende \u00b7 Intens \u00b7 Rodf\u00e6stet \u00b7 Klar</p>';
+    html += '</div>';
+
+    // Mood pills
+    var moods = [
+      { emoji: '\uD83C\uDF0A', label: 'Stille', element: 'VAND' },
+      { emoji: '\uD83C\uDF31', label: 'Voksende', element: 'TRAE' },
+      { emoji: '\uD83D\uDD25', label: 'Intens', element: 'ILD' },
+      { emoji: '\uD83E\uDEA8', label: 'Rodf\u00e6stet', element: 'JORD' },
+      { emoji: '\uD83D\uDCA8', label: 'Klar', element: 'METAL' }
+    ];
+    html += '<div class="idag__mood-pills">';
+    for (var i = 0; i < moods.length; i++) {
+      var m = moods[i];
+      html += '<button class="idag__mood-pill" onclick="quickCheckin(\'' + m.element + '\', \'' + m.label + '\')">' + m.emoji + ' ' + m.label + '</button>';
+    }
+    html += '</div>';
   }
   el.innerHTML = html;
 }
+
+function quickCheckin(element, moodLabel) {
+  var entry = {
+    date: getLocalDateStr(new Date()),
+    mood: moodLabel,
+    tags: [],
+    note: '',
+    element: element
+  };
+  saveCheckin(entry);
+  renderIdagCheckin();
+}
+window.quickCheckin = quickCheckin;
 
 // ---- Home Screen Sections (ny navigation) ----
 
@@ -1890,38 +1975,36 @@ function renderDynamiskTekst() {
 
   var dynamisk = generateDynamiskTekst(window._idagData, window._activeElements);
   var cycleAnalysis = analyzeCycleInteractions(window._idagData);
+  var data = window._idagData;
 
-  // Header OUTSIDE box
+  // Header OUTSIDE box — mockup: kursiv overskrift + intro
   if (headerEl) {
     headerEl.innerHTML = '<h3 class="idag__section-title">Lige nu</h3>' +
-      '<p class="idag__section-subtitle">Dit indre klima lige nu \u2014 baseret p\u00e5 din livsfase, \u00e5rstiden, m\u00e5neden, ugedagen og dit organur. Fem rytmer der tilsammen tegner et billede af, hvordan din krop og dit sind har det i dag.</p>';
+      '<p class="idag__section-subtitle">Alle andre klokker lyder nu \u2014 livsfasen, \u00e5rstiden, m\u00e5neden, ugen og dit organur. Disse rytmer danner det krydsfelt du lever og \u00e5nder i. Herunder kan du se, hvad der er aktivt for dig i dag.</p>';
   }
 
-  // Content INSIDE box — hele boksen er klikbar
-  var data = window._idagData;
-  var html = '<div class="idag__climate-clickable" onclick="toggleClimateExpand()" role="button" tabindex="0">';
-  html += '<p class="idag__climate-label">' + cycleAnalysis.climate.label + '</p>';
-  html += '<p class="idag__section-text">' + dynamisk.text + '</p>';
-  html += '<p class="idag__climate-hint">Tryk for at se hvorfor \u2193</p>';
+  // Gradient-boks (mockup: linear-gradient 135deg #5A74A5 → #7690C1)
+  var html = '<div class="idag__gradient-box" onclick="toggleClimateExpand()" role="button" tabindex="0">';
+  html += '<p class="idag__gradient-label">' + cycleAnalysis.climate.label.toUpperCase() + '</p>';
+  html += '<p class="idag__gradient-text">' + dynamisk.text + '</p>';
+  html += '<p class="idag__gradient-sub">' + dynamisk.tidsdynamik + '</p>';
 
-  // Udvidet visning (skjult som standard, INSIDE clickable)
-  html += '<div id="idag-climate-expand" class="idag__climate-expand" style="display:none">';
-  html += '<p class="idag__climate-detail">LIVSFASE: Fase ' + (data.lifePhase.phaseNumber || '') + ' · ' + (data.lifePhase.name || '') + ' · ' + data.lifePhase.element + '</p>';
-  html += '<p class="idag__climate-detail">\u00c5RSTID: ' + data.season.name + ' · ' + data.season.element + '</p>';
+  // Udvidet visning (skjult som standard)
+  html += '<div id="idag-climate-expand" class="idag__climate-expand idag__climate-expand--gradient" style="display:none">';
+  html += '<p class="idag__climate-detail idag__climate-detail--white">LIVSFASE: Fase ' + (data.lifePhase.phaseNumber || '') + ' \u00B7 ' + (data.lifePhase.name || '') + ' \u00B7 ' + data.lifePhase.element + '</p>';
+  html += '<p class="idag__climate-detail idag__climate-detail--white">\u00c5RSTID: ' + data.season.name + ' \u00B7 ' + data.season.element + '</p>';
   if (data.monthCycle && data.monthCycle.data) {
     var mcLabel = data.monthCycle.type === 'menstrual' ? 'M\u00c5NEDSCYKLUS' : 'M\u00c5NED';
     var mcName = data.monthCycle.data.phaseName || data.monthCycle.data.name || '';
-    html += '<p class="idag__climate-detail">' + mcLabel + ': ' + mcName + ' · ' + data.monthCycle.data.element + '</p>';
+    html += '<p class="idag__climate-detail idag__climate-detail--white">' + mcLabel + ': ' + mcName + ' \u00B7 ' + data.monthCycle.data.element + '</p>';
   }
-  html += '<p class="idag__climate-detail">UGEDAG: ' + data.weekday.name + ' · ' + data.weekday.element + '</p>';
-  html += '<p class="idag__climate-detail">ORGANUR: ' + (data.organ.organ || '') + ' · ' + data.organ.element + '</p>';
-  html += '<p class="idag__climate-explain">' + dynamisk.tidsdynamik + '</p>';
-  var morgenDate = new Date(); morgenDate.setDate(morgenDate.getDate() + 1);
-  html += '<p class="idag__climate-link" onclick="event.stopPropagation(); navigateToDinEnergiWithDate(\'' + getLocalDateStr(morgenDate) + '\')">Se hvordan det \u00e6ndrer sig i morgen \u2192</p>';
-  html += '</div>'; // end expand
-  html += '</div>'; // end clickable
+  html += '<p class="idag__climate-detail idag__climate-detail--white">UGEDAG: ' + data.weekday.name + ' \u00B7 ' + data.weekday.element + '</p>';
+  html += '<p class="idag__climate-detail idag__climate-detail--white">ORGANUR: ' + (data.organ.organ || '') + ' \u00B7 ' + data.organ.element + '</p>';
+  html += '</div>';
+  html += '</div>';
 
-  html += '<button class="idag__link-btn" onclick="App.loadScreen(\'samlede-indsigt\')">Se din samlede indsigt \u2192</button>';
+  // Link under gradient-boks (mockup: "Se den mest detaljerede analyse →")
+  html += '<a class="idag__forside-link" onclick="App.loadScreen(\'samlede-indsigt\')">Se den mest detaljerede analyse \u2192</a>';
   el.innerHTML = html;
 }
 
@@ -1940,20 +2023,18 @@ function toggleClimateExpand() {
 window.toggleClimateExpand = toggleClimateExpand;
 
 function renderIdagTidsvinduetLink() {
-  // Header over boksen
   var headerEl = document.getElementById('idag-tidsvindue-header');
   if (headerEl) {
-    headerEl.innerHTML = '<img src="assets/images/vindue_forside.svg" alt="Tidsvinduet \u2014 Livsfase, \u00c5rstid og Relationer" class="idag__tidsvindue-img">' +
-      '<h3 class="idag__section-title idag__section-title--lilla">Tidsvinduet</h3>' +
-      '<p class="idag__section-subtitle">Rejs tilbage i din egen historie \u2014 eller se hvad der venter forude. V\u00e6lg en dato og opdag hvordan dine cyklusser og relationer m\u00f8dtes dengang, eller hvordan de vil m\u00f8des i fremtiden.</p>';
+    headerEl.innerHTML = '<h3 class="idag__section-title">Tidsvinduet</h3>' +
+      '<p class="idag__section-subtitle">Rejse tilbage eller se hvad der venter forude. V\u00e6lg en dato og se hvilke cyklusser der var aktive \u2014 eller vil v\u00e6re.</p>';
   }
-  // Selve boksen
   var el = document.getElementById('idag-tidsvindue-link');
   if (!el) return;
-  el.innerHTML = '<div class="idag__tidsvindue-kort" onclick="App.loadScreen(\'din-energi\')">' +
-    '<p class="idag__tidsvindue-kort-subtitle">Hvad skete der dengang du var 25? Hvordan ser din energi ud til sommer? V\u00e6lg en dato og se dine cyklusser og relationer m\u00f8des.</p>' +
-    '<span class="idag__tidsvindue-kort-link">V\u00e6lg en dag \u2192</span>' +
-    '</div>';
+  el.innerHTML = '<div class="idag__indsigt-boks">' +
+      '<div class="idag__indsigt-label">HVAD SKETE DER DENGANG?</div>' +
+      '<p class="idag__indsigt-tekst">V\u00e6lg en dato der betyder noget for dig. M\u00e5ske den dag noget \u00e6ndrede sig, en samtale der ramte, eller bare en periode du t\u00e6nker tilbage p\u00e5. Motoren viser dine cyklusser og elementer dengang.</p>' +
+    '</div>' +
+    '<a class="idag__forside-link" onclick="App.loadScreen(\'din-energi\')">Åbn Tidsvinduet \u2192</a>';
 }
 
 
@@ -1971,40 +2052,38 @@ function renderHvadKanDu() {
   var foodItem = INSIGHT_FOOD[dominantEl] ? INSIGHT_FOOD[dominantEl][0] : null;
 
   var html = '<h3 class="idag__section-title">Hvad kan du g\u00f8re lige nu?</h3>';
-  html += '<p class="idag__section-subtitle">' + elLabel + '-elementet pr\u00e6ger din dag. Her er tre m\u00e5der at m\u00f8de det p\u00e5 \u2014 en \u00f8velse for kroppen, en lyd for \u00e5ndedr\u00e6ttet, og noget n\u00e6ring der st\u00f8tter dig indefra. Du kan starte med \u00e9n af dem.</p>';
-  html += '<div class="hvadkandu__cards">';
+  html += '<p class="idag__section-subtitle">Dine elementer viser tre veje ind. Alle er tilpasset det du m\u00f8der i dag \u2014 v\u00e6lg den der kalder p\u00e5 dig, eller lad v\u00e6re.</p>';
 
   // Card 1: Krop (yoga)
   if (yogaPose) {
-    html += '<div class="hvadkandu__card hvadkandu__card--first" onclick="navigateToYogaWithElement(\'' + dominantEl + '\')">';
-    html += '<p class="hvadkandu__label">Krop</p>';
-    html += '<p class="hvadkandu__title">' + yogaPose.pose.split('(')[0].trim() + '</p>';
-    html += '<p class="hvadkandu__desc">' + yogaPose.desc.split('.')[0] + '. ' + yogaPose.tid + '.</p>';
-    html += '<span class="hvadkandu__link">Prøv nu \u2192</span>';
+    html += '<div class="idag__praksis-kort" onclick="navigateToYogaWithElement(\'' + dominantEl + '\')">';
+    html += '<div class="idag__praksis-tag">KROP \u00b7 ' + elLabel.toUpperCase() + '-ELEMENT</div>';
+    html += '<h3 class="idag__praksis-titel">' + yogaPose.pose.split('(')[0].trim() + '</h3>';
+    html += '<p class="idag__praksis-tekst">' + yogaPose.desc.split('.')[0] + '. ' + yogaPose.tid + '.</p>';
+    html += '<div class="idag__praksis-pil">Pr\u00f8v den \u2192</div>';
     html += '</div>';
   }
 
   // Card 2: Åndedræt (healing sound)
   if (healingSound) {
-    html += '<div class="hvadkandu__card hvadkandu__card--second" onclick="App.loadScreen(\'samlede-indsigt\')">';
-    html += '<p class="hvadkandu__label">Åndedræt</p>';
-    html += '<p class="hvadkandu__title">Healinglyd: ' + healingSound.lyd + '</p>';
-    html += '<p class="hvadkandu__desc">' + healingSound.desc + '</p>';
-    html += '<span class="hvadkandu__link">Se alle anbefalinger \u2192</span>';
+    html += '<div class="idag__praksis-kort" onclick="App.loadScreen(\'samlede-indsigt\')">';
+    html += '<div class="idag__praksis-tag">\u00c5NDEDR\u00c6T \u00b7 ' + elLabel.toUpperCase() + '</div>';
+    html += '<h3 class="idag__praksis-titel">Healinglyd: ' + healingSound.lyd + '</h3>';
+    html += '<p class="idag__praksis-tekst">' + healingSound.desc + '</p>';
+    html += '<div class="idag__praksis-pil">Pr\u00f8v den \u2192</div>';
     html += '</div>';
   }
 
   // Card 3: Næring (food)
   if (foodItem) {
-    html += '<div class="hvadkandu__card hvadkandu__card--third" onclick="App.loadScreen(\'samlede-indsigt\')">';
-    html += '<p class="hvadkandu__label">Næring</p>';
-    html += '<p class="hvadkandu__title">' + foodItem.item + '</p>';
-    html += '<p class="hvadkandu__desc">' + foodItem.desc + '</p>';
-    html += '<span class="hvadkandu__link">Se alle anbefalinger \u2192</span>';
+    html += '<div class="idag__praksis-kort" onclick="App.loadScreen(\'samlede-indsigt\')">';
+    html += '<div class="idag__praksis-tag">N\u00c6RING \u00b7 ' + elLabel.toUpperCase() + '</div>';
+    html += '<h3 class="idag__praksis-titel">' + foodItem.item + '</h3>';
+    html += '<p class="idag__praksis-tekst">' + foodItem.desc + '</p>';
+    html += '<div class="idag__praksis-pil">Se opskrift \u2192</div>';
     html += '</div>';
   }
 
-  html += '</div>';
   el.innerHTML = html;
 }
 
@@ -2016,78 +2095,52 @@ function renderKontekstuelleForslag() {
   var data = window._idagData;
   var primaryEl = insight.dominantElement;
 
+  var elLabel = ELEMENT_LABELS[primaryEl];
   var html = '<h3 class="idag__section-title">Forslag til dig</h3>';
-  html += '<p class="idag__section-subtitle">\u00d8velser, kost og refleksion udvalgt til dig lige nu \u2014 baseret p\u00e5 dine elementer, din \u00e5rstid og det din krop kalder p\u00e5 i dag. Jo mere du bruger appen, jo mere pr\u00e6cise bliver forslagene.</p>';
-  html += '<div class="idag__forslag-kort">';
+  html += '<p class="idag__section-subtitle">Udvalgt med afs\u00e6t i dine cyklusser og det du har brugt f\u00f8r. Ignor\u00e9r det der ikke kalder \u2014 det er ogs\u00e5 en slags klogskab.</p>';
 
-  // Kort 1: Øvelse baseret på element
+  // Kort 1: Øvelse baseret på sæsonens element (nav-kort / blå)
   var yogaPoses = INSIGHT_YOGA[primaryEl];
   if (yogaPoses && yogaPoses.length > 0) {
     var pose = yogaPoses[0];
-    html += '<div class="forslag-kort" onclick="navigateToYogaWithElement(\'' + primaryEl + '\')">';
-    html += '<p class="forslag-kort__label">' + ELEMENT_LABELS[primaryEl] + '-element øvelse</p>';
-    html += '<p class="forslag-kort__text">' + pose.pose + ' passer til din energi i dag</p>';
-    html += '<span class="forslag-kort__arrow">\u2192</span>';
+    html += '<div class="idag__nav-kort" onclick="navigateToYogaWithElement(\'' + primaryEl + '\')">';
+    html += '<div class="idag__nav-tag">S\u00c6SONENS ELEMENT \u00b7 ' + elLabel.toUpperCase() + '</div>';
+    html += '<h3 class="idag__nav-titel">' + pose.pose.split('(')[0].trim() + '</h3>';
+    html += '<p class="idag__nav-tekst">' + pose.desc + '</p>';
+    html += '<div class="idag__nav-pil">Se \u00f8velsen \u2192</div>';
     html += '</div>';
   }
 
-  // Kort 2: Kost baseret på årstid + element
+  // Kort 2: Kost baseret på årstid + element (nav-kort / blå)
   var foodItems = INSIGHT_FOOD[primaryEl];
   if (foodItems && foodItems.length > 0) {
     var food = foodItems[0];
-    html += '<div class="forslag-kort" onclick="App.loadScreen(\'samlede-indsigt\')">';
-    html += '<p class="forslag-kort__label">' + data.season.season + 'kost</p>';
-    html += '<p class="forslag-kort__text">' + food.item + ' \u2014 ' + food.desc.split('.')[0] + '</p>';
-    html += '<span class="forslag-kort__arrow">\u2192</span>';
+    html += '<div class="idag__nav-kort" onclick="App.loadScreen(\'samlede-indsigt\')">';
+    html += '<div class="idag__nav-tag">' + data.season.season.toUpperCase() + 'KOST \u00b7 ' + elLabel.toUpperCase() + '</div>';
+    html += '<h3 class="idag__nav-titel">' + food.item + '</h3>';
+    html += '<p class="idag__nav-tekst">' + food.desc + '</p>';
+    html += '<div class="idag__nav-pil">Se opskrift \u2192</div>';
     html += '</div>';
   }
 
-  // Kort 3: Relation (hvis oprettet)
-  var relations = JSON.parse(localStorage.getItem('relations') || '[]');
-  if (relations.length > 0) {
-    var r = relations[0];
-    var rAge = calculateAge(r.birthdate);
-    var rPhase = (r.gender === 'mand') ? calculateMalePhase(rAge) : calculateLifePhase(rAge);
-    html += '<div class="forslag-kort" onclick="navigateToRelationDetail(0)">';
-    html += '<p class="forslag-kort__label">' + escapeHtml(r.name) + ' er i ' + ELEMENT_LABELS[rPhase.element] + '</p>';
-    html += '<p class="forslag-kort__text">Se hvordan jeres faser m\u00f8des lige nu</p>';
-    html += '<span class="forslag-kort__arrow">\u2192</span>';
-    html += '</div>';
-  }
-
-  // Kort 4: Hvad har hjulpet andre
+  // Kort 3: Fællesskab (lilla)
   var hjData = HJULPET_DATA[primaryEl] || HJULPET_DATA['VAND'];
-  html += '<div class="forslag-kort" onclick="App.loadScreen(\'hvad-har-hjulpet\')">';
-  html += '<p class="forslag-kort__label">F\u00c6LLESSKAB</p>';
-  html += '<p class="forslag-kort__text">' + hjData.yoga.pct + '% af kvinder i Fase ' + data.lifePhase.phase + ' anbefaler yin yoga. Se alle erfaringer.</p>';
-  html += '<span class="forslag-kort__arrow">\u2192</span>';
+  html += '<div class="idag__lilla-kort" onclick="App.loadScreen(\'hvad-har-hjulpet\')">';
+  html += '<div class="idag__lilla-tag">F\u00c6LLESSKAB</div>';
+  html += '<h3 class="idag__lilla-titel">Hvad andre i Fase ' + data.lifePhase.phase + ' g\u00f8r</h3>';
+  html += '<p class="idag__lilla-tekst">De fleste i din livsfase v\u00e6lger Yin Yoga og vejrtr\u00e6knings\u00f8velser. ' + hjData.yoga.pct + '% foretr\u00e6kker \u00f8velser om morgenen.</p>';
+  html += '<div class="idag__lilla-pil">Se mere \u2192</div>';
   html += '</div>';
 
-  // Kort 5: Dine relationer lige nu
-  if (relations.length > 0) {
-    html += '<div class="forslag-kort forslag-kort--lilla" onclick="App.loadScreen(\'jeres-energi\')">';
-    html += '<p class="forslag-kort__label">RELATIONER</p>';
-    html += '<p class="forslag-kort__text">';
-    var maxShow = Math.min(relations.length, 3);
-    for (var ri = 0; ri < maxShow; ri++) {
-      var rel = relations[ri];
-      var relAge = calculateAge(rel.birthdate);
-      var relPhase = (rel.gender === 'mand') ? calculateMalePhase(relAge) : calculateLifePhase(relAge);
-      html += escapeHtml(rel.name) + ': Fase ' + relPhase.phase + ' \u00b7 ' + ELEMENT_LABELS[relPhase.element];
-      if (ri < maxShow - 1) html += '<br>';
-    }
-    html += '</p>';
-    html += '<span class="forslag-kort__arrow">Se jeres energi sammen \u2192</span>';
-    html += '</div>';
-  } else {
-    html += '<div class="forslag-kort forslag-kort--lilla" onclick="App.loadScreen(\'relationer\')">';
-    html += '<p class="forslag-kort__label">RELATIONER</p>';
-    html += '<p class="forslag-kort__text">Tilf\u00f8j dine n\u00e6rmeste og se hvordan jeres energi m\u00f8des</p>';
-    html += '<span class="forslag-kort__arrow">\u2192</span>';
-    html += '</div>';
-  }
-
+  // Kort 4: Relationer (lilla)
+  var relations = JSON.parse(localStorage.getItem('relations') || '[]');
+  html += '<div class="idag__lilla-kort" onclick="App.loadScreen(\'' + (relations.length > 0 ? 'jeres-energi' : 'relationer') + '\')">';
+  html += '<div class="idag__lilla-tag">RELATIONER</div>';
+  html += '<h3 class="idag__lilla-titel">Tilf\u00f8j dine n\u00e6rmeste og se hvordan jeres energi m\u00f8des</h3>';
+  html += '<p class="idag__lilla-tekst">Se hvad der sker, n\u00e5r dine cyklusser m\u00f8der andres \u2014 forst\u00e6rkning, forskydning eller friktion.</p>';
+  html += '<div class="idag__lilla-pil">G\u00e5 til Mine Relationer \u2192</div>';
   html += '</div>';
+
   el.innerHTML = html;
 }
 
@@ -2111,23 +2164,55 @@ function renderHovedkort() {
     { screen: 'min-rejse', colorClass: 'hoved-kort--rejse', icon: '<svg width="32" height="32" viewBox="0 0 32 32"><path d="M8 28C8 28 10 4 16 4s8 24 8 24" fill="none" stroke="#7690C1" stroke-width="1.5"/><circle cx="16" cy="16" r="2" fill="#7690C1"/></svg>', title: 'Min Rejse', subtitle: rejseSub }
   ];
 
-  // Header OUTSIDE card area
   var headerEl = document.getElementById('idag-kort-header');
   if (headerEl) {
     headerEl.innerHTML = '<h3 class="idag__section-title">Dine fire verdener</h3>' +
       '<p class="idag__section-subtitle">Fire indgange til at forst\u00e5 dig selv. Dine cyklusser viser hvad der sker i dig. Dine relationer viser hvad der sker mellem dig og andre. Din praksis giver dig redskaber. Din rejse samler det hele over tid.</p>';
   }
 
+  // Mockup: 4 kort med ikonboks + titel + undertekst, hver med sin farveprofil
+  var verdener = [
+    {
+      screen: 'mine-cyklusser',
+      color: 'blaa',
+      icon: '<svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#5A74A5" stroke-width="1.5"/><circle cx="8" cy="8" r="3" fill="#5A74A5" opacity="0.3"/></svg>',
+      title: 'Mine Cyklusser',
+      subtitle: cyklusserSub
+    },
+    {
+      screen: 'mine-relationer',
+      color: 'lilla',
+      icon: '<svg width="16" height="16" viewBox="0 0 16 16"><circle cx="6" cy="8" r="5" fill="none" stroke="#B8A6C0" stroke-width="1.2"/><circle cx="10" cy="8" r="5" fill="none" stroke="#B8A6C0" stroke-width="1.2"/></svg>',
+      title: 'Mine Relationer',
+      subtitle: relationerSub
+    },
+    {
+      screen: 'min-praksis',
+      color: 'groen',
+      icon: '<svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#6B8273" stroke-width="1.2"/><path d="M8 4 L8 12 M4 8 L12 8" stroke="#6B8273" stroke-width="1.2"/></svg>',
+      title: 'Min Praksis',
+      subtitle: praksisSub
+    },
+    {
+      screen: 'min-rejse',
+      color: 'lavendel',
+      icon: '<svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 13 Q8 2 13 13" fill="none" stroke="#6B5F7B" stroke-width="1.2"/></svg>',
+      title: 'Min Rejse',
+      subtitle: rejseSub
+    }
+  ];
+
   var html = '';
-  for (var i = 0; i < kort.length; i++) {
-    var k = kort[i];
-    html += '<div class="hoved-kort ' + k.colorClass + '" onclick="App.loadScreen(\'' + k.screen + '\')">';
-    html += '<div class="hoved-kort__icon">' + k.icon + '</div>';
-    html += '<div class="hoved-kort__content">';
-    html += '<h3 class="hoved-kort__title">' + k.title + '</h3>';
-    html += '<p class="hoved-kort__subtitle">' + k.subtitle + '</p>';
+  for (var i = 0; i < verdener.length; i++) {
+    var v = verdener[i];
+    html += '<div class="idag__verden-kort idag__verden-kort--' + v.color + '" onclick="App.loadScreen(\'' + v.screen + '\')">';
+    html += '<div class="idag__verden-row">';
+    html += '<div class="idag__verden-ikon idag__verden-ikon--' + v.color + '">' + v.icon + '</div>';
+    html += '<div class="idag__verden-info">';
+    html += '<h3 class="idag__verden-titel">' + v.title + '</h3>';
+    html += '<p class="idag__verden-sub">' + v.subtitle + '</p>';
     html += '</div>';
-    html += '<span class="hoved-kort__arrow">\u203A</span>';
+    html += '</div>';
     html += '</div>';
   }
   el.innerHTML = html;
@@ -10186,44 +10271,40 @@ function renderNotifikationer() {
   var notifs = generateNotifikationer();
   if (notifs.length === 0) return;
 
-  // Header OUTSIDE box
   var headerEl = document.getElementById('idag-timeline-header');
   if (headerEl) {
     headerEl.innerHTML = '<h3 class="idag__section-title">Kommende</h3>' +
-      '<p class="idag__section-subtitle">Forandringer og skift i dine cyklusser de n\u00e6ste timer og dage. Din krop forbereder sig allerede \u2014 her kan du se hvad der venter, og hvordan du kan m\u00f8de det.</p>';
+      '<p class="idag__section-subtitle">Tidsforskydninger og skift i dine cyklusser de n\u00e6ste timer og dage. S\u00e5 du kan forberede dig stille.</p>';
   }
 
-  // Content INSIDE box
   var maxVisible = 3;
-  var html = '<div class="idag__timeline">';
-  html += '<div class="idag__timeline-list">';
+  var html = '<div class="idag__tidslinje">';
 
   for (var i = 0; i < notifs.length; i++) {
     var n = notifs[i];
-    var hidden = i >= maxVisible ? ' idag__timeline-item--hidden' : '';
+    var hidden = i >= maxVisible ? ' idag__tidslinje-item--hidden' : '';
+    var isNext = i === 0 ? ' next' : '';
     var onclick = n.action ? ' onclick="' + n.action + '"' : '';
-    html += '<div class="idag__timeline-item' + hidden + '"' + onclick + '>';
-    html += '<div class="idag__timeline-dot" style="background:' + n.color + '"></div>';
-    html += '<div class="idag__timeline-content">';
-    html += '<span class="idag__timeline-time">' + n.time + '</span>';
-    html += '<p class="idag__timeline-title">' + n.title + '</p>';
-    html += '<p class="idag__timeline-text">' + n.text + '</p>';
-    html += '</div></div>';
+    html += '<div class="idag__tidslinje-item' + hidden + '"' + onclick + '>';
+    html += '<div class="idag__tidslinje-dot' + isNext + '"></div>';
+    html += '<div class="idag__tidslinje-time">' + n.time + '</div>';
+    html += '<div class="idag__tidslinje-navn">' + n.title + '</div>';
+    html += '<div class="idag__tidslinje-tekst">' + n.text + '</div>';
+    html += '</div>';
   }
 
-  html += '</div>';
   if (notifs.length > maxVisible) {
-    html += '<button class="idag__timeline-expand" onclick="toggleTimelineExpand()">Se alle \u203A</button>';
+    html += '<button class="idag__tidslinje-expand" onclick="toggleTimelineExpand()">Se alle \u203A</button>';
   }
   html += '</div>';
   el.innerHTML = html;
 }
 
 function toggleTimelineExpand() {
-  var items = document.querySelectorAll('.idag__timeline-item--hidden');
-  var btn = document.querySelector('.idag__timeline-expand');
+  var items = document.querySelectorAll('.idag__tidslinje-item--hidden');
+  var btn = document.querySelector('.idag__tidslinje-expand');
   for (var i = 0; i < items.length; i++) {
-    items[i].classList.toggle('idag__timeline-item--hidden');
+    items[i].classList.toggle('idag__tidslinje-item--hidden');
   }
   if (btn) btn.textContent = btn.textContent === 'Se alle \u203A' ? 'Vis f\u00e6rre' : 'Se alle \u203A';
 }
@@ -10240,19 +10321,26 @@ function renderForloebCard() {
   var seasonName = d ? d.season.season : 'Vinter';
   var forlob = FORLOB_DATA[seasonName] || FORLOB_DATA['Vinter'];
 
-  // Header OUTSIDE card
   var headerEl = document.getElementById('idag-forloeb-header');
   if (headerEl) {
     headerEl.innerHTML = '<h3 class="idag__section-title">G\u00e5 dybere</h3>' +
-      '<p class="idag__section-subtitle">Isabelles s\u00e6sonforl\u00f8b med yoga, vejrtr\u00e6kning og f\u00e6llesskab. F\u00f8lg \u00e5rets energi sammen med andre kvinder \u2014 guidet af den samme visdom som denne app bygger p\u00e5.</p>';
+      '<p class="idag__section-subtitle">Isabelles s\u00e6sonforl\u00f8b med vejledning og \u00e5rstidskost. F\u00f8lg den rytme naturen s\u00e6tter \u2014 udbyg af den indsigt, denne app bygger p\u00e5.</p>';
   }
 
-  var html = '<div class="forloeb-kort" onclick="window.open(\'' + forlob.url + '\', \'_blank\')">';
-  html += '<span class="forloeb-kort__label">Isabelles forl\u00f8b \u00B7 Eksternt</span>';
-  html += '<h3 class="forloeb-kort__title">' + forlob.title + '</h3>';
-  html += '<p class="forloeb-kort__subtitle">' + forlob.subtitle + '</p>';
-  html += '<span class="forloeb-kort__link">L\u00e6s mere \u2192</span>';
+  var html = '<div class="idag__indsigt-boks">';
+  html += '<div class="idag__indsigt-label">ISABELLES FORL\u00d8B \u00b7 ' + seasonName.toUpperCase() + 'EN</div>';
+  html += '<p class="idag__indsigt-tekst">' + forlob.subtitle + '</p>';
   html += '</div>';
+
+  html += '<div class="idag__nav-kort" onclick="window.open(\'' + forlob.url + '\', \'_blank\')">';
+  html += '<h3 class="idag__nav-titel">' + forlob.title + '</h3>';
+  html += '<p class="idag__nav-tekst">F\u00f8lg ' + ELEMENT_LABELS[d.season.element] + '-elementet gennem ' + seasonName.toLowerCase() + 'en. En invitation til at g\u00e5 ind i stilheden og m\u00e6rke, hvad der gemmer sig der.</p>';
+  html += '<div class="idag__nav-pil">L\u00e6s mere \u2192</div>';
+  html += '</div>';
+
+  // Colophon
+  html += '<div class="idag__dots">\u00b7 \u00b7 \u00b7</div>';
+  html += '<p class="idag__colophon">Denne app er bygget p\u00e5 Isabelle Evita S\u00f8ndergaards bog \u201cDe 9 Livsfasers Energi\u201d \u2014 et v\u00e6rk der samler kinesisk medicin, vedisk filosofi og moderne psykologi i \u00e9n sammenh\u00e6ngende forst\u00e5else af kvinders liv.</p>';
 
   el.innerHTML = html;
 }
