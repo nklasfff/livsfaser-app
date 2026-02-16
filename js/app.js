@@ -3738,7 +3738,7 @@ window.renderTidsrejseInput = renderTidsrejseInput;
 window.tidsrejseBackToInput = tidsrejseBackToInput;
 window.navigateToTidsrejse = navigateToTidsrejse;
 
-// ---- Tidsvinduet: Din energi p\u00e5 en anden dag ----
+// ---- Tidsvinduet: Din energi på en anden dag (NYT DESIGN) ----
 
 var DinEnergiState = {
   selectedDate: null,
@@ -3746,189 +3746,355 @@ var DinEnergiState = {
   isPast: null
 };
 
+var DE_DANISH_MONTHS = ['januar','februar','marts','april','maj','juni','juli','august','september','oktober','november','december'];
+
+// Dynamiske tekster per cyklus for valgt dato
+var DE_CYCLE_TEXTS = {
+  'VAND': {
+    livsfase: function(d, isPast) { return (isPast ? 'Vand-fasen trak' : 'Vand-fasen trækker') + ' dig indad — mod stilhed, drømme og det usynlige. En tid for at lytte til det, der ikke kan siges.'; },
+    aarstid: function(d, isPast) { return 'Vinter, Vand-energi. Naturen hviler, og kroppen ' + (isPast ? 'søgte' : 'søger') + ' det samme — langsomhed, varme, indre ro.'; },
+    ugedag: function(d, isPast) { return 'En Vand-dag. Energien ' + (isPast ? 'var' : 'er') + ' stille og indadvendt — god til refleksion og hvile.'; }
+  },
+  'TR\u00C6': {
+    livsfase: function(d, isPast) { return (isPast ? 'Træ-fasen drev' : 'Træ-fasen driver') + ' dig fremad — mod vækst, retning og forandring. En tid for at bryde igennem.'; },
+    aarstid: function(d, isPast) { return 'Forår, Træ-energi. Vækst og udadvendthed — kroppen ' + (isPast ? 'ville' : 'vil') + ' bevæge sig, skabe, vokse.'; },
+    ugedag: function(d, isPast) { return 'En Træ-dag. Energien ' + (isPast ? 'var' : 'er') + ' fremadrettet — god til nye initiativer og kreativitet.'; }
+  },
+  'ILD': {
+    livsfase: function(d, isPast) { return (isPast ? 'Ild-fasen brændte' : 'Ild-fasen brænder') + ' med intensitet — forbindelse, glæde og varme. En tid for at dele dig selv med verden.'; },
+    aarstid: function(d, isPast) { return 'Sommer, Ild-energi. Højeste intensitet — kroppen ' + (isPast ? 'var' : 'er') + ' varm, åben, udadvendt.'; },
+    ugedag: function(d, isPast) { return 'En Ild-dag. Energien ' + (isPast ? 'var' : 'er') + ' intens og udadvendt — god til forbindelse og udfoldelse.'; }
+  },
+  'JORD': {
+    livsfase: function(d, isPast) { return (isPast ? 'Jord-fasen gav' : 'Jord-fasen giver') + ' dig rodfæste — næring, omsorg og stabilitet. En tid for at samle og fordøje.'; },
+    aarstid: function(d, isPast) { return 'Sensommer, Jord-energi. Modning og fylde — kroppen ' + (isPast ? 'søgte' : 'søger') + ' næring, tryghed, jordforbindelse.'; },
+    ugedag: function(d, isPast) { return 'En Jord-dag. Energien ' + (isPast ? 'var' : 'er') + ' rodfæstet og nærende — god til omsorg og stabilitet.'; }
+  },
+  'METAL': {
+    livsfase: function(d, isPast) { return (isPast ? 'Metal-fasen skar' : 'Metal-fasen skærer') + ' ind til benet — klarhed, essens og det der virkelig tæller. En tid for at give slip.'; },
+    aarstid: function(d, isPast) { return 'Efterår, Metal-energi. Naturen slipper — kroppen ' + (isPast ? 'søgte' : 'søger') + ' klarhed, ro, det essentielle.'; },
+    ugedag: function(d, isPast) { return 'En Metal-dag. Energien ' + (isPast ? 'var' : 'er') + ' klar og skarp — god til rengøring, sortering og overblik.'; }
+  }
+};
+
 function initDinEnergiScreen() {
-  DinEnergiState.selectedDate = null;
-  DinEnergiState.results = null;
-  DinEnergiState.isPast = null;
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  if (!user.birthdate) return;
+
+  // Brug preload-dato eller i dag
   if (window._preloadDinEnergiDate) {
     DinEnergiState.selectedDate = window._preloadDinEnergiDate;
     window._preloadDinEnergiDate = null;
-    renderDinEnergiStatic();
-    renderDinEnergiInput();
-    executeDinEnergi();
   } else {
-    renderDinEnergiStatic();
-    renderDinEnergiInput();
+    DinEnergiState.selectedDate = getLocalDateStr(new Date());
   }
+
+  renderDinEnergiDatePicker();
+  executeDinEnergiNew();
 }
 
-function renderDinEnergiStatic() {
-  var el = document.getElementById('din-energi-usebox');
+function renderDinEnergiDatePicker() {
+  var el = document.getElementById('de-datepicker');
   if (!el) return;
-  var html = '<h2 class="tidsvindue__title">Din energi p\u00e5 en anden dag</h2>';
-  html += '<p class="tidsvindue__subtitle">V\u00e6lg en dag \u2014 fortid eller fremtid \u2014 og se pr\u00e6cis hvilke cyklusser der var aktive, hvad du havde brug for, og hvad der kan hj\u00e6lpe dig. Du kan bruge det til at forst\u00e5 sv\u00e6re perioder, forberede vigtige begivenheder, eller bare se hvad der venter forude.</p>';
-  html += '<img src="assets/images/vindue_ny_side.svg" alt="Tidsvinduet" class="tidsvindue__hero-img">';
-  html += '<div class="tidsvindue__box--blaa">';
-  html += '<p class="tidsvindue__box-heading">Du kan bruge det til</p>';
-  html += '<ul class="tidsvindue__box-list">';
-  html += '<li>Forst\u00e5 en sv\u00e6r periode i dit liv</li>';
-  html += '<li>Se hvorfor du var udmattet dengang</li>';
-  html += '<li>Forberede en ferie eller rejse</li>';
-  html += '<li>Planl\u00e6gge et vigtigt m\u00f8de</li>';
-  html += '<li>Se din energi de n\u00e6ste m\u00e5neder</li>';
-  html += '<li>Forberede en ny fase du g\u00e5r ind i</li>';
-  html += '<li>Forst\u00e5 overgange i dit liv</li>';
-  html += '</ul></div>';
+  var dateStr = DinEnergiState.selectedDate || getLocalDateStr(new Date());
+  var d = new Date(dateStr + 'T12:00:00');
+  var day = d.getDate();
+  var month = DE_DANISH_MONTHS[d.getMonth()];
+  var year = d.getFullYear();
+  var formatted = day + '. ' + month + ' ' + year;
+
+  // Beregn relativ tid
+  var now = new Date();
+  var relText = deRelativeTime(d, now);
+
+  var html = '<div class="mc__dp">';
+  html += '<div class="mc__dp-label">V\u00c6LG EN DAG</div>';
+  html += '<div class="mc__dp-date" onclick="deOpenDatePicker()">' + formatted + '</div>';
+  html += '<input type="date" id="de-date-input" value="' + dateStr + '" onchange="deOnDateChange(this.value)" style="opacity:0;position:absolute;width:0;height:0;pointer-events:none;">';
+  html += '<div class="mc__dp-sub">' + relText + '</div>';
+  html += '<div class="mc__dp-nav">';
+  html += '<span onclick="deChangeMonth(-1)">\u2190 m\u00e5ned</span>';
+  html += '<span onclick="deChangeMonth(1)">m\u00e5ned \u2192</span>';
+  html += '</div>';
+  html += '</div>';
   el.innerHTML = html;
 }
 
-function renderDinEnergiInput() {
-  var el = document.getElementById('din-energi-input');
-  if (!el) return;
-  var html = '<h2 class="tidsvindue__title tidsvindue__section-title">V\u00e6lg tidspunkt</h2>';
-  html += '<p class="tidsvindue__subtitle">Tryk p\u00e5 datoen for at v\u00e6lge en dag. Du kan se b\u00e5de fortid og fremtid.</p>';
-  html += '<div class="tidsvindue__box--blaa">';
-  html += '<label class="tidsvindue__label">V\u00c6LG DATO</label>';
-  var dateVal = DinEnergiState.selectedDate || '';
-  html += '<input type="date" id="din-energi-date" class="tidsvindue__date-input" value="' + dateVal + '" onchange="dinEnergiDateChanged(this.value)">';
-  html += '<div class="tidsvindue__shortcut-grid">';
-  var user = JSON.parse(localStorage.getItem('user') || '{}');
-  TIDSVINDUE_SHORTCUTS_SELV = getDynamicShortcutsSelf(user);
-  for (var i = 0; i < TIDSVINDUE_SHORTCUTS_SELV.length; i++) {
-    html += '<button class="tidsvindue__shortcut-btn" onclick="applyDinEnergiShortcut(' + i + ')">' + TIDSVINDUE_SHORTCUTS_SELV[i].label + '</button>';
-  }
-  html += '</div></div>';
-  html += '<button class="tidsvindue__calculate-btn" onclick="executeDinEnergi()">Se din energi</button>';
-  el.innerHTML = html;
+function deRelativeTime(target, now) {
+  var diff = target.getTime() - now.getTime();
+  var absDiff = Math.abs(diff);
+  var days = Math.floor(absDiff / (1000 * 60 * 60 * 24));
+  var isPast = diff < 0;
+
+  if (days === 0) return 'I dag';
+  if (days === 1) return isPast ? 'I g\u00e5r' : 'I morgen';
+
+  var years = Math.floor(days / 365);
+  var remainDays = days - (years * 365);
+  var months = Math.floor(remainDays / 30);
+
+  var parts = [];
+  if (years > 0) parts.push(years + ' \u00e5r');
+  if (months > 0) parts.push(months + ' m\u00e5ned' + (months > 1 ? 'er' : ''));
+  if (parts.length === 0) parts.push(days + ' dag' + (days > 1 ? 'e' : ''));
+
+  var timeStr = parts.join(' og ');
+  return isPast ? ('For ' + timeStr + ' siden') : ('Om ' + timeStr);
 }
 
-function dinEnergiDateChanged(val) {
+function deOpenDatePicker() {
+  var input = document.getElementById('de-date-input');
+  if (input) {
+    input.showPicker ? input.showPicker() : input.click();
+  }
+}
+
+function deOnDateChange(val) {
+  if (!val) return;
   DinEnergiState.selectedDate = val;
+  renderDinEnergiDatePicker();
+  executeDinEnergiNew();
 }
 
-function applyDinEnergiShortcut(index) {
-  var user = JSON.parse(localStorage.getItem('user') || '{}');
-  var shortcut = TIDSVINDUE_SHORTCUTS_SELV[index];
-  if (!shortcut) return;
-  var date = shortcut.resolve(user);
-  DinEnergiState.selectedDate = getLocalDateStr(date);
-  renderDinEnergiInput();
-  // Auto-eksekvér s\u00e5 resultatet vises med det samme
-  executeDinEnergi();
+function deChangeMonth(dir) {
+  var dateStr = DinEnergiState.selectedDate;
+  var d = new Date(dateStr + 'T12:00:00');
+  d.setMonth(d.getMonth() + dir);
+  DinEnergiState.selectedDate = getLocalDateStr(d);
+  renderDinEnergiDatePicker();
+  executeDinEnergiNew();
 }
 
-function executeDinEnergi() {
-  var dateInput = document.getElementById('din-energi-date');
-  var dateStr = (dateInput && dateInput.value) || DinEnergiState.selectedDate;
-  if (!dateStr) { alert('V\u00e6lg venligst en dato'); return; }
-  DinEnergiState.selectedDate = dateStr;
+function executeDinEnergiNew() {
+  var dateStr = DinEnergiState.selectedDate;
+  if (!dateStr) return;
 
-  // Robust isPast: sammenlign som lokale datostrenge for at undg\u00e5 UTC-forskydning
   var todayStr = getLocalDateStr(new Date());
-  DinEnergiState.isPast = dateStr < todayStr;
+  var isPast = dateStr < todayStr;
+  var isToday = dateStr === todayStr;
+  DinEnergiState.isPast = isPast;
 
   var user = JSON.parse(localStorage.getItem('user') || '{}');
-  var userResult = calculateCyclesForDate(user.birthdate, dateStr, {
+  if (!user.birthdate) return;
+
+  var result = calculateCyclesForDate(user.birthdate, dateStr, {
     gender: 'kvinde',
     tracksMenstruation: user.tracksMenstruation,
     lastPeriodDate: user.lastPeriodDate
   });
-  console.log('[Tidsvinduet] calculated age =', userResult.age);
+  DinEnergiState.results = result;
 
-  DinEnergiState.results = { user: userResult, relations: [] };
-  renderDinEnergiResults();
-  var resultsEl = document.getElementById('din-energi-results');
-  if (resultsEl) resultsEl.scrollIntoView({ behavior: 'smooth' });
+  // Beregn i dag for sammenligning
+  var todayResult = calculateCyclesForDate(user.birthdate, todayStr, {
+    gender: 'kvinde',
+    tracksMenstruation: user.tracksMenstruation,
+    lastPeriodDate: user.lastPeriodDate
+  });
+
+  renderDinEnergiGradient(result, isPast, isToday);
+  renderDinEnergiCyklusser(result, isPast);
+  renderDinEnergiSammenlign(result, todayResult, isPast, isToday);
+  renderDinEnergiLinks();
+  renderDinEnergiActions();
 }
 
-function renderDinEnergiResults() {
-  var el = document.getElementById('din-energi-results');
+function renderDinEnergiGradient(r, isPast, isToday) {
+  var el = document.getElementById('de-gradient');
   if (!el) return;
-  var results = DinEnergiState.results;
-  if (!results) return;
-  var isPast = DinEnergiState.isPast;
-  var dateStr = DinEnergiState.selectedDate;
-  var targetDate = new Date(dateStr);
-  var formattedDate = targetDate.toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric' });
 
-  // Dynamisk indsigt via motoren
-  var user = JSON.parse(localStorage.getItem('user') || '{}');
-  var person = { birthDate: user.birthdate, gender: 'female', name: 'Du' };
-  var insightText = generatePersonalInsight(person, targetDate, isPast);
-
-  // Menstruation
-  var menstruationWeek = null;
-  if (results.user.monthCycle && results.user.monthCycle.type === 'menstrual') {
-    menstruationWeek = results.user.monthCycle.data.week;
+  if (isToday) {
+    el.innerHTML = '';
+    return;
   }
 
-  var html = '';
+  var age = r.age;
+  var phase = r.lifePhase;
+  var season = r.season;
+  var varEr = isPast ? 'var' : 'er';
 
-  // Section 1: Dine cyklusser
-  html += '<h2 class="tidsvindue__title tidsvindue__section-title">Dine cyklusser den ' + formattedDate + '</h2>';
-  html += '<p class="tidsvindue__subtitle">' + (isPast ? 'S\u00e5dan s\u00e5 din energi ud dengang.' : 'S\u00e5dan ser din energi ud p\u00e5 den dag.') + '</p>';
-  html += '<div class="tidsvindue__box--blaa">';
-  html += renderCycleGrid(results.user, 'Dig', isPast);
-  html += '</div>';
-
-  // Section 2: Indsigt (dynamisk genereret)
-  html += '<h2 class="tidsvindue__title tidsvindue__section-title">' + (isPast ? 'Hvad der skete' : 'Hvad du kan forvente') + '</h2>';
-  html += '<p class="tidsvindue__subtitle">' + (isPast ? 'Baseret p\u00e5 dine cyklusser dengang.' : 'Baseret p\u00e5 dine cyklusser p\u00e5 det tidspunkt.') + '</p>';
-
-  html += '<div class="tidsvindue__box--blaa">';
-  html += '<p class="tidsvindue__insight-text" style="white-space:pre-line">' + insightText + '</p>';
-  html += '</div>';
-
-  // Menstruation-tekst (hvis relevant)
-  if (menstruationWeek && CM_MENSTRUATION[menstruationWeek]) {
-    html += '<div class="tidsvindue__box--blaa" style="margin-top:12px">';
-    html += '<p class="tidsvindue__insight-text" style="margin-bottom:4px"><span class="tidsvindue__label" style="display:inline;margin:0">DIN M\u00c5NEDSCYKLUS</span></p>';
-    html += '<p class="tidsvindue__insight-text">' + CM_MENSTRUATION[menstruationWeek].text + '</p>';
-    html += '</div>';
+  // Tæl elementer for resonans/modvind
+  var counts = {};
+  for (var i = 0; i < r.elements.length; i++) {
+    counts[r.elements[i]] = (counts[r.elements[i]] || 0) + 1;
+  }
+  var maxCount = 0;
+  var uniqueCount = Object.keys(counts).length;
+  var keys = Object.keys(counts);
+  for (var j = 0; j < keys.length; j++) {
+    if (counts[keys[j]] > maxCount) maxCount = counts[keys[j]];
   }
 
-  // Udforsk videre
-  html += '<h2 class="tidsvindue__title tidsvindue__section-title">Udforsk videre</h2>';
-  html += '<div class="tidsvindue__box--blaa">';
-  // Dagen før og efter
-  var dagenFoer = new Date(targetDate.getTime()); dagenFoer.setDate(dagenFoer.getDate() - 1);
-  var dagenEfter = new Date(targetDate.getTime()); dagenEfter.setDate(dagenEfter.getDate() + 1);
-  html += '<div style="display:flex;gap:12px;margin-bottom:12px">';
-  html += '<p class="tidsvindue__insight-text" style="cursor:pointer;flex:1" onclick="navigateToDinEnergiWithDate(\'' + getLocalDateStr(dagenFoer) + '\')">\u2190 Dagen f\u00f8r</p>';
-  html += '<p class="tidsvindue__insight-text" style="cursor:pointer;flex:1;text-align:right" onclick="navigateToDinEnergiWithDate(\'' + getLocalDateStr(dagenEfter) + '\')">Dagen efter \u2192</p>';
-  html += '</div>';
-  // Relationer
-  var dinRelations = JSON.parse(localStorage.getItem('relations') || '[]');
-  if (dinRelations.length > 0) {
-    html += '<p class="tidsvindue__insight-text" style="cursor:pointer" onclick="navigateToJeresEnergiWithDate(\'' + dateStr + '\')">Se hvordan denne dag s\u00e5 ud for dine relationer \u2192</p>';
+  // Fase-position i 7-års cyklus
+  var yearsInPhase = age - phase.startAge;
+
+  var mainText = 'Du ' + varEr + ' ' + age + ' \u2014 ';
+  if (yearsInPhase <= 1) {
+    mainText += 'helt ny i Fase ' + phase.phase + ', ' + phase.name + '. ';
+  } else if (yearsInPhase >= 5) {
+    mainText += 'langt inde i Fase ' + phase.phase + ', ' + phase.name + '. ';
   } else {
-    html += '<p class="tidsvindue__insight-text" style="cursor:pointer" onclick="App.loadScreen(\'jeres-energi\')">Tilf\u00f8j en relation \u2192</p>';
+    mainText += 'i Fase ' + phase.phase + ', ' + phase.name + '. ';
   }
-  // Længere frem
-  var omEnMaaned = new Date(targetDate.getTime());
-  omEnMaaned.setMonth(omEnMaaned.getMonth() + 1);
-  html += '<p class="tidsvindue__insight-text" style="cursor:pointer;margin-top:12px" onclick="navigateToDinEnergiWithDate(\'' + getLocalDateStr(omEnMaaned) + '\')">Hvad sker der om en m\u00e5ned? \u2192</p>';
-  // Samme dag næste år
-  var nextYear = new Date(targetDate.getTime()); nextYear.setFullYear(nextYear.getFullYear() + 1);
-  html += '<p class="tidsvindue__insight-text" style="cursor:pointer;margin-top:12px" onclick="navigateToDinEnergiWithDate(\'' + getLocalDateStr(nextYear) + '\')">Samme dag n\u00e6ste \u00e5r \u2192</p>';
+  mainText += '\u00c5rstiden ' + varEr + ' ' + season.season.toLowerCase() + ', ' + ELEMENT_LABELS[season.element] + '-element.';
+
+  var subText = '';
+  if (maxCount >= 4) {
+    subText = 'N\u00e6sten alle cyklusser ' + (isPast ? 'pegede' : 'peger') + ' i samme retning. Dyb resonans \u2014 en tid med indre ro.';
+  } else if (maxCount >= 3) {
+    subText = 'Tre cyklusser ' + (isPast ? 'delte' : 'deler') + ' element. ' + (isPast ? 'Du var' : 'Du er') + ' i st\u00e6rk str\u00f8m ' + (isPast ? '\u2014 m\u00e5ske husker du det som en klar tid.' : '\u2014 en klar retning.');
+  } else if (uniqueCount >= 4) {
+    subText = 'Mange retninger p\u00e5 \u00e9n gang. ' + (isPast ? 'Du var' : 'Du er') + ' i modvind \u2014 ' + (isPast ? 'm\u00e5ske husker du det som en urolig tid.' : 'v\u00e6r t\u00e5lmodig med dig selv.');
+  } else {
+    subText = 'To hovedelementer ' + (isPast ? 'trak' : 'tr\u00e6kker') + ' i dig. ' + (isPast ? 'En tid med kreativ sp\u00e6nding.' : 'Kreativ sp\u00e6nding \u2014 brug den.');
+  }
+
+  var html = '<div class="mc__gradient">';
+  html += '<div class="mc__gradient-label">DEN DAG</div>';
+  html += '<div class="mc__gradient-text">' + mainText + '</div>';
+  html += '<div class="mc__gradient-sub">' + subText + '</div>';
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function renderDinEnergiCyklusser(r, isPast) {
+  var el = document.getElementById('de-cyklusser');
+  if (!el) return;
+
+  var html = '<div class="mc__dots">\u00b7 \u00b7 \u00b7</div>';
+  html += '<h3 class="mc__section-title">Dine cyklusser den dag</h3>';
+
+  // 1. Livsfase
+  var lp = r.lifePhase;
+  var lpTexts = DE_CYCLE_TEXTS[lp.element];
+  var lpDesc = lpTexts ? lpTexts.livsfase(r, isPast) : '';
+  html += '<div class="mc__tr">';
+  html += '<div class="mc__tr-hd"><div class="mc__tr-nm">Livsfase</div><div class="mc__tr-el">' + ELEMENT_LABELS[lp.element] + ' \u00b7 FASE ' + lp.phase + '</div></div>';
+  html += '<div class="mc__tr-dt">' + lpDesc + '</div>';
   html += '</div>';
 
-  // Action bar
-  html += sectionDivider();
-  html += renderActionBar('din-energi');
+  // 2. Årstid
+  var s = r.season;
+  var sTexts = DE_CYCLE_TEXTS[s.element];
+  var sDesc = sTexts ? sTexts.aarstid(r, isPast) : '';
+  html += '<div class="mc__tr">';
+  html += '<div class="mc__tr-hd"><div class="mc__tr-nm">\u00c5rstid</div><div class="mc__tr-el">' + ELEMENT_LABELS[s.element] + ' \u00b7 ' + s.season.toUpperCase() + '</div></div>';
+  html += '<div class="mc__tr-dt">' + sDesc + '</div>';
+  html += '</div>';
 
-  // Back button
-  html += '<button class="tidsvindue__back-btn" onclick="dinEnergiBackToInput()">V\u00e6lg ny dato</button>';
+  // 3. Ugedag
+  var w = r.weekday;
+  var wTexts = DE_CYCLE_TEXTS[w.element];
+  var wDesc = wTexts ? wTexts.ugedag(r, isPast) : '';
+  html += '<div class="mc__tr">';
+  html += '<div class="mc__tr-hd"><div class="mc__tr-nm">Ugedag</div><div class="mc__tr-el">' + ELEMENT_LABELS[w.element] + ' \u00b7 ' + w.day.toUpperCase() + '</div></div>';
+  html += '<div class="mc__tr-dt">' + wDesc + '</div>';
+  html += '</div>';
 
   el.innerHTML = html;
 }
 
-function dinEnergiBackToInput() {
-  DinEnergiState.results = null;
-  var el = document.getElementById('din-energi-results');
-  if (el) el.innerHTML = '';
-  var inputEl = document.getElementById('din-energi-input');
-  if (inputEl) inputEl.scrollIntoView({ behavior: 'smooth' });
+function renderDinEnergiSammenlign(r, todayR, isPast, isToday) {
+  var el = document.getElementById('de-sammenlign');
+  if (!el) return;
+
+  if (isToday) {
+    el.innerHTML = '';
+    return;
+  }
+
+  // Tæl elementer for valgt dato
+  var thenCounts = {};
+  for (var i = 0; i < r.elements.length; i++) {
+    thenCounts[r.elements[i]] = (thenCounts[r.elements[i]] || 0) + 1;
+  }
+  var thenMax = 0, thenDom = '';
+  var tk = Object.keys(thenCounts);
+  for (var j = 0; j < tk.length; j++) {
+    if (thenCounts[tk[j]] > thenMax) { thenMax = thenCounts[tk[j]]; thenDom = tk[j]; }
+  }
+
+  // Tæl elementer for i dag
+  var nowCounts = {};
+  for (var k = 0; k < todayR.elements.length; k++) {
+    nowCounts[todayR.elements[k]] = (nowCounts[todayR.elements[k]] || 0) + 1;
+  }
+  var nowMax = 0, nowDom = '';
+  var nk = Object.keys(nowCounts);
+  for (var m = 0; m < nk.length; m++) {
+    if (nowCounts[nk[m]] > nowMax) { nowMax = nowCounts[nk[m]]; nowDom = nk[m]; }
+  }
+
+  var thenUnique = Object.keys(thenCounts).length;
+  var nowUnique = Object.keys(nowCounts).length;
+
+  var text = '';
+  if (isPast) {
+    text += 'Dengang: ';
+    if (thenMax >= 3) {
+      text += ELEMENT_LABELS[thenDom] + ' dominerede med ' + thenMax + ' cyklusser, st\u00e6rk resonans. ';
+    } else {
+      text += thenUnique + ' elementer i spil, ' + (thenUnique >= 4 ? 'modvind' : 'kreativ sp\u00e6nding') + '. ';
+    }
+    text += 'Nu: ';
+    if (nowMax >= 3) {
+      text += ELEMENT_LABELS[nowDom] + ' dominerer med ' + nowMax + ' cyklusser, dyb resonans. ';
+    } else {
+      text += nowUnique + ' elementer i spil, ' + (nowUnique >= 4 ? 'mangfoldighed' : 'balance') + '. ';
+    }
+    if (nowMax > thenMax) {
+      text += 'Du er mere samlet nu \u2014 cyklusserne har fundet ro.';
+    } else if (nowMax < thenMax) {
+      text += 'Dengang var du mere samlet \u2014 nu er der flere retninger.';
+    } else {
+      text += 'Samme grad af resonans \u2014 men med forskellige elementer.';
+    }
+  } else {
+    text += 'I dag: ';
+    if (nowMax >= 3) {
+      text += ELEMENT_LABELS[nowDom] + ' dominerer med ' + nowMax + ' cyklusser. ';
+    } else {
+      text += nowUnique + ' elementer i spil. ';
+    }
+    text += 'Den dag: ';
+    if (thenMax >= 3) {
+      text += ELEMENT_LABELS[thenDom] + ' vil dominere med ' + thenMax + ' cyklusser \u2014 st\u00e6rk retning. ';
+    } else {
+      text += thenUnique + ' elementer i spil \u2014 ' + (thenUnique >= 4 ? 'mange retninger' : 'kreativ sp\u00e6nding') + '. ';
+    }
+    if (thenDom !== nowDom) {
+      text += 'Energien skifter fra ' + ELEMENT_LABELS[nowDom] + ' til ' + ELEMENT_LABELS[thenDom] + '.';
+    } else {
+      text += 'Samme dominerende element \u2014 en stabil periode.';
+    }
+  }
+
+  var html = '<div class="mc__dots">\u00b7 \u00b7 \u00b7</div>';
+  html += '<div class="mc__ins">';
+  html += '<div class="mc__ins-label">SAMMENLIGNET MED I DAG</div>';
+  html += '<div class="mc__ins-text">' + text + '</div>';
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function renderDinEnergiLinks() {
+  var el = document.getElementById('de-links');
+  if (!el) return;
+  var html = '<a class="mc__link" onclick="deResetDate()" style="cursor:pointer">Pr\u00f8v en anden dato \u2192</a>';
+  html += '<a class="mc__link" onclick="App.loadScreen(\'jeres-energi\')" style="cursor:pointer;margin-top:6px;display:block">Se hvordan det ser ud for dig og en anden \u2192</a>';
+  el.innerHTML = html;
+}
+
+function renderDinEnergiActions() {
+  var el = document.getElementById('de-actions');
+  if (!el) return;
+  el.innerHTML = renderActionBar('din-energi');
+}
+
+function deResetDate() {
+  var input = document.getElementById('de-date-input');
+  if (input) {
+    input.showPicker ? input.showPicker() : input.click();
+  }
 }
 
 function navigateToDinEnergiWithDate(dateStr) {
@@ -3937,10 +4103,10 @@ function navigateToDinEnergiWithDate(dateStr) {
 }
 
 // Export din-energi functions
-window.executeDinEnergi = executeDinEnergi;
-window.applyDinEnergiShortcut = applyDinEnergiShortcut;
-window.dinEnergiBackToInput = dinEnergiBackToInput;
-window.dinEnergiDateChanged = dinEnergiDateChanged;
+window.deOpenDatePicker = deOpenDatePicker;
+window.deOnDateChange = deOnDateChange;
+window.deChangeMonth = deChangeMonth;
+window.deResetDate = deResetDate;
 window.navigateToDinEnergiWithDate = navigateToDinEnergiWithDate;
 
 // ---- Tidsvinduet: Jeres energi p\u00e5 en anden dag ----

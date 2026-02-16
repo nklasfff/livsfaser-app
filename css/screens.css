@@ -6268,3 +6268,97 @@
   cursor: pointer;
 }
 
+/* --- Datovælger (Din energi på en anden dag) --- */
+
+.mc__dp {
+  background: rgba(118,144,193,0.08);
+  border: 1px solid rgba(118,144,193,0.14);
+  border-radius: 14px;
+  padding: 22px;
+  margin: 20px 0;
+  text-align: center;
+}
+.mc__dp-label {
+  font-size: 10px;
+  color: #7690C1;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, sans-serif);
+  font-weight: 600;
+}
+.mc__dp-date {
+  font-size: 24px;
+  color: #5A74A5;
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+.mc__dp-date input[type="date"] {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.mc__dp-sub {
+  font-size: 13px;
+  color: #999;
+  font-style: italic;
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+}
+.mc__dp-nav {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: #7690C1;
+  font-style: italic;
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+}
+.mc__dp-nav span {
+  cursor: pointer;
+}
+.mc__dp-nav span:active {
+  opacity: 0.6;
+}
+
+/* --- Tidsresultat-kort (Din energi) --- */
+
+.mc__tr {
+  background: rgba(118,144,193,0.04);
+  border: 1px solid rgba(118,144,193,0.12);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.mc__tr-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.mc__tr-nm {
+  font-size: 16px;
+  color: #5A74A5;
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+}
+.mc__tr-el {
+  font-size: 10px;
+  color: #7690C1;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, sans-serif);
+  background: rgba(118,144,193,0.08);
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+.mc__tr-dt {
+  font-size: 14px;
+  color: #777;
+  font-style: italic;
+  line-height: 1.55;
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+}
+
