@@ -2023,18 +2023,137 @@ function toggleClimateExpand() {
 window.toggleClimateExpand = toggleClimateExpand;
 
 function renderIdagTidsvinduetLink() {
-  var headerEl = document.getElementById('idag-tidsvindue-header');
-  if (headerEl) {
-    headerEl.innerHTML = '<h3 class="idag__section-title">Tidsvinduet</h3>' +
-      '<p class="idag__section-subtitle">Rejse tilbage eller se hvad der venter forude. V\u00e6lg en dato og se hvilke cyklusser der var aktive \u2014 eller vil v\u00e6re.</p>';
-  }
-  var el = document.getElementById('idag-tidsvindue-link');
+  var el = document.getElementById('idag-vinduer');
   if (!el) return;
-  el.innerHTML = '<div class="idag__indsigt-boks">' +
-      '<div class="idag__indsigt-label">HVAD SKETE DER DENGANG?</div>' +
-      '<p class="idag__indsigt-tekst">V\u00e6lg en dato der betyder noget for dig. M\u00e5ske den dag noget \u00e6ndrede sig, en samtale der ramte, eller bare en periode du t\u00e6nker tilbage p\u00e5. Motoren viser dine cyklusser og elementer dengang.</p>' +
-    '</div>' +
-    '<a class="idag__forside-link" onclick="App.loadScreen(\'din-energi\')">Åbn Tidsvinduet \u2192</a>';
+
+  var html = '';
+
+  // ============================================
+  // TIDSVINDUET \u2014 lavendel zone
+  // ============================================
+  html += '<div class="idag__window-zone">';
+  html += '<div class="idag__window-label">TIDSVINDUET</div>';
+
+  // SVG figur: Ni faser i bue + tidslinje
+  html += '<div class="idag__window-fig">';
+  html += '<svg width="310" height="190" xmlns="http://www.w3.org/2000/svg">';
+  // Ni faser i bue
+  html += '<circle cx="28" cy="88" r="14" fill="rgba(139,125,155,0.08)" stroke="rgba(139,125,155,0.18)" stroke-width="1"/>';
+  html += '<circle cx="62" cy="62" r="14" fill="rgba(139,125,155,0.09)" stroke="rgba(139,125,155,0.2)" stroke-width="1"/>';
+  html += '<circle cx="100" cy="44" r="14" fill="rgba(139,125,155,0.1)" stroke="rgba(139,125,155,0.22)" stroke-width="1"/>';
+  html += '<circle cx="140" cy="34" r="14" fill="rgba(139,125,155,0.11)" stroke="rgba(139,125,155,0.24)" stroke-width="1"/>';
+  html += '<circle cx="180" cy="34" r="14" fill="rgba(139,125,155,0.11)" stroke="rgba(139,125,155,0.24)" stroke-width="1"/>';
+  html += '<circle cx="218" cy="44" r="14" fill="rgba(139,125,155,0.1)" stroke="rgba(139,125,155,0.22)" stroke-width="1"/>';
+  html += '<circle cx="252" cy="62" r="14" fill="rgba(139,125,155,0.09)" stroke="rgba(139,125,155,0.2)" stroke-width="1"/>';
+  html += '<circle cx="278" cy="88" r="14" fill="rgba(139,125,155,0.08)" stroke="rgba(139,125,155,0.18)" stroke-width="1"/>';
+  // Fase 9 \u2014 aktiv (dynamisk baseret p\u00e5 brugerens fase)
+  var userPhase = window._idagData ? window._idagData.lifePhase.phase : 9;
+  var phasePositions = [
+    {cx:28,cy:88},{cx:62,cy:62},{cx:100,cy:44},{cx:140,cy:34},{cx:180,cy:34},
+    {cx:218,cy:44},{cx:252,cy:62},{cx:278,cy:88},{cx:295,cy:116}
+  ];
+  // Tegn aktiv cirkel st\u00f8rre
+  var activePos = phasePositions[Math.min(userPhase - 1, 8)];
+  html += '<circle cx="' + activePos.cx + '" cy="' + activePos.cy + '" r="16" fill="rgba(107,95,123,0.15)" stroke="#6B5F7B" stroke-width="1.5"/>';
+  // Numre
+  var phaseCoords = [{x:28,y:92},{x:62,y:66},{x:100,y:48},{x:140,y:38},{x:180,y:38},{x:218,y:48},{x:252,y:66},{x:278,y:92},{x:295,y:120}];
+  for (var pi = 0; pi < 9; pi++) {
+    var pc = phaseCoords[pi];
+    var isActive = (pi === Math.min(userPhase - 1, 8));
+    html += '<text x="' + pc.x + '" y="' + pc.y + '" font-family="\'Cormorant Garamond\',serif" font-size="11" fill="' + (isActive ? '#6B5F7B' : '#8B7D9B') + '"' + (isActive ? ' font-weight="600"' : '') + ' text-anchor="middle">' + (pi + 1) + '</text>';
+  }
+  // Tidslinje under buen
+  html += '<line x1="40" y1="150" x2="270" y2="150" stroke="rgba(139,125,155,0.2)" stroke-width="1"/>';
+  html += '<circle cx="80" cy="150" r="4" fill="rgba(139,125,155,0.2)"/>';
+  html += '<circle cx="155" cy="150" r="5" fill="#6B5F7B"/>';
+  html += '<circle cx="230" cy="150" r="4" fill="rgba(139,125,155,0.2)" stroke="rgba(139,125,155,0.3)" stroke-width="1" stroke-dasharray="2,2"/>';
+  html += '<text x="80" y="168" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">fortid</text>';
+  html += '<text x="155" y="168" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#6B5F7B" font-weight="600" text-anchor="middle">nu</text>';
+  html += '<text x="230" y="168" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">fremtid</text>';
+  // Pile
+  html += '<path d="M 45 150 L 35 146 M 45 150 L 35 154" stroke="rgba(139,125,155,0.3)" stroke-width="1" fill="none"/>';
+  html += '<path d="M 265 150 L 275 146 M 265 150 L 275 154" stroke="rgba(139,125,155,0.3)" stroke-width="1" fill="none"/>';
+  html += '</svg>';
+  html += '</div>';
+
+  // Overskrift + undertekst
+  html += '<h3 class="idag__window-t2">Rejse i tid</h3>';
+  html += '<p class="idag__window-intr">V\u00e6lg en dato der betyder noget for dig \u2014 og se hvilke cyklusser og elementer der var aktive. Eller kig fremad og forbered dig p\u00e5 det der kommer.</p>';
+
+  // Gradient-boks (lavendel)
+  html += '<div class="idag__window-grd">';
+  html += '<div class="idag__window-grd-label">HVAD SKETE DER DENGANG?</div>';
+  html += '<div class="idag__window-grd-text">M\u00e5ske den dag noget \u00e6ndrede sig. En samtale der ramte. En periode du t\u00e6nker tilbage p\u00e5.</div>';
+  html += '<div class="idag__window-grd-sub">Motoren viser dine cyklusser og elementer \u2014 dengang eller i fremtiden.</div>';
+  html += '</div>';
+
+  // Link
+  html += '<a class="idag__window-link" onclick="App.loadScreen(\'din-energi\')">\u00c5bn Tidsvinduet \u2192</a>';
+  html += '</div>';
+
+  // Lavendel dots
+  html += '<div class="idag__dots-lav">\u00B7 \u00B7 \u00B7</div>';
+
+  // ============================================
+  // RELATIONSVINDUET \u2014 lavendel zone
+  // ============================================
+  html += '<div class="idag__window-zone">';
+  html += '<div class="idag__window-label">RELATIONSVINDUET</div>';
+
+  // SVG figur: Fire blade med DIG i centrum
+  html += '<div class="idag__window-fig">';
+  html += '<svg width="280" height="280" xmlns="http://www.w3.org/2000/svg">';
+  // Fire blade (stjerne-form)
+  html += '<ellipse cx="140" cy="50" rx="48" ry="72" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.15)" stroke-width="1" transform="rotate(0,140,140)"/>';
+  html += '<ellipse cx="140" cy="50" rx="48" ry="72" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.13)" stroke-width="1" transform="rotate(90,140,140)"/>';
+  html += '<ellipse cx="140" cy="50" rx="48" ry="72" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.15)" stroke-width="1" transform="rotate(180,140,140)"/>';
+  html += '<ellipse cx="140" cy="50" rx="48" ry="72" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.13)" stroke-width="1" transform="rotate(270,140,140)"/>';
+  // Centrum
+  html += '<circle cx="140" cy="140" r="38" fill="rgba(107,95,123,0.1)" stroke="rgba(139,125,155,0.25)" stroke-width="1"/>';
+  html += '<text x="140" y="136" font-family="\'Cormorant Garamond\',serif" font-size="13" fill="#6B5F7B" font-weight="600" text-anchor="middle">DIG</text>';
+  html += '<text x="140" y="152" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">i alle b\u00e5nd</text>';
+  // Blade-labels
+  html += '<text x="140" y="20" font-family="\'Cormorant Garamond\',serif" font-size="10" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">PARFORHOLDET</text>';
+  html += '<text x="140" y="33" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">intimitet \u00B7 valg</text>';
+  html += '<text x="268" y="138" font-family="\'Cormorant Garamond\',serif" font-size="10" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">B\u00d8RN</text>';
+  html += '<text x="268" y="151" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">omsorg \u00B7 fremtid</text>';
+  html += '<text x="140" y="262" font-family="\'Cormorant Garamond\',serif" font-size="10" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">FOR\u00c6LDRE</text>';
+  html += '<text x="140" y="275" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">r\u00f8dder \u00B7 arv</text>';
+  html += '<text x="14" y="138" font-family="\'Cormorant Garamond\',serif" font-size="10" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">VENNER</text>';
+  html += '<text x="14" y="151" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">frihed \u00B7 valgt</text>';
+  // Krydsfelter (kursiv)
+  html += '<text x="93" y="88" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">k\u00e6rlighed</text>';
+  html += '<text x="93" y="98" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">du v\u00e6lger</text>';
+  html += '<text x="188" y="88" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">at v\u00e6re</text>';
+  html += '<text x="188" y="98" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">for\u00e6ldre</text>';
+  html += '<text x="93" y="192" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">de der</text>';
+  html += '<text x="93" y="202" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">kender dig</text>';
+  html += '<text x="188" y="192" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">tre</text>';
+  html += '<text x="188" y="202" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">generationer</text>';
+  // Indre krydsfelter
+  html += '<text x="140" y="104" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#6B5F7B" font-style="italic" text-anchor="middle">den nye familie</text>';
+  html += '<text x="108" y="144" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#6B5F7B" font-style="italic" text-anchor="middle">modenhed</text>';
+  html += '<text x="172" y="144" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#6B5F7B" font-style="italic" text-anchor="middle">sl\u00e6gten</text>';
+  html += '<text x="140" y="178" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#6B5F7B" font-style="italic" text-anchor="middle">livets vidner</text>';
+  html += '</svg>';
+  html += '</div>';
+
+  // Overskrift + undertekst
+  html += '<h3 class="idag__window-t2">Se med nogen</h3>';
+  html += '<p class="idag__window-intr">V\u00e6lg en person fra dit liv \u2014 og se hvordan jeres cyklusser, elementer og livsfaser m\u00f8des. Forst\u00e6rkning, forskydning, friktion. Og hvad det f\u00f8les som.</p>';
+
+  // Gradient-boks (lavendel)
+  html += '<div class="idag__window-grd">';
+  html += '<div class="idag__window-grd-label">HVEM VIL DU SE MED?</div>';
+  html += '<div class="idag__window-grd-text">Partner, barn, mor, veninde \u2014 v\u00e6lg en relation, og motoren viser hvad der sker, n\u00e5r jeres cyklusser m\u00f8des.</div>';
+  html += '<div class="idag__window-grd-sub">Du kan ogs\u00e5 rejse i tid sammen \u2014 se hvordan I m\u00f8dte hinanden dengang, eller hvad der venter forude.</div>';
+  html += '</div>';
+
+  // Link
+  html += '<a class="idag__window-link" onclick="App.loadScreen(\'mine-relationer\')">\u00c5bn Relationsvinduet \u2192</a>';
+  html += '</div>';
+
+  el.innerHTML = html;
 }
 
 

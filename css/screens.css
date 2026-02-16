@@ -404,6 +404,96 @@
   margin: 0;
 }
 
+/* Lavendel vinduer (Tidsvinduet + Relationsvinduet) */
+.idag__window-zone {
+  background: rgba(139,125,155,0.04);
+  border: 1px solid rgba(139,125,155,0.1);
+  border-radius: 18px;
+  padding: 28px 20px;
+  margin: 20px 0;
+}
+.idag__window-label {
+  font-size: 10px;
+  color: #8B7D9B;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.idag__window-fig {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+}
+.idag__window-t2 {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  font-size: 22px;
+  color: #6B5F7B;
+  font-weight: 400;
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 8px;
+}
+.idag__window-intr {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  font-size: 15px;
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  line-height: 1.65;
+  margin-bottom: 20px;
+}
+.idag__window-grd {
+  background: linear-gradient(135deg, #6B5F7B 0%, #8B7D9B 100%);
+  border-radius: 14px;
+  padding: 22px;
+  margin: 18px 0 6px;
+}
+.idag__window-grd-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.idag__window-grd-text {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  font-size: 18px;
+  color: white;
+  font-style: italic;
+  line-height: 1.5;
+}
+.idag__window-grd-sub {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+  font-style: italic;
+  margin-top: 10px;
+  line-height: 1.55;
+}
+.idag__window-link {
+  display: block;
+  text-align: center;
+  color: #8B7D9B;
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+  margin-top: 12px;
+  text-decoration: underline;
+  text-decoration-color: rgba(139,125,155,0.3);
+  cursor: pointer;
+}
+.idag__dots-lav {
+  text-align: center;
+  color: #c4b8d6;
+  font-size: 9px;
+  letter-spacing: 10px;
+  margin: 28px 0;
+}
+
 /* Venn Indsigt diagram */
 .idag__venn-indsigt {
   display: flex;
