@@ -6422,20 +6422,32 @@ function renderVennThree(opts) {
   svg += '<circle cx="' + cxB + '" cy="' + cyB + '" r="' + R + '" fill="#7690C1" fill-opacity="0.65"/>';
   svg += '<circle cx="' + cxC + '" cy="' + cyC + '" r="' + R + '" fill="#7690C1" fill-opacity="0.80"/>';
 
-  // Zone A (top)
+  // Zone A (top) — supports *prefix for italic
   var tl = opts.topLines || [];
   svg += t(tAx, tAy, opts.topTitle, 13, true);
-  for (var i = 0; i < tl.length; i++) svg += t(tAx, tAy + (i+1)*15, tl[i], 12, false);
+  for (var i = 0; i < tl.length; i++) {
+    var tItal = tl[i].charAt(0) === '*';
+    var tTxt = tItal ? tl[i].substring(1) : tl[i];
+    svg += t(tAx, tAy + (i+1)*15, tTxt, 12, false, tItal);
+  }
 
-  // Zone B (bottom-left)
+  // Zone B (bottom-left) — supports *prefix for italic
   var bl = opts.bottomLeftLines || [];
   svg += t(tBx, tBy, opts.bottomLeftTitle, 13, true);
-  for (var j = 0; j < bl.length; j++) svg += t(tBx, tBy + (j+1)*15, bl[j], 12, false);
+  for (var j = 0; j < bl.length; j++) {
+    var bItal = bl[j].charAt(0) === '*';
+    var bTxt = bItal ? bl[j].substring(1) : bl[j];
+    svg += t(tBx, tBy + (j+1)*15, bTxt, 12, false, bItal);
+  }
 
-  // Zone C (bottom-right)
+  // Zone C (bottom-right) — supports *prefix for italic
   var br = opts.bottomRightLines || [];
   svg += t(tCx, tCy, opts.bottomRightTitle, 13, true);
-  for (var k = 0; k < br.length; k++) svg += t(tCx, tCy + (k+1)*15, br[k], 12, false);
+  for (var k = 0; k < br.length; k++) {
+    var rItal = br[k].charAt(0) === '*';
+    var rTxt = rItal ? br[k].substring(1) : br[k];
+    svg += t(tCx, tCy + (k+1)*15, rTxt, 12, false, rItal);
+  }
 
   // Pairwise overlaps (two sizes up)
   svg += t(abX, abY, opts.overlapAB, 13, false);
