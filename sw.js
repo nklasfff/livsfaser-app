@@ -1,4 +1,4 @@
-const CACHE_NAME = 'livsfaser-v123';
+const CACHE_NAME = 'livsfaser-v124';
 const urlsToCache = [
   './',
   './index.html',
