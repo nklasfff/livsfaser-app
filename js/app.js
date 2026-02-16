@@ -4685,8 +4685,7 @@ var TO_RYTMER_SAMTALE = {
 function initToRytmerScreen() {
   var relations = JSON.parse(localStorage.getItem('relations') || '[]');
   var userData = JSON.parse(localStorage.getItem('user') || '{}');
-  if (!userData.birthdate) return;
-  var userAge = calculateAge(userData.birthdate);
+  var userAge = userData.birthdate ? calculateAge(userData.birthdate) : 42;
   var userPhase = calculateLifePhase(userAge);
 
   // Find first male partner
@@ -4700,47 +4699,60 @@ function initToRytmerScreen() {
     }
   }
 
+  // Use real partner data or example data
+  var hasPartner = !!partner;
+  var partnerAge = hasPartner ? calculateAge(partner.birthdate) : 43;
+  var partnerPhase = hasPartner ? calculateMalePhase(partnerAge) : calculateMalePhase(43);
+  var partnerName = hasPartner ? escapeHtml(partner.name) : 'din partner';
+
+  // Intro
   var introEl = document.getElementById('to-rytmer-intro');
   if (introEl) {
     introEl.innerHTML = '<p class="rel-body-text">Kvinder f\u00f8lger syv-\u00e5rs cyklusser, m\u00e6nd f\u00f8lger otte-\u00e5rs cyklusser. Den lille forskel skaber en forskydning, der vokser med \u00e5rene \u2014 og rammer pr\u00e6cis de steder, hvor de store livsvalg skal tr\u00e6ffes.</p>';
   }
-
-  if (!partner) {
-    var persEl = document.getElementById('to-rytmer-persons');
-    if (persEl) {
-      persEl.innerHTML = '<div class="rel-insight"><div class="rel-insight__text">Tilf\u00f8j en mandlig partner for at se jeres to rytmer. M\u00e6nds otte-\u00e5rs cyklus skaber en unik forskydning i forhold til din syv-\u00e5rs cyklus.</div></div>' +
-        '<div style="height:16px;"></div>' +
-        '<div class="rel-add-person" onclick="App.loadScreen(\'relationer\')">' +
-        '<div class="rel-add-person__main">+ Tilf\u00f8j partner</div>' +
-        '<div class="rel-add-person__sub">Han f\u00f8lger en otte-\u00e5rs cyklus</div></div>';
-    }
-    return;
-  }
-
-  var partnerAge = calculateAge(partner.birthdate);
-  var partnerPhase = calculateMalePhase(partnerAge);
-  var partnerName = escapeHtml(partner.name);
 
   // Two-column person info
   var persEl = document.getElementById('to-rytmer-persons');
   if (persEl) {
     var userCycleNum = userPhase.phase;
     var partnerCycleNum = partnerPhase.phase;
-    persEl.innerHTML =
-      '<div class="rel-twocol">' +
-        '<div class="rel-twocol__box">' +
-          '<div class="rel-twocol__sub">Dig</div>' +
-          '<div class="rel-twocol__main">' + userAge + ' \u00e5r</div>' +
-          '<div class="rel-twocol__phase">Fase ' + userCycleNum + ' \u00B7 ' + ELEMENT_LABELS[userPhase.element] + '</div>' +
-          '<div class="rel-twocol__note">7 \u00D7 ' + userCycleNum + ' = ' + (7 * userCycleNum) + '</div>' +
+    if (!hasPartner) {
+      persEl.innerHTML =
+        '<div class="rel-insight" style="margin-bottom:20px;">' +
+          '<div class="rel-insight__label">Eksempel</div>' +
+          '<div class="rel-insight__text">Nedenfor ser du et eksempel p\u00e5 hvordan To Rytmer virker. Tilf\u00f8j din partner for at se jeres personlige forskydning.</div>' +
         '</div>' +
-        '<div class="rel-twocol__box">' +
-          '<div class="rel-twocol__sub">' + partnerName + '</div>' +
-          '<div class="rel-twocol__main">' + partnerAge + ' \u00e5r</div>' +
-          '<div class="rel-twocol__phase">' + partnerCycleNum + '. cyklus \u00B7 ' + ELEMENT_LABELS[partnerPhase.element] + '</div>' +
-          '<div class="rel-twocol__note">8 \u00D7 ' + partnerCycleNum + ' = ' + (8 * partnerCycleNum) + '</div>' +
-        '</div>' +
-      '</div>';
+        '<div class="rel-twocol">' +
+          '<div class="rel-twocol__box">' +
+            '<div class="rel-twocol__sub">Dig</div>' +
+            '<div class="rel-twocol__main">' + userAge + ' \u00e5r</div>' +
+            '<div class="rel-twocol__phase">Fase ' + userCycleNum + ' \u00B7 ' + ELEMENT_LABELS[userPhase.element] + '</div>' +
+            '<div class="rel-twocol__note">7 \u00D7 ' + userCycleNum + ' = ' + (7 * userCycleNum) + '</div>' +
+          '</div>' +
+          '<div class="rel-twocol__box">' +
+            '<div class="rel-twocol__sub">Eksempel</div>' +
+            '<div class="rel-twocol__main">' + partnerAge + ' \u00e5r</div>' +
+            '<div class="rel-twocol__phase">' + partnerCycleNum + '. cyklus \u00B7 ' + ELEMENT_LABELS[partnerPhase.element] + '</div>' +
+            '<div class="rel-twocol__note">8 \u00D7 ' + partnerCycleNum + ' = ' + (8 * partnerCycleNum) + '</div>' +
+          '</div>' +
+        '</div>';
+    } else {
+      persEl.innerHTML =
+        '<div class="rel-twocol">' +
+          '<div class="rel-twocol__box">' +
+            '<div class="rel-twocol__sub">Dig</div>' +
+            '<div class="rel-twocol__main">' + userAge + ' \u00e5r</div>' +
+            '<div class="rel-twocol__phase">Fase ' + userCycleNum + ' \u00B7 ' + ELEMENT_LABELS[userPhase.element] + '</div>' +
+            '<div class="rel-twocol__note">7 \u00D7 ' + userCycleNum + ' = ' + (7 * userCycleNum) + '</div>' +
+          '</div>' +
+          '<div class="rel-twocol__box">' +
+            '<div class="rel-twocol__sub">' + partnerName + '</div>' +
+            '<div class="rel-twocol__main">' + partnerAge + ' \u00e5r</div>' +
+            '<div class="rel-twocol__phase">' + partnerCycleNum + '. cyklus \u00B7 ' + ELEMENT_LABELS[partnerPhase.element] + '</div>' +
+            '<div class="rel-twocol__note">8 \u00D7 ' + partnerCycleNum + ' = ' + (8 * partnerCycleNum) + '</div>' +
+          '</div>' +
+        '</div>';
+    }
   }
 
   // Forskydning
@@ -4805,11 +4817,21 @@ function initToRytmerScreen() {
   // Actions
   var actEl = document.getElementById('to-rytmer-actions');
   if (actEl) {
-    actEl.innerHTML =
-      '<div style="height:32px;"></div>' +
-      '<button class="rel-btn" onclick="shareToRytmer(' + partnerIndex + ')">Del dette med ' + partnerName + '</button>' +
-      '<div class="rel-soft-link" onclick="navigateToJeresEnergi()">Se jeres forskydning p\u00e5 en anden dato \u2192</div>' +
-      '<div class="rel-btt" onclick="window.scrollTo({top:0,behavior:\'smooth\'});">\u2191 Tilbage til toppen</div>';
+    if (hasPartner) {
+      actEl.innerHTML =
+        '<div style="height:32px;"></div>' +
+        '<button class="rel-btn" onclick="shareToRytmer(' + partnerIndex + ')">Del dette med ' + partnerName + '</button>' +
+        '<div class="rel-soft-link" onclick="navigateToJeresEnergi()">Se jeres forskydning p\u00e5 en anden dato \u2192</div>' +
+        '<div class="rel-btt" onclick="window.scrollTo({top:0,behavior:\'smooth\'});">\u2191 Tilbage til toppen</div>';
+    } else {
+      actEl.innerHTML =
+        '<div style="height:32px;"></div>' +
+        '<div class="rel-add-person" onclick="App.loadScreen(\'relationer\')">' +
+          '<div class="rel-add-person__main">+ Tilf\u00f8j din partner</div>' +
+          '<div class="rel-add-person__sub">Se jeres personlige forskydning</div>' +
+        '</div>' +
+        '<div class="rel-btt" onclick="window.scrollTo({top:0,behavior:\'smooth\'});">\u2191 Tilbage til toppen</div>';
+    }
   }
 }
 
@@ -4880,56 +4902,67 @@ var TRE_GEN_FORBINDELSE_TEKST = {
 function initTreGenerationerScreen() {
   var relations = JSON.parse(localStorage.getItem('relations') || '[]');
   var userData = JSON.parse(localStorage.getItem('user') || '{}');
-  if (!userData.birthdate) return;
-  var userAge = calculateAge(userData.birthdate);
+  var userAge = userData.birthdate ? calculateAge(userData.birthdate) : 42;
   var userPhase = calculateLifePhase(userAge);
   var userName = userData.name || 'Dig';
 
   // Find parent and child
-  var parent = null, child = null;
+  var realParent = null, realChild = null;
   for (var i = 0; i < relations.length; i++) {
     var rt = relations[i].relationType;
-    if (!parent && (rt === 'mor' || rt === 'far')) parent = relations[i];
-    if (!child && (rt === 'datter' || rt === 's\u00f8n')) child = relations[i];
+    if (!realParent && (rt === 'mor' || rt === 'far')) realParent = relations[i];
+    if (!realChild && (rt === 'datter' || rt === 's\u00f8n')) realChild = relations[i];
+  }
+
+  var hasAll = !!(realParent && realChild);
+
+  // Use real data or example data
+  var parentAge, parentPhase, parentName, parentLabel, parentGender;
+  if (realParent) {
+    parentAge = calculateAge(realParent.birthdate);
+    parentPhase = (realParent.gender === 'mand') ? calculateMalePhase(parentAge) : calculateLifePhase(parentAge);
+    parentName = escapeHtml(realParent.name);
+    parentLabel = realParent.relationType === 'mor' ? 'Din mor' : 'Din far';
+    parentGender = realParent.gender;
+  } else {
+    parentAge = 68;
+    parentPhase = calculateLifePhase(68);
+    parentName = 'Din mor';
+    parentLabel = 'Din mor';
+    parentGender = 'kvinde';
+  }
+
+  var childAge, childPhase, childName, childLabel, childGender;
+  if (realChild) {
+    childAge = calculateAge(realChild.birthdate);
+    childPhase = (realChild.gender === 'mand') ? calculateMalePhase(childAge) : calculateLifePhase(childAge);
+    childName = escapeHtml(realChild.name);
+    childLabel = realChild.relationType === 'datter' ? 'Din datter' : 'Din s\u00f8n';
+    childGender = realChild.gender;
+  } else {
+    childAge = 18;
+    childPhase = calculateLifePhase(18);
+    childName = 'Din datter';
+    childLabel = 'Din datter';
+    childGender = 'kvinde';
   }
 
   // Persons column
   var persEl = document.getElementById('tre-gen-persons');
   if (persEl) {
-    if (!parent && !child) {
-      persEl.innerHTML = '<div class="rel-insight"><div class="rel-insight__text">Tilf\u00f8j mindst en for\u00e6lder og et barn for at se tre generationer. Tre faser, tre energier \u2014 og du i midten.</div></div>' +
-        '<div style="height:16px;"></div>' +
-        '<div class="rel-add-person" onclick="App.loadScreen(\'relationer\')">' +
-        '<div class="rel-add-person__main">+ Tilf\u00f8j relation</div>' +
-        '<div class="rel-add-person__sub">Mor, far, datter, s\u00f8n...</div></div>';
-      return;
+    var exampleNotice = '';
+    if (!hasAll) {
+      exampleNotice = '<div class="rel-insight" style="margin-bottom:20px;">' +
+        '<div class="rel-insight__label">Eksempel</div>' +
+        '<div class="rel-insight__text">Nedenfor ser du et eksempel p\u00e5 Tre Generationer. Tilf\u00f8j din ' + (!realParent ? 'mor/far' : 'datter/s\u00f8n') + ' for at se jeres personlige dynamik.</div>' +
+        '</div>';
     }
-
-    if (!parent || !child) {
-      var missing = !parent ? 'en for\u00e6lder (mor eller far)' : 'et barn (datter eller s\u00f8n)';
-      persEl.innerHTML = '<div class="rel-insight"><div class="rel-insight__text">Du har brug for b\u00e5de en for\u00e6lder og et barn for at se tre generationer. Tilf\u00f8j ' + missing + '.</div></div>' +
-        '<div style="height:16px;"></div>' +
-        '<div class="rel-add-person" onclick="App.loadScreen(\'relationer\')">' +
-        '<div class="rel-add-person__main">+ Tilf\u00f8j ' + missing + '</div>' +
-        '<div class="rel-add-person__sub">For at se tre generationers energi</div></div>';
-      return;
-    }
-
-    var parentAge = calculateAge(parent.birthdate);
-    var parentPhase = (parent.gender === 'mand') ? calculateMalePhase(parentAge) : calculateLifePhase(parentAge);
-    var parentName = escapeHtml(parent.name);
-    var parentLabel = parent.relationType === 'mor' ? 'Din mor' : 'Din far';
-
-    var childAge = calculateAge(child.birthdate);
-    var childPhase = (child.gender === 'mand') ? calculateMalePhase(childAge) : calculateLifePhase(childAge);
-    var childName = escapeHtml(child.name);
-    var childLabel = child.relationType === 'datter' ? 'Din datter' : 'Din s\u00f8n';
 
     var parentQuality = getElementQualityShort(parentPhase.element);
     var userQuality = getElementQualityShort(userPhase.element);
     var childQuality = getElementQualityShort(childPhase.element);
 
-    persEl.innerHTML =
+    persEl.innerHTML = exampleNotice +
       '<div class="rel-twocol rel-twocol--three">' +
         '<div class="rel-twocol__box">' +
           '<div class="rel-twocol__sub">' + parentLabel + '</div>' +
@@ -5025,8 +5058,8 @@ function initTreGenerationerScreen() {
     if (tidEl) {
       var futureYears = 7;
       var futureUserPhase = calculateLifePhase(userAge + futureYears);
-      var futureParentPhase = (parent.gender === 'mand') ? calculateMalePhase(parentAge + futureYears) : calculateLifePhase(parentAge + futureYears);
-      var futureChildPhase = (child.gender === 'mand') ? calculateMalePhase(childAge + futureYears) : calculateLifePhase(childAge + futureYears);
+      var futureParentPhase = (parentGender === 'mand') ? calculateMalePhase(parentAge + futureYears) : calculateLifePhase(parentAge + futureYears);
+      var futureChildPhase = (childGender === 'mand') ? calculateMalePhase(childAge + futureYears) : calculateLifePhase(childAge + futureYears);
 
       var futureText = childName + ' vil v\u00e6re i Fase ' + futureChildPhase.phase + ' (' + ELEMENT_LABELS[futureChildPhase.element] + '), ' +
         'du i Fase ' + futureUserPhase.phase + ' (' + ELEMENT_LABELS[futureUserPhase.element] + '), ' +
@@ -5040,6 +5073,14 @@ function initTreGenerationerScreen() {
           '<div class="rel-insight__text">' + futureText + '</div>' +
         '</div>' +
         '<div class="rel-soft-link" onclick="navigateToJeresEnergi()">Se jeres tre generationer p\u00e5 en anden dato \u2192</div>';
+      if (!hasAll) {
+        tidEl.innerHTML += '<div style="height:20px;"></div>' +
+          '<div class="rel-add-person" onclick="App.loadScreen(\'relationer\')">' +
+            '<div class="rel-add-person__main">+ Tilf\u00f8j ' + (!realParent ? 'for\u00e6lder' : 'barn') + '</div>' +
+            '<div class="rel-add-person__sub">Se jeres personlige tre generationer</div>' +
+          '</div>';
+      }
+      tidEl.innerHTML += '<div class="rel-btt" onclick="window.scrollTo({top:0,behavior:\'smooth\'});">\u2191 Tilbage til toppen</div>';
     }
   }
 }
