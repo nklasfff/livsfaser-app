@@ -9874,9 +9874,9 @@ function initFoelelserScreen() {
   var insight = generateInsight(elements);
   var primaryEl = insight.dominantElement;
 
-  // 1. Pentagram SVG
+  // 1. Pentagram image
   if (figurEl) {
-    figurEl.innerHTML = renderFoelelserPentagram();
+    figurEl.innerHTML = '<img src="assets/images/foelelsernes-kort.png" alt="F\u00f8lelsernes hjul" class="foelelser-kort-img">';
   }
 
   // 2. Dynamisk indsigt-boks

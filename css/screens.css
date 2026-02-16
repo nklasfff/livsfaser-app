@@ -6981,6 +6981,14 @@
   margin: 0 auto;
 }
 
+.foelelser-kort-img {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
 .mc__dots {
   text-align: center;
   color: #a8bbd8;
