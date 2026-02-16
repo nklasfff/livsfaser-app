@@ -4352,13 +4352,14 @@ const App = {
     'min-journal': 'screens/min-journal.html',
     'mine-favoritter': 'screens/mine-favoritter.html',
     'mine-samlinger': 'screens/mine-samlinger.html',
-    'baggrundsviden': 'screens/baggrundsviden.html'
+    'baggrundsviden': 'screens/baggrundsviden.html',
+    'dine-cyklusser-lige-nu': 'screens/dine-cyklusser-lige-nu.html'
   },
 
   // Niveau 1 skærme (tema-overblik)
   niveau1: ['mine-cyklusser', 'mine-relationer', 'min-praksis', 'min-rejse'],
   // Niveau 2 skærme (specifikt indhold)
-  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'jeres-energi', 'to-rytmer', 'tre-generationer', 'kost-urter', 'min-journal', 'mine-favoritter', 'mine-samlinger', 'baggrundsviden'],
+  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'jeres-energi', 'to-rytmer', 'tre-generationer', 'kost-urter', 'min-journal', 'mine-favoritter', 'mine-samlinger', 'baggrundsviden', 'dine-cyklusser-lige-nu'],
 
   init() {
     repairStoredBirthdate();
@@ -4398,7 +4399,8 @@ const App = {
     'min-journal': 'min-rejse',
     'mine-favoritter': 'min-rejse',
     'mine-samlinger': 'min-rejse',
-    'baggrundsviden': 'min-rejse'
+    'baggrundsviden': 'min-rejse',
+    'dine-cyklusser-lige-nu': 'mine-cyklusser'
   },
 
   goBack() {
@@ -4546,6 +4548,8 @@ const App = {
           initMineSamlingerScreen();
         } else if (screenName === 'baggrundsviden') {
           initBaggrundsvidenScreen();
+        } else if (screenName === 'dine-cyklusser-lige-nu') {
+          initDineCyklusserLigeNuScreen();
         }
 
         // Append "Tilbage til toppen" footer (skip on onboarding)
@@ -5738,7 +5742,7 @@ function renderCicBlomstSvg() {
 
 // Dynamiske tekster for de fem cyklusser
 var CIC_CYCLE_TEXTS = {
-  VAND: { livsfase: 'Visdomstiden. Energien vender hjem til vandet, hvor den begyndte. Der er en cirkel der sluttes.',
+  'VAND': { livsfase: 'Visdomstiden. Energien vender hjem til vandet, hvor den begyndte. Der er en cirkel der sluttes.',
            aarstid_vinter: '\u00c5rets dybeste Vand-tid. M\u00f8rket kalder p\u00e5 hvile og indadvendthed \u2014 som fr\u00f8et under sneen.',
            aarstid_default: 'Vand-energi i \u00e5rstiden. Stilhed og dybde pr\u00e6ger perioden.',
            maaned_uge1: 'Menstruationens indre vinter \u2014 kroppen beder om ro og varme.',
@@ -5746,22 +5750,22 @@ var CIC_CYCLE_TEXTS = {
            uge_mandag: 'Ugens stille begyndelse. Vand-energi. Planl\u00e6g, men pres ikke.',
            uge_default: 'Vand-energi i ugen. Tag det roligt.',
            doegn: 'Den bedste tid til at n\u00e6re dig selv.' },
-  TRAE: { livsfase: 'V\u00e6kstens tid. Energien skyder op som nye skud. Der er en kraft der vil frem.',
+  'TR\u00C6': { livsfase: 'V\u00e6kstens tid. Energien skyder op som nye skud. Der er en kraft der vil frem.',
            aarstid_default: 'Tr\u00e6-energi. V\u00e6kst og fornyelse pr\u00e6ger perioden.',
            maaned_default: 'Follikul\u00e6r fase \u2014 energien stiger. Ny begyndelse.',
            uge_default: 'Tr\u00e6-energi i ugen. God tid til at starte nyt.',
            doegn: 'Leveren arbejder. Kreativitet og planl\u00e6gning.' },
-  ILD:  { livsfase: 'Ildens tid. Fuld energi, udadvendthed, passion.',
+  'ILD':  { livsfase: 'Ildens tid. Fuld energi, udadvendthed, passion.',
            aarstid_default: 'Ild-energi. Varme og udfoldelse pr\u00e6ger perioden.',
            maaned_default: '\u00c6gl\u00f8sning. Mest energi, mest udadvendt. Hjertet \u00e5bner.',
            uge_default: 'Ild-energi i ugen. Sociale m\u00f8der og kreativitet.',
            doegn: 'Hjertets tid. V\u00e6r \u00e5ben og n\u00e6rv\u00e6rende.' },
-  JORD: { livsfase: 'Modningens tid. Hvad er essentielt? Hvad kan du give videre?',
+  'JORD': { livsfase: 'Modningens tid. Hvad er essentielt? Hvad kan du give videre?',
            aarstid_default: 'Jord-energi. N\u00e6ring og stabilitet pr\u00e6ger perioden.',
            maaned_default: 'Luteal fase \u2014 energi falder. Kroppen sorterer.',
            uge_default: 'Jord-energi i ugen. God tid til at n\u00e6re dig selv.',
            doegn: 'Jord-element. Den bedste tid til at n\u00e6re dig selv med varm mad.' },
-  METAL:{ livsfase: 'Frigørelsens tid. At give slip. Hvad har du brug for \u2014 og hvad kan du l\u00e6gge fra dig?',
+  'METAL':{ livsfase: 'Frig\u00f8relsens tid. At give slip. Hvad har du brug for \u2014 og hvad kan du l\u00e6gge fra dig?',
            aarstid_default: 'Metal-energi. Klarhed og sortering pr\u00e6ger perioden.',
            maaned_default: 'Sen luteal fase. Energi falder. Behov for ro.',
            uge_default: 'Metal-energi i ugen. Afslut og ryd op.',
@@ -5901,6 +5905,170 @@ function initCyklusserICyklusserScreen() {
   var actionsEl = document.getElementById('cic-actions');
   if (actionsEl) {
     actionsEl.innerHTML = renderActionBar('cyklusser-i-cyklusser');
+  }
+}
+
+// ---- Niveau 2: Dine cyklusser lige nu (NY SIDE) ----
+
+var DCLN_FEELS_LIKE = {
+  'VAND': 'Du har m\u00e5ske brug for mere s\u00f8vn end normalt. Tanker bev\u00e6ger sig langsomt, men dybt. Kreativitet kan komme i stille \u00f8jeblikke \u2014 under bruseren, p\u00e5 en g\u00e5tur, i m\u00f8rket. Tillad det.',
+  'TR\u00C6': 'Du m\u00e6rker m\u00e5ske en rastl\u00f8shed, en trang til at g\u00f8re noget nyt. Kroppen vil bev\u00e6ge sig, sindet vil planl\u00e6gge. F\u00f8lg impulsen \u2014 men undg\u00e5 at forcere.',
+  'ILD':  'Energien er h\u00f8j, du er udadvendt og \u00e5ben. Hjertet er varmt. Det er en god tid til at m\u00f8de andre, dele og skabe. Pas p\u00e5 ikke at br\u00e6nde ud.',
+  'JORD': 'Der er en rolig stabilitet i dig. Du har brug for n\u00e6ring \u2014 b\u00e5de fysisk og f\u00f8lelsesm\u00e6ssigt. Varm mad, gode samtaler, jord under f\u00f8dderne.',
+  'METAL':'Der er klarhed i tankerne. Du kan se hvad der er essentielt og hvad der kan g\u00e5. Det er en tid for sortering, ro og dybe \u00e5ndedrag.'
+};
+
+var DCLN_ISABELLE = {
+  'VAND': 'N\u00e5r n\u00e6sten alle dine cyklusser peger samme vej, er det som at st\u00e5 i en flod der b\u00e6rer dig. Du beh\u00f8ver ikke sv\u00f8mme. Du beh\u00f8ver ikke forst\u00e5 alt. Bare m\u00e6rk retningen \u2014 og f\u00f8lg med.',
+  'TR\u00C6': 'N\u00e5r Tr\u00e6 dominerer, er det som for\u00e5r indeni. Noget vil vokse. Du beh\u00f8ver ikke vide hvad endnu \u2014 bare giv det plads.',
+  'ILD':  'Ilden i dig er ikke farlig. Den er livsenergi. Lad den str\u00f8mme \u2014 men husk at hvile er br\u00e6ndstof, ikke dovenskab.',
+  'JORD': 'Jorden i dig beder om at lande. Du beh\u00f8ver ikke v\u00e6re produktiv for at v\u00e6re v\u00e6rdifuld. Bare v\u00e6r her.',
+  'METAL':'Metal er lungens element \u2014 og lungens gave er at give slip. Hvad b\u00e6rer du, som ikke l\u00e6ngere er dit?'
+};
+
+var DCLN_RESONANCE_TEXTS = {
+  'VAND': { resonans: 'forst\u00e6rker dit livsfase-element. Dobbelt Vand \u2014 der er dybde i stilheden.', modspil: 'bryder Vand-m\u00f8nstret.' },
+  'TR\u00C6': { resonans: 'forst\u00e6rker v\u00e6kst-energien. Tr\u00e6 m\u00f8der Tr\u00e6.', modspil: 'bryder Tr\u00e6-m\u00f8nstret.' },
+  'ILD':  { resonans: 'forst\u00e6rker Ild-energien. Varme m\u00f8der varme.', modspil: 'bryder Ild-m\u00f8nstret.' },
+  'JORD': { resonans: 'forst\u00e6rker Jord-energien. Stabilitet m\u00f8der stabilitet.', modspil: 'bryder Jord-m\u00f8nstret.' },
+  'METAL':{ resonans: 'forst\u00e6rker Metal-energien. Klarhed m\u00f8der klarhed.', modspil: 'bryder Metal-m\u00f8nstret.' }
+};
+
+function getClimateLabel(maxCount) {
+  if (maxCount >= 4) return 'FULD RESONANS';
+  if (maxCount === 3) return 'STÆRK RESONANS';
+  if (maxCount === 2) return 'KREATIV SPÆNDING';
+  return 'MANGFOLDIGHED';
+}
+
+function initDineCyklusserLigeNuScreen() {
+  ensureIdagData();
+  var d = window._idagData;
+  if (!d) return;
+
+  var elements = window._activeElements || [];
+  var counts = {};
+  for (var i = 0; i < elements.length; i++) {
+    counts[elements[i]] = (counts[elements[i]] || 0) + 1;
+  }
+  var dominant = '';
+  var maxCount = 0;
+  for (var el in counts) {
+    if (counts[el] > maxCount) { maxCount = counts[el]; dominant = el; }
+  }
+  var elLabel = ELEMENT_LABELS[dominant] || dominant;
+
+  // 1. Element-tælling
+  var elcountEl = document.getElementById('dcln-elcount');
+  if (elcountEl) {
+    var allEls = ['VAND', 'TR\u00C6', 'ILD', 'JORD', 'METAL'];
+    var h = '<div class="mc__el-count">';
+    for (var j = 0; j < allEls.length; j++) {
+      var c = counts[allEls[j]] || 0;
+      var dots = '';
+      var dimClass = '';
+      if (c === 0) {
+        dots = '\u00B7';
+        dimClass = ' dim';
+      } else {
+        for (var k = 0; k < c; k++) dots += '\u25CF';
+        if (c === 1 && allEls[j] !== dominant) dimClass = ' dim';
+      }
+      h += '<div class="mc__el-item"><div class="mc__el-name">' + ELEMENT_LABELS[allEls[j]] + '</div>';
+      h += '<div class="mc__el-dots' + dimClass + '">' + dots + '</div></div>';
+    }
+    h += '</div>';
+    elcountEl.innerHTML = h;
+  }
+
+  // 2. Gradient-boks
+  var gradEl = document.getElementById('dcln-gradient');
+  if (gradEl) {
+    var climateLabel = getClimateLabel(maxCount);
+    var mainText = maxCount >= 4
+      ? maxCount + ' af dine cyklusser peger mod ' + elLabel + '.'
+      : maxCount === 3
+        ? 'Tre af dine cyklusser peger mod ' + elLabel + '.'
+        : 'Dine cyklusser peger i flere retninger.';
+    var subText = maxCount >= 4
+      ? 'Det er sj\u00e6ldent at s\u00e5 mange rytmer synger sammen. Du er i en periode hvor kroppen, \u00e5rstiden og livsfasen kalder p\u00e5 det samme: stilhed, dybde, hvile. Det er ikke dovenskab \u2014 det er visdom.'
+      : maxCount === 3
+        ? 'Der er en tydelig retning i din energi. De fleste rytmer peger samme vej \u2014 lad dig b\u00e6re af str\u00f8mmen.'
+        : 'Flere elementer er i spil. Det giver dynamik og kompleksitet \u2014 brug det kreativt.';
+    var gh = '<div class="mc__gradient">';
+    gh += '<div class="mc__gradient-label">' + climateLabel + '</div>';
+    gh += '<div class="mc__gradient-text">' + mainText + '</div>';
+    gh += '<div class="mc__gradient-sub">' + subText + '</div>';
+    gh += '</div>';
+    gradEl.innerHTML = gh;
+  }
+
+  // 3. "Hvad det føles som" indsigt-boks
+  var foelesEl = document.getElementById('dcln-foeles');
+  if (foelesEl) {
+    var fh = '<div class="mc__ins">';
+    fh += '<div class="mc__ins-label">N\u00c5R ' + elLabel.toUpperCase() + ' DOMINERER</div>';
+    fh += '<div class="mc__ins-text">' + (DCLN_FEELS_LIKE[dominant] || DCLN_FEELS_LIKE.VAND) + '</div>';
+    fh += '</div>';
+    foelesEl.innerHTML = fh;
+  }
+
+  // 4. "Dine fem rytmer i dag" — 5 cyklus-kort med RESONANS/MODSPIL
+  var rytmerEl = document.getElementById('dcln-rytmer');
+  if (rytmerEl) {
+    var cycleItems = [
+      { label: 'Livsfase', element: d.lifePhase.element,
+        desc: 'Fase ' + d.lifePhase.phase + ' er ' + ELEMENT_LABELS[d.lifePhase.element] + 's fase. Du er i livets store tilbagevenden \u2014 energien runder cirklen.' },
+      { label: '\u00c5rstid', element: d.season.element,
+        desc: d.season.season + ' ' + (d.season.element === dominant ? DCLN_RESONANCE_TEXTS[dominant].resonans : DCLN_RESONANCE_TEXTS[dominant].modspil) },
+      { label: 'M\u00e5ned', element: d.monthCycle.data.element,
+        desc: (d.monthCycle.data.phase || d.monthCycle.data.name || '') + '. ' + (d.monthCycle.data.element === dominant
+          ? (maxCount >= 3 ? 'Tredobbelt ' + elLabel + '. Kroppen insisterer p\u00e5 hvile.' : elLabel + '-resonans i din cyklus.')
+          : ELEMENT_LABELS[d.monthCycle.data.element] + '-energi. Et andet element end dit dominerende.') },
+      { label: 'Uge', element: d.weekday.element,
+        desc: d.weekday.day + '. ' + (d.weekday.element === dominant
+          ? 'Ugens stille start. ' + (maxCount >= 4 ? 'Firedobbelt ' + elLabel + '. Giv dig selv lov.' : elLabel + ' ogs\u00e5 i ugen.')
+          : ELEMENT_LABELS[d.weekday.element] + '-dag. En anden energi end dit dominerende element.') },
+      { label: 'D\u00f8gn', element: d.organ.element,
+        desc: 'Kl. ' + new Date().getHours() + ':' + String(new Date().getMinutes()).padStart(2, '0') + ' er ' + d.organ.organ + 's tid \u2014 ' + ELEMENT_LABELS[d.organ.element] + '-element. ' + (d.organ.element === dominant
+          ? 'Endnu mere ' + elLabel + '.'
+          : 'Det eneste der bryder ' + elLabel + '-m\u00f8nstret. Spis noget varmt og n\u00e6rende.') }
+    ];
+
+    var rh = '';
+    for (var r = 0; r < cycleItems.length; r++) {
+      var isResonans = cycleItems[r].element === dominant;
+      rh += '<div class="mc__cycle-card">';
+      rh += '<div class="mc__cycle-header">';
+      rh += '<div class="mc__cycle-name">' + cycleItems[r].label + ' \u2192 ' + ELEMENT_LABELS[cycleItems[r].element] + '</div>';
+      rh += '<div class="mc__cycle-tag">' + (isResonans ? 'RESONANS' : 'MODSPIL') + '</div>';
+      rh += '</div>';
+      rh += '<div class="mc__cycle-desc">' + cycleItems[r].desc + '</div>';
+      rh += '</div>';
+    }
+    rytmerEl.innerHTML = rh;
+  }
+
+  // 5. "ISABELLES ORD" indsigt-boks
+  var isabEl = document.getElementById('dcln-isabelle');
+  if (isabEl) {
+    var ih = '<div class="mc__ins">';
+    ih += '<div class="mc__ins-label">ISABELLES ORD</div>';
+    ih += '<div class="mc__ins-text">' + (DCLN_ISABELLE[dominant] || DCLN_ISABELLE.VAND) + '</div>';
+    ih += '</div>';
+    isabEl.innerHTML = ih;
+  }
+
+  // 6. Link
+  var linkEl = document.getElementById('dcln-link');
+  if (linkEl) {
+    linkEl.innerHTML = '<div class="mc__link" onclick="App.loadScreen(\'din-energi\')">Se hvordan det ser ud en anden dag \u2192</div>';
+  }
+
+  // 7. Action bar
+  var actionsEl = document.getElementById('dcln-actions');
+  if (actionsEl) {
+    actionsEl.innerHTML = renderActionBar('dine-cyklusser-lige-nu');
   }
 }
 
