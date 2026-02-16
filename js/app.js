@@ -2621,31 +2621,46 @@ function renderRelationerOverview() {
     ]
   });
 
+  // Lotus separator
+  html += '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<p class="rel-body-text">V\u00e6lg en person nedenfor og se hvad jeres cyklusser fort\u00e6ller om jeres relation \u2014 lige nu, i dag.</p>';
+
   if (relations.length === 0) {
     html += '<div class="relationer__empty">';
     html += '<div class="relationer__empty-icon">\u2661</div>';
-    html += '<p class="relationer__empty-text">Tilføj en person for at se hvordan jeres livsfaser og elementer mødes.</p>';
-    html += '<button class="relationer__add-btn" onclick="showAddRelation()">+ Tilføj person</button>';
+    html += '<p class="relationer__empty-text">Tilf\u00f8j en person for at se hvordan jeres livsfaser og elementer m\u00f8des.</p>';
+    html += '<button class="relationer__add-btn" onclick="showAddRelation()">+ Tilf\u00f8j person</button>';
     html += '</div>';
   } else {
-    html += '<div class="relationer__list">';
+    // Dynamic person cards with element interaction text
+    var userDataObj = JSON.parse(localStorage.getItem('user') || '{}');
+    var userAgeRel = userDataObj.birthdate ? calculateAge(userDataObj.birthdate) : 0;
+    var userPhaseRel = calculateLifePhase(userAgeRel);
+
     for (var i = 0; i < relations.length; i++) {
       var r = relations[i];
       var age = calculateAge(r.birthdate);
       var phase = (r.gender === 'mand') ? calculateMalePhase(age) : calculateLifePhase(age);
-      var initial = r.name ? r.name.charAt(0).toUpperCase() : '?';
-      var typeLabel = getRelationTypeLabel(r.relationType);
-      html += '<div class="relationer__item" onclick="showRelationDetail(' + i + ')">';
-      html += '<div class="relationer__item-circle">' + escapeHtml(initial) + '</div>';
-      html += '<div class="relationer__item-info">';
-      html += '<div class="relationer__item-name">' + escapeHtml(r.name) + '</div>';
-      html += '<div class="relationer__item-meta">' + age + ' år · ' + phase.name + ' · ' + ELEMENT_LABELS[phase.element] + ' · ' + escapeHtml(typeLabel) + '</div>';
+      var phaseLabel = (r.gender === 'mand') ? phase.phase + '. cyklus' : 'Fase ' + phase.phase;
+      var interaction = getElementInteraction(userPhaseRel.element, phase.element, r.name, r.gender);
+
+      html += '<div class="rel-dyn-card" onclick="showRelationDetail(' + i + ')">';
+      html += '<div class="rel-dyn-card__top">';
+      html += '<div class="rel-dyn-card__dot">' + (r.gender === 'mand' ? phase.phase + '.' : 'F' + phase.phase) + '</div>';
+      html += '<div class="rel-dyn-card__info">';
+      html += '<div class="rel-dyn-card__name">' + escapeHtml(r.name) + '</div>';
+      html += '<div class="rel-dyn-card__phase">' + phaseLabel + ' \u00B7 ' + ELEMENT_LABELS[phase.element] + ' \u00B7 ' + age + ' \u00e5r</div>';
       html += '</div>';
-      html += '<span class="relationer__item-arrow">\u203A</span>';
+      html += '</div>';
+      html += '<div class="rel-dyn-card__body">' + interaction.text + '</div>';
+      html += '<div class="rel-dyn-card__link">Se hele jeres dynamik \u2192</div>';
       html += '</div>';
     }
+    html += '<div style="height:12px;"></div>';
+    html += '<div class="rel-add-person" onclick="showAddRelation()">';
+    html += '<div class="rel-add-person__main">+ Tilf\u00f8j person</div>';
+    html += '<div class="rel-add-person__sub">Partner, barn, for\u00e6lder, veninde...</div>';
     html += '</div>';
-    html += '<button class="relationer__add-btn" onclick="showAddRelation()">+ Tilføj person</button>';
   }
   el.innerHTML = html;
 }
@@ -4049,6 +4064,9 @@ function renderJeresEnergiInput() {
 
   var html = '';
 
+  // Lotus separator
+  html += '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>';
+
   // Person selection
   html += '<h2 class="tidsvindue__title tidsvindue__section-title">Hvem vil du se?</h2>';
   html += '<p class="tidsvindue__subtitle">V\u00e6lg de personer du vil sammenligne med.</p>';
@@ -4064,6 +4082,9 @@ function renderJeresEnergiInput() {
     }
   }
   html += '</div></div>';
+
+  // Lotus separator
+  html += '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>';
 
   // Date selection
   html += '<h2 class="tidsvindue__title tidsvindue__section-title">Hvorn\u00e5r?</h2>';
@@ -4335,13 +4356,15 @@ const App = {
     'indstillinger': 'screens/indstillinger.html',
     'hvad-har-hjulpet': 'screens/hvad-har-hjulpet.html',
     'din-energi': 'screens/din-energi.html',
-    'jeres-energi': 'screens/jeres-energi.html'
+    'jeres-energi': 'screens/jeres-energi.html',
+    'to-rytmer': 'screens/to-rytmer.html',
+    'tre-generationer': 'screens/tre-generationer.html'
   },
 
   // Niveau 1 skærme (tema-overblik)
   niveau1: ['mine-cyklusser', 'mine-relationer', 'min-praksis', 'min-rejse'],
   // Niveau 2 skærme (specifikt indhold)
-  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'jeres-energi'],
+  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'jeres-energi', 'to-rytmer', 'tre-generationer'],
 
   init() {
     repairStoredBirthdate();
@@ -4374,7 +4397,9 @@ const App = {
     'hvad-har-hjulpet': 'min-praksis',
     'indstillinger': 'min-rejse',
     'din-energi': 'mine-cyklusser',
-    'jeres-energi': 'mine-relationer'
+    'jeres-energi': 'mine-relationer',
+    'to-rytmer': 'mine-relationer',
+    'tre-generationer': 'mine-relationer'
   },
 
   goBack() {
@@ -4446,7 +4471,9 @@ const App = {
             'min-rejse': 'Min Rejse',
             'de-ni-livsfaser': 'De Ni Livsfaser',
             'din-energi': 'Mine Cyklusser',
-            'jeres-energi': 'Mine Relationer'
+            'jeres-energi': 'Mine Relationer',
+            'to-rytmer': 'Mine Relationer',
+            'tre-generationer': 'Mine Relationer'
           };
           var parentId = this.parentScreen[screenName] || 'idag';
           var parentLabel = SCREEN_LABELS[parentId] || 'Forside';
@@ -4506,6 +4533,10 @@ const App = {
           initDinEnergiScreen();
         } else if (screenName === 'jeres-energi') {
           initJeresEnergiScreen();
+        } else if (screenName === 'to-rytmer') {
+          initToRytmerScreen();
+        } else if (screenName === 'tre-generationer') {
+          initTreGenerationerScreen();
         }
 
         // Append "Tilbage til toppen" footer (skip on onboarding)
@@ -4621,6 +4652,444 @@ function showFaseDetail(phaseNum) {
 
 window.showFaseDetail = showFaseDetail;
 
+// ---- To Rytmer (Niveau 2 under Mine Relationer) ----
+
+var TO_RYTMER_SAMTALE = {
+  VAND: {
+    spoerg: 'Hvad fylder mest for dig lige nu \u2014 og er der noget der presser, som du ikke har sagt h\u00f8jt?',
+    sig: 'Jeg har v\u00e6ret der, hvor du er nu. Ikke pr\u00e6cis det samme sted, men i den slags sp\u00f8rgsm\u00e5l. Vil du h\u00f8re, hvad der hjalp mig?',
+    sammen: 'Hvor er vi forskellige lige nu \u2014 og hvad kan vi l\u00e6re af det, i stedet for at k\u00e6mpe mod det?'
+  },
+  'TR\u00C6': {
+    spoerg: 'Hvad dr\u00f8mmer du om at bygge lige nu \u2014 og f\u00f8ler du, at der er plads til det?',
+    sig: 'Jeg kan m\u00e6rke, at du har brug for at bevæge dig. Lad os finde ud af, hvordan vi giver plads til det sammen.',
+    sammen: 'Hvad ville vi skabe, hvis vi turde dr\u00f8mme h\u00f8jt sammen \u2014 uden at v\u00e6re praktiske?'
+  },
+  ILD: {
+    spoerg: 'Hvorn\u00e5r f\u00f8lte du dig sidst virkelig levende \u2014 og hvad holdt dig v\u00e5gen?',
+    sig: 'Din energi smitter. Jeg kan m\u00e6rke den, ogs\u00e5 n\u00e5r du ikke siger noget. Hvad kan vi t\u00e6nde sammen?',
+    sammen: 'Hvad ville vi g\u00f8re, hvis vi havde al den energi i verden \u2014 bare for en weekend?'
+  },
+  JORD: {
+    spoerg: 'Hvad f\u00e5r dig til at f\u00f8le dig tryg lige nu \u2014 og er der noget du savner?',
+    sig: 'Jeg ved godt, at du holder mange ting sammen. Lad mig holde noget af det for dig en stund.',
+    sammen: 'Hvad ville det betyde for os, hvis vi holdt pause fra det hele \u2014 bare \u00e9n dag?'
+  },
+  METAL: {
+    spoerg: 'Hvad har du sagt farvel til for nylig \u2014 og savner du det, eller er det en befrielse?',
+    sig: 'Jeg kan se, at du sorterer. Det er modigt. Og det er okay, at det g\u00f8r lidt ondt.',
+    sammen: 'Hvad er vi blevet enige om at beholde, som m\u00e5ske ikke l\u00e6ngere tjener os?'
+  }
+};
+
+function initToRytmerScreen() {
+  var relations = JSON.parse(localStorage.getItem('relations') || '[]');
+  var userData = JSON.parse(localStorage.getItem('user') || '{}');
+  if (!userData.birthdate) return;
+  var userAge = calculateAge(userData.birthdate);
+  var userPhase = calculateLifePhase(userAge);
+
+  // Find first male partner
+  var partner = null;
+  var partnerIndex = -1;
+  for (var i = 0; i < relations.length; i++) {
+    if (relations[i].gender === 'mand') {
+      partner = relations[i];
+      partnerIndex = i;
+      break;
+    }
+  }
+
+  var introEl = document.getElementById('to-rytmer-intro');
+  if (introEl) {
+    introEl.innerHTML = '<p class="rel-body-text">Kvinder f\u00f8lger syv-\u00e5rs cyklusser, m\u00e6nd f\u00f8lger otte-\u00e5rs cyklusser. Den lille forskel skaber en forskydning, der vokser med \u00e5rene \u2014 og rammer pr\u00e6cis de steder, hvor de store livsvalg skal tr\u00e6ffes.</p>';
+  }
+
+  if (!partner) {
+    var persEl = document.getElementById('to-rytmer-persons');
+    if (persEl) {
+      persEl.innerHTML = '<div class="rel-insight"><div class="rel-insight__text">Tilf\u00f8j en mandlig partner for at se jeres to rytmer. M\u00e6nds otte-\u00e5rs cyklus skaber en unik forskydning i forhold til din syv-\u00e5rs cyklus.</div></div>' +
+        '<div style="height:16px;"></div>' +
+        '<div class="rel-add-person" onclick="App.loadScreen(\'relationer\')">' +
+        '<div class="rel-add-person__main">+ Tilf\u00f8j partner</div>' +
+        '<div class="rel-add-person__sub">Han f\u00f8lger en otte-\u00e5rs cyklus</div></div>';
+    }
+    return;
+  }
+
+  var partnerAge = calculateAge(partner.birthdate);
+  var partnerPhase = calculateMalePhase(partnerAge);
+  var partnerName = escapeHtml(partner.name);
+
+  // Two-column person info
+  var persEl = document.getElementById('to-rytmer-persons');
+  if (persEl) {
+    var userCycleNum = userPhase.phase;
+    var partnerCycleNum = partnerPhase.phase;
+    persEl.innerHTML =
+      '<div class="rel-twocol">' +
+        '<div class="rel-twocol__box">' +
+          '<div class="rel-twocol__sub">Dig</div>' +
+          '<div class="rel-twocol__main">' + userAge + ' \u00e5r</div>' +
+          '<div class="rel-twocol__phase">Fase ' + userCycleNum + ' \u00B7 ' + ELEMENT_LABELS[userPhase.element] + '</div>' +
+          '<div class="rel-twocol__note">7 \u00D7 ' + userCycleNum + ' = ' + (7 * userCycleNum) + '</div>' +
+        '</div>' +
+        '<div class="rel-twocol__box">' +
+          '<div class="rel-twocol__sub">' + partnerName + '</div>' +
+          '<div class="rel-twocol__main">' + partnerAge + ' \u00e5r</div>' +
+          '<div class="rel-twocol__phase">' + partnerCycleNum + '. cyklus \u00B7 ' + ELEMENT_LABELS[partnerPhase.element] + '</div>' +
+          '<div class="rel-twocol__note">8 \u00D7 ' + partnerCycleNum + ' = ' + (8 * partnerCycleNum) + '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  // Forskydning
+  var forskEl = document.getElementById('to-rytmer-forskydning');
+  if (forskEl) {
+    var userTurningPoint = userPhase.startAge;
+    var partnerTurningPoint = partnerPhase.startAge;
+    var forskydning = Math.abs(userTurningPoint - partnerTurningPoint);
+    var forskydningText = generateForskydningText(userPhase, partnerPhase, userAge, partnerAge, partnerName);
+
+    forskEl.innerHTML =
+      '<div class="rel-forskydning">' +
+        '<div class="rel-forskydning__num">' + forskydning + ' \u00e5r</div>' +
+        '<div class="rel-forskydning__unit">forskydning lige nu</div>' +
+        '<div class="rel-forskydning__text">' + forskydningText + '</div>' +
+      '</div>';
+  }
+
+  // Timeline
+  var tlEl = document.getElementById('to-rytmer-timeline');
+  if (tlEl) {
+    tlEl.innerHTML = '<div class="rel-timeline-box">' +
+      renderPartnerTimeline(userAge, partnerAge, 'mand') +
+      '</div>';
+  }
+
+  // Insight
+  var insEl = document.getElementById('to-rytmer-insight');
+  if (insEl) {
+    var insightText = generateToRytmerInsight(userPhase, partnerPhase, userAge, partnerAge, partnerName);
+    insEl.innerHTML =
+      '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>' +
+      '<div class="rel-insight">' +
+        '<div class="rel-insight__label">Hvad forskydningen betyder lige nu</div>' +
+        '<div class="rel-insight__text">' + insightText + '</div>' +
+      '</div>';
+  }
+
+  // Samtaleåbnere
+  var samEl = document.getElementById('to-rytmer-samtale');
+  if (samEl) {
+    var dominantEl = userPhase.element;
+    var samtaleData = TO_RYTMER_SAMTALE[dominantEl] || TO_RYTMER_SAMTALE['JORD'];
+    samEl.innerHTML =
+      '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>' +
+      '<h3 class="rel-section-heading">Samtale\u00e5bnere</h3>' +
+      '<p class="rel-section-subtitle">Ord der kan \u00e5bne det, der er sv\u00e6rt at sige</p>' +
+      '<div class="rel-samtale">' +
+        '<div class="rel-samtale__label">Sp\u00f8rg ham</div>' +
+        '<div class="rel-samtale__text">\u201C' + samtaleData.spoerg + '\u201D</div>' +
+      '</div>' +
+      '<div class="rel-samtale">' +
+        '<div class="rel-samtale__label">Sig til ham</div>' +
+        '<div class="rel-samtale__text">\u201C' + samtaleData.sig + '\u201D</div>' +
+      '</div>' +
+      '<div class="rel-samtale">' +
+        '<div class="rel-samtale__label">Sp\u00f8rg jer selv</div>' +
+        '<div class="rel-samtale__text">\u201C' + samtaleData.sammen + '\u201D</div>' +
+      '</div>';
+  }
+
+  // Actions
+  var actEl = document.getElementById('to-rytmer-actions');
+  if (actEl) {
+    actEl.innerHTML =
+      '<div style="height:12px;"></div>' +
+      '<button class="rel-btn" onclick="shareToRytmer(' + partnerIndex + ')">Del dette med ' + partnerName + '</button>' +
+      '<div class="rel-soft-link" onclick="navigateToJeresEnergi()">Se jeres forskydning p\u00e5 en anden dato \u2192</div>';
+  }
+}
+
+function generateForskydningText(userPhase, partnerPhase, userAge, partnerAge, partnerName) {
+  var userEl = ELEMENT_LABELS[userPhase.element];
+  var partnerEl = ELEMENT_LABELS[partnerPhase.element];
+
+  if (userPhase.element === partnerPhase.element) {
+    return 'I er begge i ' + userEl + '-energi lige nu. Det er sj\u00e6ldent \u2014 I har f\u00e6lles grund under f\u00f8dderne. Brug det til de samtaler, der kr\u00e6ver ro.';
+  }
+
+  var userYearsIn = userAge - userPhase.startAge;
+  var partnerYearsIn = partnerAge - partnerPhase.startAge;
+
+  if (userYearsIn > partnerYearsIn + 2) {
+    return 'Du gik ind i din ' + userEl + '-fase f\u00f8r ' + partnerName + ' n\u00e5ede sin ' + partnerEl + '-fase. Det kan betyde, at du f\u00f8ler dig mere afklaret, mens han stadig leder. T\u00e5lmodighed kan v\u00e6re n\u00f8glen.';
+  } else if (partnerYearsIn > userYearsIn + 2) {
+    return partnerName + ' har v\u00e6ret i sin ' + partnerEl + '-fase l\u00e6ngere end du i din ' + userEl + '-fase. Han kan m\u00e5ske vise vej i noget af det, du f\u00f8rst nu m\u00e6rker.';
+  }
+
+  return 'Jeres cyklusser l\u00f8ber t\u00e6t lige nu. ' + userEl + ' m\u00f8der ' + partnerEl + ' \u2014 m\u00e6rk efter, hvordan de to energier p\u00e5virker hverdagen mellem jer.';
+}
+
+function generateToRytmerInsight(userPhase, partnerPhase, userAge, partnerAge, partnerName) {
+  var userEl = ELEMENT_LABELS[userPhase.element];
+  var partnerEl = ELEMENT_LABELS[partnerPhase.element];
+  var userYearsLeft = Math.max(0, userPhase.endAge - userAge);
+  var partnerYearsLeft = Math.max(0, partnerPhase.endAge - partnerAge);
+  var nextShift = Math.min(userYearsLeft, partnerYearsLeft);
+
+  var text = '';
+  if (userPhase.element === partnerPhase.element) {
+    text = 'I er begge i en ' + userEl.toLowerCase() + 'n\u00e6r fase \u2014 det giver f\u00e6lles resonans. ';
+  } else {
+    text = 'Du er i ' + userEl + ', ' + partnerName + ' er i ' + partnerEl + '. ';
+  }
+
+  if (nextShift <= 1) {
+    text += 'En af jer er t\u00e6t p\u00e5 et faseskift. V\u00e6r opm\u00e6rksom p\u00e5, at dynamikken mellem jer kan \u00e6ndre sig snart.';
+  } else if (nextShift <= 3) {
+    text += 'Om ca. ' + Math.round(nextShift) + ' \u00e5r skifter en af jer fase. Det kan bringe ny energi ind i jeres relation.';
+  } else {
+    text += 'I har ca. ' + Math.round(nextShift) + ' \u00e5r i jeres nuv\u00e6rende konstellation. Brug dem bevidst \u2014 denne dynamik er midlertidig.';
+  }
+
+  return text;
+}
+
+function shareToRytmer(partnerIndex) {
+  var relations = JSON.parse(localStorage.getItem('relations') || '[]');
+  if (partnerIndex < 0 || partnerIndex >= relations.length) return;
+  shareWithRelation(partnerIndex);
+}
+
+function navigateToJeresEnergi() {
+  App.loadScreen('jeres-energi');
+}
+
+// ---- Tre Generationer (Niveau 2 under Mine Relationer) ----
+
+var TRE_GEN_FORBINDELSE_TEKST = {
+  // element pairs: user_element + '_' + other_element → text
+  'default_arv': 'Der er en forbindelse mellem jer, som g\u00e5r dybere end ord. M\u00e6rk efter \u2014 hvad har du arvet, og hvad har du valgt selv?',
+  'default_frihed': 'De to har en forbindelse, du ikke altid kan se. Lad dem m\u00f8des i deres eget tempo.',
+  'default_fornyelse': 'Noget nyt vokser mellem jer. Det er hverken dit eller hendes \u2014 det er jeres.'
+};
+
+function initTreGenerationerScreen() {
+  var relations = JSON.parse(localStorage.getItem('relations') || '[]');
+  var userData = JSON.parse(localStorage.getItem('user') || '{}');
+  if (!userData.birthdate) return;
+  var userAge = calculateAge(userData.birthdate);
+  var userPhase = calculateLifePhase(userAge);
+  var userName = userData.name || 'Dig';
+
+  // Find parent and child
+  var parent = null, child = null;
+  for (var i = 0; i < relations.length; i++) {
+    var rt = relations[i].relationType;
+    if (!parent && (rt === 'mor' || rt === 'far')) parent = relations[i];
+    if (!child && (rt === 'datter' || rt === 's\u00f8n')) child = relations[i];
+  }
+
+  // Persons column
+  var persEl = document.getElementById('tre-gen-persons');
+  if (persEl) {
+    if (!parent && !child) {
+      persEl.innerHTML = '<div class="rel-insight"><div class="rel-insight__text">Tilf\u00f8j mindst en for\u00e6lder og et barn for at se tre generationer. Tre faser, tre energier \u2014 og du i midten.</div></div>' +
+        '<div style="height:16px;"></div>' +
+        '<div class="rel-add-person" onclick="App.loadScreen(\'relationer\')">' +
+        '<div class="rel-add-person__main">+ Tilf\u00f8j relation</div>' +
+        '<div class="rel-add-person__sub">Mor, far, datter, s\u00f8n...</div></div>';
+      return;
+    }
+
+    if (!parent || !child) {
+      var missing = !parent ? 'en for\u00e6lder (mor eller far)' : 'et barn (datter eller s\u00f8n)';
+      persEl.innerHTML = '<div class="rel-insight"><div class="rel-insight__text">Du har brug for b\u00e5de en for\u00e6lder og et barn for at se tre generationer. Tilf\u00f8j ' + missing + '.</div></div>' +
+        '<div style="height:16px;"></div>' +
+        '<div class="rel-add-person" onclick="App.loadScreen(\'relationer\')">' +
+        '<div class="rel-add-person__main">+ Tilf\u00f8j ' + missing + '</div>' +
+        '<div class="rel-add-person__sub">For at se tre generationers energi</div></div>';
+      return;
+    }
+
+    var parentAge = calculateAge(parent.birthdate);
+    var parentPhase = (parent.gender === 'mand') ? calculateMalePhase(parentAge) : calculateLifePhase(parentAge);
+    var parentName = escapeHtml(parent.name);
+    var parentLabel = parent.relationType === 'mor' ? 'Din mor' : 'Din far';
+
+    var childAge = calculateAge(child.birthdate);
+    var childPhase = (child.gender === 'mand') ? calculateMalePhase(childAge) : calculateLifePhase(childAge);
+    var childName = escapeHtml(child.name);
+    var childLabel = child.relationType === 'datter' ? 'Din datter' : 'Din s\u00f8n';
+
+    var parentQuality = getElementQualityShort(parentPhase.element);
+    var userQuality = getElementQualityShort(userPhase.element);
+    var childQuality = getElementQualityShort(childPhase.element);
+
+    persEl.innerHTML =
+      '<div class="rel-twocol rel-twocol--three">' +
+        '<div class="rel-twocol__box">' +
+          '<div class="rel-twocol__sub">' + parentLabel + '</div>' +
+          '<div class="rel-twocol__main">' + parentName + '</div>' +
+          '<div class="rel-twocol__phase">Fase ' + parentPhase.phase + ' \u00B7 ' + ELEMENT_LABELS[parentPhase.element] + '</div>' +
+          '<div class="rel-twocol__note">' + parentQuality + '</div>' +
+        '</div>' +
+        '<div class="rel-twocol__box">' +
+          '<div class="rel-twocol__sub">Dig</div>' +
+          '<div class="rel-twocol__main">' + escapeHtml(userName) + '</div>' +
+          '<div class="rel-twocol__phase">Fase ' + userPhase.phase + ' \u00B7 ' + ELEMENT_LABELS[userPhase.element] + '</div>' +
+          '<div class="rel-twocol__note">' + userQuality + '</div>' +
+        '</div>' +
+        '<div class="rel-twocol__box">' +
+          '<div class="rel-twocol__sub">' + childLabel + '</div>' +
+          '<div class="rel-twocol__main">' + childName + '</div>' +
+          '<div class="rel-twocol__phase">Fase ' + childPhase.phase + ' \u00B7 ' + ELEMENT_LABELS[childPhase.element] + '</div>' +
+          '<div class="rel-twocol__note">' + childQuality + '</div>' +
+        '</div>' +
+      '</div>';
+
+    // Venn figure: three generations
+    var vennEl = document.getElementById('tre-gen-venn');
+    if (vennEl) {
+      var arvText = generateForbindelseTekst(userPhase.element, parentPhase.element, 'arv', parentName);
+      var frihedText = generateForbindelseTekst(parentPhase.element, childPhase.element, 'frihed', childName);
+      var fornyText = generateForbindelseTekst(userPhase.element, childPhase.element, 'fornyelse', childName);
+
+      vennEl.innerHTML = renderVennThree({
+        topTitle: parentName.toUpperCase(),
+        topLines: ['Fase ' + parentPhase.phase + ' \u00B7 ' + ELEMENT_LABELS[parentPhase.element]],
+        bottomLeftTitle: 'DIG',
+        bottomLeftLines: ['Fase ' + userPhase.phase + ' \u00B7 ' + ELEMENT_LABELS[userPhase.element]],
+        bottomRightTitle: childName.toUpperCase(),
+        bottomRightLines: ['Fase ' + childPhase.phase + ' \u00B7 ' + ELEMENT_LABELS[childPhase.element]],
+        overlapAB: 'arv',
+        overlapAC: 'frihed',
+        overlapBC: 'fornyelse',
+        centerTitle: 'FAMILIEN',
+        centerLines: [],
+        elementA: parentPhase.element,
+        elementB: userPhase.element,
+        elementC: childPhase.element
+      });
+    }
+
+    // Rolle
+    var rolleEl = document.getElementById('tre-gen-rolle');
+    if (rolleEl) {
+      var rolleText = generateRolleText(userPhase.element, parentName, childName);
+      rolleEl.innerHTML =
+        '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>' +
+        '<div class="rel-rolle">' +
+          '<div class="rel-rolle__label">Din rolle</div>' +
+          '<div class="rel-rolle__heading">Du er broen</div>' +
+          '<div class="rel-rolle__text">' + rolleText + '</div>' +
+        '</div>';
+    }
+
+    // De tre forbindelser
+    var forbEl = document.getElementById('tre-gen-forbindelser');
+    if (forbEl) {
+      var forbHtml = '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>';
+      forbHtml += '<h3 class="rel-section-heading">De tre forbindelser</h3>';
+      forbHtml += '<div style="height:12px;"></div>';
+
+      // Dig ↔ forælder
+      forbHtml += '<div class="rel-forbindelse">';
+      forbHtml += '<div class="rel-forbindelse__who">Dig \u2194 ' + parentName + ' (' + parentLabel.toLowerCase() + ')</div>';
+      forbHtml += '<div class="rel-forbindelse__word">Arv</div>';
+      forbHtml += '<div class="rel-forbindelse__desc">' + generateForbindelseTekst(userPhase.element, parentPhase.element, 'arv', parentName) + '</div>';
+      forbHtml += '</div>';
+
+      // Forælder ↔ barn
+      forbHtml += '<div class="rel-forbindelse">';
+      forbHtml += '<div class="rel-forbindelse__who">' + parentName + ' \u2194 ' + childName + ' (bedstemor og barn)</div>';
+      forbHtml += '<div class="rel-forbindelse__word">Frihed</div>';
+      forbHtml += '<div class="rel-forbindelse__desc">' + generateForbindelseTekst(parentPhase.element, childPhase.element, 'frihed', childName) + '</div>';
+      forbHtml += '</div>';
+
+      // Dig ↔ barn
+      forbHtml += '<div class="rel-forbindelse">';
+      forbHtml += '<div class="rel-forbindelse__who">Dig \u2194 ' + childName + ' (' + childLabel.toLowerCase() + ')</div>';
+      forbHtml += '<div class="rel-forbindelse__word">Fornyelse</div>';
+      forbHtml += '<div class="rel-forbindelse__desc">' + generateForbindelseTekst(userPhase.element, childPhase.element, 'fornyelse', childName) + '</div>';
+      forbHtml += '</div>';
+
+      forbEl.innerHTML = forbHtml;
+    }
+
+    // Future insight + actions
+    var tidEl = document.getElementById('tre-gen-tid');
+    if (tidEl) {
+      var futureYears = 7;
+      var futureUserPhase = calculateLifePhase(userAge + futureYears);
+      var futureParentPhase = (parent.gender === 'mand') ? calculateMalePhase(parentAge + futureYears) : calculateLifePhase(parentAge + futureYears);
+      var futureChildPhase = (child.gender === 'mand') ? calculateMalePhase(childAge + futureYears) : calculateLifePhase(childAge + futureYears);
+
+      var futureText = childName + ' vil v\u00e6re i Fase ' + futureChildPhase.phase + ' (' + ELEMENT_LABELS[futureChildPhase.element] + '), ' +
+        'du i Fase ' + futureUserPhase.phase + ' (' + ELEMENT_LABELS[futureUserPhase.element] + '), ' +
+        'og ' + parentName + ' i Fase ' + futureParentPhase.phase + ' (' + ELEMENT_LABELS[futureParentPhase.element] + '). ' +
+        'Forbered dig p\u00e5, at rollerne \u00e6ndrer sig.';
+
+      tidEl.innerHTML =
+        '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>' +
+        '<div class="rel-insight">' +
+          '<div class="rel-insight__label">Om ' + futureYears + ' \u00e5r</div>' +
+          '<div class="rel-insight__text">' + futureText + '</div>' +
+        '</div>' +
+        '<div class="rel-soft-link" onclick="navigateToJeresEnergi()">Se jeres tre generationer p\u00e5 en anden dato \u2192</div>';
+    }
+  }
+}
+
+function getElementQualityShort(element) {
+  var qualities = {
+    'VAND': 'Dybde, ro',
+    'TR\u00C6': 'V\u00e6kst, identitet',
+    'ILD': 'Passion, forbindelse',
+    'JORD': 'Balance, ansvar',
+    'METAL': 'Visdom, slip'
+  };
+  return qualities[element] || '';
+}
+
+function generateRolleText(userElement, parentName, childName) {
+  var texts = {
+    'VAND': 'Du holder forbindelsen mellem ' + parentName + 's visdom og ' + childName + 's v\u00e6kst med stilhed og dybde. Vand b\u00e6rer begge \u2014 men husk ogs\u00e5 at fylde op i dig selv.',
+    'TR\u00C6': 'Din v\u00e6kst tr\u00e6kker b\u00e5de opad mod ' + parentName + ' og nedad mod ' + childName + '. Tr\u00e6et er broen \u2014 men det har brug for r\u00f8dder. Tag tid til at st\u00e5 stille.',
+    'ILD': 'Du brænder lyst nok til at varme b\u00e5de ' + parentName + ' og ' + childName + '. Men ild kan udbrænde. Giv dig selv lov til at dæmpe flammen indimellem.',
+    'JORD': 'Du holder forbindelsen mellem ' + parentName + 's visdom og ' + childName + 's v\u00e6kst. Det er en stor opgave \u2014 og den kr\u00e6ver, at du ogs\u00e5 passer p\u00e5 dig selv.',
+    'METAL': 'Du ser klarere end de fleste, hvad der er essentielt mellem generationerne. Brug din klarhed til at sortere \u2014 men slip ogs\u00e5 kontrollen en gang imellem.'
+  };
+  return texts[userElement] || texts['JORD'];
+}
+
+function generateForbindelseTekst(element1, element2, theme, otherName) {
+  var interaction = ELEMENT_INTERACTIONS[element1 + '_' + element2];
+  if (!interaction) interaction = { type: 'm\u00f8des', text: 'Jeres elementer m\u00f8des i en unik konstellation.' };
+
+  var el1Label = ELEMENT_LABELS[element1];
+  var el2Label = ELEMENT_LABELS[element2];
+
+  if (theme === 'arv') {
+    if (interaction.type === 'n\u00e6rer') return el1Label + ' n\u00e6rer ' + el2Label + '. Der er noget i jer, der flyder naturligt \u2014 en arv af omsorg, der g\u00e5r dybere end ord.';
+    if (interaction.type === 'udfordrer') return el1Label + ' m\u00f8der ' + el2Label + '. Jeres energier gnider \u2014 men i den gnidning ligger ogs\u00e5 vækst og forsoning.';
+    if (interaction.type === 'spejler') return el1Label + ' m\u00f8der ' + el1Label + '. I deler samme dybde \u2014 det giver genklang, men ogs\u00e5 blinde vinkler. Se hinanden.';
+    return el1Label + ' og ' + el2Label + ' m\u00f8des mellem jer. M\u00e6rk efter \u2014 hvad har du arvet, og hvad har du valgt selv?';
+  }
+  if (theme === 'frihed') {
+    if (element1 === element2) return 'De to deler en stille forbindelse p\u00e5 tv\u00e6rs af generationerne. Lad dem m\u00f8des i deres eget tempo.';
+    return el1Label + ' og ' + el2Label + ' kan tale sammen hen over generationerne \u2014 lad dem. Der er en frihed i det springende led.';
+  }
+  if (theme === 'fornyelse') {
+    if (interaction.type === 'udfordrer' || interaction.type === 'udfordres') return el2Label + ' bryder gennem ' + el1Label + ' for at vokse. ' + otherName + 's opr\u00f8r er ikke afvisning \u2014 det er livskraft. Giv plads og hold fast p\u00e5 samme tid.';
+    if (interaction.type === 'n\u00e6rer') return el1Label + ' n\u00e6rer ' + el2Label + '. Du giver plads til noget nyt \u2014 og det er m\u00e5ske det vigtigste du kan g\u00f8re.';
+    return 'Noget nyt vokser mellem jer. Det er hverken dit eller ' + otherName + 's \u2014 det er jeres.';
+  }
+  return interaction.text.replace(/\{pron\}/g, 'hendes').replace(/\{navn\}/g, otherName);
+}
+
 // ---- Niveau 1: Mine Cyklusser ----
 
 function initMineCyklusserScreen() {
@@ -4702,40 +5171,17 @@ function initMineCyklusserScreen() {
 // ---- Niveau 1: Mine Relationer ----
 
 function initMineRelationerScreen() {
-  var profilEl = document.getElementById('mine-relationer-profiler');
-  var listEl = document.getElementById('mine-relationer-list');
-  if (!listEl) return;
-
   var relations = JSON.parse(localStorage.getItem('relations') || '[]');
+  ensureIdagData();
+  var d = window._idagData;
+  var userData = JSON.parse(localStorage.getItem('user') || '{}');
+  var userAge = userData.birthdate ? calculateAge(userData.birthdate) : 0;
+  var userPhase = d ? d.lifePhase : calculateLifePhase(userAge);
+  var userEl = userPhase.element;
 
-  // Render profiler øverst
-  if (profilEl) {
-    var profilHtml = '<div class="tema__profil-row">';
-    for (var i = 0; i < relations.length; i++) {
-      var r = relations[i];
-      var initial = r.name ? r.name.charAt(0).toUpperCase() : '?';
-      var rAge = calculateAge(r.birthdate);
-      var rPhase = (r.gender === 'mand') ? calculateMalePhase(rAge) : calculateLifePhase(rAge);
-      profilHtml += '<div class="tema__profil" onclick="navigateToRelationDetail(' + i + ')">';
-      profilHtml += '<div class="tema__profil-circle">' + initial + '</div>';
-      profilHtml += '<p class="tema__profil-name">' + escapeHtml(r.name) + '</p>';
-      profilHtml += '<p class="tema__profil-meta">' + ELEMENT_LABELS[rPhase.element] + '</p>';
-      profilHtml += '</div>';
-    }
-    profilHtml += '<div class="tema__profil" onclick="App.loadScreen(\'relationer\')">';
-    profilHtml += '<div class="tema__profil-circle tema__profil-circle--add">+</div>';
-    profilHtml += '<p class="tema__profil-name">Tilføj</p>';
-    profilHtml += '</div>';
-    profilHtml += '</div>';
-    profilEl.innerHTML = profilHtml;
-  }
-
-  // Venn diagram at top: DIG / DIN NÆRMESTE / JERES CYKLUSSER
+  // ---- Venn diagram: DIG / MØDET / DIN NÆRMESTE ----
   var vennEl = document.getElementById('mine-relationer-venn');
   if (vennEl) {
-    ensureIdagData();
-    var d = window._idagData;
-    var userEl = d ? d.lifePhase.element : 'VAND';
     var nearestEl = 'default';
     var nearestName = 'din n\u00e6rmeste';
     if (relations.length > 0) {
@@ -4745,57 +5191,131 @@ function initMineRelationerScreen() {
       nearestEl = nrPhase.element;
       nearestName = nr.name || 'din n\u00e6rmeste';
     }
-    vennEl.innerHTML = renderVennThree({
-      topTitle: 'DIG',
-      topLines: [d ? 'Fase ' + d.lifePhase.phase : '', d ? ELEMENT_LABELS[userEl] : ''],
-      bottomLeftTitle: nearestName.toUpperCase(),
-      bottomLeftLines: [nearestEl !== 'default' ? ELEMENT_LABELS[nearestEl] : 'Tilf\u00f8j en relation'],
-      bottomRightTitle: 'JERES CYKLUSSER',
-      bottomRightLines: ['Hvor m\u00f8des I?', 'Hvor kolliderer I?'],
-      overlapAB: 'faser',
-      overlapAC: 'tid',
-      overlapBC: 'rytme',
-      centerTitle: 'M\u00d8DET',
-      centerLines: ['*i midten'],
-      elementA: userEl,
-      elementB: nearestEl !== 'default' ? nearestEl : undefined,
-      elementC: undefined
+    vennEl.innerHTML = renderVennTwo({
+      leftTitle: 'DIG',
+      leftLines: [
+        'Fase ' + userPhase.phase + ' \u00B7 ' + ELEMENT_LABELS[userEl]
+      ],
+      rightTitle: 'DIN N\u00c6RMESTE',
+      rightLines: [
+        nearestEl !== 'default' ? ELEMENT_LABELS[nearestEl] : 'Tilf\u00f8j en relation'
+      ],
+      overlapTitle: 'M\u00d8DET',
+      overlapLines: [
+        'faser \u00B7 elementer',
+        '*rytme \u00B7 tid'
+      ],
+      leftElement: userEl,
+      rightElement: nearestEl !== 'default' ? nearestEl : undefined
     });
   }
 
-  // Group 1: Lige nu
-  var group1 = [
-    { screen: 'relationer', title: 'Relationer lige nu', subtitle: 'Se hvordan dine fem cyklusser m\u00f8der en andens lige nu. Hvor mange lag tr\u00e6kker jer sammen? Hvor kolliderer I? Og hvorn\u00e5r skifter det.', highlighted: true }
-  ];
-  // Group 2: Tid
-  var group2 = [
-    { screen: 'jeres-energi', title: 'Jeres energi p\u00e5 en anden dag', subtitle: 'V\u00e6lg en dag og de mennesker I m\u00f8des med. Se hvordan jeres elementer m\u00f8dtes dengang \u2014 eller hvordan de vil m\u00f8des i fremtiden.' }
-  ];
-
-  function renderRelationGroup(heading, subtitle, cards) {
-    var h = '<h4 class="tema__group-heading">' + heading + '</h4>';
-    h += '<p class="tema__group-subtitle">' + subtitle + '</p>';
-    h += '<div class="tema__group">';
-    for (var i = 0; i < cards.length; i++) {
-      var k = cards[i];
-      var clickAction = k.onclick || "App.loadScreen('" + k.screen + "')";
-      var extraClass = ' tema__kort--lilla' + (k.highlighted ? ' tema__kort--highlighted' : '');
-      h += '<div class="tema__kort' + extraClass + '" onclick="' + clickAction + '">';
-      h += '<div class="tema__kort-content">';
-      h += '<h3 class="tema__kort-title">' + k.title + '</h3>';
-      h += '<p class="tema__kort-subtitle">' + k.subtitle + '</p>';
-      h += '</div>';
-      h += '<span class="tema__kort-arrow">\u203A</span>';
-      h += '</div>';
+  // ---- Person circles ----
+  var profilEl = document.getElementById('mine-relationer-profiler');
+  if (profilEl) {
+    var profilHtml = '<div class="tema__profil-row">';
+    // Add "Dig" first
+    profilHtml += '<div class="tema__profil">';
+    profilHtml += '<div class="tema__profil-circle" style="background:#7B6E9A;">F' + userPhase.phase + '</div>';
+    profilHtml += '<p class="tema__profil-name">Dig</p>';
+    profilHtml += '<p class="tema__profil-meta">' + ELEMENT_LABELS[userEl] + '</p>';
+    profilHtml += '</div>';
+    for (var i = 0; i < relations.length; i++) {
+      var r = relations[i];
+      var rAge = calculateAge(r.birthdate);
+      var rPhase = (r.gender === 'mand') ? calculateMalePhase(rAge) : calculateLifePhase(rAge);
+      var phaseLabel = (r.gender === 'mand') ? rPhase.phase + '.' : 'F' + rPhase.phase;
+      profilHtml += '<div class="tema__profil" onclick="navigateToRelationDetail(' + i + ')">';
+      profilHtml += '<div class="tema__profil-circle">' + phaseLabel + '</div>';
+      profilHtml += '<p class="tema__profil-name">' + escapeHtml(r.name) + '</p>';
+      profilHtml += '<p class="tema__profil-meta">' + ELEMENT_LABELS[rPhase.element] + '</p>';
+      profilHtml += '</div>';
     }
-    h += '</div>';
-    return h;
+    profilHtml += '<div class="tema__profil" onclick="App.loadScreen(\'relationer\')">';
+    profilHtml += '<div class="tema__profil-circle tema__profil-circle--add">+</div>';
+    profilHtml += '<p class="tema__profil-name">Tilf\u00f8j</p>';
+    profilHtml += '</div>';
+    profilHtml += '</div>';
+    profilEl.innerHTML = profilHtml;
   }
 
-  var html = '';
-  html += renderRelationGroup('Lige nu', 'Se hvordan jeres faser m\u00f8des og kolliderer i dag', group1);
-  html += renderRelationGroup('Tid', 'Forst\u00e5 fortiden og forbered fremtidens m\u00f8der', group2);
-  listEl.innerHTML = html;
+  // ---- Dynamic insight box ----
+  var kontekstEl = document.getElementById('mine-relationer-kontekst');
+  if (kontekstEl) {
+    if (relations.length > 0) {
+      var primaryR = relations[0];
+      var prAge = calculateAge(primaryR.birthdate);
+      var prPhase = (primaryR.gender === 'mand') ? calculateMalePhase(prAge) : calculateLifePhase(prAge);
+      var interaction = getElementInteraction(userEl, prPhase.element, primaryR.name, primaryR.gender);
+      kontekstEl.innerHTML = '<div class="rel-insight">' +
+        '<div class="rel-insight__label">Lige nu</div>' +
+        '<div class="rel-insight__text">' + interaction.text + '</div>' +
+        '</div>';
+    } else {
+      kontekstEl.innerHTML = '';
+    }
+  }
+
+  // ---- Section: Lige nu ----
+  var ligeNuEl = document.getElementById('mine-relationer-lige-nu');
+  if (ligeNuEl) {
+    var h = '';
+    h += renderRelNavCard('relationer', 'Relationer lige nu',
+      'V\u00e6lg en person og se jeres dynamik \u2014 hvor I m\u00f8des, hvor I kolliderer, og hvad det kalder p\u00e5.',
+      'Se jeres dynamik \u2192');
+    h += renderRelNavCard('relationer', 'N\u00e5r faser m\u00f8des',
+      'Fire m\u00f8dem\u00f8nstre \u2014 n\u00e6rende, regulerende, parallelt, modsat. Hvilket pr\u00e6ger jeres relation lige nu?',
+      'Se m\u00f8nstret \u2192');
+    ligeNuEl.innerHTML = h;
+  }
+
+  // ---- Section: Gå i dybden ----
+  var dybdenEl = document.getElementById('mine-relationer-dybden');
+  if (dybdenEl) {
+    var h2 = '';
+    // To Rytmer — only if user has a male partner
+    var hasPartner = relations.some(function(r) { return r.gender === 'mand' && (r.relationType === 'partner' || r.relationType === 'mand'); });
+    h2 += renderRelNavCard('to-rytmer', 'To Rytmer',
+      'Hendes syv \u00e5r, hans otte. Se forskydningen mellem jer og hvad den betyder.',
+      'Se jeres rytmer \u2192',
+      !hasPartner);
+    // Tre Generationer
+    var hasParent = relations.some(function(r) { return r.relationType === 'mor' || r.relationType === 'far'; });
+    var hasChild = relations.some(function(r) { return r.relationType === 'datter' || r.relationType === 's\u00f8n'; });
+    var hasThreeGen = hasParent && hasChild;
+    h2 += renderRelNavCard('tre-generationer', 'Tre Generationer',
+      'Bedstemor, mor, datter \u2014 tre faser, tre energier. Og du i midten.',
+      'Se jeres generationer \u2192',
+      !hasThreeGen);
+    dybdenEl.innerHTML = h2;
+  }
+
+  // ---- Section: Over tid ----
+  var tidEl = document.getElementById('mine-relationer-tid');
+  if (tidEl) {
+    tidEl.innerHTML = renderRelNavCard('jeres-energi', 'Jeres energi p\u00e5 en anden dag',
+      'V\u00e6lg en dato og se hvordan I m\u00f8dtes dengang \u2014 eller vil m\u00f8des i fremtiden.',
+      'V\u00e6lg en dag \u2192');
+  }
+
+  // ---- Tilføj person ----
+  var tilfoejEl = document.getElementById('mine-relationer-tilfoej');
+  if (tilfoejEl) {
+    tilfoejEl.innerHTML = '<div class="rel-add-person" onclick="App.loadScreen(\'relationer\')">' +
+      '<div class="rel-add-person__main">+ Tilf\u00f8j person</div>' +
+      '<div class="rel-add-person__sub">Partner, barn, for\u00e6lder, veninde...</div>' +
+      '</div>';
+  }
+}
+
+function renderRelNavCard(screen, title, desc, arrowText, disabled) {
+  var opacity = disabled ? ' style="opacity:0.45;pointer-events:none;"' : '';
+  var html = '<div class="rel-nav-card" onclick="App.loadScreen(\'' + screen + '\')"' + opacity + '>';
+  html += '<div class="rel-nav-card__title">' + title + '</div>';
+  html += '<div class="rel-nav-card__desc">' + desc + '</div>';
+  html += '<div class="rel-nav-card__arrow">' + arrowText + '</div>';
+  html += '</div>';
+  return html;
 }
 
 // ---- Niveau 1: Min Praksis ----
@@ -6306,6 +6826,8 @@ var MENU_DATA = [
     children: [
       { label: 'Relationer lige nu', action: "App.loadScreen('relationer')" },
       { label: 'N\u00e5r faser m\u00f8des', action: "App.loadScreen('mine-relationer')" },
+      { label: 'To Rytmer \u2014 Parforholdet', action: "App.loadScreen('to-rytmer')" },
+      { label: 'Tre Generationer', action: "App.loadScreen('tre-generationer')" },
       { label: 'Jeres energi p\u00e5 en anden dag', action: "App.loadScreen('jeres-energi')" }
     ]
   },

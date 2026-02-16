@@ -4518,3 +4518,455 @@
   background: rgba(118, 144, 193, 0.08);
 }
 
+/* =========================================
+   MINE RELATIONER — Expanded Styles
+   ========================================= */
+
+/* Lotus dot separator */
+.rel-dots {
+  text-align: center;
+  color: #d4cce0;
+  font-size: 9px;
+  letter-spacing: 10px;
+  margin: 28px 0;
+}
+
+/* Section headings (lilla, italic, centered) */
+.rel-section-heading {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 22px;
+  color: #7B6E9A;
+  font-weight: 400;
+  font-style: italic;
+  text-align: center;
+  margin: 0 0 8px 0;
+}
+
+.rel-section-subtitle {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 15px;
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  line-height: 1.65;
+  margin: 0 auto 20px;
+  max-width: 320px;
+}
+
+.rel-section-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Relationer nav cards (lilla toning) */
+.rel-nav-card {
+  background: rgba(184, 166, 192, 0.04);
+  border: 1px solid rgba(184, 166, 192, 0.12);
+  border-radius: 14px;
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.rel-nav-card:active {
+  background: rgba(184, 166, 192, 0.10);
+}
+
+.rel-nav-card__title {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.rel-nav-card__desc {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 14px;
+  color: #777;
+  line-height: 1.55;
+  font-style: italic;
+}
+
+.rel-nav-card__arrow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+  font-size: 13px;
+  color: #9886B0;
+  font-style: italic;
+}
+
+/* Relationer insight box */
+.rel-insight {
+  background: rgba(184, 166, 192, 0.07);
+  border: 1px solid rgba(184, 166, 192, 0.14);
+  border-radius: 14px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.rel-insight__label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px;
+  color: #9886B0;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.rel-insight__text {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.65;
+  font-style: italic;
+}
+
+/* Tilføj person (dashed, lilla) */
+.rel-add-person {
+  border: 1.5px dashed rgba(184, 166, 192, 0.25);
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+  margin-top: 28px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.rel-add-person:active {
+  background: rgba(184, 166, 192, 0.06);
+}
+
+.rel-add-person__main {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 15px;
+  color: #9886B0;
+}
+
+.rel-add-person__sub {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 12px;
+  color: #bbb;
+  margin-top: 3px;
+  font-style: italic;
+}
+
+/* Dynamic person cards (Relationer lige nu) */
+.rel-dyn-card {
+  background: rgba(184, 166, 192, 0.05);
+  border: 1px solid rgba(184, 166, 192, 0.12);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.rel-dyn-card:active {
+  background: rgba(184, 166, 192, 0.10);
+}
+
+.rel-dyn-card__top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.rel-dyn-card__dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: white;
+  font-weight: 500;
+  background: #9886B0;
+  flex-shrink: 0;
+}
+
+.rel-dyn-card__info {
+  flex: 1;
+}
+
+.rel-dyn-card__name {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
+.rel-dyn-card__phase {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 13px;
+  color: #9886B0;
+  font-style: italic;
+}
+
+.rel-dyn-card__body {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.rel-dyn-card__link {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 13px;
+  color: #9886B0;
+  font-style: italic;
+}
+
+/* =========================================
+   TO RYTMER — Screen Styles
+   ========================================= */
+
+.screen--to-rytmer .tema__title {
+  color: #7B6E9A;
+}
+
+.rel-body-text {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 15px;
+  color: #555;
+  font-style: italic;
+  text-align: center;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+/* Two-column info cards */
+.rel-twocol {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.rel-twocol--three {
+  gap: 6px;
+}
+
+.rel-twocol__box {
+  flex: 1;
+  background: rgba(184, 166, 192, 0.06);
+  border-radius: 12px;
+  padding: 14px 10px;
+  text-align: center;
+}
+
+.rel-twocol__sub {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px;
+  color: #999;
+}
+
+.rel-twocol__main {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+  margin: 2px 0;
+}
+
+.rel-twocol__phase {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 12px;
+  color: #9886B0;
+}
+
+.rel-twocol__note {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 11px;
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Forskydnings-box */
+.rel-forskydning {
+  text-align: center;
+  background: rgba(184, 166, 192, 0.06);
+  border-radius: 14px;
+  padding: 22px;
+  margin: 16px 0;
+}
+
+.rel-forskydning__num {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 38px;
+  color: #7B6E9A;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.rel-forskydning__unit {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 13px;
+  color: #999;
+  margin-top: 2px;
+}
+
+.rel-forskydning__text {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 14px;
+  color: #555;
+  margin-top: 10px;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* Timeline visualization */
+.rel-timeline-box {
+  background: rgba(184, 166, 192, 0.05);
+  border-radius: 14px;
+  padding: 18px 14px;
+  margin: 16px 0;
+}
+
+/* Samtaleåbnere */
+.rel-samtale {
+  background: rgba(184, 166, 192, 0.05);
+  border: 1px solid rgba(184, 166, 192, 0.10);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+}
+
+.rel-samtale__label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px;
+  color: #9886B0;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.rel-samtale__text {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 14px;
+  color: #444;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* Gradient lilla button */
+.rel-btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #9886B0, #7B6E9A);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 15px;
+  text-align: center;
+  margin-top: 20px;
+  font-style: italic;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.rel-btn:active {
+  opacity: 0.85;
+}
+
+/* Soft link */
+.rel-soft-link {
+  display: block;
+  text-align: center;
+  color: #9886B0;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 14px;
+  font-style: italic;
+  margin-top: 10px;
+  text-decoration: underline;
+  text-decoration-color: rgba(152, 134, 176, 0.3);
+  cursor: pointer;
+}
+
+/* =========================================
+   TRE GENERATIONER — Screen Styles
+   ========================================= */
+
+.screen--tre-generationer .tema__title {
+  color: #7B6E9A;
+}
+
+/* Role card */
+.rel-rolle {
+  background: rgba(184, 166, 192, 0.07);
+  border-radius: 14px;
+  padding: 24px 20px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.rel-rolle__label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px;
+  color: #9886B0;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.rel-rolle__heading {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 22px;
+  color: #7B6E9A;
+  font-style: italic;
+  margin-bottom: 8px;
+}
+
+.rel-rolle__text {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* Forbindelse cards */
+.rel-forbindelse {
+  background: rgba(184, 166, 192, 0.04);
+  border: 1px solid rgba(184, 166, 192, 0.12);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+}
+
+.rel-forbindelse__who {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px;
+  color: #9886B0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.rel-forbindelse__word {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 18px;
+  color: #7B6E9A;
+  font-style: italic;
+  margin-bottom: 6px;
+}
+
+.rel-forbindelse__desc {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+  font-style: italic;
+}
+
