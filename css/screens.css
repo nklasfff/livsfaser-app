@@ -6480,3 +6480,58 @@
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
 }
 
+/* Week grid — De Fire Uger */
+.mc__wg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.mc__wc {
+  background: rgba(118,144,193,0.04);
+  border: 1px solid rgba(118,144,193,0.12);
+  border-radius: 14px;
+  padding: 16px 14px;
+  text-align: center;
+}
+.mc__wc.on {
+  background: rgba(118,144,193,0.10);
+  border-color: #7690C1;
+  border-left: 3px solid #5A74A5;
+}
+.mc__wc-n {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-style: italic;
+  font-size: 16px;
+  color: #5A74A5;
+  margin-bottom: 4px;
+}
+.mc__wc-days {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 11px;
+  color: #999;
+  margin-bottom: 6px;
+}
+.mc__wc-s {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-style: italic;
+  font-size: 13px;
+  color: #5A74A5;
+  margin-bottom: 4px;
+}
+.mc__wc-el {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #7690C1;
+  margin-bottom: 8px;
+}
+.mc__wc-tx {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-style: italic;
+  font-size: 13px;
+  color: #444;
+  line-height: 1.55;
+}
+

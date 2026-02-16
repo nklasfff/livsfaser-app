@@ -9097,117 +9097,179 @@ function initLivsfaseDetailScreen() {
   el.innerHTML = html;
 }
 
-// ---- Feature: De Fire Uger ----
+// ---- Feature: De Fire Uger (new design) ----
 
-function renderFourWeekCircle(currentWeek, isMenstrual, cycleDay) {
-  return '<div style="max-width:500px;margin:0 auto;text-align:center"><img src="assets/images/de-fire-uger.png" alt="De fire uger" style="width:100%;height:auto;border-radius:12px"></div>';
+var DFU_WEEK_SHORT = {
+  1: { season: 'Vinter', element: 'VAND', desc: 'Hvile, stilhed, indadvendthed. Bl\u00f8dning. Kroppen renser.' },
+  2: { season: 'For\u00e5r', element: 'TR\u00C6', desc: 'Energi stiger. Ny begyndelse. Klarhed vender tilbage.' },
+  3: { season: 'Sommer', element: 'ILD', desc: '\u00C6gl\u00f8sning. Mest energi, mest udadvendt. Hjertet \u00e5bner.' },
+  4: { season: 'Sensommer', element: 'METAL', desc: 'Energi falder. PMS. Kroppen sorterer. Behov for ro.' }
+};
+
+var DFU_MOON_SHORT = {
+  1: { season: 'Vinter', element: 'VAND', desc: 'Nym\u00e5ne. Stilhed, nye intentioner, indre lytning.' },
+  2: { season: 'For\u00e5r', element: 'TR\u00C6', desc: 'Tiltagende m\u00e5ne. V\u00e6kst, planl\u00e6gning, handling.' },
+  3: { season: 'Sommer', element: 'ILD', desc: 'Fuldm\u00e5ne. Alt i fuld blomst, f\u00f8lelser p\u00e5 toppen.' },
+  4: { season: 'Sensommer', element: 'JORD', desc: 'Aftagende m\u00e5ne. Sortering, eftertanke, taknemmelighed.' }
+};
+
+var DFU_GRADIENT_TEXTS = {
+  1: { main: 'Giv dig selv varme. Varm mad, varme drikke, tidlig sengetid. Undg\u00e5 h\u00e5rd tr\u00e6ning de f\u00f8rste dage \u2014 din krop arbejder allerede.', sub: 'Yin Yoga Vand-element og Nyre-strygning er sk\u00e5nsomme m\u00e5der at st\u00f8tte kroppen i denne uge.' },
+  2: { main: 'F\u00f8lg din stigende energi. Start nye projekter, bev\u00e6g dig dynamisk, spis gr\u00f8nt og spirende mad. Kroppen er klar til handling.', sub: 'Yin Yoga Tr\u00e6-element og Levermeridian-stræk \u00e5bner for kreativitetens flow.' },
+  3: { main: 'Brug din udadvendte energi. Social aktivitet, intens bev\u00e6gelse, forbindelse og kreativt udtryk. Hjertet er \u00e5bent.', sub: 'Yin Yoga Ild-element og Hjerte\u00e5bnere st\u00f8tter kroppens naturlige gl\u00e6de.' },
+  4: { main: 'S\u00e6nk tempoet. Rund af, ryd op, giv dig selv ro. Varm n\u00e6rende mad og tidlig sengetid. Undg\u00e5 store beslutninger.', sub: 'Yin Yoga Jord-element og Mave-Milt-meridian bringer ro til krop og sind.' }
+};
+
+function renderDfuCircleSvg(currentWeek) {
+  var W = 220, H = 220, cx = 110, cy = 110, R = 85;
+  // Quarter positions: FORÅR (top-right), SOMMER (bottom-right), SENSOMMER (bottom-left), VINTER (top-left)
+  var quarterFills = [0.06, 0.08, 0.10, 0.12];
+  var quarterStrokes = ['rgba(118,144,193,0.2)', 'rgba(118,144,193,0.2)', 'rgba(118,144,193,0.2)', 'rgba(118,144,193,0.2)'];
+  var quarterStrokeW = [1, 1, 1, 1];
+  // Active quarter gets stronger stroke
+  quarterStrokes[currentWeek - 1] = '#7690C1';
+  quarterStrokeW[currentWeek - 1] = 1.5;
+
+  // Dot positions for each quarter center (for active marker)
+  var dotPositions = [
+    { x: cx + R * 0.48, y: cy - R * 0.48 },  // Q1: top-right (FORÅR)
+    { x: cx + R * 0.48, y: cy + R * 0.48 },  // Q2: bottom-right (SOMMER)
+    { x: cx - R * 0.48, y: cy + R * 0.48 },  // Q3: bottom-left (SENSOMMER)
+    { x: cx - R * 0.48, y: cy - R * 0.48 }   // Q4: top-left (VINTER)
+  ];
+
+  var svg = '<svg width="' + W + '" height="' + H + '" xmlns="http://www.w3.org/2000/svg">';
+  // Background circle
+  svg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="none" stroke="rgba(118,144,193,0.15)" stroke-width="1"/>';
+
+  // 4 quarter arcs: top-right, bottom-right, bottom-left, top-left
+  var paths = [
+    'M ' + cx + ' ' + (cy - R) + ' A ' + R + ' ' + R + ' 0 0 1 ' + (cx + R) + ' ' + cy,
+    'M ' + (cx + R) + ' ' + cy + ' A ' + R + ' ' + R + ' 0 0 1 ' + cx + ' ' + (cy + R),
+    'M ' + cx + ' ' + (cy + R) + ' A ' + R + ' ' + R + ' 0 0 1 ' + (cx - R) + ' ' + cy,
+    'M ' + (cx - R) + ' ' + cy + ' A ' + R + ' ' + R + ' 0 0 1 ' + cx + ' ' + (cy - R)
+  ];
+  for (var i = 0; i < 4; i++) {
+    svg += '<path d="' + paths[i] + '" fill="rgba(118,144,193,' + quarterFills[i] + ')" stroke="' + quarterStrokes[i] + '" stroke-width="' + quarterStrokeW[i] + '"/>';
+  }
+
+  // Labels: FORÅR (top), SOMMER (right), SENSOMMER (bottom), VINTER (left)
+  var labels = [
+    { text: 'FOR\u00c5R', x: cx, y: cy - R - 7, color: currentWeek === 1 ? '#5A74A5' : '#7690C1' },
+    { text: 'SOMMER', x: cx + R + 12, y: cy + 3, color: currentWeek === 2 ? '#5A74A5' : '#7690C1' },
+    { text: 'SENSOMMER', x: cx, y: cy + R + 16, color: currentWeek === 3 ? '#5A74A5' : '#7690C1' },
+    { text: 'VINTER', x: cx - R - 12, y: cy + 3, color: currentWeek === 4 ? '#5A74A5' : '#7690C1' }
+  ];
+  var anchors = ['middle', 'middle', 'middle', 'middle'];
+  // Adjust right/left label anchors
+  labels[1].x = cx + R + 2; anchors[1] = 'start';
+  labels[3].x = cx - R - 2; anchors[3] = 'end';
+
+  for (var li = 0; li < labels.length; li++) {
+    svg += '<text x="' + labels[li].x + '" y="' + labels[li].y + '" font-family="-apple-system,sans-serif" font-size="8" fill="' + labels[li].color + '" text-anchor="' + anchors[li] + '" letter-spacing="1">' + labels[li].text + '</text>';
+  }
+
+  // Center circle with "DIN MÅNED"
+  svg += '<circle cx="' + cx + '" cy="' + cy + '" r="26" fill="rgba(118,144,193,0.1)" stroke="rgba(118,144,193,0.25)" stroke-width="1"/>';
+  svg += '<text x="' + cx + '" y="' + (cy - 3) + '" font-family="Georgia,\'Times New Roman\',serif" font-size="10" fill="#5A74A5" text-anchor="middle">DIN</text>';
+  svg += '<text x="' + cx + '" y="' + (cy + 10) + '" font-family="Georgia,\'Times New Roman\',serif" font-size="10" fill="#5A74A5" text-anchor="middle">M\u00c5NED</text>';
+
+  // Active dot
+  var dot = dotPositions[currentWeek - 1];
+  svg += '<circle cx="' + dot.x + '" cy="' + dot.y + '" r="5" fill="#5A74A5"/>';
+
+  svg += '</svg>';
+  return svg;
 }
 
 function initDeFireUgerScreen() {
-  var circleEl = document.getElementById('fire-uger-circle');
-  var currentEl = document.getElementById('fire-uger-current');
-  var weeksEl = document.getElementById('fire-uger-weeks');
+  var circleEl = document.getElementById('dfu-circle');
   if (!circleEl) return;
 
   var user = JSON.parse(localStorage.getItem('user') || '{}');
   var isMenstrual = user.tracksMenstruation && user.lastPeriodDate;
   var currentWeek = 1;
-  var weekData = isMenstrual ? MENSTRUAL_WEEK_DATA : MOON_CYCLE_DATA;
-
   var cycleDay = 1;
+
   if (isMenstrual) {
     var mData = calculateMenstrualDay(user.lastPeriodDate, new Date());
     cycleDay = mData.day;
     currentWeek = cycleDay <= 7 ? 1 : cycleDay <= 14 ? 2 : cycleDay <= 21 ? 3 : 4;
   } else {
-    // Moon phase approximation
     var now = new Date();
     var moonDays = Math.floor((now.getTime() / 86400000 - 10.5) % 29.53);
     currentWeek = moonDays < 7 ? 1 : moonDays < 15 ? 2 : moonDays < 22 ? 3 : 4;
     cycleDay = moonDays + 1;
   }
 
-  circleEl.innerHTML = renderFourWeekCircle(currentWeek, isMenstrual, cycleDay);
+  var shortData = isMenstrual ? DFU_WEEK_SHORT : DFU_MOON_SHORT;
+  var cw = shortData[currentWeek];
+  var elLabel = ELEMENT_LABELS[cw.element] || cw.element;
 
-  // Current week highlight
-  if (currentEl) {
-    var cw = weekData[currentWeek];
-    currentEl.innerHTML = '<p class="tema__kontekst-label">' + (isMenstrual ? 'Din aktuelle uge' : 'Aktuel m\u00e5nefase') + '</p>' +
-      '<p class="tema__kontekst-value">' + cw.name + '</p>' +
-      '<p class="tema__kontekst-text">' + cw.kvalitet + ' \u00B7 ' + ELEMENT_LABELS[cw.element] + '-element</p>';
+  // 1. Circle SVG
+  circleEl.innerHTML = renderDfuCircleSvg(currentWeek);
+
+  // 2. Position insight box
+  var posEl = document.getElementById('dfu-position');
+  if (posEl) {
+    var seasonName = cw.season.toLowerCase();
+    var posLabel = 'DU ER I UGE ' + currentWeek + ' \u00b7 ' + cw.season.toUpperCase() + ' \u00b7 ' + elLabel.toUpperCase();
+    var posText = isMenstrual
+      ? 'Dag ' + cycleDay + ' i din cyklus. ' + (currentWeek === 1 ? 'Menstruationens indre vinter. Kroppen beder om hvile og varme \u2014 det er ikke dovenskab, det er klogt kropsarbejde.' : currentWeek === 2 ? 'Opbygningens indre for\u00e5r. Energien stiger \u2014 kroppen er klar til at vokse og skabe.' : currentWeek === 3 ? '\u00c6gl\u00f8sningens indre sommer. Kroppen str\u00e5ler \u2014 hjertet er \u00e5bent og energien p\u00e5 toppen.' : 'Lutealfasens indre sensommer. Kroppen sorterer \u2014 giv dig selv ro og n\u00e6ring.')
+      : 'Dag ' + cycleDay + ' i m\u00e5necyklussen. ' + (currentWeek === 1 ? 'Nym\u00e5nens stilhed. Energien er lav og reflekterende \u2014 en tid for nye intentioner.' : currentWeek === 2 ? 'Tiltagende m\u00e5ne. Energien vokser \u2014 en god tid for planer og initiativer.' : currentWeek === 3 ? 'Fuldm\u00e5nens intensitet. Alt er i fuld blomst \u2014 f\u00f8lelser og energi kulminerer.' : 'Aftagende m\u00e5ne. Energien samler sig \u2014 en tid for at slippe og forberede.');
+    posEl.innerHTML = '<div class="mc__ins"><div class="mc__ins-label">' + posLabel + '</div><div class="mc__ins-text">' + posText + '</div></div>';
   }
 
-  // Time perspective: days until next week
-  if (currentEl && isMenstrual) {
-    var daysInWeek = cycleDay <= 7 ? cycleDay : cycleDay <= 14 ? cycleDay - 7 : cycleDay <= 21 ? cycleDay - 14 : cycleDay - 21;
-    var daysLeft = 7 - daysInWeek;
-    if (daysLeft > 0 && daysLeft < 7) {
-      var nextWeekNum = currentWeek < 4 ? currentWeek + 1 : 1;
-      var nextWeekName = weekData[nextWeekNum].name;
-      currentEl.innerHTML += '<p class="tema__kontekst-tid">Om ' + daysLeft + ' dage begynder ' + nextWeekName + '</p>';
-    }
-  }
-
-  // All 4 weeks
+  // 3. Week grid (2x2)
+  var weeksEl = document.getElementById('dfu-weeks');
   if (weeksEl) {
-    var html = '';
+    var html = '<div class="mc__wg">';
     for (var w = 1; w <= 4; w++) {
-      var wk = weekData[w];
+      var wk = shortData[w];
       var isActive = (w === currentWeek);
-      html += '<div class="tema__kort' + (isActive ? ' tema__kort--current' : '') + '">';
-      html += '<div class="tema__kort-content">';
-      html += '<h3 class="tema__kort-title">' + wk.name + '</h3>';
-      if (isMenstrual) {
-        html += '<p class="tema__kort-subtitle">' + wk.dagRange + ' \u00B7 ' + ELEMENT_LABELS[wk.element] + ' \u00B7 ' + wk.kvalitet + '</p>';
-        html += '<p class="livsfase-detail__section-text" style="margin-top:8px">' + wk.bodyText + '</p>';
-        html += '<p class="livsfase-detail__section-text" style="font-style:italic;margin-top:4px">' + wk.feelingsText + '</p>';
-        html += '<div class="fire-uger__recs">';
-        for (var ri = 0; ri < wk.recommendations.length; ri++) {
-          var recText = wk.recommendations[ri];
-          var recOnclick = ri === 0 ? "navigateToYogaWithElement('" + wk.element + "')" : ri === 1 ? "App.loadScreen('samlede-indsigt')" : "App.loadScreen('refleksion')";
-          html += '<div class="fire-uger__rec" onclick="' + recOnclick + '">' + recText + ' \u2192</div>';
-        }
-        html += '</div>';
-      } else {
-        html += '<p class="tema__kort-subtitle">' + ELEMENT_LABELS[wk.element] + ' \u00B7 ' + wk.kvalitet + '</p>';
-        html += '<p class="livsfase-detail__section-text" style="margin-top:8px">' + wk.text + '</p>';
-      }
-      html += '</div></div>';
+      var wElLabel = ELEMENT_LABELS[wk.element] || wk.element;
+      html += '<div class="mc__wc' + (isActive ? ' on' : '') + '">';
+      html += '<div class="mc__wc-n">Uge ' + w + '</div>';
+      html += '<div class="mc__wc-days">Dag ' + ((w - 1) * 7 + 1) + '\u2013' + (w * 7) + '</div>';
+      html += '<div class="mc__wc-s">Indre ' + wk.season.toLowerCase() + '</div>';
+      html += '<div class="mc__wc-el">' + wElLabel.toUpperCase() + '</div>';
+      html += '<div class="mc__wc-tx">' + wk.desc + '</div>';
+      html += '</div>';
     }
-    html += sectionDivider();
-    html += renderActionBar('de-fire-uger');
+    html += '</div>';
     weeksEl.innerHTML = html;
   }
 
-  // Menstruation settings
-  var settingsEl = document.getElementById('fire-uger-settings');
-  if (settingsEl) {
-    var sHtml = '<h3 class="tema__kort-title" style="text-align:center;margin-bottom:12px">Cyklusindstillinger</h3>';
-    sHtml += '<div class="onboarding__choices" style="margin-bottom:16px">';
-    sHtml += '<button class="onboarding__choice' + (isMenstrual ? ' onboarding__choice--active' : ' onboarding__choice--outline') + '" onclick="setMenstruationSetting(true)">Menstruation</button>';
-    sHtml += '<button class="onboarding__choice' + (!isMenstrual ? ' onboarding__choice--active' : ' onboarding__choice--outline') + '" onclick="setMenstruationSetting(false)">M\u00e5necyklus</button>';
-    sHtml += '</div>';
-    if (isMenstrual) {
-      sHtml += '<p class="onboarding__label">Hvorn\u00e5r startede din sidste menstruation?</p>';
-      sHtml += '<input type="date" id="mens-period-date" class="onboarding__input" value="' + (user.lastPeriodDate || '') + '">';
-    }
-    settingsEl.innerHTML = sHtml;
+  // 4. Gradient box — "UGE X — HVAD DU KAN GØRE"
+  var gradEl = document.getElementById('dfu-gradient');
+  if (gradEl) {
+    var gt = DFU_GRADIENT_TEXTS[currentWeek];
+    var html = '<div class="mc__grad">';
+    html += '<div class="mc__grad-label">UGE ' + currentWeek + ' \u2014 HVAD DU KAN G\u00d8RE</div>';
+    html += '<div class="mc__grad-text">' + gt.main + '</div>';
+    html += '<div class="mc__grad-sub">' + gt.sub + '</div>';
+    html += '</div>';
+    gradEl.innerHTML = html;
+  }
 
-    if (isMenstrual) {
-      var pdInput = document.getElementById('mens-period-date');
-      if (pdInput) {
-        pdInput.addEventListener('change', function() {
-          var val = this.value;
-          if (!val) return;
-          var d = new Date(val);
-          if (d > new Date()) return;
-          var u = JSON.parse(localStorage.getItem('user') || '{}');
-          u.lastPeriodDate = val;
-          localStorage.setItem('user', JSON.stringify(u));
-          initDeFireUgerScreen();
-        });
-      }
-    }
+  // 5. Links
+  var linksEl = document.getElementById('dfu-links');
+  if (linksEl) {
+    var html = '<a class="mc__link" href="#" onclick="navigateToYogaWithElement(\'' + cw.element + '\');return false;">Se \u00f8velser tilpasset uge ' + currentWeek + ' \u2192</a>';
+    html += '<a class="mc__link" href="#" onclick="App.loadScreen(\'samlede-indsigt\');return false;">Se kost tilpasset uge ' + currentWeek + ' \u2192</a>';
+    linksEl.innerHTML = html;
+  }
+
+  // 6. "OGSÅ UDEN MENSTRUATION" insight box
+  var udenEl = document.getElementById('dfu-uden');
+  if (udenEl) {
+    udenEl.innerHTML = '<div class="mc__ins"><div class="mc__ins-label">OGS\u00c5 UDEN MENSTRUATION</div><div class="mc__ins-text">Hvis du ikke l\u00e6ngere har en m\u00e5nedlig cyklus, kan du f\u00f8lge m\u00e5nens faser eller \u00e5rstidens rytme i stedet. Kroppen er stadig cyklisk \u2014 rytmen er bare stille nu.</div></div>';
+  }
+
+  // 7. Actions
+  var actEl = document.getElementById('dfu-actions');
+  if (actEl) {
+    actEl.innerHTML = renderActionBar('de-fire-uger');
   }
 }
 
