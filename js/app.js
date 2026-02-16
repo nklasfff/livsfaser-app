@@ -2103,41 +2103,36 @@ function renderIdagTidsvinduetLink() {
   html += '<div class="idag__window-zone">';
   html += '<div class="idag__window-label">RELATIONSVINDUET</div>';
 
-  // SVG figur: Fire blade med DIG i centrum
+  // SVG figur: Fire overlappende cirkler (Venn-form) med DIG i centrum
   html += '<div class="idag__window-fig">';
-  html += '<svg width="280" height="280" xmlns="http://www.w3.org/2000/svg">';
-  // Fire blade (stjerne-form)
-  html += '<ellipse cx="140" cy="50" rx="48" ry="72" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.15)" stroke-width="1" transform="rotate(0,140,140)"/>';
-  html += '<ellipse cx="140" cy="50" rx="48" ry="72" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.13)" stroke-width="1" transform="rotate(90,140,140)"/>';
-  html += '<ellipse cx="140" cy="50" rx="48" ry="72" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.15)" stroke-width="1" transform="rotate(180,140,140)"/>';
-  html += '<ellipse cx="140" cy="50" rx="48" ry="72" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.13)" stroke-width="1" transform="rotate(270,140,140)"/>';
+  html += '<svg width="310" height="320" xmlns="http://www.w3.org/2000/svg">';
+  var sf = "'Cormorant Garamond','Times New Roman',Georgia,serif";
+  // Fire store overlappende cirkler
+  html += '<circle cx="155" cy="95" r="82" fill="rgba(139,125,155,0.07)" stroke="rgba(139,125,155,0.16)" stroke-width="1"/>';
+  html += '<circle cx="82" cy="195" r="82" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.14)" stroke-width="1"/>';
+  html += '<circle cx="228" cy="195" r="82" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.14)" stroke-width="1"/>';
+  html += '<circle cx="155" cy="255" r="82" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.13)" stroke-width="1"/>';
+  // Zone-labels (ydre)
+  html += '<text x="155" y="38" font-family="' + sf + '" font-size="12" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">PARTNER</text>';
+  html += '<text x="155" y="53" font-family="' + sf + '" font-size="10" fill="#8B7D9B" font-style="italic" text-anchor="middle">intimitet \u00B7 valg</text>';
+  html += '<text x="30" y="185" font-family="' + sf + '" font-size="12" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">VENNER</text>';
+  html += '<text x="30" y="200" font-family="' + sf + '" font-size="10" fill="#8B7D9B" font-style="italic" text-anchor="middle">frihed \u00B7 valgt</text>';
+  html += '<text x="280" y="185" font-family="' + sf + '" font-size="12" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">B\u00d8RN</text>';
+  html += '<text x="280" y="200" font-family="' + sf + '" font-size="10" fill="#8B7D9B" font-style="italic" text-anchor="middle">omsorg \u00B7 fremtid</text>';
+  html += '<text x="155" y="305" font-family="' + sf + '" font-size="12" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">FOR\u00c6LDRE</text>';
+  html += '<text x="155" y="318" font-family="' + sf + '" font-size="10" fill="#8B7D9B" font-style="italic" text-anchor="middle">r\u00f8dder \u00B7 arv</text>';
+  // Overlap-tekster (ydre parvise, normal)
+  html += '<text x="100" y="125" font-family="' + sf + '" font-size="9" fill="#8B7D9B" text-anchor="middle">tryghed</text>';
+  html += '<text x="210" y="125" font-family="' + sf + '" font-size="9" fill="#8B7D9B" text-anchor="middle">ansvar</text>';
+  html += '<text x="100" y="245" font-family="' + sf + '" font-size="9" fill="#8B7D9B" text-anchor="middle">\u00e6rlighed</text>';
+  html += '<text x="210" y="245" font-family="' + sf + '" font-size="9" fill="#8B7D9B" text-anchor="middle">tre generationer</text>';
+  // Overlap-tekster (indre parvise, kursiv)
+  html += '<text x="120" y="155" font-family="' + sf + '" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">n\u00e6rv\u00e6r</text>';
+  html += '<text x="190" y="155" font-family="' + sf + '" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">omsorg</text>';
+  html += '<text x="155" y="230" font-family="' + sf + '" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">tilh\u00f8rsforhold</text>';
   // Centrum
-  html += '<circle cx="140" cy="140" r="38" fill="rgba(107,95,123,0.1)" stroke="rgba(139,125,155,0.25)" stroke-width="1"/>';
-  html += '<text x="140" y="136" font-family="\'Cormorant Garamond\',serif" font-size="13" fill="#6B5F7B" font-weight="600" text-anchor="middle">DIG</text>';
-  html += '<text x="140" y="152" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">i alle b\u00e5nd</text>';
-  // Blade-labels
-  html += '<text x="140" y="20" font-family="\'Cormorant Garamond\',serif" font-size="10" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">PARFORHOLDET</text>';
-  html += '<text x="140" y="33" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">intimitet \u00B7 valg</text>';
-  html += '<text x="268" y="138" font-family="\'Cormorant Garamond\',serif" font-size="10" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">B\u00d8RN</text>';
-  html += '<text x="268" y="151" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">omsorg \u00B7 fremtid</text>';
-  html += '<text x="140" y="262" font-family="\'Cormorant Garamond\',serif" font-size="10" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">FOR\u00c6LDRE</text>';
-  html += '<text x="140" y="275" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">r\u00f8dder \u00B7 arv</text>';
-  html += '<text x="14" y="138" font-family="\'Cormorant Garamond\',serif" font-size="10" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">VENNER</text>';
-  html += '<text x="14" y="151" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">frihed \u00B7 valgt</text>';
-  // Krydsfelter (kursiv)
-  html += '<text x="93" y="88" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">k\u00e6rlighed</text>';
-  html += '<text x="93" y="98" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">du v\u00e6lger</text>';
-  html += '<text x="188" y="88" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">at v\u00e6re</text>';
-  html += '<text x="188" y="98" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">for\u00e6ldre</text>';
-  html += '<text x="93" y="192" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">de der</text>';
-  html += '<text x="93" y="202" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">kender dig</text>';
-  html += '<text x="188" y="192" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">tre</text>';
-  html += '<text x="188" y="202" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">generationer</text>';
-  // Indre krydsfelter
-  html += '<text x="140" y="104" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#6B5F7B" font-style="italic" text-anchor="middle">den nye familie</text>';
-  html += '<text x="108" y="144" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#6B5F7B" font-style="italic" text-anchor="middle">modenhed</text>';
-  html += '<text x="172" y="144" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#6B5F7B" font-style="italic" text-anchor="middle">sl\u00e6gten</text>';
-  html += '<text x="140" y="178" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#6B5F7B" font-style="italic" text-anchor="middle">livets vidner</text>';
+  html += '<text x="155" y="178" font-family="' + sf + '" font-size="14" fill="#6B5F7B" font-weight="600" text-anchor="middle">DIG</text>';
+  html += '<text x="155" y="195" font-family="' + sf + '" font-size="10" fill="#8B7D9B" font-style="italic" text-anchor="middle">i alle b\u00e5nd</text>';
   html += '</svg>';
   html += '</div>';
 
