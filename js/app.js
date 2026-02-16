@@ -4402,8 +4402,9 @@ function renderJeresEnergiStatic() {
   var el = document.getElementById('jeres-energi-usebox');
   if (!el) return;
   var html = '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h2 class="rejse__t2">Du kan bruge det til</h2>';
+  html += '<p class="rejse__intr">Tidsrejsen er ikke bare tal og faser \u2014 den er en n\u00f8gle til at forst\u00e5 de mennesker du elsker. V\u00e6lg en dato og se hvad der skete mellem jer, eller hvad der venter forude.</p>';
   html += '<div class="tidsvindue__box--lilla">';
-  html += '<p class="tidsvindue__box-heading">Du kan bruge det til</p>';
   html += '<ul class="tidsvindue__box-list tidsvindue__box-list--lilla">';
 
   // Dynamiske eksempler baseret p\u00e5 brugerens relationer
@@ -5221,8 +5222,9 @@ function initToRytmerScreen() {
     var insightText = generateToRytmerInsight(userPhase, partnerPhase, userAge, partnerAge, partnerName);
     insEl.innerHTML =
       '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>' +
+      '<h2 class="rejse__t2">Hvad forskydningen betyder lige nu</h2>' +
+      '<p class="rejse__intr">Jeres to rytmer m\u00f8des aldrig helt synkront \u2014 og det er meningen. I forskydningen ligger b\u00e5de udfordringen og gaven. Her kan du se hvad det betyder for jer netop nu.</p>' +
       '<div class="rel-insight">' +
-        '<div class="rel-insight__label">Hvad forskydningen betyder lige nu</div>' +
         '<div class="rel-insight__text">' + insightText + '</div>' +
       '</div>';
   }
@@ -5502,8 +5504,9 @@ function initTreGenerationerScreen() {
 
       tidEl.innerHTML =
         '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>' +
+        '<h2 class="rejse__t2">Om ' + futureYears + ' \u00e5r</h2>' +
+        '<p class="rejse__intr">Tiden \u00e6ndrer alt \u2014 ogs\u00e5 rollerne mellem jer. Om ' + futureYears + ' \u00e5r vil I alle tre st\u00e5 i nye faser med ny energi. Her kan du forberede dig p\u00e5 det der kommer.</p>' +
         '<div class="rel-insight">' +
-          '<div class="rel-insight__label">Om ' + futureYears + ' \u00e5r</div>' +
           '<div class="rel-insight__text">' + futureText + '</div>' +
         '</div>' +
         '<div class="rel-soft-link" onclick="navigateToJeresEnergi()">Se jeres tre generationer p\u00e5 en anden dato \u2192</div>';
@@ -6125,6 +6128,8 @@ function initMinRejseScreen() {
   h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // Dagens check-in gradient-boks
+  h += '<h2 class="rejse__t2">Dagens check-in</h2>';
+  h += '<p class="rejse__intr">Et \u00f8jeblik for dig selv. M\u00e6rk efter hvordan din energi f\u00f8les lige nu \u2014 ikke som den burde v\u00e6re, men som den er. Over tid vokser der m\u00f8nstre frem af dine stille observationer.</p>';
   h += '<div class="rejse__checkin" onclick="App.loadScreen(\'min-udvikling\')">';
   h += '<div class="rejse__checkin-label">DAGENS CHECK-IN</div>';
   h += '<div class="rejse__checkin-title">Hvordan f\u00f8les din energi lige nu?</div>';
@@ -6311,8 +6316,9 @@ function initCyklusserICyklusserScreen() {
   // 4. "DET BETYDER" indsigt-boks
   var betyderEl = document.getElementById('cic-det-betyder');
   if (betyderEl) {
-    var bh = '<div class="mc__ins">';
-    bh += '<div class="mc__ins-label">DET BETYDER</div>';
+    var bh = '<h2 class="rejse__t2">Det betyder</h2>';
+    bh += '<p class="rejse__intr">N\u00e5r dine cyklusser taler sammen, skaber de et samlet billede af din energi. Nogle m\u00f8nstre n\u00e6rer dig, andre presser \u2014 og begge dele er v\u00e6rdifulde at forst\u00e5.</p>';
+    bh += '<div class="mc__ins">';
     bh += '<div class="mc__ins-text">' + generateCicDetBetyder(d) + '</div>';
     bh += '</div>';
     betyderEl.innerHTML = bh;
@@ -7184,6 +7190,8 @@ function initMinJournalScreen() {
   h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // M\u00f8nster-indsigt
+  h += '<h2 class="rejse__t2">M\u00f8nster i din journal</h2>';
+  h += '<p class="rejse__intr">N\u00e5r du l\u00e6ser dine refleksioner over tid, tr\u00e6der m\u00f8nstre frem som du ikke kunne se indefra. Ordene ved ofte mere end tanken \u2014 de afsl\u00f8rer hvad kroppen allerede vidste.</p>';
   h += '<div class="rejse__ins">';
   h += '<div class="rejse__ins-label">M\u00d8NSTER I DIN JOURNAL</div>';
   h += '<div class="rejse__ins-text">Du skriver mest om ro og stilhed i vinterm\u00e5nederne. Dine refleksioner om relationer kommer oftest i Jord-perioder. M\u00e5ske er der en forbindelse der.</div>';
@@ -9251,7 +9259,8 @@ function initDeNiLivsfaserScreen() {
   // 9 fase-kort
   var faserEl = document.getElementById('dnl-faser');
   if (faserEl) {
-    var fHtml = '';
+    var fHtml = '<h2 class="rejse__t2">De ni kapitler</h2>';
+    fHtml += '<p class="rejse__intr">Hvert kapitel i livet har sin egen energi, sine egne opgaver og sine egne gaver. Tryk p\u00e5 en fase for at udforske den i dybden \u2014 krop, sind, element og anbefalinger.</p>';
     for (var j = 1; j <= 9; j++) {
       var p = PHASE_DATA[j];
       var isCurrent = (j === userPhase);
@@ -9566,7 +9575,9 @@ function initDeFireUgerScreen() {
   // 6. "OGSÅ UDEN MENSTRUATION" insight box
   var udenEl = document.getElementById('dfu-uden');
   if (udenEl) {
-    udenEl.innerHTML = '<div class="mc__ins"><div class="mc__ins-label">OGS\u00c5 UDEN MENSTRUATION</div><div class="mc__ins-text">Hvis du ikke l\u00e6ngere har en m\u00e5nedlig cyklus, kan du f\u00f8lge m\u00e5nens faser eller \u00e5rstidens rytme i stedet. Kroppen er stadig cyklisk \u2014 rytmen er bare stille nu.</div></div>';
+    udenEl.innerHTML = '<h2 class="rejse__t2">Ogs\u00e5 uden menstruation</h2>' +
+      '<p class="rejse__intr">Din krop er stadig cyklisk, ogs\u00e5 n\u00e5r blødningen er stoppet. M\u00e5nens faser og \u00e5rstidens skift b\u00e6rer de samme kvaliteter \u2014 rytmen er ikke v\u00e6k, den er bare blevet stille.</p>' +
+      '<div class="mc__ins"><div class="mc__ins-text">Hvis du ikke l\u00e6ngere har en m\u00e5nedlig cyklus, kan du f\u00f8lge m\u00e5nens faser eller \u00e5rstidens rytme i stedet. Kroppen er stadig cyklisk \u2014 rytmen er bare stille nu.</div></div>';
   }
 
   // 7. Actions
@@ -9802,7 +9813,8 @@ function initFoelelserScreen() {
 
   // 3. Intro-tekst + nav-kort + crosslink + actionbar
   var html = '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
-  html += '<p class="yin-yoga__intro-text">V\u00e6lg en f\u00f8lelse og se hvilke \u00f8velser, vejrtr\u00e6kninger og refleksioner der kan st\u00f8tte dig.</p>';
+  html += '<h2 class="rejse__t2">Udforsk dine f\u00f8lelser</h2>';
+  html += '<p class="rejse__intr">V\u00e6lg en f\u00f8lelse og se hvilke \u00f8velser, vejrtr\u00e6kninger og refleksioner der kan st\u00f8tte dig. Hver f\u00f8lelse h\u00f8rer til et element \u2014 og n\u00e5r du m\u00f8der den med forst\u00e5else, \u00e5bner der sig en vej.</p>';
 
   html += renderPraksisCard(
     'Frygt & Angst',
