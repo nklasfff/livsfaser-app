@@ -2058,7 +2058,7 @@ function renderIdagTidsvinduetLink() {
   html += '</div>';
 
   // Overskrift + undertekst
-  html += '<h3 class="idag__window-t2">Rejse i tid</h3>';
+  html += '<h3 class="idag__window-t2">Rejser i tid</h3>';
   html += '<p class="idag__window-intr">V\u00e6lg en dato der betyder noget for dig \u2014 og se hvilke cyklusser og elementer der var aktive. Eller kig fremad og forbered dig p\u00e5 det der kommer.</p>';
 
   // Gradient-boks (lavendel)
@@ -2087,7 +2087,7 @@ function renderIdagTidsvinduetLink() {
   html += '</div>';
 
   // Overskrift + undertekst
-  html += '<h3 class="idag__window-t2">Se med nogen</h3>';
+  html += '<h3 class="idag__window-t2">At opleve sammen</h3>';
   html += '<p class="idag__window-intr">V\u00e6lg en person fra dit liv \u2014 og se hvordan jeres cyklusser, elementer og livsfaser m\u00f8des. Forst\u00e6rkning, forskydning, friktion. Og hvad det f\u00f8les som.</p>';
 
   // Gradient-boks (lavendel)
