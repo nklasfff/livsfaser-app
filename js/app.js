@@ -9596,8 +9596,8 @@ function initDeFireUgerScreen() {
   var cw = shortData[currentWeek];
   var elLabel = ELEMENT_LABELS[cw.element] || cw.element;
 
-  // 1. Circle SVG
-  circleEl.innerHTML = renderDfuCircleSvg(currentWeek);
+  // 1. Circle image
+  circleEl.innerHTML = '<img src="assets/images/de-fire-uger.png" alt="De fire ugers cyklus" class="dfu-circle-img">';
 
   // 2. Position insight box
   var posEl = document.getElementById('dfu-position');
