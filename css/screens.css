@@ -3408,6 +3408,44 @@
 }
 
 /* ============================
+   KOST & URTER
+   ============================ */
+
+.kost__card {
+  background: rgba(139,154,157,0.05);
+  border: 1px solid rgba(139,154,157,0.12);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+}
+
+.kost__tag {
+  font-size: 10px;
+  color: #7A9080;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.kost__title {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.kost__desc {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: #666;
+  line-height: 1.55;
+  font-style: italic;
+}
+
+/* ============================
    YIN YOGA SELECTOR
    ============================ */
 

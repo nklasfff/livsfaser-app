@@ -8106,9 +8106,147 @@ var HJULPET_DATA = {
   }
 };
 
-// Stub — implementeres i Side 5
+// ---- Kost & Urter Data ----
+
+var KOST_URTER_DATA = {
+  'VAND': {
+    indsigt: 'Vand-elementet kalder p\u00e5 varme, n\u00e6rende mad. Maden skal varme indefra \u2014 sort og m\u00f8rk mad n\u00e6rer nyrerne, moderat salt smag st\u00f8tter, og krydderier som ingef\u00e6r og kanel giver den varme kroppen har brug for.',
+    spisMere: [
+      { trad: 'TCM \u00B7 Vand', title: 'Sort sesam & valn\u00f8dder', desc: 'N\u00e6rer nyreessensen og styrker livskraften. Dryp sort sesam over morgenmaden.' },
+      { trad: 'TCM \u00B7 Vand', title: 'Misosuppe', desc: 'Varm, salt og n\u00e6rende for nyrerne. Fermenteret soja st\u00f8tter ford\u00f8jelsen.' },
+      { trad: 'Ayurveda', title: 'Ingef\u00e6rte med honning', desc: 'Varmer nyreessensen og starter ford\u00f8jelsen. Godt om morgenen og efter m\u00e5ltider.' },
+      { trad: 'TCM \u00B7 Vand', title: 'Tang og alger', desc: 'Salt smag der n\u00e6rer vand-elementets dybde. Brug dem i supper eller som tilbeh\u00f8r.' }
+    ],
+    urter: [
+      { trad: 'TCM', title: 'Goji-b\u00e6r', desc: 'Nyren\u00e6rende b\u00e6r brugt i tusindvis af \u00e5r. Spis dem som snack eller i te.' },
+      { trad: 'Ayurveda \u00B7 TCM', title: 'Reishi-svamp', desc: 'St\u00f8tter ro og immunforsvar. Kan tages som te eller pulver.' },
+      { trad: 'TCM', title: 'Ginseng & Astragalus', desc: 'St\u00f8tter den grundl\u00e6ggende energi. Brug dem i supper eller som te.' }
+    ],
+    spisMindre: 'Kold, r\u00e5 mad er sv\u00e6r at ford\u00f8je og k\u00f8ler systemet. For meget salt belaster nyrerne. Koffein og alkohol t\u00e6rer p\u00e5 nyre-energien og forstyrrer s\u00f8vnen.'
+  },
+  'TR\u00C6': {
+    indsigt: 'Tr\u00e6-elementet har brug for let, fri energi i maden. Den sure smag stimulerer leveren \u2014 gr\u00f8nne bladgr\u00f8ntsager, spirende f\u00f8devarer og friske urter st\u00f8tter leverens naturlige rensning.',
+    spisMere: [
+      { trad: 'TCM \u00B7 Tr\u00e6', title: 'Gr\u00f8nne bladgr\u00f8ntsager', desc: 'Spinat, gr\u00f8nk\u00e5l, rucola \u2014 st\u00f8tter leverens rensning og frig\u00f8r stagneret energi.' },
+      { trad: 'TCM \u00B7 Tr\u00e6', title: 'Citron i varmt vand', desc: 'Den sure smag stimulerer leveren og galdebl\u00e6ren. Drik det om morgenen.' },
+      { trad: 'Ayurveda', title: 'M\u00e6lkeb\u00f8ttete', desc: 'Klassisk leverurt der renser og styrker. Drik den som te efter m\u00e5ltider.' },
+      { trad: 'TCM \u00B7 Tr\u00e6', title: 'Spirer og kimchi', desc: 'Fermenteret mad st\u00f8tter leverens arbejde og ford\u00f8jelsen.' }
+    ],
+    urter: [
+      { trad: 'TCM', title: 'Marietidsel', desc: 'En af de st\u00e6rkeste leverurter. St\u00f8tter regeneration af leverceller.' },
+      { trad: 'Ayurveda', title: 'Gurkemeje', desc: 'Antiinflammatorisk og leverbeskyttende. Tag den med sort peber.' },
+      { trad: 'TCM', title: 'Chrysanthemum-te', desc: 'K\u00f8ler leverhede og lindrer \u00f8jentr\u00e6thed. Perfekt om aftenen.' }
+    ],
+    spisMindre: 'Fed, friteret mad belaster leveren. Alkohol er leverens st\u00f8rste fjende. For meget kaffe skaber leverhede og \u00f8ger irritabilitet.'
+  },
+  'ILD': {
+    indsigt: 'Ild-elementet har brug for k\u00f8lende, n\u00e6rende mad. Den bitre smag st\u00f8tter hjertet \u2014 r\u00f8de b\u00e6r, r\u00e5 kakao og k\u00f8lende urter bringer ro til et overaktivt ildelement.',
+    spisMere: [
+      { trad: 'TCM \u00B7 Ild', title: 'R\u00f8de b\u00e6r (hindb\u00e6r, jordb\u00e6r)', desc: 'N\u00e6rer hjertet og blodet. Den bitre smag st\u00f8tter ilden.' },
+      { trad: 'TCM \u00B7 Ild', title: 'Kakao (ren)', desc: 'Hjertemedicin i naturlig form. \u00c5bner og varmer. Brug den ren.' },
+      { trad: 'Ayurveda', title: 'Hibiscuste', desc: 'K\u00f8lende og hjertestyrkende. Perfekt n\u00e5r ilden er intens.' },
+      { trad: 'TCM \u00B7 Ild', title: 'Granat\u00e6ble', desc: 'Forbundet med hjertet i mange traditioner. Antioxidantrig.' }
+    ],
+    urter: [
+      { trad: 'TCM', title: 'Lotus-fr\u00f8', desc: 'Beroligende for hjertet og sindet. Bruges i supper og te.' },
+      { trad: 'Ayurveda', title: 'Brahmi', desc: 'K\u00f8ler sindet og st\u00f8tter hjertet. God til meditation.' },
+      { trad: 'TCM', title: 'Longan-b\u00e6r', desc: 'N\u00e6rer hjerteblod og bringer s\u00f8vn. Spis dem som snack.' }
+    ],
+    spisMindre: 'Stærkt krydret mad \u00f8ger ilden yderligere. Koffein overbelaster hjertet. Alkohol og sukker forstyrrer hjertets ro og skaber uro.'
+  },
+  'JORD': {
+    indsigt: 'Jord-elementet har brug for varm, bl\u00f8d, n\u00e6rende mad. Den s\u00f8de smag st\u00f8tter milten \u2014 rodfrugter, supper og langsomt kogt mad giver den grounding kroppen s\u00f8ger.',
+    spisMere: [
+      { trad: 'TCM \u00B7 Jord', title: 'S\u00f8de rodfrugter', desc: 'S\u00f8de kartofler, guler\u00f8dder \u2014 den s\u00f8de smag n\u00e6rer milten og maven.' },
+      { trad: 'TCM \u00B7 Jord', title: 'Havregr\u00f8d', desc: 'Varm, bl\u00f8d, n\u00e6rende \u2014 perfekt jordmad om morgenen.' },
+      { trad: 'Ayurveda', title: 'Kamillete', desc: 'Beroligende for maven og nervesystemet. Drik den f\u00f8r sengetid.' },
+      { trad: 'TCM \u00B7 Jord', title: 'Supper og gryderetter', desc: 'Langsomt kogt mad n\u00e6rer jordelementet dybt.' }
+    ],
+    urter: [
+      { trad: 'TCM', title: 'Lakridsrod', desc: 'Harmoniserer maven og miltens energi. Bruges i mange kinesiske formler.' },
+      { trad: 'Ayurveda', title: 'Ashwagandha', desc: 'Grounding-urt der st\u00f8tter binyrer og giver ro.' },
+      { trad: 'TCM', title: 'J\u00f6jusube (r\u00f8de dadler)', desc: 'N\u00e6rer blodet og milten. Brug dem i te eller supper.' }
+    ],
+    spisMindre: 'For meget r\u00e5 og kold mad sv\u00e6kker milten. Raffineret sukker giver kort energi men t\u00f8mmer milten. Mejeriprodukter kan skabe fugt og slimdannelse.'
+  },
+  'METAL': {
+    indsigt: 'Metal-elementet har brug for fugtende, n\u00e6rende mad. Den skarpe smag st\u00f8tter lungerne \u2014 p\u00e6rer, ris og hvide f\u00f8devarer bringer klarhed og fugter de t\u00f8rre slimhinder.',
+    spisMere: [
+      { trad: 'TCM \u00B7 Metal', title: 'P\u00e6rer', desc: 'Den klassiske lungefrugt i kinesisk medicin. Fugter og n\u00e6rer.' },
+      { trad: 'TCM \u00B7 Metal', title: 'Ris (hvid eller jasmin)', desc: 'Den hvide energi st\u00f8tter metalelementet. N\u00e6rende og let.' },
+      { trad: 'Ayurveda', title: 'Timian- og salvite', desc: 'Urter der st\u00f8tter lungerne og \u00e5ndedr\u00e6tsystemet.' },
+      { trad: 'TCM \u00B7 Metal', title: 'Hvid r\u00e6ddike (daikon)', desc: 'Renser lungerne og tyktarmen. Skarp smag st\u00f8tter metal.' }
+    ],
+    urter: [
+      { trad: 'TCM', title: 'Astragalus', desc: 'St\u00f8tter lungerne og immunforsvaret. Bruges i supper og te.' },
+      { trad: 'Ayurveda', title: 'Tulsi (hellig basilikum)', desc: '\u00c5bner lungerne og st\u00f8tter \u00e5ndedr\u00e6ttet. Drik som te.' },
+      { trad: 'TCM', title: 'Hvid svampe (tremella)', desc: 'Fugter lungerne og huden. Bruges i kinesiske desserter.' }
+    ],
+    spisMindre: 'For meget t\u00f8r, stegt mad t\u00f8rrer lungerne ud. Mejeriprodukter kan skabe slim. For meget krydret mad sv\u00e6kker lungernes yin-energi.'
+  }
+};
+
 function initKostUrterScreen() {
-  // TODO: Byg Kost & Urter screen
+  var indsigtEl = document.getElementById('kost-urter-indsigt');
+  var contentEl = document.getElementById('kost-urter-content');
+  if (!contentEl) return;
+
+  ensureIdagData();
+  var elements = window._activeElements || [];
+  var insight = generateInsight(elements);
+  var primaryEl = insight.dominantElement;
+
+  var data = KOST_URTER_DATA[primaryEl] || KOST_URTER_DATA['VAND'];
+
+  // 1. Indsigt-boks
+  if (indsigtEl) {
+    indsigtEl.innerHTML =
+      '<div class="praksis__indsigt">' +
+      '<div class="praksis__indsigt-label">Dit element lige nu: ' + ELEMENT_LABELS[primaryEl] + '</div>' +
+      '<div class="praksis__indsigt-text">' + data.indsigt + '</div>' +
+      '</div>';
+  }
+
+  // 2. Content
+  var html = '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // Spis mere af
+  html += '<h3 class="praksis__section-title">Spis mere af</h3>';
+  html += '<div style="height:12px"></div>';
+  for (var i = 0; i < data.spisMere.length; i++) {
+    var f = data.spisMere[i];
+    html += '<div class="kost__card">';
+    html += '<div class="kost__tag">' + f.trad + '</div>';
+    html += '<h3 class="kost__title">' + f.title + '</h3>';
+    html += '<p class="kost__desc">' + f.desc + '</p>';
+    html += '</div>';
+  }
+
+  // Urter til fasen
+  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h3 class="praksis__section-title">Urter til fasen</h3>';
+  html += '<div style="height:12px"></div>';
+  for (var u = 0; u < data.urter.length; u++) {
+    var ur = data.urter[u];
+    html += '<div class="kost__card">';
+    html += '<div class="kost__tag">' + ur.trad + '</div>';
+    html += '<h3 class="kost__title">' + ur.title + '</h3>';
+    html += '<p class="kost__desc">' + ur.desc + '</p>';
+    html += '</div>';
+  }
+
+  // Spis mindre af
+  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<div class="praksis__indsigt">';
+  html += '<div class="praksis__indsigt-label">Spis mindre af</div>';
+  html += '<div class="praksis__indsigt-text">' + data.spisMindre + '</div>';
+  html += '</div>';
+
+  // Crosslink + actionbar
+  html += '<div class="praksis__crosslink" onclick="App.loadScreen(\'din-energi\')">Se kostvejledning til en anden dato \u2192</div>';
+  html += renderActionBar('kost-urter');
+
+  contentEl.innerHTML = html;
 }
 
 function initHvadHarHjulpetScreen() {
