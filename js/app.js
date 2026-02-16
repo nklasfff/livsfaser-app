@@ -2037,45 +2037,22 @@ function renderIdagTidsvinduetLink() {
   html += '<div class="idag__window-zone">';
   html += '<div class="idag__window-label">TIDSVINDUET</div>';
 
-  // SVG figur: Ni faser i bue + tidslinje
+  // Billede: Ni livsfaser i bue
   html += '<div class="idag__window-fig">';
-  html += '<svg width="310" height="190" xmlns="http://www.w3.org/2000/svg">';
-  // Ni faser i bue
-  html += '<circle cx="28" cy="88" r="14" fill="rgba(139,125,155,0.08)" stroke="rgba(139,125,155,0.18)" stroke-width="1"/>';
-  html += '<circle cx="62" cy="62" r="14" fill="rgba(139,125,155,0.09)" stroke="rgba(139,125,155,0.2)" stroke-width="1"/>';
-  html += '<circle cx="100" cy="44" r="14" fill="rgba(139,125,155,0.1)" stroke="rgba(139,125,155,0.22)" stroke-width="1"/>';
-  html += '<circle cx="140" cy="34" r="14" fill="rgba(139,125,155,0.11)" stroke="rgba(139,125,155,0.24)" stroke-width="1"/>';
-  html += '<circle cx="180" cy="34" r="14" fill="rgba(139,125,155,0.11)" stroke="rgba(139,125,155,0.24)" stroke-width="1"/>';
-  html += '<circle cx="218" cy="44" r="14" fill="rgba(139,125,155,0.1)" stroke="rgba(139,125,155,0.22)" stroke-width="1"/>';
-  html += '<circle cx="252" cy="62" r="14" fill="rgba(139,125,155,0.09)" stroke="rgba(139,125,155,0.2)" stroke-width="1"/>';
-  html += '<circle cx="278" cy="88" r="14" fill="rgba(139,125,155,0.08)" stroke="rgba(139,125,155,0.18)" stroke-width="1"/>';
-  // Fase 9 \u2014 aktiv (dynamisk baseret p\u00e5 brugerens fase)
-  var userPhase = window._idagData ? window._idagData.lifePhase.phase : 9;
-  var phasePositions = [
-    {cx:28,cy:88},{cx:62,cy:62},{cx:100,cy:44},{cx:140,cy:34},{cx:180,cy:34},
-    {cx:218,cy:44},{cx:252,cy:62},{cx:278,cy:88},{cx:295,cy:116}
-  ];
-  // Tegn aktiv cirkel st\u00f8rre
-  var activePos = phasePositions[Math.min(userPhase - 1, 8)];
-  html += '<circle cx="' + activePos.cx + '" cy="' + activePos.cy + '" r="16" fill="rgba(107,95,123,0.15)" stroke="#6B5F7B" stroke-width="1.5"/>';
-  // Numre
-  var phaseCoords = [{x:28,y:92},{x:62,y:66},{x:100,y:48},{x:140,y:38},{x:180,y:38},{x:218,y:48},{x:252,y:66},{x:278,y:92},{x:295,y:120}];
-  for (var pi = 0; pi < 9; pi++) {
-    var pc = phaseCoords[pi];
-    var isActive = (pi === Math.min(userPhase - 1, 8));
-    html += '<text x="' + pc.x + '" y="' + pc.y + '" font-family="\'Cormorant Garamond\',serif" font-size="11" fill="' + (isActive ? '#6B5F7B' : '#8B7D9B') + '"' + (isActive ? ' font-weight="600"' : '') + ' text-anchor="middle">' + (pi + 1) + '</text>';
-  }
+  html += '<img src="assets/images/livsfaser_bue_forside.png" alt="De 9 livsfaser i bue" class="idag__window-img idag__window-img--bue">';
+  html += '</div>';
   // Tidslinje under buen
-  html += '<line x1="40" y1="150" x2="270" y2="150" stroke="rgba(139,125,155,0.2)" stroke-width="1"/>';
-  html += '<circle cx="80" cy="150" r="4" fill="rgba(139,125,155,0.2)"/>';
-  html += '<circle cx="155" cy="150" r="5" fill="#6B5F7B"/>';
-  html += '<circle cx="230" cy="150" r="4" fill="rgba(139,125,155,0.2)" stroke="rgba(139,125,155,0.3)" stroke-width="1" stroke-dasharray="2,2"/>';
-  html += '<text x="80" y="168" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">fortid</text>';
-  html += '<text x="155" y="168" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#6B5F7B" font-weight="600" text-anchor="middle">nu</text>';
-  html += '<text x="230" y="168" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">fremtid</text>';
-  // Pile
-  html += '<path d="M 45 150 L 35 146 M 45 150 L 35 154" stroke="rgba(139,125,155,0.3)" stroke-width="1" fill="none"/>';
-  html += '<path d="M 265 150 L 275 146 M 265 150 L 275 154" stroke="rgba(139,125,155,0.3)" stroke-width="1" fill="none"/>';
+  html += '<div class="idag__window-fig">';
+  html += '<svg width="310" height="36" xmlns="http://www.w3.org/2000/svg">';
+  html += '<line x1="40" y1="14" x2="270" y2="14" stroke="rgba(139,125,155,0.2)" stroke-width="1"/>';
+  html += '<circle cx="80" cy="14" r="4" fill="rgba(139,125,155,0.2)"/>';
+  html += '<circle cx="155" cy="14" r="5" fill="#6B5F7B"/>';
+  html += '<circle cx="230" cy="14" r="4" fill="rgba(139,125,155,0.2)" stroke="rgba(139,125,155,0.3)" stroke-width="1" stroke-dasharray="2,2"/>';
+  html += '<text x="80" y="32" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">fortid</text>';
+  html += '<text x="155" y="32" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#6B5F7B" font-weight="600" text-anchor="middle">nu</text>';
+  html += '<text x="230" y="32" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">fremtid</text>';
+  html += '<path d="M 45 14 L 35 10 M 45 14 L 35 18" stroke="rgba(139,125,155,0.3)" stroke-width="1" fill="none"/>';
+  html += '<path d="M 265 14 L 275 10 M 265 14 L 275 18" stroke="rgba(139,125,155,0.3)" stroke-width="1" fill="none"/>';
   html += '</svg>';
   html += '</div>';
 

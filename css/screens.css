@@ -432,6 +432,10 @@
   max-width: 310px;
   height: auto;
 }
+.idag__window-img--bue {
+  max-width: 340px;
+  margin-bottom: -12px;
+}
 .idag__window-t2 {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 22px;
