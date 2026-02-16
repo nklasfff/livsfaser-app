@@ -3357,39 +3357,54 @@
    REFLEKSION
    ============================ */
 
-.refleksion__question-card {
-  background: var(--bg-card);
-  border-radius: var(--radius-md);
-  padding: var(--space-lg);
-  margin-bottom: var(--space-md);
-  box-shadow: var(--shadow-card);
-}
-
 .refleksion__question {
-  font-family: var(--font-serif);
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
   font-style: italic;
-  font-size: var(--text-body);
-  color: var(--morkebla);
-  line-height: var(--line-relaxed);
-  margin-bottom: var(--space-md);
+  font-family: var(--font-serif);
+  line-height: 1.55;
+  margin-bottom: 10px;
+  padding: 16px 18px;
+  background: rgba(139,154,157,0.05);
+  border: 1px solid rgba(139,154,157,0.10);
+  border-radius: 14px;
 }
 
-.refleksion__notes {
+.refleksion__input {
   width: 100%;
   min-height: 60px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: var(--space-sm) var(--space-md);
-  font-family: var(--font-sans);
-  font-size: var(--text-small);
-  color: var(--text-primary);
+  border: 1px solid rgba(139,154,157,0.18);
+  border-radius: 10px;
+  padding: 12px;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 16px;
+  background: white;
   resize: vertical;
   box-sizing: border-box;
 }
 
-.refleksion__notes:focus {
+.refleksion__input:focus {
   outline: none;
-  border-color: var(--blaa);
+  border-color: rgba(139,154,157,0.40);
+}
+
+.refleksion__btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #7A9080, #6B8273);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-family: var(--font-serif);
+  font-size: 15px;
+  text-align: center;
+  margin-top: 20px;
+  font-style: italic;
+  cursor: pointer;
 }
 
 /* ============================

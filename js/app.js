@@ -7685,20 +7685,20 @@ function setMenstruationSetting(tracks) {
 // ---- Feature: Refleksion ----
 
 function initRefleksionScreen() {
-  var vennEl = document.getElementById('refleksion-venn');
+  var figurEl = document.getElementById('refleksion-figur');
   var contentEl = document.getElementById('refleksion-content');
   if (!contentEl) return;
 
-  // Venn diagram
-  if (vennEl) {
-    vennEl.innerHTML = renderVennTwo({
+  // VennTwo figur
+  if (figurEl) {
+    figurEl.innerHTML = '<div class="praksis__figur">' + renderVennTwo({
       leftTitle: 'SP\u00d8RGSM\u00c5LET',
       leftLines: ['Hvad b\u00e6rer du', 'lige nu?'],
       rightTitle: 'STILHEDEN',
       rightLines: ['Lad svaret komme.', 'Det beh\u00f8ver ikke ord.'],
       overlapTitle: 'INDSIGTEN',
       overlapLines: ['*Refleksion er en gave', '*du giver dig selv']
-    });
+    }) + '</div>';
   }
 
   var userData = JSON.parse(localStorage.getItem('user') || '{}');
@@ -7706,12 +7706,12 @@ function initRefleksionScreen() {
   var questions = REFLEKSION_DATA[phase] || REFLEKSION_DATA[5];
   var savedReflections = JSON.parse(localStorage.getItem('livsfaser_reflections') || '[]');
 
-  var html = '<h3 class="livsfase-detail__section-title" style="margin-top:24px">Refleksioner for Fase ' + phase + ': ' + (PHASE_DATA[phase] ? PHASE_DATA[phase].name : '') + '</h3>';
-  html += '<p class="livsfase-detail__section-subtitle">Spørgsmål til stilhed og selvindsigt</p>';
+  var html = '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h3 class="praksis__section-title">Refleksioner for Fase ' + phase + ': ' + (PHASE_DATA[phase] ? PHASE_DATA[phase].name : '') + '</h3>';
+  html += '<p class="praksis__section-intro">Sp\u00f8rgsm\u00e5l til stilhed og selvindsigt</p>';
 
   for (var i = 0; i < questions.length; i++) {
     var qId = 'refleksion-' + phase + '-' + i;
-    // Check if there's a saved note for this question
     var existing = '';
     for (var s = savedReflections.length - 1; s >= 0; s--) {
       if (savedReflections[s].phase === phase && savedReflections[s].questionIndex === i) {
@@ -7719,18 +7719,14 @@ function initRefleksionScreen() {
         break;
       }
     }
-    html += '<div class="refleksion__question-card">';
-    html += '<p class="refleksion__question">' + questions[i] + '</p>';
-    html += '<textarea class="refleksion__notes" id="' + qId + '" placeholder="Skriv hvad du vil huske\u2026">' + escapeHtml(existing) + '</textarea>';
-    html += '</div>';
+    html += '<div class="refleksion__question">' + questions[i] + '</div>';
+    html += '<textarea class="refleksion__input" id="' + qId + '" placeholder="Skriv hvad du vil huske\u2026">' + escapeHtml(existing) + '</textarea>';
   }
 
-  html += '<button class="onboarding__btn" style="margin-top:16px" onclick="saveRefleksion()">Gem refleksion</button>';
-  html += '<div class="tidsvindue__crosslink" onclick="App.loadScreen(\'din-energi\')">';
-  html += '<span class="tidsvindue__crosslink-text">Se hvilke refleksioner der passer til dig p\u00e5 en anden dag \u2192</span>';
-  html += '</div>';
-  html += sectionDivider();
+  html += '<button class="refleksion__btn" onclick="saveRefleksion()">Gem refleksion</button>';
+  html += '<div class="praksis__crosslink" onclick="App.loadScreen(\'din-energi\')">Se hvilke refleksioner der passer til dig p\u00e5 en anden dag \u2192</div>';
   html += renderActionBar('refleksion');
+
   contentEl.innerHTML = html;
 }
 
