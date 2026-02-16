@@ -4430,7 +4430,265 @@
   cursor: pointer;
 }
 
-/* Min Udvikling (praksis/grøn) */
+/* =========================================
+   MIN UDVIKLING — lavendel (rejse__udv-)
+   ========================================= */
+
+/* Chips / tidsfilter */
+.rejse__chips {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.rejse__chip {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  border: 1px solid rgba(139, 125, 155, 0.2);
+  color: #777;
+  background: transparent;
+  cursor: pointer;
+}
+
+.rejse__chip--active {
+  background: #6B5F7B;
+  color: white;
+  border-color: #6B5F7B;
+}
+
+/* Stats 4-grid */
+.rejse__stats {
+  display: flex;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.rejse__stat {
+  flex: 1;
+  background: rgba(139, 125, 155, 0.05);
+  border: 1px solid rgba(139, 125, 155, 0.12);
+  border-radius: 14px;
+  padding: 14px 10px;
+  text-align: center;
+}
+
+.rejse__stat-num {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 24px;
+  color: #6B5F7B;
+}
+
+.rejse__stat-label {
+  font-size: 11px;
+  color: #999;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  margin-top: 4px;
+}
+
+/* Chart-boks */
+.rejse__chart {
+  background: rgba(139, 125, 155, 0.05);
+  border: 1px solid rgba(139, 125, 155, 0.12);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+}
+
+.rejse__chart-title {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 16px;
+  color: #6B5F7B;
+  font-style: italic;
+  margin-bottom: 12px;
+}
+
+/* Bjælkegraf */
+.rejse__bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: 70px;
+  margin-bottom: 10px;
+}
+
+.rejse__bar {
+  flex: 1;
+  background: #c4b8d6;
+  border-radius: 3px 3px 0 0;
+  opacity: 0.55;
+  min-height: 4px;
+}
+
+.rejse__bar--hi {
+  opacity: 1;
+  background: #6B5F7B;
+}
+
+.rejse__chart-note {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 13px;
+  color: #999;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* Elementbalance rækker */
+.rejse__el-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.rejse__el-row:last-child {
+  margin-bottom: 0;
+}
+
+.rejse__el-name {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 14px;
+  color: #555;
+  min-width: 40px;
+}
+
+.rejse__el-track {
+  flex: 1;
+  height: 12px;
+  background: rgba(139, 125, 155, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.rejse__el-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.4s ease;
+}
+
+.rejse__el-pct {
+  font-size: 12px;
+  color: #999;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  min-width: 30px;
+  text-align: right;
+}
+
+/* Forslag nav-kort med label */
+.rejse__nc-label {
+  font-size: 10px;
+  color: #8B7D9B;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+}
+
+/* Check-in gradient-boks med energivalg */
+.rejse__energy-chips {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.rejse__energy-chip {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.rejse__energy-chip--selected {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+/* Skrivefelt */
+.rejse__textarea-wrap {
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px dashed rgba(139, 125, 155, 0.25);
+  border-radius: 12px;
+  padding: 0;
+  margin: 14px 0;
+}
+
+.rejse__textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 18px;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 14px;
+  font-style: italic;
+  color: #444;
+  border: none;
+  background: transparent;
+  resize: vertical;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.rejse__textarea:focus {
+  outline: none;
+}
+
+.rejse__textarea::placeholder {
+  color: #bbb;
+}
+
+/* Gem-knap */
+.rejse__btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #6B5F7B, #8B7D9B);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 16px;
+  font-style: italic;
+  text-align: center;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.rejse__btn:active {
+  opacity: 0.85;
+}
+
+/* Del/Kopiér/Gem */
+.rejse__acts {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  padding: 14px 0;
+  border-top: 1px solid #eee;
+  margin-top: 24px;
+}
+
+.rejse__act {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #aaa;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Min Udvikling (praksis/grøn) — legacy */
 .screen--tracking .livsfase-detail__rec-card {
   background: rgba(139, 154, 157, 0.07);
   border: 1px solid rgba(139, 154, 157, 0.15);

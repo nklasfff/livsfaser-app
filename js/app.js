@@ -5866,7 +5866,7 @@ function ensureIdagData() {
 // ---- Tracking: Min Udvikling ----
 
 var TrackingState = {
-  period: '7d',   // 7d | 30d | 90d | all
+  period: '30d',   // 7d | 30d | 90d | all
   checkinMood: null,
   checkinTags: [],
   checkinNote: ''
@@ -5915,40 +5915,360 @@ function getCheckinsForPeriod(period) {
 }
 
 function initMinUdviklingScreen() {
+  var el = document.getElementById('min-udvikling-content');
+  if (!el) return;
+
   ensureIdagData();
+  var checkins = getCheckins();
+  var checkinsPeriod = getCheckinsForPeriod(TrackingState.period);
+  var reflections = [];
+  try { reflections = JSON.parse(localStorage.getItem('livsfaser_reflections') || '[]'); } catch(e) {}
 
-  // Venn diagram: KROP / FØLELSER / CYKLUSSER
-  var vennEl = document.getElementById('min-udvikling-venn');
-  if (vennEl) {
-    var checkins = getCheckins();
-    var moodLabel = checkins.length > 0 && checkins[0].mood ? checkins[0].mood : 'Endnu ingen';
-    vennEl.innerHTML = renderVennThree({
-      topTitle: 'KROP',
-      topLines: ['Energi \u00B7 Aktivitet'],
-      bottomLeftTitle: 'F\u00d8LELSER',
-      bottomLeftLines: [moodLabel],
-      bottomRightTitle: 'CYKLUSSER',
-      bottomRightLines: ['Element \u00B7 Fase'],
-      overlapAB: 'indre klima',
-      overlapAC: 'rytme',
-      overlapBC: 'm\u00f8nstre',
-      centerTitle: 'DIN',
-      centerLines: ['UDVIKLING']
-    });
+  // Dominant element
+  var insight = generateInsight(window._activeElements || []);
+  var domEl = insight.dominantElement;
+  var elLabel = ELEMENT_LABELS[domEl];
+
+  // ---- Build HTML ----
+  var h = '';
+  h += '<h1 class="rejse__t1">Min udvikling</h1>';
+  h += '<p class="rejse__intr">Se m\u00f8nstre i din energi, dine \u00f8velser og dine f\u00f8lelser over tid</p>';
+
+  // Tidsfilter chips
+  var periods = [
+    { id: '7d', label: '7 dage' },
+    { id: '30d', label: '30 dage' },
+    { id: '90d', label: '3 mdr.' },
+    { id: 'all', label: 'Alle' }
+  ];
+  h += '<div class="rejse__chips">';
+  for (var pi = 0; pi < periods.length; pi++) {
+    var p = periods[pi];
+    var active = p.id === TrackingState.period ? ' rejse__chip--active' : '';
+    h += '<button class="rejse__chip' + active + '" onclick="udvSetPeriod(\'' + p.id + '\')">' + p.label + '</button>';
   }
+  h += '</div>';
 
-  renderTrackingPeriod();
-  renderTrackingContent();
-  renderTrackingRecommendations();
-  renderCheckinForm();
-  renderTimeline();
+  // DINE MØNSTRE indsigt-boks
+  h += '<div class="rejse__ins">';
+  h += '<div class="rejse__ins-label">DINE M\u00d8NSTRE</div>';
+  h += '<div class="rejse__ins-text">' + udvBuildPatternText(checkinsPeriod, domEl) + '</div>';
+  h += '</div>';
 
-  // Action bar
-  var screenEl = document.querySelector('.screen--tracking');
-  if (screenEl) {
-    screenEl.insertAdjacentHTML('beforeend', sectionDivider() + renderActionBar('min-udvikling'));
-  }
+  // Stats
+  var totalCheckins = checkinsPeriod.length;
+  var totalRefl = reflections.length;
+  var uniqueElements = udvCountUniqueElements(checkinsPeriod);
+  var avgTags = udvAvgTags(checkinsPeriod);
+
+  h += '<div class="rejse__stats">';
+  h += '<div class="rejse__stat"><div class="rejse__stat-num">' + totalCheckins + '</div><div class="rejse__stat-label">Check-ins</div></div>';
+  h += '<div class="rejse__stat"><div class="rejse__stat-num">' + totalRefl + '</div><div class="rejse__stat-label">Refleksioner</div></div>';
+  h += '<div class="rejse__stat"><div class="rejse__stat-num">' + uniqueElements + '/5</div><div class="rejse__stat-label">Elementer m\u00e6rket</div></div>';
+  h += '<div class="rejse__stat"><div class="rejse__stat-num">' + avgTags + '</div><div class="rejse__stat-label">Gns. aktiviteter</div></div>';
+  h += '</div>';
+
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // Energi over tid
+  h += '<h2 class="rejse__t2">Energi over tid</h2>';
+  h += '<p class="rejse__intr">Hvordan din energi har bev\u00e6get sig</p>';
+  h += udvBuildEnergyBars(checkinsPeriod);
+
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // Elementbalance
+  h += '<h2 class="rejse__t2">Elementbalance</h2>';
+  h += '<p class="rejse__intr">Fordelingen af elementer i dine check-ins</p>';
+  h += udvBuildElementBalance(checkinsPeriod);
+
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // Forslag til dig lige nu
+  h += '<h2 class="rejse__t2">Forslag til dig lige nu</h2>';
+  h += '<p class="rejse__intr">\u00d8velser og n\u00e6ring tilpasset din energi</p>';
+  h += udvBuildRecommendations(domEl);
+
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // Dagens check-in
+  h += '<h2 class="rejse__t2">Dagens check-in</h2>';
+  h += '<p class="rejse__intr">M\u00e6rk efter og registr\u00e9r hvor du er lige nu</p>';
+  h += udvBuildCheckinForm(checkins);
+
+  // Del/Kopiér/Gem
+  h += '<div class="rejse__acts">';
+  h += '<button class="rejse__act" onclick="actionShare()">Del</button>';
+  h += '<button class="rejse__act" onclick="actionCopyLink()">Kopi\u00e9r</button>';
+  h += '<button class="rejse__act" onclick="actionToggleSave(\'min-udvikling\')">Gem</button>';
+  h += '</div>';
+
+  el.innerHTML = h;
 }
+
+// ---- Min Udvikling hjælpefunktioner ----
+
+function udvSetPeriod(period) {
+  TrackingState.period = period;
+  initMinUdviklingScreen();
+}
+window.udvSetPeriod = udvSetPeriod;
+
+function udvBuildPatternText(checkins, domEl) {
+  if (checkins.length < 3) {
+    return 'Registr\u00e9r mindst tre check-ins, s\u00e5 begynder m\u00f8nstrene at vise sig. Din krop ved allerede \u2014 ord beh\u00f8ver tid.';
+  }
+  var moodCounts = {};
+  var tagCounts = {};
+  for (var i = 0; i < checkins.length; i++) {
+    var c = checkins[i];
+    if (c.mood) moodCounts[c.mood] = (moodCounts[c.mood] || 0) + 1;
+    if (c.tags) {
+      for (var t = 0; t < c.tags.length; t++) {
+        tagCounts[c.tags[t]] = (tagCounts[c.tags[t]] || 0) + 1;
+      }
+    }
+  }
+  var topMood = null, topMoodCount = 0;
+  for (var mk in moodCounts) { if (moodCounts[mk] > topMoodCount) { topMoodCount = moodCounts[mk]; topMood = mk; } }
+  var topTag = null, topTagCount = 0;
+  for (var tk in tagCounts) { if (tagCounts[tk] > topTagCount) { topTagCount = tagCounts[tk]; topTag = tk; } }
+
+  var moodInfo = MOOD_OPTIONS.find(function(m) { return m.id === topMood; });
+  var moodName = moodInfo ? moodInfo.name.toLowerCase() : 'varierende';
+  var elName = moodInfo ? ELEMENT_LABELS[moodInfo.element] : ELEMENT_LABELS[domEl];
+  var text = 'Din energi har v\u00e6ret mest ' + moodName + ', og ' + elName + '-element \u00f8velser giver dig mest ro.';
+  if (topTag) text += ' ' + topTag + ' er din hyppigste aktivitet \u2014 m\u00e5ske kan en stille morgen\u00f8velse hj\u00e6lpe der.';
+  return text;
+}
+
+function udvCountUniqueElements(checkins) {
+  var elements = {};
+  for (var i = 0; i < checkins.length; i++) {
+    var mo = MOOD_OPTIONS.find(function(m) { return m.id === checkins[i].mood; });
+    if (mo) elements[mo.element] = true;
+  }
+  return Object.keys(elements).length;
+}
+
+function udvAvgTags(checkins) {
+  if (checkins.length === 0) return '0';
+  var total = 0;
+  for (var i = 0; i < checkins.length; i++) {
+    total += (checkins[i].tags || []).length;
+  }
+  return (total / checkins.length).toFixed(1);
+}
+
+function udvBuildEnergyBars(checkins) {
+  var moodValues = { 'vand': 1, 'metal': 2, 'jord': 3, 'trae': 4, 'ild': 5 };
+
+  if (checkins.length < 2) {
+    // Show example bars as in mockup
+    var exBars = [45, 65, 85, 78, 50, 35, 42, 58];
+    var h = '<div class="rejse__chart">';
+    h += '<div class="rejse__chart-title">Energiniveau gennem m\u00e5neden</div>';
+    h += '<div class="rejse__bars">';
+    for (var e = 0; e < exBars.length; e++) {
+      var hi = exBars[e] >= 75 ? ' rejse__bar--hi' : '';
+      h += '<div class="rejse__bar' + hi + '" style="height:' + exBars[e] + '%"></div>';
+    }
+    h += '</div>';
+    h += '<div class="rejse__chart-note">H\u00f8jest i uge 2-3 (Tr\u00e6/Ild) \u00B7 Lavest i uge 4 (Metal/Vand)</div>';
+    h += '</div>';
+    return h;
+  }
+
+  // Real data: group by week chunks
+  var sorted = checkins.slice().reverse(); // oldest first
+  var barValues = [];
+  for (var i = 0; i < sorted.length; i++) {
+    barValues.push((moodValues[sorted[i].mood] || 3) * 20);
+  }
+  // Cap at 8 bars for visual clarity
+  if (barValues.length > 8) {
+    var chunkSize = Math.ceil(barValues.length / 8);
+    var averaged = [];
+    for (var c = 0; c < barValues.length; c += chunkSize) {
+      var chunk = barValues.slice(c, c + chunkSize);
+      var sum = 0;
+      for (var s = 0; s < chunk.length; s++) sum += chunk[s];
+      averaged.push(Math.round(sum / chunk.length));
+    }
+    barValues = averaged;
+  }
+
+  var maxVal = Math.max.apply(null, barValues);
+  var h = '<div class="rejse__chart">';
+  h += '<div class="rejse__chart-title">Energiniveau gennem m\u00e5neden</div>';
+  h += '<div class="rejse__bars">';
+  for (var b = 0; b < barValues.length; b++) {
+    var pct = maxVal > 0 ? Math.round((barValues[b] / maxVal) * 100) : 10;
+    var hiClass = pct >= 75 ? ' rejse__bar--hi' : '';
+    h += '<div class="rejse__bar' + hiClass + '" style="height:' + pct + '%"></div>';
+  }
+  h += '</div>';
+
+  // Find highest/lowest mood names
+  var highMoods = {}, lowMoods = {};
+  for (var mi = 0; mi < sorted.length; mi++) {
+    var val = moodValues[sorted[mi].mood] || 3;
+    if (val >= 4) highMoods[sorted[mi].mood] = true;
+    if (val <= 2) lowMoods[sorted[mi].mood] = true;
+  }
+  var highNames = Object.keys(highMoods).map(function(m) { var mo = MOOD_OPTIONS.find(function(o){return o.id===m;}); return mo ? ELEMENT_LABELS[mo.element] : ''; }).filter(Boolean);
+  var lowNames = Object.keys(lowMoods).map(function(m) { var mo = MOOD_OPTIONS.find(function(o){return o.id===m;}); return mo ? ELEMENT_LABELS[mo.element] : ''; }).filter(Boolean);
+  var noteText = '';
+  if (highNames.length > 0) noteText += 'H\u00f8jest: ' + highNames.join('/');
+  if (lowNames.length > 0) noteText += (noteText ? ' \u00B7 ' : '') + 'Lavest: ' + lowNames.join('/');
+  if (!noteText) noteText = 'Registr\u00e9r flere check-ins for at se m\u00f8nstre';
+  h += '<div class="rejse__chart-note">' + noteText + '</div>';
+  h += '</div>';
+  return h;
+}
+
+function udvBuildElementBalance(checkins) {
+  var counts = { 'VAND': 0, 'TR\u00C6': 0, 'ILD': 0, 'JORD': 0, 'METAL': 0 };
+  var total = 0;
+  for (var i = 0; i < checkins.length; i++) {
+    var mo = MOOD_OPTIONS.find(function(m) { return m.id === checkins[i].mood; });
+    if (mo) { counts[mo.element]++; total++; }
+  }
+
+  var elOrder = ['VAND', 'TR\u00C6', 'ILD', 'JORD', 'METAL'];
+  var barColors = ['#6B5F7B', '#8B7D9B', '#B8AFCA', '#B8AFCA', '#c4b8d6'];
+
+  // If no data, show example from mockup
+  var useExample = total === 0;
+  var exPcts = [35, 20, 15, 18, 12];
+
+  var h = '<div class="rejse__chart">';
+  for (var j = 0; j < elOrder.length; j++) {
+    var pct = useExample ? exPcts[j] : (total > 0 ? Math.round((counts[elOrder[j]] / total) * 100) : 0);
+    h += '<div class="rejse__el-row">';
+    h += '<span class="rejse__el-name">' + ELEMENT_LABELS[elOrder[j]] + '</span>';
+    h += '<div class="rejse__el-track">';
+    h += '<div class="rejse__el-fill" style="width:' + pct + '%;background:' + barColors[j] + '"></div>';
+    h += '</div>';
+    h += '<span class="rejse__el-pct">' + pct + '%</span>';
+    h += '</div>';
+  }
+  h += '</div>';
+  return h;
+}
+
+function udvBuildRecommendations(domEl) {
+  var yoga = INSIGHT_YOGA[domEl];
+  var food = INSIGHT_FOOD[domEl];
+  var h = '';
+
+  if (yoga && yoga.length > 0) {
+    h += '<div class="rejse__nc" onclick="navigateToYogaWithElement(\'' + domEl + '\')">';
+    h += '<div class="rejse__nc-label">\u00d8VELSE</div>';
+    h += '<h3>' + yoga[0].pose + '</h3>';
+    h += '<p>' + yoga[0].desc.split('.')[0] + '.</p>';
+    h += '<div class="rejse__nc-arrow">Pr\u00f8v nu \u2192</div>';
+    h += '</div>';
+  }
+
+  if (food && food.length > 0) {
+    h += '<div class="rejse__nc" onclick="App.loadScreen(\'samlede-indsigt\')">';
+    h += '<div class="rejse__nc-label">N\u00c6RING</div>';
+    h += '<h3>' + food[0].item + '</h3>';
+    h += '<p>' + food[0].desc + '</p>';
+    h += '<div class="rejse__nc-arrow">Se anbefalinger \u2192</div>';
+    h += '</div>';
+  }
+
+  h += '<div class="rejse__nc" onclick="App.loadScreen(\'refleksion\')">';
+  h += '<div class="rejse__nc-label">REFLEKSION</div>';
+  h += '<h3>Tag et stille \u00f8jeblik</h3>';
+  h += '<p>Sp\u00f8rgsm\u00e5l tilpasset din livsfase \u2014 du beh\u00f8ver ikke svare, bare lytte indad.</p>';
+  h += '<div class="rejse__nc-arrow">\u00c5bn refleksion \u2192</div>';
+  h += '</div>';
+
+  return h;
+}
+
+function udvBuildCheckinForm(allCheckins) {
+  // Check if already checked in today
+  var today = getLocalDateStr(new Date());
+  var todayCheckin = allCheckins.find(function(c) { return c.date && c.date.substring(0, 10) === today; });
+
+  if (todayCheckin) {
+    var moodInfo = MOOD_OPTIONS.find(function(m) { return m.id === todayCheckin.mood; });
+    var h = '<div class="rejse__ins">';
+    h += '<div class="rejse__ins-label">\u2713 DU HAR ALLEREDE TJEKKET IND I DAG</div>';
+    h += '<div class="rejse__ins-text">' + (moodInfo ? moodInfo.icon + ' ' + moodInfo.name : '') + (todayCheckin.note ? ' \u2014 ' + escapeHtml(todayCheckin.note) : '') + '</div>';
+    h += '</div>';
+    return h;
+  }
+
+  var h = '';
+  // Gradient-boks med energivalg
+  h += '<div class="rejse__checkin">';
+  h += '<div class="rejse__checkin-label">HVORDAN F\u00d8LES DIN ENERGI LIGE NU?</div>';
+  h += '<div class="rejse__energy-chips">';
+  for (var i = 0; i < MOOD_OPTIONS.length; i++) {
+    var m = MOOD_OPTIONS[i];
+    var sel = TrackingState.checkinMood === m.id ? ' rejse__energy-chip--selected' : '';
+    h += '<button class="rejse__energy-chip' + sel + '" onclick="udvSelectMood(\'' + m.id + '\')">' + m.name + '</button>';
+  }
+  h += '</div>';
+  h += '</div>';
+
+  // Skrivefelt
+  h += '<div class="rejse__textarea-wrap">';
+  h += '<textarea class="rejse__textarea" id="udv-checkin-note" placeholder="Skriv frit \u2014 det er kun for dig selv\u2026" oninput="TrackingState.checkinNote=this.value">' + escapeHtml(TrackingState.checkinNote) + '</textarea>';
+  h += '</div>';
+
+  // Gem-knap
+  h += '<button class="rejse__btn" onclick="udvSubmitCheckin()">Gem check-in</button>';
+
+  return h;
+}
+
+function udvSelectMood(moodId) {
+  TrackingState.checkinMood = moodId;
+  initMinUdviklingScreen();
+  // Scroll to check-in area
+  var chips = document.querySelectorAll('.rejse__energy-chip');
+  if (chips.length > 0) chips[0].closest('.rejse__checkin').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+window.udvSelectMood = udvSelectMood;
+
+function udvSubmitCheckin() {
+  if (!TrackingState.checkinMood) {
+    showActionToast('V\u00e6lg din energi f\u00f8rst');
+    return;
+  }
+  ensureIdagData();
+  var cycleInfo = '';
+  if (window._idagData) {
+    var d = window._idagData;
+    var parts = [];
+    if (d.lifePhase) parts.push('Fase ' + d.lifePhase.phase);
+    if (d.season) parts.push(d.season.season);
+    if (d.weekday) parts.push(d.weekday.day);
+    if (d.organClock) parts.push(d.organClock.organ);
+    cycleInfo = parts.join(' \u00B7 ');
+  }
+  var now = new Date();
+  var entry = {
+    date: getLocalDateStr(now) + 'T' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0') + ':00',
+    mood: TrackingState.checkinMood,
+    tags: TrackingState.checkinTags.slice(),
+    note: TrackingState.checkinNote,
+    cycles: cycleInfo
+  };
+  saveCheckin(entry);
+  TrackingState.checkinMood = null;
+  TrackingState.checkinTags = [];
+  TrackingState.checkinNote = '';
+  showActionToast('Check-in gemt \u2713');
+  initMinUdviklingScreen();
+}
+window.udvSubmitCheckin = udvSubmitCheckin;
 
 function renderTrackingPeriod() {
   var el = document.getElementById('tracking-period');
