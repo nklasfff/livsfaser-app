@@ -4263,10 +4263,171 @@
   font-style: italic;
 }
 
-/* Min Rejse (lighter blue) */
-.screen--min-rejse .tema__kontekst {
-  background: linear-gradient(145deg, rgba(118, 144, 193, 0.06) 0%, rgba(118, 144, 193, 0.03) 100%);
-  border-color: rgba(118, 144, 193, 0.1);
+/* =========================================
+   MIN REJSE — varm dæmpet lavendel
+   ========================================= */
+
+/* Titler */
+.rejse__t1 {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  color: #6B5F7B;
+  font-weight: 400;
+  text-align: center;
+  font-style: italic;
+  margin: 24px 0 8px;
+}
+
+.rejse__t2 {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 22px;
+  color: #6B5F7B;
+  font-weight: 400;
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 8px;
+}
+
+.rejse__intr {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 15px;
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  line-height: 1.65;
+  margin-bottom: 28px;
+}
+
+/* Lotus-adskiller */
+.rejse__dots {
+  text-align: center;
+  color: #c4b8d6;
+  font-size: 9px;
+  letter-spacing: 10px;
+  margin: 28px 0;
+}
+
+/* SVG figur container */
+.rejse__fig {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+}
+
+/* Indsigt-boks */
+.rejse__ins {
+  background: rgba(139, 125, 155, 0.07);
+  border: 1px solid rgba(139, 125, 155, 0.14);
+  border-radius: 14px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.rejse__ins-label {
+  font-size: 10px;
+  color: #8B7D9B;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+}
+
+.rejse__ins-text {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.65;
+  font-style: italic;
+}
+
+/* Nav-kort */
+.rejse__nc {
+  background: rgba(139, 125, 155, 0.04);
+  border: 1px solid rgba(139, 125, 155, 0.12);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.rejse__nc h3 {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.rejse__nc p {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 14px;
+  color: #777;
+  line-height: 1.55;
+  font-style: italic;
+}
+
+.rejse__nc-arrow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+  font-size: 13px;
+  color: #8B7D9B;
+  font-style: italic;
+}
+
+/* Dagens check-in gradient-boks */
+.rejse__checkin {
+  background: linear-gradient(135deg, #6B5F7B 0%, #8B7D9B 100%);
+  border-radius: 14px;
+  padding: 22px;
+  margin: 20px 0;
+  cursor: pointer;
+}
+
+.rejse__checkin-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.rejse__checkin-title {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 18px;
+  color: white;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.rejse__checkin-sub {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+  margin-top: 10px;
+}
+
+/* Privacy hint */
+.rejse__hint {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 13px;
+  color: #bbb;
+  font-style: italic;
+  text-align: center;
+  margin-top: 16px;
+  line-height: 1.6;
+}
+
+/* Tilbage til toppen */
+.rejse__btt {
+  text-align: center;
+  font-size: 13px;
+  color: #ccc;
+  margin-top: 28px;
+  cursor: pointer;
 }
 
 /* Min Udvikling (praksis/grøn) */

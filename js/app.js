@@ -4348,13 +4348,17 @@ const App = {
     'jeres-energi': 'screens/jeres-energi.html',
     'to-rytmer': 'screens/to-rytmer.html',
     'tre-generationer': 'screens/tre-generationer.html',
-    'kost-urter': 'screens/kost-urter.html'
+    'kost-urter': 'screens/kost-urter.html',
+    'min-journal': 'screens/min-journal.html',
+    'mine-favoritter': 'screens/mine-favoritter.html',
+    'mine-samlinger': 'screens/mine-samlinger.html',
+    'baggrundsviden': 'screens/baggrundsviden.html'
   },
 
   // Niveau 1 skærme (tema-overblik)
   niveau1: ['mine-cyklusser', 'mine-relationer', 'min-praksis', 'min-rejse'],
   // Niveau 2 skærme (specifikt indhold)
-  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'jeres-energi', 'to-rytmer', 'tre-generationer', 'kost-urter'],
+  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'jeres-energi', 'to-rytmer', 'tre-generationer', 'kost-urter', 'min-journal', 'mine-favoritter', 'mine-samlinger', 'baggrundsviden'],
 
   init() {
     repairStoredBirthdate();
@@ -4390,7 +4394,11 @@ const App = {
     'din-energi': 'mine-cyklusser',
     'jeres-energi': 'mine-relationer',
     'to-rytmer': 'mine-relationer',
-    'tre-generationer': 'mine-relationer'
+    'tre-generationer': 'mine-relationer',
+    'min-journal': 'min-rejse',
+    'mine-favoritter': 'min-rejse',
+    'mine-samlinger': 'min-rejse',
+    'baggrundsviden': 'min-rejse'
   },
 
   goBack() {
@@ -5526,61 +5534,137 @@ function initMinPraksisScreen() {
 // ---- Niveau 1: Min Rejse ----
 
 function initMinRejseScreen() {
-  var el = document.getElementById('min-rejse-list');
+  var el = document.getElementById('min-rejse-content');
   if (!el) return;
 
-  // Venn diagram: DIN PRAKSIS / DINE MØNSTRE / DIN VISDOM
-  var vennEl = document.getElementById('min-rejse-venn');
-  if (vennEl) {
-    vennEl.innerHTML = renderVennTwo({
-      leftTitle: 'DIN PRAKSIS',
-      leftLines: ['Check-ins \u00B7 \u00d8velser', 'Kost \u00B7 Refleksion'],
-      rightTitle: 'DINE M\u00d8NSTRE',
-      rightLines: ['Energikurver', 'Elementbalance'],
-      overlapTitle: 'DIN VISDOM',
-      overlapLines: ['*Det du l\u00e6rer', '*over tid']
-    });
+  ensureIdagData();
+  var d = window._idagData || {};
+  var phaseObj = d.lifePhase || {};
+  var phaseNum = phaseObj.phase || 7;
+  var phaseName = phaseObj.name || (PHASE_DATA[phaseNum] || {}).name || 'Fase ' + phaseNum;
+
+  // Beregn dynamisk indsigt-tekst
+  var checkins = getCheckins();
+  var reflections = [];
+  try { reflections = JSON.parse(localStorage.getItem('livsfaser_reflections') || '[]'); } catch(e) {}
+  var checkinCount = checkins.length;
+  var reflCount = reflections.length;
+
+  // Find dominerende element fra aktive elementer
+  var activeEls = window._activeElements || {};
+  var elCounts = {};
+  for (var key in activeEls) {
+    var eName = activeEls[key];
+    if (eName) { elCounts[eName] = (elCounts[eName] || 0) + 1; }
+  }
+  var domElement = 'Vand';
+  var domCount = 0;
+  for (var e in elCounts) {
+    if (elCounts[e] > domCount) { domCount = elCounts[e]; domElement = e; }
+  }
+  // Konverter til title case (VAND → Vand)
+  domElement = domElement.charAt(0).toUpperCase() + domElement.slice(1).toLowerCase();
+
+  // Beregn måneder i fasen
+  var userData = null;
+  try { userData = JSON.parse(localStorage.getItem('user')); } catch(e) {}
+  var monthsInPhase = 14;
+  if (userData && userData.birthdate) {
+    var bd = new Date(userData.birthdate);
+    var now = new Date();
+    var ageMonths = (now.getFullYear() - bd.getFullYear()) * 12 + (now.getMonth() - bd.getMonth());
+    var phaseStartMonths = (phaseNum - 1) * 7 * 12;
+    monthsInPhase = ageMonths - phaseStartMonths;
+    if (monthsInPhase < 1) monthsInPhase = 1;
   }
 
-  var checkinCount = getCheckins().length;
-  var trackingSub = checkinCount > 0
-    ? checkinCount + ' check-ins registreret. Se dine m\u00F8nstre, din energikurve og elementbalance over tid \u2014 din krop ved mere end du tror.'
-    : 'Registr\u00E9r din energi, dine aktiviteter og dine refleksioner dag for dag. Over tid tegner der sig m\u00F8nstre, du ikke kunne se i \u00F8jeblikket.';
+  var insightText = 'Du er ' + monthsInPhase + ' m\u00e5neder inde i ' + phaseName + '. '
+    + 'Du har skrevet ' + reflCount + ' refleksioner og gennemf\u00f8rt ' + checkinCount + ' check-ins. '
+    + 'Dit ' + domElement + '-element giver dig mest ro, og din energi f\u00f8lger \u00e5rstidernes rytme t\u00e6t.';
 
-  // Group 1: Dit spejl
-  var group1 = [
-    { screen: 'min-udvikling', title: 'Min udvikling', subtitle: trackingSub, highlighted: true },
-    { screen: 'favoritter', title: 'Mine favoritter', subtitle: 'Alt det du har gemt undervejs \u2014 \u00f8velser, kostvejledning, indsigter og faser der betyder noget for dig. Dit personlige bibliotek, samlet \u00e9t sted.' }
-  ];
-  // Group 2: Baggrund
-  var group2 = [
-    { screen: 'alle-faser', title: 'Alle 9 faser', subtitle: 'Fra livets begyndelse til visdom \u2014 de ni syv-\u00e5rs cyklusser. Se dem alle og forst\u00e5 den rejse, du allerede er p\u00e5.' },
-    { screen: 'samlede-indsigt', title: 'Baggrundsviden', subtitle: 'Ni forskellige kulturer har opdaget det samme: livet bev\u00e6ger sig i cyklusser og overgange. Udforsk den viden, appen bygger p\u00e5 \u2014 fra kinesisk medicin til vedisk filosofi.' }
-  ];
+  // SVG: Tre overlappende cirkler
+  var svg = '<svg width="280" height="230" xmlns="http://www.w3.org/2000/svg">'
+    + '<circle cx="110" cy="100" r="72" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.2)" stroke-width="1"/>'
+    + '<circle cx="170" cy="100" r="72" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.17)" stroke-width="1"/>'
+    + '<circle cx="140" cy="155" r="72" fill="rgba(139,125,155,0.055)" stroke="rgba(139,125,155,0.18)" stroke-width="1"/>'
+    + '<text x="78" y="78" text-anchor="middle" font-size="11" fill="#8B7D9B" font-style="italic">ERINDRING</text>'
+    + '<text x="202" y="78" text-anchor="middle" font-size="11" fill="#8B7D9B" font-style="italic">INDSIGT</text>'
+    + '<text x="140" y="205" text-anchor="middle" font-size="11" fill="#8B7D9B" font-style="italic">RETNING</text>'
+    + '<text x="140" y="112" text-anchor="middle" font-size="13" fill="#6B5F7B" font-weight="600">DIN</text>'
+    + '<text x="140" y="130" text-anchor="middle" font-size="13" fill="#6B5F7B" font-weight="600">REJSE</text>'
+    + '</svg>';
 
-  function renderRejseGroup(heading, subtitle, cards) {
-    var h = '<h4 class="tema__group-heading">' + heading + '</h4>';
-    h += '<p class="tema__group-subtitle">' + subtitle + '</p>';
-    h += '<div class="tema__group">';
-    for (var i = 0; i < cards.length; i++) {
-      var k = cards[i];
-      var extraClass = ' tema__kort--blaa-light' + (k.highlighted ? ' tema__kort--highlighted' : '');
-      h += '<div class="tema__kort' + extraClass + '" onclick="App.loadScreen(\'' + k.screen + '\')">';
-      h += '<div class="tema__kort-content">';
-      h += '<h3 class="tema__kort-title">' + k.title + '</h3>';
-      h += '<p class="tema__kort-subtitle">' + k.subtitle + '</p>';
-      h += '</div>';
-      h += '<span class="tema__kort-arrow">\u203A</span>';
-      h += '</div>';
-    }
-    h += '</div>';
-    return h;
-  }
+  var h = '';
+  h += '<h1 class="rejse__t1">Min Rejse</h1>';
+  h += '<p class="rejse__intr">Dit personlige bibliotek og din udvikling over tid</p>';
 
-  var html = '';
-  html += renderRejseGroup('Dit spejl', 'F\u00f8lg din udvikling og find dine gemte favoritter', group1);
-  html += renderRejseGroup('Baggrund', 'Den viden og de faser appen bygger p\u00e5', group2);
-  el.innerHTML = html;
+  // Tre-cirkel figur
+  h += '<div class="rejse__fig">' + svg + '</div>';
+
+  // Dynamisk indsigt-boks
+  h += '<div class="rejse__ins">';
+  h += '<div class="rejse__ins-label">DIN REJSE LIGE NU</div>';
+  h += '<div class="rejse__ins-text">' + insightText + '</div>';
+  h += '</div>';
+
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // Sektion: Se dig selv over tid
+  h += '<h2 class="rejse__t2">Se dig selv over tid</h2>';
+
+  h += '<div class="rejse__nc" onclick="App.loadScreen(\'min-udvikling\')">';
+  h += '<h3>Min udvikling</h3>';
+  h += '<p>M\u00f8nstre i din energi, dine \u00f8velser og dine f\u00f8lelser \u2014 uge for uge, m\u00e5ned for m\u00e5ned</p>';
+  h += '<div class="rejse__nc-arrow">Se dine m\u00f8nstre \u2192</div>';
+  h += '</div>';
+
+  h += '<div class="rejse__nc" onclick="App.loadScreen(\'min-journal\')">';
+  h += '<h3>Min journal</h3>';
+  h += '<p>Dine refleksioner, check-ins og tanker \u2014 samlet og forbundet med dine cyklusser</p>';
+  h += '<div class="rejse__nc-arrow">Skriv eller l\u00e6s \u2192</div>';
+  h += '</div>';
+
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // Sektion: Det du har samlet
+  h += '<h2 class="rejse__t2">Det du har samlet</h2>';
+
+  h += '<div class="rejse__nc" onclick="App.loadScreen(\'mine-favoritter\')">';
+  h += '<h3>Mine favoritter</h3>';
+  h += '<p>\u00d8velser, kostvejledning, refleksioner og indsigter du har gemt undervejs</p>';
+  h += '<div class="rejse__nc-arrow">Se dit bibliotek \u2192</div>';
+  h += '</div>';
+
+  h += '<div class="rejse__nc" onclick="App.loadScreen(\'mine-samlinger\')">';
+  h += '<h3>Mine samlinger</h3>';
+  h += '<p>Dine egne mapper \u2014 &quot;Min morgenrutine&quot;, &quot;Til min datter&quot;, &quot;N\u00e5r jeg har brug for ro&quot;</p>';
+  h += '<div class="rejse__nc-arrow">Se dine samlinger \u2192</div>';
+  h += '</div>';
+
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // Sektion: Forstå dybere
+  h += '<h2 class="rejse__t2">Forst\u00e5 dybere</h2>';
+
+  h += '<div class="rejse__nc" onclick="App.loadScreen(\'baggrundsviden\')">';
+  h += '<h3>Baggrundsviden</h3>';
+  h += '<p>De fem elementer, vedisk filosofi, ni traditioner med \u00e9n visdom, videnskabens bekr\u00e6ftelse</p>';
+  h += '<div class="rejse__nc-arrow">Udforsk baggrunden \u2192</div>';
+  h += '</div>';
+
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // Dagens check-in gradient-boks
+  h += '<div class="rejse__checkin" onclick="App.loadScreen(\'min-udvikling\')">';
+  h += '<div class="rejse__checkin-label">DAGENS CHECK-IN</div>';
+  h += '<div class="rejse__checkin-title">Hvordan f\u00f8les din energi lige nu?</div>';
+  h += '<div class="rejse__checkin-sub">Tryk for at m\u00e6rke efter \u2192</div>';
+  h += '</div>';
+
+  // Privacy hint
+  h += '<div class="rejse__hint">Din rejse er din egen. Alt her er privat, og du bestemmer hvad du gemmer og deler.</div>';
+
+  el.innerHTML = h;
 }
 
 // ---- Niveau 2: Cyklusser i Cyklusser ----
@@ -6974,9 +7058,10 @@ var MENU_DATA = [
     title: 'Min Rejse',
     children: [
       { label: 'Min udvikling', action: "App.loadScreen('min-udvikling')" },
-      { label: 'Mine favoritter', action: "App.loadScreen('favoritter')" },
-      { label: 'Alle 9 faser', action: "App.loadScreen('alle-faser')" },
-      { label: 'Baggrundsviden', action: "App.loadScreen('samlede-indsigt')" }
+      { label: 'Min journal', action: "App.loadScreen('min-journal')" },
+      { label: 'Mine favoritter', action: "App.loadScreen('mine-favoritter')" },
+      { label: 'Mine samlinger', action: "App.loadScreen('mine-samlinger')" },
+      { label: 'Baggrundsviden', action: "App.loadScreen('baggrundsviden')" }
     ]
   },
   {
