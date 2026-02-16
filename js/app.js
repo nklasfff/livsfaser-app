@@ -2360,9 +2360,9 @@ window.hideDetail = hideDetail;
 // ---- Samlede Indsigt Page ----
 
 function initSamledeIndsigtScreen() {
+  ensureIdagData();
   var elements = window._activeElements;
   if (!elements) {
-    // Recalculate if navigated directly
     var userData = localStorage.getItem('user');
     if (!userData) return;
     var user = JSON.parse(userData);
@@ -2388,17 +2388,21 @@ function initSamledeIndsigtScreen() {
     window._activeElements = elements;
   }
 
-  var insight = generateInsight(elements);
+  var figurEl = document.getElementById('samlede-figur');
+  var contentEl = document.getElementById('samlede-content');
+  if (!contentEl) return;
 
-  // Count elements for display
+  var d = window._idagData;
+  var insight = generateInsight(elements);
+  var primaryEl = insight.dominantElement;
+
+  // Count elements
   var counts = {};
   for (var i = 0; i < elements.length; i++) {
     counts[elements[i]] = (counts[elements[i]] || 0) + 1;
   }
-
-  // Find dominant
-  var maxCount = 0;
   var keys = Object.keys(counts);
+  var maxCount = 0;
   for (var j = 0; j < keys.length; j++) {
     if (counts[keys[j]] > maxCount) maxCount = counts[keys[j]];
   }
@@ -2407,144 +2411,113 @@ function initSamledeIndsigtScreen() {
     if (counts[keys[k]] === maxCount) dominant.push(keys[k]);
   }
 
-  var primaryElement = insight.dominantElement;
-
-  // 0. Render Venn diagram
-  var vennEl = document.getElementById('indsigt-venn');
-  if (vennEl) {
-    vennEl.innerHTML = renderVennThree({
-      topTitle: '\u00d8VELSER',
-      topLines: ['Yoga \u00B7 Bev\u00e6gelse'],
+  // 1. VennThree figur
+  if (figurEl) {
+    figurEl.innerHTML = '<div class="praksis__figur">' + renderVennThree({
+      topTitle: 'CYKLUSSER',
+      topLines: ['Fase \u00B7 \u00c5rstider'],
       bottomLeftTitle: 'KOST',
       bottomLeftLines: ['Mad \u00B7 Urter'],
-      bottomRightTitle: 'FOKUS',
-      bottomRightLines: ['Sind \u00B7 Retning'],
+      bottomRightTitle: 'KROPPEN',
+      bottomRightLines: ['Sind \u00B7 Bev\u00e6gelse'],
       overlapAB: 'n\u00e6ring',
-      overlapAC: 'intentioner',
+      overlapAC: '\u00f8velse',
       overlapBC: 'opm\u00e6rksomhed',
-      centerTitle: ELEMENT_LABELS[primaryElement],
-      centerLines: ['*din indsigt i dag']
-    });
+      centerTitle: ELEMENT_LABELS[primaryEl],
+      centerLines: ['*sammenfaldet']
+    }) + '</div>';
   }
 
-  // 1. Render dots
-  var dotsEl = document.getElementById('indsigt-dots');
-  if (dotsEl) {
-    // Show element summary: dots grouped by element
-    var dotsHtml = '';
-    for (var d = 0; d < keys.length; d++) {
-      var elKey = keys[d];
-      dotsHtml += '<div class="indsigt-page__dot-group">';
-      dotsHtml += '<span class="indsigt-page__dot-label">' + ELEMENT_LABELS[elKey] + '</span>';
-      dotsHtml += '<div class="indsigt-page__dot-row">';
-      for (var n = 0; n < counts[elKey]; n++) {
-        dotsHtml += '<span class="indsigt__dot" style="background-color:' + ELEMENT_COLORS[elKey] + '"></span>';
-      }
-      dotsHtml += '</div></div>';
-    }
-    dotsEl.innerHTML = dotsHtml;
+  // Element-dots tekst
+  var dotsText = '';
+  for (var dt = 0; dt < keys.length; dt++) {
+    if (dt > 0) dotsText += ' ';
+    dotsText += ELEMENT_LABELS[keys[dt]] + ' ';
+    for (var dn = 0; dn < counts[keys[dt]]; dn++) dotsText += '\u25CF';
   }
 
-  // 2. Render analysis (3-4 paragraphs)
-  var analyseEl = document.getElementById('indsigt-analyse');
-  if (analyseEl) {
-    var level = 'present';
-    if (dominant.length === 1 && maxCount >= 3) level = 'dominant';
-    else if (dominant.length === 1 && maxCount === 2) level = 'strong';
+  var html = '<div style="text-align:center;font-size:13px;color:#aaa;margin:8px 0 20px">' + dotsText + '</div>';
 
-    var analysisTexts = INSIGHT_ANALYSIS[primaryElement][level];
-    var html = '';
-    for (var a = 0; a < analysisTexts.length; a++) {
-      html += '<p class="indsigt-page__paragraph">' + analysisTexts[a] + '</p>';
-    }
-    analyseEl.innerHTML = html;
+  // Dynamisk tekst (2 afsnit)
+  var level = 'present';
+  if (dominant.length === 1 && maxCount >= 3) level = 'dominant';
+  else if (dominant.length === 1 && maxCount === 2) level = 'strong';
+  var analysisTexts = INSIGHT_ANALYSIS[primaryEl][level];
+  for (var a = 0; a < Math.min(analysisTexts.length, 2); a++) {
+    html += '<p class="yin-yoga__intro-text" style="margin-bottom:20px">' + analysisTexts[a] + '</p>';
   }
 
-  // 3. Render Yin Yoga
-  var yogaEl = document.getElementById('indsigt-yoga');
-  if (yogaEl) {
-    var yogaPoses = INSIGHT_YOGA[primaryElement];
-    var yogaHtml = '';
-    for (var y = 0; y < yogaPoses.length; y++) {
-      yogaHtml += '<div class="indsigt-page__list-item">' +
-        '<p class="indsigt-page__item-title" style="--accent-color:' + ELEMENT_COLORS[primaryElement] + '">' + yogaPoses[y].pose + '</p>' +
-        '<p class="indsigt-page__item-desc">' + yogaPoses[y].desc + '</p>' +
-      '</div>';
-    }
-    yogaEl.innerHTML = yogaHtml;
+  // Yin Yoga
+  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h3 class="praksis__section-title">Yin Yoga</h3>';
+  html += '<p class="praksis__section-intro">Dybe str\u00e6k der st\u00f8tter dit element og \u00e5bner meridianer</p>';
+  var yogaPoses = INSIGHT_YOGA[primaryEl] || [];
+  for (var yp = 0; yp < yogaPoses.length; yp++) {
+    html += '<div class="praksis__card" onclick="navigateToYogaWithElement(\'' + primaryEl + '\')">';
+    html += '<h3 class="praksis__card-title">' + yogaPoses[yp].pose + '</h3>';
+    html += '<p class="praksis__card-desc">' + yogaPoses[yp].desc + '</p>';
+    html += '</div>';
   }
 
-  // 4. Render Food & Herbs
-  var foodEl = document.getElementById('indsigt-food');
-  if (foodEl) {
-    var foodItems = INSIGHT_FOOD[primaryElement];
-    var foodHtml = '';
-    for (var f = 0; f < foodItems.length; f++) {
-      foodHtml += '<div class="indsigt-page__list-item">' +
-        '<p class="indsigt-page__item-title" style="--accent-color:' + ELEMENT_COLORS[primaryElement] + '">' + foodItems[f].item + '</p>' +
-        '<p class="indsigt-page__item-desc">' + foodItems[f].desc + '</p>' +
-      '</div>';
-    }
-    foodEl.innerHTML = foodHtml;
+  // Mad & Urter
+  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h3 class="praksis__section-title">Mad & Urter</h3>';
+  html += '<p class="praksis__section-intro">F\u00f8devarer og urter der n\u00e6rer dit dominerende element</p>';
+  var foodItems = INSIGHT_FOOD[primaryEl] || [];
+  for (var fi = 0; fi < foodItems.length; fi++) {
+    html += '<div class="praksis__card" onclick="App.loadScreen(\'kost-urter\')">';
+    html += '<h3 class="praksis__card-title">' + foodItems[fi].item + '</h3>';
+    html += '<p class="praksis__card-desc">' + foodItems[fi].desc + '</p>';
+    html += '</div>';
   }
 
-  // 5. Render Focus Areas
-  var focusEl = document.getElementById('indsigt-focus');
-  if (focusEl) {
-    var focusItems = INSIGHT_FOCUS[primaryElement];
-    var focusHtml = '';
-    for (var fc = 0; fc < focusItems.length; fc++) {
-      focusHtml += '<p class="indsigt-page__focus-item" style="--dot-color:' + ELEMENT_COLORS[primaryElement] + '">' + focusItems[fc] + '</p>';
-    }
-    focusEl.innerHTML = focusHtml;
+  // Fokusområder
+  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h3 class="praksis__section-title">Fokusomr\u00e5der</h3>';
+  html += '<p class="praksis__section-intro">Hvor du kan rette din opm\u00e6rksomhed i dag</p>';
+  var focusItems = INSIGHT_FOCUS[primaryEl] || [];
+  html += '<div style="font-size:14px;color:#555;line-height:1.8;font-style:italic;font-family:var(--font-serif);padding:0 4px">';
+  for (var fc = 0; fc < focusItems.length; fc++) {
+    html += '\u25CB ' + focusItems[fc] + '<br>';
   }
+  html += '</div>';
 
-  // 6. Render Suggestions
-  var suggestionsEl = document.getElementById('indsigt-suggestions');
-  if (suggestionsEl) {
-    var allSugg = INSIGHT_SUGGESTIONS[primaryElement];
-    // If secondary element, mix in
-    var suggestions = allSugg.slice();
-    if (dominant.length > 1) {
-      var secSugg = INSIGHT_SUGGESTIONS[dominant[1]];
-      if (secSugg && secSugg.length > 0) {
-        suggestions.push(secSugg[0]);
-      }
-    }
-    var suggHtml = '';
-    for (var sg = 0; sg < suggestions.length; sg++) {
-      suggHtml += '<p class="indsigt-page__focus-item" style="--dot-color:' + ELEMENT_COLORS[primaryElement] + '">' + suggestions[sg] + '</p>';
-    }
-    suggestionsEl.innerHTML = suggHtml;
+  // I dag kan du
+  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h3 class="praksis__section-title">I dag kan du</h3>';
+  html += '<p class="praksis__section-intro">Konkrete handlinger tilpasset dine cyklusser</p>';
+  var suggestions = (INSIGHT_SUGGESTIONS[primaryEl] || []).slice();
+  if (dominant.length > 1 && INSIGHT_SUGGESTIONS[dominant[1]]) {
+    suggestions.push(INSIGHT_SUGGESTIONS[dominant[1]][0]);
   }
+  html += '<div style="font-size:14px;color:#555;line-height:1.8;font-style:italic;font-family:var(--font-serif);padding:0 4px">';
+  for (var sg = 0; sg < suggestions.length; sg++) {
+    html += '\u25CB ' + suggestions[sg] + '<br>';
+  }
+  html += '</div>';
 
-  // 7. Render Tidsdynamik (time perspective)
-  var tidsEl = document.getElementById('indsigt-tidsdynamik');
-  if (tidsEl) {
-    ensureIdagData();
-    var d = window._idagData;
-    if (d) {
-      var tidsHtml = '<h3 class="indsigt-page__section-title">Tidsperspektiv</h3>';
-      tidsHtml += '<p class="indsigt-page__section-subtitle">Hvor du er i din livsfase og hvad der venter</p>';
-      var yearsLeft = Math.max(0, d.lifePhase.endAge - d.age);
-      if (yearsLeft > 0) {
-        tidsHtml += '<p class="indsigt-page__paragraph">Du er ' + Math.round((d.age - d.lifePhase.startAge) * 10) / 10 + ' år inde i din ' + d.lifePhase.name + '-fase. Om ca. ' + (yearsLeft < 1 ? 'under et år' : Math.round(yearsLeft) + ' år') + ' bevæger du dig videre.</p>';
-      } else {
-        tidsHtml += '<p class="indsigt-page__paragraph">Du er i slutningen af din ' + d.lifePhase.name + '-fase. En ny fase venter forude.</p>';
-      }
-      var dynamisk = generateDynamiskTekst(d, elements);
-      if (dynamisk.tidsdynamik) {
-        tidsHtml += '<p class="indsigt-page__paragraph" style="font-style:italic;color:var(--text-light);">' + dynamisk.tidsdynamik + '</p>';
-      }
-      tidsEl.innerHTML = tidsHtml;
+  // Tidsperspektiv
+  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h3 class="praksis__section-title">Tidsperspektiv</h3>';
+  html += '<p class="praksis__section-intro">Hvor du er i din livsfase og hvad der venter</p>';
+  if (d) {
+    var yearsIn = Math.round((d.age - d.lifePhase.startAge) * 10) / 10;
+    var yearsLeft = Math.max(0, d.lifePhase.endAge - d.age);
+    if (yearsLeft > 0) {
+      html += '<p class="yin-yoga__intro-text">Du er ' + yearsIn + ' \u00e5r inde i din ' + d.lifePhase.name + '-fase. Om ca. ' + (yearsLeft < 1 ? 'under et \u00e5r' : Math.round(yearsLeft) + ' \u00e5r') + ' bev\u00e6ger du dig videre.</p>';
+    } else {
+      html += '<p class="yin-yoga__intro-text">Du er i slutningen af din ' + d.lifePhase.name + '-fase. En ny fase venter forude.</p>';
+    }
+    var dynamisk = generateDynamiskTekst(d, elements);
+    if (dynamisk.tidsdynamik) {
+      html += '<p style="font-size:13px;color:#aaa;margin-top:8px;font-style:italic;font-family:var(--font-serif)">' + dynamisk.tidsdynamik + '</p>';
     }
   }
 
-  // Action bar
-  var screenEl = document.querySelector('.screen--indsigt');
-  if (screenEl) {
-    screenEl.insertAdjacentHTML('beforeend', sectionDivider() + renderActionBar('samlede-indsigt'));
-  }
+  // Actionbar
+  html += renderActionBar('samlede-indsigt');
+
+  contentEl.innerHTML = html;
 }
 
 // ---- Relationer Screen ----
@@ -4398,7 +4371,7 @@ const App = {
   // Map niveau 2 → parent niveau 1
   parentScreen: {
     'cyklusser-i-cyklusser': 'mine-cyklusser',
-    'samlede-indsigt': 'mine-cyklusser',
+    'samlede-indsigt': 'min-praksis',
     'alle-faser': 'mine-cyklusser',
     'tidsrejse': 'mine-cyklusser',
     'relationer': 'mine-relationer',
