@@ -2037,22 +2037,36 @@ function renderIdagTidsvinduetLink() {
   html += '<div class="idag__window-zone">';
   html += '<div class="idag__window-label">TIDSVINDUET</div>';
 
-  // Billede: Ni livsfaser i bue
+  // SVG: Ni livsfaser i symmetrisk bue + tidslinje (fase 5 centreret over "nu")
   html += '<div class="idag__window-fig">';
-  html += '<img src="assets/images/livsfaser_bue_forside.png" alt="De 9 livsfaser i bue" class="idag__window-img idag__window-img--bue">';
-  html += '</div>';
+  html += '<svg width="310" height="180" xmlns="http://www.w3.org/2000/svg">';
+  var sf = "'Cormorant Garamond','Times New Roman',Georgia,serif";
+  // Farver fra billedet: lys lavendel til m\u00f8rk lilla
+  var bueFills = ['#D4C6DE','#CDB9D8','#C5ACD2','#B99FC8','#B196C0','#A88DB8','#9E82AE','#8F73A0','#4A3660'];
+  // Symmetrisk bue: fase 5 centreret p\u00e5 x=155 (over "nu")
+  // Stigende radius: 16 -> 22
+  var bueData = [
+    {cx:23,cy:96,r:16},{cx:56,cy:72,r:17},{cx:90,cy:52,r:18},{cx:123,cy:38,r:19},
+    {cx:155,cy:32,r:20},
+    {cx:187,cy:38,r:19},{cx:220,cy:52,r:18},{cx:254,cy:72,r:17},{cx:287,cy:96,r:22}
+  ];
+  for (var bi = 0; bi < 9; bi++) {
+    var bd = bueData[bi];
+    html += '<circle cx="' + bd.cx + '" cy="' + bd.cy + '" r="' + bd.r + '" fill="' + bueFills[bi] + '"/>';
+    var textCol = bi === 8 ? '#FFFFFF' : '#3A2A4A';
+    html += '<text x="' + bd.cx + '" y="' + (bd.cy - 2) + '" font-family="' + sf + '" font-size="13" fill="' + textCol + '" font-weight="600" font-style="italic" text-anchor="middle">' + (bi + 1) + '</text>';
+    html += '<text x="' + bd.cx + '" y="' + (bd.cy + 12) + '" font-family="' + sf + '" font-size="8" fill="' + textCol + '" text-anchor="middle">Livsfase</text>';
+  }
   // Tidslinje under buen
-  html += '<div class="idag__window-fig">';
-  html += '<svg width="310" height="36" xmlns="http://www.w3.org/2000/svg">';
-  html += '<line x1="40" y1="14" x2="270" y2="14" stroke="rgba(139,125,155,0.2)" stroke-width="1"/>';
-  html += '<circle cx="80" cy="14" r="4" fill="rgba(139,125,155,0.2)"/>';
-  html += '<circle cx="155" cy="14" r="5" fill="#6B5F7B"/>';
-  html += '<circle cx="230" cy="14" r="4" fill="rgba(139,125,155,0.2)" stroke="rgba(139,125,155,0.3)" stroke-width="1" stroke-dasharray="2,2"/>';
-  html += '<text x="80" y="32" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">fortid</text>';
-  html += '<text x="155" y="32" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#6B5F7B" font-weight="600" text-anchor="middle">nu</text>';
-  html += '<text x="230" y="32" font-family="\'Cormorant Garamond\',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">fremtid</text>';
-  html += '<path d="M 45 14 L 35 10 M 45 14 L 35 18" stroke="rgba(139,125,155,0.3)" stroke-width="1" fill="none"/>';
-  html += '<path d="M 265 14 L 275 10 M 265 14 L 275 18" stroke="rgba(139,125,155,0.3)" stroke-width="1" fill="none"/>';
+  html += '<line x1="40" y1="140" x2="270" y2="140" stroke="rgba(139,125,155,0.2)" stroke-width="1"/>';
+  html += '<circle cx="80" cy="140" r="4" fill="rgba(139,125,155,0.25)"/>';
+  html += '<circle cx="155" cy="140" r="5" fill="#6B5F7B"/>';
+  html += '<circle cx="230" cy="140" r="4" fill="rgba(139,125,155,0.2)" stroke="rgba(139,125,155,0.3)" stroke-width="1" stroke-dasharray="2,2"/>';
+  html += '<text x="80" y="158" font-family="' + sf + '" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">fortid</text>';
+  html += '<text x="155" y="158" font-family="' + sf + '" font-size="9" fill="#6B5F7B" font-weight="600" text-anchor="middle">nu</text>';
+  html += '<text x="230" y="158" font-family="' + sf + '" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">fremtid</text>';
+  html += '<path d="M 45 140 L 35 136 M 45 140 L 35 144" stroke="rgba(139,125,155,0.3)" stroke-width="1" fill="none"/>';
+  html += '<path d="M 265 140 L 275 136 M 265 140 L 275 144" stroke="rgba(139,125,155,0.3)" stroke-width="1" fill="none"/>';
   html += '</svg>';
   html += '</div>';
 
