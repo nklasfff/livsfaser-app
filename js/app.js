@@ -7831,13 +7831,121 @@ function initKontrolcyklussenScreen() {
 
 // ---- Feature: Følelseshjul ----
 
-function renderEmotionWheel() {
-  return '<div style="max-width:500px;margin:0 auto;text-align:center"><img src="assets/images/foelelsernes-kort.png" alt="F\u00f8lelsernes kort" style="width:100%;height:auto;border-radius:12px"></div>';
+var FOELELSER_INDSIGT = {
+  'VAND': 'Vand b\u00e6rer frygt og angst \u2014 men ogs\u00e5 visdom og ro. N\u00e5r frygten melder sig, er det nyrerne der taler. Lyt til dem \u2014 de fort\u00e6ller dig noget om din grundl\u00e6ggende tryghed.',
+  'TR\u00c6': 'Tr\u00e6 b\u00e6rer vrede og frustration \u2014 men ogs\u00e5 retning og mod. N\u00e5r vreden melder sig, er det leveren der taler. Lyt til den \u2014 den fort\u00e6ller dig noget om din gr\u00e6nses\u00e6tning.',
+  'ILD': 'Ild b\u00e6rer rastl\u00f8shed og uro \u2014 men ogs\u00e5 gl\u00e6de og forbindelse. N\u00e5r uroen melder sig, er det hjertet der taler. Lyt til det \u2014 det fort\u00e6ller dig noget om din l\u00e6ngsel efter n\u00e6rv\u00e6r.',
+  'JORD': 'Jord b\u00e6rer bekymring og overt\u00e6nkning \u2014 men ogs\u00e5 omsorg og n\u00e6ring. N\u00e5r tankerne maler, er det milten der taler. Lyt til den \u2014 den fort\u00e6ller dig noget om dit behov for tryghed.',
+  'METAL': 'Metal b\u00e6rer sorg og tomhed \u2014 men ogs\u00e5 klarhed og slip. N\u00e5r sorgen melder sig, er det lungerne der taler. Lyt til dem \u2014 de fort\u00e6ller dig noget om det du har brug for at give slip p\u00e5.'
+};
+
+function renderFoelelserPentagram() {
+  return '<div class="praksis__figur">' +
+    '<svg width="270" height="270" xmlns="http://www.w3.org/2000/svg">' +
+    // Forbindelseslinjer mellem ydre cirkler
+    '<line x1="135" y1="42" x2="52" y2="116" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
+    '<line x1="135" y1="42" x2="218" y2="116" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
+    '<line x1="52" y1="116" x2="82" y2="222" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
+    '<line x1="218" y1="116" x2="188" y2="222" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
+    '<line x1="82" y1="222" x2="188" y2="222" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
+    // Center: HELE DIG
+    '<circle cx="135" cy="142" r="30" fill="#8B9A9D" fill-opacity="0.10" stroke="#8B9A9D" stroke-opacity="0.18" stroke-width="1"/>' +
+    '<text x="135" y="138" text-anchor="middle" font-size="10" font-weight="600" fill="#555" font-family="' + VENN_FONT + '">HELE</text>' +
+    '<text x="135" y="151" text-anchor="middle" font-size="10" font-weight="600" fill="#555" font-family="' + VENN_FONT + '">DIG</text>' +
+    // Top: Frygt (Vand - blå)
+    '<circle cx="135" cy="42" r="26" fill="#7690C1" fill-opacity="0.15" stroke="#7690C1" stroke-opacity="0.2" stroke-width="1"/>' +
+    '<text x="135" y="39" text-anchor="middle" font-size="11" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">Frygt</text>' +
+    '<text x="135" y="52" text-anchor="middle" font-size="10" fill="#999" font-style="italic" font-family="' + VENN_FONT + '">Angst</text>' +
+    // Højre: Vrede (Træ - grøn)
+    '<circle cx="218" cy="116" r="26" fill="#8BA68B" fill-opacity="0.15" stroke="#8BA68B" stroke-opacity="0.2" stroke-width="1"/>' +
+    '<text x="218" y="113" text-anchor="middle" font-size="11" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">Vrede</text>' +
+    '<text x="218" y="126" text-anchor="middle" font-size="9" fill="#999" font-style="italic" font-family="' + VENN_FONT + '">Frustration</text>' +
+    // Nederst højre: Glæde (Ild - varm)
+    '<circle cx="188" cy="222" r="26" fill="#C4A882" fill-opacity="0.15" stroke="#C4A882" stroke-opacity="0.2" stroke-width="1"/>' +
+    '<text x="188" y="219" text-anchor="middle" font-size="11" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">Gl\u00e6de</text>' +
+    '<text x="188" y="232" text-anchor="middle" font-size="10" fill="#999" font-style="italic" font-family="' + VENN_FONT + '">Rastl\u00f8shed</text>' +
+    // Nederst venstre: Bekymring (Jord - gul)
+    '<circle cx="82" cy="222" r="26" fill="#C4B882" fill-opacity="0.15" stroke="#C4B882" stroke-opacity="0.2" stroke-width="1"/>' +
+    '<text x="82" y="216" text-anchor="middle" font-size="10" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">Bekymring</text>' +
+    '<text x="82" y="231" text-anchor="middle" font-size="9" fill="#999" font-style="italic" font-family="' + VENN_FONT + '">Overt\u00e6nkning</text>' +
+    // Venstre: Sorg (Metal - grå-lilla)
+    '<circle cx="52" cy="116" r="26" fill="#A8A8B8" fill-opacity="0.15" stroke="#A8A8B8" stroke-opacity="0.2" stroke-width="1"/>' +
+    '<text x="52" y="113" text-anchor="middle" font-size="11" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">Sorg</text>' +
+    '<text x="52" y="126" text-anchor="middle" font-size="10" fill="#999" font-style="italic" font-family="' + VENN_FONT + '">Tomhed</text>' +
+    '</svg>' +
+    '</div>';
+}
+
+function initFoelelserScreen() {
+  var figurEl = document.getElementById('foelelser-figur');
+  var indsigtEl = document.getElementById('foelelser-indsigt');
+  var contentEl = document.getElementById('foelelser-content');
+  if (!contentEl) return;
+
+  ensureIdagData();
+  var elements = window._activeElements || [];
+  var insight = generateInsight(elements);
+  var primaryEl = insight.dominantElement;
+
+  // 1. Pentagram SVG
+  if (figurEl) {
+    figurEl.innerHTML = renderFoelelserPentagram();
+  }
+
+  // 2. Dynamisk indsigt-boks
+  if (indsigtEl) {
+    var indsigtTekst = FOELELSER_INDSIGT[primaryEl] || FOELELSER_INDSIGT['VAND'];
+    indsigtEl.innerHTML =
+      '<div class="praksis__indsigt">' +
+      '<div class="praksis__indsigt-label">Dit element lige nu</div>' +
+      '<div class="praksis__indsigt-text">' + indsigtTekst + '</div>' +
+      '</div>';
+  }
+
+  // 3. Intro-tekst + nav-kort + crosslink + actionbar
+  var html = '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<p class="yin-yoga__intro-text">V\u00e6lg en f\u00f8lelse og se hvilke \u00f8velser, vejrtr\u00e6kninger og refleksioner der kan st\u00f8tte dig.</p>';
+
+  html += renderPraksisCard(
+    'Frygt & Angst',
+    'Vand \u00B7 Nyre \u00B7 Bl\u00e6re \u2014 vejrtr\u00e6kning, varme h\u00e6nder p\u00e5 l\u00e6nden, butterfly',
+    'Se \u00f8velser \u2192',
+    "showEmotionDetail('VAND')"
+  );
+  html += renderPraksisCard(
+    'Vrede & Frustration',
+    'Tr\u00e6 \u00B7 Lever \u00B7 Galdebl\u00e6re \u2014 leverens lyd, dragefluen, bev\u00e6gelse',
+    'Se \u00f8velser \u2192',
+    "showEmotionDetail('TR\u00C6')"
+  );
+  html += renderPraksisCard(
+    'Rastl\u00f8shed & Uro',
+    'Ild \u00B7 Hjerte \u00B7 Tyndtarm \u2014 hjertets lyd, \u00e5ben vinge, k\u00f8ling',
+    'Se \u00f8velser \u2192',
+    "showEmotionDetail('ILD')"
+  );
+  html += renderPraksisCard(
+    'Bekymring & Overt\u00e6nkning',
+    'Jord \u00B7 Mave \u00B7 Milt \u2014 stille maven, grounding, varm mad',
+    'Se \u00f8velser \u2192',
+    "showEmotionDetail('JORD')"
+  );
+  html += renderPraksisCard(
+    'Sorg & Tomhed',
+    'Metal \u00B7 Lunge \u00B7 Tyktarm \u2014 slip-ud-\u00e5nding, st\u00f8ttet fisk, give slip',
+    'Se \u00f8velser \u2192',
+    "showEmotionDetail('METAL')"
+  );
+
+  html += '<div class="praksis__crosslink" onclick="App.loadScreen(\'din-energi\')">Se hvilke f\u00f8lelser der passer til dig p\u00e5 en anden dag \u2192</div>';
+  html += renderActionBar('foelelser');
+
+  contentEl.innerHTML = html;
 }
 
 function showEmotionDetail(element) {
-  var el = document.getElementById('foelelser-detail');
-  if (!el) return;
+  var contentEl = document.getElementById('foelelser-content');
+  if (!contentEl) return;
 
   var emotionMap = { 'VAND': ['frygt','angst'], 'TR\u00C6': ['vrede','frustration','irritation'], 'ILD': ['gl\u00e6de','rastl\u00f8shed','uro'], 'JORD': ['bekymring','overt\u00e6nkning'], 'METAL': ['sorg','tomhed'] };
   var organMap = { 'VAND': 'Nyrer \u00B7 Bl\u00e6re', 'TR\u00C6': 'Lever \u00B7 Galdebl\u00e6re', 'ILD': 'Hjerte \u00B7 Tyndtarm', 'JORD': 'Milt \u00B7 Mave', 'METAL': 'Lunger \u00B7 Tyktarm' };
@@ -7846,42 +7954,34 @@ function showEmotionDetail(element) {
   var yoga = INSIGHT_YOGA[element] || [];
   var food = INSIGHT_FOOD[element] || [];
 
-  var html = '<div class="livsfase-detail__info" style="margin-top:16px">';
-  html += '<div class="livsfase-detail__info-row"><span class="livsfase-detail__info-label">Element</span><span>' + ELEMENT_LABELS[element] + '</span></div>';
-  html += '<div class="livsfase-detail__info-row"><span class="livsfase-detail__info-label">Organpar</span><span>' + organMap[element] + '</span></div>';
-  html += '<div class="livsfase-detail__info-row"><span class="livsfase-detail__info-label">F\u00f8lelser</span><span>' + emotions.map(function(e) { return e.charAt(0).toUpperCase() + e.slice(1); }).join(', ') + '</span></div>';
+  var html = '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<div class="praksis__indsigt">';
+  html += '<div class="praksis__indsigt-label">' + ELEMENT_LABELS[element] + ' \u00B7 ' + organMap[element] + '</div>';
+  html += '<div class="praksis__indsigt-text">' + emotions.map(function(e) { return e.charAt(0).toUpperCase() + e.slice(1); }).join(', ') + ' \u2014 disse f\u00f8lelser er ikke problemer der skal l\u00f8ses. De er signaler fra ' + ELEMENT_LABELS[element] + '-elementet.</div>';
   html += '</div>';
 
-  html += '<p class="livsfase-detail__intro" style="margin-top:12px">Disse f\u00f8lelser er ikke problemer der skal l\u00f8ses. De er signaler fra ' + ELEMENT_LABELS[element] + '-elementet \u2014 en invitation til at lytte til det din krop fort\u00e6ller dig.</p>';
-
   if (yoga.length > 0) {
-    html += '<h3 class="livsfase-detail__section-title" style="margin-top:16px">\u00d8velse</h3>';
-    html += '<div class="livsfase-detail__rec-card"><p class="livsfase-detail__rec-title">' + yoga[0].pose + '</p><p class="livsfase-detail__rec-desc">' + yoga[0].desc + '</p></div>';
+    html += '<div class="praksis__exercise">';
+    html += '<div class="praksis__exercise-organ">\u00d8velse</div>';
+    html += '<h3 class="praksis__exercise-title">' + yoga[0].pose + '</h3>';
+    html += '<p class="praksis__exercise-desc">' + yoga[0].desc + '</p>';
+    html += '</div>';
   }
   if (food.length > 0) {
-    html += '<h3 class="livsfase-detail__section-title">Kost</h3>';
-    html += '<div class="livsfase-detail__rec-card"><p class="livsfase-detail__rec-title">' + food[0].item + '</p><p class="livsfase-detail__rec-desc">' + food[0].desc + '</p></div>';
+    html += '<div class="praksis__exercise">';
+    html += '<div class="praksis__exercise-organ">Kost</div>';
+    html += '<h3 class="praksis__exercise-title">' + food[0].item + '</h3>';
+    html += '<p class="praksis__exercise-desc">' + food[0].desc + '</p>';
+    html += '</div>';
   }
 
-  el.innerHTML = html;
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  html += '<div class="praksis__crosslink" onclick="App.loadScreen(\'din-energi\')">Se hvilke f\u00f8lelser der passer til dig p\u00e5 en anden dag \u2192</div>';
+  html += renderActionBar('foelelser');
+
+  contentEl.innerHTML = html;
+  contentEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 window.showEmotionDetail = showEmotionDetail;
-
-function initFoelelserScreen() {
-  var wheelEl = document.getElementById('foelelser-wheel');
-  if (!wheelEl) return;
-  wheelEl.innerHTML = renderEmotionWheel();
-
-  // Action bar
-  var screenEl = document.querySelector('.screen--foelelser');
-  if (screenEl && !screenEl.querySelector('.action-bar')) {
-    var crosslink = '<div class="tidsvindue__crosslink" onclick="App.loadScreen(\'din-energi\')">';
-    crosslink += '<span class="tidsvindue__crosslink-text">Se hvilke f\u00f8lelser der passer til dig p\u00e5 en anden dag \u2192</span>';
-    crosslink += '</div>';
-    screenEl.insertAdjacentHTML('beforeend', crosslink + sectionDivider() + renderActionBar('foelelser'));
-  }
-}
 
 // ---- Feature: Yin Yoga ----
 
