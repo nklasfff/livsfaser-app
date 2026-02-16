@@ -4374,13 +4374,14 @@ const App = {
     'din-energi': 'screens/din-energi.html',
     'jeres-energi': 'screens/jeres-energi.html',
     'to-rytmer': 'screens/to-rytmer.html',
-    'tre-generationer': 'screens/tre-generationer.html'
+    'tre-generationer': 'screens/tre-generationer.html',
+    'kost-urter': 'screens/kost-urter.html'
   },
 
   // Niveau 1 skærme (tema-overblik)
   niveau1: ['mine-cyklusser', 'mine-relationer', 'min-praksis', 'min-rejse'],
   // Niveau 2 skærme (specifikt indhold)
-  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'jeres-energi', 'to-rytmer', 'tre-generationer'],
+  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'jeres-energi', 'to-rytmer', 'tre-generationer', 'kost-urter'],
 
   init() {
     repairStoredBirthdate();
@@ -4411,6 +4412,7 @@ const App = {
     'foelelser': 'min-praksis',
     'yin-yoga': 'min-praksis',
     'hvad-har-hjulpet': 'min-praksis',
+    'kost-urter': 'min-praksis',
     'indstillinger': 'min-rejse',
     'din-energi': 'mine-cyklusser',
     'jeres-energi': 'mine-relationer',
@@ -4542,6 +4544,8 @@ const App = {
           initFavoritterScreen();
         } else if (screenName === 'hvad-har-hjulpet') {
           initHvadHarHjulpetScreen();
+        } else if (screenName === 'kost-urter') {
+          initKostUrterScreen();
         } else if (screenName === 'indstillinger') {
           initIndstillingerScreen(window._indstillingerSection || null);
           window._indstillingerSection = null;
@@ -5376,93 +5380,174 @@ function renderRelNavCard(screen, title, desc, arrowText, disabled) {
 
 // ---- Niveau 1: Min Praksis ----
 
+// "Lige nu" tekster for Min Praksis — per element
+var PRAKSIS_LIGE_NU = {
+  'VAND': 'Vand-elementet pr\u00e6ger din dag. Kroppen kalder p\u00e5 langsomhed, varme og dybde. Nyrerne og bl\u00e6ren har brug for din opm\u00e6rksomhed \u2014 de b\u00e6rer din grundl\u00e6ggende livskraft.',
+  'TR\u00c6': 'Tr\u00e6-elementet pr\u00e6ger din dag. Kroppen kalder p\u00e5 bev\u00e6gelse, str\u00e6k og fri flow. Leveren og galdebl\u00e6ren har brug for din opm\u00e6rksomhed \u2014 de b\u00e6rer din retningssans og vilje.',
+  'ILD': 'Ild-elementet pr\u00e6ger din dag. Kroppen kalder p\u00e5 forbindelse, gl\u00e6de og udtryk. Hjertet og tyndtarmen har brug for din opm\u00e6rksomhed \u2014 de b\u00e6rer din evne til n\u00e6rv\u00e6r.',
+  'JORD': 'Jord-elementet pr\u00e6ger din dag. Kroppen kalder p\u00e5 n\u00e6ring, stabilitet og omsorg. Milten og maven har brug for din opm\u00e6rksomhed \u2014 de b\u00e6rer din evne til at tage imod.',
+  'METAL': 'Metal-elementet pr\u00e6ger din dag. Kroppen kalder p\u00e5 klarhed, ro og slip. Lungerne og tyktarmen har brug for din opm\u00e6rksomhed \u2014 de b\u00e6rer din evne til at give slip.'
+};
+
+function renderMinPraksisFigur() {
+  return '<div class="praksis__figur">' +
+    '<svg width="280" height="280" xmlns="http://www.w3.org/2000/svg">' +
+    // Center: DIN KROP
+    '<circle cx="140" cy="140" r="40" fill="#8B9A9D" fill-opacity="0.15" stroke="#8B9A9D" stroke-opacity="0.25" stroke-width="1"/>' +
+    '<text x="140" y="135" text-anchor="middle" font-size="11" font-weight="600" fill="#555" font-family="' + VENN_FONT + '">DIN KROP</text>' +
+    '<text x="140" y="150" text-anchor="middle" font-size="10" fill="#999" font-style="italic" font-family="' + VENN_FONT + '">lige nu</text>' +
+    // Top: YIN YOGA
+    '<circle cx="140" cy="42" r="30" fill="#8B9A9D" fill-opacity="0.08" stroke="#8B9A9D" stroke-opacity="0.15" stroke-width="1"/>' +
+    '<text x="140" y="38" text-anchor="middle" font-size="10" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">YIN</text>' +
+    '<text x="140" y="50" text-anchor="middle" font-size="10" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">YOGA</text>' +
+    // Top-right: VEJRTRÆKNING
+    '<circle cx="233" cy="88" r="30" fill="#8B9A9D" fill-opacity="0.08" stroke="#8B9A9D" stroke-opacity="0.15" stroke-width="1"/>' +
+    '<text x="233" y="85" text-anchor="middle" font-size="9" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">VEJR-</text>' +
+    '<text x="233" y="96" text-anchor="middle" font-size="9" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">TR\u00c6KNING</text>' +
+    // Bottom-right: MERIDIAN & EFT
+    '<circle cx="233" cy="192" r="30" fill="#8B9A9D" fill-opacity="0.08" stroke="#8B9A9D" stroke-opacity="0.15" stroke-width="1"/>' +
+    '<text x="233" y="189" text-anchor="middle" font-size="9" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">MERIDIAN</text>' +
+    '<text x="233" y="200" text-anchor="middle" font-size="9" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">& EFT</text>' +
+    // Bottom: KOST & URTER
+    '<circle cx="140" cy="238" r="30" fill="#8B9A9D" fill-opacity="0.08" stroke="#8B9A9D" stroke-opacity="0.15" stroke-width="1"/>' +
+    '<text x="140" y="234" text-anchor="middle" font-size="10" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">KOST</text>' +
+    '<text x="140" y="246" text-anchor="middle" font-size="9" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">& URTER</text>' +
+    // Bottom-left: FØLELSERNE
+    '<circle cx="47" cy="192" r="30" fill="#8B9A9D" fill-opacity="0.08" stroke="#8B9A9D" stroke-opacity="0.15" stroke-width="1"/>' +
+    '<text x="47" y="188" text-anchor="middle" font-size="9" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">F\u00d8LEL-</text>' +
+    '<text x="47" y="199" text-anchor="middle" font-size="9" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">SERNE</text>' +
+    // Top-left: REFLEKSION
+    '<circle cx="47" cy="88" r="30" fill="#8B9A9D" fill-opacity="0.08" stroke="#8B9A9D" stroke-opacity="0.15" stroke-width="1"/>' +
+    '<text x="47" y="84" text-anchor="middle" font-size="9" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">REFLEK-</text>' +
+    '<text x="47" y="95" text-anchor="middle" font-size="9" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">SION</text>' +
+    // Lines from center to each outer circle
+    '<line x1="140" y1="100" x2="140" y2="72" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
+    '<line x1="172" y1="112" x2="207" y2="92" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
+    '<line x1="172" y1="168" x2="207" y2="188" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
+    '<line x1="140" y1="180" x2="140" y2="208" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
+    '<line x1="108" y1="168" x2="73" y2="188" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
+    '<line x1="108" y1="112" x2="73" y2="92" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
+    '</svg>' +
+    '</div>';
+}
+
+function renderPraksisCard(title, desc, link, onclick) {
+  return '<div class="praksis__card" onclick="' + onclick + '">' +
+    '<h3 class="praksis__card-title">' + title + '</h3>' +
+    '<p class="praksis__card-desc">' + desc + '</p>' +
+    '<div class="praksis__card-link">' + link + '</div>' +
+    '</div>';
+}
+
 function initMinPraksisScreen() {
-  var kontekstEl = document.getElementById('min-praksis-kontekst');
-  var listEl = document.getElementById('min-praksis-list');
-  if (!listEl) return;
+  var figurEl = document.getElementById('min-praksis-figur');
+  var indsigtEl = document.getElementById('min-praksis-indsigt');
+  var sektionerEl = document.getElementById('min-praksis-sektioner');
+  if (!sektionerEl) return;
 
   ensureIdagData();
   var elements = window._activeElements || [];
   var insight = generateInsight(elements);
   var primaryEl = insight.dominantElement;
 
-  // Din Krop circle diagram
-  var vennEl = document.getElementById('min-praksis-venn');
-  if (vennEl) {
-    vennEl.innerHTML = renderDinKropCircle();
+  // 1. SVG Cirkeldiagram
+  if (figurEl) {
+    figurEl.innerHTML = renderMinPraksisFigur();
   }
 
-  // Kontekstboks
-  if (kontekstEl) {
-    var counts = {};
-    for (var i = 0; i < elements.length; i++) {
-      counts[elements[i]] = (counts[elements[i]] || 0) + 1;
-    }
-    var maxCount = 0;
-    var keys = Object.keys(counts);
-    for (var j = 0; j < keys.length; j++) {
-      if (counts[keys[j]] > maxCount) maxCount = counts[keys[j]];
-    }
-    kontekstEl.innerHTML =
-      '<p class="tema__kontekst-label">Dit dominerende element lige nu</p>' +
-      '<p class="tema__kontekst-value">' + ELEMENT_LABELS[primaryEl] + ' (' + maxCount + '/5 cyklusser)</p>' +
-      '<p class="tema__kontekst-text">Disse \u00f8velser og denne kost er valgt ud fra dit krydsfelt i dag \u2014 s\u00e5 du n\u00e6rer hele dit system, ikke kun \u00e9n del.</p>';
+  // 2. "Lige nu" indsigt-boks
+  if (indsigtEl) {
+    var ligeNuTekst = PRAKSIS_LIGE_NU[primaryEl] || PRAKSIS_LIGE_NU['VAND'];
+    indsigtEl.innerHTML =
+      '<div class="praksis__indsigt">' +
+      '<div class="praksis__indsigt-label">Lige nu</div>' +
+      '<div class="praksis__indsigt-text">' + ligeNuTekst + '</div>' +
+      '</div>';
   }
 
-  // Group 1: Krop og sind
-  var group1 = [
-    { screen: 'yin-yoga', title: 'Yin Yoga', subtitle: 'Femten positioner fordelt p\u00e5 fem elementer. Find de str\u00e6k der st\u00f8tter netop dit ' + ELEMENT_LABELS[primaryEl] + '-element lige nu.', highlighted: true },
-    { screen: 'refleksion', title: 'Refleksion', subtitle: 'Tag et stille \u00f8jeblik. Sp\u00f8rgsm\u00e5l tilpasset din livsfase \u2014 du beh\u00f8ver ikke svare, bare lytte indad.' },
-    { screen: 'foelelser', title: 'F\u00f8lelsernes Hjul', subtitle: 'Alle f\u00f8lelser h\u00f8rer til et element. Udforsk hvad dine f\u00f8lelser fort\u00e6ller om din krop og energi.' },
-    { screen: 'samlede-indsigt', title: '\u00d8velser \u2014 Forskellige indgange', subtitle: 'Seks veje ind i kroppen \u2014 fra yin yogas dybe str\u00e6k til EFT-tappingens lette banker. Nogle dage kalder p\u00e5 bev\u00e6gelse, andre p\u00e5 stilhed. Find den indgang der passer til dig.' }
-  ];
-  // Group 2: Næring
-  var group2 = [
-    { screen: 'samlede-indsigt', title: 'Kost & N\u00e6ring', subtitle: 'B\u00e5de kinesisk medicin og ayurveda ved, at mad er medicin. Her finder du f\u00f8devarer, urter og tilberedning der st\u00f8tter dit ' + ELEMENT_LABELS[primaryEl] + '-element.' }
-  ];
-  // Group 3: Fællesskab
-  var group3 = [
-    { screen: 'samlede-indsigt', title: 'Fokusomr\u00e5der', subtitle: 'Hvad kan du rette opm\u00e6rksomheden mod i dag? M\u00e5ske er det stilhed, m\u00e5ske bev\u00e6gelse. Dine cyklusser peger i en retning \u2014 her kan du f\u00f8lge den.' },
-    { screen: 'hvad-har-hjulpet', title: 'Hvad har hjulpet andre', subtitle: 'Anonyme erfaringer fra kvinder i samme livsfase som dig. Se hvad der virker \u2014 og del dine egne opdagelser.' }
-  ];
-
-  function renderPraksisGroup(heading, subtitle, cards) {
-    var h = '<h4 class="tema__group-heading">' + heading + '</h4>';
-    h += '<p class="tema__group-subtitle">' + subtitle + '</p>';
-    h += '<div class="tema__group">';
-    for (var i = 0; i < cards.length; i++) {
-      var c = cards[i];
-      var extraClass = ' tema__kort--groen' + (c.highlighted ? ' tema__kort--highlighted' : '');
-      h += '<div class="tema__kort' + extraClass + '" onclick="App.loadScreen(\'' + c.screen + '\')">';
-      h += '<div class="tema__kort-content">';
-      h += '<h3 class="tema__kort-title">' + c.title + '</h3>';
-      h += '<p class="tema__kort-subtitle">' + c.subtitle + '</p>';
-      h += '</div>';
-      h += '<span class="tema__kort-arrow">\u203A</span>';
-      h += '</div>';
-    }
-    h += '</div>';
-    return h;
-  }
-
+  // 3. Alle sektioner med nav-kort
   var html = '';
-  html += renderPraksisGroup('Krop og sind', 'Yin yoga, refleksion og f\u00f8lelsesarbejde \u2014 tre veje ind i kroppen, tilpasset det element dine cyklusser kalder p\u00e5 lige nu.', group1);
-  html += renderPraksisGroup('N\u00e6ring', 'B\u00e5de kinesisk medicin og ayurveda ved, at mad er medicin. Find f\u00f8devarer, urter og tilberedning der st\u00f8tter din energi i dag.', group2);
-  html += renderPraksisGroup('F\u00e6llesskab', 'Hvad kalder p\u00e5 din opm\u00e6rksomhed i dag? Dine cyklusser peger i en retning \u2014 her finder du fokusomr\u00e5der og konkrete forslag.', group3);
 
-  // Forløb card (external)
-  ensureIdagData();
-  var seasonName = window._idagData ? window._idagData.season.season : 'Vinter';
-  var forlob = FORLOB_DATA[seasonName] || FORLOB_DATA['Vinter'];
-  html += sectionDivider();
-  html += '<div class="forloeb-kort" onclick="window.open(\'' + forlob.url + '\', \'_blank\')">';
-  html += '<span class="forloeb-kort__label">Isabelles forl\u00f8b \u00B7 Eksternt</span>';
-  html += '<h3 class="forloeb-kort__title">' + forlob.title + '</h3>';
-  html += '<p class="forloeb-kort__subtitle">' + forlob.subtitle + '</p>';
-  html += '<span class="forloeb-kort__link">L\u00e6s mere \u2192</span>';
-  html += '</div>';
+  // --- Krop og bevægelse ---
+  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h3 class="praksis__section-title">Krop og bev\u00e6gelse</h3>';
+  html += '<p class="praksis__section-intro">\u00d8velser der st\u00f8tter dit element lige nu</p>';
+  html += renderPraksisCard(
+    'Yin Yoga',
+    'Dybe stillinger der arbejder med bindev\u00e6vet og meridianerne. V\u00e6lg dit element og find de positioner, der st\u00f8tter dig.',
+    'Se stillinger \u2192',
+    "App.loadScreen('yin-yoga')"
+  );
+  html += renderPraksisCard(
+    'Meridianstrygning',
+    'Blide str\u00f8g langs kroppens energibaner. F\u00e5 energien til at flyde \u2014 p\u00e5 f\u00e5 minutter, hvor som helst.',
+    'Se meridianerne \u2192',
+    "App.loadScreen('samlede-indsigt')"
+  );
+  html += renderPraksisCard(
+    'Fod Yoga',
+    'F\u00f8dderne rummer et kort over hele kroppen. V\u00e6k dem \u2014 og v\u00e6k forbindelsen til nuet.',
+    'Se \u00f8velser \u2192',
+    "App.loadScreen('samlede-indsigt')"
+  );
 
-  listEl.innerHTML = html;
+  // --- Åndedræt og sind ---
+  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h3 class="praksis__section-title">\u00c5ndedr\u00e6t og sind</h3>';
+  html += '<p class="praksis__section-intro">N\u00e5r f\u00f8lelserne fylder, eller du har brug for ro</p>';
+  html += renderPraksisCard(
+    'Vejrtr\u00e6kning',
+    '\u00c5ndedr\u00e6ttet er altid tilg\u00e6ngeligt og p\u00e5virker nervesystemet direkte. Start her, hvis du ikke ved, hvad du har brug for.',
+    'Find din vejrtr\u00e6kning \u2192',
+    "App.loadScreen('samlede-indsigt')"
+  );
+  html += renderPraksisCard(
+    'EFT Tapping',
+    'Banken p\u00e5 akupunkturpunkter kombineret med ord. S\u00e6rligt effektivt n\u00e5r noget bestemt tynger dig.',
+    'Pr\u00f8v en sekvens \u2192',
+    "App.loadScreen('samlede-indsigt')"
+  );
+  html += renderPraksisCard(
+    'Refleksion',
+    'Sp\u00f8rgsm\u00e5l tilpasset din fase og dit element. Lad dem synke ind \u2014 du beh\u00f8ver ikke svare p\u00e5 dem alle.',
+    'Find et sp\u00f8rgsm\u00e5l \u2192',
+    "App.loadScreen('refleksion')"
+  );
+
+  // --- Næring ---
+  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h3 class="praksis__section-title">N\u00e6ring</h3>';
+  html += '<p class="praksis__section-intro">Mad og urter der st\u00f8tter dit element indefra</p>';
+  html += renderPraksisCard(
+    'Kost & Urter',
+    'F\u00f8devarer og urter fra den kinesiske og den indiske tradition, tilpasset dit element og din fase.',
+    'Se anbefalinger \u2192',
+    "App.loadScreen('kost-urter')"
+  );
+
+  // --- Følelserne ---
+  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h3 class="praksis__section-title">F\u00f8lelserne</h3>';
+  html += '<p class="praksis__section-intro">Alle f\u00f8lelser h\u00f8rer til et element og et organpar</p>';
+  html += renderPraksisCard(
+    'F\u00f8lelsernes Hjul',
+    'Frygt, vrede, gl\u00e6de, bekymring, sorg \u2014 se hvor dine f\u00f8lelser bor i kroppen, og hvad de fort\u00e6ller dig.',
+    'Udforsk dine f\u00f8lelser \u2192',
+    "App.loadScreen('foelelser')"
+  );
+
+  // --- Fællesskab ---
+  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h3 class="praksis__section-title">F\u00e6llesskab</h3>';
+  html += '<p class="praksis__section-intro">Anonyme erfaringer fra kvinder i samme situation</p>';
+  html += renderPraksisCard(
+    'Hvad har hjulpet andre',
+    'Se hvad kvinder i din livsfase og med dit element anbefaler. Del dine egne erfaringer anonymt.',
+    'Se erfaringer \u2192',
+    "App.loadScreen('hvad-har-hjulpet')"
+  );
+
+  sektionerEl.innerHTML = html;
 }
 
 // ---- Niveau 1: Min Rejse ----
@@ -6904,10 +6989,11 @@ var MENU_DATA = [
     title: 'Min Praksis',
     children: [
       { label: 'Yin Yoga', action: "App.loadScreen('yin-yoga')" },
-      { label: 'Refleksion', action: "App.loadScreen('refleksion')" },
       { label: 'F\u00f8lelsernes Hjul', action: "App.loadScreen('foelelser')" },
-      { label: 'Kost & N\u00e6ring', action: "App.loadScreen('samlede-indsigt')" },
-      { label: 'Hvad har hjulpet andre', action: "App.loadScreen('hvad-har-hjulpet')" }
+      { label: 'Refleksion', action: "App.loadScreen('refleksion')" },
+      { label: 'Kost & Urter', action: "App.loadScreen('kost-urter')" },
+      { label: 'Hvad har hjulpet andre', action: "App.loadScreen('hvad-har-hjulpet')" },
+      { label: 'Din samlede indsigt', action: "App.loadScreen('samlede-indsigt')" }
     ]
   },
   {
@@ -7060,7 +7146,7 @@ var SEARCH_CATEGORIES = [
   {
     id: 'kost', title: 'Kost & Næring',
     desc: 'Mad er medicin — det vidste kinesisk medicin for tusind år siden. Find fødevarer, urter og tilberedning der nærer dit dominerende element lige nu.',
-    screen: 'samlede-indsigt',
+    screen: 'kost-urter',
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><path d="M6 1v3M10 1v3M14 1v3"/></svg>'
   },
   {
@@ -7918,6 +8004,11 @@ var HJULPET_DATA = {
     eft: { title: 'EFT for sorg og tab', desc: 'Tapping p\u00e5 lungepunktet \u00B7 Hj\u00e6lper med at give slip', pct: 65, count: 178 }
   }
 };
+
+// Stub — implementeres i Side 5
+function initKostUrterScreen() {
+  // TODO: Byg Kost & Urter screen
+}
 
 function initHvadHarHjulpetScreen() {
   ensureIdagData();

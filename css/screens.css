@@ -3988,6 +3988,130 @@
   color: #8B9A9D;
 }
 
+/* =========================================
+   MIN PRAKSIS — Landingsside (grå-grøn)
+   ========================================= */
+
+.praksis__title {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 400;
+  font-style: italic;
+  color: #6B8273;
+  text-align: center;
+  margin: 24px 0 8px;
+}
+
+.praksis__intro {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-style: italic;
+  color: #888;
+  text-align: center;
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+.praksis__figur {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+}
+
+.praksis__indsigt {
+  background: rgba(139, 154, 157, 0.07);
+  border: 1px solid rgba(139, 154, 157, 0.14);
+  border-radius: 14px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.praksis__indsigt-label {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  color: #7A9080;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.praksis__indsigt-text {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  color: #444;
+  line-height: 1.65;
+  font-style: italic;
+}
+
+.praksis__dots {
+  text-align: center;
+  color: #b8cebe;
+  font-size: 9px;
+  letter-spacing: 10px;
+  margin: 28px 0;
+}
+
+.praksis__section-title {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  font-style: italic;
+  color: #6B8273;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.praksis__section-intro {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-style: italic;
+  color: #888;
+  text-align: center;
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+.praksis__card {
+  background: rgba(139, 154, 157, 0.04);
+  border: 1px solid rgba(139, 154, 157, 0.12);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.praksis__card:active {
+  transform: scale(0.97);
+}
+
+.praksis__card-title {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.praksis__card-desc {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: #777;
+  line-height: 1.55;
+  font-style: italic;
+}
+
+.praksis__card-link {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: #7A9080;
+  font-style: italic;
+}
+
 /* Min Rejse (lighter blue) */
 .screen--min-rejse .tema__kontekst {
   background: linear-gradient(145deg, rgba(118, 144, 193, 0.06) 0%, rgba(118, 144, 193, 0.03) 100%);
