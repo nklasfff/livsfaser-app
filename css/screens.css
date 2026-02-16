@@ -7014,6 +7014,14 @@
   margin: 0 auto;
 }
 
+.cic-lotus-img {
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
 .mc__dots {
   text-align: center;
   color: #a8bbd8;

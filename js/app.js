@@ -6336,20 +6336,10 @@ function initCyklusserICyklusserScreen() {
   var d = window._idagData;
   if (!d) return;
 
-  // 1. Blomst-SVG
+  // 1. Lotus-billede
   var blomstEl = document.getElementById('cic-blomst');
   if (blomstEl) {
-    blomstEl.innerHTML = renderCicBlomstSvg();
-  }
-
-  // 2. "LIGE NU" indsigt-boks
-  var ligeNuEl = document.getElementById('cic-lige-nu');
-  if (ligeNuEl) {
-    var h = '<div class="mc__ins">';
-    h += '<div class="mc__ins-label">LIGE NU</div>';
-    h += '<div class="mc__ins-text">Vi lever altid i fem cyklusser p\u00e5 \u00e9n gang. Hver bev\u00e6ger sig gennem de samme elementer: Vand \u2192 Tr\u00e6 \u2192 Ild \u2192 Jord \u2192 Metal \u2192 Vand. Fra stilhed til v\u00e6kst til udfoldelse til h\u00f8st til slip.</div>';
-    h += '</div>';
-    ligeNuEl.innerHTML = h;
+    blomstEl.innerHTML = '<img src="assets/images/lotus-5blade-hires.png" alt="Cyklusser i cyklusser" class="cic-lotus-img">';
   }
 
   // 3. Fem cyklus-kort
