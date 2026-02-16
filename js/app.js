@@ -4109,6 +4109,170 @@ window.deChangeMonth = deChangeMonth;
 window.deResetDate = deResetDate;
 window.navigateToDinEnergiWithDate = navigateToDinEnergiWithDate;
 
+// ---- Kroppens store overgange (NYT DESIGN) ----
+
+var KSO_TRANSITIONS = [
+  { age: 7, label: 'OMKRING 7 \u00c5R', name: 'De f\u00f8rste t\u00e6nder og den f\u00f8rste bevidsthed', text: 'Nyre-Qi\u2019en viser sig for f\u00f8rste gang. Blivende t\u00e6nder, tykkere h\u00e5r, en begyndende selvbevidsthed. Vand \u2192 Tr\u00e6.' },
+  { age: 14, label: 'OMKRING 14 \u00c5R', name: 'Puberteten og den m\u00e5nedlige cyklus', text: 'Menstruationen begynder. Kroppen er klar til at b\u00e6re liv. En ny rytme l\u00e6gges ovenp\u00e5 livets bue.' },
+  { age: 28, label: 'OMKRING 28 \u00c5R', name: 'Kroppens toppunkt', text: 'Qi\u2019en er p\u00e5 sit st\u00e6rkeste. Knogler, muskler, fertilitet \u2014 alt p\u00e5 sit h\u00f8jeste. Ild-energi p\u00e5 sit mest intense.' },
+  { age: 35, label: 'OMKRING 35 \u00c5R', name: 'Det stille vendepunkt', text: 'Det f\u00f8rste skift indad. Fertiliteten begynder at aftage. Yang vender langsomt mod Yin.' },
+  { age: 49, label: 'OMKRING 49 \u00c5R', name: 'Overgangsalderen', text: 'Den m\u00e5nedlige cyklus stopper. En hel rytme forsvinder. Metal-energi \u2014 at give slip, at sortere det essentielle.' },
+  { age: 63, label: '63+ \u00c5R', name: 'Vandets tilbagevenden', text: 'Energien runder cirklen. Du b\u00e6rer den samme essens som barnet \u2014 men med alt, livet har l\u00e6rt dig.' }
+];
+
+var KSO_ISABELLE = {
+  'pre7': 'Alt begynder i stilhed. F\u00f8r de store overgange ligger barnets tid \u2014 ren, u\u00e5bnet, fuld af potentiale.',
+  '7-14': 'De f\u00f8rste forandringer kommer stille. Kroppen v\u00e5gner, men sindet er stadig barn. Giv det tid.',
+  '14-28': 'Puberteten er ikke en sygdom \u2014 det er en d\u00f8r. Du g\u00e5r igennem den langsomt, over \u00e5r, og hver skridt er rigtigt.',
+  '28-35': 'Kroppens toppunkt er ogs\u00e5 begyndelsen p\u00e5 vendingen. Det f\u00f8les ikke som tab endnu \u2014 men noget skifter.',
+  '35-49': 'Det stille vendepunkt er den mest underkendte overgang. Ingen fejrer den \u2014 men den \u00e6ndrer alt.',
+  '49-63': 'Overgangsalderen er ikke en afslutning. Det er Metal-energi p\u00e5 sit stærkeste \u2014 at skære ind til benet, at finde det essentielle.',
+  '63+': 'Hver overgang f\u00f8les som et tab, mens du er i den. Bagefter kan du se, at det var en d\u00f8r. Du har g\u00e5et gennem dem alle \u2014 og du er stadig her.'
+};
+
+// SVG: bue med 5 vendepunkter
+function renderKsoArcSvg(age) {
+  var points = [
+    { x: 52, y: 70, age: 7, labelY: 90 },
+    { x: 100, y: 35, age: 14, labelY: 55 },
+    { x: 150, y: 14, age: 28, labelY: 8 },
+    { x: 200, y: 35, age: 49, labelY: 55 },
+    { x: 250, y: 70, age: 63, labelY: 90 }
+  ];
+
+  // Find n\u00e6rmeste vendepunkt baseret p\u00e5 alder
+  var activeIdx = 0;
+  if (age < 7) activeIdx = 0;
+  else if (age < 14) activeIdx = 0;
+  else if (age < 28) activeIdx = 1;
+  else if (age < 49) activeIdx = 2;
+  else if (age < 63) activeIdx = 3;
+  else activeIdx = 4;
+
+  var svg = '<svg viewBox="0 0 300 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:300px;height:auto;display:block;margin:0 auto">';
+  svg += '<path d="M 25 90 Q 150 5, 275 90" fill="none" stroke="rgba(118,144,193,0.3)" stroke-width="1.5"/>';
+
+  for (var i = 0; i < points.length; i++) {
+    var p = points[i];
+    var isActive = (i === activeIdx);
+    if (isActive) {
+      svg += '<circle cx="' + p.x + '" cy="' + p.y + '" r="7" fill="#5A74A5" stroke="#5A74A5" stroke-width="1"/>';
+      var labelText = p.age === 63 ? '63+ \u00e5r' : p.age + ' \u00e5r';
+      svg += '<text x="' + p.x + '" y="' + p.labelY + '" font-family="Georgia,\'Times New Roman\',serif" font-size="9" fill="#5A74A5" font-weight="600" font-style="italic" text-anchor="middle">' + labelText + '</text>';
+    } else {
+      svg += '<circle cx="' + p.x + '" cy="' + p.y + '" r="6" fill="rgba(118,144,193,0.15)" stroke="rgba(118,144,193,0.3)" stroke-width="1"/>';
+      var labelText2 = p.age === 63 ? '63+ \u00e5r' : p.age + ' \u00e5r';
+      svg += '<text x="' + p.x + '" y="' + p.labelY + '" font-family="Georgia,\'Times New Roman\',serif" font-size="9" fill="#7690C1" font-style="italic" text-anchor="middle">' + labelText2 + '</text>';
+    }
+  }
+
+  svg += '</svg>';
+  return svg;
+}
+
+function getKsoIsabelleKey(age) {
+  if (age < 7) return 'pre7';
+  if (age < 14) return '7-14';
+  if (age < 28) return '14-28';
+  if (age < 35) return '28-35';
+  if (age < 49) return '35-49';
+  if (age < 63) return '49-63';
+  return '63+';
+}
+
+function getKsoPositionText(age) {
+  if (age < 7) {
+    return 'Du er f\u00f8r livets f\u00f8rste store overgang. Alt er endnu foran dig \u2014 stilheden f\u00f8r forandringen.';
+  } else if (age < 14) {
+    return 'Du har passeret den f\u00f8rste overgang. Kroppen v\u00e5gner langsomt. De n\u00e6ste store skift ligger stadig forude.';
+  } else if (age < 28) {
+    return 'Puberteten ligger bag dig, og kroppen er p\u00e5 vej mod sit toppunkt. Du er i v\u00e6kstens \u00e5r \u2014 fuld af kraft og retning.';
+  } else if (age < 35) {
+    return 'Du er t\u00e6t p\u00e5 kroppens toppunkt \u2014 eller lige forbi det. Energien er stærk, men det f\u00f8rste vendepunkt n\u00e6rmer sig.';
+  } else if (age < 49) {
+    return 'Du er midt i det stille vendepunkt. Yang vender mod Yin. Kroppen beder om at blive lyttet til p\u00e5 en ny m\u00e5de.';
+  } else if (age < 63) {
+    return 'Overgangsalderen er her \u2014 eller lige bag dig. En hel rytme forsvinder, og noget nyt tr\u00e6der frem. Metal-energien sorterer det essentielle.';
+  } else {
+    return 'Du er forbi livets store vendepunkter. Overgangsalderen ligger bag dig, og kroppen har fundet en ny ro. Den energi du har nu er roligere, dybere, mere samlet.';
+  }
+}
+
+function initKroppensStoreOvergangeScreen() {
+  ensureIdagData();
+  var d = window._idagData;
+  if (!d) return;
+  var age = d.age;
+
+  // Bue-SVG
+  var arcEl = document.getElementById('kso-arc');
+  if (arcEl) {
+    arcEl.innerHTML = renderKsoArcSvg(age);
+  }
+
+  // DIN POSITION indsigt-boks
+  var posEl = document.getElementById('kso-position');
+  if (posEl) {
+    var html = '<div class="mc__ins">';
+    html += '<div class="mc__ins-label">DIN POSITION</div>';
+    html += '<div class="mc__ins-text">' + getKsoPositionText(age) + '</div>';
+    html += '</div>';
+    posEl.innerHTML = html;
+  }
+
+  // Tidslinje
+  var tlEl = document.getElementById('kso-tidslinje');
+  if (tlEl) {
+    var tlHtml = '<div class="mc__tl">';
+    for (var i = 0; i < KSO_TRANSITIONS.length; i++) {
+      var t = KSO_TRANSITIONS[i];
+      // Aktiv: brugerens alder er >= denne overgangs alder OG (sidste ELLER brugerens alder < n\u00e6stes alder)
+      var isActive = false;
+      if (i === KSO_TRANSITIONS.length - 1) {
+        isActive = (age >= t.age);
+      } else {
+        isActive = (age >= t.age && age < KSO_TRANSITIONS[i + 1].age);
+      }
+      // Sidste punkt (63+): aktiv hvis age >= 63
+      if (i === KSO_TRANSITIONS.length - 1 && age >= 63) isActive = true;
+
+      var dotClass = isActive ? 'mc__tl-dot on' : 'mc__tl-dot';
+      var ageLabel = t.label;
+      if (isActive && i === KSO_TRANSITIONS.length - 1) {
+        ageLabel = '63+ \u00c5R \u00b7 DU ER HER';
+      } else if (isActive) {
+        ageLabel = t.label + ' \u00b7 DU ER HER';
+      }
+
+      tlHtml += '<div class="mc__tl-item">';
+      tlHtml += '<div class="' + dotClass + '"></div>';
+      tlHtml += '<div class="mc__tl-age">' + ageLabel + '</div>';
+      tlHtml += '<div class="mc__tl-name">' + t.name + '</div>';
+      tlHtml += '<div class="mc__tl-text">' + t.text + '</div>';
+      tlHtml += '</div>';
+    }
+    tlHtml += '</div>';
+    tlEl.innerHTML = tlHtml;
+  }
+
+  // ISABELLES ORD
+  var isEl = document.getElementById('kso-isabelle');
+  if (isEl) {
+    var key = getKsoIsabelleKey(age);
+    var isHtml = '<div class="mc__ins">';
+    isHtml += '<div class="mc__ins-label">ISABELLES ORD</div>';
+    isHtml += '<div class="mc__ins-text">' + KSO_ISABELLE[key] + '</div>';
+    isHtml += '</div>';
+    isEl.innerHTML = isHtml;
+  }
+
+  // Actions
+  var actEl = document.getElementById('kso-actions');
+  if (actEl) {
+    actEl.innerHTML = renderActionBar('kroppens-store-overgange');
+  }
+}
+
 // ---- Tidsvinduet: Jeres energi p\u00e5 en anden dag ----
 
 var JeresEnergiState = {
@@ -4511,6 +4675,7 @@ const App = {
     'indstillinger': 'screens/indstillinger.html',
     'hvad-har-hjulpet': 'screens/hvad-har-hjulpet.html',
     'din-energi': 'screens/din-energi.html',
+    'kroppens-store-overgange': 'screens/kroppens-store-overgange.html',
     'jeres-energi': 'screens/jeres-energi.html',
     'to-rytmer': 'screens/to-rytmer.html',
     'tre-generationer': 'screens/tre-generationer.html',
@@ -4525,7 +4690,7 @@ const App = {
   // Niveau 1 skærme (tema-overblik)
   niveau1: ['mine-cyklusser', 'mine-relationer', 'min-praksis', 'min-rejse'],
   // Niveau 2 skærme (specifikt indhold)
-  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'jeres-energi', 'to-rytmer', 'tre-generationer', 'kost-urter', 'min-journal', 'mine-favoritter', 'mine-samlinger', 'baggrundsviden', 'dine-cyklusser-lige-nu'],
+  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'kroppens-store-overgange', 'jeres-energi', 'to-rytmer', 'tre-generationer', 'kost-urter', 'min-journal', 'mine-favoritter', 'mine-samlinger', 'baggrundsviden', 'dine-cyklusser-lige-nu'],
 
   init() {
     repairStoredBirthdate();
@@ -4559,6 +4724,7 @@ const App = {
     'kost-urter': 'min-praksis',
     'indstillinger': 'min-rejse',
     'din-energi': 'mine-cyklusser',
+    'kroppens-store-overgange': 'mine-cyklusser',
     'jeres-energi': 'mine-relationer',
     'to-rytmer': 'mine-relationer',
     'tre-generationer': 'mine-relationer',
@@ -4700,6 +4866,8 @@ const App = {
           window._indstillingerSection = null;
         } else if (screenName === 'din-energi') {
           initDinEnergiScreen();
+        } else if (screenName === 'kroppens-store-overgange') {
+          initKroppensStoreOvergangeScreen();
         } else if (screenName === 'jeres-energi') {
           initJeresEnergiScreen();
         } else if (screenName === 'to-rytmer') {

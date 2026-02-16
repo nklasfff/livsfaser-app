@@ -6362,3 +6362,61 @@
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
 }
 
+/* --- Tidslinje (Kroppens store overgange) --- */
+
+.mc__tl {
+  position: relative;
+  padding-left: 24px;
+  margin: 20px 0;
+}
+.mc__tl::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(118,144,193,0.2);
+}
+.mc__tl-item {
+  position: relative;
+  margin-bottom: 20px;
+  padding-left: 20px;
+}
+.mc__tl-dot {
+  position: absolute;
+  left: -21px;
+  top: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #a8bbd8;
+  border: 1px solid rgba(118,144,193,0.3);
+}
+.mc__tl-dot.on {
+  background: #5A74A5;
+  border-color: #5A74A5;
+}
+.mc__tl-age {
+  font-size: 10px;
+  color: #7690C1;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, sans-serif);
+  font-weight: 600;
+}
+.mc__tl-name {
+  font-size: 16px;
+  color: #5A74A5;
+  margin-bottom: 4px;
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+}
+.mc__tl-text {
+  font-size: 14px;
+  color: #777;
+  font-style: italic;
+  line-height: 1.55;
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+}
+
