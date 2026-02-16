@@ -6997,6 +6997,15 @@
   margin: 0 auto;
 }
 
+.baggrund-kontrol-img {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 12px;
+}
+
 .mc__dots {
   text-align: center;
   color: #a8bbd8;

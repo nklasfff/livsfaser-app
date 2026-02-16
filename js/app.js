@@ -7414,27 +7414,9 @@ function initBaggrundsvidenScreen() {
   h += '<h1 class="rejse__t1">Baggrundsviden</h1>';
   h += '<p class="rejse__intr">Den dybere forst\u00e5else bag cyklusser, elementer og livets rytmer. Her finder du den viden der b\u00e6rer hele appen \u2014 fra kinesisk medicin til vedisk filosofi og epigenetik.</p>';
 
-  // SVG pentagram
+  // Kontrolcyklus-billede
   h += '<div class="rejse__fig">';
-  h += '<svg width="260" height="240" xmlns="http://www.w3.org/2000/svg">';
-  h += '<circle cx="130" cy="40" r="28" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.18)" stroke-width="1"/>';
-  h += '<circle cx="220" cy="100" r="28" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.15)" stroke-width="1"/>';
-  h += '<circle cx="185" cy="200" r="28" fill="rgba(139,125,155,0.055)" stroke="rgba(139,125,155,0.16)" stroke-width="1"/>';
-  h += '<circle cx="75" cy="200" r="28" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.15)" stroke-width="1"/>';
-  h += '<circle cx="40" cy="100" r="28" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.18)" stroke-width="1"/>';
-  h += '<line x1="130" y1="68" x2="220" y2="72" stroke="rgba(139,125,155,0.12)" stroke-width="0.5"/>';
-  h += '<line x1="220" y1="128" x2="185" y2="172" stroke="rgba(139,125,155,0.12)" stroke-width="0.5"/>';
-  h += '<line x1="157" y1="200" x2="103" y2="200" stroke="rgba(139,125,155,0.12)" stroke-width="0.5"/>';
-  h += '<line x1="75" y1="172" x2="40" y2="128" stroke="rgba(139,125,155,0.12)" stroke-width="0.5"/>';
-  h += '<line x1="40" y1="72" x2="130" y2="68" stroke="rgba(139,125,155,0.12)" stroke-width="0.5"/>';
-  h += '<text x="130" y="43" text-anchor="middle" font-size="11" fill="#6B5F7B" font-style="italic" font-family="Times New Roman, Georgia, serif">Ild</text>';
-  h += '<text x="220" y="103" text-anchor="middle" font-size="11" fill="#6B5F7B" font-style="italic" font-family="Times New Roman, Georgia, serif">Jord</text>';
-  h += '<text x="185" y="203" text-anchor="middle" font-size="11" fill="#6B5F7B" font-style="italic" font-family="Times New Roman, Georgia, serif">Metal</text>';
-  h += '<text x="75" y="203" text-anchor="middle" font-size="11" fill="#6B5F7B" font-style="italic" font-family="Times New Roman, Georgia, serif">Vand</text>';
-  h += '<text x="40" y="103" text-anchor="middle" font-size="11" fill="#6B5F7B" font-style="italic" font-family="Times New Roman, Georgia, serif">Tr\u00e6</text>';
-  h += '<text x="130" y="128" text-anchor="middle" font-size="10" fill="#8B7D9B" font-style="italic" font-family="Times New Roman, Georgia, serif">alt h\u00e6nger</text>';
-  h += '<text x="130" y="142" text-anchor="middle" font-size="10" fill="#8B7D9B" font-style="italic" font-family="Times New Roman, Georgia, serif">sammen</text>';
-  h += '</svg>';
+  h += '<img src="assets/images/kontrolcyklus.png" alt="Kontrolcyklussen" class="baggrund-kontrol-img">';
   h += '</div>';
 
   // Indsigt-boks
