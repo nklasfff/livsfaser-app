@@ -4409,114 +4409,527 @@
   gap: 12px;
 }
 
-/* Indstillinger */
+/* ====== Søg Screen ====== */
+.screen--soeg {
+  padding-bottom: var(--space-xxl);
+}
+
+.soeg__title {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+  font-style: italic;
+  color: #5A74A5;
+  text-align: center;
+  margin: 24px 0 8px;
+}
+
+.soeg__intro {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+  color: #888;
+  text-align: center;
+  line-height: 1.65;
+  margin-bottom: 28px;
+}
+
+.soeg__field {
+  background: rgba(118, 144, 193, 0.06);
+  border: 1px solid rgba(118, 144, 193, 0.18);
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.soeg__field-icon {
+  color: #7690C1;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.soeg__field-input {
+  border: none;
+  background: transparent;
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 16px;
+  color: #555;
+  font-style: italic;
+  flex: 1;
+  outline: none;
+  width: 100%;
+}
+
+.soeg__field-input::placeholder {
+  color: #bbb;
+}
+
+.soeg__tags-label {
+  font-size: 10px;
+  color: #7690C1;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.soeg__tags-label--spaced {
+  margin-top: 16px;
+}
+
+.soeg__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 16px;
+}
+
+.soeg__tag {
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 13px;
+  border: 1px solid rgba(118, 144, 193, 0.2);
+  color: #7690C1;
+  background: rgba(118, 144, 193, 0.04);
+  cursor: pointer;
+}
+
+.soeg__tag--hot {
+  background: rgba(118, 144, 193, 0.1);
+  border-color: rgba(118, 144, 193, 0.3);
+}
+
+.soeg__dots {
+  text-align: center;
+  color: #a8bbd8;
+  font-size: 9px;
+  letter-spacing: 10px;
+  margin: 28px 0;
+}
+
+.soeg__subtitle {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 22px;
+  font-weight: 400;
+  font-style: italic;
+  color: #5A74A5;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.soeg__udforsk-intro {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+  color: #888;
+  text-align: center;
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+.soeg__cat {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: rgba(118, 144, 193, 0.03);
+  border: 1px solid rgba(118, 144, 193, 0.1);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.soeg__cat-icon {
+  width: 34px;
+  height: 34px;
+  background: rgba(118, 144, 193, 0.08);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 15px;
+  color: #7690C1;
+  margin-top: 2px;
+}
+
+.soeg__cat-body {
+  flex: 1;
+}
+
+.soeg__cat-title {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+
+.soeg__cat-desc {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 13px;
+  color: #888;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.soeg__hint {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 13px;
+  color: #bbb;
+  font-style: italic;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.soeg__results {
+  margin: 0 0 16px;
+}
+
+.soeg__result {
+  background: rgba(118, 144, 193, 0.03);
+  border: 1px solid rgba(118, 144, 193, 0.1);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.soeg__result-title {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+
+.soeg__result-subtitle {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 13px;
+  color: #888;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.soeg__empty {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+  color: #bbb;
+  text-align: center;
+  padding: 24px 0;
+}
+
+/* ====== Indstillinger Screen ====== */
 .screen--indstillinger {
   padding-bottom: var(--space-xxl);
 }
 
-.indstilling-section {
-  margin-bottom: var(--space-lg);
-  background: var(--bg-card);
-  border: 1px solid rgba(118, 144, 193, 0.12);
-  border-radius: 20px;
-  padding: var(--space-lg);
-  box-shadow: var(--shadow-card);
+.ind__title {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+  font-style: italic;
+  color: #5A74A5;
+  text-align: center;
+  margin: 24px 0 8px;
 }
 
-.indstilling-section__title {
-  font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 28px;
-  font-weight: bold;
-  color: #7690C1;
+.ind__intro {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+  color: #888;
   text-align: center;
-  margin-top: 72px;
+  line-height: 1.65;
+  margin-bottom: 28px;
+}
+
+.ind__dots {
+  text-align: center;
+  color: #a8bbd8;
+  font-size: 9px;
+  letter-spacing: 10px;
+  margin: 28px 0;
+}
+
+/* Section box */
+.ind__section {
+  background: rgba(118, 144, 193, 0.04);
+  border: 1px solid rgba(118, 144, 193, 0.12);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.ind__section-label {
+  font-size: 10px;
+  color: #7690C1;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+/* Setting row (toggle rows) */
+.ind__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(118, 144, 193, 0.08);
+}
+
+.ind__row:last-child {
+  border-bottom: none;
+}
+
+.ind__row-info {
+  flex: 1;
+  padding-right: 12px;
+}
+
+.ind__row-name {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.ind__row-desc {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 13px;
+  color: #999;
+  font-style: italic;
+  line-height: 1.45;
+}
+
+/* Toggle switch */
+.ind__toggle {
+  width: 44px;
+  height: 24px;
+  background: rgba(118, 144, 193, 0.2);
+  border-radius: 12px;
+  position: relative;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ind__toggle--on {
+  background: #5A74A5;
+}
+
+.ind__toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: left 0.2s;
+}
+
+.ind__toggle--on::after {
+  left: 22px;
+}
+
+/* Input fields */
+.ind__input {
+  background: rgba(118, 144, 193, 0.06);
+  border: 1px solid rgba(118, 144, 193, 0.14);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 15px;
+  color: #555;
+  width: 100%;
+  margin-top: 8px;
+  outline: none;
+}
+
+.ind__input:focus {
+  border-color: rgba(118, 144, 193, 0.3);
+}
+
+.ind__input--narrow {
+  width: 120px;
+}
+
+.ind__input--short {
+  width: 80px;
+}
+
+/* Setting name (standalone, not in row) */
+.ind__setting-name {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.ind__setting-desc {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 13px;
+  color: #999;
+  font-style: italic;
+}
+
+.ind__setting-info {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 13px;
+  color: #999;
+  font-style: italic;
+  margin-top: 8px;
+}
+
+/* Insight box */
+.ind__insight {
+  background: rgba(118, 144, 193, 0.06);
+  border: 1px solid rgba(118, 144, 193, 0.14);
+  border-radius: 14px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.ind__insight-label {
+  font-size: 10px;
+  color: #7690C1;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 600;
   margin-bottom: 8px;
 }
 
-.indstilling-label {
-  display: block;
-  font-family: var(--font-serif);
-  font-size: var(--text-small);
-  color: var(--text-secondary);
-  margin-bottom: var(--space-xs);
+.ind__insight-text {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.65;
+  font-style: italic;
 }
 
-.indstilling-input {
-  width: 100%;
-  font-family: var(--font-system);
-  font-size: var(--text-body);
-  padding: var(--space-sm) var(--space-md);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  margin-bottom: var(--space-sm);
-}
-
-.indstilling-info {
-  font-size: var(--text-small);
-  color: var(--text-secondary);
-  line-height: var(--line-relaxed);
-  margin-bottom: var(--space-sm);
-}
-
-.indstilling-toggle {
+/* Link cards */
+.ind__link {
+  background: rgba(118, 144, 193, 0.04);
+  border: 1px solid rgba(118, 144, 193, 0.12);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
   display: flex;
-  gap: var(--space-sm);
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
 }
 
-.indstilling-choice {
+.ind__link-icon {
+  width: 32px;
+  height: 32px;
+  background: rgba(118, 144, 193, 0.08);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #7690C1;
+  flex-shrink: 0;
+}
+
+.ind__link-body {
   flex: 1;
-  padding: var(--space-sm) var(--space-md);
-  font-family: var(--font-serif);
-  font-size: var(--text-body);
-  border: 1px solid var(--blaa);
-  border-radius: var(--radius-full);
-  background: transparent;
-  color: var(--blaa);
-  cursor: pointer;
 }
 
-.indstilling-choice--active {
-  background: var(--blaa);
-  color: #FFFFFF;
+.ind__link-name {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 2px;
 }
 
-.indstilling-relation {
-  display: flex;
-  justify-content: space-between;
-  padding: var(--space-sm) 0;
-  border-bottom: 1px solid var(--border);
+.ind__link-desc {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 13px;
+  color: #999;
+  font-style: italic;
 }
 
-.indstilling-relation__name {
-  font-weight: var(--weight-medium);
-  color: var(--text-primary);
+.ind__link-arrow {
+  color: #a8bbd8;
+  font-size: 14px;
 }
 
-.indstilling-relation__type {
-  font-size: var(--text-small);
-  color: var(--text-light);
+/* Hint text */
+.ind__hint {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 13px;
+  color: #bbb;
+  font-style: italic;
+  margin-top: 8px;
 }
 
-.indstilling-btn {
+/* Buttons */
+.ind__btn {
   display: block;
   width: 100%;
-  margin-top: var(--space-md);
-  padding: var(--space-sm) var(--space-md);
-  font-family: var(--font-serif);
-  font-size: var(--text-body);
-  border: 1px solid var(--blaa);
-  border-radius: var(--radius-full);
+  padding: 14px;
   background: transparent;
-  color: var(--blaa);
+  color: #7690C1;
+  border: 1px solid rgba(118, 144, 193, 0.2);
+  border-radius: 14px;
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 16px;
+  font-style: italic;
+  text-align: center;
+  margin-top: 10px;
   cursor: pointer;
+}
+
+.ind__btn--danger {
+  color: #c77;
+  border: 1px solid rgba(200, 120, 120, 0.2);
+}
+
+.ind__btn-hint {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 12px;
+  color: #bbb;
+  font-style: italic;
+  margin-top: 6px;
   text-align: center;
 }
 
-.indstilling-btn--danger {
-  border-color: var(--error);
-  color: var(--error);
+.ind__btn-hint--danger {
+  color: #c99;
+}
+
+/* Footer links */
+.ind__footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.ind__footer-link {
+  color: #7690C1;
+  font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
+  font-size: 14px;
+  font-style: italic;
+  text-decoration: underline;
+  text-decoration-color: rgba(118, 144, 193, 0.3);
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 /* ====== Section Color System ====== */

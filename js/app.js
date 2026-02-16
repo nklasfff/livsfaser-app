@@ -4769,13 +4769,14 @@ const App = {
     'mine-favoritter': 'screens/mine-favoritter.html',
     'mine-samlinger': 'screens/mine-samlinger.html',
     'baggrundsviden': 'screens/baggrundsviden.html',
-    'dine-cyklusser-lige-nu': 'screens/dine-cyklusser-lige-nu.html'
+    'dine-cyklusser-lige-nu': 'screens/dine-cyklusser-lige-nu.html',
+    'soeg': 'screens/soeg.html'
   },
 
   // Niveau 1 skærme (tema-overblik)
   niveau1: ['mine-cyklusser', 'mine-relationer', 'min-praksis', 'min-rejse'],
   // Niveau 2 skærme (specifikt indhold)
-  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'kroppens-store-overgange', 'jeres-energi', 'to-rytmer', 'tre-generationer', 'kost-urter', 'min-journal', 'mine-favoritter', 'mine-samlinger', 'baggrundsviden', 'dine-cyklusser-lige-nu'],
+  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'kroppens-store-overgange', 'jeres-energi', 'to-rytmer', 'tre-generationer', 'kost-urter', 'min-journal', 'mine-favoritter', 'mine-samlinger', 'baggrundsviden', 'dine-cyklusser-lige-nu', 'soeg'],
 
   init() {
     repairStoredBirthdate();
@@ -4817,7 +4818,8 @@ const App = {
     'mine-favoritter': 'min-rejse',
     'mine-samlinger': 'min-rejse',
     'baggrundsviden': 'min-rejse',
-    'dine-cyklusser-lige-nu': 'mine-cyklusser'
+    'dine-cyklusser-lige-nu': 'mine-cyklusser',
+    'soeg': 'idag'
   },
 
   goBack() {
@@ -4969,6 +4971,8 @@ const App = {
           initBaggrundsvidenScreen();
         } else if (screenName === 'dine-cyklusser-lige-nu') {
           initDineCyklusserLigeNuScreen();
+        } else if (screenName === 'soeg') {
+          initSoegScreen();
         }
 
         // Append "Tilbage til toppen" footer (skip on onboarding)
@@ -8565,9 +8569,12 @@ var MENU_DATA = [
     id: 'indstillinger',
     title: 'Indstillinger',
     children: [
-      { label: 'Min profil', action: "App.loadScreen('indstillinger')" },
-      { label: 'Menstruation / Cyklus', action: "navigateToIndstillinger('menstruation')" },
-      { label: 'Mine relationer (tilf\u00f8j/rediger)', action: "App.loadScreen('relationer')" }
+      { label: 'Min profil', action: "navigateToIndstillinger('profil')" },
+      { label: 'Cyklus-indstillinger', action: "navigateToIndstillinger('cyklus')" },
+      { label: 'Notifikationer', action: "navigateToIndstillinger('notifikationer')" },
+      { label: 'Privatliv & deling', action: "navigateToIndstillinger('privatliv')" },
+      { label: 'Udseende', action: "navigateToIndstillinger('udseende')" },
+      { label: 'Data', action: "navigateToIndstillinger('data')" }
     ]
   }
 ];
@@ -8647,7 +8654,7 @@ window.menuNavigate = menuNavigate;
 function menuDirectAction(itemId) {
   if (itemId === 'soeg') {
     toggleMenu();
-    setTimeout(function() { toggleSearch(); }, 100);
+    setTimeout(function() { App.loadScreen('soeg'); }, 50);
   } else if (itemId === 'checkin') {
     toggleMenu();
     setTimeout(function() { App.loadScreen('min-udvikling'); }, 50);
@@ -8777,27 +8784,8 @@ function handleSearchCategory(catId) {
 }
 
 function toggleSearch() {
-  // Close menu if open
-  var menuOv = document.getElementById('menu-overlay');
-  if (menuOv && menuOv.classList.contains('menu-overlay--open')) {
-    menuOv.classList.remove('menu-overlay--open');
-    document.body.style.overflow = '';
-  }
-  var overlay = document.getElementById('search-overlay');
-  if (!overlay) return;
-  var isOpen = overlay.classList.contains('search-overlay--open');
-  overlay.classList.toggle('search-overlay--open', !isOpen);
-  if (!isOpen) {
-    var input = document.getElementById('search-input');
-    if (input) { input.value = ''; input.focus(); }
-    var results = document.getElementById('search-results');
-    if (results) results.innerHTML = '';
-    var tags = document.getElementById('search-tags');
-    if (tags) tags.style.display = '';
-    var cats = document.getElementById('search-categories');
-    if (cats) cats.style.display = '';
-    renderSearchCategories();
-  }
+  // Navigate to dedicated søg screen instead of overlay
+  App.loadScreen('soeg');
 }
 
 function handleSearch(query) {
@@ -8945,6 +8933,237 @@ window.handleSearch = handleSearch;
 window.handleSearchTag = handleSearchTag;
 window.handleSearchCategory = handleSearchCategory;
 window.renderSearchCategories = renderSearchCategories;
+
+// ---- Søg Screen (full page) ----
+
+// Category data for søg screen — icons as text characters (matching mockup)
+var SOEG_CATEGORIES = [
+  { id: 'oevelser', title: 'Øvelser', icon: '☯', desc: 'Yin yoga, åndedræt, EFT-tapping, meditation og meridianstrygning — tilpasset det element dine cyklusser kalder på.', screen: 'samlede-indsigt' },
+  { id: 'foelelser', title: 'Følelser', icon: '♡', desc: 'Vrede, frygt, bekymring, sorg og glæde — hver følelse hører til et element. Forstå hvad din krop prøver at fortælle dig.', screen: 'foelelser' },
+  { id: 'livsfaser', title: 'Livsfaser', icon: '◐', desc: 'Ni syv-års cyklusser fra fødsel til visdom. Hver fase bærer sit eget element og sin egen energi.', screen: 'alle-faser' },
+  { id: 'elementer', title: 'Elementer', icon: '△', desc: 'Vand, Træ, Ild, Jord og Metal — de fem kræfter der styrer alt fra årstider til organer. Lær dem at kende.', screen: 'samlede-indsigt' },
+  { id: 'relationer', title: 'Relationer', icon: '⊻', desc: 'Når to mennesker mødes, mødes to cyklus-systemer. Se hvordan jeres livsfaser, elementer og energier interagerer.', screen: 'mine-relationer' },
+  { id: 'kost', title: 'Kost & Næring', icon: '❊', desc: 'Mad er medicin — det vidste kinesisk medicin for tusind år siden. Find fødevarer, urter og tilberedning tilpasset dit element.', screen: 'kost-urter' },
+  { id: 'tidsrejse', title: 'Tidsrejse', icon: '◷', desc: 'Rejse i tid — bagud for at forstå, fremad for at forberede. Se hvilke cyklusser der var aktive ved vigtige tidspunkter.', screen: 'tidsrejse' },
+  { id: 'overgange', title: 'Kroppens overgange', icon: '⌒', desc: 'Pubertet, graviditet, overgangsalder — de store vendepunkter, hvor ét element afløser et andet.', screen: 'kroppens-store-overgange' },
+  { id: 'tracking', title: 'Tracking & Mønstre', icon: '⟋', desc: 'Over tid vokser din egen visdom. Registrér din energi, dine mønstre og dine indsigter — og se dem i sammenhæng.', screen: 'min-udvikling' },
+  { id: 'epigenetik', title: 'Epigenetik & Arv', icon: '⊙', desc: 'Din mors livsfase da hun fødte dig påvirkede dit udgangspunkt. Udforsk den forskning der viser, hvordan cyklusser nedarves.', screen: 'samlede-indsigt' },
+  { id: 'baggrund', title: 'Baggrundsviden', icon: '▤', desc: 'Ni forskellige kulturer har opdaget det samme: livet bevæger sig i cyklusser. Fra kinesisk medicin til vedisk filosofi.', screen: 'baggrundsviden' },
+  { id: 'kollektiv', title: 'Kollektiv visdom', icon: '✦', desc: 'Hvad sker der, når mange kvinder samler deres erfaringer? Anonyme mønstre og fælles indsigter der vokser over tid.', screen: 'min-rejse' }
+];
+
+function initSoegScreen() {
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  var now = new Date();
+  var season = calculateSeason(now);
+  var phase = user.phase || 9;
+  var element = user.element || 'VAND';
+
+  // Season name for tags
+  var seasonTagMap = { 'Vinter': 'Vinterøvelser', 'Forår': 'Forårsøvelser', 'Sommer': 'Sommerøvelser', 'Sensommer': 'Sensommerøvelser', 'Efterår': 'Efterårsøvelser' };
+  var seasonTag = seasonTagMap[season.season] || 'Vinterøvelser';
+  var elementLabel = ELEMENT_LABELS[element] || 'Vand';
+
+  // Render POPULÆRT LIGE NU tags
+  var popEl = document.getElementById('soeg-tags-populaert');
+  if (popEl) {
+    var html = '';
+    html += '<div class="soeg__tags-label">POPULÆRT LIGE NU</div>';
+    html += '<div class="soeg__tags">';
+    html += '<button class="soeg__tag soeg__tag--hot" onclick="handleSoegTag(\'Vrede\')">Vrede</button>';
+    html += '<button class="soeg__tag soeg__tag--hot" onclick="handleSoegTag(\'Bekymring\')">Bekymring</button>';
+    html += '<button class="soeg__tag" onclick="handleSoegTag(\'Overgangsalder\')">Overgangsalder</button>';
+    html += '<button class="soeg__tag" onclick="handleSoegTag(\'Frygt\')">Frygt</button>';
+    html += '<button class="soeg__tag" onclick="handleSoegTag(\'Sorg\')">Sorg</button>';
+    html += '<button class="soeg__tag" onclick="handleSoegTag(\'Glæde\')">Glæde</button>';
+    html += '</div>';
+    popEl.innerHTML = html;
+  }
+
+  // Render TILPASSET DIG tags (dynamic)
+  var tilEl = document.getElementById('soeg-tags-tilpasset');
+  if (tilEl) {
+    var html2 = '';
+    html2 += '<div class="soeg__tags-label soeg__tags-label--spaced">TILPASSET DIG</div>';
+    html2 += '<div class="soeg__tags">';
+    html2 += '<button class="soeg__tag soeg__tag--hot" onclick="handleSoegTag(\'Fase ' + phase + '\')">Fase ' + phase + '</button>';
+    html2 += '<button class="soeg__tag" onclick="handleSoegTag(\'' + seasonTag + '\')">' + seasonTag + '</button>';
+    html2 += '<button class="soeg__tag" onclick="handleSoegTag(\'Yin Yoga\')">Yin Yoga</button>';
+    html2 += '<button class="soeg__tag" onclick="handleSoegTag(\'' + elementLabel + '-element\')">' + elementLabel + '-element</button>';
+    html2 += '<button class="soeg__tag" onclick="handleSoegTag(\'' + elementLabel + '-kost\')">' + elementLabel + '-kost</button>';
+    html2 += '</div>';
+    tilEl.innerHTML = html2;
+  }
+
+  // Render 12 category cards
+  var catEl = document.getElementById('soeg-kategorier');
+  if (catEl) {
+    var html3 = '';
+    for (var i = 0; i < SOEG_CATEGORIES.length; i++) {
+      var cat = SOEG_CATEGORIES[i];
+      html3 += '<div class="soeg__cat" onclick="soegNavigate(\'' + cat.screen + '\')">';
+      html3 += '<div class="soeg__cat-icon">' + cat.icon + '</div>';
+      html3 += '<div class="soeg__cat-body">';
+      html3 += '<div class="soeg__cat-title">' + cat.title + '</div>';
+      html3 += '<p class="soeg__cat-desc">' + cat.desc + '</p>';
+      html3 += '</div>';
+      html3 += '</div>';
+    }
+    catEl.innerHTML = html3;
+  }
+
+  // Focus search input
+  var input = document.getElementById('soeg-input');
+  if (input) {
+    setTimeout(function() { input.focus(); }, 200);
+  }
+}
+
+function handleSoegSearch(query) {
+  var results = document.getElementById('soeg-results');
+  var browse = document.getElementById('soeg-browse');
+  if (!results) return;
+
+  if (!query || query.length < 2) {
+    results.innerHTML = '';
+    if (browse) browse.style.display = '';
+    return;
+  }
+  if (browse) browse.style.display = 'none';
+
+  // Reuse existing search logic
+  var q = query.toLowerCase();
+  var matches = [];
+
+  // 1. Søg i følelser
+  var emotionKeys = Object.keys(EMOTION_ELEMENTS);
+  for (var e = 0; e < emotionKeys.length; e++) {
+    if (emotionKeys[e].indexOf(q) !== -1) {
+      var em = EMOTION_ELEMENTS[emotionKeys[e]];
+      matches.push({ title: emotionKeys[e].charAt(0).toUpperCase() + emotionKeys[e].slice(1), subtitle: ELEMENT_LABELS[em.element] + '-element \u00B7 ' + em.desc.substring(0, 60) + '\u2026', action: "App.loadScreen('foelelser')" });
+    }
+  }
+
+  // 2. Søg i faser
+  for (var i = 1; i <= 9; i++) {
+    var p = PHASE_DATA[i];
+    var pSearch = ('fase ' + i + ' ' + p.name + ' ' + ELEMENT_LABELS[p.element]).toLowerCase();
+    if (pSearch.indexOf(q) !== -1) {
+      matches.push({ title: 'Fase ' + i + ': ' + p.name, subtitle: ELEMENT_LABELS[p.element] + ' \u00B7 ' + p.startAge + '\u2013' + p.endAge + ' \u00E5r', action: "App.loadScreen('alle-faser')" });
+    }
+  }
+
+  // 3. Søg i elementer
+  var elKeys = Object.keys(ELEMENT_LABELS);
+  for (var j = 0; j < elKeys.length; j++) {
+    var elName = ELEMENT_LABELS[elKeys[j]].toLowerCase();
+    if (elName.indexOf(q) !== -1 || (q.indexOf(elName) !== -1)) {
+      matches.push({ title: ELEMENT_LABELS[elKeys[j]] + '-element', subtitle: 'Se din samlede indsigt for ' + ELEMENT_LABELS[elKeys[j]], action: "App.loadScreen('samlede-indsigt')" });
+    }
+  }
+
+  // 4. Søg i yoga
+  var yogaKeys = Object.keys(INSIGHT_YOGA);
+  for (var y = 0; y < yogaKeys.length; y++) {
+    var poses = INSIGHT_YOGA[yogaKeys[y]];
+    for (var yp = 0; yp < poses.length; yp++) {
+      if (poses[yp].pose.toLowerCase().indexOf(q) !== -1 || poses[yp].desc.toLowerCase().indexOf(q) !== -1) {
+        matches.push({ title: poses[yp].pose, subtitle: ELEMENT_LABELS[yogaKeys[y]] + '-element \u00B7 Yin Yoga', action: "App.loadScreen('yin-yoga')" });
+      }
+    }
+  }
+
+  // 5. Søg i mad
+  var foodKeys = Object.keys(INSIGHT_FOOD);
+  for (var f = 0; f < foodKeys.length; f++) {
+    var foods = INSIGHT_FOOD[foodKeys[f]];
+    for (var fi = 0; fi < foods.length; fi++) {
+      if (foods[fi].item.toLowerCase().indexOf(q) !== -1 || foods[fi].desc.toLowerCase().indexOf(q) !== -1) {
+        matches.push({ title: foods[fi].item, subtitle: ELEMENT_LABELS[foodKeys[f]] + '-element \u00B7 Kost & N\u00E6ring', action: "App.loadScreen('kost-urter')" });
+      }
+    }
+  }
+
+  // 6. Søg i fokusområder
+  var focusKeys = Object.keys(INSIGHT_FOCUS);
+  for (var fk = 0; fk < focusKeys.length; fk++) {
+    var focusItems = INSIGHT_FOCUS[focusKeys[fk]];
+    for (var fx = 0; fx < focusItems.length; fx++) {
+      if (focusItems[fx].toLowerCase().indexOf(q) !== -1) {
+        matches.push({ title: focusItems[fx].split(' \u2013 ')[0], subtitle: ELEMENT_LABELS[focusKeys[fk]] + '-element \u00B7 Fokusomr\u00E5de', action: "App.loadScreen('samlede-indsigt')" });
+      }
+    }
+  }
+
+  // 7. Søg i kategorier
+  for (var c = 0; c < SOEG_CATEGORIES.length; c++) {
+    var cat = SOEG_CATEGORIES[c];
+    if (cat.title.toLowerCase().indexOf(q) !== -1 || cat.desc.toLowerCase().indexOf(q) !== -1) {
+      matches.push({ title: cat.title, subtitle: cat.desc.substring(0, 70) + '\u2026', action: "App.loadScreen('" + cat.screen + "')" });
+    }
+  }
+
+  // 8. Generelle søgetermer
+  if ('overgangsalder'.indexOf(q) !== -1 || q.indexOf('overgang') !== -1) {
+    matches.push({ title: 'Overgangsalder', subtitle: 'Fase 7\u20138 \u00B7 Jord & Metal \u2014 en af kroppens store overgange', action: "App.loadScreen('kroppens-store-overgange')" });
+  }
+  if ('relationer'.indexOf(q) !== -1 || 'partner'.indexOf(q) !== -1 || 'parforhold'.indexOf(q) !== -1) {
+    matches.push({ title: 'Relationer', subtitle: 'Se hvordan to cyklus-systemer m\u00F8des', action: "App.loadScreen('mine-relationer')" });
+  }
+  if ('cyklusser'.indexOf(q) !== -1) {
+    matches.push({ title: 'Cyklusser i Cyklusser', subtitle: 'Dine fem lag af energi i dag', action: "App.loadScreen('cyklusser-i-cyklusser')" });
+  }
+  if ('epigenetik'.indexOf(q) !== -1 || 'arv'.indexOf(q) !== -1) {
+    matches.push({ title: 'Epigenetik & Arv', subtitle: 'Hvordan cyklusser nedarves p\u00E5 tv\u00E6rs af generationer', action: "App.loadScreen('samlede-indsigt')" });
+  }
+  if ('tracking'.indexOf(q) !== -1 || q.indexOf('mønster') !== -1 || q.indexOf('m\u00F8nster') !== -1) {
+    matches.push({ title: 'Tracking & M\u00F8nstre', subtitle: 'F\u00F8lg din energi over tid', action: "App.loadScreen('min-udvikling')" });
+  }
+  if (q.indexOf('vinter') !== -1) {
+    matches.push({ title: 'Vinter\u00F8velser', subtitle: 'Vand-element \u00B7 \u00D8velser der n\u00E6rer nyrer og ro', action: "App.loadScreen('samlede-indsigt')" });
+  }
+
+  // Deduplicate
+  var seen = {};
+  var unique = [];
+  for (var u = 0; u < matches.length; u++) {
+    if (!seen[matches[u].title]) {
+      seen[matches[u].title] = true;
+      unique.push(matches[u]);
+    }
+  }
+  matches = unique.slice(0, 10);
+
+  if (matches.length === 0) {
+    results.innerHTML = '<p class="soeg__empty">Ingen resultater for \u201C' + escapeHtml(query) + '\u201D</p>';
+    return;
+  }
+
+  var html = '';
+  for (var m = 0; m < matches.length; m++) {
+    var match = matches[m];
+    html += '<div class="soeg__result" onclick="' + match.action + '">';
+    html += '<div class="soeg__result-title">' + match.title + '</div>';
+    html += '<p class="soeg__result-subtitle">' + match.subtitle + '</p>';
+    html += '</div>';
+  }
+  results.innerHTML = html;
+}
+
+function handleSoegTag(tag) {
+  var input = document.getElementById('soeg-input');
+  if (input) { input.value = tag; }
+  handleSoegSearch(tag);
+}
+
+function soegNavigate(screen) {
+  App.loadScreen(screen);
+}
+
+window.initSoegScreen = initSoegScreen;
+window.handleSoegSearch = handleSoegSearch;
+window.handleSoegTag = handleSoegTag;
+window.soegNavigate = soegNavigate;
 
 // ---- Feature: De Ni Livsfaser ----
 
@@ -10046,70 +10265,313 @@ function navigateToIndstillinger(section) {
 }
 window.navigateToIndstillinger = navigateToIndstillinger;
 
+// Default settings stored in localStorage.indstillinger
+var IND_DEFAULTS = {
+  maanedscyklus: false,
+  maanefaser: true,
+  cykluslaengde: 28,
+  morgenIndsigt: true,
+  aftenRefleksion: true,
+  cyklusSkift: false,
+  saesonSkift: true,
+  ugentligOpsummering: false,
+  morgenTid: '07:30',
+  aftenTid: '21:00',
+  delAnonymeData: true,
+  visKollektivVisdom: true,
+  delIndsigter: true,
+  moerkTilstand: false,
+  foelgSystem: true
+};
+
+function getIndSettings() {
+  var saved = localStorage.getItem('indstillinger');
+  if (saved) {
+    var parsed = JSON.parse(saved);
+    // Merge with defaults for any new keys
+    for (var key in IND_DEFAULTS) {
+      if (parsed[key] === undefined) parsed[key] = IND_DEFAULTS[key];
+    }
+    return parsed;
+  }
+  return JSON.parse(JSON.stringify(IND_DEFAULTS));
+}
+
+function saveIndSettings(settings) {
+  localStorage.setItem('indstillinger', JSON.stringify(settings));
+}
+
+function indToggle(key) {
+  var s = getIndSettings();
+  s[key] = !s[key];
+  // Cyklus logic: if maanedscyklus ON, also update user
+  if (key === 'maanedscyklus' && s.maanedscyklus) {
+    var u = JSON.parse(localStorage.getItem('user') || '{}');
+    u.tracksMenstruation = true;
+    localStorage.setItem('user', JSON.stringify(u));
+  }
+  if (key === 'maanedscyklus' && !s.maanedscyklus) {
+    var u2 = JSON.parse(localStorage.getItem('user') || '{}');
+    u2.tracksMenstruation = false;
+    u2.lastPeriodDate = null;
+    localStorage.setItem('user', JSON.stringify(u2));
+  }
+  if (key === 'maanefaser') {
+    var u3 = JSON.parse(localStorage.getItem('user') || '{}');
+    if (!s.maanefaser) u3.tracksMenstruation = true;
+    localStorage.setItem('user', JSON.stringify(u3));
+  }
+  saveIndSettings(s);
+  initIndstillingerScreen(null);
+}
+window.indToggle = indToggle;
+
 function initIndstillingerScreen(scrollToSection) {
   var contentEl = document.getElementById('indstillinger-content');
   if (!contentEl) return;
 
   var user = JSON.parse(localStorage.getItem('user') || '{}');
   var relations = JSON.parse(localStorage.getItem('relations') || '[]');
+  var s = getIndSettings();
+
+  // Sync toggle state from user data
+  s.maanedscyklus = !!user.tracksMenstruation;
+  if (!s.maanedscyklus && s.maanefaser === undefined) s.maanefaser = true;
+
   var html = '';
 
-  // Section 1: Min Profil
-  html += '<div class="indstilling-section" id="indstilling-profil">';
-  html += '<h3 class="indstilling-section__title">Min profil</h3>';
-  html += '<div class="indstilling-section__content">';
-  html += '<label class="indstilling-label">F\u00f8dselsdato</label>';
-  html += '<input type="date" id="ind-birthdate" class="indstilling-input" value="' + (user.birthdate || '') + '">';
+  // Helper for toggle HTML
+  function tog(key) {
+    return '<div class="ind__toggle' + (s[key] ? ' ind__toggle--on' : '') + '" onclick="indToggle(\'' + key + '\')"></div>';
+  }
+
+  // ===== SEKTION 1: MIN PROFIL =====
+  html += '<div class="ind__section" id="indstilling-profil">';
+  html += '<div class="ind__section-label">MIN PROFIL</div>';
+  html += '<div class="ind__setting-name">F\u00f8dselsdato</div>';
+  html += '<input type="date" id="ind-birthdate" class="ind__input" value="' + (user.birthdate || '') + '">';
   if (user.birthdate) {
     var age = calculateAge(user.birthdate);
     var phase = calculateLifePhase(age);
-    html += '<p class="indstilling-info">Du er ' + Math.floor(age) + ' \u00e5r \u00b7 Fase ' + phase.phase + ': ' + phase.name + ' \u00b7 ' + ELEMENT_LABELS[phase.element] + '</p>';
+    html += '<div class="ind__setting-info">Du er ' + Math.floor(age) + ' \u00e5r \u00b7 Fase ' + phase.phase + ': ' + phase.name + ' \u00b7 ' + ELEMENT_LABELS[phase.element] + '</div>';
   }
-  html += '</div></div>';
-
-  // Section 2: Menstruation / Cyklus
-  html += '<div class="indstilling-section" id="indstilling-menstruation">';
-  html += '<h3 class="indstilling-section__title">Menstruation / Cyklus</h3>';
-  html += '<div class="indstilling-section__content">';
-  html += '<div class="indstilling-toggle">';
-  html += '<button class="indstilling-choice' + (user.tracksMenstruation ? ' indstilling-choice--active' : '') + '" onclick="indstillingSetMenstruation(true)">Menstruation</button>';
-  html += '<button class="indstilling-choice' + (!user.tracksMenstruation ? ' indstilling-choice--active' : '') + '" onclick="indstillingSetMenstruation(false)">M\u00e5necyklus</button>';
+  html += '<div style="margin-top:16px">';
+  html += '<div class="ind__setting-name">Navn (valgfrit)</div>';
+  html += '<input type="text" id="ind-name" class="ind__input" placeholder="Dit fornavn \u2014 bruges kun i appen" value="' + escapeHtml(user.name || '') + '">';
   html += '</div>';
-  if (user.tracksMenstruation) {
-    html += '<label class="indstilling-label" style="margin-top:12px">Sidste menstruations start</label>';
-    html += '<input type="date" id="ind-period-date" class="indstilling-input" value="' + (user.lastPeriodDate || '') + '">';
-  }
-  html += '</div></div>';
+  html += '</div>';
 
-  // Section 3: Mine Relationer
-  html += '<div class="indstilling-section" id="indstilling-relationer">';
-  html += '<h3 class="indstilling-section__title">Mine relationer</h3>';
-  html += '<div class="indstilling-section__content">';
-  if (relations.length === 0) {
-    html += '<p class="indstilling-info">Ingen relationer tilf\u00f8jet endnu.</p>';
-  } else {
-    for (var i = 0; i < relations.length; i++) {
-      var r = relations[i];
-      html += '<div class="indstilling-relation">';
-      html += '<span class="indstilling-relation__name">' + escapeHtml(r.name) + '</span>';
-      html += '<span class="indstilling-relation__type">' + (r.relationType || '') + '</span>';
-      html += '</div>';
-    }
-  }
-  html += '<button class="indstilling-btn" onclick="App.loadScreen(\'relationer\')">Tilf\u00f8j eller rediger relationer</button>';
-  html += '</div></div>';
+  html += '<div class="ind__dots">\u00b7 \u00b7 \u00b7</div>';
 
-  // Section 4: Data
-  html += '<div class="indstilling-section">';
-  html += '<h3 class="indstilling-section__title">Data</h3>';
-  html += '<div class="indstilling-section__content">';
-  html += '<p class="indstilling-info">Alle dine data er gemt lokalt p\u00e5 denne enhed. Intet sendes til en server.</p>';
-  html += '<button class="indstilling-btn indstilling-btn--danger" onclick="confirmResetData()">Nulstil alle data</button>';
-  html += '</div></div>';
+  // ===== SEKTION 2: CYKLUS-INDSTILLINGER =====
+  html += '<div class="ind__section" id="indstilling-cyklus">';
+  html += '<div class="ind__section-label">CYKLUS-INDSTILLINGER</div>';
+
+  html += '<div class="ind__row">';
+  html += '<div class="ind__row-info">';
+  html += '<div class="ind__row-name">M\u00e5nedscyklus</div>';
+  html += '<div class="ind__row-desc">F\u00f8lg din menstruationscyklus som den femte cyklus</div>';
+  html += '</div>';
+  html += tog('maanedscyklus');
+  html += '</div>';
+
+  html += '<div class="ind__row">';
+  html += '<div class="ind__row-info">';
+  html += '<div class="ind__row-name">M\u00e5nens faser</div>';
+  html += '<div class="ind__row-desc">F\u00f8lg m\u00e5nefaser i stedet \u2014 til dig uden menstruation, eller som supplement</div>';
+  html += '</div>';
+  html += tog('maanefaser');
+  html += '</div>';
+
+  html += '<div style="margin-top:12px">';
+  html += '<div class="ind__setting-name">Cyklusl\u00e6ngde</div>';
+  html += '<div class="ind__setting-desc">Gennemsnit i dage \u2014 bruges til at beregne uge 1-4</div>';
+  html += '<input type="number" id="ind-cykluslaengde" class="ind__input ind__input--short" value="' + (s.cykluslaengde || 28) + '">';
+  html += '</div>';
+  html += '</div>';
+
+  html += '<div class="ind__dots">\u00b7 \u00b7 \u00b7</div>';
+
+  // ===== SEKTION 3: NOTIFIKATIONER =====
+  html += '<div class="ind__section" id="indstilling-notifikationer">';
+  html += '<div class="ind__section-label">NOTIFIKATIONER</div>';
+
+  html += '<div class="ind__row">';
+  html += '<div class="ind__row-info"><div class="ind__row-name">Morgen-indsigt</div>';
+  html += '<div class="ind__row-desc">Kort besked om dagens energi, element og cyklusser n\u00e5r du v\u00e5gner</div></div>';
+  html += tog('morgenIndsigt');
+  html += '</div>';
+
+  html += '<div class="ind__row">';
+  html += '<div class="ind__row-info"><div class="ind__row-name">Aften-refleksion</div>';
+  html += '<div class="ind__row-desc">En invitation til at m\u00e6rke efter \u2014 hvordan var din dag?</div></div>';
+  html += tog('aftenRefleksion');
+  html += '</div>';
+
+  html += '<div class="ind__row">';
+  html += '<div class="ind__row-info"><div class="ind__row-name">Cyklus-skift</div>';
+  html += '<div class="ind__row-desc">Besked n\u00e5r du skifter fra \u00e9t element til et andet i dine cyklusser</div></div>';
+  html += tog('cyklusSkift');
+  html += '</div>';
+
+  html += '<div class="ind__row">';
+  html += '<div class="ind__row-info"><div class="ind__row-name">S\u00e6son-skift</div>';
+  html += '<div class="ind__row-desc">Besked ved overgang til en ny \u00e5rstid med nye anbefalinger</div></div>';
+  html += tog('saesonSkift');
+  html += '</div>';
+
+  html += '<div class="ind__row">';
+  html += '<div class="ind__row-info"><div class="ind__row-name">Ugentlig opsummering</div>';
+  html += '<div class="ind__row-desc">Et kort overblik over din uge \u2014 m\u00f8nstre, check-ins og hvad der kommer</div></div>';
+  html += tog('ugentligOpsummering');
+  html += '</div>';
+
+  html += '<div style="margin-top:12px">';
+  html += '<div class="ind__setting-name">Morgentidspunkt</div>';
+  html += '<input type="time" id="ind-morgen-tid" class="ind__input ind__input--narrow" value="' + (s.morgenTid || '07:30') + '">';
+  html += '</div>';
+  html += '<div style="margin-top:8px">';
+  html += '<div class="ind__setting-name">Aftentidspunkt</div>';
+  html += '<input type="time" id="ind-aften-tid" class="ind__input ind__input--narrow" value="' + (s.aftenTid || '21:00') + '">';
+  html += '</div>';
+  html += '</div>';
+
+  html += '<div class="ind__dots">\u00b7 \u00b7 \u00b7</div>';
+
+  // ===== SEKTION 4: PRIVATLIV & DELING =====
+  html += '<div class="ind__section" id="indstilling-privatliv">';
+  html += '<div class="ind__section-label">PRIVATLIV & DELING</div>';
+
+  html += '<div class="ind__row">';
+  html += '<div class="ind__row-info"><div class="ind__row-name">Del anonyme data</div>';
+  html += '<div class="ind__row-desc">Bidrag til \u201CHvad andre i din fase g\u00f8r\u201D \u2014 helt anonymt, ingen persondata deles</div></div>';
+  html += tog('delAnonymeData');
+  html += '</div>';
+
+  html += '<div class="ind__row">';
+  html += '<div class="ind__row-info"><div class="ind__row-name">Vis kollektiv visdom</div>';
+  html += '<div class="ind__row-desc">Se anonyme m\u00f8nstre og erfaringer fra andre kvinder i din livsfase</div></div>';
+  html += tog('visKollektivVisdom');
+  html += '</div>';
+
+  html += '<div class="ind__row">';
+  html += '<div class="ind__row-info"><div class="ind__row-name">Del indsigter</div>';
+  html += '<div class="ind__row-desc">Mulighed for at dele specifikke sider, \u00f8velser eller indsigter med veninder</div></div>';
+  html += tog('delIndsigter');
+  html += '</div>';
+  html += '</div>';
+
+  // OM DINE DATA insight box
+  html += '<div class="ind__insight">';
+  html += '<div class="ind__insight-label">OM DINE DATA</div>';
+  html += '<div class="ind__insight-text">Alt gemmes lokalt p\u00e5 din enhed. Hvis du v\u00e6lger at dele anonyme data, fjernes al personlig information f\u00f8rst. Vi kan aldrig se hvem du er \u2014 kun at en kvinde i din fase valgte en bestemt \u00f8velse.</div>';
+  html += '</div>';
+
+  html += '<div class="ind__dots">\u00b7 \u00b7 \u00b7</div>';
+
+  // ===== SEKTION 5: MINE RELATIONER =====
+  html += '<div class="ind__section" id="indstilling-relationer">';
+  html += '<div class="ind__section-label">MINE RELATIONER</div>';
+
+  html += '<div class="ind__link" onclick="App.loadScreen(\'mine-relationer\')">';
+  html += '<div class="ind__link-icon">\u2661</div>';
+  html += '<div class="ind__link-body"><div class="ind__link-name">Tilf\u00f8j eller rediger relationer</div>';
+  html += '<div class="ind__link-desc">Partner, b\u00f8rn, for\u00e6ldre, veninder \u2014 se jeres cyklusser sammen</div></div>';
+  html += '<div class="ind__link-arrow">\u2192</div>';
+  html += '</div>';
+
+  html += '<div class="ind__hint">Du har ' + relations.length + ' relationer tilf\u00f8jet.</div>';
+  html += '</div>';
+
+  html += '<div class="ind__dots">\u00b7 \u00b7 \u00b7</div>';
+
+  // ===== SEKTION 6: ISABELLE & INDHOLD =====
+  html += '<div class="ind__section" id="indstilling-isabelle">';
+  html += '<div class="ind__section-label">ISABELLE & INDHOLD</div>';
+
+  html += '<div class="ind__link" onclick="App.loadScreen(\'min-praksis\')">';
+  html += '<div class="ind__link-icon">\u25ce</div>';
+  html += '<div class="ind__link-body"><div class="ind__link-name">Isabelles forl\u00f8b</div>';
+  html += '<div class="ind__link-desc">S\u00e6sonbestemte forl\u00f8b med yoga, kost, refleksion og vejledning</div></div>';
+  html += '<div class="ind__link-arrow">\u2192</div>';
+  html += '</div>';
+
+  html += '<div class="ind__link" onclick="window.open(\'https://isabelle-evita.dk\', \'_blank\')">';
+  html += '<div class="ind__link-icon">\u2197</div>';
+  html += '<div class="ind__link-body"><div class="ind__link-name">isabelle-evita.dk</div>';
+  html += '<div class="ind__link-desc">Isabelles hjemmeside med kurser, workshops og retreats</div></div>';
+  html += '<div class="ind__link-arrow">\u2192</div>';
+  html += '</div>';
+
+  html += '<div class="ind__link">';
+  html += '<div class="ind__link-icon">\uD83D\uDCD6</div>';
+  html += '<div class="ind__link-body"><div class="ind__link-name">Om bogen</div>';
+  html += '<div class="ind__link-desc">\u201CDe 9 Livsfasers Energi\u201D \u2014 kinesisk medicin, vedisk filosofi og moderne psykologi</div></div>';
+  html += '<div class="ind__link-arrow">\u2192</div>';
+  html += '</div>';
+
+  html += '<div class="ind__link">';
+  html += '<div class="ind__link-icon">\u2709</div>';
+  html += '<div class="ind__link-body"><div class="ind__link-name">Nyhedsbrev</div>';
+  html += '<div class="ind__link-desc">Tilmeld dig Isabelles nyhedsbrev med s\u00e6sonens r\u00e5d og nye indsigter</div></div>';
+  html += '<div class="ind__link-arrow">\u2192</div>';
+  html += '</div>';
+  html += '</div>';
+
+  html += '<div class="ind__dots">\u00b7 \u00b7 \u00b7</div>';
+
+  // ===== SEKTION 7: UDSEENDE =====
+  html += '<div class="ind__section" id="indstilling-udseende">';
+  html += '<div class="ind__section-label">UDSEENDE</div>';
+
+  html += '<div class="ind__row">';
+  html += '<div class="ind__row-info"><div class="ind__row-name">M\u00f8rk tilstand</div>';
+  html += '<div class="ind__row-desc">Skifte til m\u00f8rke farver \u2014 lettere at bruge om aftenen</div></div>';
+  html += tog('moerkTilstand');
+  html += '</div>';
+
+  html += '<div class="ind__row">';
+  html += '<div class="ind__row-info"><div class="ind__row-name">F\u00f8lg system</div>';
+  html += '<div class="ind__row-desc">Skift automatisk mellem lys og m\u00f8rk baseret p\u00e5 din enheds indstilling</div></div>';
+  html += tog('foelgSystem');
+  html += '</div>';
+  html += '</div>';
+
+  html += '<div class="ind__dots">\u00b7 \u00b7 \u00b7</div>';
+
+  // ===== SEKTION 8: DATA =====
+  html += '<div class="ind__section" id="indstilling-data">';
+  html += '<div class="ind__section-label">DATA</div>';
+
+  html += '<button class="ind__btn" onclick="indExportData()">Eksport\u00e9r mine data</button>';
+  html += '<div class="ind__btn-hint">Download dine check-ins, refleksioner og favoritter som fil</div>';
+
+  html += '<button class="ind__btn" style="margin-top:16px" onclick="indImportData()">Import\u00e9r data</button>';
+  html += '<div class="ind__btn-hint">Gendan data fra en tidligere eksport</div>';
+
+  html += '<button class="ind__btn ind__btn--danger" style="margin-top:24px" onclick="confirmResetData()">Nulstil alle data</button>';
+  html += '<div class="ind__btn-hint ind__btn-hint--danger">Slet alt \u2014 profil, relationer, check-ins, favoritter. Kan ikke fortrydes.</div>';
+  html += '</div>';
+
+  html += '<div class="ind__dots">\u00b7 \u00b7 \u00b7</div>';
+
+  // ===== FOOTER: OM APPEN =====
+  html += '<div class="ind__insight">';
+  html += '<div class="ind__insight-label">OM APPEN</div>';
+  html += '<div class="ind__insight-text">De 9 Livsfaser er bygget med k\u00e6rlighed og kinesisk medicin. Baseret p\u00e5 Isabelle Evita S\u00f8ndergaards bog \u201CDe 9 Livsfasers Energi.\u201D Version 1.0.</div>';
+  html += '</div>';
+
+  html += '<div class="ind__footer-links">';
+  html += '<button class="ind__footer-link">Vilk\u00e5r</button>';
+  html += '<button class="ind__footer-link">Privatlivspolitik</button>';
+  html += '<button class="ind__footer-link">Kontakt</button>';
+  html += '</div>';
 
   contentEl.innerHTML = html;
 
-  // Bind event listeners
+  // ===== EVENT LISTENERS =====
+
+  // Birthdate change
   var bdInput = document.getElementById('ind-birthdate');
   if (bdInput) {
     bdInput.addEventListener('change', function() {
@@ -10124,20 +10586,47 @@ function initIndstillingerScreen(scrollToSection) {
       u.phase = ph.phase;
       u.element = ph.element;
       localStorage.setItem('user', JSON.stringify(u));
-      initIndstillingerScreen();
+      initIndstillingerScreen(null);
     });
   }
 
-  var pdInput = document.getElementById('ind-period-date');
-  if (pdInput) {
-    pdInput.addEventListener('change', function() {
-      var val = this.value;
-      if (!val) return;
-      var d = new Date(val);
-      if (d > new Date()) return;
+  // Name change
+  var nameInput = document.getElementById('ind-name');
+  if (nameInput) {
+    nameInput.addEventListener('change', function() {
       var u = JSON.parse(localStorage.getItem('user') || '{}');
-      u.lastPeriodDate = val;
+      u.name = this.value.trim();
       localStorage.setItem('user', JSON.stringify(u));
+    });
+  }
+
+  // Cykluslængde change
+  var clInput = document.getElementById('ind-cykluslaengde');
+  if (clInput) {
+    clInput.addEventListener('change', function() {
+      var val = parseInt(this.value);
+      if (val < 20 || val > 45) return;
+      var st = getIndSettings();
+      st.cykluslaengde = val;
+      saveIndSettings(st);
+    });
+  }
+
+  // Morgen/aften tid
+  var mtInput = document.getElementById('ind-morgen-tid');
+  if (mtInput) {
+    mtInput.addEventListener('change', function() {
+      var st = getIndSettings();
+      st.morgenTid = this.value;
+      saveIndSettings(st);
+    });
+  }
+  var atInput = document.getElementById('ind-aften-tid');
+  if (atInput) {
+    atInput.addEventListener('change', function() {
+      var st = getIndSettings();
+      st.aftenTid = this.value;
+      saveIndSettings(st);
     });
   }
 
@@ -10150,17 +10639,55 @@ function initIndstillingerScreen(scrollToSection) {
   }
 }
 
-function indstillingSetMenstruation(tracks) {
-  var user = JSON.parse(localStorage.getItem('user') || '{}');
-  user.tracksMenstruation = tracks;
-  if (!tracks) user.lastPeriodDate = null;
-  localStorage.setItem('user', JSON.stringify(user));
-  initIndstillingerScreen();
+// Export data as JSON file download
+function indExportData() {
+  var data = {};
+  for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i);
+    data[key] = localStorage.getItem(key);
+  }
+  var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'livsfaser-data-' + getLocalDateStr(new Date()) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showActionToast('Data eksporteret');
 }
-window.indstillingSetMenstruation = indstillingSetMenstruation;
+window.indExportData = indExportData;
+
+// Import data from JSON file
+function indImportData() {
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      try {
+        var data = JSON.parse(ev.target.result);
+        if (confirm('Import\u00e9r data? Dette overskriver dine nuv\u00e6rende data.')) {
+          for (var key in data) {
+            localStorage.setItem(key, data[key]);
+          }
+          showActionToast('Data importeret');
+          initIndstillingerScreen(null);
+        }
+      } catch (err) {
+        showActionToast('Ugyldig fil');
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+window.indImportData = indImportData;
 
 function confirmResetData() {
-  if (confirm('Er du sikker? Alle data slettes permanent.')) {
+  if (confirm('Er du sikker? Alle data slettes permanent \u2014 profil, relationer, check-ins, favoritter. Kan ikke fortrydes.')) {
     localStorage.clear();
     App.loadScreen('onboarding');
   }
