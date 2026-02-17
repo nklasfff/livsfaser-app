@@ -7836,6 +7836,7 @@ function initMinUdviklingScreen() {
   var h = '';
   h += '<h1 class="rejse__t1">Min udvikling</h1>';
   h += '<p class="rejse__intr">Se m\u00f8nstre i din energi, dine \u00f8velser og dine f\u00f8lelser over tid. N\u00e5r du ser tilbage p\u00e5 dine check-ins, tr\u00e6der der m\u00e5ske m\u00f8nstre frem du ikke kunne se indefra.</p>';
+  h += '<img class="rejse__hero-img" src="./assets/images/min-udvikling-graf.png" alt="Min udvikling \u2014 m\u00f8nstre i din energi over tid">';
 
   // Tidsfilter chips
   var periods = [
