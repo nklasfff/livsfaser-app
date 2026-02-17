@@ -2550,7 +2550,7 @@ function renderIdagVinduer() {
   html += '</div>';
 
   html += '<h3 class="idag__vinduer-t2" style="margin-top:-60px">Rejse i tid \u2014 alene eller med nogen</h3>';
-  html += '<p class="idag__vinduer-intr" style="margin-bottom:10px">V\u00e6lg en dato der betyder noget \u2014 og se hvilke cyklusser og elementer der var aktive. Eller kig fremad.</p>';
+  html += '<p class="idag__vinduer-intr" style="margin-bottom:40px">V\u00e6lg en dato der betyder noget \u2014 og se hvilke cyklusser og elementer der var aktive. Eller kig fremad.</p>';
 
   // Lotus dots
   html += '<div class="idag__vinduer-dots">\u00B7 \u00B7 \u00B7</div>';
