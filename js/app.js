@@ -375,11 +375,15 @@ function renderMellemstation(userData) {
   var season = calculateSeason(now);
   var weekday = calculateWeekday(now);
   var organClock = calculateOrganClock(now);
+  var calMonth = calculateCalendarMonth(now);
 
-  // M\u00e5nedscyklus element (default: \u00e5rstid-baseret)
-  var monthElement = season.element;
+  // Månedscyklus element (default: årstid-baseret)
+  var monthElement = calMonth ? calMonth.element : season.element;
+  var maanedNavn = now.toLocaleDateString('da-DK', { month: 'long' });
+  // Capitalize first letter
+  maanedNavn = maanedNavn.charAt(0).toUpperCase() + maanedNavn.slice(1);
 
-  // Samle alle elementer og t\u00e6lle
+  // Samle alle elementer og tælle
   var elements = [phase.element, season.element, monthElement, weekday.element, organClock.element];
   var counts = {};
   for (var i = 0; i < elements.length; i++) {
@@ -396,82 +400,195 @@ function renderMellemstation(userData) {
 
   // Element tegn
   var ELEMENT_TEGN = { 'VAND': '\u6c34', 'TR\u00c6': '\u6728', 'ILD': '\u706b', 'JORD': '\u571f', 'METAL': '\u91d1' };
-  var tegn = ELEMENT_TEGN[phase.element] || '';
+  var tegn = ELEMENT_TEGN[dominant] || '';
 
-  // Resonans-label og tekst
+  // Resonans-label og tekst (to-delt: hovedtekst + detalje)
   var resonansLabel = '';
   var resonansTekst = '';
+  var resonansDetalje = '';
   if (maxCount >= 4) {
-    resonansLabel = 'FULD RESONANS';
-    resonansTekst = maxCount + ' af dine fem cyklusser peger mod ' + ELEMENT_LABELS[dominant] + '. Det er sj\u00e6ldent \u2014 og det betyder at din livsfase, \u00e5rstiden og de andre matchende taler med \u00e9n stemme. Du m\u00e6rker det m\u00e5ske som en dyb ro, eller som en stille kraft der b\u00e6rer dig.';
+    resonansLabel = 'Fuld resonans';
+    resonansTekst = maxCount + ' af dine fem cyklusser peger mod ' + ELEMENT_LABELS[dominant] + '. Det er sj\u00e6ldent \u2014 og det betyder at din livsfase, \u00e5rstiden og de andre matchende taler med \u00e9n stemme.';
+    resonansDetalje = 'Du m\u00e6rker det m\u00e5ske som en dyb ro, eller som en stille kraft der b\u00e6rer dig.';
   } else if (maxCount === 3) {
-    resonansLabel = 'MEDVIND';
+    resonansLabel = 'Medvind';
     resonansTekst = maxCount + ' af dine fem cyklusser peger mod ' + ELEMENT_LABELS[dominant] + '. Der er retning i din energi \u2014 tre cyklusser samler sig, og det giver en str\u00f8m du kan f\u00f8lge.';
+    resonansDetalje = 'L\u00e6g m\u00e6rke til hvor du f\u00f8ler det i kroppen.';
   } else if (maxCount === 2) {
-    resonansLabel = 'MODVIND';
-    // Find alle unikke elementer
+    resonansLabel = 'Kreativ sp\u00e6nding';
     var unikke = [];
     for (var ek in counts) { unikke.push(ELEMENT_LABELS[ek]); }
-    resonansTekst = 'Dine cyklusser peger i forskellige retninger lige nu \u2014 ' + unikke.join(', ') + '. Det kan f\u00f8les uroligt \u2014 som at blive trukket flere veje. Det er der ingenting galt med. Det er bare cyklusserne, der endnu ikke har fundet hinanden.';
+    resonansTekst = 'Dine cyklusser peger i forskellige retninger lige nu \u2014 ' + unikke.join(', ') + '. Det kan f\u00f8les uroligt, som at blive trukket flere veje.';
+    resonansDetalje = 'Det er der ingenting galt med. Det er bare cyklusserne, der endnu ikke har fundet hinanden.';
   } else {
-    resonansLabel = 'MODVIND';
-    resonansTekst = 'Alle fem cyklusser peger i hver sin retning. Det kan f\u00f8les uroligt \u2014 som at blive trukket flere veje. Det er der ingenting galt med. Det er bare cyklusserne, der endnu ikke har fundet hinanden.';
+    resonansLabel = 'Indre storm';
+    resonansTekst = 'Alle fem cyklusser peger i hver sin retning. Det kan f\u00f8les uroligt \u2014 som at blive trukket flere veje.';
+    resonansDetalje = 'Det er der ingenting galt med. Det er bare cyklusserne, der endnu ikke har fundet hinanden.';
   }
 
-  var maaned = now.toLocaleDateString('da-DK', { month: 'long' });
+  // Next organ clock (for "Om X timer" row)
+  var currentHour = now.getHours();
+  var nextOrgan = null;
+  var hoursUntilNext = 0;
+  for (var oi = 0; oi < ORGAN_CLOCK.length; oi++) {
+    if (ORGAN_CLOCK[oi].startHour > currentHour) {
+      nextOrgan = ORGAN_CLOCK[oi];
+      hoursUntilNext = ORGAN_CLOCK[oi].startHour - currentHour;
+      break;
+    }
+  }
+  if (!nextOrgan) {
+    nextOrgan = ORGAN_CLOCK[0]; // wrap to first (Lever 01-03)
+    hoursUntilNext = (24 - currentHour) + nextOrgan.startHour;
+  }
+
+  // Profil summary line (compact)
+  var profilSummary = 'Fase ' + phase.phase + ': ' + phase.name + ' \u00B7 ' + ELEMENT_LABELS[phase.element] + ' \u00B7 ' + season.season + ' \u00B7 ' + maanedNavn + ' \u00B7 ' + weekday.day + ' \u00B7 ' + organClock.organ;
+
+  // Feelings text based on dominant element
+  var feelingsLabel = ELEMENT_LABELS[dominant] + '-energiens f\u00f8lelser';
+  var detail = LIVSFASE_DETAIL[phase.phase];
+  var balanceWords = detail ? detail.folelser.balance.split(', ') : [];
+  var ubalanceWords = detail ? detail.folelser.ubalance.split(', ') : [];
+  var b1 = balanceWords[0] ? balanceWords[0].toLowerCase() : 'roen';
+  var b2 = balanceWords[1] ? balanceWords[1].toLowerCase() : 'tilliden';
+  var u1 = ubalanceWords[0] ? ubalanceWords[0].toLowerCase() : 'uroen';
+  var u2 = ubalanceWords[1] ? ubalanceWords[1].toLowerCase() : 'usikkerheden';
+  var matchCount = maxCount >= 4 ? 'fire' : maxCount === 3 ? 'tre' : 'flere';
+  var feelingsText = ELEMENT_LABELS[dominant] + ' b\u00e6rer <strong>' + b1 + '</strong> og <strong>' + b2 + '</strong> \u2014 men ogs\u00e5 <strong>' + u1 + '</strong> og <strong>' + u2 + '</strong>. N\u00e5r ' + matchCount + ' cyklusser m\u00f8des i ' + ELEMENT_LABELS[dominant] + ', kan begge dele m\u00e6rkes st\u00e6rkere end vanligt. Det er ikke forkert \u2014 det er din energi der samler sig.';
+
+  // Alive card 2: example exercises for dominant element
+  var yogaData = INSIGHT_YOGA[dominant];
+  var foodData = INSIGHT_FOOD[dominant];
+  var healData = HEALING_SOUNDS[dominant];
+  var exampleParts = [];
+  if (yogaData && yogaData[0]) exampleParts.push(yogaData[0].pose.split(' (')[0]);
+  if (healData) exampleParts.push(healData.lyd + '-healing');
+  if (foodData && foodData[0]) exampleParts.push(foodData[0].item);
+  var aliveExample = 'I dag passer ' + ELEMENT_LABELS[dominant] + '-\u00f8velser til dig: ' + exampleParts.join(' \u00B7 ');
+
+  // Vinduer: personal age reference at millennium
+  var birth = safeParseBirth(userData.birthdate);
+  var birthYear = birth.getFullYear();
+  var ageAt2000 = 2000 - birthYear;
+  var phaseAt2000 = calculateLifePhase(Math.max(0, ageAt2000));
+  var vinduerText = 'Du var <strong>' + ageAt2000 + ' og i ' + ELEMENT_LABELS[phaseAt2000.element] + '-energi</strong> ved \u00e5rtusindskiftet. Hvad skete der? Eller kig fremad: <strong>hvordan ser n\u00e6ste vinter ud?</strong>';
+
   var sf = "'Cormorant Garamond','Times New Roman',Georgia,serif";
 
   var html = '';
 
-  // Lille figur \u00f8verst \u2014 dr\u00e5be/lotus med element-tegn
-  html += '<div class="mellem__symbol">';
-  html += '<svg width="60" height="72" viewBox="0 0 60 72" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto">';
-  html += '<path d="M30 8 C22 22 10 34 10 46 C10 58 19 66 30 66 C41 66 50 58 50 46 C50 34 38 22 30 8Z" fill="rgba(90,116,165,0.08)" stroke="rgba(90,116,165,0.15)" stroke-width="1"/>';
-  html += '<text x="30" y="46" font-family="' + sf + '" font-size="20" fill="#5A74A5" text-anchor="middle">' + tegn + '</text>';
-  html += '</svg></div>';
+  // Kanji element symbol
+  html += '<div class="mellem__kanji-wrap"><div class="mellem__kanji">' + tegn + '</div></div>';
 
-  // Overskrift
+  // Titel
   html += '<h1 class="mellem__title">Dit liv lige nu</h1>';
 
-  // F\u00f8rste boks \u2014 Din profil
-  html += '<div class="mellem__boks">';
-  html += '<div class="mellem__boks-label">DIN PROFIL</div>';
-  html += '<p class="mellem__boks-tekst">Du er i <strong>Fase ' + phase.phase + ': ' + phase.name + '</strong>. Dit element er <strong>' + ELEMENT_LABELS[phase.element] + '</strong>.</p>';
-  html += '<p class="mellem__boks-tekst">Det er ' + season.season + ' \u2014 ' + ELEMENT_LABELS[season.element] + '-energi. Det er ' + maaned + ' \u2014 ' + ELEMENT_LABELS[monthElement] + '.</p>';
-  html += '<p class="mellem__boks-tekst">I dag er det ' + weekday.day + ' \u2014 ' + ELEMENT_LABELS[weekday.element] + '.</p>';
-  html += '<p class="mellem__boks-tekst">Lige nu arbejder <strong>' + organClock.organ + '</strong> i din krop.</p>';
-  html += '</div>';
-
-  // Anden boks \u2014 Resonans (gradient)
-  html += '<div class="mellem__resonans-boks">';
+  // RESONANS — gradient boks (FIRST and BIGGEST)
+  html += '<div class="mellem__resonans">';
   html += '<div class="mellem__resonans-label">' + resonansLabel + '</div>';
-  html += '<p class="mellem__resonans-tekst">' + resonansTekst + '</p>';
+  html += '<div class="mellem__resonans-tekst">' + resonansTekst + '</div>';
+  html += '<div class="mellem__resonans-detalje">' + resonansDetalje + '</div>';
+  html += '</div>';
+  html += '<div class="mellem__resonans-more"><a onclick="Onboarding.finish(); setTimeout(function(){App.loadScreen(\'cyklusser-i-cyklusser\')},300)">Se den fulde analyse \u2192</a></div>';
+
+  // Profil — fold-ud
+  html += '<div class="mellem__profil">';
+  html += '<div class="mellem__profil-header" onclick="Onboarding.toggleProfil()">';
+  html += '<span class="mellem__profil-label">Din profil</span>';
+  html += '<span class="mellem__profil-arrow" id="mellem-profil-arrow">\u25BE</span>';
+  html += '</div>';
+  html += '<div class="mellem__profil-summary">' + profilSummary + '</div>';
+  html += '<div class="mellem__profil-expand" id="mellem-profil-expand">';
+  html += '<div class="mellem__profil-row"><span class="k">Livsfase</span><span class="v">Fase ' + phase.phase + ': ' + phase.name + ' (' + phase.startAge + '\u2013' + phase.endAge + ')</span></div>';
+  html += '<div class="mellem__profil-row"><span class="k">Element</span><span class="v">' + ELEMENT_LABELS[phase.element] + '</span></div>';
+  html += '<div class="mellem__profil-row"><span class="k">\u00c5rstid</span><span class="v">' + season.season + ' \u2014 ' + ELEMENT_LABELS[season.element] + '</span></div>';
+  html += '<div class="mellem__profil-row"><span class="k">M\u00e5ned</span><span class="v">' + maanedNavn + ' \u2014 ' + ELEMENT_LABELS[monthElement] + '</span></div>';
+  html += '<div class="mellem__profil-row"><span class="k">Ugedag</span><span class="v">' + weekday.day + ' \u2014 ' + ELEMENT_LABELS[weekday.element] + '</span></div>';
+  html += '<div class="mellem__profil-row"><span class="k">Organur lige nu</span><span class="v">' + organClock.hours + ' ' + organClock.organ + '</span></div>';
+  html += '<div class="mellem__profil-row"><span class="k">Om ' + hoursUntilNext + ' timer</span><span class="v">' + nextOrgan.organ + ' \u2014 ' + ELEMENT_LABELS[nextOrgan.element] + '</span></div>';
+  html += '</div></div>';
+
+  // Følelser-boks
+  html += '<div class="mellem__feelings">';
+  html += '<div class="mellem__feelings-label">' + feelingsLabel + '</div>';
+  html += '<div class="mellem__feelings-text">' + feelingsText + '</div>';
   html += '</div>';
 
-  // Lotus-dots
-  html += '<div class="mellem__lotus-dots">\u00B7 \u00B7 \u00B7</div>';
+  // Dots
+  html += '<div class="mellem__dots">\u00B7 \u00B7 \u00B7</div>';
 
-  // Tredje boks \u2014 Hvad kan denne app?
-  html += '<div class="mellem__boks">';
-  html += '<div class="mellem__boks-label">HVAD KAN DENNE APP?</div>';
-  html += '<p class="mellem__boks-tekst">Denne app viser dig det her \u2014 hver dag, i realtid. N\u00e5r du \u00e5bner den i morgen, har billedet \u00e6ndret sig. Et nyt organur, m\u00e5ske en ny ugedag med et andet element.</p>';
-  html += '<p class="mellem__boks-tekst">Du kan ogs\u00e5 rejse i tid. V\u00e6lg en dag fra din fortid \u2014 en f\u00f8dselsdag, en skilsmisse, en ferie der \u00e6ndrede noget \u2014 og se hvilke cyklusser der var aktive. Eller kig fremad: n\u00e6ste jul, dit barns konfirmation, om fem \u00e5r.</p>';
-  html += '<p class="mellem__boks-tekst">Og du kan se det sammen med nogen. Tilf\u00f8j din partner, din datter, din mor \u2014 og se hvordan jeres cyklusser m\u00f8des. Hvad der forst\u00e6rker hinanden, og hvad der skaber friktion.</p>';
+  // Hvad kan denne app — to levende kort
+  html += '<div class="mellem__alive-label">Hvad kan denne app?</div>';
+
+  // Kort 1: Ændrer sig hver dag
+  html += '<div class="mellem__alive-card">';
+  html += '<div class="mellem__alive-title">Den \u00e6ndrer sig \u2014 hver dag, i realtid</div>';
+  html += '<div class="mellem__alive-text">N\u00e5r du \u00e5bner den i morgen, har billedet \u00e6ndret sig. Et nyt organur, m\u00e5ske en ny ugedag med et andet element.</div>';
   html += '</div>';
 
-  // Fjerde sektion \u2014 Praksis
-  html += '<h3 class="mellem__praksis-title">Hvad kan du g\u00f8re?</h3>';
-  html += '<p class="mellem__praksis-hint">Appen foresl\u00e5r \u00f8velser, kost og \u00e5ndedr\u00e6t tilpasset dit element \u2014 hver dag.</p>';
-  html += '<div class="mellem__praksis-row">';
-  html += '<span class="mellem__praksis-tag">KROP</span>';
-  html += '<span class="mellem__praksis-dot">\u00B7</span>';
-  html += '<span class="mellem__praksis-tag">\u00c5NDEDR\u00c6T</span>';
-  html += '<span class="mellem__praksis-dot">\u00B7</span>';
-  html += '<span class="mellem__praksis-tag">N\u00c6RING</span>';
+  // Kort 2: Foreslår noget konkret
+  html += '<div class="mellem__alive-card">';
+  html += '<div class="mellem__alive-title">Den foresl\u00e5r noget konkret</div>';
+  html += '<div class="mellem__alive-text">\u00d8velser, kost og \u00e5ndedr\u00e6t tilpasset dit element \u2014 hver dag.</div>';
+  html += '<div class="mellem__alive-example">' + aliveExample + '</div>';
   html += '</div>';
 
-  // Lotus-dots
-  html += '<div class="mellem__lotus-dots">\u00B7 \u00B7 \u00B7</div>';
+  // Dots
+  html += '<div class="mellem__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // VINDUER-SEKTION (lavendel)
+  html += '<div class="mellem__win">';
+  html += '<div class="mellem__win-label">Appens hjerte</div>';
+
+  // Modul 1: Rejse i tid med mini-tidslinje
+  html += '<div class="mellem__win-module">';
+  html += '<div class="mellem__win-module-title">Rejse i tid</div>';
+  // Mini-tidslinje SVG
+  html += '<div style="position:relative; height:32px; margin: 10px 36px 8px;">';
+  html += '<div style="position:absolute; top:8px; left:0; right:0; height:1px; background:rgba(107,95,123,0.2);"></div>';
+  html += '<div style="position:absolute; top:5px; left:18%; width:7px; height:7px; border-radius:50%; background:rgba(107,95,123,0.25);"></div>';
+  html += '<div style="position:absolute; top:4px; left:50%; width:9px; height:9px; border-radius:50%; background:#6B5F7B; transform:translateX(-50%);"></div>';
+  html += '<div style="position:absolute; top:5px; right:18%; width:7px; height:7px; border-radius:50%; background:rgba(107,95,123,0.25);"></div>';
+  html += '<div style="position:absolute; top:20px; left:14%; font-size:9px; color:#c0c0c0; font-style:italic; font-family:' + sf + '">fortid</div>';
+  html += '<div style="position:absolute; top:20px; left:50%; transform:translateX(-50%); font-size:9px; color:#8B7D9B; font-style:italic; font-family:' + sf + '">nu</div>';
+  html += '<div style="position:absolute; top:20px; right:14%; font-size:9px; color:#c0c0c0; font-style:italic; font-family:' + sf + '">fremtid</div>';
+  html += '</div>';
+  html += '<div class="mellem__win-module-text">' + vinduerText + '</div>';
+  html += '</div>';
+
+  // Dots inside vinduer
+  html += '<div class="mellem__dots" style="margin: 12px 0;">\u00B7 \u00B7 \u00B7</div>';
+
+  // Modul 2: Se med nogen + mini SVG
+  html += '<div class="mellem__win-module">';
+  html += '<div class="mellem__win-module-title">Se med nogen</div>';
+  html += '<svg width="180" height="90" viewBox="0 0 180 90" style="display:block; margin: 8px auto;">';
+  html += '<ellipse cx="90" cy="22" rx="36" ry="22" fill="none" stroke="rgba(107,95,123,0.12)" stroke-width="1"/>';
+  html += '<ellipse cx="55" cy="55" rx="36" ry="22" fill="none" stroke="rgba(107,95,123,0.12)" stroke-width="1"/>';
+  html += '<ellipse cx="125" cy="55" rx="36" ry="22" fill="none" stroke="rgba(107,95,123,0.12)" stroke-width="1"/>';
+  html += '<circle cx="90" cy="42" r="14" fill="rgba(107,95,123,0.06)"/>';
+  html += '<text x="90" y="13" text-anchor="middle" font-size="7" fill="#c0c0c0" letter-spacing="1" font-family="' + sf + '">PARTNER</text>';
+  html += '<text x="38" y="58" text-anchor="middle" font-size="7" fill="#c0c0c0" letter-spacing="1" font-family="' + sf + '">FOR\u00c6LDRE</text>';
+  html += '<text x="142" y="58" text-anchor="middle" font-size="7" fill="#c0c0c0" letter-spacing="1" font-family="' + sf + '">B\u00d8RN</text>';
+  html += '<text x="90" y="45" text-anchor="middle" font-size="7.5" fill="#8B7D9B" font-weight="600" font-family="' + sf + '">DIG</text>';
+  html += '</svg>';
+  html += '<div class="mellem__win-module-text">Tilf\u00f8j din partner, din datter, din mor \u2014 og se hvordan jeres cyklusser m\u00f8des. Ogs\u00e5 tilbage i tid: <strong>hvad skete der, da I var uenige?</strong></div>';
+  html += '</div>';
+
+  // Gradient sub-box
+  html += '<div class="mellem__win-gradient"><p>Forst\u00e5 hvad der skete. Forbered det der kommer. Alene eller sammen med nogen.</p></div>';
+  html += '</div>';
+
+  // Praksis
+  html += '<div class="mellem__praksis">';
+  html += '<div class="mellem__praksis-label">Hvad kan du g\u00f8re?</div>';
+  html += '<div class="mellem__praksis-text">Appen foresl\u00e5r \u00f8velser, kost og \u00e5ndedr\u00e6t tilpasset dit element \u2014 hver dag.</div>';
+  html += '<div class="mellem__praksis-tags">Krop \u00B7 \u00c5ndedr\u00e6t \u00B7 N\u00e6ring</div>';
+  html += '</div>';
+
+  // Dots
+  html += '<div class="mellem__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // To knapper
   html += '<div class="mellem__buttons">';
@@ -742,6 +859,19 @@ const Onboarding = {
   goToVinduer() {
     console.log('[Livsfaser] Onboarding \u2192 Mine Vinduer');
     App.loadScreen('mine-vinduer');
+  },
+
+  toggleProfil() {
+    var expand = document.getElementById('mellem-profil-expand');
+    var arrow = document.getElementById('mellem-profil-arrow');
+    if (!expand) return;
+    if (expand.classList.contains('open')) {
+      expand.classList.remove('open');
+      if (arrow) arrow.textContent = '\u25BE';
+    } else {
+      expand.classList.add('open');
+      if (arrow) arrow.textContent = '\u25B4';
+    }
   }
 };
 
