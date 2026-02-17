@@ -5385,76 +5385,10 @@ function renderMineVinduerFigurer() {
     activePhase = lp.phase || 9;
   }
 
-  // Tidsbue SVG — ni faser i bue, aktiv fase fremhævet
-  var arcPositions = [
-    {cx:28,cy:88,r:14}, {cx:62,cy:62,r:14}, {cx:100,cy:44,r:14},
-    {cx:140,cy:34,r:14}, {cx:180,cy:34,r:14}, {cx:218,cy:44,r:14},
-    {cx:252,cy:62,r:14}, {cx:278,cy:88,r:14}, {cx:295,cy:116,r:16}
-  ];
-  var svg1 = '<svg width="310" height="190" xmlns="http://www.w3.org/2000/svg">';
-  for (var i = 0; i < arcPositions.length; i++) {
-    var p = arcPositions[i];
-    var isActive = (i + 1) === activePhase;
-    if (isActive) {
-      svg1 += '<circle cx="' + p.cx + '" cy="' + p.cy + '" r="' + p.r + '" fill="rgba(107,95,123,0.15)" stroke="#6B5F7B" stroke-width="1.5"/>';
-    } else {
-      var op = (0.07 + i * 0.01).toFixed(2);
-      var sop = (0.18 + i * 0.02).toFixed(2);
-      svg1 += '<circle cx="' + p.cx + '" cy="' + p.cy + '" r="' + p.r + '" fill="rgba(139,125,155,' + op + ')" stroke="rgba(139,125,155,' + sop + ')" stroke-width="1"/>';
-    }
-    var textY = p.cy + 4;
-    if (isActive) {
-      svg1 += '<text x="' + p.cx + '" y="' + textY + '" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="11" fill="#6B5F7B" font-weight="600" text-anchor="middle">' + (i + 1) + '</text>';
-    } else {
-      svg1 += '<text x="' + p.cx + '" y="' + textY + '" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="11" fill="#8B7D9B" text-anchor="middle">' + (i + 1) + '</text>';
-    }
-  }
-  // Tidslinje under buen
-  svg1 += '<line x1="40" y1="150" x2="270" y2="150" stroke="rgba(139,125,155,0.2)" stroke-width="1"/>';
-  svg1 += '<circle cx="80" cy="150" r="4" fill="rgba(139,125,155,0.2)"/>';
-  svg1 += '<circle cx="155" cy="150" r="5" fill="#6B5F7B"/>';
-  svg1 += '<circle cx="230" cy="150" r="4" fill="rgba(139,125,155,0.2)" stroke="rgba(139,125,155,0.3)" stroke-width="1" stroke-dasharray="2,2"/>';
-  svg1 += '<text x="80" y="168" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">fortid</text>';
-  svg1 += '<text x="155" y="168" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="9" fill="#6B5F7B" font-weight="600" text-anchor="middle">nu</text>';
-  svg1 += '<text x="230" y="168" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">fremtid</text>';
-  svg1 += '<path d="M 45 150 L 35 146 M 45 150 L 35 154" stroke="rgba(139,125,155,0.3)" stroke-width="1" fill="none"/>';
-  svg1 += '<path d="M 265 150 L 275 146 M 265 150 L 275 154" stroke="rgba(139,125,155,0.3)" stroke-width="1" fill="none"/>';
-  svg1 += '</svg>';
-
-  // Relationscirkler SVG — fire overlappende ellipser
-  var svg2 = '<svg width="280" height="280" xmlns="http://www.w3.org/2000/svg">';
-  svg2 += '<ellipse cx="140" cy="50" rx="48" ry="72" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.15)" stroke-width="1" transform="rotate(0,140,140)"/>';
-  svg2 += '<ellipse cx="140" cy="50" rx="48" ry="72" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.13)" stroke-width="1" transform="rotate(90,140,140)"/>';
-  svg2 += '<ellipse cx="140" cy="50" rx="48" ry="72" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.15)" stroke-width="1" transform="rotate(180,140,140)"/>';
-  svg2 += '<ellipse cx="140" cy="50" rx="48" ry="72" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.13)" stroke-width="1" transform="rotate(270,140,140)"/>';
-  svg2 += '<circle cx="140" cy="140" r="38" fill="rgba(107,95,123,0.1)" stroke="rgba(139,125,155,0.25)" stroke-width="1"/>';
-  svg2 += '<text x="140" y="136" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="13" fill="#6B5F7B" font-weight="600" text-anchor="middle">DIG</text>';
-  svg2 += '<text x="140" y="152" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">i alle b\u00e5nd</text>';
-  svg2 += '<text x="140" y="20" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="10" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">PARFORHOLDET</text>';
-  svg2 += '<text x="140" y="33" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">intimitet \u00B7 valg</text>';
-  svg2 += '<text x="268" y="138" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="10" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">B\u00d8RN</text>';
-  svg2 += '<text x="268" y="151" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">omsorg \u00B7 fremtid</text>';
-  svg2 += '<text x="140" y="262" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="10" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">FOR\u00c6LDRE</text>';
-  svg2 += '<text x="140" y="275" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">r\u00f8dder \u00B7 arv</text>';
-  svg2 += '<text x="14" y="138" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="10" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">VENNER</text>';
-  svg2 += '<text x="14" y="151" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">frihed \u00B7 valgt</text>';
-  // Krydsfelter
-  svg2 += '<text x="93" y="88" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">k\u00e6rlighed</text>';
-  svg2 += '<text x="93" y="98" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">du v\u00e6lger</text>';
-  svg2 += '<text x="188" y="88" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">at v\u00e6re</text>';
-  svg2 += '<text x="188" y="98" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">for\u00e6ldre</text>';
-  svg2 += '<text x="93" y="192" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">de der</text>';
-  svg2 += '<text x="93" y="202" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">kender dig</text>';
-  svg2 += '<text x="188" y="192" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">tre</text>';
-  svg2 += '<text x="188" y="202" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">generationer</text>';
-  svg2 += '<text x="140" y="104" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#6B5F7B" font-style="italic" text-anchor="middle">den nye familie</text>';
-  svg2 += '<text x="108" y="144" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#6B5F7B" font-style="italic" text-anchor="middle">modenhed</text>';
-  svg2 += '<text x="172" y="144" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#6B5F7B" font-style="italic" text-anchor="middle">sl\u00e6gten</text>';
-  svg2 += '<text x="140" y="178" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#6B5F7B" font-style="italic" text-anchor="middle">livets vidner</text>';
-  svg2 += '</svg>';
-
-  var html = '<div class="mv__fig">' + svg1 + '</div>';
-  html += '<div class="mv__fig">' + svg2 + '</div>';
+  var html = '<div style="text-align:center">';
+  html += '<img src="assets/images/vinduer-tid-lilla.png" alt="Tidsvinduet" style="width:100%;height:auto">';
+  html += '<img src="assets/images/relationer-forside.png" alt="Relationsvinduet" style="width:100%;height:auto">';
+  html += '</div>';
   el.innerHTML = html;
 }
 
