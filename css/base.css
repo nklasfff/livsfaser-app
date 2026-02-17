@@ -448,6 +448,12 @@ ul, ol {
   display: none;
 }
 
+.menu-separator {
+  height: 1px;
+  background: var(--border);
+  margin: 6px 0;
+}
+
 /* Breadcrumb Home Button */
 .breadcrumb-home {
   display: inline-flex;

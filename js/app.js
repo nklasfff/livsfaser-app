@@ -8578,12 +8578,22 @@ window.removeFavorit = removeFavorit;
 
 var MENU_DATA = [
   {
+    id: 'lige-nu',
+    title: 'Lige nu',
+    direct: true
+  },
+  {
+    id: 'mine-vinduer',
+    title: 'Mine Vinduer',
+    direct: true
+  },
+  { separator: true },
+  {
     id: 'mine-cyklusser',
     title: 'Mine Cyklusser',
     children: [
+      { label: 'Oversigt', action: "App.loadScreen('mine-cyklusser')" },
       { label: 'Cyklusser i Cyklusser', action: "App.loadScreen('cyklusser-i-cyklusser')" },
-      { label: 'Dine cyklusser lige nu', action: "App.loadScreen('dine-cyklusser-lige-nu')" },
-      { label: 'Din energi p\u00e5 en anden dag', action: "App.loadScreen('din-energi')" },
       { label: 'Kroppens store overgange', action: "App.loadScreen('kroppens-store-overgange')" },
       { label: 'De Ni Livsfaser', action: "App.loadScreen('de-ni-livsfaser')" },
       { label: 'De Fire Uger', action: "App.loadScreen('de-fire-uger')" }
@@ -8597,25 +8607,26 @@ var MENU_DATA = [
       { label: 'Relationer lige nu', action: "App.loadScreen('relationer')" },
       { label: 'To Rytmer \u2014 Parforholdet', action: "App.loadScreen('to-rytmer')" },
       { label: 'Tre Generationer', action: "App.loadScreen('tre-generationer')" },
-      { label: 'Jeres energi p\u00e5 en anden dag', action: "App.loadScreen('jeres-energi')" }
+      { label: 'Epigenetik & Arv', action: "App.loadScreen('epigenetik-arv')" }
     ]
   },
   {
     id: 'min-praksis',
     title: 'Min Praksis',
     children: [
+      { label: 'Oversigt', action: "App.loadScreen('min-praksis')" },
       { label: 'Yin Yoga', action: "App.loadScreen('yin-yoga')" },
       { label: 'F\u00f8lelsernes Hjul', action: "App.loadScreen('foelelser')" },
       { label: 'Refleksion', action: "App.loadScreen('refleksion')" },
       { label: 'Kost & Urter', action: "App.loadScreen('kost-urter')" },
-      { label: 'Hvad har hjulpet andre', action: "App.loadScreen('hvad-har-hjulpet')" },
-      { label: 'Din samlede indsigt', action: "App.loadScreen('samlede-indsigt')" }
+      { label: 'Hvad har hjulpet andre', action: "App.loadScreen('hvad-har-hjulpet')" }
     ]
   },
   {
     id: 'min-rejse',
     title: 'Min Rejse',
     children: [
+      { label: 'Oversigt', action: "App.loadScreen('min-rejse')" },
       { label: 'Min udvikling', action: "App.loadScreen('min-udvikling')" },
       { label: 'Min journal', action: "App.loadScreen('min-journal')" },
       { label: 'Mine favoritter', action: "App.loadScreen('mine-favoritter')" },
@@ -8623,14 +8634,10 @@ var MENU_DATA = [
       { label: 'Baggrundsviden', action: "App.loadScreen('baggrundsviden')" }
     ]
   },
+  { separator: true },
   {
     id: 'soeg',
     title: 'S\u00f8g',
-    direct: true
-  },
-  {
-    id: 'checkin',
-    title: 'Dagens check-in',
     direct: true
   },
   {
@@ -8672,6 +8679,12 @@ function renderMenuContent() {
   var html = '';
   for (var i = 0; i < MENU_DATA.length; i++) {
     var item = MENU_DATA[i];
+
+    if (item.separator) {
+      html += '<div class="menu-separator"></div>';
+      continue;
+    }
+
     var isExpanded = !!_menuExpandedSections[item.id];
 
     if (item.direct) {
@@ -8720,12 +8733,15 @@ function menuNavigate(itemIndex, childIndex) {
 window.menuNavigate = menuNavigate;
 
 function menuDirectAction(itemId) {
-  if (itemId === 'soeg') {
+  if (itemId === 'lige-nu') {
+    toggleMenu();
+    setTimeout(function() { App.loadScreen('idag'); }, 50);
+  } else if (itemId === 'mine-vinduer') {
+    toggleMenu();
+    setTimeout(function() { App.loadScreen('mine-vinduer'); }, 50);
+  } else if (itemId === 'soeg') {
     toggleMenu();
     setTimeout(function() { App.loadScreen('soeg'); }, 50);
-  } else if (itemId === 'checkin') {
-    toggleMenu();
-    setTimeout(function() { App.loadScreen('min-udvikling'); }, 50);
   }
 }
 window.menuDirectAction = menuDirectAction;
