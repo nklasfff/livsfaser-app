@@ -6195,6 +6195,41 @@ function renderMcNavCard(title, desc, arrowText, screen) {
   return html;
 }
 
+// ---- Krydslinks (UDFORSK MERE) ----
+
+var KRYDS_DATA = {
+  'mine-cyklusser': { title: 'Mine Cyklusser', color: 'rgba(118,144,193,0.08)', border: 'rgba(118,144,193,0.18)', textColor: '#5A74A5', desc: 'Dine fem cyklusser og livets store overgange' },
+  'mine-relationer': { title: 'Mine Relationer', color: 'rgba(184,166,192,0.08)', border: 'rgba(184,166,192,0.18)', textColor: '#8B6F9B', desc: 'Se hvordan dine faser m\u00f8der dem du holder af' },
+  'min-praksis': { title: 'Min Praksis', color: 'rgba(139,154,157,0.08)', border: 'rgba(139,154,157,0.18)', textColor: '#6B7F82', desc: 'Yoga, kost, \u00e5ndedræt og f\u00f8lelsesarbejde' },
+  'min-rejse': { title: 'Min Rejse', color: 'rgba(139,125,155,0.06)', border: 'rgba(139,125,155,0.14)', textColor: '#6B5F7B', desc: 'Tracking, journal og din udvikling over tid' },
+  'mine-vinduer': { title: 'Mine Vinduer', color: 'rgba(107,95,123,0.08)', border: 'rgba(107,95,123,0.18)', textColor: '#6B5F7B', desc: 'Rejse i tid \u2014 alene eller med nogen' }
+};
+
+function renderKrydslinks(excludeScreen) {
+  var targets = {
+    'mine-cyklusser': ['min-praksis', 'mine-relationer', 'mine-vinduer'],
+    'mine-relationer': ['mine-cyklusser', 'min-praksis', 'mine-vinduer'],
+    'min-praksis': ['mine-cyklusser', 'mine-relationer', 'mine-vinduer'],
+    'min-rejse': ['mine-cyklusser', 'min-praksis', 'mine-vinduer']
+  };
+  var links = targets[excludeScreen] || [];
+  if (links.length === 0) return '';
+
+  var html = '<div class="krydslinks">';
+  html += '<div class="krydslinks__label">UDFORSK MERE</div>';
+  html += '<div class="krydslinks__grid">';
+  for (var i = 0; i < links.length; i++) {
+    var k = KRYDS_DATA[links[i]];
+    if (!k) continue;
+    html += '<div class="krydslinks__card" style="background:' + k.color + ';border:1px solid ' + k.border + '" onclick="App.loadScreen(\'' + links[i] + '\')">';
+    html += '<div class="krydslinks__card-title" style="color:' + k.textColor + '">' + k.title + '</div>';
+    html += '<div class="krydslinks__card-desc">' + k.desc + '</div>';
+    html += '</div>';
+  }
+  html += '</div></div>';
+  return html;
+}
+
 function initMineCyklusserScreen() {
   ensureIdagData();
   var d = window._idagData;
@@ -6238,6 +6273,14 @@ function initMineCyklusserScreen() {
     k += renderMcNavCard('De Ni Livsfaser', 'Ni syv-\u00e5rs cyklusser fra f\u00f8dsel til visdom. Udforsk hver fase i dybden \u2014 krop, sind, element og anbefalinger.', 'Udforsk faserne \u2192', 'de-ni-livsfaser');
     k += renderMcNavCard('De Fire Uger', 'Din m\u00e5nedscyklus udfoldet \u2014 fire uger, fire elementer, fire kvaliteter af energi. Se hvor du er lige nu.', 'Se din m\u00e5ned \u2192', 'de-fire-uger');
     kapitlerEl.innerHTML = k;
+  }
+
+  // Krydslinks
+  var content = document.getElementById('screen-content');
+  if (content) {
+    var krydsDiv = document.createElement('div');
+    krydsDiv.innerHTML = renderKrydslinks('mine-cyklusser');
+    content.appendChild(krydsDiv);
   }
 }
 
@@ -6378,6 +6421,14 @@ function initMineRelationerScreen() {
       '<div class="rel-add-person__main">+ Tilf\u00f8j person</div>' +
       '<div class="rel-add-person__sub">Partner, barn, for\u00e6lder, veninde...</div>' +
       '</div>';
+  }
+
+  // Krydslinks
+  var content = document.getElementById('screen-content');
+  if (content) {
+    var krydsDiv = document.createElement('div');
+    krydsDiv.innerHTML = renderKrydslinks('mine-relationer');
+    content.appendChild(krydsDiv);
   }
 }
 
@@ -6561,6 +6612,14 @@ function initMinPraksisScreen() {
   );
 
   sektionerEl.innerHTML = html;
+
+  // Krydslinks
+  var content = document.getElementById('screen-content');
+  if (content) {
+    var krydsDiv = document.createElement('div');
+    krydsDiv.innerHTML = renderKrydslinks('min-praksis');
+    content.appendChild(krydsDiv);
+  }
 }
 
 // ---- Niveau 1: Min Rejse ----
@@ -6702,6 +6761,14 @@ function initMinRejseScreen() {
   h += '<div class="rejse__hint">Din rejse er din egen. Alt her er privat, og du bestemmer hvad du gemmer og deler.</div>';
 
   el.innerHTML = h;
+
+  // Krydslinks
+  var content = document.getElementById('screen-content');
+  if (content) {
+    var krydsDiv = document.createElement('div');
+    krydsDiv.innerHTML = renderKrydslinks('min-rejse');
+    content.appendChild(krydsDiv);
+  }
 }
 
 // ---- Niveau 2: Cyklusser i Cyklusser ----
