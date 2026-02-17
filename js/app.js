@@ -6653,22 +6653,6 @@ function initEpigenetikArvScreen() {
 
   var h = '';
 
-  // 1. Person-prikker (Dig + Mor)
-  var personSvg = '<svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="8" r="4" fill="rgba(255,255,255,0.7)"/><ellipse cx="11" cy="19" rx="7" ry="5" fill="rgba(255,255,255,0.5)"/></svg>';
-  h += '<div class="epi-ppl">';
-  h += '<div class="epi-pp">';
-  h += '<div class="epi-pp-dot epi-pp-dot--me">' + personSvg + '</div>';
-  h += '<div class="epi-pp-name">' + escapeHtml(userData.name || 'Dig') + '</div>';
-  h += '<div class="epi-pp-el">Fase ' + userPhase.phase + ' \u00B7 ' + userElLabel + '</div>';
-  h += '</div>';
-  h += '<div class="epi-pp-connector">\u2190</div>';
-  h += '<div class="epi-pp">';
-  h += '<div class="epi-pp-dot epi-pp-dot--mor">' + personSvg + '</div>';
-  h += '<div class="epi-pp-name">' + morName + '</div>';
-  h += '<div class="epi-pp-el">Fase ' + morPhaseAtBirth.phase + ' ved din f\u00f8dsel \u00B7 ' + morElLabel + '</div>';
-  h += '</div>';
-  h += '</div>';
-
   // 2. Eksempel-boks (kun hvis ingen mor)
   if (!hasMor) {
     h += '<div class="rel-insight" style="text-align:center;">';
