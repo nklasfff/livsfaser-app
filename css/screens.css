@@ -8532,6 +8532,7 @@
   border-radius: 14px;
   margin: 16px 0;
   display: block;
+  filter: grayscale(100%) sepia(100%) hue-rotate(220deg) saturate(60%) brightness(0.85);
 }
 
 .epi-ppl { display: flex; gap: 24px; justify-content: center; align-items: center; margin: 20px 0; }

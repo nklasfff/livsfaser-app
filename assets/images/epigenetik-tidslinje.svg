@@ -1,109 +1,109 @@
 <svg width="1200" height="700" xmlns="http://www.w3.org/2000/svg">
   <!-- Grøn baggrund -->
-  <rect width="1200" height="700" fill="#B8A6C0"/>
+  <rect width="1200" height="700" fill="#8B9A9D"/>
   
   <!-- Header - centreret -->
-  <text x="600" y="70" font-family="Times New Roman, serif" font-size="36" font-weight="bold" text-anchor="middle" fill="#3D2F52">
+  <text x="600" y="70" font-family="Times New Roman, serif" font-size="36" font-weight="bold" text-anchor="middle" fill="#000000">
     EPIGENETIK - ARVEN VI KAN PÅVIRKE
   </text>
   
   <!-- Vandret streg efter overskrift -->
-  <line x1="80" y1="95" x2="1120" y2="95" stroke="#3D2F52" stroke-width="2"/>
+  <line x1="80" y1="95" x2="1120" y2="95" stroke="#000000" stroke-width="2"/>
   
   <!-- Hovedlinje for tidslinje -->
-  <line x1="100" y1="350" x2="1100" y2="350" stroke="#3D2F52" stroke-width="3"/>
+  <line x1="100" y1="350" x2="1100" y2="350" stroke="#000000" stroke-width="3"/>
   
   <!-- BEDSTEFORÆLDRE -->
-  <circle cx="175" cy="350" r="8" fill="#3D2F52"/>
-  <line x1="175" y1="350" x2="175" y2="290" stroke="#3D2F52" stroke-width="2"/>
-  <text x="175" y="180" font-family="Times New Roman, serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#3D2F52">
+  <circle cx="175" cy="350" r="8" fill="#000000"/>
+  <line x1="175" y1="350" x2="175" y2="290" stroke="#000000" stroke-width="2"/>
+  <text x="175" y="180" font-family="Times New Roman, serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#000000">
     BEDSTEFORÆLDRE
   </text>
-  <text x="175" y="210" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#3D2F52">
+  <text x="175" y="210" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#000000">
     Deres oplevelser
   </text>
-  <text x="175" y="232" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#3D2F52">
+  <text x="175" y="232" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#000000">
     sætter de første spor
   </text>
-  <text x="175" y="262" font-family="Times New Roman, serif" font-size="16" font-style="italic" text-anchor="middle" fill="#3D2F52">
+  <text x="175" y="262" font-family="Times New Roman, serif" font-size="16" font-style="italic" text-anchor="middle" fill="#000000">
     Krig · Sult · Traumer
   </text>
   
   <!-- FORÆLDRE -->
-  <circle cx="400" cy="350" r="8" fill="#3D2F52"/>
-  <line x1="400" y1="350" x2="400" y2="410" stroke="#3D2F52" stroke-width="2"/>
-  <text x="400" y="460" font-family="Times New Roman, serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#3D2F52">
+  <circle cx="400" cy="350" r="8" fill="#000000"/>
+  <line x1="400" y1="350" x2="400" y2="410" stroke="#000000" stroke-width="2"/>
+  <text x="400" y="460" font-family="Times New Roman, serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#000000">
     FORÆLDRE
   </text>
-  <text x="400" y="490" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#3D2F52">
+  <text x="400" y="490" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#000000">
     Arver mønstre
   </text>
-  <text x="400" y="512" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#3D2F52">
+  <text x="400" y="512" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#000000">
     og giver dem videre
   </text>
-  <text x="400" y="542" font-family="Times New Roman, serif" font-size="16" font-style="italic" text-anchor="middle" fill="#3D2F52">
+  <text x="400" y="542" font-family="Times New Roman, serif" font-size="16" font-style="italic" text-anchor="middle" fill="#000000">
     Stressrespons · Tilknytning
   </text>
   
   <!-- DIG - fremhævet med større cirkel -->
-  <circle cx="600" cy="350" r="14" fill="#3D2F52"/>
-  <line x1="600" y1="350" x2="600" y2="290" stroke="#3D2F52" stroke-width="3"/>
-  <text x="600" y="165" font-family="Times New Roman, serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#3D2F52">
+  <circle cx="600" cy="350" r="14" fill="#000000"/>
+  <line x1="600" y1="350" x2="600" y2="290" stroke="#000000" stroke-width="3"/>
+  <text x="600" y="165" font-family="Times New Roman, serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#000000">
     DIG
   </text>
-  <text x="600" y="198" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#3D2F52">
+  <text x="600" y="198" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#000000">
     Du modtager arven
   </text>
-  <text x="600" y="220" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#3D2F52">
+  <text x="600" y="220" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#000000">
     Du kan ændre den
   </text>
-  <text x="600" y="242" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#3D2F52">
+  <text x="600" y="242" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#000000">
     Du giver den videre
   </text>
-  <text x="600" y="272" font-family="Times New Roman, serif" font-size="17" font-weight="bold" text-anchor="middle" fill="#3D2F52">
+  <text x="600" y="272" font-family="Times New Roman, serif" font-size="17" font-weight="bold" text-anchor="middle" fill="#000000">
     → DU KAN BRYDE KÆDEN
   </text>
   
   <!-- BØRN -->
-  <circle cx="800" cy="350" r="8" fill="#3D2F52"/>
-  <line x1="800" y1="350" x2="800" y2="410" stroke="#3D2F52" stroke-width="2"/>
-  <text x="800" y="460" font-family="Times New Roman, serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#3D2F52">
+  <circle cx="800" cy="350" r="8" fill="#000000"/>
+  <line x1="800" y1="350" x2="800" y2="410" stroke="#000000" stroke-width="2"/>
+  <text x="800" y="460" font-family="Times New Roman, serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#000000">
     BØRN
   </text>
-  <text x="800" y="490" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#3D2F52">
+  <text x="800" y="490" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#000000">
     Modtager dine spor
   </text>
-  <text x="800" y="512" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#3D2F52">
+  <text x="800" y="512" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#000000">
     både de gamle og de nye
   </text>
-  <text x="800" y="542" font-family="Times New Roman, serif" font-size="16" font-style="italic" text-anchor="middle" fill="#3D2F52">
+  <text x="800" y="542" font-family="Times New Roman, serif" font-size="16" font-style="italic" text-anchor="middle" fill="#000000">
     Healing · Ro · Nye mønstre
   </text>
   
   <!-- BØRNEBØRN -->
-  <circle cx="1025" cy="350" r="8" fill="#3D2F52"/>
-  <line x1="1025" y1="350" x2="1025" y2="290" stroke="#3D2F52" stroke-width="2"/>
-  <text x="1025" y="180" font-family="Times New Roman, serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#3D2F52">
+  <circle cx="1025" cy="350" r="8" fill="#000000"/>
+  <line x1="1025" y1="350" x2="1025" y2="290" stroke="#000000" stroke-width="2"/>
+  <text x="1025" y="180" font-family="Times New Roman, serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#000000">
     BØRNEBØRN
   </text>
-  <text x="1025" y="210" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#3D2F52">
+  <text x="1025" y="210" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#000000">
     Bærer arven videre
   </text>
-  <text x="1025" y="232" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#3D2F52">
+  <text x="1025" y="232" font-family="Times New Roman, serif" font-size="16" text-anchor="middle" fill="#000000">
     til nye generationer
   </text>
-  <text x="1025" y="262" font-family="Times New Roman, serif" font-size="16" font-style="italic" text-anchor="middle" fill="#3D2F52">
+  <text x="1025" y="262" font-family="Times New Roman, serif" font-size="16" font-style="italic" text-anchor="middle" fill="#000000">
     Fremtiden formes nu
   </text>
   
   <!-- Vandret streg før undertekst -->
-  <line x1="80" y1="600" x2="1120" y2="600" stroke="#3D2F52" stroke-width="1"/>
+  <line x1="80" y1="600" x2="1120" y2="600" stroke="#000000" stroke-width="1"/>
   
   <!-- Undertekst -->
-  <text x="600" y="640" font-family="Times New Roman, serif" font-size="17" text-anchor="middle" fill="#3D2F52">
+  <text x="600" y="640" font-family="Times New Roman, serif" font-size="17" text-anchor="middle" fill="#000000">
     Anishinaabe: 7 generationers tænkning · Māori: Whakapapa · Vedisk: Karma
   </text>
-  <text x="600" y="665" font-family="Times New Roman, serif" font-size="15" font-style="italic" text-anchor="middle" fill="#3D2F52">
+  <text x="600" y="665" font-family="Times New Roman, serif" font-size="15" font-style="italic" text-anchor="middle" fill="#000000">
     De gamle traditioner vidste det - nu bekræfter videnskaben det
   </text>
   
