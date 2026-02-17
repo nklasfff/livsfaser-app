@@ -7942,3 +7942,82 @@
   text-decoration-color: rgba(139,125,155,0.3);
 }
 
+/* ========================================
+   MELLEMSTATION (Onboarding step 2)
+   ======================================== */
+
+.mellem__title {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 28px;
+  color: var(--morkebla, #244382);
+  text-align: center;
+  margin: 28px 0 20px;
+  font-weight: 600;
+}
+
+.mellem__tekst {
+  padding: 0 8px;
+  margin-bottom: 24px;
+}
+
+.mellem__tekst p {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 16px;
+  color: #444;
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+
+.mellem__tekst strong {
+  color: var(--morkebla, #244382);
+}
+
+.mellem__resonans {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border, #E0E0E0);
+  font-style: italic;
+}
+
+.mellem__app-tekst {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 15px;
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  line-height: 1.7;
+  padding: 0 12px;
+  margin-bottom: 28px;
+}
+
+.mellem__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 8px;
+}
+
+.mellem__btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.mellem__btn--primary {
+  background: linear-gradient(135deg, #5A74A5 0%, #7690C1 100%);
+  color: white;
+  border: none;
+}
+
+.mellem__btn--secondary {
+  background: none;
+  color: #6B5F7B;
+  border: 2px solid #8B7D9B;
+}
+

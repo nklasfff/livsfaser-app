@@ -326,6 +326,71 @@ function renderLotusLeafSVG(phaseNum) {
     '</svg>';
 }
 
+function renderMellemstation(userData) {
+  var el = document.getElementById('onboarding-mellemstation');
+  if (!el) return;
+
+  var now = new Date();
+  var age = calculateAge(userData.birthdate);
+  var phase = calculateLifePhase(age);
+  var season = calculateSeason(now);
+  var weekday = calculateWeekday(now);
+  var organClock = calculateOrganClock(now);
+
+  // Månedscyklus element (default: måne/årstid-baseret)
+  var monthElement = season.element;
+
+  // Samle alle elementer og tælle
+  var elements = [phase.element, season.element, monthElement, weekday.element, organClock.element];
+  var counts = {};
+  for (var i = 0; i < elements.length; i++) {
+    counts[elements[i]] = (counts[elements[i]] || 0) + 1;
+  }
+  var dominant = elements[0];
+  var maxCount = 0;
+  for (var key in counts) {
+    if (counts[key] > maxCount) {
+      maxCount = counts[key];
+      dominant = key;
+    }
+  }
+
+  // Resonans-tekst
+  var resonansText = '';
+  if (maxCount >= 4) {
+    resonansText = 'Det er sjældent — en dyb resonans, hvor næsten alt peger samme vej.';
+  } else if (maxCount === 3) {
+    resonansText = 'Tre cyklusser samler sig. Der er retning og ro i din energi.';
+  } else if (maxCount === 2) {
+    resonansText = 'Dine cyklusser fordeler sig bredt. Der er mangfoldighed i din energi lige nu.';
+  } else {
+    resonansText = 'Alle fem cyklusser peger i hver sin retning. Det giver bredde og nuance.';
+  }
+
+  var html = '';
+  html += '<h1 class="mellem__title">Dit liv lige nu</h1>';
+
+  // Dynamisk tekst
+  html += '<div class="mellem__tekst">';
+  html += '<p>Du er i <strong>Fase ' + phase.phase + ': ' + phase.name + '</strong>. Dit element er <strong>' + ELEMENT_LABELS[phase.element] + '</strong>.</p>';
+  html += '<p>Det er ' + season.season + ' \u2014 ' + ELEMENT_LABELS[season.element] + '. Det er ' + now.toLocaleDateString('da-DK', { month: 'long' }) + ' \u2014 ' + ELEMENT_LABELS[monthElement] + '.</p>';
+  html += '<p>I dag er det ' + weekday.day + ' \u2014 ' + ELEMENT_LABELS[weekday.element] + '.</p>';
+  html += '<p>Lige nu arbejder <strong>' + organClock.organ + '</strong> i din krop.</p>';
+  html += '<p class="mellem__resonans">' + maxCount + ' af dine fem cyklusser peger mod ' + ELEMENT_LABELS[dominant] + '.<br>' + resonansText + '</p>';
+  html += '</div>';
+
+  // App-tekst
+  html += '<p class="mellem__app-tekst">Denne app viser dig det her \u2014 hver dag, i realtid. Og den lader dig rejse i tid: Se hvor du var for ti \u00e5r siden, eller hvad der venter til sommer. Alene eller med nogen du holder af.</p>';
+
+  // To knapper
+  html += '<div class="mellem__buttons">';
+  html += '<button class="mellem__btn mellem__btn--primary" onclick="Onboarding.finish()">G\u00e5 til din forside \u2192</button>';
+  html += '<button class="mellem__btn mellem__btn--secondary" onclick="Onboarding.goToVinduer()">Pr\u00f8v Mine Vinduer \u2192</button>';
+  html += '</div>';
+
+  el.innerHTML = html;
+}
+
 const Onboarding = {
 
   init() {
@@ -387,11 +452,8 @@ const Onboarding = {
     if (step1) step1.style.display = 'none';
     if (step2) step2.style.display = '';
 
-    // Render lotus leaf SVG
-    var leafEl = document.getElementById('onboarding-lotus-leaf');
-    if (leafEl) {
-      leafEl.innerHTML = renderLotusLeafSVG(this._phase.phase);
-    }
+    // Render mellemstation
+    renderMellemstation(userData);
 
     // Scroll to top
     var content = document.getElementById('screen-content');
@@ -401,6 +463,11 @@ const Onboarding = {
   finish() {
     console.log('[Livsfaser] Onboarding fuldf\u00f8rt');
     App.loadScreen('idag');
+  },
+
+  goToVinduer() {
+    console.log('[Livsfaser] Onboarding → Mine Vinduer');
+    App.loadScreen('mine-vinduer');
   }
 };
 
