@@ -5776,10 +5776,10 @@
 }
 
 .rejse__hero-img {
-  width: 100%;
+  width: 50%;
   display: block;
+  margin: 0 auto 20px;
   border-radius: 14px;
-  margin: 0 0 20px;
 }
 
 /* Lotus-adskiller */
