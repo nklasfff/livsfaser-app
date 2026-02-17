@@ -1,4 +1,4 @@
-const CACHE_NAME = 'livsfaser-v194';
+const CACHE_NAME = 'livsfaser-v195';
 const urlsToCache = [
   './',
   './index.html',
@@ -43,7 +43,8 @@ const urlsToCache = [
   './assets/images/vindue_ny_side.svg',
   './assets/images/epigenetik-tidslinje.svg',
   './assets/images/min-udvikling-graf.png',
-  './assets/images/min-journal-bog.jpeg'
+  './assets/images/min-journal-bog.jpeg',
+  './assets/images/cyklusser_i_cyklusser_v4.svg'
 ];
 
 // Install - cache files, activate immediately

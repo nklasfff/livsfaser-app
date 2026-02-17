@@ -7480,7 +7480,7 @@ function initCyklusserICyklusserScreen() {
   // 1. Lotus-billede
   var blomstEl = document.getElementById('cic-blomst');
   if (blomstEl) {
-    blomstEl.innerHTML = '<img src="assets/images/lotus-5blade-cropped.png" alt="Cyklusser i cyklusser" class="cic-lotus-img">';
+    blomstEl.innerHTML = '<img src="assets/images/cyklusser_i_cyklusser_v4.svg" alt="Cyklusser i cyklusser" class="cic-lotus-img">';
   }
 
   // 2. "LIGE NU" indsigt-boks
