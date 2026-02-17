@@ -5356,7 +5356,7 @@ function renderMineVinduerFigurer() {
 
   var html = '<div style="text-align:center">';
   html += '<img src="assets/images/vinduer-tid-lilla.png" alt="Tidsvinduet" style="width:100%;height:auto">';
-  html += '<img src="assets/images/relationer-forside.png" alt="Relationsvinduet" style="width:75%;height:auto;margin-top:-110px;display:block;margin-left:auto;margin-right:auto">';
+  html += '<img src="assets/images/relationer-forside.png" alt="Relationsvinduet" style="width:75%;height:auto;margin-top:-80px;display:block;margin-left:auto;margin-right:auto">';
   html += '</div>';
   el.innerHTML = html;
 }
