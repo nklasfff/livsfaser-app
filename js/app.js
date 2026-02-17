@@ -326,6 +326,45 @@ function renderLotusLeafSVG(phaseNum) {
     '</svg>';
 }
 
+function renderOnboardingPhaseFigure() {
+  var el = document.getElementById('onboarding-phase-figure');
+  if (!el) return;
+  var sf = "'Cormorant Garamond','Times New Roman',Georgia,serif";
+  var phases = [
+    { num: 1, label: 'Livets\nbegyndelse' },
+    { num: 2, label: 'Udforskning' },
+    { num: 3, label: 'Forvandling' },
+    { num: 4, label: 'Blomstring' },
+    { num: 5, label: 'Ansvar' },
+    { num: 6, label: 'Modning' },
+    { num: 7, label: 'H\u00f8st' },
+    { num: 8, label: 'Frig\u00f8relse' },
+    { num: 9, label: 'Visdom' }
+  ];
+  var W = 320, H = 320, CX = 160, CY = 160, R = 110, r = 30;
+  var html = '<svg width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto">';
+  // Center circle
+  html += '<circle cx="' + CX + '" cy="' + CY + '" r="44" fill="rgba(90,116,165,0.15)" stroke="rgba(90,116,165,0.25)" stroke-width="1"/>';
+  html += '<text x="' + CX + '" y="' + (CY - 6) + '" font-family="' + sf + '" font-size="14" fill="#5A74A5" font-weight="600" font-style="italic" text-anchor="middle">De 9</text>';
+  html += '<text x="' + CX + '" y="' + (CY + 12) + '" font-family="' + sf + '" font-size="14" fill="#5A74A5" font-weight="600" font-style="italic" text-anchor="middle">Livsfaser</text>';
+  // 9 phase circles
+  for (var i = 0; i < 9; i++) {
+    var angle = (-Math.PI / 2) + (i * 2 * Math.PI / 9);
+    var cx = CX + R * Math.cos(angle);
+    var cy = CY + R * Math.sin(angle);
+    var opacity = (0.06 + i * 0.007).toFixed(3);
+    var borderOp = (0.15 + i * 0.006).toFixed(3);
+    html += '<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + r + '" fill="rgba(90,116,165,' + opacity + ')" stroke="rgba(90,116,165,' + borderOp + ')" stroke-width="1"/>';
+    html += '<text x="' + cx.toFixed(1) + '" y="' + (cy - 4).toFixed(1) + '" font-family="' + sf + '" font-size="13" fill="#5A74A5" font-weight="600" text-anchor="middle">' + phases[i].num + '</text>';
+    var lines = phases[i].label.split('\n');
+    for (var j = 0; j < lines.length; j++) {
+      html += '<text x="' + cx.toFixed(1) + '" y="' + (cy + 8 + j * 11).toFixed(1) + '" font-family="' + sf + '" font-size="8" fill="#7690C1" font-style="italic" text-anchor="middle">' + lines[j] + '</text>';
+    }
+  }
+  html += '</svg>';
+  el.innerHTML = html;
+}
+
 function renderMellemstation(userData) {
   var el = document.getElementById('onboarding-mellemstation');
   if (!el) return;
@@ -337,10 +376,10 @@ function renderMellemstation(userData) {
   var weekday = calculateWeekday(now);
   var organClock = calculateOrganClock(now);
 
-  // Månedscyklus element (default: måne/årstid-baseret)
+  // M\u00e5nedscyklus element (default: \u00e5rstid-baseret)
   var monthElement = season.element;
 
-  // Samle alle elementer og tælle
+  // Samle alle elementer og t\u00e6lle
   var elements = [phase.element, season.element, monthElement, weekday.element, organClock.element];
   var counts = {};
   for (var i = 0; i < elements.length; i++) {
@@ -355,37 +394,90 @@ function renderMellemstation(userData) {
     }
   }
 
-  // Resonans-tekst
-  var resonansText = '';
+  // Element tegn
+  var ELEMENT_TEGN = { 'VAND': '\u6c34', 'TR\u00c6': '\u6728', 'ILD': '\u706b', 'JORD': '\u571f', 'METAL': '\u91d1' };
+  var tegn = ELEMENT_TEGN[phase.element] || '';
+
+  // Resonans-label og tekst
+  var resonansLabel = '';
+  var resonansTekst = '';
   if (maxCount >= 4) {
-    resonansText = 'Det er sjældent — en dyb resonans, hvor næsten alt peger samme vej.';
+    resonansLabel = 'FULD RESONANS';
+    resonansTekst = maxCount + ' af dine fem cyklusser peger mod ' + ELEMENT_LABELS[dominant] + '. Det er sj\u00e6ldent \u2014 og det betyder at din livsfase, \u00e5rstiden og de andre matchende taler med \u00e9n stemme. Du m\u00e6rker det m\u00e5ske som en dyb ro, eller som en stille kraft der b\u00e6rer dig.';
   } else if (maxCount === 3) {
-    resonansText = 'Tre cyklusser samler sig. Der er retning og ro i din energi.';
+    resonansLabel = 'MEDVIND';
+    resonansTekst = maxCount + ' af dine fem cyklusser peger mod ' + ELEMENT_LABELS[dominant] + '. Der er retning i din energi \u2014 tre cyklusser samler sig, og det giver en str\u00f8m du kan f\u00f8lge.';
   } else if (maxCount === 2) {
-    resonansText = 'Dine cyklusser fordeler sig bredt. Der er mangfoldighed i din energi lige nu.';
+    resonansLabel = 'MODVIND';
+    // Find alle unikke elementer
+    var unikke = [];
+    for (var ek in counts) { unikke.push(ELEMENT_LABELS[ek]); }
+    resonansTekst = 'Dine cyklusser peger i forskellige retninger lige nu \u2014 ' + unikke.join(', ') + '. Det kan f\u00f8les uroligt \u2014 som at blive trukket flere veje. Det er der ingenting galt med. Det er bare cyklusserne, der endnu ikke har fundet hinanden.';
   } else {
-    resonansText = 'Alle fem cyklusser peger i hver sin retning. Det giver bredde og nuance.';
+    resonansLabel = 'MODVIND';
+    resonansTekst = 'Alle fem cyklusser peger i hver sin retning. Det kan f\u00f8les uroligt \u2014 som at blive trukket flere veje. Det er der ingenting galt med. Det er bare cyklusserne, der endnu ikke har fundet hinanden.';
   }
 
+  var maaned = now.toLocaleDateString('da-DK', { month: 'long' });
+  var sf = "'Cormorant Garamond','Times New Roman',Georgia,serif";
+
   var html = '';
+
+  // Lille figur \u00f8verst \u2014 dr\u00e5be/lotus med element-tegn
+  html += '<div class="mellem__symbol">';
+  html += '<svg width="60" height="72" viewBox="0 0 60 72" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto">';
+  html += '<path d="M30 8 C22 22 10 34 10 46 C10 58 19 66 30 66 C41 66 50 58 50 46 C50 34 38 22 30 8Z" fill="rgba(90,116,165,0.08)" stroke="rgba(90,116,165,0.15)" stroke-width="1"/>';
+  html += '<text x="30" y="46" font-family="' + sf + '" font-size="20" fill="#5A74A5" text-anchor="middle">' + tegn + '</text>';
+  html += '</svg></div>';
+
+  // Overskrift
   html += '<h1 class="mellem__title">Dit liv lige nu</h1>';
 
-  // Dynamisk tekst
-  html += '<div class="mellem__tekst">';
-  html += '<p>Du er i <strong>Fase ' + phase.phase + ': ' + phase.name + '</strong>. Dit element er <strong>' + ELEMENT_LABELS[phase.element] + '</strong>.</p>';
-  html += '<p>Det er ' + season.season + ' \u2014 ' + ELEMENT_LABELS[season.element] + '. Det er ' + now.toLocaleDateString('da-DK', { month: 'long' }) + ' \u2014 ' + ELEMENT_LABELS[monthElement] + '.</p>';
-  html += '<p>I dag er det ' + weekday.day + ' \u2014 ' + ELEMENT_LABELS[weekday.element] + '.</p>';
-  html += '<p>Lige nu arbejder <strong>' + organClock.organ + '</strong> i din krop.</p>';
-  html += '<p class="mellem__resonans">' + maxCount + ' af dine fem cyklusser peger mod ' + ELEMENT_LABELS[dominant] + '.<br>' + resonansText + '</p>';
+  // F\u00f8rste boks \u2014 Din profil
+  html += '<div class="mellem__boks">';
+  html += '<div class="mellem__boks-label">DIN PROFIL</div>';
+  html += '<p class="mellem__boks-tekst">Du er i <strong>Fase ' + phase.phase + ': ' + phase.name + '</strong>. Dit element er <strong>' + ELEMENT_LABELS[phase.element] + '</strong>.</p>';
+  html += '<p class="mellem__boks-tekst">Det er ' + season.season + ' \u2014 ' + ELEMENT_LABELS[season.element] + '-energi. Det er ' + maaned + ' \u2014 ' + ELEMENT_LABELS[monthElement] + '.</p>';
+  html += '<p class="mellem__boks-tekst">I dag er det ' + weekday.day + ' \u2014 ' + ELEMENT_LABELS[weekday.element] + '.</p>';
+  html += '<p class="mellem__boks-tekst">Lige nu arbejder <strong>' + organClock.organ + '</strong> i din krop.</p>';
   html += '</div>';
 
-  // App-tekst
-  html += '<p class="mellem__app-tekst">Denne app viser dig det her \u2014 hver dag, i realtid. Og den lader dig rejse i tid: Se hvor du var for ti \u00e5r siden, eller hvad der venter til sommer. Alene eller med nogen du holder af.</p>';
+  // Anden boks \u2014 Resonans (gradient)
+  html += '<div class="mellem__resonans-boks">';
+  html += '<div class="mellem__resonans-label">' + resonansLabel + '</div>';
+  html += '<p class="mellem__resonans-tekst">' + resonansTekst + '</p>';
+  html += '</div>';
+
+  // Lotus-dots
+  html += '<div class="mellem__lotus-dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // Tredje boks \u2014 Hvad kan denne app?
+  html += '<div class="mellem__boks">';
+  html += '<div class="mellem__boks-label">HVAD KAN DENNE APP?</div>';
+  html += '<p class="mellem__boks-tekst">Denne app viser dig det her \u2014 hver dag, i realtid. N\u00e5r du \u00e5bner den i morgen, har billedet \u00e6ndret sig. Et nyt organur, m\u00e5ske en ny ugedag med et andet element.</p>';
+  html += '<p class="mellem__boks-tekst">Du kan ogs\u00e5 rejse i tid. V\u00e6lg en dag fra din fortid \u2014 en f\u00f8dselsdag, en skilsmisse, en ferie der \u00e6ndrede noget \u2014 og se hvilke cyklusser der var aktive. Eller kig fremad: n\u00e6ste jul, dit barns konfirmation, om fem \u00e5r.</p>';
+  html += '<p class="mellem__boks-tekst">Og du kan se det sammen med nogen. Tilf\u00f8j din partner, din datter, din mor \u2014 og se hvordan jeres cyklusser m\u00f8des. Hvad der forst\u00e6rker hinanden, og hvad der skaber friktion.</p>';
+  html += '</div>';
+
+  // Fjerde sektion \u2014 Praksis
+  html += '<h3 class="mellem__praksis-title">Hvad kan du g\u00f8re?</h3>';
+  html += '<p class="mellem__praksis-hint">Appen foresl\u00e5r \u00f8velser, kost og \u00e5ndedr\u00e6t tilpasset dit element \u2014 hver dag.</p>';
+  html += '<div class="mellem__praksis-row">';
+  html += '<span class="mellem__praksis-tag">KROP</span>';
+  html += '<span class="mellem__praksis-dot">\u00B7</span>';
+  html += '<span class="mellem__praksis-tag">\u00c5NDEDR\u00c6T</span>';
+  html += '<span class="mellem__praksis-dot">\u00B7</span>';
+  html += '<span class="mellem__praksis-tag">N\u00c6RING</span>';
+  html += '</div>';
+
+  // Lotus-dots
+  html += '<div class="mellem__lotus-dots">\u00B7 \u00B7 \u00B7</div>';
 
   // To knapper
   html += '<div class="mellem__buttons">';
   html += '<button class="mellem__btn mellem__btn--primary" onclick="Onboarding.finish()">G\u00e5 til din forside \u2192</button>';
   html += '<button class="mellem__btn mellem__btn--secondary" onclick="Onboarding.goToVinduer()">Pr\u00f8v Mine Vinduer \u2192</button>';
+  html += '<p class="mellem__vinduer-hint">Rejse i tid \u2014 alene eller med nogen</p>';
   html += '</div>';
 
   el.innerHTML = html;
@@ -394,6 +486,9 @@ function renderMellemstation(userData) {
 const Onboarding = {
 
   init() {
+    // Render ni-cirkel figuren
+    renderOnboardingPhaseFigure();
+
     var input = document.getElementById('onboarding-birthdate');
     if (input && !input._bound) {
       input._bound = true;
@@ -411,7 +506,7 @@ const Onboarding = {
     var birthdate = safeParseBirth(input.value);
     var today = new Date();
     if (birthdate >= today) {
-      error.textContent = 'Fødselsdato skal være i fortiden';
+      error.textContent = 'F\u00f8dselsdato skal v\u00e6re i fortiden';
       return;
     }
     error.textContent = '';
@@ -420,15 +515,28 @@ const Onboarding = {
     this._age = calculateAge(this._birthdate);
     this._phase = calculateLifePhase(this._age);
 
-    // Show phase confirmation inline
+    // Show phase confirmation with fade
     var resultEl = document.getElementById('onboarding-phase-result');
     if (resultEl) {
       resultEl.innerHTML = '<p class="onboarding__phase-highlight">Du er i <strong>Fase ' + this._phase.phase + ': ' + this._phase.name + '</strong> (' + this._phase.startAge + '\u2013' + this._phase.endAge + ' \u00e5r)</p>';
+      resultEl.style.display = '';
+      resultEl.style.opacity = '0';
+      requestAnimationFrame(function() {
+        resultEl.style.transition = 'opacity 0.4s ease';
+        resultEl.style.opacity = '1';
+      });
     }
 
-    // Show "Se din fase" button
+    // Show button with fade
     var nextBtn = document.getElementById('onboarding-next-btn');
-    if (nextBtn) nextBtn.style.display = '';
+    if (nextBtn) {
+      nextBtn.style.display = '';
+      nextBtn.style.opacity = '0';
+      requestAnimationFrame(function() {
+        nextBtn.style.transition = 'opacity 0.4s ease';
+        nextBtn.style.opacity = '1';
+      });
+    }
   },
 
   goToStep2() {
@@ -466,7 +574,7 @@ const Onboarding = {
   },
 
   goToVinduer() {
-    console.log('[Livsfaser] Onboarding → Mine Vinduer');
+    console.log('[Livsfaser] Onboarding \u2192 Mine Vinduer');
     App.loadScreen('mine-vinduer');
   }
 };

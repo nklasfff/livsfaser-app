@@ -5,22 +5,32 @@
     <h1 class="onboarding__hero-title">De 9 Livsfasers Energi</h1>
     <p class="onboarding__hero-subtitle">En rejse gennem livets årstider</p>
 
+    <!-- Intro-boks -->
+    <div class="onboarding__intro-box">
+      <p>Fem rytmer løber gennem dit liv på én gang — din livsfase, årstiden, måneden, ugedagen og timen. Hver bærer sit eget element: Træ, Ild, Jord, Metal eller Vand.</p>
+      <p>Tilsammen tegner de et billede af din energi lige nu. Nogle gange peger de i samme retning — og du mærker en dyb ro eller en stærk kraft. Andre gange trækker de i hver sin — og det kan føles uroligt, uden at du ved hvorfor.</p>
+      <p>Denne app viser dig det billede. Og den lader dig rejse i tid — tilbage til en dag der betyder noget, eller frem mod det der venter. Alene, eller sammen med nogen du holder af.</p>
+    </div>
 
-    <p class="onboarding__intro-text">Fem rytmer løber gennem dit liv på én gang. Denne app viser dig dem — og hvad du kan gøre med dem. For alle kvinder.</p>
+    <!-- Lotus-adskiller -->
+    <div class="onboarding__lotus-dots">· · ·</div>
 
     <!-- Cirkulær figur -->
-    <img src="assets/images/9-cirkler.png" alt="De 9 Livsfaser" class="onboarding__circles-img" id="onboarding-circles-img">
+    <div id="onboarding-phase-figure"></div>
 
+    <!-- Lotus-adskiller -->
+    <div class="onboarding__lotus-dots">· · ·</div>
 
     <!-- Fødselsdato -->
-    <h2 class="onboarding__section-title">Hvornår er du født?</h2>
+    <h2 class="onboarding__dato-title">Hvornår er du født?</h2>
+    <p class="onboarding__dato-hint">Indtast din fødselsdato, og lad os se</p>
     <input type="date" id="onboarding-birthdate" class="onboarding__input">
     <p class="onboarding__error" id="onboarding-error"></p>
-    <div id="onboarding-phase-result" class="onboarding__phase-result"></div>
 
-    <!-- Knap vises når dato er valgt -->
+    <!-- Fase-resultat og knap — SKJULT indtil dato er valgt -->
+    <div id="onboarding-phase-result" class="onboarding__phase-result" style="display:none"></div>
     <div id="onboarding-next-btn" style="display:none">
-      <button class="onboarding__btn onboarding__btn--big" onclick="Onboarding.goToStep2()">Se din fase →</button>
+      <button class="onboarding__btn-primary" onclick="Onboarding.goToStep2()">Se din fase →</button>
     </div>
   </div>
 

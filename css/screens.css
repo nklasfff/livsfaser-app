@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   text-align: center;
-  padding: var(--space-xl) 0 var(--space-xxl);
+  padding: 28px 0 40px;
 }
 
 .onboarding--scroll {
@@ -11,161 +11,135 @@
 }
 
 .onboarding__hero-title {
-  font-family: var(--font-serif);
-  font-size: 32px;
-  font-weight: var(--weight-bold);
-  color: var(--blaa);
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+  font-style: italic;
+  color: #5A74A5;
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .onboarding__hero-subtitle {
-  font-family: var(--font-serif);
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 16px;
   font-style: italic;
-  color: var(--text-secondary);
+  color: #888;
   text-align: center;
   margin-bottom: 0;
-  line-height: var(--line-relaxed);
+  line-height: 1.5;
 }
 
-.onboarding__intro-text {
-  font-family: var(--font-serif);
-  font-size: 16px;
-  line-height: var(--line-relaxed);
-  color: var(--text-secondary);
+.onboarding__intro-box {
+  background: rgba(118, 144, 193, 0.05);
+  border: 1px solid rgba(118, 144, 193, 0.1);
+  border-radius: 14px;
+  padding: 22px;
+  margin: 20px 0;
+}
+.onboarding__intro-box p {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+  color: #555;
+  line-height: 1.65;
+  text-align: left;
+  margin: 0 0 12px;
+}
+.onboarding__intro-box p:last-child {
+  margin-bottom: 0;
+}
+
+.onboarding__lotus-dots {
   text-align: center;
-  max-width: 340px;
-  margin: 0 auto;
+  color: #a8bbd8;
+  font-size: 14px;
+  letter-spacing: 10px;
+  margin: 24px 0;
 }
 
-.onboarding__section-title {
-  font-family: var(--font-serif);
-  font-size: 22px;
-  font-weight: var(--weight-bold);
-  color: var(--blaa);
+.onboarding__dato-title {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 400;
+  color: #5A74A5;
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 6px;
 }
 
-.onboarding__hint {
-  font-family: var(--font-serif);
+.onboarding__dato-hint {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 14px;
   font-style: italic;
-  color: var(--text-light);
+  color: #999;
   text-align: center;
-  margin-top: -8px;
   margin-bottom: 16px;
 }
 
 .onboarding__input {
-  font-family: var(--font-system);
-  font-size: var(--text-h3);
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  font-size: 16px;
   text-align: center;
-  padding: var(--space-md);
-  border: 2px solid var(--border);
-  border-radius: var(--radius-md);
+  padding: 14px;
+  border: 1px solid rgba(118, 144, 193, 0.15);
+  border-radius: 14px;
   outline: none;
   width: 220px;
   margin: 0 auto;
-  color: var(--text-primary);
-  background: var(--bg-primary);
+  color: #333;
+  background: #fff;
   transition: border-color 0.2s ease;
   display: block;
 }
 
-.onboarding__input--text {
-  width: 260px;
-}
-
 .onboarding__input:focus {
-  border-color: var(--blaa);
+  border-color: #5A74A5;
 }
 
 .onboarding__error {
-  font-size: var(--text-small);
-  color: var(--error);
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  font-size: 13px;
+  color: #C85A54;
   min-height: 1.2em;
+  text-align: center;
+  margin-top: 4px;
+}
+
+.onboarding__phase-result {
+  margin-top: 16px;
   text-align: center;
 }
 
-.onboarding__btn {
-  font-family: var(--font-system);
-  font-size: var(--text-body);
-  font-weight: var(--weight-semibold);
-  color: #FFFFFF;
-  background: var(--gradient-header);
-  border: none;
-  border-radius: var(--radius-full);
-  padding: var(--space-md) var(--space-xl);
-  cursor: pointer;
-  margin: var(--space-md) auto 0;
-  min-width: 200px;
-  transition: opacity 0.2s ease;
+.onboarding__phase-highlight {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  font-size: 16px;
+  font-style: italic;
+  color: #5A74A5;
+  line-height: 1.5;
+}
+.onboarding__phase-highlight strong {
+  color: #3D5A8C;
+}
+
+.onboarding__btn-primary {
   display: block;
-}
-
-.onboarding__btn--small {
-  min-width: 140px;
-  font-size: var(--text-small);
-  padding: var(--space-sm) var(--space-lg);
-}
-
-.onboarding__btn--big {
-  font-size: var(--text-h3);
-  padding: var(--space-md) var(--space-xxl);
-  margin-top: var(--space-lg);
-}
-
-.onboarding__btn:active {
-  opacity: 0.85;
-}
-
-.onboarding__choices {
-  display: flex;
-  gap: var(--space-md);
-  justify-content: center;
-  margin-bottom: var(--space-md);
-}
-
-.onboarding__choice {
-  font-family: var(--font-system);
-  font-size: var(--text-body);
-  font-weight: var(--weight-semibold);
-  color: #FFFFFF;
-  background: var(--gradient-header);
-  border: 2px solid transparent;
-  border-radius: var(--radius-full);
-  padding: var(--space-sm) var(--space-xl);
-  cursor: pointer;
-  min-width: 80px;
-  transition: all 0.2s ease;
-}
-
-.onboarding__choice--outline {
-  color: var(--blaa);
-  background: none;
-  border-color: var(--blaa);
-}
-
-.onboarding__choice--selected {
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-.onboarding__choice--active {
-  background: var(--blaa);
+  width: 100%;
+  max-width: 320px;
+  margin: 20px auto 0;
+  padding: 16px;
+  background: linear-gradient(135deg, #5A74A5, #7690C1);
   color: #fff;
-  border-color: var(--blaa);
+  border: none;
+  border-radius: 14px;
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  font-size: 17px;
+  font-style: italic;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
 }
-
-.onboarding__choice:active {
+.onboarding__btn-primary:active {
   opacity: 0.85;
-}
-
-.onboarding__phase-range {
-  font-size: var(--text-small);
-  color: var(--text-light);
 }
 
 /* I dag */
@@ -8039,79 +8013,169 @@
    MELLEMSTATION (Onboarding step 2)
    ======================================== */
 
+.mellem__symbol {
+  margin: 20px 0 8px;
+}
+
 .mellem__title {
-  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 28px;
-  color: var(--morkebla, #244382);
+  font-style: italic;
+  font-weight: 400;
+  color: #5A74A5;
   text-align: center;
-  margin: 28px 0 20px;
-  font-weight: 600;
+  margin: 8px 0 20px;
 }
 
-.mellem__tekst {
-  padding: 0 8px;
-  margin-bottom: 24px;
+.mellem__boks {
+  background: rgba(118, 144, 193, 0.05);
+  border: 1px solid rgba(118, 144, 193, 0.1);
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 16px;
 }
 
-.mellem__tekst p {
-  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
-  font-size: 16px;
-  color: #444;
-  line-height: 1.7;
+.mellem__boks-label {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #7690C1;
+  margin-bottom: 10px;
+}
+
+.mellem__boks-tekst {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+  color: #555;
+  line-height: 1.65;
+  margin: 0 0 8px;
+}
+.mellem__boks-tekst:last-child {
+  margin-bottom: 0;
+}
+.mellem__boks-tekst strong {
+  color: #3D5A8C;
+}
+
+.mellem__resonans-boks {
+  background: linear-gradient(135deg, #5A74A5, #7690C1);
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+
+.mellem__resonans-label {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.6);
   margin-bottom: 8px;
 }
 
-.mellem__tekst strong {
-  color: var(--morkebla, #244382);
+.mellem__resonans-tekst {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  font-size: 17px;
+  font-style: italic;
+  color: #fff;
+  line-height: 1.5;
 }
 
-.mellem__resonans {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border, #E0E0E0);
-  font-style: italic;
-}
-
-.mellem__app-tekst {
-  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
-  font-size: 15px;
-  color: #888;
-  font-style: italic;
+.mellem__lotus-dots {
   text-align: center;
-  line-height: 1.7;
-  padding: 0 12px;
-  margin-bottom: 28px;
+  color: #a8bbd8;
+  font-size: 14px;
+  letter-spacing: 10px;
+  margin: 20px 0;
+}
+
+.mellem__praksis-title {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+  color: #5A74A5;
+  text-align: center;
+  margin: 0 0 6px;
+}
+
+.mellem__praksis-hint {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  font-size: 14px;
+  font-style: italic;
+  color: #888;
+  text-align: center;
+  margin: 0 0 14px;
+}
+
+.mellem__praksis-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.mellem__praksis-tag {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(107, 130, 115, 0.7);
+}
+
+.mellem__praksis-dot {
+  color: rgba(107, 130, 115, 0.4);
+  font-size: 12px;
 }
 
 .mellem__buttons {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 0 8px;
+  padding: 0;
 }
 
 .mellem__btn {
   display: block;
   width: 100%;
   padding: 16px;
-  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
-  font-size: 18px;
-  font-weight: 600;
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  font-size: 17px;
+  font-style: italic;
+  font-weight: 400;
   border-radius: 14px;
   cursor: pointer;
   text-align: center;
 }
 
 .mellem__btn--primary {
-  background: linear-gradient(135deg, #5A74A5 0%, #7690C1 100%);
+  background: linear-gradient(135deg, #5A74A5, #7690C1);
   color: white;
   border: none;
+}
+.mellem__btn--primary:active {
+  opacity: 0.85;
 }
 
 .mellem__btn--secondary {
   background: none;
-  color: #6B5F7B;
-  border: 2px solid #8B7D9B;
+  color: #8B7D9B;
+  border: 1px solid rgba(139, 125, 155, 0.3);
+}
+.mellem__btn--secondary:active {
+  opacity: 0.85;
+}
+
+.mellem__vinduer-hint {
+  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  font-size: 12px;
+  font-style: italic;
+  color: #bbb;
+  text-align: center;
+  margin: 4px 0 0;
 }
 
 /* ========================================
