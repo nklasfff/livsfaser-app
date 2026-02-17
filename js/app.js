@@ -1876,18 +1876,12 @@ function initIdagScreen() {
     renderConcentricCircles(vizContainer, window._idagData);
   }
 
-  // Render status bubbles (replaces Venn)
-  renderStatusBubbles();
-
-  // Render new home sections
-  renderDynamiskTekst();
-  renderIdagTidsvinduetLink();
-  renderHvadKanDu();
-  renderNotifikationer();
-  renderKontekstuelleForslag();
-  renderForloebCard();
-  renderIdagCheckin();
-  renderHovedkort();
+  // Render 6 sections
+  renderDynamiskTekst();       // 2. Lige nu — resonans
+  renderIdagVinduer();          // 3. Mine Vinduer — lavendel-sektion
+  renderHvadKanDu();            // 4. Hvad kan du gøre lige nu
+  renderIdagCheckin();           // 5. Mærk efter — check-in
+  renderHovedkort();             // 6. Dine fem verdener
 }
 
 function renderStatusBubbles() {
@@ -2088,7 +2082,96 @@ function toggleClimateExpand() {
 }
 window.toggleClimateExpand = toggleClimateExpand;
 
-function renderIdagTidsvinduetLink() {
+function renderIdagVinduer() {
+  var el = document.getElementById('idag-vinduer');
+  if (!el) return;
+
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  var activePhase = 9;
+  if (user.birthdate) {
+    var age = calculateAge(user.birthdate);
+    var lp = calculateLifePhase(age);
+    activePhase = lp.phase || 9;
+  }
+
+  var sf = "'Cormorant Garamond','Times New Roman',Georgia,serif";
+  var html = '<div class="idag__vinduer-zone">';
+
+  // ---- TIDSVINDUET ----
+  html += '<div class="idag__vinduer-label">TIDSVINDUET</div>';
+
+  // Tidsbue SVG (kompakt ~280x130)
+  var arcPos = [
+    {cx:22,cy:68,r:11}, {cx:50,cy:48,r:11}, {cx:80,cy:34,r:11},
+    {cx:112,cy:26,r:11}, {cx:144,cy:26,r:11}, {cx:174,cy:34,r:11},
+    {cx:202,cy:48,r:11}, {cx:228,cy:68,r:11}, {cx:244,cy:90,r:13}
+  ];
+  html += '<div class="idag__vinduer-fig">';
+  html += '<svg width="280" height="130" xmlns="http://www.w3.org/2000/svg">';
+  for (var i = 0; i < arcPos.length; i++) {
+    var p = arcPos[i];
+    var isActive = (i + 1) === activePhase;
+    if (isActive) {
+      html += '<circle cx="' + p.cx + '" cy="' + p.cy + '" r="' + p.r + '" fill="rgba(107,95,123,0.15)" stroke="#6B5F7B" stroke-width="1.5"/>';
+    } else {
+      html += '<circle cx="' + p.cx + '" cy="' + p.cy + '" r="' + p.r + '" fill="rgba(139,125,155,' + (0.07 + i*0.01).toFixed(2) + ')" stroke="rgba(139,125,155,' + (0.18 + i*0.02).toFixed(2) + ')" stroke-width="1"/>';
+    }
+    html += '<text x="' + p.cx + '" y="' + (p.cy + 4) + '" font-family="' + sf + '" font-size="9" fill="' + (isActive ? '#6B5F7B' : '#8B7D9B') + '"' + (isActive ? ' font-weight="600"' : '') + ' text-anchor="middle">' + (i+1) + '</text>';
+  }
+  // Tidslinje
+  html += '<line x1="30" y1="112" x2="230" y2="112" stroke="rgba(139,125,155,0.2)" stroke-width="1"/>';
+  html += '<circle cx="65" cy="112" r="3" fill="rgba(139,125,155,0.2)"/>';
+  html += '<circle cx="130" cy="112" r="4" fill="#6B5F7B"/>';
+  html += '<circle cx="195" cy="112" r="3" fill="rgba(139,125,155,0.2)" stroke="rgba(139,125,155,0.3)" stroke-width="1" stroke-dasharray="2,2"/>';
+  html += '<text x="65" y="126" font-family="' + sf + '" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">fortid</text>';
+  html += '<text x="130" y="126" font-family="' + sf + '" font-size="8" fill="#6B5F7B" font-weight="600" text-anchor="middle">nu</text>';
+  html += '<text x="195" y="126" font-family="' + sf + '" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">fremtid</text>';
+  html += '<path d="M 35 112 L 27 109 M 35 112 L 27 115" stroke="rgba(139,125,155,0.3)" stroke-width="1" fill="none"/>';
+  html += '<path d="M 225 112 L 233 109 M 225 112 L 233 115" stroke="rgba(139,125,155,0.3)" stroke-width="1" fill="none"/>';
+  html += '</svg></div>';
+
+  html += '<h3 class="idag__vinduer-t2">Rejse i tid \u2014 alene eller med nogen</h3>';
+  html += '<p class="idag__vinduer-intr">V\u00e6lg en dato der betyder noget \u2014 og se hvilke cyklusser og elementer der var aktive. Eller kig fremad.</p>';
+
+  // Lotus dots
+  html += '<div class="idag__vinduer-dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // ---- RELATIONSVINDUET ----
+  html += '<div class="idag__vinduer-label">RELATIONSVINDUET</div>';
+
+  // Fire-cirkel SVG (kompakt ~240x240)
+  html += '<div class="idag__vinduer-fig">';
+  html += '<svg width="240" height="240" xmlns="http://www.w3.org/2000/svg">';
+  html += '<ellipse cx="120" cy="42" rx="40" ry="60" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.15)" stroke-width="1" transform="rotate(0,120,120)"/>';
+  html += '<ellipse cx="120" cy="42" rx="40" ry="60" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.13)" stroke-width="1" transform="rotate(90,120,120)"/>';
+  html += '<ellipse cx="120" cy="42" rx="40" ry="60" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.15)" stroke-width="1" transform="rotate(180,120,120)"/>';
+  html += '<ellipse cx="120" cy="42" rx="40" ry="60" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.13)" stroke-width="1" transform="rotate(270,120,120)"/>';
+  html += '<circle cx="120" cy="120" r="32" fill="rgba(107,95,123,0.1)" stroke="rgba(139,125,155,0.25)" stroke-width="1"/>';
+  html += '<text x="120" y="117" font-family="' + sf + '" font-size="11" fill="#6B5F7B" font-weight="600" text-anchor="middle">DIG</text>';
+  html += '<text x="120" y="131" font-family="' + sf + '" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">i alle b\u00e5nd</text>';
+  html += '<text x="120" y="16" font-family="' + sf + '" font-size="9" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1">PARTNER</text>';
+  html += '<text x="230" y="118" font-family="' + sf + '" font-size="9" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1">B\u00d8RN</text>';
+  html += '<text x="120" y="232" font-family="' + sf + '" font-size="9" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1">FOR\u00c6LDRE</text>';
+  html += '<text x="12" y="118" font-family="' + sf + '" font-size="9" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1">VENNER</text>';
+  html += '</svg></div>';
+
+  html += '<h3 class="idag__vinduer-t2">Se med nogen</h3>';
+  html += '<p class="idag__vinduer-intr">V\u00e6lg en person fra dit liv \u2014 og se hvordan jeres cyklusser og livsfaser m\u00f8des.</p>';
+
+  // Gradient-boks
+  html += '<div class="idag__vinduer-grd">';
+  html += '<div class="idag__vinduer-grd-label">DIN TIDSMOTOR</div>';
+  html += '<div class="idag__vinduer-grd-text">Rejse i tid. Se med nogen. Forst\u00e5 hvad der skete \u2014 eller forbered det der kommer.</div>';
+  html += '</div>';
+
+  // Link
+  html += '<a class="idag__vinduer-link" onclick="App.loadScreen(\'mine-vinduer\')">\u00c5bn Mine Vinduer \u2192</a>';
+
+  html += '</div>'; // close zone
+  el.innerHTML = html;
+}
+
+function renderIdagTidsvinduetLink_OLD() {
   var el = document.getElementById('idag-vinduer');
   if (!el) return;
 
@@ -2300,8 +2383,8 @@ function renderHovedkort() {
 
   var headerEl = document.getElementById('idag-kort-header');
   if (headerEl) {
-    headerEl.innerHTML = '<h3 class="idag__section-title">Dine fire verdener</h3>' +
-      '<p class="idag__section-subtitle">Fire indgange til at forst\u00e5 dig selv. Dine cyklusser viser hvad der sker i dig. Dine relationer viser hvad der sker mellem dig og andre. Din praksis giver dig redskaber. Din rejse samler det hele over tid.</p>';
+    headerEl.innerHTML = '<h3 class="idag__section-title">Dine fem verdener</h3>' +
+      '<p class="idag__section-subtitle">Fem indgange til at forst\u00e5 dig selv. Dine cyklusser viser hvad der sker i dig. Dine relationer viser hvad der sker mellem dig og andre. Din praksis giver dig redskaber. Din rejse samler det hele over tid. Dine vinduer \u00e5bner for tid og m\u00f8der.</p>';
   }
 
   // Mockup: 4 kort med ikonboks + titel + undertekst, hver med sin farveprofil
@@ -2333,6 +2416,13 @@ function renderHovedkort() {
       icon: '<svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 13 Q8 2 13 13" fill="none" stroke="#6B5F7B" stroke-width="1.2"/></svg>',
       title: 'Min Rejse',
       subtitle: rejseSub
+    },
+    {
+      screen: 'mine-vinduer',
+      color: 'dyb-lavendel',
+      icon: '<svg width="16" height="16" viewBox="0 0 16 16"><circle cx="5" cy="8" r="4" fill="none" stroke="#6B5F7B" stroke-width="1.2"/><circle cx="11" cy="8" r="4" fill="none" stroke="#6B5F7B" stroke-width="1.2"/><line x1="2" y1="14" x2="14" y2="14" stroke="#6B5F7B" stroke-width="1" opacity="0.5"/></svg>',
+      title: 'Mine Vinduer',
+      subtitle: 'Rejse i tid \u2014 alene eller med nogen du holder af'
     }
   ];
 
