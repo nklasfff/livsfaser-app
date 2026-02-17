@@ -2567,8 +2567,8 @@ function renderIdagVinduer() {
   html += '<p class="idag__vinduer-intr">V\u00e6lg en person fra dit liv \u2014 og se hvordan jeres cyklusser og livsfaser m\u00f8des.</p>';
 
   // Gradient-boks
-  html += '<div class="idag__vinduer-grd">';
-  html += '<div class="idag__vinduer-grd-label">DIN TIDSMOTOR</div>';
+  html += '<div class="idag__vinduer-grd" style="margin-top:50px">';
+  html += '<div class="idag__vinduer-grd-label">BEV\u00c6GELSE GENNEM TIDER</div>';
   html += '<div class="idag__vinduer-grd-text">Rejse i tid. Se med nogen. Forst\u00e5 hvad der skete \u2014 eller forbered det der kommer.</div>';
   html += '</div>';
 
