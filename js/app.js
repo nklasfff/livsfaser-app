@@ -6413,7 +6413,9 @@ function initTreGenerationerScreen() {
         centerLines: [],
         elementA: parentPhase.element,
         elementB: userPhase.element,
-        elementC: childPhase.element
+        elementC: childPhase.element,
+        colors: ['#8A7EA4', '#9886B0', '#A896B8'],
+        opacities: [0.55, 0.55, 0.55]
       });
     }
 
@@ -9261,10 +9263,12 @@ function renderVennThree(opts) {
   var svg = '<div class="venn venn--three" id="' + id + '">';
   svg += '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" class="venn__svg">';
 
-  // Circles — fixed blue shades, no stroke
-  svg += '<circle cx="' + cxA + '" cy="' + cyA + '" r="' + R + '" fill="#7690C1" fill-opacity="0.55"/>';
-  svg += '<circle cx="' + cxB + '" cy="' + cyB + '" r="' + R + '" fill="#7690C1" fill-opacity="0.65"/>';
-  svg += '<circle cx="' + cxC + '" cy="' + cyC + '" r="' + R + '" fill="#7690C1" fill-opacity="0.80"/>';
+  // Circles — default blue, or custom via opts.colors array
+  var c3 = opts.colors || ['#7690C1', '#7690C1', '#7690C1'];
+  var o3 = opts.opacities || [0.55, 0.65, 0.80];
+  svg += '<circle cx="' + cxA + '" cy="' + cyA + '" r="' + R + '" fill="' + c3[0] + '" fill-opacity="' + o3[0] + '"/>';
+  svg += '<circle cx="' + cxB + '" cy="' + cyB + '" r="' + R + '" fill="' + c3[1] + '" fill-opacity="' + o3[1] + '"/>';
+  svg += '<circle cx="' + cxC + '" cy="' + cyC + '" r="' + R + '" fill="' + c3[2] + '" fill-opacity="' + o3[2] + '"/>';
 
   // Zone A (top) — supports *prefix for italic
   var tl = opts.topLines || [];
