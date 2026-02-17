@@ -2577,35 +2577,10 @@ function renderIdagVinduer() {
   // ---- TIDSVINDUET ----
   html += '<div class="idag__vinduer-label">TIDSVINDUET</div>';
 
-  // Tidsbue SVG (kompakt ~280x130)
-  var arcPos = [
-    {cx:22,cy:68,r:11}, {cx:50,cy:48,r:11}, {cx:80,cy:34,r:11},
-    {cx:112,cy:26,r:11}, {cx:144,cy:26,r:11}, {cx:174,cy:34,r:11},
-    {cx:202,cy:48,r:11}, {cx:228,cy:68,r:11}, {cx:244,cy:90,r:13}
-  ];
+  // Tidsbue billede
   html += '<div class="idag__vinduer-fig">';
-  html += '<svg width="280" height="130" xmlns="http://www.w3.org/2000/svg">';
-  for (var i = 0; i < arcPos.length; i++) {
-    var p = arcPos[i];
-    var isActive = (i + 1) === activePhase;
-    if (isActive) {
-      html += '<circle cx="' + p.cx + '" cy="' + p.cy + '" r="' + p.r + '" fill="rgba(107,95,123,0.15)" stroke="#6B5F7B" stroke-width="1.5"/>';
-    } else {
-      html += '<circle cx="' + p.cx + '" cy="' + p.cy + '" r="' + p.r + '" fill="rgba(139,125,155,' + (0.07 + i*0.01).toFixed(2) + ')" stroke="rgba(139,125,155,' + (0.18 + i*0.02).toFixed(2) + ')" stroke-width="1"/>';
-    }
-    html += '<text x="' + p.cx + '" y="' + (p.cy + 4) + '" font-family="' + sf + '" font-size="9" fill="' + (isActive ? '#6B5F7B' : '#8B7D9B') + '"' + (isActive ? ' font-weight="600"' : '') + ' text-anchor="middle">' + (i+1) + '</text>';
-  }
-  // Tidslinje
-  html += '<line x1="30" y1="112" x2="230" y2="112" stroke="rgba(139,125,155,0.2)" stroke-width="1"/>';
-  html += '<circle cx="65" cy="112" r="3" fill="rgba(139,125,155,0.2)"/>';
-  html += '<circle cx="130" cy="112" r="4" fill="#6B5F7B"/>';
-  html += '<circle cx="195" cy="112" r="3" fill="rgba(139,125,155,0.2)" stroke="rgba(139,125,155,0.3)" stroke-width="1" stroke-dasharray="2,2"/>';
-  html += '<text x="65" y="126" font-family="' + sf + '" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">fortid</text>';
-  html += '<text x="130" y="126" font-family="' + sf + '" font-size="8" fill="#6B5F7B" font-weight="600" text-anchor="middle">nu</text>';
-  html += '<text x="195" y="126" font-family="' + sf + '" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">fremtid</text>';
-  html += '<path d="M 35 112 L 27 109 M 35 112 L 27 115" stroke="rgba(139,125,155,0.3)" stroke-width="1" fill="none"/>';
-  html += '<path d="M 225 112 L 233 109 M 225 112 L 233 115" stroke="rgba(139,125,155,0.3)" stroke-width="1" fill="none"/>';
-  html += '</svg></div>';
+  html += '<img src="assets/images/vinduer-tid-lilla.png" alt="Tidsvinduet" style="width:100%;height:auto">';
+  html += '</div>';
 
   html += '<h3 class="idag__vinduer-t2">Rejse i tid \u2014 alene eller med nogen</h3>';
   html += '<p class="idag__vinduer-intr">V\u00e6lg en dato der betyder noget \u2014 og se hvilke cyklusser og elementer der var aktive. Eller kig fremad.</p>';
