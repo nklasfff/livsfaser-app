@@ -7071,7 +7071,7 @@ function initMinRejseScreen() {
   h += '<p class="rejse__intr">Dit personlige bibliotek og din udvikling over tid. Her samler du tr\u00e5dene fra dine check-ins, refleksioner og gemte favoritter — et stille vidnesbyrd om din vej.</p>';
 
   // Figur-billede
-  h += '<div class="rejse__fig"><img src="assets/images/min-rejse-ikigai.png" alt="Min Rejse" style="width:100%;height:auto"></div>';
+  h += '<div class="rejse__fig" style="margin-top:-40px"><img src="assets/images/min-rejse-ikigai.png" alt="Min Rejse" style="width:100%;height:auto"></div>';
 
   // Dynamisk indsigt-boks
   h += '<div class="rejse__ins">';
