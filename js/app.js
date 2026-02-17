@@ -600,155 +600,233 @@ function renderMellemstation(userData) {
   el.innerHTML = html;
 }
 
-// ---- Custom Datepicker for Onboarding ----
+// ---- Scroll Wheel Datepicker for Onboarding ----
 
-var OnbDatePicker = {
-  year: 1990,
-  month: 0, // 0-indexed
-  selectedDate: null,
-
+var OnbWheelPicker = {
   MONTHS_DA: ['Januar','Februar','Marts','April','Maj','Juni','Juli','August','September','Oktober','November','December'],
+  MIN_YEAR: 1930,
+  MAX_YEAR: 2020,
+  ITEM_HEIGHT: 40,
+  VISIBLE_ITEMS: 5, // total visible rows (2 above + selected + 2 below)
 
-  open: function() {
-    // Remove existing if any
-    var existing = document.getElementById('onb-datepicker-overlay');
-    if (existing) existing.remove();
+  day: 15,
+  month: 0,
+  year: 1990,
+  _columns: {},
 
-    var now = new Date();
-    this.year = this.selectedDate ? new Date(this.selectedDate + 'T12:00:00').getFullYear() : 1990;
-    this.month = this.selectedDate ? new Date(this.selectedDate + 'T12:00:00').getMonth() : 0;
+  init: function(container) {
+    if (!container) return;
+    this._container = container;
 
-    var overlay = document.createElement('div');
-    overlay.id = 'onb-datepicker-overlay';
-    overlay.className = 'onb-dp__overlay';
-    overlay.onclick = function(e) { if (e.target === overlay) OnbDatePicker.close(); };
-
-    var popup = document.createElement('div');
-    popup.className = 'onb-dp__popup';
-    popup.id = 'onb-datepicker-popup';
-    overlay.appendChild(popup);
-
-    document.body.appendChild(overlay);
-    this.render();
-  },
-
-  close: function() {
-    var overlay = document.getElementById('onb-datepicker-overlay');
-    if (overlay) overlay.remove();
-  },
-
-  changeMonth: function(dir) {
-    this.month += dir;
-    if (this.month < 0) { this.month = 11; this.year--; }
-    if (this.month > 11) { this.month = 0; this.year++; }
-    this.render();
-  },
-
-  changeYear: function(dir) {
-    this.year += dir;
-    this.render();
-  },
-
-  selectDay: function(day) {
-    var m = (this.month + 1).toString().padStart(2, '0');
-    var d = day.toString().padStart(2, '0');
-    this.selectedDate = this.year + '-' + m + '-' + d;
-
-    // Push to hidden input and trigger change
-    var input = document.getElementById('onboarding-birthdate');
-    if (input) {
-      input.value = this.selectedDate;
-      input.dispatchEvent(new Event('change'));
-    }
-    this.close();
-  },
-
-  reset: function() {
-    this.selectedDate = null;
-    var input = document.getElementById('onboarding-birthdate');
-    if (input) {
-      input.value = '';
-    }
-    // Hide phase result and button
-    var resultEl = document.getElementById('onboarding-phase-result');
-    if (resultEl) resultEl.style.display = 'none';
-    var nextBtn = document.getElementById('onboarding-next-btn');
-    if (nextBtn) nextBtn.style.display = 'none';
-    this.close();
-  },
-
-  render: function() {
-    var popup = document.getElementById('onb-datepicker-popup');
-    if (!popup) return;
-
-    var today = new Date();
-    var selParts = this.selectedDate ? this.selectedDate.split('-') : null;
-    var selY = selParts ? parseInt(selParts[0]) : null;
-    var selM = selParts ? parseInt(selParts[1]) - 1 : null;
-    var selD = selParts ? parseInt(selParts[2]) : null;
-
-    var firstDay = new Date(this.year, this.month, 1).getDay();
-    // Adjust to Monday start (0=Mon ... 6=Sun)
-    var startDay = (firstDay + 6) % 7;
-    var daysInMonth = new Date(this.year, this.month + 1, 0).getDate();
-
-    var html = '';
-
-    // Header: year nav
-    html += '<div class="onb-dp__year-row">';
-    html += '<button class="onb-dp__nav-btn" onclick="OnbDatePicker.changeYear(-1)">\u2039</button>';
-    html += '<span class="onb-dp__year">' + this.year + '</span>';
-    html += '<button class="onb-dp__nav-btn" onclick="OnbDatePicker.changeYear(1)">\u203a</button>';
+    var html = '<div class="onb-wheel">';
+    html += '<div class="onb-wheel__highlight"></div>';
+    html += '<div class="onb-wheel__fade-top"></div>';
+    html += '<div class="onb-wheel__fade-bottom"></div>';
+    html += '<div class="onb-wheel__columns">';
+    html += '<div class="onb-wheel__col" id="onb-wheel-day"><div class="onb-wheel__track"></div></div>';
+    html += '<div class="onb-wheel__col" id="onb-wheel-month"><div class="onb-wheel__track"></div></div>';
+    html += '<div class="onb-wheel__col" id="onb-wheel-year"><div class="onb-wheel__track"></div></div>';
     html += '</div>';
-
-    // Month nav
-    html += '<div class="onb-dp__month-row">';
-    html += '<button class="onb-dp__nav-btn" onclick="OnbDatePicker.changeMonth(-1)">\u2039</button>';
-    html += '<span class="onb-dp__month">' + this.MONTHS_DA[this.month] + '</span>';
-    html += '<button class="onb-dp__nav-btn" onclick="OnbDatePicker.changeMonth(1)">\u203a</button>';
     html += '</div>';
+    container.innerHTML = html;
 
-    // Weekday headers (Mon-Sun)
-    var dayNames = ['Ma','Ti','On','To','Fr','L\u00f8','S\u00f8'];
-    html += '<div class="onb-dp__weekdays">';
-    for (var w = 0; w < 7; w++) {
-      html += '<span class="onb-dp__weekday">' + dayNames[w] + '</span>';
+    this._renderDays();
+    this._renderMonths();
+    this._renderYears();
+
+    // Scroll to initial values after render and emit initial date
+    var self = this;
+    requestAnimationFrame(function() {
+      self._scrollTo('day', self.day - 1, false);
+      self._scrollTo('month', self.month, false);
+      self._scrollTo('year', self.year - self.MIN_YEAR, false);
+      // Emit initial date so phase result shows immediately
+      setTimeout(function() { self._emitChange(); }, 50);
+    });
+  },
+
+  _spacers: function() {
+    return '<div class="onb-wheel__spacer"></div><div class="onb-wheel__spacer"></div>';
+  },
+
+  _renderDays: function() {
+    var track = document.querySelector('#onb-wheel-day .onb-wheel__track');
+    if (!track) return;
+    var maxDay = this._daysInMonth(this.month, this.year);
+    var html = this._spacers();
+    for (var d = 1; d <= maxDay; d++) {
+      html += '<div class="onb-wheel__item">' + d + '</div>';
     }
-    html += '</div>';
+    html += this._spacers();
+    track.innerHTML = html;
+    this._bindColumn('day', document.getElementById('onb-wheel-day'), maxDay);
+  },
 
-    // Days grid
-    html += '<div class="onb-dp__days">';
-    // Empty cells before first day
-    for (var e = 0; e < startDay; e++) {
-      html += '<span class="onb-dp__day onb-dp__day--empty"></span>';
+  _renderMonths: function() {
+    var track = document.querySelector('#onb-wheel-month .onb-wheel__track');
+    if (!track) return;
+    var html = this._spacers();
+    for (var m = 0; m < 12; m++) {
+      html += '<div class="onb-wheel__item">' + this.MONTHS_DA[m] + '</div>';
     }
-    for (var d = 1; d <= daysInMonth; d++) {
-      var isSelected = (selY === this.year && selM === this.month && selD === d);
-      var isFuture = (this.year > today.getFullYear()) ||
-                     (this.year === today.getFullYear() && this.month > today.getMonth()) ||
-                     (this.year === today.getFullYear() && this.month === today.getMonth() && d > today.getDate());
-      var cls = 'onb-dp__day';
-      if (isSelected) cls += ' onb-dp__day--selected';
-      if (isFuture) cls += ' onb-dp__day--disabled';
+    html += this._spacers();
+    track.innerHTML = html;
+    this._bindColumn('month', document.getElementById('onb-wheel-month'), 12);
+  },
 
-      if (isFuture) {
-        html += '<span class="' + cls + '">' + d + '</span>';
+  _renderYears: function() {
+    var track = document.querySelector('#onb-wheel-year .onb-wheel__track');
+    if (!track) return;
+    var html = this._spacers();
+    for (var y = this.MIN_YEAR; y <= this.MAX_YEAR; y++) {
+      html += '<div class="onb-wheel__item">' + y + '</div>';
+    }
+    html += this._spacers();
+    track.innerHTML = html;
+    var count = this.MAX_YEAR - this.MIN_YEAR + 1;
+    this._bindColumn('year', document.getElementById('onb-wheel-year'), count);
+  },
+
+  _bindColumn: function(name, col, itemCount) {
+    if (!col) return;
+    var self = this;
+    var ih = this.ITEM_HEIGHT;
+
+    // Remove old listeners
+    var oldCol = this._columns[name];
+    if (oldCol && oldCol._onScroll) {
+      oldCol.col.removeEventListener('scroll', oldCol._onScroll);
+    }
+
+    var onScroll = function() {
+      // Visual highlight during scroll
+      self._highlightCenter(col);
+
+      if (col._scrollTimeout) clearTimeout(col._scrollTimeout);
+      col._scrollTimeout = setTimeout(function() {
+        self._snap(name, col, itemCount);
+      }, 80);
+    };
+    col.addEventListener('scroll', onScroll, { passive: true });
+
+    // Prevent page scroll when scrolling inside wheel column
+    col.addEventListener('touchmove', function(e) { e.stopPropagation(); }, { passive: true });
+    col.addEventListener('wheel', function(e) {
+      e.preventDefault();
+      col.scrollTop += e.deltaY;
+    }, { passive: false });
+
+    this._columns[name] = { col: col, count: itemCount, _onScroll: onScroll };
+
+    // Initial highlight
+    self._highlightCenter(col);
+  },
+
+  _highlightCenter: function(col) {
+    var track = col.querySelector('.onb-wheel__track');
+    if (!track) return;
+    var ih = this.ITEM_HEIGHT;
+    var scrollTop = col.scrollTop;
+    // centerIndex in real items (spacers offset by 2)
+    var realIndex = Math.round(scrollTop / ih);
+    var centerChild = realIndex + 2; // +2 for top spacers
+    var items = track.children;
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].classList.contains('onb-wheel__spacer')) continue;
+      var dist = Math.abs(i - centerChild);
+      if (dist === 0) {
+        items[i].style.color = '#3D5A8C';
+        items[i].style.fontSize = '20px';
+        items[i].style.fontWeight = '600';
+      } else if (dist === 1) {
+        items[i].style.color = '#8A99B3';
+        items[i].style.fontSize = '16px';
+        items[i].style.fontWeight = '400';
       } else {
-        html += '<span class="' + cls + '" onclick="OnbDatePicker.selectDay(' + d + ')">' + d + '</span>';
+        items[i].style.color = '#ccc';
+        items[i].style.fontSize = '15px';
+        items[i].style.fontWeight = '400';
       }
     }
-    html += '</div>';
+  },
 
-    // Footer buttons
-    html += '<div class="onb-dp__footer">';
-    html += '<button class="onb-dp__footer-btn onb-dp__footer-btn--reset" onclick="OnbDatePicker.reset()">Nulstil</button>';
-    html += '<button class="onb-dp__footer-btn onb-dp__footer-btn--ok" onclick="OnbDatePicker.close()">\u2713</button>';
-    html += '</div>';
+  _snap: function(name, col, itemCount) {
+    var ih = this.ITEM_HEIGHT;
+    var scrollTop = col.scrollTop;
+    var index = Math.round(scrollTop / ih);
+    index = Math.max(0, Math.min(index, itemCount - 1));
 
-    popup.innerHTML = html;
+    col.scrollTo({ top: index * ih, behavior: 'smooth' });
+
+    if (name === 'day') {
+      this.day = index + 1;
+    } else if (name === 'month') {
+      var oldMonth = this.month;
+      this.month = index;
+      if (oldMonth !== this.month) this._adjustDays();
+    } else if (name === 'year') {
+      var oldYear = this.year;
+      this.year = this.MIN_YEAR + index;
+      if (oldYear !== this.year) this._adjustDays();
+    }
+
+    // Update highlight after snap
+    var self = this;
+    setTimeout(function() { self._highlightCenter(col); }, 150);
+
+    this._emitChange();
+  },
+
+  _scrollTo: function(name, index, smooth) {
+    var data = this._columns[name];
+    if (!data) return;
+    var ih = this.ITEM_HEIGHT;
+    data.col.scrollTo({ top: index * ih, behavior: smooth ? 'smooth' : 'auto' });
+    var self = this;
+    setTimeout(function() { self._highlightCenter(data.col); }, smooth ? 150 : 10);
+  },
+
+  _daysInMonth: function(month, year) {
+    return new Date(year, month + 1, 0).getDate();
+  },
+
+  _adjustDays: function() {
+    var maxDay = this._daysInMonth(this.month, this.year);
+    var track = document.querySelector('#onb-wheel-day .onb-wheel__track');
+    if (!track) return;
+
+    // Only re-render if day count changed
+    var currentCount = track.children.length;
+    if (currentCount === maxDay) return;
+
+    if (this.day > maxDay) this.day = maxDay;
+    this._renderDays();
+
+    var self = this;
+    requestAnimationFrame(function() {
+      self._scrollTo('day', self.day - 1, false);
+    });
+  },
+
+  _emitChange: function() {
+    var m = (this.month + 1).toString().padStart(2, '0');
+    var d = this.day.toString().padStart(2, '0');
+    var dateStr = this.year + '-' + m + '-' + d;
+
+    var input = document.getElementById('onboarding-birthdate');
+    if (input && input.value !== dateStr) {
+      input.value = dateStr;
+      input.dispatchEvent(new Event('change'));
+    }
+  },
+
+  getDateString: function() {
+    var m = (this.month + 1).toString().padStart(2, '0');
+    var d = this.day.toString().padStart(2, '0');
+    return this.year + '-' + m + '-' + d;
   }
 };
-window.OnbDatePicker = OnbDatePicker;
+window.OnbWheelPicker = OnbWheelPicker;
 
 const Onboarding = {
 
@@ -756,24 +834,19 @@ const Onboarding = {
     // Render ni-cirkel figuren
     renderOnboardingPhaseFigure();
 
-    // Bind custom datepicker to the input field
-    var input = document.getElementById('onboarding-birthdate');
-    if (input && !input._bound) {
-      input._bound = true;
-      // Listen for changes (from custom picker setting .value)
-      input.addEventListener('change', function() {
-        Onboarding._onBirthdateChange();
-      });
-      // Intercept click/focus to open custom picker instead of native
-      input.addEventListener('click', function(e) {
-        e.preventDefault();
-        OnbDatePicker.open();
-      });
-      input.addEventListener('focus', function(e) {
-        e.preventDefault();
-        input.blur();
-        OnbDatePicker.open();
-      });
+    // Init scroll wheel datepicker
+    var wheelContainer = document.getElementById('onboarding-wheel-picker');
+    if (wheelContainer && !wheelContainer._bound) {
+      wheelContainer._bound = true;
+      OnbWheelPicker.init(wheelContainer);
+
+      // Listen for changes from wheel picker
+      var input = document.getElementById('onboarding-birthdate');
+      if (input) {
+        input.addEventListener('change', function() {
+          Onboarding._onBirthdateChange();
+        });
+      }
     }
   },
 
@@ -796,7 +869,7 @@ const Onboarding = {
 
     // Update the displayed date in the input
     var d = new Date(input.value + 'T12:00:00');
-    input.setAttribute('data-display', d.getDate() + '. ' + OnbDatePicker.MONTHS_DA[d.getMonth()].toLowerCase() + ' ' + d.getFullYear());
+    input.setAttribute('data-display', d.getDate() + '. ' + OnbWheelPicker.MONTHS_DA[d.getMonth()].toLowerCase() + ' ' + d.getFullYear());
 
     // Show phase confirmation with fade
     var resultEl = document.getElementById('onboarding-phase-result');
@@ -5913,6 +5986,12 @@ const App = {
     if (menuOverlay && menuOverlay.classList.contains('menu-overlay--open')) {
       menuOverlay.classList.remove('menu-overlay--open');
       document.body.style.overflow = '';
+    }
+
+    // Hide header during onboarding (user is not in the app yet)
+    var header = document.querySelector('.header');
+    if (header) {
+      header.style.display = (screenName === 'onboarding') ? 'none' : '';
     }
 
     // Load screen content

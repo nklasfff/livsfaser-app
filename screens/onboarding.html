@@ -36,8 +36,12 @@
     <!-- Fødselsdato -->
     <div class="onboarding__birth">
       <h2 class="onboarding__birth-title">Hvornår er du født?</h2>
-      <p class="onboarding__birth-hint">Indtast din fødselsdato, og lad os se</p>
-      <input type="date" id="onboarding-birthdate" class="onboarding__birth-field">
+      <p class="onboarding__birth-hint">Scroll for at vælge din fødselsdato</p>
+      <input type="hidden" id="onboarding-birthdate">
+      <div class="onboarding__wheel-labels">
+        <span>Dag</span><span>Måned</span><span>År</span>
+      </div>
+      <div id="onboarding-wheel-picker"></div>
       <p class="onboarding__error" id="onboarding-error"></p>
 
       <!-- Fase-resultat — SKJULT indtil dato er valgt -->
