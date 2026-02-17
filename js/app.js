@@ -4800,6 +4800,421 @@ window.jeresEnergiBackToInput = jeresEnergiBackToInput;
 window.jeresEnergiDateChanged = jeresEnergiDateChanged;
 window.navigateToJeresEnergiWithDate = navigateToJeresEnergiWithDate;
 
+// ---- Mine Vinduer ----
+
+var MineVinduerState = {
+  selectedDate: null,
+  selectedRelations: [],
+  results: null
+};
+
+function initMineVinduerScreen() {
+  MineVinduerState.selectedDate = getLocalDateStr(new Date());
+  MineVinduerState.selectedRelations = [];
+  MineVinduerState.results = null;
+  renderMineVinduerFigurer();
+  renderMineVinduerInput();
+}
+
+function renderMineVinduerFigurer() {
+  var el = document.getElementById('mine-vinduer-figurer');
+  if (!el) return;
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  var activePhase = 9;
+  if (user.birthdate) {
+    var age = calculateAge(user.birthdate);
+    var lp = calculateLifePhase(age);
+    activePhase = lp.phase || 9;
+  }
+
+  // Tidsbue SVG — ni faser i bue, aktiv fase fremhævet
+  var arcPositions = [
+    {cx:28,cy:88,r:14}, {cx:62,cy:62,r:14}, {cx:100,cy:44,r:14},
+    {cx:140,cy:34,r:14}, {cx:180,cy:34,r:14}, {cx:218,cy:44,r:14},
+    {cx:252,cy:62,r:14}, {cx:278,cy:88,r:14}, {cx:295,cy:116,r:16}
+  ];
+  var svg1 = '<svg width="310" height="190" xmlns="http://www.w3.org/2000/svg">';
+  for (var i = 0; i < arcPositions.length; i++) {
+    var p = arcPositions[i];
+    var isActive = (i + 1) === activePhase;
+    if (isActive) {
+      svg1 += '<circle cx="' + p.cx + '" cy="' + p.cy + '" r="' + p.r + '" fill="rgba(107,95,123,0.15)" stroke="#6B5F7B" stroke-width="1.5"/>';
+    } else {
+      var op = (0.07 + i * 0.01).toFixed(2);
+      var sop = (0.18 + i * 0.02).toFixed(2);
+      svg1 += '<circle cx="' + p.cx + '" cy="' + p.cy + '" r="' + p.r + '" fill="rgba(139,125,155,' + op + ')" stroke="rgba(139,125,155,' + sop + ')" stroke-width="1"/>';
+    }
+    var textY = p.cy + 4;
+    if (isActive) {
+      svg1 += '<text x="' + p.cx + '" y="' + textY + '" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="11" fill="#6B5F7B" font-weight="600" text-anchor="middle">' + (i + 1) + '</text>';
+    } else {
+      svg1 += '<text x="' + p.cx + '" y="' + textY + '" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="11" fill="#8B7D9B" text-anchor="middle">' + (i + 1) + '</text>';
+    }
+  }
+  // Tidslinje under buen
+  svg1 += '<line x1="40" y1="150" x2="270" y2="150" stroke="rgba(139,125,155,0.2)" stroke-width="1"/>';
+  svg1 += '<circle cx="80" cy="150" r="4" fill="rgba(139,125,155,0.2)"/>';
+  svg1 += '<circle cx="155" cy="150" r="5" fill="#6B5F7B"/>';
+  svg1 += '<circle cx="230" cy="150" r="4" fill="rgba(139,125,155,0.2)" stroke="rgba(139,125,155,0.3)" stroke-width="1" stroke-dasharray="2,2"/>';
+  svg1 += '<text x="80" y="168" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">fortid</text>';
+  svg1 += '<text x="155" y="168" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="9" fill="#6B5F7B" font-weight="600" text-anchor="middle">nu</text>';
+  svg1 += '<text x="230" y="168" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">fremtid</text>';
+  svg1 += '<path d="M 45 150 L 35 146 M 45 150 L 35 154" stroke="rgba(139,125,155,0.3)" stroke-width="1" fill="none"/>';
+  svg1 += '<path d="M 265 150 L 275 146 M 265 150 L 275 154" stroke="rgba(139,125,155,0.3)" stroke-width="1" fill="none"/>';
+  svg1 += '</svg>';
+
+  // Relationscirkler SVG — fire overlappende ellipser
+  var svg2 = '<svg width="280" height="280" xmlns="http://www.w3.org/2000/svg">';
+  svg2 += '<ellipse cx="140" cy="50" rx="48" ry="72" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.15)" stroke-width="1" transform="rotate(0,140,140)"/>';
+  svg2 += '<ellipse cx="140" cy="50" rx="48" ry="72" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.13)" stroke-width="1" transform="rotate(90,140,140)"/>';
+  svg2 += '<ellipse cx="140" cy="50" rx="48" ry="72" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.15)" stroke-width="1" transform="rotate(180,140,140)"/>';
+  svg2 += '<ellipse cx="140" cy="50" rx="48" ry="72" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.13)" stroke-width="1" transform="rotate(270,140,140)"/>';
+  svg2 += '<circle cx="140" cy="140" r="38" fill="rgba(107,95,123,0.1)" stroke="rgba(139,125,155,0.25)" stroke-width="1"/>';
+  svg2 += '<text x="140" y="136" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="13" fill="#6B5F7B" font-weight="600" text-anchor="middle">DIG</text>';
+  svg2 += '<text x="140" y="152" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">i alle b\u00e5nd</text>';
+  svg2 += '<text x="140" y="20" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="10" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">PARFORHOLDET</text>';
+  svg2 += '<text x="140" y="33" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">intimitet \u00B7 valg</text>';
+  svg2 += '<text x="268" y="138" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="10" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">B\u00d8RN</text>';
+  svg2 += '<text x="268" y="151" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">omsorg \u00B7 fremtid</text>';
+  svg2 += '<text x="140" y="262" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="10" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">FOR\u00c6LDRE</text>';
+  svg2 += '<text x="140" y="275" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">r\u00f8dder \u00B7 arv</text>';
+  svg2 += '<text x="14" y="138" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="10" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1.5">VENNER</text>';
+  svg2 += '<text x="14" y="151" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">frihed \u00B7 valgt</text>';
+  // Krydsfelter
+  svg2 += '<text x="93" y="88" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">k\u00e6rlighed</text>';
+  svg2 += '<text x="93" y="98" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">du v\u00e6lger</text>';
+  svg2 += '<text x="188" y="88" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">at v\u00e6re</text>';
+  svg2 += '<text x="188" y="98" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">for\u00e6ldre</text>';
+  svg2 += '<text x="93" y="192" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">de der</text>';
+  svg2 += '<text x="93" y="202" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">kender dig</text>';
+  svg2 += '<text x="188" y="192" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">tre</text>';
+  svg2 += '<text x="188" y="202" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">generationer</text>';
+  svg2 += '<text x="140" y="104" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#6B5F7B" font-style="italic" text-anchor="middle">den nye familie</text>';
+  svg2 += '<text x="108" y="144" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#6B5F7B" font-style="italic" text-anchor="middle">modenhed</text>';
+  svg2 += '<text x="172" y="144" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#6B5F7B" font-style="italic" text-anchor="middle">sl\u00e6gten</text>';
+  svg2 += '<text x="140" y="178" font-family="\'Cormorant Garamond\',Georgia,serif" font-size="8" fill="#6B5F7B" font-style="italic" text-anchor="middle">livets vidner</text>';
+  svg2 += '</svg>';
+
+  var html = '<div class="mv__fig">' + svg1 + '</div>';
+  html += '<div class="mv__fig">' + svg2 + '</div>';
+  el.innerHTML = html;
+}
+
+function renderMineVinduerInput() {
+  var el = document.getElementById('mine-vinduer-input');
+  if (!el) return;
+  var relations = JSON.parse(localStorage.getItem('relations') || '[]');
+
+  var html = '';
+
+  // HVEM-boks
+  html += '<div class="mv__input-box">';
+  html += '<div class="mv__input-label">HVEM?</div>';
+  html += '<div class="mv__chips">';
+  html += '<span class="mv__chip mv__chip--filled">Dig</span>';
+  if (relations.length === 0) {
+    html += '<button class="mv__chip mv__chip--add" onclick="App.loadScreen(\'relationer\')">+ tilf\u00f8j en person</button>';
+  } else {
+    for (var i = 0; i < relations.length; i++) {
+      var isSelected = MineVinduerState.selectedRelations.indexOf(i) !== -1;
+      html += '<button class="mv__chip' + (isSelected ? ' mv__chip--selected' : ' mv__chip--person') + '" onclick="toggleMVRelation(' + i + ')">' + escapeHtml(relations[i].name) + '</button>';
+    }
+    html += '<button class="mv__chip mv__chip--add" onclick="App.loadScreen(\'relationer\')">+ tilf\u00f8j</button>';
+  }
+  html += '</div></div>';
+
+  // HVORNÅR-boks
+  html += '<div class="mv__input-box">';
+  html += '<div class="mv__input-label">HVORN\u00c5R?</div>';
+
+  // Datovælger
+  var dateVal = MineVinduerState.selectedDate || getLocalDateStr(new Date());
+  var dateObj = new Date(dateVal + 'T12:00:00');
+  var dayNum = dateObj.getDate();
+  var monthName = dateObj.toLocaleDateString('da-DK', { month: 'long', year: 'numeric' });
+  var todayStr = getLocalDateStr(new Date());
+  var relativeText = '';
+  if (dateVal === todayStr) {
+    relativeText = 'I dag';
+  } else {
+    var diffMs = dateObj.getTime() - new Date(todayStr + 'T12:00:00').getTime();
+    var diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+    if (diffDays < 0) {
+      var absDays = Math.abs(diffDays);
+      if (absDays < 30) relativeText = 'For ' + absDays + ' dage siden';
+      else if (absDays < 365) relativeText = 'For ' + Math.round(absDays / 30) + ' m\u00e5neder siden';
+      else relativeText = 'For ' + Math.round(absDays / 365) + ' \u00e5r siden';
+    } else {
+      if (diffDays < 30) relativeText = 'Om ' + diffDays + ' dage';
+      else if (diffDays < 365) relativeText = 'Om ' + Math.round(diffDays / 30) + ' m\u00e5neder';
+      else relativeText = 'Om ' + Math.round(diffDays / 365) + ' \u00e5r';
+    }
+  }
+
+  html += '<div class="mv__date-display">';
+  html += '<button class="mv__date-nav" onclick="mvDateStep(-30)">\u2190 m\u00e5ned</button>';
+  html += '<div class="mv__date-center">';
+  html += '<div class="mv__date-day">' + dayNum + '</div>';
+  html += '<div class="mv__date-month">' + monthName + '</div>';
+  html += '<div class="mv__date-relative">' + relativeText + '</div>';
+  html += '</div>';
+  html += '<button class="mv__date-nav" onclick="mvDateStep(1)">dag \u2192</button>';
+  html += '</div>';
+  html += '<input type="date" id="mv-date-input" class="mv__date-hidden" value="' + dateVal + '" onchange="mvDateChanged(this.value)">';
+  html += '<button class="mv__date-pick-btn" onclick="document.getElementById(\'mv-date-input\').showPicker()">V\u00e6lg dato</button>';
+
+  // Hurtigvalg-chips
+  html += '<div class="mv__quick-chips">';
+  var shortcuts = getMVShortcuts();
+  for (var s = 0; s < shortcuts.length; s++) {
+    html += '<button class="mv__quick-chip" onclick="applyMVShortcut(' + s + ')">' + shortcuts[s].label + '</button>';
+  }
+  html += '</div>';
+  html += '</div>';
+
+  // Se-knap
+  html += '<button class="mv__se-btn" onclick="executeMineVinduer()">Se</button>';
+
+  el.innerHTML = html;
+}
+
+function getMVShortcuts() {
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  var now = new Date();
+  return [
+    { label: 'For 5 \u00e5r', resolve: function() { var d = new Date(now); d.setFullYear(d.getFullYear() - 5); return d; } },
+    { label: 'For 1 \u00e5r', resolve: function() { var d = new Date(now); d.setFullYear(d.getFullYear() - 1); return d; } },
+    { label: 'Om 1 \u00e5r', resolve: function() { var d = new Date(now); d.setFullYear(d.getFullYear() + 1); return d; } },
+    { label: 'Om 5 \u00e5r', resolve: function() { var d = new Date(now); d.setFullYear(d.getFullYear() + 5); return d; } },
+    { label: 'N\u00e6ste jul', resolve: function() { var y = now.getMonth() >= 11 && now.getDate() >= 25 ? now.getFullYear() + 1 : now.getFullYear(); return new Date(y, 11, 24); } },
+    { label: 'Min f\u00f8dselsdag', resolve: function() {
+      if (!user.birthdate) return now;
+      var bd = safeParseBirth(user.birthdate);
+      var d = new Date(now.getFullYear(), bd.getMonth(), bd.getDate());
+      if (d <= now) d.setFullYear(d.getFullYear() + 1);
+      return d;
+    }},
+    { label: 'Sommerstart', resolve: function() { var y = now.getMonth() >= 5 && now.getDate() >= 21 ? now.getFullYear() + 1 : now.getFullYear(); return new Date(y, 5, 21); } }
+  ];
+}
+
+function toggleMVRelation(index) {
+  var idx = MineVinduerState.selectedRelations.indexOf(index);
+  if (idx === -1) {
+    if (MineVinduerState.selectedRelations.length >= 3) {
+      MineVinduerState.selectedRelations.shift();
+    }
+    MineVinduerState.selectedRelations.push(index);
+  } else {
+    MineVinduerState.selectedRelations.splice(idx, 1);
+  }
+  renderMineVinduerInput();
+}
+
+function mvDateChanged(val) {
+  MineVinduerState.selectedDate = val;
+  renderMineVinduerInput();
+}
+
+function mvDateStep(days) {
+  var current = MineVinduerState.selectedDate || getLocalDateStr(new Date());
+  var d = new Date(current + 'T12:00:00');
+  d.setDate(d.getDate() + days);
+  MineVinduerState.selectedDate = getLocalDateStr(d);
+  renderMineVinduerInput();
+}
+
+function applyMVShortcut(index) {
+  var shortcuts = getMVShortcuts();
+  var shortcut = shortcuts[index];
+  if (!shortcut) return;
+  var d = shortcut.resolve();
+  MineVinduerState.selectedDate = getLocalDateStr(d);
+  renderMineVinduerInput();
+}
+
+function executeMineVinduer() {
+  var dateStr = MineVinduerState.selectedDate || getLocalDateStr(new Date());
+  var todayStr = getLocalDateStr(new Date());
+  var isPast = dateStr < todayStr;
+  var isToday = dateStr === todayStr;
+  var hasRelations = MineVinduerState.selectedRelations.length > 0;
+
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  var relations = JSON.parse(localStorage.getItem('relations') || '[]');
+
+  var userResult = calculateCyclesForDate(user.birthdate, dateStr, {
+    gender: 'kvinde',
+    tracksMenstruation: user.tracksMenstruation,
+    lastPeriodDate: user.lastPeriodDate
+  });
+
+  var results = { user: userResult, relations: [] };
+
+  for (var i = 0; i < MineVinduerState.selectedRelations.length; i++) {
+    var ri = MineVinduerState.selectedRelations[i];
+    var r = relations[ri];
+    if (!r) continue;
+    var rResult = calculateCyclesForDate(r.birthdate, dateStr, { gender: r.gender || 'kvinde' });
+    rResult.name = r.name;
+    rResult.gender = r.gender;
+    rResult.relationType = r.relationType;
+    results.relations.push(rResult);
+  }
+
+  MineVinduerState.results = results;
+  renderMineVinduerResult(results, isPast, isToday, hasRelations, dateStr);
+}
+
+function renderMineVinduerResult(results, isPast, isToday, hasRelations, dateStr) {
+  var el = document.getElementById('mine-vinduer-resultat');
+  if (!el) return;
+
+  var formattedDate = new Date(dateStr + 'T12:00:00').toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric' });
+  var userInsight = generateInsight(results.user.elements);
+  var html = '';
+
+  if (isToday && !hasRelations) {
+    // Kun mig + I dag → mine cyklusser lige nu (kompakt)
+    html += '<div class="mv__result-header">Dine cyklusser lige nu</div>';
+    html += renderCycleGrid(results.user, 'Dig', false);
+    html += renderMVResonans(userInsight);
+    html += renderMVIsabelle(userInsight, isToday, isPast);
+
+  } else if (!isToday && !hasRelations) {
+    // Kun mig + anden dato → dengang vs. nu
+    html += '<div class="mv__result-header">' + formattedDate + '</div>';
+
+    // Dengang vs. nu sammenligning
+    var nowResult = calculateCyclesForDate(
+      JSON.parse(localStorage.getItem('user') || '{}').birthdate,
+      getLocalDateStr(new Date()),
+      { gender: 'kvinde', tracksMenstruation: JSON.parse(localStorage.getItem('user') || '{}').tracksMenstruation, lastPeriodDate: JSON.parse(localStorage.getItem('user') || '{}').lastPeriodDate }
+    );
+    var nowInsight = generateInsight(nowResult.elements);
+
+    html += '<div class="mv__compare">';
+    html += '<div class="mv__compare-col mv__compare-col--then">';
+    html += '<div class="mv__compare-label">' + (isPast ? 'DENGANG' : 'DER') + '</div>';
+    html += '<div class="mv__compare-phase">Fase ' + results.user.lifePhase.phase + ': ' + results.user.lifePhase.name + '</div>';
+    html += '<div class="mv__compare-element">' + ELEMENT_LABELS[userInsight.dominantElement] + ' dominerede</div>';
+    html += '<div class="mv__compare-age">' + results.user.age + ' \u00e5r</div>';
+    html += '</div>';
+    html += '<div class="mv__compare-col mv__compare-col--now">';
+    html += '<div class="mv__compare-label">NU</div>';
+    html += '<div class="mv__compare-phase">Fase ' + nowResult.lifePhase.phase + ': ' + nowResult.lifePhase.name + '</div>';
+    html += '<div class="mv__compare-element">' + ELEMENT_LABELS[nowInsight.dominantElement] + ' dominerer</div>';
+    html += '<div class="mv__compare-age">' + nowResult.age + ' \u00e5r</div>';
+    html += '</div>';
+    html += '</div>';
+
+    html += renderCycleGrid(results.user, 'Dig \u00B7 ' + formattedDate, isPast);
+    html += renderMVResonans(userInsight);
+    html += renderMVIsabelle(userInsight, isToday, isPast);
+
+  } else {
+    // Mig + person(er) → begges cyklusser + mødet
+    html += '<div class="mv__result-header">' + formattedDate + '</div>';
+
+    // Brugerens cyklusser
+    html += '<div class="mv__person-block mv__person-block--user">';
+    html += renderCycleGrid(results.user, 'Dig', isPast);
+    html += '</div>';
+
+    // Hver relations cyklusser + interaktion
+    for (var i = 0; i < results.relations.length; i++) {
+      var rr = results.relations[i];
+      html += '<div class="mv__person-block mv__person-block--relation">';
+      html += renderCycleGrid(rr, escapeHtml(rr.name), isPast);
+      html += '</div>';
+
+      // Mødet
+      var interaction = getElementInteraction(
+        results.user.lifePhase.element,
+        rr.lifePhase.element,
+        rr.name,
+        rr.gender
+      );
+      html += '<div class="mv__moedet">';
+      html += '<div class="mv__moedet-label">M\u00d8DET</div>';
+      html += '<div class="mv__moedet-type">' + escapeHtml(interaction.type) + '</div>';
+      html += '<div class="mv__moedet-text">' + escapeHtml(interaction.text) + '</div>';
+      html += '</div>';
+    }
+
+    html += renderMVIsabelle(userInsight, isToday, isPast);
+  }
+
+  // Links
+  html += '<div class="mv__result-links">';
+  html += '<button class="mv__result-link" onclick="mvReset()">Pr\u00f8v anden dato</button>';
+  if (!hasRelations) {
+    html += '<button class="mv__result-link" onclick="App.loadScreen(\'relationer\')">Tilf\u00f8j person</button>';
+  }
+  html += '</div>';
+
+  html += sectionDivider();
+  html += renderActionBar('mine-vinduer');
+
+  el.innerHTML = html;
+  el.scrollIntoView({ behavior: 'smooth' });
+}
+
+function renderMVResonans(insight) {
+  var count = insight.maxCount || 0;
+  var el = insight.dominantElement;
+  var label = '';
+  var text = '';
+  if (count >= 4) {
+    label = 'FULD RESONANS';
+    text = count + ' af dine cyklusser peger mod ' + ELEMENT_LABELS[el] + ' \u2014 en sj\u00e6lden dybde.';
+  } else if (count === 3) {
+    label = 'MEDVIND';
+    text = 'Tre cyklusser samler sig i ' + ELEMENT_LABELS[el] + '. Der er retning i din energi.';
+  } else {
+    label = 'MANGFOLDIGHED';
+    text = 'Dine cyklusser peger i forskellige retninger. Der er bredde i din energi lige nu.';
+  }
+  var html = '<div class="mv__resonans">';
+  html += '<div class="mv__resonans-label">' + label + '</div>';
+  html += '<div class="mv__resonans-text">' + text + '</div>';
+  html += '</div>';
+  return html;
+}
+
+function renderMVIsabelle(insight, isToday, isPast) {
+  var el = insight.dominantElement;
+  var texts = {
+    'VAND': 'Vand-energien inviterer til stilhed og fordybelse. N\u00e5r Vand st\u00e5r st\u00e6rkt, er det en tid for at lytte indad \u2014 ikke for handling, men for at m\u00e6rke hvad der r\u00f8rer sig under overfladen.',
+    'TRAE': 'Tr\u00e6-energien driver v\u00e6kst og fornyelse. Der er en kraft i dig lige nu, der vil fremad. M\u00e5ske m\u00e6rker du den som uro, m\u00e5ske som inspiration \u2014 begge dele er Tr\u00e6ets stemme.',
+    'ILD': 'Ilden lyser op og skaber forbindelse. N\u00e5r Ild st\u00e5r st\u00e6rkt, er gl\u00e6den t\u00e6ttere p\u00e5 \u2014 men ogs\u00e5 s\u00e5rbarheden. Det er en tid for \u00e6rlighed og n\u00e6rv\u00e6r.',
+    'JORD': 'Jord-energien n\u00e6rer og stabiliserer. Du er i en tid, hvor det handler om at holde fast \u2014 i dig selv, i dem du elsker, i det der giver mening. Langsomt. T\u00e5lmodigt.',
+    'METAL': 'Metal-energien renser og forenkler. N\u00e5r Metal st\u00e5r st\u00e6rkt, viser det essentielle sig. Giv slip p\u00e5 det overfl\u00f8dige \u2014 og mærk hvad der bliver tilbage.'
+  };
+  var html = '<div class="mv__isabelle">';
+  html += '<div class="mv__isabelle-label">ISABELLE</div>';
+  html += '<div class="mv__isabelle-text">' + (texts[el] || '') + '</div>';
+  html += '</div>';
+  return html;
+}
+
+function mvReset() {
+  MineVinduerState.results = null;
+  var el = document.getElementById('mine-vinduer-resultat');
+  if (el) el.innerHTML = '';
+  MineVinduerState.selectedDate = getLocalDateStr(new Date());
+  renderMineVinduerInput();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Export Mine Vinduer functions
+window.toggleMVRelation = toggleMVRelation;
+window.mvDateChanged = mvDateChanged;
+window.mvDateStep = mvDateStep;
+window.applyMVShortcut = applyMVShortcut;
+window.executeMineVinduer = executeMineVinduer;
+window.mvReset = mvReset;
+
 // ---- Main App ----
 
 const App = {
@@ -4840,11 +5255,12 @@ const App = {
     'mine-samlinger': 'screens/mine-samlinger.html',
     'baggrundsviden': 'screens/baggrundsviden.html',
     'dine-cyklusser-lige-nu': 'screens/dine-cyklusser-lige-nu.html',
-    'soeg': 'screens/soeg.html'
+    'soeg': 'screens/soeg.html',
+    'mine-vinduer': 'screens/mine-vinduer.html'
   },
 
   // Niveau 1 skærme (tema-overblik)
-  niveau1: ['mine-cyklusser', 'mine-relationer', 'min-praksis', 'min-rejse'],
+  niveau1: ['mine-cyklusser', 'mine-relationer', 'min-praksis', 'min-rejse', 'mine-vinduer'],
   // Niveau 2 skærme (specifikt indhold)
   niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'kroppens-store-overgange', 'jeres-energi', 'to-rytmer', 'tre-generationer', 'kost-urter', 'min-journal', 'mine-favoritter', 'mine-samlinger', 'baggrundsviden', 'dine-cyklusser-lige-nu', 'soeg'],
 
@@ -4889,7 +5305,8 @@ const App = {
     'mine-samlinger': 'min-rejse',
     'baggrundsviden': 'min-rejse',
     'dine-cyklusser-lige-nu': 'mine-cyklusser',
-    'soeg': 'idag'
+    'soeg': 'idag',
+    'mine-vinduer': 'idag'
   },
 
   goBack() {
@@ -4897,6 +5314,8 @@ const App = {
       hideDetail();
     } else if (this.currentScreen === 'din-energi' && DinEnergiState.results) {
       dinEnergiBackToInput();
+    } else if (this.currentScreen === 'mine-vinduer' && MineVinduerState.results) {
+      mvReset();
     } else if (this.currentScreen === 'jeres-energi' && JeresEnergiState.results) {
       jeresEnergiBackToInput();
     } else if (this.currentScreen === 'tidsrejse' && TidsrejseState.view !== 'overview') {
@@ -4954,7 +5373,7 @@ const App = {
         // Add breadcrumb — navigates to parent (not always home)
         if (screenName !== 'idag' && screenName !== 'onboarding') {
           var SCREEN_LABELS = {
-            'idag': 'Forside',
+            'idag': 'Lige nu',
             'mine-cyklusser': 'Mine Cyklusser',
             'mine-relationer': 'Mine Relationer',
             'min-praksis': 'Min Praksis',
@@ -4963,7 +5382,8 @@ const App = {
             'din-energi': 'Mine Cyklusser',
             'jeres-energi': 'Mine Relationer',
             'to-rytmer': 'Mine Relationer',
-            'tre-generationer': 'Mine Relationer'
+            'tre-generationer': 'Mine Relationer',
+            'mine-vinduer': 'Mine Vinduer'
           };
           var parentId = this.parentScreen[screenName] || 'idag';
           var parentLabel = SCREEN_LABELS[parentId] || 'Forside';
@@ -5043,6 +5463,8 @@ const App = {
           initDineCyklusserLigeNuScreen();
         } else if (screenName === 'soeg') {
           initSoegScreen();
+        } else if (screenName === 'mine-vinduer') {
+          initMineVinduerScreen();
         }
 
         // Append "Tilbage til toppen" footer (skip on onboarding)

@@ -7560,3 +7560,385 @@
   line-height: 1.55;
 }
 
+/* ========================================
+   MINE VINDUER
+   ======================================== */
+
+.mine-vinduer-screen {
+  padding: 0 20px 40px;
+}
+
+.mv__title {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 32px;
+  color: #6B5F7B;
+  font-style: italic;
+  font-weight: 400;
+  text-align: center;
+  margin: 20px 0 8px;
+}
+
+.mv__intro {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 16px;
+  color: #999;
+  font-style: italic;
+  text-align: center;
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+
+.mv__fig {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+}
+
+/* Motor input boxes */
+.mv__input-box {
+  background: rgba(139,125,155,0.04);
+  border: 1px solid rgba(139,125,155,0.1);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.mv__input-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px;
+  color: #8B7D9B;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+/* Chips */
+.mv__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mv__chip {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  border: none;
+}
+
+.mv__chip--filled {
+  background: #6B5F7B;
+  color: white;
+}
+
+.mv__chip--add {
+  background: none;
+  border: 1.5px dashed #c4b8d6;
+  color: #8B7D9B;
+}
+
+.mv__chip--person {
+  background: rgba(184,166,192,0.12);
+  color: #8B6F9B;
+  border: 1px solid rgba(139,125,155,0.15);
+}
+
+.mv__chip--selected {
+  background: #6B5F7B;
+  color: white;
+  border: 1px solid #6B5F7B;
+}
+
+/* Date display */
+.mv__date-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.mv__date-nav {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  color: #8B7D9B;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.mv__date-center {
+  text-align: center;
+}
+
+.mv__date-day {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 28px;
+  color: #6B5F7B;
+  font-weight: 600;
+}
+
+.mv__date-month {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 14px;
+  color: #8B7D9B;
+}
+
+.mv__date-relative {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  color: #aaa;
+  margin-top: 2px;
+}
+
+.mv__date-hidden {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+.mv__date-pick-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 13px;
+  color: #8B7D9B;
+  background: none;
+  border: 1px solid rgba(139,125,155,0.18);
+  border-radius: 18px;
+  padding: 8px;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+
+/* Quick chips */
+.mv__quick-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mv__quick-chip {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  color: #8B7D9B;
+  background: none;
+  border: 1px solid rgba(139,125,155,0.18);
+  border-radius: 18px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.mv__quick-chip:active {
+  background: rgba(139,125,155,0.08);
+}
+
+/* Se-knap */
+.mv__se-btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #6B5F7B 0%, #8B7D9B 100%);
+  color: white;
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* Resultat */
+.mv__result-header {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 22px;
+  color: #6B5F7B;
+  font-style: italic;
+  text-align: center;
+  margin: 28px 0 16px;
+}
+
+/* Dengang vs. nu sammenligning */
+.mv__compare {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.mv__compare-col {
+  flex: 1;
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+}
+
+.mv__compare-col--then {
+  background: rgba(139,125,155,0.05);
+}
+
+.mv__compare-col--now {
+  background: rgba(139,125,155,0.1);
+}
+
+.mv__compare-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px;
+  color: #8B7D9B;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.mv__compare-phase {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 15px;
+  color: #6B5F7B;
+  font-style: italic;
+  margin-bottom: 4px;
+}
+
+.mv__compare-element {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 13px;
+  color: #8B7D9B;
+  font-style: italic;
+}
+
+.mv__compare-age {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 4px;
+}
+
+/* Person-blokke */
+.mv__person-block {
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.mv__person-block--user {
+  background: rgba(139,125,155,0.05);
+}
+
+.mv__person-block--relation {
+  background: rgba(184,166,192,0.05);
+}
+
+/* Mødet-boks */
+.mv__moedet {
+  background: linear-gradient(135deg, #6B5F7B 0%, #8B7D9B 100%);
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+
+.mv__moedet-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.mv__moedet-type {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 18px;
+  color: white;
+  font-style: italic;
+  margin-bottom: 6px;
+}
+
+.mv__moedet-text {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+  font-style: italic;
+  line-height: 1.55;
+}
+
+/* Resonans */
+.mv__resonans {
+  background: rgba(139,125,155,0.06);
+  border: 1px solid rgba(139,125,155,0.12);
+  border-radius: 14px;
+  padding: 18px;
+  margin: 16px 0;
+  text-align: center;
+}
+
+.mv__resonans-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px;
+  color: #8B7D9B;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.mv__resonans-text {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 15px;
+  color: #444;
+  font-style: italic;
+  line-height: 1.55;
+}
+
+/* Isabelle-boks */
+.mv__isabelle {
+  background: rgba(139,125,155,0.06);
+  border: 1px solid rgba(139,125,155,0.14);
+  border-radius: 14px;
+  padding: 20px;
+  margin: 16px 0;
+}
+
+.mv__isabelle-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px;
+  color: #8B7D9B;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.mv__isabelle-text {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 15px;
+  color: #444;
+  font-style: italic;
+  line-height: 1.65;
+}
+
+/* Result links */
+.mv__result-links {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.mv__result-link {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
+  font-size: 14px;
+  color: #8B7D9B;
+  font-style: italic;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: rgba(139,125,155,0.3);
+}
+
