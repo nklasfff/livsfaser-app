@@ -852,9 +852,12 @@ const Onboarding = {
     // Render mellemstation
     renderMellemstation(userData);
 
-    // Scroll to top
+    // Scroll to top — both content container and window
     var content = document.getElementById('screen-content');
     if (content) content.scrollTop = 0;
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   },
 
   finish() {
@@ -5819,10 +5822,19 @@ const App = {
       document.body.style.overflow = '';
     }
 
-    // Hide header during onboarding (user is not in the app yet)
+    // Onboarding: show header as plain blue bar (no menu, title, search)
     var header = document.querySelector('.header');
     if (header) {
-      header.style.display = (screenName === 'onboarding') ? 'none' : '';
+      var isOnb = (screenName === 'onboarding');
+      header.style.display = '';
+      var menuBtn = header.querySelector('.header__menu');
+      var titleEl = header.querySelector('.header__title');
+      var searchBtn = header.querySelector('.header__search');
+      var backBtn = header.querySelector('.header__back');
+      if (menuBtn) menuBtn.style.display = isOnb ? 'none' : '';
+      if (titleEl) titleEl.style.display = isOnb ? 'none' : '';
+      if (searchBtn) searchBtn.style.display = isOnb ? 'none' : '';
+      if (backBtn) backBtn.style.display = isOnb ? 'none' : '';
     }
 
     // Load screen content
