@@ -7020,45 +7020,7 @@ var PRAKSIS_LIGE_NU = {
 };
 
 function renderMinPraksisFigur() {
-  return '<div class="praksis__figur">' +
-    '<svg width="280" height="280" xmlns="http://www.w3.org/2000/svg">' +
-    // Center: DIN KROP
-    '<circle cx="140" cy="140" r="40" fill="#8B9A9D" fill-opacity="0.15" stroke="#8B9A9D" stroke-opacity="0.25" stroke-width="1"/>' +
-    '<text x="140" y="135" text-anchor="middle" font-size="11" font-weight="600" fill="#555" font-family="' + VENN_FONT + '">DIN KROP</text>' +
-    '<text x="140" y="150" text-anchor="middle" font-size="10" fill="#999" font-style="italic" font-family="' + VENN_FONT + '">lige nu</text>' +
-    // Top: YIN YOGA
-    '<circle cx="140" cy="42" r="30" fill="#8B9A9D" fill-opacity="0.08" stroke="#8B9A9D" stroke-opacity="0.15" stroke-width="1"/>' +
-    '<text x="140" y="38" text-anchor="middle" font-size="10" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">YIN</text>' +
-    '<text x="140" y="50" text-anchor="middle" font-size="10" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">YOGA</text>' +
-    // Top-right: VEJRTRÆKNING
-    '<circle cx="233" cy="88" r="30" fill="#8B9A9D" fill-opacity="0.08" stroke="#8B9A9D" stroke-opacity="0.15" stroke-width="1"/>' +
-    '<text x="233" y="85" text-anchor="middle" font-size="9" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">VEJR-</text>' +
-    '<text x="233" y="96" text-anchor="middle" font-size="9" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">TR\u00c6KNING</text>' +
-    // Bottom-right: MERIDIAN & EFT
-    '<circle cx="233" cy="192" r="30" fill="#8B9A9D" fill-opacity="0.08" stroke="#8B9A9D" stroke-opacity="0.15" stroke-width="1"/>' +
-    '<text x="233" y="189" text-anchor="middle" font-size="9" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">MERIDIAN</text>' +
-    '<text x="233" y="200" text-anchor="middle" font-size="9" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">& EFT</text>' +
-    // Bottom: KOST & URTER
-    '<circle cx="140" cy="238" r="30" fill="#8B9A9D" fill-opacity="0.08" stroke="#8B9A9D" stroke-opacity="0.15" stroke-width="1"/>' +
-    '<text x="140" y="234" text-anchor="middle" font-size="10" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">KOST</text>' +
-    '<text x="140" y="246" text-anchor="middle" font-size="9" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">& URTER</text>' +
-    // Bottom-left: FØLELSERNE
-    '<circle cx="47" cy="192" r="30" fill="#8B9A9D" fill-opacity="0.08" stroke="#8B9A9D" stroke-opacity="0.15" stroke-width="1"/>' +
-    '<text x="47" y="188" text-anchor="middle" font-size="9" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">F\u00d8LEL-</text>' +
-    '<text x="47" y="199" text-anchor="middle" font-size="9" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">SERNE</text>' +
-    // Top-left: REFLEKSION
-    '<circle cx="47" cy="88" r="30" fill="#8B9A9D" fill-opacity="0.08" stroke="#8B9A9D" stroke-opacity="0.15" stroke-width="1"/>' +
-    '<text x="47" y="84" text-anchor="middle" font-size="9" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">REFLEK-</text>' +
-    '<text x="47" y="95" text-anchor="middle" font-size="9" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">SION</text>' +
-    // Lines from center to each outer circle
-    '<line x1="140" y1="100" x2="140" y2="72" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
-    '<line x1="172" y1="112" x2="207" y2="92" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
-    '<line x1="172" y1="168" x2="207" y2="188" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
-    '<line x1="140" y1="180" x2="140" y2="208" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
-    '<line x1="108" y1="168" x2="73" y2="188" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
-    '<line x1="108" y1="112" x2="73" y2="92" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
-    '</svg>' +
-    '</div>';
+  return '<div style="max-width:500px;margin:0 auto;text-align:center"><img src="assets/images/din-krop.jpg" alt="Din krop" style="width:100%;height:auto;border-radius:12px"></div>';
 }
 
 function renderPraksisCard(title, desc, link, onclick) {
