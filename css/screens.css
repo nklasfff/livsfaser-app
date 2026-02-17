@@ -7540,6 +7540,7 @@
   height: auto;
   display: block;
   margin: 0 auto;
+  filter: hue-rotate(190deg) saturate(1.3);
 }
 
 .to-rytmer-foto {
