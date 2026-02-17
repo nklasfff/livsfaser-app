@@ -8329,6 +8329,7 @@ function initMinJournalScreen() {
   var h = '';
   h += '<h1 class="rejse__t1">Min journal</h1>';
   h += '<p class="rejse__intr">Dine tanker, check-ins og refleksioner \u2014 forbundet med dine cyklusser. Over tid bliver journalen et stille vidne til din rejse, dine m\u00f8nstre og din udvikling.</p>';
+  h += '<img class="rejse__hero-img" src="./assets/images/min-journal-bog.jpeg" alt="Min journal">';
 
   // Dagens refleksion-boks
   var weekEl = d.menstrualCycle ? d.menstrualCycle.element : '';
