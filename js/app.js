@@ -6958,7 +6958,8 @@ function initMineRelationerScreen() {
       ],
       leftElement: userEl,
       rightElement: nearestEl !== 'default' ? nearestEl : undefined,
-      color: '#B8A6C0'
+      colors: ['#9886B0', '#A896B8'],
+      opacities: [0.55, 0.55]
     });
   }
 
@@ -9197,9 +9198,11 @@ function renderVennTwo(opts) {
     svg += '<text x="350" y="40" text-anchor="middle" font-family=' + font + ' font-size="20" font-weight="bold" fill="black">' + escapeHtml(opts.heading) + '</text>';
   }
 
-  // Circles — two distinct purple tones
-  svg += '<circle cx="' + cx1 + '" cy="' + cy1 + '" r="' + R + '" fill="#9886B0" fill-opacity="0.55"/>';
-  svg += '<circle cx="' + cx2 + '" cy="' + cy2 + '" r="' + R + '" fill="#A896B8" fill-opacity="0.55"/>';
+  // Circles — default blue, or custom via opts.colors/opts.opacities
+  var v2c = opts.colors || ['#5A74A5', '#7690C1'];
+  var v2o = opts.opacities || [0.55, 0.65];
+  svg += '<circle cx="' + cx1 + '" cy="' + cy1 + '" r="' + R + '" fill="' + v2c[0] + '" fill-opacity="' + v2o[0] + '"/>';
+  svg += '<circle cx="' + cx2 + '" cy="' + cy2 + '" r="' + R + '" fill="' + v2c[1] + '" fill-opacity="' + v2o[1] + '"/>';
 
   // Left zone text (centered vertically in circle, title split over 2 lines)
   var ll = opts.leftLines || [];
