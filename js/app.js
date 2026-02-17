@@ -2549,7 +2549,7 @@ function renderIdagVinduer() {
   html += '<img src="assets/images/vinduer-tid-lilla.png" alt="Tidsvinduet" style="width:100%;height:auto">';
   html += '</div>';
 
-  html += '<h3 class="idag__vinduer-t2" style="margin-top:-10px">Rejse i tid \u2014 alene eller med nogen</h3>';
+  html += '<h3 class="idag__vinduer-t2" style="margin-top:-30px">Rejse i tid \u2014 alene eller med nogen</h3>';
   html += '<p class="idag__vinduer-intr" style="margin-bottom:10px">V\u00e6lg en dato der betyder noget \u2014 og se hvilke cyklusser og elementer der var aktive. Eller kig fremad.</p>';
 
   // Lotus dots
@@ -2563,7 +2563,7 @@ function renderIdagVinduer() {
   html += '<img src="assets/images/relationer-forside.png" alt="Relationsvinduet" style="width:100%;height:auto">';
   html += '</div>';
 
-  html += '<h3 class="idag__vinduer-t2" style="margin-top:-4px">Se med nogen</h3>';
+  html += '<h3 class="idag__vinduer-t2" style="margin-top:-12px">Se med nogen</h3>';
   html += '<p class="idag__vinduer-intr">V\u00e6lg en person fra dit liv \u2014 og se hvordan jeres cyklusser og livsfaser m\u00f8des.</p>';
 
   // Gradient-boks
