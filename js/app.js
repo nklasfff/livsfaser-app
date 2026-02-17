@@ -2591,21 +2591,10 @@ function renderIdagVinduer() {
   // ---- RELATIONSVINDUET ----
   html += '<div class="idag__vinduer-label">RELATIONSVINDUET</div>';
 
-  // Fire-cirkel SVG (kompakt ~240x240)
+  // Relationsbillede
   html += '<div class="idag__vinduer-fig">';
-  html += '<svg width="240" height="240" xmlns="http://www.w3.org/2000/svg">';
-  html += '<ellipse cx="120" cy="42" rx="40" ry="60" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.15)" stroke-width="1" transform="rotate(0,120,120)"/>';
-  html += '<ellipse cx="120" cy="42" rx="40" ry="60" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.13)" stroke-width="1" transform="rotate(90,120,120)"/>';
-  html += '<ellipse cx="120" cy="42" rx="40" ry="60" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.15)" stroke-width="1" transform="rotate(180,120,120)"/>';
-  html += '<ellipse cx="120" cy="42" rx="40" ry="60" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.13)" stroke-width="1" transform="rotate(270,120,120)"/>';
-  html += '<circle cx="120" cy="120" r="32" fill="rgba(107,95,123,0.1)" stroke="rgba(139,125,155,0.25)" stroke-width="1"/>';
-  html += '<text x="120" y="117" font-family="' + sf + '" font-size="11" fill="#6B5F7B" font-weight="600" text-anchor="middle">DIG</text>';
-  html += '<text x="120" y="131" font-family="' + sf + '" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">i alle b\u00e5nd</text>';
-  html += '<text x="120" y="16" font-family="' + sf + '" font-size="9" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1">PARTNER</text>';
-  html += '<text x="230" y="118" font-family="' + sf + '" font-size="9" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1">B\u00d8RN</text>';
-  html += '<text x="120" y="232" font-family="' + sf + '" font-size="9" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1">FOR\u00c6LDRE</text>';
-  html += '<text x="12" y="118" font-family="' + sf + '" font-size="9" fill="#6B5F7B" font-weight="600" text-anchor="middle" letter-spacing="1">VENNER</text>';
-  html += '</svg></div>';
+  html += '<img src="assets/images/relationer-forside.png" alt="Relationsvinduet" style="width:100%;height:auto">';
+  html += '</div>';
 
   html += '<h3 class="idag__vinduer-t2">Se med nogen</h3>';
   html += '<p class="idag__vinduer-intr">V\u00e6lg en person fra dit liv \u2014 og se hvordan jeres cyklusser og livsfaser m\u00f8des.</p>';
