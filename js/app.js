@@ -7066,24 +7066,12 @@ function initMinRejseScreen() {
     + 'Du har skrevet ' + reflCount + ' refleksioner og gennemf\u00f8rt ' + checkinCount + ' check-ins. '
     + 'Dit ' + domElement + '-element giver dig mest ro, og din energi f\u00f8lger \u00e5rstidernes rytme t\u00e6t.';
 
-  // SVG: Tre overlappende cirkler
-  var svg = '<svg width="280" height="230" xmlns="http://www.w3.org/2000/svg">'
-    + '<circle cx="110" cy="100" r="72" fill="rgba(139,125,155,0.06)" stroke="rgba(139,125,155,0.2)" stroke-width="1"/>'
-    + '<circle cx="170" cy="100" r="72" fill="rgba(139,125,155,0.05)" stroke="rgba(139,125,155,0.17)" stroke-width="1"/>'
-    + '<circle cx="140" cy="155" r="72" fill="rgba(139,125,155,0.055)" stroke="rgba(139,125,155,0.18)" stroke-width="1"/>'
-    + '<text x="78" y="78" text-anchor="middle" font-size="11" fill="#8B7D9B" font-style="italic">ERINDRING</text>'
-    + '<text x="202" y="78" text-anchor="middle" font-size="11" fill="#8B7D9B" font-style="italic">INDSIGT</text>'
-    + '<text x="140" y="205" text-anchor="middle" font-size="11" fill="#8B7D9B" font-style="italic">RETNING</text>'
-    + '<text x="140" y="112" text-anchor="middle" font-size="13" fill="#6B5F7B" font-weight="600">DIN</text>'
-    + '<text x="140" y="130" text-anchor="middle" font-size="13" fill="#6B5F7B" font-weight="600">REJSE</text>'
-    + '</svg>';
-
   var h = '';
   h += '<h1 class="rejse__t1">Min Rejse</h1>';
   h += '<p class="rejse__intr">Dit personlige bibliotek og din udvikling over tid. Her samler du tr\u00e5dene fra dine check-ins, refleksioner og gemte favoritter — et stille vidnesbyrd om din vej.</p>';
 
-  // Tre-cirkel figur
-  h += '<div class="rejse__fig">' + svg + '</div>';
+  // Figur-billede
+  h += '<div class="rejse__fig"><img src="assets/images/min-rejse-ikigai.png" alt="Min Rejse" style="width:100%;height:auto"></div>';
 
   // Dynamisk indsigt-boks
   h += '<div class="rejse__ins">';
