@@ -329,40 +329,7 @@ function renderLotusLeafSVG(phaseNum) {
 function renderOnboardingPhaseFigure() {
   var el = document.getElementById('onboarding-phase-figure');
   if (!el) return;
-  var sf = "'Cormorant Garamond','Times New Roman',Georgia,serif";
-  var phases = [
-    { num: 1, label: 'Livets\nbegyndelse' },
-    { num: 2, label: 'Udforskning' },
-    { num: 3, label: 'Forvandling' },
-    { num: 4, label: 'Blomstring' },
-    { num: 5, label: 'Ansvar' },
-    { num: 6, label: 'Modning' },
-    { num: 7, label: 'H\u00f8st' },
-    { num: 8, label: 'Frig\u00f8relse' },
-    { num: 9, label: 'Visdom' }
-  ];
-  var W = 320, H = 320, CX = 160, CY = 160, R = 110, r = 30;
-  var html = '<svg width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto">';
-  // Center circle
-  html += '<circle cx="' + CX + '" cy="' + CY + '" r="44" fill="rgba(90,116,165,0.15)" stroke="rgba(90,116,165,0.25)" stroke-width="1"/>';
-  html += '<text x="' + CX + '" y="' + (CY - 6) + '" font-family="' + sf + '" font-size="14" fill="#5A74A5" font-weight="600" font-style="italic" text-anchor="middle">De 9</text>';
-  html += '<text x="' + CX + '" y="' + (CY + 12) + '" font-family="' + sf + '" font-size="14" fill="#5A74A5" font-weight="600" font-style="italic" text-anchor="middle">Livsfaser</text>';
-  // 9 phase circles
-  for (var i = 0; i < 9; i++) {
-    var angle = (-Math.PI / 2) + (i * 2 * Math.PI / 9);
-    var cx = CX + R * Math.cos(angle);
-    var cy = CY + R * Math.sin(angle);
-    var opacity = (0.06 + i * 0.007).toFixed(3);
-    var borderOp = (0.15 + i * 0.006).toFixed(3);
-    html += '<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + r + '" fill="rgba(90,116,165,' + opacity + ')" stroke="rgba(90,116,165,' + borderOp + ')" stroke-width="1"/>';
-    html += '<text x="' + cx.toFixed(1) + '" y="' + (cy - 4).toFixed(1) + '" font-family="' + sf + '" font-size="13" fill="#5A74A5" font-weight="600" text-anchor="middle">' + phases[i].num + '</text>';
-    var lines = phases[i].label.split('\n');
-    for (var j = 0; j < lines.length; j++) {
-      html += '<text x="' + cx.toFixed(1) + '" y="' + (cy + 8 + j * 11).toFixed(1) + '" font-family="' + sf + '" font-size="8" fill="#7690C1" font-style="italic" text-anchor="middle">' + lines[j] + '</text>';
-    }
-  }
-  html += '</svg>';
-  el.innerHTML = html;
+  el.innerHTML = '<div style="max-width:320px;margin:0 auto;text-align:center"><img src="assets/images/9-cirkler-onboarding.png" alt="De 9 Livsfaser" style="width:100%;height:auto"></div>';
 }
 
 function renderMellemstation(userData) {
