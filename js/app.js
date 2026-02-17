@@ -2351,7 +2351,7 @@ function renderKontekstuelleForslag() {
 
   // Kort 4: Relationer (lilla)
   var relations = JSON.parse(localStorage.getItem('relations') || '[]');
-  html += '<div class="idag__lilla-kort" onclick="App.loadScreen(\'' + (relations.length > 0 ? 'jeres-energi' : 'relationer') + '\')">';
+  html += '<div class="idag__lilla-kort" onclick="App.loadScreen(\'' + (relations.length > 0 ? 'mine-vinduer' : 'relationer') + '\')">';
   html += '<div class="idag__lilla-tag">RELATIONER</div>';
   html += '<h3 class="idag__lilla-titel">Tilf\u00f8j dine n\u00e6rmeste og se hvordan jeres energi m\u00f8des</h3>';
   html += '<p class="idag__lilla-tekst">Se hvad der sker, n\u00e5r dine cyklusser m\u00f8der andres \u2014 forst\u00e6rkning, forskydning eller friktion.</p>';
@@ -4029,13 +4029,7 @@ function tidsrejseBackToInput() {
 }
 
 function navigateToTidsrejse(type) {
-  App.loadScreen('tidsrejse').then(function() {
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() {
-        openTidsrejse(type);
-      });
-    });
-  });
+  App.loadScreen('mine-vinduer');
 }
 
 // Export tidsrejse functions
@@ -4945,8 +4939,7 @@ function jeresEnergiBackToInput() {
 }
 
 function navigateToJeresEnergiWithDate(dateStr) {
-  window._preloadJeresEnergiDate = dateStr;
-  App.loadScreen('jeres-energi');
+  App.loadScreen('mine-vinduer');
 }
 
 // Export jeres-energi functions
@@ -5971,7 +5964,7 @@ function shareToRytmer(partnerIndex) {
 }
 
 function navigateToJeresEnergi() {
-  App.loadScreen('jeres-energi');
+  App.loadScreen('mine-vinduer');
 }
 
 // ---- Tre Generationer (Niveau 2 under Mine Relationer) ----
