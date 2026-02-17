@@ -504,47 +504,13 @@ function renderMellemstation(userData) {
   // Dots
   html += '<div class="mellem__dots">\u00B7 \u00B7 \u00B7</div>';
 
-  // VINDUER-SEKTION (lavendel)
+  // VINDUER-SEKTION — billeder fra Lige Nu
   html += '<div class="mellem__win">';
   html += '<div class="mellem__win-label">Appens hjerte</div>';
-
-  // Modul 1: Rejse i tid med mini-tidslinje
-  html += '<div class="mellem__win-module">';
-  html += '<div class="mellem__win-module-title">Rejse i tid</div>';
-  // Mini-tidslinje SVG
-  html += '<div style="position:relative; height:32px; margin: 10px 36px 8px;">';
-  html += '<div style="position:absolute; top:8px; left:0; right:0; height:1px; background:rgba(107,95,123,0.2);"></div>';
-  html += '<div style="position:absolute; top:5px; left:18%; width:7px; height:7px; border-radius:50%; background:rgba(107,95,123,0.25);"></div>';
-  html += '<div style="position:absolute; top:4px; left:50%; width:9px; height:9px; border-radius:50%; background:#6B5F7B; transform:translateX(-50%);"></div>';
-  html += '<div style="position:absolute; top:5px; right:18%; width:7px; height:7px; border-radius:50%; background:rgba(107,95,123,0.25);"></div>';
-  html += '<div style="position:absolute; top:20px; left:14%; font-size:9px; color:#c0c0c0; font-style:italic; font-family:' + sf + '">fortid</div>';
-  html += '<div style="position:absolute; top:20px; left:50%; transform:translateX(-50%); font-size:9px; color:#8B7D9B; font-style:italic; font-family:' + sf + '">nu</div>';
-  html += '<div style="position:absolute; top:20px; right:14%; font-size:9px; color:#c0c0c0; font-style:italic; font-family:' + sf + '">fremtid</div>';
+  html += '<div style="text-align:center">';
+  html += '<img src="assets/images/vinduer-tid-lilla.png" alt="Tidsvinduet" style="width:100%;height:auto">';
+  html += '<img src="assets/images/relationer-forside.png" alt="Relationsvinduet" style="width:75%;height:auto;margin-top:-50px;display:block;margin-left:auto;margin-right:auto">';
   html += '</div>';
-  html += '<div class="mellem__win-module-text">' + vinduerText + '</div>';
-  html += '</div>';
-
-  // Dots inside vinduer
-  html += '<div class="mellem__dots" style="margin: 12px 0;">\u00B7 \u00B7 \u00B7</div>';
-
-  // Modul 2: Se med nogen + mini SVG
-  html += '<div class="mellem__win-module">';
-  html += '<div class="mellem__win-module-title">Se med nogen</div>';
-  html += '<svg width="180" height="90" viewBox="0 0 180 90" style="display:block; margin: 8px auto;">';
-  html += '<ellipse cx="90" cy="22" rx="36" ry="22" fill="none" stroke="rgba(107,95,123,0.12)" stroke-width="1"/>';
-  html += '<ellipse cx="55" cy="55" rx="36" ry="22" fill="none" stroke="rgba(107,95,123,0.12)" stroke-width="1"/>';
-  html += '<ellipse cx="125" cy="55" rx="36" ry="22" fill="none" stroke="rgba(107,95,123,0.12)" stroke-width="1"/>';
-  html += '<circle cx="90" cy="42" r="14" fill="rgba(107,95,123,0.06)"/>';
-  html += '<text x="90" y="13" text-anchor="middle" font-size="7" fill="#c0c0c0" letter-spacing="1" font-family="' + sf + '">PARTNER</text>';
-  html += '<text x="38" y="58" text-anchor="middle" font-size="7" fill="#c0c0c0" letter-spacing="1" font-family="' + sf + '">FOR\u00c6LDRE</text>';
-  html += '<text x="142" y="58" text-anchor="middle" font-size="7" fill="#c0c0c0" letter-spacing="1" font-family="' + sf + '">B\u00d8RN</text>';
-  html += '<text x="90" y="45" text-anchor="middle" font-size="7.5" fill="#8B7D9B" font-weight="600" font-family="' + sf + '">DIG</text>';
-  html += '</svg>';
-  html += '<div class="mellem__win-module-text">Tilf\u00f8j din partner, din datter, din mor \u2014 og se hvordan jeres cyklusser m\u00f8des. Ogs\u00e5 tilbage i tid: <strong>hvad skete der, da I var uenige?</strong></div>';
-  html += '</div>';
-
-  // Gradient sub-box
-  html += '<div class="mellem__win-gradient"><p>Forst\u00e5 hvad der skete. Forbered det der kommer. Alene eller sammen med nogen.</p></div>';
   html += '</div>';
 
   // Praksis
