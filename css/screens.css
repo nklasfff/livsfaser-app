@@ -1258,7 +1258,7 @@
 }
 .idag__vinduer-label {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 10px;
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
   color: #8B7D9B;
@@ -1267,7 +1267,7 @@
 }
 .idag__vinduer-fig {
   text-align: center;
-  margin: 0 0 14px;
+  margin: 0 0 6px;
 }
 .idag__vinduer-fig svg {
   display: inline-block;
@@ -1295,7 +1295,7 @@
   color: #c4b8d6;
   font-size: 14px;
   letter-spacing: 10px;
-  margin: 16px 0 20px;
+  margin: 10px 0 14px;
 }
 .idag__vinduer-grd {
   background: linear-gradient(135deg, #6B5F7B, #8B7D9B);
