@@ -6643,10 +6643,10 @@ function initMineCyklusserScreen() {
   ensureIdagData();
   var d = window._idagData;
 
-  // Tre-cirkel SVG
+  // Krydsfelt-billede
   var figEl = document.getElementById('mc-venn-fig');
-  if (figEl && d) {
-    figEl.innerHTML = renderMcThreeCircleSvg(d);
+  if (figEl) {
+    figEl.innerHTML = '<img src="assets/images/krydsfelt-final.png" alt="Dit krydsfelt" class="mc-krydsfelt-img">';
   }
 
   // Indsigt-boks
