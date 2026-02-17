@@ -9354,12 +9354,11 @@ function renderVennFour(opts) {
   var svg = '<div class="venn venn--four" id="' + id + '">';
   svg += '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" class="venn__svg">';
 
-  // Circles — configurable color, default blue
-  var fc = opts.fillColor || '#7690C1';
-  svg += '<circle cx="' + cxA + '" cy="' + cyA + '" r="' + R + '" fill="' + fc + '" fill-opacity="0.50"/>';
-  svg += '<circle cx="' + cxB + '" cy="' + cyB + '" r="' + R + '" fill="' + fc + '" fill-opacity="0.60"/>';
-  svg += '<circle cx="' + cxC + '" cy="' + cyC + '" r="' + R + '" fill="' + fc + '" fill-opacity="0.70"/>';
-  svg += '<circle cx="' + cxD + '" cy="' + cyD + '" r="' + R + '" fill="' + fc + '" fill-opacity="0.75"/>';
+  // Circles — four distinct purple tones
+  svg += '<circle cx="' + cxA + '" cy="' + cyA + '" r="' + R + '" fill="#7B6E9A" fill-opacity="0.55"/>';
+  svg += '<circle cx="' + cxB + '" cy="' + cyB + '" r="' + R + '" fill="#8A7EA4" fill-opacity="0.55"/>';
+  svg += '<circle cx="' + cxC + '" cy="' + cyC + '" r="' + R + '" fill="#9886B0" fill-opacity="0.55"/>';
+  svg += '<circle cx="' + cxD + '" cy="' + cyD + '" r="' + R + '" fill="#A896B8" fill-opacity="0.55"/>';
 
   // Zone labels (one size up)
   var al = opts.topLines || [];
