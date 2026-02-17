@@ -9195,10 +9195,9 @@ function renderVennTwo(opts) {
     svg += '<text x="350" y="40" text-anchor="middle" font-family=' + font + ' font-size="20" font-weight="bold" fill="black">' + escapeHtml(opts.heading) + '</text>';
   }
 
-  // Circles — default blue, or custom color via opts.color
-  var circleColor = opts.color || '#6B5F7B';
-  svg += '<circle cx="' + cx1 + '" cy="' + cy1 + '" r="' + R + '" fill="' + circleColor + '" fill-opacity="0.7"/>';
-  svg += '<circle cx="' + cx2 + '" cy="' + cy2 + '" r="' + R + '" fill="' + circleColor + '" fill-opacity="0.9"/>';
+  // Circles — two distinct purple tones
+  svg += '<circle cx="' + cx1 + '" cy="' + cy1 + '" r="' + R + '" fill="#9886B0" fill-opacity="0.55"/>';
+  svg += '<circle cx="' + cx2 + '" cy="' + cy2 + '" r="' + R + '" fill="#A896B8" fill-opacity="0.55"/>';
 
   // Left zone text (centered vertically in circle, title split over 2 lines)
   var ll = opts.leftLines || [];
