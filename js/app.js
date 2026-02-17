@@ -483,17 +483,179 @@ function renderMellemstation(userData) {
   el.innerHTML = html;
 }
 
+// ---- Custom Datepicker for Onboarding ----
+
+var OnbDatePicker = {
+  year: 1990,
+  month: 0, // 0-indexed
+  selectedDate: null,
+
+  MONTHS_DA: ['Januar','Februar','Marts','April','Maj','Juni','Juli','August','September','Oktober','November','December'],
+
+  open: function() {
+    // Remove existing if any
+    var existing = document.getElementById('onb-datepicker-overlay');
+    if (existing) existing.remove();
+
+    var now = new Date();
+    this.year = this.selectedDate ? new Date(this.selectedDate + 'T12:00:00').getFullYear() : 1990;
+    this.month = this.selectedDate ? new Date(this.selectedDate + 'T12:00:00').getMonth() : 0;
+
+    var overlay = document.createElement('div');
+    overlay.id = 'onb-datepicker-overlay';
+    overlay.className = 'onb-dp__overlay';
+    overlay.onclick = function(e) { if (e.target === overlay) OnbDatePicker.close(); };
+
+    var popup = document.createElement('div');
+    popup.className = 'onb-dp__popup';
+    popup.id = 'onb-datepicker-popup';
+    overlay.appendChild(popup);
+
+    document.body.appendChild(overlay);
+    this.render();
+  },
+
+  close: function() {
+    var overlay = document.getElementById('onb-datepicker-overlay');
+    if (overlay) overlay.remove();
+  },
+
+  changeMonth: function(dir) {
+    this.month += dir;
+    if (this.month < 0) { this.month = 11; this.year--; }
+    if (this.month > 11) { this.month = 0; this.year++; }
+    this.render();
+  },
+
+  changeYear: function(dir) {
+    this.year += dir;
+    this.render();
+  },
+
+  selectDay: function(day) {
+    var m = (this.month + 1).toString().padStart(2, '0');
+    var d = day.toString().padStart(2, '0');
+    this.selectedDate = this.year + '-' + m + '-' + d;
+
+    // Push to hidden input and trigger change
+    var input = document.getElementById('onboarding-birthdate');
+    if (input) {
+      input.value = this.selectedDate;
+      input.dispatchEvent(new Event('change'));
+    }
+    this.close();
+  },
+
+  reset: function() {
+    this.selectedDate = null;
+    var input = document.getElementById('onboarding-birthdate');
+    if (input) {
+      input.value = '';
+    }
+    // Hide phase result and button
+    var resultEl = document.getElementById('onboarding-phase-result');
+    if (resultEl) resultEl.style.display = 'none';
+    var nextBtn = document.getElementById('onboarding-next-btn');
+    if (nextBtn) nextBtn.style.display = 'none';
+    this.close();
+  },
+
+  render: function() {
+    var popup = document.getElementById('onb-datepicker-popup');
+    if (!popup) return;
+
+    var today = new Date();
+    var selParts = this.selectedDate ? this.selectedDate.split('-') : null;
+    var selY = selParts ? parseInt(selParts[0]) : null;
+    var selM = selParts ? parseInt(selParts[1]) - 1 : null;
+    var selD = selParts ? parseInt(selParts[2]) : null;
+
+    var firstDay = new Date(this.year, this.month, 1).getDay();
+    // Adjust to Monday start (0=Mon ... 6=Sun)
+    var startDay = (firstDay + 6) % 7;
+    var daysInMonth = new Date(this.year, this.month + 1, 0).getDate();
+
+    var html = '';
+
+    // Header: year nav
+    html += '<div class="onb-dp__year-row">';
+    html += '<button class="onb-dp__nav-btn" onclick="OnbDatePicker.changeYear(-1)">\u2039</button>';
+    html += '<span class="onb-dp__year">' + this.year + '</span>';
+    html += '<button class="onb-dp__nav-btn" onclick="OnbDatePicker.changeYear(1)">\u203a</button>';
+    html += '</div>';
+
+    // Month nav
+    html += '<div class="onb-dp__month-row">';
+    html += '<button class="onb-dp__nav-btn" onclick="OnbDatePicker.changeMonth(-1)">\u2039</button>';
+    html += '<span class="onb-dp__month">' + this.MONTHS_DA[this.month] + '</span>';
+    html += '<button class="onb-dp__nav-btn" onclick="OnbDatePicker.changeMonth(1)">\u203a</button>';
+    html += '</div>';
+
+    // Weekday headers (Mon-Sun)
+    var dayNames = ['Ma','Ti','On','To','Fr','L\u00f8','S\u00f8'];
+    html += '<div class="onb-dp__weekdays">';
+    for (var w = 0; w < 7; w++) {
+      html += '<span class="onb-dp__weekday">' + dayNames[w] + '</span>';
+    }
+    html += '</div>';
+
+    // Days grid
+    html += '<div class="onb-dp__days">';
+    // Empty cells before first day
+    for (var e = 0; e < startDay; e++) {
+      html += '<span class="onb-dp__day onb-dp__day--empty"></span>';
+    }
+    for (var d = 1; d <= daysInMonth; d++) {
+      var isSelected = (selY === this.year && selM === this.month && selD === d);
+      var isFuture = (this.year > today.getFullYear()) ||
+                     (this.year === today.getFullYear() && this.month > today.getMonth()) ||
+                     (this.year === today.getFullYear() && this.month === today.getMonth() && d > today.getDate());
+      var cls = 'onb-dp__day';
+      if (isSelected) cls += ' onb-dp__day--selected';
+      if (isFuture) cls += ' onb-dp__day--disabled';
+
+      if (isFuture) {
+        html += '<span class="' + cls + '">' + d + '</span>';
+      } else {
+        html += '<span class="' + cls + '" onclick="OnbDatePicker.selectDay(' + d + ')">' + d + '</span>';
+      }
+    }
+    html += '</div>';
+
+    // Footer buttons
+    html += '<div class="onb-dp__footer">';
+    html += '<button class="onb-dp__footer-btn onb-dp__footer-btn--reset" onclick="OnbDatePicker.reset()">Nulstil</button>';
+    html += '<button class="onb-dp__footer-btn onb-dp__footer-btn--ok" onclick="OnbDatePicker.close()">\u2713</button>';
+    html += '</div>';
+
+    popup.innerHTML = html;
+  }
+};
+window.OnbDatePicker = OnbDatePicker;
+
 const Onboarding = {
 
   init() {
     // Render ni-cirkel figuren
     renderOnboardingPhaseFigure();
 
+    // Bind custom datepicker to the input field
     var input = document.getElementById('onboarding-birthdate');
     if (input && !input._bound) {
       input._bound = true;
+      // Listen for changes (from custom picker setting .value)
       input.addEventListener('change', function() {
         Onboarding._onBirthdateChange();
+      });
+      // Intercept click/focus to open custom picker instead of native
+      input.addEventListener('click', function(e) {
+        e.preventDefault();
+        OnbDatePicker.open();
+      });
+      input.addEventListener('focus', function(e) {
+        e.preventDefault();
+        input.blur();
+        OnbDatePicker.open();
       });
     }
   },
@@ -514,6 +676,10 @@ const Onboarding = {
     this._birthdate = sanitizeBirthdate(input.value);
     this._age = calculateAge(this._birthdate);
     this._phase = calculateLifePhase(this._age);
+
+    // Update the displayed date in the input
+    var d = new Date(input.value + 'T12:00:00');
+    input.setAttribute('data-display', d.getDate() + '. ' + OnbDatePicker.MONTHS_DA[d.getMonth()].toLowerCase() + ' ' + d.getFullYear());
 
     // Show phase confirmation with fade
     var resultEl = document.getElementById('onboarding-phase-result');
