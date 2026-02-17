@@ -6573,11 +6573,10 @@ var EPIGENETIK_DATA = {
     }
   },
   traditioner: [
-    { titel: 'TCM \u2014 Nyreessens (Jing)', tekst: 'I kinesisk medicin arves Jing \u2014 livsessensen \u2014 fra begge for\u00e6ldre, men s\u00e6rligt fra moderen. Din mors livsfase ved din f\u00f8dsel pr\u00e6gede kvaliteten af den Jing, du modtog. Den kan n\u00e6res, men aldrig erstattes.' },
-    { titel: 'Anishinaabe \u2014 7 Generationer', tekst: 'I Anishinaabe-traditionen tr\u00e6ffes beslutninger med tanke p\u00e5 syv generationer frem. Din f\u00f8dsel var ikke kun din mors valg \u2014 den var et led i en k\u00e6de, der r\u00e6kker langt ud over jer begge.' },
-    { titel: 'M\u0101ori \u2014 Whakapapa', tekst: 'I M\u0101ori-kulturen er Whakapapa det genealogiske netv\u00e6rk, der forbinder nulevende med forfædre og landskab. Du b\u00e6rer ikke kun din mors biologi \u2014 men hendes sted, hendes folk og hendes himmel.' },
-    { titel: '\u0100yurveda \u2014 Prakriti', tekst: 'I ayurvedisk medicin bestemmes dit Prakriti \u2014 din grundl\u00e6ggende konstitution \u2014 ved undfangelsen. Din mors tilstand, f\u00f8de og sindstilstand p\u00e5virkede den Dosha-balance, du f\u00f8dtes med.' },
-    { titel: 'Moderne epigenetik', tekst: 'Forskning viser, at stress, ern\u00e6ring og f\u00f8lelsesm\u00e6ssig tilstand under graviditeten kan \u00e6ndre genudtryk uden at \u00e6ndre DNA-sekvensen. Din mors oplevelser sidder bogstaveligt talt i dine celler.' }
+    { titel: 'TCM \u2014 Jing', origin: 'Kina', tekst: 'Din mors livsfase pr\u00e6gede kvaliteten af den livsessens, du modtog.' },
+    { titel: 'Anishinaabe \u2014 7 Generationer', origin: 'Nordamerika', tekst: 'Din f\u00f8dsel var et led i en k\u00e6de, der r\u00e6kker langt ud over jer begge.' },
+    { titel: '\u0100yurveda \u2014 Prakriti', origin: 'Indien', tekst: 'Din grundl\u00e6ggende konstitution blev formet ved undfangelsen.' },
+    { titel: 'Moderne epigenetik', origin: 'Videnskab', tekst: 'Stress og ern\u00e6ring under graviditeten \u00e6ndrer genudtryk. Din mors oplevelser sidder i dine celler.' }
   ],
   forskning: {
     intro: 'Epigenetik er videnskaben om, hvordan milj\u00f8 og erfaring kan \u00e6ndre, hvilke gener der t\u00e6ndes og slukkes \u2014 uden at selve DNA-koden forandres. Det er biologiens m\u00e5de at sige: din historie begyndte f\u00f8r dig.',
@@ -6623,7 +6622,6 @@ function initEpigenetikArvScreen() {
     morAgeAtBirth = morAge - userAge;
     morPhaseAtBirth = calculateLifePhase(morAgeAtBirth > 0 ? morAgeAtBirth : 28);
   } else {
-    // Example data: mother was 28 at birth (phase 5 = ILD)
     morAge = 68;
     morPhase = calculateLifePhase(68);
     morName = 'Din mor';
@@ -6633,197 +6631,146 @@ function initEpigenetikArvScreen() {
 
   var morElementAtBirth = morPhaseAtBirth.element;
   var morFaseData = EPIGENETIK_DATA.morsFase[morElementAtBirth] || EPIGENETIK_DATA.morsFase['VAND'];
+  var morElLabel = ELEMENT_LABELS[morElementAtBirth];
+  var userElLabel = ELEMENT_LABELS[userElement];
 
-  // 1. Venn diagram
+  // TCM n\u00e6rende cyklus
+  var NAER_CYKLUS = { 'VAND': 'TR\u00C6', 'TR\u00C6': 'ILD', 'ILD': 'JORD', 'JORD': 'METAL', 'METAL': 'VAND' };
+  var morNaerer = NAER_CYKLUS[morElementAtBirth];
+  var dynamikType = morElementAtBirth === userElement ? 'resonans' : (morNaerer === userElement ? 'flow' : 'sp\u00e6nding');
+  var forbindelseTekst = '';
+  if (morElementAtBirth === userElement) {
+    forbindelseTekst = morElLabel + ' og ' + userElLabel + ' m\u00f8des i resonans. Det giver dyb genklang, men ogs\u00e5 risiko for at forst\u00e6rke b\u00e5de styrkerne og skyggerne.';
+  } else if (morNaerer === userElement) {
+    forbindelseTekst = morElLabel + ' n\u00e6rer ' + userElLabel + ' i den n\u00e6rende cyklus. Det er en naturlig, st\u00f8ttende forbindelse \u2014 du modtog en gave, der flyder let.';
+  } else {
+    forbindelseTekst = morElLabel + ' og ' + userElLabel + ' m\u00f8des i en dynamisk sp\u00e6nding. Det er ikke forkert \u2014 det er en invitation til at integrere to forskellige energier i dig.';
+  }
+
+  // Build all content into epi-venn container (it's the first container)
   var vennEl = document.getElementById('epi-venn');
-  if (vennEl) {
-    vennEl.innerHTML = renderVennTwo({
-      leftTitle: 'DIG',
-      leftLines: ['Fase ' + userPhase.phase + ' \u00B7 ' + ELEMENT_LABELS[userElement]],
-      rightTitle: morName.toUpperCase(),
-      rightLines: ['Fase ' + morPhaseAtBirth.phase + ' ved din f\u00f8dsel', ELEMENT_LABELS[morElementAtBirth] + '-energi'],
-      overlapTitle: 'ARVEN',
-      overlapLines: ['*Det du b\u00e6rer med dig'],
-      leftElement: userElement,
-      rightElement: morElementAtBirth
-    });
+  if (!vennEl) return;
 
-    if (!hasMor) {
-      vennEl.innerHTML += '<div class="rel-insight" style="margin-top:16px;"><div class="rel-insight__label">Eksempel</div><div class="rel-insight__text">Nedenfor ser du et eksempel med en mor der var 28 \u00e5r (Fase 5, Ild) ved f\u00f8dslen. Tilf\u00f8j din mor for at se din personlige arv.</div></div>';
-    }
-  }
+  var h = '';
 
-  // 2. Hvad b\u00e6rer du med dig?
-  var morsFaseEl = document.getElementById('epi-mors-fase');
-  if (morsFaseEl) {
-    var h = '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>';
-    h += '<h2 class="rejse__t2">Hvad b\u00e6rer du med dig?</h2>';
-    h += '<p class="rejse__intr">' + morName + ' var ' + morAgeAtBirth + ' \u00e5r da hun f\u00f8dte dig \u2014 i Fase ' + morPhaseAtBirth.phase + ' (' + ELEMENT_LABELS[morElementAtBirth] + '). Den energi pr\u00e6gede dit udgangspunkt p\u00e5 tre m\u00e5der.</p>';
-    h += '<div style="height:12px;"></div>';
+  // 1. Person-prikker (Dig + Mor)
+  var personSvg = '<svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="8" r="4" fill="rgba(255,255,255,0.7)"/><ellipse cx="11" cy="19" rx="7" ry="5" fill="rgba(255,255,255,0.5)"/></svg>';
+  h += '<div class="epi-ppl">';
+  h += '<div class="epi-pp">';
+  h += '<div class="epi-pp-dot epi-pp-dot--me">' + personSvg + '</div>';
+  h += '<div class="epi-pp-name">' + escapeHtml(userData.name || 'Dig') + '</div>';
+  h += '<div class="epi-pp-el">Fase ' + userPhase.phase + ' \u00B7 ' + userElLabel + '</div>';
+  h += '</div>';
+  h += '<div class="epi-pp-connector">\u2190</div>';
+  h += '<div class="epi-pp">';
+  h += '<div class="epi-pp-dot epi-pp-dot--mor">' + personSvg + '</div>';
+  h += '<div class="epi-pp-name">' + morName + '</div>';
+  h += '<div class="epi-pp-el">Fase ' + morPhaseAtBirth.phase + ' ved din f\u00f8dsel \u00B7 ' + morElLabel + '</div>';
+  h += '</div>';
+  h += '</div>';
 
-    // 3 cards: Grundtone, Gaven, Skyggen
-    h += '<div class="livsfase-detail__rec-card">';
-    h += '<div class="livsfase-detail__rec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg></div>';
-    h += '<div class="livsfase-detail__rec-title">Grundtonen</div>';
-    h += '<div class="livsfase-detail__rec-desc">' + morFaseData.grundtone + '</div>';
+  // 2. Eksempel-boks (kun hvis ingen mor)
+  if (!hasMor) {
+    h += '<div class="rel-insight" style="text-align:center;">';
+    h += '<div class="rel-insight__label">EKSEMPEL</div>';
+    h += '<div class="rel-insight__text">Nedenfor ser du et eksempel med en mor der var 28 \u00e5r (Fase 5, Ild) ved f\u00f8dslen. Tilf\u00f8j din mor for at se din personlige arv.</div>';
     h += '</div>';
+  }
 
-    h += '<div class="livsfase-detail__rec-card">';
-    h += '<div class="livsfase-detail__rec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg></div>';
-    h += '<div class="livsfase-detail__rec-title">Gaven</div>';
-    h += '<div class="livsfase-detail__rec-desc">' + morFaseData.gave + '</div>';
+  h += '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // 3. Gradient-boks "DIN ARV"
+  // Korte versioner til gradient-boks
+  var grundtoneKort = morFaseData.grundtone.split(' \u2014 ')[1] || morFaseData.grundtone.split('.')[0];
+  grundtoneKort = grundtoneKort.split('.')[0];
+  var gaveKort = morFaseData.gave.split('.')[0];
+  var skyggeKort = morFaseData.skygge.split('.')[0];
+  h += '<div class="epi-grd">';
+  h += '<div class="epi-grd-lbl">DIN ARV</div>';
+  h += '<div class="epi-grd-txt">' + morFaseData.grundtone.split('.')[0] + '.</div>';
+  h += '<div class="epi-grd-sub">Grundtonen: ' + grundtoneKort.toLowerCase() + '. Gaven: ' + gaveKort.toLowerCase() + '. Skyggen: ' + skyggeKort.toLowerCase() + '.</div>';
+  h += '</div>';
+
+  // 4. Twocol: TCM + Dynamik
+  h += '<div class="epi-twocol">';
+  h += '<div class="epi-twocol-box">';
+  h += '<div class="epi-twocol-lbl">TCM</div>';
+  h += '<div class="epi-twocol-val">Jing</div>';
+  h += '<div class="epi-twocol-desc">Nyreessens \u2014 livsenergi arvet fra din mor</div>';
+  h += '</div>';
+  h += '<div class="epi-twocol-box">';
+  h += '<div class="epi-twocol-lbl">DYNAMIK</div>';
+  h += '<div class="epi-twocol-val">' + morElLabel + ' \u2192 ' + userElLabel + '</div>';
+  h += '<div class="epi-twocol-desc">To energier i ' + dynamikType + '</div>';
+  h += '</div>';
+  h += '</div>';
+
+  // 5. Insight-boks: element-forbindelse
+  h += '<div class="rel-insight">';
+  h += '<div class="rel-insight__label">' + morElLabel.toUpperCase() + ' M\u00d8DER ' + userElLabel.toUpperCase() + '</div>';
+  h += '<div class="rel-insight__text">Jing arves fra moderen og lagres i nyrerne. Man f\u00f8des med en endelig m\u00e6ngde \u2014 resten af livet handler om at n\u00e6re den. ' + forbindelseTekst + '</div>';
+  h += '</div>';
+
+  h += '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // 6. Fem traditioner, \u00e9n visdom (4 kort)
+  h += '<div class="rel-section-heading">Fem traditioner, \u00e9n visdom</div>';
+  h += '<div class="body-text" style="font-family:var(--font-serif,Georgia,serif);font-size:15px;color:#555;font-style:italic;line-height:1.7;margin-bottom:16px;">Det du arver er mere end DNA. P\u00e5 tv\u00e6rs af kulturer har mennesker altid vidst det.</div>';
+
+  for (var ti = 0; ti < EPIGENETIK_DATA.traditioner.length; ti++) {
+    var trad = EPIGENETIK_DATA.traditioner[ti];
+    h += '<div class="epi-trad">';
+    h += '<div class="epi-trad-head">';
+    h += '<div class="epi-trad-name">' + trad.titel + '</div>';
+    h += '<div class="epi-trad-origin">' + trad.origin + '</div>';
     h += '</div>';
-
-    h += '<div class="livsfase-detail__rec-card">';
-    h += '<div class="livsfase-detail__rec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 16v.01M12 8v4"/></svg></div>';
-    h += '<div class="livsfase-detail__rec-title">Skyggen</div>';
-    h += '<div class="livsfase-detail__rec-desc">' + morFaseData.skygge + '</div>';
+    h += '<div class="epi-trad-txt">' + trad.tekst + '</div>';
     h += '</div>';
-
-    morsFaseEl.innerHTML = h;
   }
 
-  // 3. Den usynlige arv (TCM nyreessens + n\u00e6rende cyklus)
-  var usynligEl = document.getElementById('epi-usynlig-arv');
-  if (usynligEl) {
-    var NAER_CYKLUS = { 'VAND': 'TR\u00C6', 'TR\u00C6': 'ILD', 'ILD': 'JORD', 'JORD': 'METAL', 'METAL': 'VAND' };
-    var morNaerer = NAER_CYKLUS[morElementAtBirth];
-    var forbindelseTekst = '';
-    if (morElementAtBirth === userElement) {
-      forbindelseTekst = 'Du og din mor deler det samme element \u2014 ' + ELEMENT_LABELS[userElement] + '. Det giver en dyb resonans, men ogs\u00e5 risiko for at forst\u00e6rke b\u00e5de styrkerne og skyggerne.';
-    } else if (morNaerer === userElement) {
-      forbindelseTekst = 'Din mors ' + ELEMENT_LABELS[morElementAtBirth] + ' n\u00e6rer dit ' + ELEMENT_LABELS[userElement] + ' i den n\u00e6rende cyklus. Det er en naturlig, st\u00f8ttende forbindelse \u2014 du modtog en gave, der flyder let.';
-    } else {
-      forbindelseTekst = ELEMENT_LABELS[morElementAtBirth] + ' og ' + ELEMENT_LABELS[userElement] + ' m\u00f8des i en dynamisk sp\u00e6nding. Det er ikke forkert \u2014 det er en invitation til at integrere to forskellige energier i dig.';
-    }
+  h += '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>';
 
-    var uh = '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>';
-    uh += '<h2 class="rejse__t2">Den usynlige arv</h2>';
-    uh += '<p class="rejse__intr">I kinesisk medicin arves Jing \u2014 livsessensen \u2014 fra moderen og lagres i nyrerne. Din mors livsfase ved din f\u00f8dsel pr\u00e6gede kvaliteten af den Jing, du modtog.</p>';
-    uh += '<div style="height:12px;"></div>';
+  // 7. Hvad kan du g\u00f8re? (2 gr\u00f8nlige kort)
+  h += '<div class="rel-section-heading">Hvad kan du g\u00f8re?</div>';
 
-    uh += '<div class="rel-insight">';
-    uh += '<div class="rel-insight__label">TCM \u00B7 Nyreessens</div>';
-    uh += '<div class="rel-insight__text">Jing er den dybeste form for livsenergi. Den bestemmer din grundl\u00e6ggende konstitution, din knoglestruktur, din fertilitetsevne og din aldringsproces. Man f\u00f8des med en endelig m\u00e6ngde \u2014 og resten af livet handler om at n\u00e6re den.</div>';
-    uh += '</div>';
+  h += '<div class="epi-prac">';
+  h += '<div class="epi-prac-lbl">REFLEKSION</div>';
+  h += '<div class="epi-prac-title">M\u00f8d din mors historie</div>';
+  h += '<div class="epi-prac-txt">T\u00e6nk p\u00e5 din mor, som hun var da hun bar dig. Hvad fyldte i hende? M\u00e5ske kan du sp\u00f8rge hende \u2014 eller bare sidde stille med det.</div>';
+  h += '</div>';
 
-    uh += '<div style="height:16px;"></div>';
+  h += '<div class="epi-prac">';
+  h += '<div class="epi-prac-lbl">NYRE-MEDITATION</div>';
+  h += '<div class="epi-prac-title">N\u00e6r din rod</div>';
+  h += '<div class="epi-prac-txt">H\u00e6nderne p\u00e5 l\u00e6nden, over nyrerne. \u00c5nd langsomt ind. F\u00f8l varmen synke ind. Hvisk: \u201CJeg n\u00e6rer min rod.\u201D 5 minutter.</div>';
+  h += '</div>';
 
-    uh += '<div class="rel-insight">';
-    uh += '<div class="rel-insight__label">' + ELEMENT_LABELS[morElementAtBirth] + ' \u2192 ' + ELEMENT_LABELS[userElement] + '</div>';
-    uh += '<div class="rel-insight__text">' + forbindelseTekst + '</div>';
-    uh += '</div>';
+  h += '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>';
 
-    usynligEl.innerHTML = uh;
+  // 8. CTA-knap (kun hvis ingen mor)
+  if (!hasMor) {
+    h += '<button class="epi-cta" onclick="App.loadScreen(\'relationer\')">+ Tilf\u00f8j din mor</button>';
+    h += '<div class="epi-cta-sub">Se din personlige epigenetiske arv</div>';
   }
 
-  // 4. Forskningen bekr\u00e6fter
-  var forskEl = document.getElementById('epi-forskning');
-  if (forskEl) {
-    var fh = '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>';
-    fh += '<h2 class="rejse__t2">Forskningen bekr\u00e6fter</h2>';
-    fh += '<p class="rejse__intr">' + EPIGENETIK_DATA.forskning.intro + '</p>';
-    fh += '<div style="height:12px;"></div>';
+  // 9. UDFORSK MERE
+  h += '<div class="epi-xlink-lbl">UDFORSK MERE</div>';
 
-    for (var fi = 0; fi < EPIGENETIK_DATA.forskning.punkter.length; fi++) {
-      var punkt = EPIGENETIK_DATA.forskning.punkter[fi];
-      fh += '<div class="livsfase-detail__rec-card">';
-      fh += '<div class="livsfase-detail__rec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>';
-      fh += '<div class="livsfase-detail__rec-title">' + punkt.titel + '</div>';
-      fh += '<div class="livsfase-detail__rec-desc">' + punkt.tekst + '</div>';
-      fh += '</div>';
-    }
-    forskEl.innerHTML = fh;
-  }
+  h += '<div class="epi-nc" onclick="App.loadScreen(\'tre-generationer\')">';
+  h += '<div class="epi-nc-title">Tre Generationer</div>';
+  h += '<div class="epi-nc-desc">Se dynamikken mellem dig, din mor og din datter.</div>';
+  h += '<div class="epi-nc-arrow">Mine Relationer \u2192</div>';
+  h += '</div>';
 
-  // 5. Ni traditioner, \u00e9n visdom
-  var tradEl = document.getElementById('epi-traditioner');
-  if (tradEl) {
-    var th = '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>';
-    th += '<h2 class="rejse__t2">Fem traditioner, \u00e9n visdom</h2>';
-    th += '<p class="rejse__intr">P\u00e5 tv\u00e6rs af kulturer og \u00e5rtusinder har mennesker vidst det, videnskaben nu bekr\u00e6fter: det du arver er mere end DNA. Det er en hel verden af erfaring, tone og energi.</p>';
-    th += '<div style="height:12px;"></div>';
+  h += '<div class="epi-nc" style="background:rgba(107,95,123,0.04);border-color:rgba(107,95,123,0.12)" onclick="App.loadScreen(\'mine-vinduer\')">';
+  h += '<div class="epi-nc-title">Se din arv over tid</div>';
+  h += '<div class="epi-nc-desc" style="color:#6B5F7B">Hvad betyd din mors fase da du var 7? Da du var 21?</div>';
+  h += '<div class="epi-nc-arrow" style="color:#6B5F7B">Mine Vinduer \u2192</div>';
+  h += '</div>';
 
-    for (var ti = 0; ti < EPIGENETIK_DATA.traditioner.length; ti++) {
-      var trad = EPIGENETIK_DATA.traditioner[ti];
-      th += '<div class="livsfase-detail__rec-card">';
-      th += '<div class="livsfase-detail__rec-title">' + trad.titel + '</div>';
-      th += '<div class="livsfase-detail__rec-desc">' + trad.tekst + '</div>';
-      th += '</div>';
-    }
-    tradEl.innerHTML = th;
-  }
+  vennEl.innerHTML = h;
 
-  // 6. Hvad kan du g\u00f8re?
-  var hvadEl = document.getElementById('epi-hvad-kan-du');
-  if (hvadEl) {
-    var hh = '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>';
-    hh += '<h2 class="rejse__t2">Hvad kan du g\u00f8re?</h2>';
-    hh += '<p class="rejse__intr">Du kan ikke \u00e6ndre din arv \u2014 men du kan n\u00e6re den. Her er tre veje til at styrke den livsessens, din mor gav dig.</p>';
-    hh += '<div style="height:12px;"></div>';
-
-    // Refleksion
-    hh += '<div class="livsfase-detail__rec-card">';
-    hh += '<div class="livsfase-detail__rec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>';
-    hh += '<div class="livsfase-detail__rec-title">Refleksion</div>';
-    hh += '<div class="livsfase-detail__rec-desc">T\u00e6nk p\u00e5 din mor, som hun var da hun bar dig. Hvad tror du fyldte i hende? Hvilken energi pr\u00e6gede hendes hverdag? M\u00e5ske kan du sp\u00f8rge hende \u2014 eller bare sidde stille med det.</div>';
-    hh += '</div>';
-
-    // Nyre-meditation
-    hh += '<div class="livsfase-detail__rec-card">';
-    hh += '<div class="livsfase-detail__rec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>';
-    hh += '<div class="livsfase-detail__rec-title">' + EPIGENETIK_DATA.nyreOevelse.titel + '</div>';
-    hh += '<div class="livsfase-detail__rec-desc">' + EPIGENETIK_DATA.nyreOevelse.desc + '</div>';
-    hh += '</div>';
-
-    // Healing sound: Chuiii (nyrer)
-    var nyreSound = HEALING_SOUNDS['VAND'];
-    hh += '<div class="livsfase-detail__rec-card">';
-    hh += '<div class="livsfase-detail__rec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>';
-    hh += '<div class="livsfase-detail__rec-title">Healinglyd: ' + nyreSound.lyd + '</div>';
-    hh += '<div class="livsfase-detail__rec-desc">' + nyreSound.desc + '</div>';
-    hh += '</div>';
-
-    // Kost baseret p\u00e5 morens element
-    var kostTekst = EPIGENETIK_DATA.nyreKost[morElementAtBirth] || EPIGENETIK_DATA.nyreKost['VAND'];
-    hh += '<div class="livsfase-detail__rec-card">';
-    hh += '<div class="livsfase-detail__rec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><path d="M6 1v3M10 1v3M14 1v3"/></svg></div>';
-    hh += '<div class="livsfase-detail__rec-title">N\u00e6ring for din rod</div>';
-    hh += '<div class="livsfase-detail__rec-desc">' + kostTekst + '</div>';
-    hh += '</div>';
-
-    hvadEl.innerHTML = hh;
-  }
-
-  // 7. Tidsperspektiv
-  var tidEl = document.getElementById('epi-tidsperspektiv');
-  if (tidEl) {
-    var tph = '<div class="rel-dots">\u00B7 \u00B7 \u00B7</div>';
-    tph += '<h2 class="rejse__t2">Hvad giver du videre?</h2>';
-    tph += '<p class="rejse__intr">Arv g\u00e5r begge veje. Ligesom din mor pr\u00e6gede dit udgangspunkt, pr\u00e6ger du m\u00e5ske en andens. Det er ikke en b\u00f8rde \u2014 det er en invitation til bevidsthed.</p>';
-
-    // Link to tre-generationer if user has children
-    var hasChild = false;
-    for (var ci = 0; ci < relations.length; ci++) {
-      if (relations[ci].relationType === 'datter' || relations[ci].relationType === 's\u00f8n') { hasChild = true; break; }
-    }
-    if (hasChild) {
-      tph += '<div class="rel-soft-link" onclick="App.loadScreen(\'tre-generationer\')">Se de tre generationer \u2192</div>';
-    }
-
-    // Add mother button if no mor relation
-    if (!hasMor) {
-      tph += '<div style="height:20px;"></div>';
-      tph += '<div class="rel-add-person" onclick="App.loadScreen(\'relationer\')">';
-      tph += '<div class="rel-add-person__main">+ Tilf\u00f8j din mor</div>';
-      tph += '<div class="rel-add-person__sub">Se din personlige epigenetiske arv</div>';
-      tph += '</div>';
-    }
-
-    tidEl.innerHTML = tph;
-  }
-
-  // 8. Action bar
+  // 10. Action bar
   var actEl = document.getElementById('epi-actions');
   if (actEl) {
     actEl.innerHTML = renderActionBar('epigenetik-arv');
