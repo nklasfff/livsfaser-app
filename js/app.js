@@ -12060,6 +12060,9 @@ function initIndstillingerScreen(scrollToSection) {
   html += '<button class="ind__btn" style="margin-top:16px" onclick="indImportData()">Import\u00e9r data</button>';
   html += '<div class="ind__btn-hint">Gendan data fra en tidligere eksport</div>';
 
+  html += '<button class="ind__btn" style="margin-top:16px" onclick="restartOnboarding()">Vis onboarding igen</button>';
+  html += '<div class="ind__btn-hint">Start forfra med velkomst og opsætning \u2014 dine data beholdes</div>';
+
   html += '<button class="ind__btn ind__btn--danger" style="margin-top:24px" onclick="confirmResetData()">Nulstil alle data</button>';
   html += '<div class="ind__btn-hint ind__btn-hint--danger">Slet alt \u2014 profil, relationer, check-ins, favoritter. Kan ikke fortrydes.</div>';
   html += '</div>';
@@ -12204,6 +12207,11 @@ function confirmResetData() {
   }
 }
 window.confirmResetData = confirmResetData;
+
+function restartOnboarding() {
+  App.loadScreen('onboarding');
+}
+window.restartOnboarding = restartOnboarding;
 
 // ---- Feature: Notifikationer Timeline (I dag) ----
 
