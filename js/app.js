@@ -5355,56 +5355,10 @@ function renderMineVinduerFigurer() {
     activePhase = lp.phase || 9;
   }
 
-  // Tidsbue SVG — 9 faser i bue + fortid/nu/fremtid tidslinje
-  var bueData = [
-    { cx: 22, cy: 70, r: 11 },
-    { cx: 55, cy: 50, r: 11 },
-    { cx: 90, cy: 36, r: 11 },
-    { cx: 125, cy: 28, r: 11 },
-    { cx: 160, cy: 28, r: 12 },
-    { cx: 195, cy: 36, r: 11 },
-    { cx: 226, cy: 50, r: 11 },
-    { cx: 255, cy: 70, r: 12 },
-    { cx: 278, cy: 90, r: 13 }
-  ];
-  var sf = "'Cormorant Garamond','Times New Roman',Georgia,serif";
-  var html = '<div style="display:flex;justify-content:center;margin:8px 0 0">';
-  html += '<svg width="300" height="120" xmlns="http://www.w3.org/2000/svg">';
-  for (var b = 0; b < bueData.length; b++) {
-    var bd = bueData[b];
-    var phaseNum = b + 1;
-    var isActive = (phaseNum === activePhase);
-    var fillOp = isActive ? 'rgba(107,95,123,0.12)' : 'rgba(139,125,155,' + (0.07 + b * 0.004) + ')';
-    var strokeC = isActive ? '#6B5F7B' : 'rgba(139,125,155,' + (0.16 + b * 0.008) + ')';
-    var strokeW = isActive ? '1.2' : '0.8';
-    var textFill = isActive ? '#6B5F7B' : '#aaa';
-    var textWeight = isActive ? ' font-weight="600"' : '';
-    html += '<circle cx="' + bd.cx + '" cy="' + bd.cy + '" r="' + bd.r + '" fill="' + fillOp + '" stroke="' + strokeC + '" stroke-width="' + strokeW + '"/>';
-    html += '<text x="' + bd.cx + '" y="' + (bd.cy + 4) + '" font-family=' + sf + ' font-size="9" fill="' + textFill + '"' + textWeight + ' text-anchor="middle">' + phaseNum + '</text>';
-  }
-  // Tidslinje
-  html += '<line x1="40" y1="108" x2="260" y2="108" stroke="rgba(139,125,155,0.18)" stroke-width="0.8"/>';
-  html += '<circle cx="80" cy="108" r="3" fill="rgba(139,125,155,0.2)"/>';
-  html += '<circle cx="150" cy="108" r="4" fill="#6B5F7B"/>';
-  html += '<circle cx="220" cy="108" r="3" fill="rgba(139,125,155,0.15)" stroke="rgba(139,125,155,0.25)" stroke-width="0.8" stroke-dasharray="2,2"/>';
-  html += '<text x="80" y="118" font-family=' + sf + ' font-size="10" fill="#bbb" font-style="italic" text-anchor="middle">fortid</text>';
-  html += '<text x="150" y="118" font-family=' + sf + ' font-size="10" fill="#6B5F7B" font-weight="600" text-anchor="middle">nu</text>';
-  html += '<text x="220" y="118" font-family=' + sf + ' font-size="10" fill="#bbb" font-style="italic" text-anchor="middle">fremtid</text>';
-  html += '</svg></div>';
-
-  // Relationsfigur SVG — 3 ellipser + DIG center
-  html += '<div style="display:flex;justify-content:center;margin:12px 0 20px">';
-  html += '<svg width="220" height="200" xmlns="http://www.w3.org/2000/svg">';
-  html += '<ellipse cx="110" cy="55" rx="65" ry="50" fill="rgba(139,125,155,0.04)" stroke="rgba(139,125,155,0.12)" stroke-width="0.6"/>';
-  html += '<ellipse cx="60" cy="120" rx="55" ry="50" fill="rgba(139,125,155,0.04)" stroke="rgba(139,125,155,0.12)" stroke-width="0.6"/>';
-  html += '<ellipse cx="160" cy="120" rx="55" ry="50" fill="rgba(139,125,155,0.04)" stroke="rgba(139,125,155,0.12)" stroke-width="0.6"/>';
-  html += '<circle cx="110" cy="100" r="28" fill="rgba(107,95,123,0.06)" stroke="rgba(107,95,123,0.15)" stroke-width="0.8"/>';
-  html += '<text x="110" y="96" font-family=' + sf + ' font-size="12" fill="#6B5F7B" font-weight="600" text-anchor="middle">DIG</text>';
-  html += '<text x="110" y="110" font-family=' + sf + ' font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">i alle b\u00e5nd</text>';
-  html += '<text x="110" y="28" font-family="-apple-system,sans-serif" font-size="8" fill="#8B7D9B" font-weight="600" letter-spacing="1" text-anchor="middle">PARTNER</text>';
-  html += '<text x="30" y="145" font-family="-apple-system,sans-serif" font-size="8" fill="#8B7D9B" font-weight="600" letter-spacing="1" text-anchor="middle">FOR\u00c6LDRE</text>';
-  html += '<text x="190" y="145" font-family="-apple-system,sans-serif" font-size="8" fill="#8B7D9B" font-weight="600" letter-spacing="1" text-anchor="middle">B\u00d8RN</text>';
-  html += '</svg></div>';
+  var html = '<div style="text-align:center">';
+  html += '<img src="assets/images/vinduer-tid-lilla.png" alt="Tidsvinduet" style="width:100%;height:auto">';
+  html += '<img src="assets/images/relationer-forside.png" alt="Relationsvinduet" style="width:95%;height:auto;margin-top:-80px;display:block;margin-left:auto;margin-right:auto">';
+  html += '</div>';
 
   el.innerHTML = html;
 }
