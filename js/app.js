@@ -2861,32 +2861,36 @@ function generateRejseSubtitle() {
 
 function getDetailRecommendations(element) {
   var html = '<div class="detail__recs">';
-  html += '<p class="detail__recs-title">Hvad kan du gøre?</p>';
+  html += '<p class="detail__recs-title">Hvad kan du g\u00f8re?</p>';
+  html += '<p class="detail__recs-subtitle">Dine elementer viser tre veje ind \u2014 v\u00e6lg den der kalder p\u00e5 dig, eller lad v\u00e6re.</p>';
 
   // 1. Øvelse
   var yoga = INSIGHT_YOGA[element];
   if (yoga && yoga.length > 0) {
-    html += '<div class="detail__rec-item">';
-    html += '<span class="detail__rec-label">Øvelse</span>';
-    html += '<span class="detail__rec-text">' + yoga[0].pose + ' — ' + yoga[0].desc + '</span>';
+    html += '<div class="detail__rec-card">';
+    html += '<span class="detail__rec-label">\u00d8velse \u00b7 ' + ELEMENT_LABELS[element] + '</span>';
+    html += '<p class="detail__rec-title">' + yoga[0].pose + '</p>';
+    html += '<p class="detail__rec-text">' + yoga[0].desc + '</p>';
     html += '</div>';
   }
 
   // 2. Næring
   var food = INSIGHT_FOOD[element];
   if (food && food.length > 0) {
-    html += '<div class="detail__rec-item">';
-    html += '<span class="detail__rec-label">Næring</span>';
-    html += '<span class="detail__rec-text">' + food[0].item + ' — ' + food[0].desc + '</span>';
+    html += '<div class="detail__rec-card">';
+    html += '<span class="detail__rec-label">N\u00e6ring \u00b7 ' + ELEMENT_LABELS[element] + '</span>';
+    html += '<p class="detail__rec-title">' + food[0].item + '</p>';
+    html += '<p class="detail__rec-text">' + food[0].desc + '</p>';
     html += '</div>';
   }
 
   // 3. Healinglyd
   var sound = HEALING_SOUNDS[element];
   if (sound) {
-    html += '<div class="detail__rec-item">';
-    html += '<span class="detail__rec-label">Healinglyd</span>';
-    html += '<span class="detail__rec-text">' + sound.lyd + ' (' + sound.organ + ') — ' + sound.desc + '</span>';
+    html += '<div class="detail__rec-card">';
+    html += '<span class="detail__rec-label">Healinglyd \u00b7 ' + ELEMENT_LABELS[element] + '</span>';
+    html += '<p class="detail__rec-title">' + sound.lyd + ' (' + sound.organ + ')</p>';
+    html += '<p class="detail__rec-text">' + sound.desc + '</p>';
     html += '</div>';
   }
 
@@ -2896,9 +2900,9 @@ function getDetailRecommendations(element) {
   var phase = calculateLifePhase(age);
   var questions = REFLEKSION_DATA[phase.phase];
   if (questions && questions.length > 0) {
-    html += '<div class="detail__rec-item">';
+    html += '<div class="detail__rec-card">';
     html += '<span class="detail__rec-label">Refleksion</span>';
-    html += '<span class="detail__rec-text">' + questions[0] + '</span>';
+    html += '<p class="detail__rec-title">' + questions[0] + '</p>';
     html += '</div>';
   }
 
@@ -2911,69 +2915,99 @@ function showDetail(type) {
   if (!d) return;
 
   var title = '';
+  var subtitle = '';
   var html = '';
   var detailElement = '';
 
   if (type === 'livsfase') {
     var lp = d.lifePhase;
-    var color = ELEMENT_COLORS[lp.element];
     detailElement = lp.element;
     title = 'Fase ' + lp.phase + ': ' + lp.name;
+    subtitle = 'Din livsfase former det dybeste lag i din energi \u2014 den langsomme rytme der b\u00e6rer alt andet.';
     html =
-      '<div class="detail__badge" style="background-color:' + color + '">' + ELEMENT_LABELS[lp.element].charAt(0) + '</div>' +
-      '<p class="detail__meta">' + lp.startAge + '\u2013' + lp.endAge + ' \u00E5r \u00B7 ' + ELEMENT_LABELS[lp.element] + '</p>' +
-      '<p class="detail__qualities">' + ELEMENT_QUALITIES[lp.element] + '</p>' +
+      '<div class="detail__badge">' + lp.phase + '</div>' +
+      '<p class="detail__meta">' + lp.startAge + '\u2013' + lp.endAge + ' \u00e5r \u00b7 ' + ELEMENT_LABELS[lp.element] + '-element</p>' +
+      '<div class="detail__kontekst">' +
+        '<p class="detail__kontekst-label">Dit element</p>' +
+        '<p class="detail__kontekst-value">' + ELEMENT_LABELS[lp.element] + '</p>' +
+        '<p class="detail__kontekst-text">' + ELEMENT_QUALITIES[lp.element] + '</p>' +
+      '</div>' +
       '<p class="detail__text">' + PHASE_DESCRIPTIONS[lp.phase] + '</p>';
 
   } else if (type === 'aarstid') {
     var s = d.season;
-    var color2 = ELEMENT_COLORS[s.element];
     detailElement = s.element;
     title = s.season;
+    subtitle = 'Naturen omkring dig b\u00e6rer sit eget element \u2014 det p\u00e5virker din krop, dit sind og din energi.';
     html =
-      '<div class="detail__badge" style="background-color:' + color2 + '">' + ELEMENT_LABELS[s.element].charAt(0) + '</div>' +
-      '<p class="detail__meta">' + ELEMENT_LABELS[s.element] + '</p>' +
+      '<div class="detail__badge">' + ELEMENT_LABELS[s.element].charAt(0) + '</div>' +
+      '<p class="detail__meta">\u00c5rstid \u00b7 ' + ELEMENT_LABELS[s.element] + '-element</p>' +
+      '<div class="detail__kontekst">' +
+        '<p class="detail__kontekst-label">\u00c5rstidens element</p>' +
+        '<p class="detail__kontekst-value">' + ELEMENT_LABELS[s.element] + '</p>' +
+        '<p class="detail__kontekst-text">' + ELEMENT_QUALITIES[s.element] + '</p>' +
+      '</div>' +
       '<p class="detail__text">' + SEASON_DESCRIPTIONS[s.season] + '</p>';
 
   } else if (type === 'ugedag') {
     var w = d.weekday;
-    var color3 = ELEMENT_COLORS[w.element];
     detailElement = w.element;
     title = w.day;
+    subtitle = 'Hver dag i ugen b\u00e6rer sin egen energi \u2014 en rytme der kan hj\u00e6lpe dig med at f\u00f8lge dit naturlige flow.';
     html =
-      '<div class="detail__badge" style="background-color:' + color3 + '">' + ELEMENT_LABELS[w.element].charAt(0) + '</div>' +
-      '<p class="detail__meta">' + ELEMENT_LABELS[w.element] + '</p>' +
+      '<div class="detail__badge">' + ELEMENT_LABELS[w.element].charAt(0) + '</div>' +
+      '<p class="detail__meta">Ugedag \u00b7 ' + ELEMENT_LABELS[w.element] + '-element</p>' +
+      '<div class="detail__kontekst">' +
+        '<p class="detail__kontekst-label">Dagens element</p>' +
+        '<p class="detail__kontekst-value">' + ELEMENT_LABELS[w.element] + '</p>' +
+        '<p class="detail__kontekst-text">' + ELEMENT_QUALITIES[w.element] + '</p>' +
+      '</div>' +
       '<p class="detail__text">' + WEEKDAY_DESCRIPTIONS[w.day] + '</p>';
 
   } else if (type === 'organur') {
     var o = d.organ;
-    var color4 = ELEMENT_COLORS[o.element];
     detailElement = o.element;
     title = o.organ;
+    subtitle = 'Kroppens organer f\u00f8lger d\u00f8gnets rytme \u2014 hvert organ har sin tid, hvor det arbejder st\u00e6rkest.';
     html =
-      '<div class="detail__badge" style="background-color:' + color4 + '">' + ELEMENT_LABELS[o.element].charAt(0) + '</div>' +
-      '<p class="detail__meta">' + o.hours + ' \u00B7 ' + ELEMENT_LABELS[o.element] + '</p>' +
+      '<div class="detail__badge">' + ELEMENT_LABELS[o.element].charAt(0) + '</div>' +
+      '<p class="detail__meta">Kl. ' + o.hours + ' \u00b7 ' + ELEMENT_LABELS[o.element] + '-element</p>' +
+      '<div class="detail__kontekst">' +
+        '<p class="detail__kontekst-label">Aktivt element</p>' +
+        '<p class="detail__kontekst-value">' + ELEMENT_LABELS[o.element] + '</p>' +
+        '<p class="detail__kontekst-text">' + ELEMENT_QUALITIES[o.element] + '</p>' +
+      '</div>' +
       '<p class="detail__text">' + ORGAN_DESCRIPTIONS[o.organ] + '</p>';
 
   } else if (type === 'maaned') {
     var mc = d.monthCycle;
     if (mc.type === 'menstrual') {
       var m = mc.data;
-      var color5 = ELEMENT_COLORS[m.element];
       detailElement = m.element;
       title = m.phase;
+      subtitle = 'Din m\u00e5nedlige cyklus er en indre \u00e5rstid \u2014 fire uger med hver sin energi og sit element.';
       html =
-        '<div class="detail__badge" style="background-color:' + color5 + '">' + ELEMENT_LABELS[m.element].charAt(0) + '</div>' +
-        '<p class="detail__meta">Dag ' + m.day + ' \u00B7 ' + m.range + ' \u00B7 ' + ELEMENT_LABELS[m.element] + '</p>' +
+        '<div class="detail__badge">' + ELEMENT_LABELS[m.element].charAt(0) + '</div>' +
+        '<p class="detail__meta">Dag ' + m.day + ' \u00b7 ' + m.range + ' \u00b7 ' + ELEMENT_LABELS[m.element] + '-element</p>' +
+        '<div class="detail__kontekst">' +
+          '<p class="detail__kontekst-label">Cyklus-element</p>' +
+          '<p class="detail__kontekst-value">' + ELEMENT_LABELS[m.element] + '</p>' +
+          '<p class="detail__kontekst-text">' + ELEMENT_QUALITIES[m.element] + '</p>' +
+        '</div>' +
         '<p class="detail__text">' + MENSTRUAL_DESCRIPTIONS[m.phase] + '</p>';
     } else {
       var cm = mc.data;
-      var color6 = ELEMENT_COLORS[cm.element];
       detailElement = cm.element;
       title = cm.name;
+      subtitle = 'M\u00e5nens cyklus spejler en indre rytme \u2014 fire faser med hver sin kvalitet og sit element.';
       html =
-        '<div class="detail__badge" style="background-color:' + color6 + '">' + ELEMENT_LABELS[cm.element].charAt(0) + '</div>' +
-        '<p class="detail__meta">' + ELEMENT_LABELS[cm.element] + '</p>' +
+        '<div class="detail__badge">' + ELEMENT_LABELS[cm.element].charAt(0) + '</div>' +
+        '<p class="detail__meta">M\u00e5necyklus \u00b7 ' + ELEMENT_LABELS[cm.element] + '-element</p>' +
+        '<div class="detail__kontekst">' +
+          '<p class="detail__kontekst-label">M\u00e5nens element</p>' +
+          '<p class="detail__kontekst-value">' + ELEMENT_LABELS[cm.element] + '</p>' +
+          '<p class="detail__kontekst-text">' + ELEMENT_QUALITIES[cm.element] + '</p>' +
+        '</div>' +
         '<p class="detail__text">' + MONTH_DESCRIPTIONS[cm.name] + '</p>';
     }
 
@@ -2986,17 +3020,20 @@ function showDetail(type) {
     var domC = 0;
     var ks = Object.keys(elCounts);
     for (var ki = 0; ki < ks.length; ki++) { if (elCounts[ks[ki]] > domC) { domC = elCounts[ks[ki]]; domEl = ks[ki]; } }
-    var domColor = ELEMENT_COLORS[domEl];
     detailElement = domEl;
     title = 'Dit liv \u2014 lige nu';
+    subtitle = 'Fem cyklusser l\u00f8ber gennem dig i dette \u00f8jeblik \u2014 her kan du se hvordan de m\u00f8des.';
 
-    // Count unique and matching elements
-    var uniqueCount = ks.length;
     var matchCount = domC;
 
     html =
-      '<div class="detail__badge" style="background-color:' + domColor + '">\u2299</div>' +
-      '<p class="detail__meta">' + ELEMENT_LABELS[domEl] + ' dominerer (' + matchCount + '/5 cyklusser)</p>' +
+      '<div class="detail__badge">\u2299</div>' +
+      '<p class="detail__meta">' + ELEMENT_LABELS[domEl] + ' dominerer \u00b7 ' + matchCount + '/5 cyklusser</p>' +
+      '<div class="detail__kontekst">' +
+        '<p class="detail__kontekst-label">Dominerende element</p>' +
+        '<p class="detail__kontekst-value">' + ELEMENT_LABELS[domEl] + '</p>' +
+        '<p class="detail__kontekst-text">' + ELEMENT_QUALITIES[domEl] + '</p>' +
+      '</div>' +
       '<p class="detail__text" style="font-style:italic;line-height:1.8">' +
       'Du er altid i bev\u00e6gelse \u2014 ogs\u00e5 n\u00e5r du st\u00e5r stille. ' +
       'Fem cyklusser l\u00f8ber gennem dig i dette \u00f8jeblik: din livsfase, \u00e5rstiden, din m\u00e5nedlige rytme, ugedagen og det organ der arbejder lige nu. ' +
@@ -3024,6 +3061,7 @@ function showDetail(type) {
   container.innerHTML =
     '<button class="breadcrumb-home" onclick="hideDetail()">\u2039 Forside</button>' +
     '<h2 class="detail__title">' + title + '</h2>' +
+    (subtitle ? '<p class="detail__subtitle">' + subtitle + '</p>' : '') +
     '<div class="detail__body">' + html + '</div>';
 
   // Show detail, hide home sections
@@ -6131,7 +6169,7 @@ function showFaseDetail(phaseNum) {
 
   container.innerHTML =
     '<div class="detail__body">' +
-      '<div class="detail__badge" style="background-color:' + APP_COLORS.morkebla + '">' + phaseNum + '</div>' +
+      '<div class="detail__badge">' + phaseNum + '</div>' +
       '<h2 class="detail__title">Fase ' + phaseNum + ': ' + p.name + '</h2>' +
       '<p class="detail__meta">' + p.startAge + '\u2013' + p.endAge + ' \u00E5r \u00B7 ' + ELEMENT_LABELS[p.element] + '</p>' +
       '<p class="detail__qualities">' + ELEMENT_QUALITIES[p.element] + '</p>' +
