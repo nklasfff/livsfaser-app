@@ -5468,9 +5468,8 @@ function renderMineVinduerScenarier() {
 
   // Øje-figur
   html += '<div style="display:flex;justify-content:center;margin:40px 0">';
-  html += '<div style="position:relative;display:inline-block;border-radius:8px;overflow:hidden;background:rgba(139,125,155,0.06)">';
-  html += '<img src="assets/images/oeje-vinduer.png" alt="" style="width:216px;height:auto;display:block;opacity:0.35;filter:saturate(0.3) brightness(1.8) hue-rotate(-30deg)">';
-  html += '<div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(139,125,155,0.18);mix-blend-mode:screen"></div>';
+  html += '<div style="display:inline-block;border-radius:8px;overflow:hidden">';
+  html += '<img src="assets/images/oeje-vinduer.png" alt="" style="width:216px;height:auto;display:block">';
   html += '</div>';
   html += '</div>';
 
