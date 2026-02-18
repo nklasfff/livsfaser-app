@@ -5514,7 +5514,7 @@ function renderMineVinduerScenarier() {
 
   // Øje-figur
   html += '<div style="display:flex;justify-content:center;margin:20px 0">';
-  html += '<img src="assets/images/oeje-vinduer.png" alt="" style="width:120px;height:auto">';
+  html += '<img src="assets/images/oeje-vinduer.png" alt="" style="width:180px;height:auto;border-radius:8px">';
   html += '</div>';
 
   // Scenario 3
