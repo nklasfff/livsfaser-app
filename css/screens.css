@@ -1607,6 +1607,7 @@
 }
 
 .detail__text {
+  font-family: var(--font-serif);
   font-size: var(--text-body);
   line-height: var(--line-relaxed);
   color: var(--text-primary);
@@ -1687,8 +1688,9 @@
 }
 
 .detail__rec-text {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: var(--text-small);
+  font-style: italic;
   color: var(--text-secondary);
   line-height: var(--line-relaxed);
 }
