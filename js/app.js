@@ -8310,6 +8310,9 @@ function initMineFavoritterScreen() {
   h += '<h1 class="rejse__t1">Mine favoritter</h1>';
   h += '<p class="rejse__intr">Alt du har gemt med hjertet \u2014 \u00f8velser, kost, refleksioner og visdom. Din egen samling af det der r\u00f8rte dig, som sm\u00e5 sten du har samlet p\u00e5 en lang strandtur.</p>';
 
+  // Figur
+  h += '<div class="figur-wrap"><img src="assets/images/favoritter_blad_HQ.png" alt="Mine Favoritter" style="width:66%"></div>';
+
   // Tab-filter
   var tabs = [
     { id: 'oevelser', label: '\u00d8velser' },
