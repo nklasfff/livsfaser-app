@@ -8602,7 +8602,7 @@ function initMineOpdagelserScreen() {
   h += '<p class="rejse__intr">Hver gang appen viser dig noget der rykker \u2014 en sammenh\u00e6ng du ikke havde set, en indsigt der falder p\u00e5 plads \u2014 gemmes det her. Din egen tidslinje over det du har forst\u00e5et.</p>';
 
   // Figur
-  h += '<div style="text-align:center;margin-top:-110px;margin-left:-10%;margin-right:-10%"><img src="assets/images/opdagelser_cirkler_HQ.png" alt="Opdagelsernes rejse" style="width:120%;max-width:none;height:auto"></div>';
+  h += '<div style="text-align:center;margin-top:-110px"><img src="assets/images/opdagelser_cirkler_HQ.png" alt="Opdagelsernes rejse" style="width:100%;height:auto"></div>';
 
   // Filter tabs
   h += '<div class="opdag__tabs" style="margin-top:-90px">';
