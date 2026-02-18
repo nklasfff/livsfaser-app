@@ -476,6 +476,19 @@ ul, ol {
   opacity: 1;
 }
 
+/* Figur-wrapper — konsistent afstand for alle figurer */
+.figur-wrap {
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+.figur-wrap img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
 /* Main Content */
 .main-content {
   flex: 1;

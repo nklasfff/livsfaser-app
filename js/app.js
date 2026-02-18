@@ -329,7 +329,7 @@ function renderLotusLeafSVG(phaseNum) {
 function renderOnboardingPhaseFigure() {
   var el = document.getElementById('onboarding-phase-figure');
   if (!el) return;
-  el.innerHTML = '<div style="max-width:320px;margin:0 auto;text-align:center"><img src="assets/images/9-cirkler-onboarding.png" alt="De 9 Livsfaser" style="width:100%;height:auto"></div>';
+  el.innerHTML = '<img src="assets/images/9-cirkler-onboarding.png" alt="De 9 Livsfaser" style="max-width:320px">';
 }
 
 function renderMellemstation(userData) {
@@ -3118,7 +3118,7 @@ function initSamledeIndsigtScreen() {
 
   // 1. VennThree figur
   if (figurEl) {
-    figurEl.innerHTML = '<div class="praksis__figur">' + renderVennThree({
+    figurEl.innerHTML = renderVennThree({
       topTitle: 'CYKLUSSER',
       topLines: ['Fase \u00B7 \u00c5rstider'],
       bottomLeftTitle: 'KOST',
@@ -3130,7 +3130,7 @@ function initSamledeIndsigtScreen() {
       overlapBC: 'opm\u00e6rksomhed',
       centerTitle: ELEMENT_LABELS[primaryEl],
       centerLines: ['*sammenfaldet']
-    }) + '</div>';
+    });
   }
 
   // Element-dots tekst
@@ -7034,7 +7034,7 @@ function initMineRelationerScreen() {
   // ---- Figur: relationer blad ----
   var vennEl = document.getElementById('mine-relationer-venn');
   if (vennEl) {
-    vennEl.innerHTML = '<div style="text-align:center"><img src="assets/images/relationer_blad_liberation_HQ.png" alt="Mine Relationer" style="width:66%;height:auto;display:block;margin:0 auto"></div>';
+    vennEl.innerHTML = '<img src="assets/images/relationer_blad_liberation_HQ.png" alt="Mine Relationer" style="width:66%">';
   }
 
   // ---- Person circles ----
@@ -7351,7 +7351,7 @@ function initMinRejseScreen() {
   h += '<p class="rejse__intr">Dit personlige bibliotek og din udvikling over tid. Her samler du tr\u00e5dene fra dine check-ins, refleksioner og gemte favoritter — et stille vidnesbyrd om din vej.</p>';
 
   // Figur-billede
-  h += '<div class="rejse__fig" style="margin-top:-40px"><img src="assets/images/min-rejse-ikigai.png" alt="Min Rejse" style="width:100%;height:auto"></div>';
+  h += '<div class="figur-wrap" style="margin-top:-40px"><img src="assets/images/min-rejse-ikigai.png" alt="Min Rejse"></div>';
 
   // Dynamisk indsigt-boks
   h += '<div class="rejse__ins">';
@@ -8689,7 +8689,7 @@ function initBaggrundsvidenScreen() {
   h += '<p class="rejse__intr">Den dybere forst\u00e5else bag cyklusser, elementer og livets rytmer. Her finder du den viden der b\u00e6rer hele appen \u2014 fra kinesisk medicin til vedisk filosofi og epigenetik.</p>';
 
   // Kontrolcyklus-billede
-  h += '<div class="rejse__fig">';
+  h += '<div class="figur-wrap">';
   h += '<img src="assets/images/kontrolcyklus_lilla.svg" alt="Kontrolcyklussen" class="baggrund-kontrol-img">';
   h += '</div>';
 
@@ -9785,7 +9785,7 @@ function initFavoritterScreen() {
 
   // Figur
   if (vennEl) {
-    vennEl.innerHTML = '<div style="text-align:center"><img src="assets/images/favoritter_blad_HQ.png" alt="Mine Favoritter" style="width:66%;height:auto"></div>';
+    vennEl.innerHTML = '<img src="assets/images/favoritter_blad_HQ.png" alt="Mine Favoritter" style="width:66%">';
   }
 
   // Empty state
@@ -10653,7 +10653,7 @@ function initLivsfaseDetailScreen() {
   html += '<p class="livsfase-detail__intro">' + detail.introText + '</p>';
 
   // Venn diagram
-  html += '<div class="livsfase-detail__venn">' + renderVennTwo({
+  html += '<div class="figur-wrap">' + renderVennTwo({
     leftTitle: 'ELEMENT',
     leftLines: [ELEMENT_LABELS[phase.element], detail.organPar, detail.smag + ' \u00B7 ' + detail.aarstid],
     rightTitle: 'TEMAER',
@@ -10949,7 +10949,7 @@ function initRefleksionScreen() {
 
   // Refleksion figur (SVG)
   if (figurEl) {
-    figurEl.innerHTML = '<div class="praksis__figur" style="text-align:center"><img src="assets/images/refleksioner_figur.svg" alt="Refleksion: Stilhed, Krop, Hukommelse, Fremtid, Indsigt" style="width:83%;height:auto"></div>';
+    figurEl.innerHTML = '<img src="assets/images/refleksioner_figur.svg" alt="Refleksion: Stilhed, Krop, Hukommelse, Fremtid, Indsigt" style="width:83%">';
   }
 
   var userData = JSON.parse(localStorage.getItem('user') || '{}');
@@ -11087,8 +11087,7 @@ var FOELELSER_INDSIGT = {
 };
 
 function renderFoelelserPentagram() {
-  return '<div class="praksis__figur">' +
-    '<svg width="270" height="270" xmlns="http://www.w3.org/2000/svg">' +
+  return '<svg width="270" height="270" xmlns="http://www.w3.org/2000/svg">' +
     // Forbindelseslinjer mellem ydre cirkler
     '<line x1="135" y1="42" x2="52" y2="116" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
     '<line x1="135" y1="42" x2="218" y2="116" stroke="#8B9A9D" stroke-opacity="0.10" stroke-width="1"/>' +
@@ -11119,8 +11118,7 @@ function renderFoelelserPentagram() {
     '<circle cx="52" cy="116" r="26" fill="#A8A8B8" fill-opacity="0.15" stroke="#A8A8B8" stroke-opacity="0.2" stroke-width="1"/>' +
     '<text x="52" y="113" text-anchor="middle" font-size="11" font-weight="500" fill="#555" font-family="' + VENN_FONT + '">Sorg</text>' +
     '<text x="52" y="126" text-anchor="middle" font-size="10" fill="#999" font-style="italic" font-family="' + VENN_FONT + '">Tomhed</text>' +
-    '</svg>' +
-    '</div>';
+    '</svg>';
 }
 
 function initFoelelserScreen() {
