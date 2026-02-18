@@ -782,7 +782,8 @@ const Onboarding = {
 
       // Listen for changes from wheel picker
       var input = document.getElementById('onboarding-birthdate');
-      if (input) {
+      if (input && !input._bound) {
+        input._bound = true;
         input.addEventListener('change', function() {
           Onboarding._onBirthdateChange();
         });
@@ -7832,8 +7833,7 @@ function renderPairCard(pair) {
 // ---- Helper: Ensure idag data exists ----
 
 function ensureIdagData() {
-  if (window._idagData && window._activeElements) return;
-
+  // Always recalculate — time-dependent data (organur, ugedag) can change between screen visits
   var userData = localStorage.getItem('user');
   if (!userData) return;
   var user = JSON.parse(userData);
@@ -7915,6 +7915,11 @@ function getCheckinsForPeriod(period) {
 function initMinUdviklingScreen() {
   var el = document.getElementById('min-udvikling-content');
   if (!el) return;
+
+  // Reset check-in form state on each screen entry
+  TrackingState.checkinMood = null;
+  TrackingState.checkinTags = [];
+  TrackingState.checkinNote = '';
 
   ensureIdagData();
   var checkins = getCheckins();
