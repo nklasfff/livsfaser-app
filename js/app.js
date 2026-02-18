@@ -6734,7 +6734,7 @@ function initOmIsabelleScreen() {
 
   // Portrait
   h += '<div class="isa__portrait-wrap">';
-  h += '<div class="isa__portrait"><span class="isa__initials">IE</span></div>';
+  h += '<img class="isa__portrait-img" src="assets/images/isabelle-portrait.png" alt="Isabelle Evita S\u00f8ndergaard">';
   h += '</div>';
 
   // Name

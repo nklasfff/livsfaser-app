@@ -8987,23 +8987,11 @@
   margin-top: 20px;
   margin-bottom: 16px;
 }
-.isa__portrait {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #c9b9a8 0%, #e0d5c8 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid rgba(155, 139, 122, 0.15);
-}
-.isa__initials {
-  font-family: var(--font-serif);
-  font-size: 38px;
-  color: white;
-  font-style: italic;
-  font-weight: 300;
-  opacity: 0.9;
+.isa__portrait-img {
+  width: 100%;
+  max-width: 360px;
+  border-radius: 20px;
+  display: block;
 }
 
 /* Name & title */
