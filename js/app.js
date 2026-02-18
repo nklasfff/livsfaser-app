@@ -12270,11 +12270,7 @@ function initEftTappingScreen() {
 
   var h = '';
 
-  // Title — uses praksis__ classes (same as Yin Yoga)
-  h += '<h2 class="praksis__title">EFT Tapping</h2>';
-  h += '<p class="praksis__intro">En simpel metode, hvor du banker let p\u00e5 bestemte punkter p\u00e5 kroppen, mens du m\u00e6rker det der fylder. Uden n\u00e5le, uden udstyr \u2014 bare dig og dine h\u00e6nder.</p>';
-
-  // Dynamic element badge
+  // Dynamic element badge (title + intro are in HTML template with rejse__t1/rejse__intr)
   h += '<div style="text-align:center"><div class="eft__dyn-badge"><span class="eft__dyn-badge-dot"></span>Dit element lige nu: ' + domLabel + '</div></div>';
 
   // Dots
@@ -12282,8 +12278,8 @@ function initEftTappingScreen() {
 
   // HVAD ER EFT?
   h += '<h3 class="praksis__section-title">Hvad er EFT?</h3>';
-  h += '<p class="praksis__section-intro" style="text-align:left">EFT st\u00e5r for Emotional Freedom Technique. Metoden bygger p\u00e5 de samme principper som akupunktur, og id\u00e9en er enkel: n\u00e5r vi oplever noget sv\u00e6rt, kan energien i meridianerne blive blokeret \u2014 f\u00f8lelsen sidder fast og vil ikke slippe.</p>';
-  h += '<p class="praksis__section-intro" style="text-align:left">Ved at stimulere punkterne, mens du fokuserer p\u00e5 f\u00f8lelsen, kan blokeringen l\u00f8snes. Energien begynder at flyde igen, og f\u00f8lelsen letter \u2014 nogle gange overraskende hurtigt.</p>';
+  h += '<p class="praksis__section-intro">EFT st\u00e5r for Emotional Freedom Technique. Metoden bygger p\u00e5 de samme principper som akupunktur, og id\u00e9en er enkel: n\u00e5r vi oplever noget sv\u00e6rt, kan energien i meridianerne blive blokeret \u2014 f\u00f8lelsen sidder fast og vil ikke slippe.</p>';
+  h += '<p class="praksis__section-intro">Ved at stimulere punkterne, mens du fokuserer p\u00e5 f\u00f8lelsen, kan blokeringen l\u00f8snes. Energien begynder at flyde igen, og f\u00f8lelsen letter \u2014 nogle gange overraskende hurtigt.</p>';
 
   // Forskning insight
   h += '<div class="praksis__indsigt">';
@@ -12296,7 +12292,7 @@ function initEftTappingScreen() {
 
   // DE NI TAPPING-PUNKTER
   h += '<h3 class="praksis__section-title">De ni tapping-punkter</h3>';
-  h += '<p class="praksis__section-intro" style="text-align:left">Punkterne ligger alle p\u00e5 meridianer og er lette at finde. Du banker let med to fingerspidser, cirka 10\u201320 bank p\u00e5 hvert punkt.</p>';
+  h += '<p class="praksis__section-intro">Punkterne ligger alle p\u00e5 meridianer og er lette at finde. Du banker let med to fingerspidser, cirka 10\u201320 bank p\u00e5 hvert punkt.</p>';
 
   // SVG body diagram
   h += '<div class="eft__diagram">';
@@ -12357,7 +12353,7 @@ function initEftTappingScreen() {
 
   // PUNKTER OG ELEMENTER
   h += '<h3 class="praksis__section-title">Punkter og elementer</h3>';
-  h += '<p class="praksis__section-intro" style="text-align:left">Hvert tapping-punkt ligger p\u00e5 en meridian, og hver meridian h\u00f8rer til et af de fem elementer. N\u00e5r du tapper, stimulerer du alle fem elementer i \u00e9n runde.</p>';
+  h += '<p class="praksis__section-intro">Hvert tapping-punkt ligger p\u00e5 en meridian, og hver meridian h\u00f8rer til et af de fem elementer. N\u00e5r du tapper, stimulerer du alle fem elementer i \u00e9n runde.</p>';
 
   // 2x2 grid
   h += '<div class="eft__elem-grid">';
@@ -12378,7 +12374,7 @@ function initEftTappingScreen() {
 
   // BASIS-SEKVENSEN
   h += '<h3 class="praksis__section-title">Basis-sekvensen</h3>';
-  h += '<p class="praksis__section-intro" style="text-align:left">Denne grundl\u00e6ggende metode kan du bruge til alt. N\u00e5r du har l\u00e6rt den, har du et redskab til resten af livet.</p>';
+  h += '<p class="praksis__section-intro">Denne grundl\u00e6ggende metode kan du bruge til alt. N\u00e5r du har l\u00e6rt den, har du et redskab til resten af livet.</p>';
 
   var steps = [
     { title: 'Identificer', txt: 'Hvad er det, der fylder lige nu? V\u00e6lg \u00e9n ting ad gangen.' },
@@ -12424,7 +12420,7 @@ function initEftTappingScreen() {
 
   // EFT TIL BØRN
   h += '<h3 class="praksis__section-title">EFT til b\u00f8rn</h3>';
-  h += '<p class="praksis__section-intro" style="text-align:left">B\u00f8rn beh\u00f8ver ikke lange forklaringer. Kald det \u201Ctryllebanken\u201D og g\u00f8r det til noget I g\u00f8r sammen, n\u00e5r der er brug for det. Brug enkle ord som \u201Cselvom jeg er bange for m\u00f8rket, er jeg en modig pige\u201D \u2014 og lad barnet finde sine egne ord.</p>';
+  h += '<p class="praksis__section-intro">B\u00f8rn beh\u00f8ver ikke lange forklaringer. Kald det \u201Ctryllebanken\u201D og g\u00f8r det til noget I g\u00f8r sammen, n\u00e5r der er brug for det. Brug enkle ord som \u201Cselvom jeg er bange for m\u00f8rket, er jeg en modig pige\u201D \u2014 og lad barnet finde sine egne ord.</p>';
 
   // Dots
   h += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
