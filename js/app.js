@@ -10925,16 +10925,9 @@ function initRefleksionScreen() {
   var contentEl = document.getElementById('refleksion-content');
   if (!contentEl) return;
 
-  // VennTwo figur
+  // Refleksion figur (SVG)
   if (figurEl) {
-    figurEl.innerHTML = '<div class="praksis__figur">' + renderVennTwo({
-      leftTitle: 'SP\u00d8RGSM\u00c5LET',
-      leftLines: ['Hvad b\u00e6rer du', 'lige nu?'],
-      rightTitle: 'STILHEDEN',
-      rightLines: ['Lad svaret komme.', 'Det beh\u00f8ver ikke ord.'],
-      overlapTitle: 'INDSIGTEN',
-      overlapLines: ['*Refleksion er en gave', '*du giver dig selv']
-    }) + '</div>';
+    figurEl.innerHTML = '<div class="praksis__figur" style="text-align:center"><img src="assets/images/refleksioner_figur.svg" alt="Refleksion: Stilhed, Krop, Hukommelse, Fremtid, Indsigt" style="width:50%;height:auto"></div>';
   }
 
   var userData = JSON.parse(localStorage.getItem('user') || '{}');
