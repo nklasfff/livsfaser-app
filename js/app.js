@@ -5837,13 +5837,14 @@ const App = {
     'dine-cyklusser-lige-nu': 'screens/dine-cyklusser-lige-nu.html',
     'soeg': 'screens/soeg.html',
     'mine-vinduer': 'screens/mine-vinduer.html',
-    'epigenetik-arv': 'screens/epigenetik-arv.html'
+    'epigenetik-arv': 'screens/epigenetik-arv.html',
+    'om-isabelle': 'screens/om-isabelle.html'
   },
 
   // Niveau 1 skærme (tema-overblik)
   niveau1: ['mine-cyklusser', 'mine-relationer', 'min-praksis', 'min-rejse', 'mine-vinduer'],
   // Niveau 2 skærme (specifikt indhold)
-  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'kroppens-store-overgange', 'jeres-energi', 'to-rytmer', 'tre-generationer', 'kost-urter', 'min-journal', 'mine-favoritter', 'mine-opdagelser', 'baggrundsviden', 'dine-cyklusser-lige-nu', 'soeg', 'epigenetik-arv'],
+  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'kroppens-store-overgange', 'jeres-energi', 'to-rytmer', 'tre-generationer', 'kost-urter', 'min-journal', 'mine-favoritter', 'mine-opdagelser', 'baggrundsviden', 'dine-cyklusser-lige-nu', 'soeg', 'epigenetik-arv', 'om-isabelle'],
 
   init() {
     repairStoredBirthdate();
@@ -5888,7 +5889,8 @@ const App = {
     'dine-cyklusser-lige-nu': 'mine-cyklusser',
     'soeg': 'idag',
     'mine-vinduer': 'idag',
-    'epigenetik-arv': 'mine-relationer'
+    'epigenetik-arv': 'mine-relationer',
+    'om-isabelle': 'min-rejse'
   },
 
   goBack() {
@@ -6065,6 +6067,8 @@ const App = {
           initMineVinduerScreen();
         } else if (screenName === 'epigenetik-arv') {
           initEpigenetikArvScreen();
+        } else if (screenName === 'om-isabelle') {
+          initOmIsabelleScreen();
         }
 
         // Append "Tilbage til toppen" footer (skip on onboarding)
@@ -6719,6 +6723,137 @@ var EPIGENETIK_DATA = {
     'METAL': 'Metallets klarhed st\u00f8tter nyrerne med hvide og let skarpe f\u00f8devarer. R\u00e6ddike, p\u00e6re, ris, honning. Lungerne og nyrerne n\u00e6rer hinanden i TCM.'
   }
 };
+
+// ---- Niveau 2: Om Isabelle ----
+
+function initOmIsabelleScreen() {
+  var el = document.getElementById('om-isabelle-content');
+  if (!el) return;
+
+  var h = '';
+
+  // Portrait
+  h += '<div class="isa__portrait-wrap">';
+  h += '<div class="isa__portrait"><span class="isa__initials">IE</span></div>';
+  h += '</div>';
+
+  // Name
+  h += '<div class="isa__name">Isabelle Evita S\u00f8ndergaard</div>';
+  h += '<div class="isa__title-line">Forfatter \u00B7 Yogal\u00e6rer \u00B7 Coach \u00B7 Foredragsholder</div>';
+
+  // Dots
+  h += '<div class="isa__dots">\u00B7 \u00B7 \u00B7 \u00B7 \u00B7</div>';
+
+  // Intro text
+  h += '<div class="isa__body">Isabelle har brugt en stor del af sit liv p\u00e5 at udforske forbindelsen mellem krop, sind og energi. Hun er uddannet i interkulturel kommunikation fra CBS, har boet p\u00e5 ashram i Indien og har i over ti \u00e5r undervist i yin yoga, mindfulness og traditionel kinesisk medicin.</div>';
+  h += '<div class="isa__body">Hendes tilgang er varm og jordn\u00e6r. Hun m\u00f8der dig der, hvor du er \u2014 og deler sin viden som en klog veninde der har g\u00e5et vejen selv.</div>';
+
+  // Quote
+  h += '<div class="isa__quote">\u201CDit forhold til dig selv er dit vigtigste forhold.\u201D</div>';
+
+  // Dots
+  h += '<div class="isa__dots">\u00B7 \u00B7 \u00B7 \u00B7 \u00B7</div>';
+
+  // BØGER section
+  h += '<div class="isa__sec-label">ISABELLES B\u00d8GER</div>';
+
+  // Bog 1
+  h += '<div class="isa__prod">';
+  h += '<div class="isa__prod-hd"><span class="isa__prod-nm">De 5 \u00c5rstiders Energi</span><span class="isa__prod-tag">BESTSELLER</span></div>';
+  h += '<div class="isa__prod-tx">Solgt i over 14.500 eksemplarer. En guide til \u00e5rstidernes energi med kinesisk medicin, vedisk filosofi, \u00f8velser og kostr\u00e5d. Nu i 3. udgave.</div>';
+  h += '<div class="isa__prod-lk" onclick="window.open(\'https://isabelleevita.dk\',\'_blank\')">L\u00e6s mere p\u00e5 isabelleevita.dk \u2192</div>';
+  h += '</div>';
+
+  // Bog 2
+  h += '<div class="isa__prod">';
+  h += '<div class="isa__prod-hd"><span class="isa__prod-nm">Mine 5 \u00c5rstiders Energi</span><span class="isa__prod-tag">DAGBOG</span></div>';
+  h += '<div class="isa__prod-tx">En personlig dagbog til refleksion og fordybelse gennem \u00e5rets skiftende energier. Kan bruges alene eller sammen med bogen.</div>';
+  h += '<div class="isa__prod-lk" onclick="window.open(\'https://isabelleevita.dk\',\'_blank\')">L\u00e6s mere \u2192</div>';
+  h += '</div>';
+
+  // Gradient boks: kommende bog
+  h += '<div class="isa__grd">';
+  h += '<div class="isa__grd-label">KOMMENDE BOG</div>';
+  h += '<div class="isa__grd-title">De 9 Livsfasers Energi</div>';
+  h += '<div class="isa__grd-sub">Den bog der f\u00f8lger med denne app. Ni livsfaser, fem elementer, og det store billede af et helt kvindeliv \u2014 fra barndom til visdom.</div>';
+  h += '</div>';
+
+  // Dots
+  h += '<div class="isa__dots">\u00B7 \u00B7 \u00B7 \u00B7 \u00B7</div>';
+
+  // FORLØB section
+  h += '<div class="isa__sec-label">ISABELLES \u00c5RSTIDSFORL\u00d8B</div>';
+
+  h += '<div class="isa__ins">';
+  h += '<div class="isa__ins-t">Isabelle tilbyder online forl\u00f8b til hver af de fem \u00e5rstider, med yin yoga, vejrtr\u00e6knings\u00f8velser, akupressur og guidet fordybelse. Forl\u00f8bene f\u00f8lger de samme principper som denne app \u2014 tilpasset \u00e5rstidens element og energi.</div>';
+  h += '</div>';
+
+  // 2×2 grid
+  h += '<div class="isa__fg">';
+  h += '<div class="isa__fc"><div class="isa__fc-season">For\u00e5r</div><div class="isa__fc-el">TR\u00c6 \u00B7 LEVER-GALDE</div><div class="isa__fc-tx">V\u00e6kst, rensning, fornyelse</div></div>';
+  h += '<div class="isa__fc"><div class="isa__fc-season">Sommer</div><div class="isa__fc-el">ILD \u00B7 HJERTE-TYNDTARM</div><div class="isa__fc-tx">Gl\u00e6de, lethed, \u00e5benhed</div></div>';
+  h += '<div class="isa__fc"><div class="isa__fc-season">Sensommer</div><div class="isa__fc-el">JORD \u00B7 MILT-MAVE</div><div class="isa__fc-tx">N\u00e6ring, balance, centrum</div></div>';
+  h += '<div class="isa__fc"><div class="isa__fc-season">Efter\u00e5r</div><div class="isa__fc-el">METAL \u00B7 LUNGE-TYKTARM</div><div class="isa__fc-tx">Slip, \u00e5ndedr\u00e6t, klarhed</div></div>';
+  h += '</div>';
+
+  // Vinter (full width)
+  h += '<div class="isa__prod">';
+  h += '<div class="isa__prod-hd"><span class="isa__prod-nm">Vinter</span><span class="isa__prod-tag">VAND \u00B7 BL\u00c6RE-NYRE</span></div>';
+  h += '<div class="isa__prod-tx">Hvile, fordybelse, egenomsorg. Vintertiden er tid til at vende blikket indad og styrke relationen til dig selv.</div>';
+  h += '</div>';
+
+  // CTA link
+  h += '<div class="isa__cta" onclick="window.open(\'https://isabelleevita.dk\',\'_blank\')">Se alle forl\u00f8b p\u00e5 isabelleevita.dk \u2192</div>';
+
+  // Dots
+  h += '<div class="isa__dots">\u00B7 \u00B7 \u00B7 \u00B7 \u00B7</div>';
+
+  // DENNE APP section
+  h += '<div class="isa__sec-label">DENNE APP OG BOGEN</div>';
+  h += '<div class="isa__ins">';
+  h += '<div class="isa__ins-t">Appen g\u00f8r det, bogen ikke kan: den viser dig pr\u00e6cis hvor DU er lige nu, i alle dine cyklusser p\u00e5 \u00e9n gang. Og den lader dig rejse i tid \u2014 alene eller sammen med en du holder af. Bogen giver dig forst\u00e5elsen, appen g\u00f8r den personlig og levende.</div>';
+  h += '</div>';
+
+  // Dots
+  h += '<div class="isa__dots">\u00B7 \u00B7 \u00B7 \u00B7 \u00B7</div>';
+
+  // FØLG ISABELLE
+  h += '<div class="isa__sec-label">F\u00d8LG ISABELLE</div>';
+  h += '<div class="isa__social">';
+  h += '<a class="isa__social-btn" href="https://instagram.com/isabelle_sondergaard" target="_blank">Instagram</a>';
+  h += '<a class="isa__social-btn" href="https://facebook.com" target="_blank">Facebook</a>';
+  h += '<a class="isa__social-btn" href="https://isabelleevita.dk" target="_blank">Hjemmeside</a>';
+  h += '</div>';
+  h += '<div class="isa__hint">@isabelle_sondergaard \u00B7 isabelleevita.dk</div>';
+
+  // Lotus mini
+  h += '<div class="isa__lotus-mini">';
+  h += '<svg width="40" height="30" viewBox="0 0 100 75" fill="none" stroke="#9B8B7A" stroke-width="2">';
+  h += '<path d="M50 70 C50 70 25 55 25 35 C25 20 37 10 50 10 C63 10 75 20 75 35 C75 55 50 70 50 70Z"/>';
+  h += '<path d="M50 70 C50 70 10 50 15 30 C18 15 35 12 50 18"/>';
+  h += '<path d="M50 70 C50 70 90 50 85 30 C82 15 65 12 50 18"/>';
+  h += '</svg>';
+  h += '</div>';
+
+  // GÅ VIDERE
+  h += '<div class="isa__sec-label">G\u00c5 VIDERE</div>';
+  h += '<div class="isa__xlink" onclick="App.loadScreen(\'mine-cyklusser\')">';
+  h += '<span class="isa__xlink-txt">Udforsk dine cyklusser \u2192</span>';
+  h += '<span class="isa__xlink-arr">\u203A</span>';
+  h += '</div>';
+  h += '<div class="isa__xlink isa__xlink--praksis" onclick="App.loadScreen(\'min-praksis\')">';
+  h += '<span class="isa__xlink-txt">Pr\u00f8v en \u00f8velse for dit element \u2192</span>';
+  h += '<span class="isa__xlink-arr">\u203A</span>';
+  h += '</div>';
+
+  // Actions
+  h += '<div class="isa__acts">';
+  h += '<div class="isa__act" onclick="actionToggleSave(\'om-isabelle\')"><span>\u2661</span><span>Gem</span></div>';
+  h += '<div class="isa__act" onclick="actionShare()"><span>\u2197</span><span>Del</span></div>';
+  h += '</div>';
+
+  el.innerHTML = h;
+}
 
 function initEpigenetikArvScreen() {
   var relations = JSON.parse(localStorage.getItem('relations') || '[]');
@@ -7423,6 +7558,12 @@ function initMinRejseScreen() {
   h += '<h3>Baggrundsviden</h3>';
   h += '<p>De fem elementer, vedisk filosofi, ni traditioner med \u00e9n visdom, videnskabens bekr\u00e6ftelse</p>';
   h += '<div class="rejse__nc-arrow">Udforsk baggrunden \u2192</div>';
+  h += '</div>';
+
+  h += '<div class="rejse__nc" onclick="App.loadScreen(\'om-isabelle\')">';
+  h += '<h3>Om Isabelle</h3>';
+  h += '<p>Isabelle Evita S\u00f8ndergaard \u2014 forfatteren bag De 9 Livsfasers Energi, hendes b\u00f8ger og \u00e5rstidsforl\u00f8b</p>';
+  h += '<div class="rejse__nc-arrow">L\u00e6s om Isabelle \u2192</div>';
   h += '</div>';
 
   h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
@@ -9925,7 +10066,8 @@ var MENU_DATA = [
       { label: 'Min journal', action: "App.loadScreen('min-journal')" },
       { label: 'Mine favoritter', action: "App.loadScreen('mine-favoritter')" },
       { label: 'Mine opdagelser', action: "App.loadScreen('mine-opdagelser')" },
-      { label: 'Baggrundsviden', action: "App.loadScreen('baggrundsviden')" }
+      { label: 'Baggrundsviden', action: "App.loadScreen('baggrundsviden')" },
+      { label: 'Om Isabelle', action: "App.loadScreen('om-isabelle')" }
     ]
   },
   { separator: true },
