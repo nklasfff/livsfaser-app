@@ -1,13 +1,9 @@
-<svg width="100%" height="100%" viewBox="120 295 660 170" xmlns="http://www.w3.org/2000/svg">
+<svg width="800" height="800" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <path id="masterCurve" d="M 165 165 A 696 696 0 0 1 735 165"/>
   </defs>
 
-  <!-- Cirkel 8 farve: #453C60 — alle cirkler -->
-  <!-- Cirkel 1 farve: #D5CCDF — tal og "Livsfase" tekst inde i cirklerne -->
-
   <g transform="translate(0, 310)">
-
     <text font-family="Times New Roman" font-size="11" font-style="italic" fill="#453C60" text-anchor="middle">
       <textPath href="#masterCurve" startOffset="10.75%">De første indsigter</textPath>
     </text>
@@ -59,6 +55,5 @@
     <circle cx="735" cy="111" r="35" fill="#453C60" fill-opacity="0.8"/>
     <text x="735" y="105" font-family="Times New Roman" font-size="20" font-weight="bold" text-anchor="middle" fill="#D5CCDF">9</text>
     <text x="735" y="122" font-family="Times New Roman" font-size="12" text-anchor="middle" fill="#D5CCDF">Livsfase</text>
-
   </g>
 </svg>
