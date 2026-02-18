@@ -3657,7 +3657,7 @@
 }
 
 .action-bar__label {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: var(--text-tiny);
   font-weight: var(--weight-medium);
   color: var(--text-secondary);
@@ -5034,7 +5034,7 @@
 .scroll-top-footer {
   text-align: center;
   padding: 40px var(--space-md) 40px;
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: var(--text-small);
   color: var(--blaa);
   opacity: 0.5;
