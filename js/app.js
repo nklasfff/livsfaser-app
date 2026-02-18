@@ -5514,11 +5514,8 @@ function renderMineVinduerScenarier() {
 
   // Øje-figur
   html += '<div style="display:flex;justify-content:center;margin:20px 0">';
-  html += '<svg width="120" height="70" xmlns="http://www.w3.org/2000/svg">';
-  html += '<ellipse cx="60" cy="35" rx="50" ry="25" fill="none" stroke="rgba(139,125,155,0.3)" stroke-width="1.5"/>';
-  html += '<circle cx="60" cy="35" r="12" fill="rgba(107,95,123,0.1)" stroke="rgba(139,125,155,0.4)" stroke-width="1"/>';
-  html += '<circle cx="60" cy="35" r="5" fill="rgba(107,95,123,0.25)"/>';
-  html += '</svg></div>';
+  html += '<img src="assets/images/oeje-vinduer.png" alt="" style="width:120px;height:auto">';
+  html += '</div>';
 
   // Scenario 3
   html += '<div class="mv__sc">';
