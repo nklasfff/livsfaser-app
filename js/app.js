@@ -79,6 +79,14 @@ const ELEMENT_LABELS = {
   'METAL': 'Metal'
 };
 
+const ELEMENT_TEGN = {
+  'VAND': '\u6c34',
+  'TRÆ': '\u6728',
+  'ILD': '\u706b',
+  'JORD': '\u571f',
+  'METAL': '\u91d1'
+};
+
 const WEEKDAY_DATA = {
   0: { day: 'Søndag', element: 'VAND' },
   1: { day: 'Mandag', element: 'VAND' },
@@ -365,8 +373,7 @@ function renderMellemstation(userData) {
     }
   }
 
-  // Element tegn
-  var ELEMENT_TEGN = { 'VAND': '\u6c34', 'TR\u00c6': '\u6728', 'ILD': '\u706b', 'JORD': '\u571f', 'METAL': '\u91d1' };
+  // Element tegn (uses global ELEMENT_TEGN)
   var tegn = ELEMENT_TEGN[dominant] || '';
 
   // Resonans-label og tekst (to-delt: hovedtekst + detalje)
@@ -3039,8 +3046,15 @@ function showDetail(type) {
   var container = document.getElementById('idag-detail');
   if (!container) return;
 
+  // Build kanji element symbol
+  var kanjiHtml = '';
+  if (detailElement && ELEMENT_TEGN[detailElement]) {
+    kanjiHtml = '<div class="mellem__kanji-wrap"><span class="mellem__kanji">' + ELEMENT_TEGN[detailElement] + '</span></div>';
+  }
+
   container.innerHTML =
     '<button class="breadcrumb-home" onclick="hideDetail()">\u2039 Forside</button>' +
+    kanjiHtml +
     '<h1 class="rejse__t1">' + title + '</h1>' +
     (subtitle ? '<p class="rejse__intr">' + subtitle + '</p>' : '') +
     html;
@@ -3050,6 +3064,9 @@ function showDetail(type) {
   if (homeEl) homeEl.classList.add('idag--hidden');
   container.classList.add('idag-detail--visible');
   App.detailVisible = true;
+
+  // Scroll to top so back button is visible
+  window.scrollTo(0, 0);
 }
 
 function hideDetail() {
