@@ -1509,7 +1509,7 @@
 
 .detail__title {
   font-family: var(--font-serif);
-  font-size: 28px;
+  font-size: var(--text-h2);
   font-weight: var(--weight-bold);
   color: var(--morkebla);
   text-align: center;
@@ -1782,21 +1782,21 @@
 }
 
 .indsigt-page__section-title {
-  font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 28px;
-  font-weight: bold;
-  color: #7690C1;
+  font-family: var(--font-serif);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  color: var(--blaa);
   margin-top: 0;
   margin-bottom: 8px;
   text-align: center;
 }
 
 .indsigt-page__section-subtitle {
-  font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
+  font-family: var(--font-serif);
+  font-size: var(--text-small);
   font-style: italic;
-  line-height: 1.7;
-  color: #777777;
+  line-height: var(--line-relaxed);
+  color: var(--text-secondary);
   text-align: center;
   margin: 0 0 16px 0;
 }
@@ -3252,7 +3252,7 @@
 
 .tema__title {
   font-family: var(--font-serif);
-  font-size: 28px;
+  font-size: var(--text-h2);
   font-weight: var(--weight-bold);
   color: var(--blaa);
   margin-top: var(--space-xxl);
@@ -3262,12 +3262,12 @@
 
 .tema__subtitle {
   font-family: var(--font-serif);
-  font-size: 15px;
+  font-size: var(--text-small);
   font-style: italic;
-  color: #777777;
+  color: var(--text-secondary);
   text-align: center;
   margin: 0 auto 16px auto;
-  line-height: 1.7;
+  line-height: var(--line-relaxed);
   max-width: 340px;
 }
 
@@ -4356,7 +4356,7 @@
 
 .livsfase-detail__title {
   font-family: var(--font-serif);
-  font-size: 28px;
+  font-size: var(--text-h2);
   font-weight: var(--weight-bold);
   color: var(--blaa);
   text-align: center;
@@ -4372,9 +4372,9 @@
 .livsfase-detail__intro {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 15px;
-  color: #777777;
-  line-height: 1.7;
+  font-size: var(--text-small);
+  color: var(--text-secondary);
+  line-height: var(--line-relaxed);
   text-align: center;
   max-width: 340px;
   margin: 0 auto 16px;
@@ -4419,21 +4419,21 @@
 }
 
 .livsfase-detail__section-title {
-  font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 28px;
-  font-weight: bold;
-  color: #7690C1;
+  font-family: var(--font-serif);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  color: var(--blaa);
   margin-top: 72px;
   margin-bottom: 8px;
   text-align: center;
 }
 
 .livsfase-detail__section-subtitle {
-  font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
+  font-family: var(--font-serif);
+  font-size: var(--text-small);
   font-style: italic;
-  line-height: 1.7;
-  color: #777777;
+  line-height: var(--line-relaxed);
+  color: var(--text-secondary);
   text-align: center;
   margin: 0 0 16px 0;
 }
