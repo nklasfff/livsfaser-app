@@ -513,7 +513,8 @@ function renderMellemstation(userData) {
 
   // VINDUER-SEKTION — billeder fra Lige Nu
   html += '<div class="mellem__win">';
-  html += '<div class="mellem__win-label">Appens hjerte</div>';
+  html += '<div class="mellem__win-label" style="font-size:15px">Appens hjerte</div>';
+  html += '<div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:20px;font-style:italic;color:#6B5F7B;text-align:center;margin-bottom:16px;line-height:1.4">Mine Liv oplevet gennem Mine Vinduer</div>';
   html += '<div style="text-align:center">';
   html += '<img src="assets/images/vinduer-tid-lilla.png" alt="Tidsvinduet" style="width:100%;height:auto">';
   html += '<img src="assets/images/relationer-forside.png" alt="Relationsvinduet" style="width:75%;height:auto;margin-top:-50px;display:block;margin-left:auto;margin-right:auto">';
@@ -3199,7 +3200,7 @@ function initSamledeIndsigtScreen() {
   html += '<h3 class="praksis__section-title">Fokusomr\u00e5der</h3>';
   html += '<p class="praksis__section-intro">Hvor du kan rette din opm\u00e6rksomhed i dag. Dine cyklusser peger mod bestemte temaer \u2014 m\u00e5ske genkender du dem allerede som det din krop beder om.</p>';
   var focusItems = INSIGHT_FOCUS[primaryEl] || [];
-  html += '<div style="font-size:16px;color:#555;line-height:1.8;font-style:italic;font-family:var(--font-serif);padding:0 4px">';
+  html += '<div style="font-size:16px;color:#555;line-height:1.8;font-family:var(--font-serif);padding:0 4px">';
   for (var fc = 0; fc < focusItems.length; fc++) {
     html += '\u25CB ' + focusItems[fc] + '<br>';
   }
@@ -3213,7 +3214,7 @@ function initSamledeIndsigtScreen() {
   if (dominant.length > 1 && INSIGHT_SUGGESTIONS[dominant[1]]) {
     suggestions.push(INSIGHT_SUGGESTIONS[dominant[1]][0]);
   }
-  html += '<div style="font-size:16px;color:#555;line-height:1.8;font-style:italic;font-family:var(--font-serif);padding:0 4px">';
+  html += '<div style="font-size:16px;color:#555;line-height:1.8;font-family:var(--font-serif);padding:0 4px">';
   for (var sg = 0; sg < suggestions.length; sg++) {
     html += '\u25CB ' + suggestions[sg] + '<br>';
   }
@@ -3233,7 +3234,7 @@ function initSamledeIndsigtScreen() {
     }
     var dynamisk = generateDynamiskTekst(d, elements);
     if (dynamisk.tidsdynamik) {
-      html += '<p style="font-size:15px;color:#888;margin-top:8px;font-style:italic;font-family:var(--font-serif)">' + dynamisk.tidsdynamik + '</p>';
+      html += '<p style="font-size:15px;color:#555;margin-top:8px;font-family:var(--font-serif)">' + dynamisk.tidsdynamik + '</p>';
     }
   }
 
@@ -6955,7 +6956,7 @@ function initEpigenetikArvScreen() {
 
   // 6. Fem traditioner, \u00e9n visdom (4 kort)
   h += '<div class="rel-section-heading">Fem traditioner, \u00e9n visdom</div>';
-  h += '<div class="body-text" style="font-family:var(--font-serif,Georgia,serif);font-size:17px;color:#555;font-style:italic;line-height:1.7;margin-bottom:16px;">Det du arver er mere end DNA. P\u00e5 tv\u00e6rs af kulturer har mennesker altid vidst det.</div>';
+  h += '<div class="body-text" style="font-family:var(--font-serif,Georgia,serif);font-size:17px;color:#555;line-height:1.7;margin-bottom:16px;">Det du arver er mere end DNA. P\u00e5 tv\u00e6rs af kulturer har mennesker altid vidst det.</div>';
 
   for (var ti = 0; ti < EPIGENETIK_DATA.traditioner.length; ti++) {
     var trad = EPIGENETIK_DATA.traditioner[ti];

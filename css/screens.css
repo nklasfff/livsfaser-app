@@ -27,8 +27,7 @@
 .onboarding__hero-subtitle {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 17px;
-  font-style: italic;
-  color: #888;
+  color: #666;
   text-align: center;
   margin-bottom: 26px;
 }
@@ -38,8 +37,8 @@
   margin-bottom: 28px;
 }
 .onboarding__lotus-hero img {
-  width: 80%;
-  max-width: 320px;
+  width: 100%;
+  max-width: 426px;
   height: auto;
   display: block;
   margin: 0 auto;
@@ -57,7 +56,6 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 19px;
   color: #FFFFFF;
-  font-style: italic;
   line-height: 1.65;
   text-align: center;
   margin: 0;
@@ -71,10 +69,9 @@
 }
 .onboarding__reveal-text p {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 17.5px;
-  color: #777;
+  font-size: 18px;
+  color: #555;
   line-height: 1.65;
-  font-style: italic;
   margin: 0;
 }
 
@@ -82,7 +79,7 @@
 .onboarding__dots {
   text-align: center;
   color: #c4b8d6;
-  font-size: 16px;
+  font-size: 17px;
   letter-spacing: 8px;
   margin: 22px 0;
 }
@@ -108,7 +105,7 @@
   font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 20px;
   color: white;
-  font-style: italic;
+
   line-height: 1.5;
   text-align: center;
   margin: 0;
@@ -123,21 +120,20 @@
   font-size: 24px;
   font-weight: 400;
   color: #5A74A5;
-  font-style: italic;
+
   margin-bottom: 6px;
 }
 .onboarding__birth-hint {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 16px;
-  color: #888;
-  font-style: italic;
+  font-size: 17px;
+  color: #666;
   margin-bottom: 16px;
 }
 /* (birth-field removed — replaced by wheel picker) */
 
 .onboarding__error {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 15px;
+  font-size: 17px;
   color: #C85A54;
   min-height: 1.2em;
   text-align: center;
@@ -151,7 +147,6 @@
 .onboarding__phase-highlight {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 18px;
-  font-style: italic;
   color: #5A74A5;
   line-height: 1.5;
 }
@@ -202,7 +197,7 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 27px;
   font-weight: 400;
-  font-style: italic;
+
   color: #5A74A5;
   text-align: center;
   margin: 8px 0 22px;
@@ -227,15 +222,14 @@
 .mellem__resonans-tekst {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 20px;
-  font-style: italic;
+
   line-height: 1.55;
   color: #fff;
 }
 .mellem__resonans-detalje {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 15px;
+  font-size: 17px;
   color: rgba(255, 255, 255, 0.6);
-  font-style: italic;
   margin-top: 12px;
   line-height: 1.5;
 }
@@ -245,9 +239,8 @@
 }
 .mellem__resonans-more a {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 16px;
+  font-size: 17px;
   color: #7690C1;
-  font-style: italic;
   text-decoration: underline;
   cursor: pointer;
 }
@@ -274,14 +267,13 @@
   color: #8A99B3;
 }
 .mellem__profil-arrow {
-  font-size: 14px;
-  color: #888;
+  font-size: 17px;
+  color: #666;
 }
 .mellem__profil-summary {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 16.5px;
-  color: #777;
-  font-style: italic;
+  font-size: 17px;
+  color: #555;
   margin-top: 8px;
   line-height: 1.5;
 }
@@ -299,10 +291,10 @@
   justify-content: space-between;
   padding: 5px 0;
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 15.5px;
+  font-size: 17px;
 }
 .mellem__profil-row .k {
-  color: #888;
+  color: #666;
 }
 .mellem__profil-row .v {
   color: #666;
@@ -329,7 +321,6 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 17px;
   color: #666;
-  font-style: italic;
   line-height: 1.6;
 }
 .mellem__feelings-text strong {
@@ -341,7 +332,7 @@
 .mellem__dots {
   text-align: center;
   color: #c4b8d6;
-  font-size: 16px;
+  font-size: 17px;
   letter-spacing: 8px;
   margin: 22px 0;
 }
@@ -351,7 +342,7 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 27px;
   font-weight: 400;
-  font-style: italic;
+
   color: #5A74A5;
   text-align: center;
   margin-bottom: 14px;
@@ -367,21 +358,18 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 18px;
   color: #5A74A5;
-  font-style: italic;
   margin-bottom: 5px;
 }
 .mellem__alive-text {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 16px;
+  font-size: 17px;
   color: #666;
-  font-style: italic;
   line-height: 1.55;
 }
 .mellem__alive-example {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 15px;
+  font-size: 17px;
   color: #6B5F7B;
-  font-style: italic;
   margin-top: 8px;
   padding-top: 8px;
   border-top: 1px solid rgba(90, 116, 165, 0.06);
@@ -412,15 +400,13 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 17px;
   color: #6B5F7B;
-  font-style: italic;
   text-align: center;
   margin-bottom: 4px;
 }
 .mellem__win-module-text {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 16px;
+  font-size: 17px;
   color: #666;
-  font-style: italic;
   text-align: center;
   line-height: 1.55;
 }
@@ -439,7 +425,6 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 17px;
   color: white;
-  font-style: italic;
   line-height: 1.55;
   margin: 0;
 }
@@ -459,17 +444,15 @@
 }
 .mellem__praksis-text {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 16px;
+  font-size: 17px;
   color: #666;
-  font-style: italic;
   line-height: 1.5;
   margin-bottom: 10px;
 }
 .mellem__praksis-tags {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 15px;
+  font-size: 17px;
   color: #6B5F7B;
-  font-style: italic;
 }
 
 /* Knapper */
@@ -502,7 +485,7 @@
   border: none;
   color: white;
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-style: italic;
+
   font-size: 20px;
 }
 .mellem__btn--secondary:active {
@@ -510,9 +493,8 @@
 }
 .mellem__vinduer-hint {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 15.5px;
-  color: #888;
-  font-style: italic;
+  font-size: 17px;
+  color: #666;
   text-align: center;
   margin-top: 12px;
 }
@@ -530,7 +512,7 @@
   font-size: 12px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: #888;
+  color: #666;
   flex: 1;
   text-align: center;
 }
@@ -568,7 +550,7 @@
   text-align: center;
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 20px;
-  color: #999;
+  color: #666;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -668,9 +650,8 @@
 
 .status-bubble__value {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 14px;
+  font-size: 17px;
   color: #5A74A5;
-  font-style: italic;
   margin-top: 2px;
 }
 
@@ -728,7 +709,7 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 24px;
   font-weight: 400;
-  font-style: italic;
+
   color: #5A74A5;
   text-align: center;
   margin: 0 0 8px 0;
@@ -743,7 +724,6 @@
 .idag__section-subtitle {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 17px;
-  font-style: italic;
   line-height: 1.65;
   color: #666;
   text-align: center;
@@ -786,15 +766,14 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 20px;
   color: white;
-  font-style: italic;
+
   line-height: 1.5;
 }
 
 .idag__gradient-sub {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 16px;
+  font-size: 17px;
   color: rgba(255, 255, 255, 0.7);
-  font-style: italic;
   margin-top: 10px;
   line-height: 1.55;
 }
@@ -814,8 +793,7 @@
   text-align: center;
   color: #7690C1;
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 16px;
-  font-style: italic;
+  font-size: 17px;
   margin-top: 10px;
   text-decoration: underline;
   text-decoration-color: rgba(118, 144, 193, 0.3);
@@ -843,7 +821,6 @@
   font-size: 17px;
   color: #444;
   line-height: 1.65;
-  font-style: italic;
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   margin: 0;
 }
@@ -886,14 +863,13 @@
   color: #6B5F7B;
   font-weight: 400;
   text-align: center;
-  font-style: italic;
+
   margin-bottom: 8px;
 }
 .idag__window-intr {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 17px;
   color: #666;
-  font-style: italic;
   text-align: center;
   line-height: 1.65;
   margin-bottom: 20px;
@@ -916,14 +892,13 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 20px;
   color: white;
-  font-style: italic;
+
   line-height: 1.5;
 }
 .idag__window-grd-sub {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 16px;
+  font-size: 17px;
   color: rgba(255,255,255,0.7);
-  font-style: italic;
   margin-top: 10px;
   line-height: 1.55;
 }
@@ -933,7 +908,6 @@
   color: #8B7D9B;
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 17px;
-  font-style: italic;
   margin-top: 12px;
   text-decoration: underline;
   text-decoration-color: rgba(139,125,155,0.3);
@@ -987,10 +961,9 @@
   margin: 0 0 5px;
 }
 .idag__praksis-tekst {
-  font-size: 16px;
-  color: #777;
+  font-size: 17px;
+  color: #555;
   line-height: 1.55;
-  font-style: italic;
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   margin: 0;
 }
@@ -998,9 +971,8 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 6px;
-  font-size: 15px;
+  font-size: 17px;
   color: #6B8273;
-  font-style: italic;
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
 }
 
@@ -1057,10 +1029,9 @@
   margin-bottom: 4px;
 }
 .idag__tidslinje-tekst {
-  font-size: 16px;
-  color: #777;
+  font-size: 17px;
+  color: #555;
   line-height: 1.55;
-  font-style: italic;
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
 }
 .idag__tidslinje-expand {
@@ -1069,8 +1040,7 @@
   background: none;
   border: none;
   color: #7690C1;
-  font-size: 15px;
-  font-style: italic;
+  font-size: 17px;
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   cursor: pointer;
 }
@@ -1086,9 +1056,9 @@
 .idag__mood-pill {
   padding: 8px 16px;
   border-radius: 20px;
-  font-size: 16px;
+  font-size: 17px;
   border: 1px solid rgba(118, 144, 193, 0.15);
-  color: #777;
+  color: #555;
   background: transparent;
   cursor: pointer;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -1127,10 +1097,9 @@
   margin: 0 0 5px;
 }
 .idag__nav-tekst {
-  font-size: 16px;
-  color: #777;
+  font-size: 17px;
+  color: #555;
   line-height: 1.55;
-  font-style: italic;
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   margin: 0;
 }
@@ -1138,9 +1107,8 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 6px;
-  font-size: 15px;
+  font-size: 17px;
   color: #7690C1;
-  font-style: italic;
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
 }
 
@@ -1172,10 +1140,9 @@
   margin: 0 0 5px;
 }
 .idag__lilla-tekst {
-  font-size: 16px;
-  color: #777;
+  font-size: 17px;
+  color: #555;
   line-height: 1.55;
-  font-style: italic;
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   margin: 0;
 }
@@ -1183,9 +1150,8 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 6px;
-  font-size: 15px;
+  font-size: 17px;
   color: #B8A6C0;
-  font-style: italic;
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
 }
 
@@ -1258,9 +1224,8 @@
   margin: 0 0 2px;
 }
 .idag__verden-sub {
-  font-size: 15px;
-  color: #777;
-  font-style: italic;
+  font-size: 17px;
+  color: #555;
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   margin: 0;
   line-height: 1.4;
@@ -1293,16 +1258,15 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 22px;
   color: #6B5F7B;
-  font-style: italic;
+
   text-align: center;
   font-weight: 400;
   margin: 0 0 6px;
 }
 .idag__vinduer-intr {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 16px;
-  color: #777;
-  font-style: italic;
+  font-size: 17px;
+  color: #555;
   text-align: center;
   margin: 0 0 20px;
   line-height: 1.5;
@@ -1310,7 +1274,7 @@
 .idag__vinduer-dots {
   text-align: center;
   color: #c4b8d6;
-  font-size: 16px;
+  font-size: 17px;
   letter-spacing: 10px;
   margin: 10px 0 14px;
 }
@@ -1332,7 +1296,6 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 18px;
   color: #fff;
-  font-style: italic;
   line-height: 1.5;
 }
 .idag__vinduer-link {
@@ -1341,7 +1304,7 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 17px;
   color: #8B7D9B;
-  font-style: italic;
+
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-color: rgba(139, 125, 155, 0.4);
@@ -1354,11 +1317,11 @@
 
 /* Colophon */
 .idag__colophon {
-  font-size: 15px;
-  color: #777;
+  font-size: 17px;
+  color: #555;
   text-align: center;
   line-height: 1.6;
-  font-style: italic;
+
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   padding: 0 10px;
   margin: 0 0 20px;
@@ -1537,7 +1500,7 @@
 .detail__subtitle {
   font-family: var(--font-serif);
   font-size: var(--text-small);
-  font-style: italic;
+
   color: var(--text-secondary);
   text-align: center;
   line-height: var(--line-relaxed);
@@ -1582,7 +1545,7 @@
 .detail__qualities {
   font-family: var(--font-serif);
   font-size: var(--text-body);
-  font-style: italic;
+
   color: var(--text-secondary);
   text-align: center;
   margin-bottom: var(--space-md);
@@ -1618,7 +1581,7 @@
 .detail__kontekst-text {
   font-family: var(--font-serif);
   font-size: var(--text-small);
-  font-style: italic;
+
   color: var(--text-secondary);
   line-height: var(--line-relaxed);
 }
@@ -1645,7 +1608,7 @@
 .detail__section-subtitle {
   font-family: var(--font-serif);
   font-size: var(--text-small);
-  font-style: italic;
+
   color: var(--text-secondary);
   text-align: center;
   line-height: var(--line-relaxed);
@@ -1670,7 +1633,7 @@
 .detail__recs-subtitle {
   font-family: var(--font-serif);
   font-size: var(--text-small);
-  font-style: italic;
+
   color: var(--text-secondary);
   text-align: center;
   line-height: var(--line-relaxed);
@@ -1707,7 +1670,7 @@
 .detail__rec-text {
   font-family: var(--font-serif);
   font-size: var(--text-small);
-  font-style: italic;
+
   color: var(--text-secondary);
   line-height: var(--line-relaxed);
 }
@@ -1741,8 +1704,8 @@
 .indsigt-page__subtitle {
   font-family: var(--font-serif);
   font-size: 17px;
-  font-style: italic;
-  color: #777777;
+
+  color: #555777;
   text-align: center;
   line-height: 1.7;
   margin: 0 auto 16px auto;
@@ -1811,7 +1774,7 @@
 .indsigt-page__section-subtitle {
   font-family: var(--font-serif);
   font-size: var(--text-small);
-  font-style: italic;
+
   line-height: var(--line-relaxed);
   color: var(--text-secondary);
   text-align: center;
@@ -1991,7 +1954,7 @@
 .relationer__subtitle {
   font-family: var(--font-serif);
   font-size: 18px;
-  font-style: italic;
+
   color: var(--text-secondary);
   text-align: center;
 }
@@ -2015,7 +1978,7 @@
 .relationer__empty-text {
   font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 17px;
-  font-style: italic;
+
   line-height: 1.65;
   color: #666;
   max-width: 300px;
@@ -2087,7 +2050,7 @@
   width: 100%;
   font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 17px;
-  font-style: italic;
+
   font-weight: 400;
   color: #8B7D9B;
   background: rgba(139, 125, 155, 0.06);
@@ -2360,7 +2323,7 @@
   font-size: var(--text-body);
   line-height: var(--line-relaxed);
   color: var(--text-primary);
-  font-style: italic;
+
 }
 
 /* Relation recommendations */
@@ -2578,8 +2541,8 @@
 .tidsrejse__subtitle {
   font-family: var(--font-serif);
   font-size: 17px;
-  font-style: italic;
-  color: #777777;
+
+  color: #555777;
   text-align: center;
   margin: 0 auto 16px auto;
   line-height: 1.7;
@@ -2643,7 +2606,7 @@
   font-size: var(--text-tiny);
   color: var(--text-light);
   margin: var(--space-sm) 0 0;
-  font-style: italic;
+
 }
 
 /* Input view */
@@ -2659,7 +2622,7 @@
 
 .tidsrejse__input-subtitle {
   font-family: Georgia, 'Times New Roman', serif;
-  font-style: italic;
+
   font-size: 17px;
   color: var(--text-secondary);
   text-align: center;
@@ -2832,7 +2795,7 @@
 }
 .tidsrejse__expand-label {
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 600;
   color: var(--blaa);
   text-transform: uppercase;
@@ -2841,13 +2804,13 @@
 }
 .tidsrejse__expand-text {
   font-family: var(--font-serif);
-  font-size: 16px;
+  font-size: 17px;
   color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: 6px;
 }
 .tidsrejse__expand-text em {
-  font-style: italic;
+
   color: var(--text-light);
 }
 
@@ -2882,7 +2845,7 @@
 .tidsrejse__cycle-qualities {
   font-size: var(--text-small);
   color: var(--text-secondary);
-  font-style: italic;
+
 }
 
 /* Insight box */
@@ -3031,7 +2994,7 @@
 }
 .idag__climate-hint {
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 17px;
   color: var(--blaa);
   text-align: center;
   margin-top: 8px;
@@ -3044,7 +3007,7 @@
 }
 .idag__climate-detail {
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 500;
   color: var(--morkebla);
   letter-spacing: 0.5px;
@@ -3053,14 +3016,14 @@
 }
 .idag__climate-explain {
   font-family: var(--font-serif);
-  font-size: 16px;
+  font-size: 17px;
   color: var(--text-secondary);
-  font-style: italic;
+
   margin: 12px 0 8px;
   line-height: 1.6;
 }
 .idag__climate-link {
-  font-size: 15px;
+  font-size: 17px;
   color: var(--blaa);
   cursor: pointer;
   margin-top: 8px;
@@ -3071,7 +3034,7 @@
   font-family: var(--font-serif);
   font-size: 18px;
   color: var(--text-secondary);
-  font-style: italic;
+
   text-align: center;
   margin-bottom: 12px;
 }
@@ -3079,9 +3042,9 @@
 /* Hvad kan du gøre lige nu? */
 .hvadkandu__intro {
   font-family: var(--font-serif);
-  font-style: italic;
+
   font-size: 17px;
-  color: #777777;
+  color: #555777;
   text-align: center;
   margin: 0 0 16px 0;
   line-height: 1.7;
@@ -3284,7 +3247,7 @@
 .tema__subtitle {
   font-family: var(--font-serif);
   font-size: var(--text-small);
-  font-style: italic;
+
   color: var(--text-secondary);
   text-align: center;
   margin: 0 auto 16px auto;
@@ -3405,7 +3368,7 @@
 
 .tema__profil-name {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 500;
   color: #444;
   text-align: center;
@@ -3413,9 +3376,9 @@
 
 .tema__profil-meta {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 13px;
-  font-style: italic;
-  color: #888;
+  font-size: 17px;
+
+  color: #666;
 }
 
 /* Kontekstboks (Min Praksis) */
@@ -3449,7 +3412,7 @@
 .tema__kontekst-text {
   font-family: var(--font-serif);
   font-size: var(--text-small);
-  font-style: italic;
+
   color: var(--text-secondary);
   line-height: var(--line-relaxed);
 }
@@ -3458,7 +3421,7 @@
   font-family: var(--font-sans);
   font-size: var(--text-small);
   color: var(--text-light);
-  font-style: italic;
+
   margin-top: var(--space-xs);
 }
 
@@ -3498,8 +3461,8 @@
 .cic__subtitle {
   font-family: var(--font-serif);
   font-size: 17px;
-  font-style: italic;
-  color: #777777;
+
+  color: #555777;
   text-align: center;
   margin: 0 auto 16px auto;
   max-width: 320px;
@@ -3531,7 +3494,7 @@
   font-size: var(--text-body);
   line-height: var(--line-relaxed);
   color: var(--text-primary);
-  font-style: italic;
+
 }
 
 /* Par-kort */
@@ -3607,7 +3570,7 @@
   font-size: var(--text-body);
   line-height: var(--line-relaxed);
   color: var(--text-secondary);
-  font-style: italic;
+
 }
 
 /* Expand knap */
@@ -3743,8 +3706,8 @@
 .tracking__subtitle {
   font-family: var(--font-serif);
   font-size: 17px;
-  font-style: italic;
-  color: #777777;
+
+  color: #555777;
   text-align: center;
   margin: 0 auto 16px auto;
   line-height: 1.7;
@@ -3811,7 +3774,7 @@
   font-size: var(--text-body);
   line-height: var(--line-relaxed);
   color: var(--text-primary);
-  font-style: italic;
+
 }
 
 /* Statistics boxes */
@@ -3965,9 +3928,9 @@
 .tracking__section-subtitle {
   font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 17px;
-  font-style: italic;
+
   line-height: 1.7;
-  color: #777777;
+  color: #555777;
   text-align: center;
   margin: 0 0 16px 0;
 }
@@ -4164,7 +4127,7 @@
   font-size: var(--text-small);
   color: var(--text-secondary);
   line-height: var(--line-relaxed);
-  font-style: italic;
+
 }
 
 .tracking__entry-cycles {
@@ -4180,7 +4143,7 @@
   color: var(--text-light);
   text-align: center;
   padding: var(--space-xl);
-  font-style: italic;
+
 }
 
 /* Check-in button on I dag screen */
@@ -4348,7 +4311,7 @@
 }
 
 .onboarding__result-desc--poetic {
-  font-style: italic;
+
   color: var(--text-secondary);
 }
 
@@ -4403,7 +4366,7 @@
 
 .livsfase-detail__intro {
   font-family: var(--font-serif);
-  font-style: italic;
+
   font-size: var(--text-small);
   color: var(--text-secondary);
   line-height: var(--line-relaxed);
@@ -4463,7 +4426,7 @@
 .livsfase-detail__section-subtitle {
   font-family: var(--font-serif);
   font-size: var(--text-small);
-  font-style: italic;
+
   line-height: var(--line-relaxed);
   color: var(--text-secondary);
   text-align: center;
@@ -4513,7 +4476,7 @@
 
 .livsfase-detail__question {
   font-family: var(--font-serif);
-  font-style: italic;
+
   font-size: var(--text-body);
   color: var(--text-secondary);
   line-height: var(--line-relaxed);
@@ -4556,7 +4519,7 @@
   font-size: 18px;
   color: #333;
   font-weight: 500;
-  font-style: italic;
+
   font-family: var(--font-serif);
   line-height: 1.55;
   margin-bottom: 10px;
@@ -4573,7 +4536,7 @@
   border-radius: 10px;
   padding: 12px;
   font-family: var(--font-serif);
-  font-size: 16px;
+  font-size: 17px;
   color: #666;
   margin-bottom: 16px;
   background: white;
@@ -4598,7 +4561,7 @@
   font-size: 17px;
   text-align: center;
   margin-top: 20px;
-  font-style: italic;
+
   cursor: pointer;
 }
 
@@ -4634,10 +4597,10 @@
 
 .kost__desc {
   font-family: var(--font-serif);
-  font-size: 15px;
+  font-size: 17px;
   color: #666;
   line-height: 1.55;
-  font-style: italic;
+
 }
 
 /* ============================
@@ -4656,9 +4619,9 @@
   padding: 8px 16px;
   border-radius: 20px;
   font-family: var(--font-sans);
-  font-size: 15px;
+  font-size: 17px;
   border: 1px solid rgba(139, 154, 157, 0.2);
-  color: #777;
+  color: #555;
   background: none;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -4678,7 +4641,7 @@
   font-family: var(--font-serif);
   font-size: 17px;
   color: #555;
-  font-style: italic;
+
   text-align: center;
   line-height: 1.7;
   margin-bottom: 24px;
@@ -4713,25 +4676,25 @@
 
 .praksis__exercise-desc {
   font-family: var(--font-serif);
-  font-size: 16px;
+  font-size: 17px;
   color: #666;
   line-height: 1.55;
-  font-style: italic;
+
 }
 
 .praksis__exercise-time {
   font-family: var(--font-serif);
-  font-size: 14px;
-  color: #888;
+  font-size: 17px;
+  color: #666;
   margin-top: 6px;
-  font-style: italic;
+
 }
 
 .praksis__exercise-link {
   font-family: var(--font-serif);
-  font-size: 15px;
+  font-size: 17px;
   color: #7A9080;
-  font-style: italic;
+
   margin-top: 6px;
 }
 
@@ -4741,8 +4704,8 @@
   text-align: center;
   color: #7A9080;
   font-family: var(--font-serif);
-  font-size: 16px;
-  font-style: italic;
+  font-size: 17px;
+
   margin-top: 10px;
   text-decoration: underline;
   text-decoration-color: rgba(122, 144, 128, 0.3);
@@ -4765,8 +4728,8 @@
   align-items: center;
   gap: 4px;
   font-family: var(--font-sans);
-  font-size: 13px;
-  color: #888;
+  font-size: 17px;
+  color: #666;
   background: none;
   border: none;
   cursor: pointer;
@@ -4964,7 +4927,7 @@
   color: var(--text-secondary);
   max-width: 320px;
   margin: 0 auto var(--space-xl);
-  font-style: italic;
+
 }
 
 .favoritter-empty__btn {
@@ -5146,9 +5109,9 @@
 .tema__group-subtitle {
   font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 17px;
-  font-style: italic;
+
   line-height: 1.7;
-  color: #777777;
+  color: #555777;
   text-align: center;
   margin: 0 0 16px 0;
 }
@@ -5168,7 +5131,7 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
   font-size: 31px;
   font-weight: 400;
-  font-style: italic;
+
   color: #5A74A5;
   text-align: center;
   margin: 24px 0 8px;
@@ -5177,7 +5140,7 @@
 .soeg__intro {
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
   font-size: 17px;
-  font-style: italic;
+
   color: #666;
   text-align: center;
   line-height: 1.65;
@@ -5207,14 +5170,14 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
   font-size: 18px;
   color: #555;
-  font-style: italic;
+
   flex: 1;
   outline: none;
   width: 100%;
 }
 
 .soeg__field-input::placeholder {
-  color: #999;
+  color: #666;
 }
 
 .soeg__tags-label {
@@ -5242,7 +5205,7 @@
   padding: 7px 14px;
   border-radius: 20px;
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
+  font-size: 17px;
   border: 1px solid rgba(118, 144, 193, 0.2);
   color: #7690C1;
   background: rgba(118, 144, 193, 0.04);
@@ -5266,7 +5229,7 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
   font-size: 24px;
   font-weight: 400;
-  font-style: italic;
+
   color: #5A74A5;
   text-align: center;
   margin-bottom: 8px;
@@ -5275,7 +5238,7 @@
 .soeg__udforsk-intro {
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
   font-size: 17px;
-  font-style: italic;
+
   color: #666;
   text-align: center;
   line-height: 1.65;
@@ -5322,17 +5285,17 @@
 
 .soeg__cat-desc {
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
+  font-size: 17px;
   color: #666;
-  font-style: italic;
+
   line-height: 1.5;
 }
 
 .soeg__hint {
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
-  color: #999;
-  font-style: italic;
+  font-size: 17px;
+  color: #666;
+
   text-align: center;
   line-height: 1.6;
 }
@@ -5360,17 +5323,17 @@
 
 .soeg__result-subtitle {
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
+  font-size: 17px;
   color: #666;
-  font-style: italic;
+
   line-height: 1.5;
 }
 
 .soeg__empty {
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
   font-size: 17px;
-  font-style: italic;
-  color: #999;
+
+  color: #666;
   text-align: center;
   padding: 24px 0;
 }
@@ -5384,7 +5347,7 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
   font-size: 31px;
   font-weight: 400;
-  font-style: italic;
+
   color: #5A74A5;
   text-align: center;
   margin: 24px 0 8px;
@@ -5393,7 +5356,7 @@
 .ind__intro {
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
   font-size: 17px;
-  font-style: italic;
+
   color: #666;
   text-align: center;
   line-height: 1.65;
@@ -5454,9 +5417,9 @@
 
 .ind__row-desc {
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
-  color: #777;
-  font-style: italic;
+  font-size: 17px;
+  color: #555;
+
   line-height: 1.45;
 }
 
@@ -5529,16 +5492,16 @@
 
 .ind__setting-desc {
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
-  color: #777;
-  font-style: italic;
+  font-size: 17px;
+  color: #555;
+
 }
 
 .ind__setting-info {
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
-  color: #777;
-  font-style: italic;
+  font-size: 17px;
+  color: #555;
+
   margin-top: 8px;
 }
 
@@ -5566,7 +5529,7 @@
   font-size: 17px;
   color: #444;
   line-height: 1.65;
-  font-style: italic;
+
 }
 
 /* Link cards */
@@ -5590,7 +5553,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 17px;
   color: #7690C1;
   flex-shrink: 0;
 }
@@ -5608,22 +5571,22 @@
 
 .ind__link-desc {
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
-  color: #777;
-  font-style: italic;
+  font-size: 17px;
+  color: #555;
+
 }
 
 .ind__link-arrow {
   color: #a8bbd8;
-  font-size: 16px;
+  font-size: 17px;
 }
 
 /* Hint text */
 .ind__hint {
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
-  color: #999;
-  font-style: italic;
+  font-size: 17px;
+  color: #666;
+
   margin-top: 8px;
 }
 
@@ -5638,7 +5601,7 @@
   border-radius: 14px;
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
   font-size: 18px;
-  font-style: italic;
+
   text-align: center;
   margin-top: 10px;
   cursor: pointer;
@@ -5651,9 +5614,9 @@
 
 .ind__btn-hint {
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
-  font-size: 14px;
-  color: #999;
-  font-style: italic;
+  font-size: 17px;
+  color: #666;
+
   margin-top: 6px;
   text-align: center;
 }
@@ -5673,8 +5636,8 @@
 .ind__footer-link {
   color: #7690C1;
   font-family: 'Cormorant Garamond', 'Times New Roman', Times, Georgia, serif;
-  font-size: 16px;
-  font-style: italic;
+  font-size: 17px;
+
   text-decoration: underline;
   text-decoration-color: rgba(118, 144, 193, 0.3);
   background: none;
@@ -5755,7 +5718,7 @@
   font-family: var(--font-serif);
   font-size: 31px;
   font-weight: 400;
-  font-style: italic;
+
   color: #6B8273;
   text-align: center;
   margin: 24px 0 8px;
@@ -5764,7 +5727,7 @@
 .praksis__intro {
   font-family: var(--font-serif);
   font-size: 17px;
-  font-style: italic;
+
   color: #666;
   text-align: center;
   line-height: 1.65;
@@ -5800,7 +5763,7 @@
   font-size: 17px;
   color: #444;
   line-height: 1.65;
-  font-style: italic;
+
 }
 
 .praksis__dots {
@@ -5815,7 +5778,7 @@
   font-family: var(--font-serif);
   font-size: 24px;
   font-weight: 400;
-  font-style: italic;
+
   color: #6B8273;
   text-align: center;
   margin-bottom: 8px;
@@ -5824,7 +5787,7 @@
 .praksis__section-intro {
   font-family: var(--font-serif);
   font-size: 17px;
-  font-style: italic;
+
   color: #666;
   text-align: center;
   line-height: 1.65;
@@ -5855,10 +5818,10 @@
 
 .praksis__card-desc {
   font-family: var(--font-serif);
-  font-size: 16px;
-  color: #777;
+  font-size: 17px;
+  color: #555;
   line-height: 1.55;
-  font-style: italic;
+
 }
 
 .praksis__card-link {
@@ -5866,9 +5829,9 @@
   justify-content: flex-end;
   margin-top: 6px;
   font-family: var(--font-serif);
-  font-size: 15px;
+  font-size: 17px;
   color: #7A9080;
-  font-style: italic;
+
 }
 
 /* =========================================
@@ -5882,7 +5845,7 @@
   color: #6B5F7B;
   font-weight: 400;
   text-align: center;
-  font-style: italic;
+
   margin: 24px 0 8px;
 }
 
@@ -5892,7 +5855,7 @@
   color: #6B5F7B;
   font-weight: 400;
   text-align: center;
-  font-style: italic;
+
   margin-bottom: 8px;
 }
 
@@ -5900,7 +5863,7 @@
   font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 17px;
   color: #666;
-  font-style: italic;
+
   text-align: center;
   line-height: 1.65;
   margin-bottom: 28px;
@@ -5953,7 +5916,7 @@
   font-size: 17px;
   color: #444;
   line-height: 1.65;
-  font-style: italic;
+
 }
 
 /* Nav-kort */
@@ -5976,19 +5939,19 @@
 
 .rejse__nc p {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 16px;
-  color: #777;
+  font-size: 17px;
+  color: #555;
   line-height: 1.55;
-  font-style: italic;
+
 }
 
 .rejse__nc-arrow {
   display: flex;
   justify-content: flex-end;
   margin-top: 6px;
-  font-size: 15px;
+  font-size: 17px;
   color: #8B7D9B;
-  font-style: italic;
+
 }
 
 /* Dagens check-in gradient-boks */
@@ -6013,24 +5976,24 @@
   font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 20px;
   color: white;
-  font-style: italic;
+
   line-height: 1.5;
 }
 
 .rejse__checkin-sub {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 16px;
+  font-size: 17px;
   color: rgba(255, 255, 255, 0.7);
-  font-style: italic;
+
   margin-top: 10px;
 }
 
 /* Privacy hint */
 .rejse__hint {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
-  color: #999;
-  font-style: italic;
+  font-size: 17px;
+  color: #666;
+
   text-align: center;
   margin-top: 16px;
   line-height: 1.6;
@@ -6039,8 +6002,8 @@
 /* Tilbage til toppen */
 .rejse__btt {
   text-align: center;
-  font-size: 15px;
-  color: #999;
+  font-size: 17px;
+  color: #666;
   margin-top: 28px;
   cursor: pointer;
 }
@@ -6060,10 +6023,10 @@
 .rejse__tab {
   padding: 8px 16px;
   border-radius: 20px;
-  font-size: 15px;
+  font-size: 17px;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   border: 1px solid rgba(139, 125, 155, 0.2);
-  color: #777;
+  color: #555;
   background: transparent;
   cursor: pointer;
 }
@@ -6113,9 +6076,9 @@
 
 .rejse__fav-desc {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
-  color: #777;
-  font-style: italic;
+  font-size: 17px;
+  color: #555;
+
 }
 
 .rejse__fav-arrow {
@@ -6130,8 +6093,8 @@
   text-align: center;
   color: #8B7D9B;
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 16px;
-  font-style: italic;
+  font-size: 17px;
+
   margin-top: 10px;
   text-decoration: underline;
   text-decoration-color: rgba(139, 125, 155, 0.3);
@@ -6163,12 +6126,12 @@
   font-size: 18px;
   color: #333;
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-style: italic;
+
   margin-bottom: 6px;
   line-height: 1.5;
 }
 .rejse__je-t {
-  font-size: 16px;
+  font-size: 17px;
   color: #666;
   font-family: 'Times New Roman', Times, Georgia, serif;
   line-height: 1.6;
@@ -6200,17 +6163,17 @@
   border: none;
   background: transparent;
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 16px;
+  font-size: 17px;
   color: #444;
-  font-style: italic;
+
   line-height: 1.6;
   padding: 18px;
   resize: vertical;
   outline: none;
 }
 .rejse__wf textarea::placeholder {
-  color: #999;
-  font-style: italic;
+  color: #666;
+
 }
 
 /* =========================================
@@ -6227,9 +6190,9 @@
 .opdag__tab {
   padding: 7px 14px;
   border-radius: 18px;
-  font-size: 14px;
+  font-size: 17px;
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-style: italic;
+
   border: 1px solid rgba(139, 125, 155, 0.18);
   color: #8B7D9B;
   background: rgba(139, 125, 155, 0.03);
@@ -6259,14 +6222,14 @@
   font-size: 20px;
   color: white;
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-style: italic;
+
   line-height: 1.5;
 }
 .opdag__grd-sub {
-  font-size: 16px;
+  font-size: 17px;
   color: rgba(255, 255, 255, 0.7);
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-style: italic;
+
   margin-top: 10px;
   line-height: 1.55;
 }
@@ -6314,17 +6277,17 @@
   background: #6B5F7B;
 }
 .opdag__disc-date {
-  font-size: 13px;
-  color: #999;
+  font-size: 17px;
+  color: #666;
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-style: italic;
+
   margin-bottom: 6px;
 }
 .opdag__disc-txt {
   font-size: 17px;
   color: #444;
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-style: italic;
+
   line-height: 1.6;
 }
 .opdag__disc-source {
@@ -6342,17 +6305,17 @@
   flex-shrink: 0;
 }
 .opdag__disc-from {
-  font-size: 14px;
-  color: #888;
+  font-size: 17px;
+  color: #666;
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-style: italic;
+
 }
 .opdag__disc-link {
   margin-left: auto;
-  font-size: 14px;
+  font-size: 17px;
   color: #8B7D9B;
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-style: italic;
+
   text-decoration: underline;
   text-decoration-color: rgba(139, 125, 155, 0.3);
 }
@@ -6362,9 +6325,9 @@
   display: block;
   text-align: center;
   color: #8B7D9B;
-  font-size: 16px;
+  font-size: 17px;
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-style: italic;
+
   margin-top: 12px;
   text-decoration: underline;
   text-decoration-color: rgba(139, 125, 155, 0.3);
@@ -6373,7 +6336,7 @@
 /* Crosslink label */
 .opdag__xlink-lbl {
   font-size: 12px;
-  color: #999;
+  color: #666;
   letter-spacing: 2px;
   text-transform: uppercase;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -6420,20 +6383,20 @@
   margin-bottom: 5px;
 }
 .rejse__bg p {
-  font-size: 16px;
-  color: #777;
+  font-size: 17px;
+  color: #555;
   font-family: 'Times New Roman', Times, Georgia, serif;
   line-height: 1.55;
-  font-style: italic;
+
 }
 .rejse__bg-arrow {
   display: flex;
   justify-content: flex-end;
   margin-top: 6px;
-  font-size: 15px;
+  font-size: 17px;
   color: #8B7D9B;
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-style: italic;
+
 }
 
 /* Traditioner scroll-row */
@@ -6455,16 +6418,16 @@
   flex-shrink: 0;
 }
 .rejse__trad-name {
-  font-size: 16px;
+  font-size: 17px;
   color: #333;
   font-family: 'Times New Roman', Times, Georgia, serif;
   margin-bottom: 4px;
 }
 .rejse__trad-desc {
-  font-size: 14px;
-  color: #777;
+  font-size: 17px;
+  color: #555;
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-style: italic;
+
   line-height: 1.4;
 }
 
@@ -6484,10 +6447,10 @@
 .rejse__chip {
   padding: 8px 16px;
   border-radius: 20px;
-  font-size: 15px;
+  font-size: 17px;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   border: 1px solid rgba(139, 125, 155, 0.2);
-  color: #777;
+  color: #555;
   background: transparent;
   cursor: pointer;
 }
@@ -6521,8 +6484,8 @@
 }
 
 .rejse__stat-label {
-  font-size: 13px;
-  color: #777;
+  font-size: 17px;
+  color: #555;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   margin-top: 4px;
 }
@@ -6540,7 +6503,7 @@
   font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 18px;
   color: #6B5F7B;
-  font-style: italic;
+
   margin-bottom: 12px;
 }
 
@@ -6568,9 +6531,9 @@
 
 .rejse__chart-note {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
-  color: #777;
-  font-style: italic;
+  font-size: 17px;
+  color: #555;
+
   line-height: 1.5;
 }
 
@@ -6588,7 +6551,7 @@
 
 .rejse__el-name {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 16px;
+  font-size: 17px;
   color: #555;
   min-width: 40px;
 }
@@ -6608,8 +6571,8 @@
 }
 
 .rejse__el-pct {
-  font-size: 14px;
-  color: #777;
+  font-size: 17px;
+  color: #555;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   min-width: 30px;
   text-align: right;
@@ -6638,7 +6601,7 @@
   background: rgba(255, 255, 255, 0.2);
   padding: 6px 14px;
   border-radius: 16px;
-  font-size: 15px;
+  font-size: 17px;
   font-family: 'Times New Roman', Times, Georgia, serif;
   color: white;
   border: none;
@@ -6664,8 +6627,8 @@
   min-height: 80px;
   padding: 18px;
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 16px;
-  font-style: italic;
+  font-size: 17px;
+
   color: #444;
   border: none;
   background: transparent;
@@ -6679,7 +6642,7 @@
 }
 
 .rejse__textarea::placeholder {
-  color: #999;
+  color: #666;
 }
 
 /* Gem-knap */
@@ -6693,7 +6656,7 @@
   border-radius: 14px;
   font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 18px;
-  font-style: italic;
+
   text-align: center;
   margin-top: 10px;
   cursor: pointer;
@@ -6718,8 +6681,8 @@
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  font-size: 13px;
-  color: #888;
+  font-size: 17px;
+  color: #666;
   cursor: pointer;
   background: none;
   border: none;
@@ -6764,7 +6727,7 @@
 
 .hjulpet__bar-label {
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 17px;
   color: #666;
   width: 70px;
   flex-shrink: 0;
@@ -6790,11 +6753,11 @@
 
 .hjulpet__graph-foot {
   font-family: var(--font-serif);
-  font-size: 13px;
-  color: #999;
+  font-size: 17px;
+  color: #666;
   text-align: center;
   margin-top: 8px;
-  font-style: italic;
+
 }
 
 /* Situation-boks */
@@ -6866,24 +6829,24 @@
 
 .hjulpet__pc-desc {
   font-family: var(--font-serif);
-  font-size: 15px;
-  color: #777;
-  font-style: italic;
+  font-size: 17px;
+  color: #555;
+
 }
 
 .hjulpet__pc-meta {
   font-family: var(--font-serif);
-  font-size: 13px;
-  color: #999;
+  font-size: 17px;
+  color: #666;
   margin-top: 6px;
-  font-style: italic;
+
 }
 
 .hjulpet__pc-link {
   font-family: var(--font-serif);
-  font-size: 15px;
+  font-size: 17px;
   color: #7A9080;
-  font-style: italic;
+
   margin-top: 6px;
   cursor: pointer;
 }
@@ -6892,10 +6855,10 @@
 .hjulpet__disclaimer {
   text-align: center;
   font-family: var(--font-serif);
-  font-size: 13px;
-  color: #999;
+  font-size: 17px;
+  color: #666;
   margin-top: 8px;
-  font-style: italic;
+
 }
 
 /* ---- Tidsvinduet (Din/Jeres energi p\00e5 en anden dag) ---- */
@@ -6928,8 +6891,8 @@
 .tidsvindue__subtitle {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 17px;
-  font-style: italic;
-  color: #777777;
+
+  color: #555777;
   text-align: center;
   line-height: 1.7;
   max-width: 340px;
@@ -6978,7 +6941,7 @@
 
 .tidsvindue__box-list li {
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 17px;
   color: #666666;
   padding: 3px 0;
   line-height: 1.8;
@@ -6990,9 +6953,9 @@
 
 .tidsvindue__label {
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 600;
-  color: #777;
+  color: #555;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   text-align: center;
@@ -7096,7 +7059,7 @@
 .tidsvindue__user-pill {
   padding: 6px 14px;
   font-family: var(--font-sans);
-  font-size: 15px;
+  font-size: 17px;
   color: white;
   background: #B8A6C0;
   border: none;
@@ -7107,7 +7070,7 @@
 .tidsvindue__relation-pill {
   padding: 6px 14px;
   font-family: var(--font-sans);
-  font-size: 15px;
+  font-size: 17px;
   color: var(--text-secondary);
   background: var(--bg-secondary);
   border: 1px solid var(--border);
@@ -7124,7 +7087,7 @@
 
 .tidsvindue__insight-text {
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: 15px;
+  font-size: 17px;
   color: #555555;
   line-height: 1.6;
   margin: 0;
@@ -7139,7 +7102,7 @@
 
 .tidsvindue__interaction-type {
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 600;
   text-transform: uppercase;
   color: #B8A6C0;
@@ -7148,8 +7111,8 @@
 
 .tidsvindue__interaction-text {
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: 15px;
-  font-style: italic;
+  font-size: 17px;
+
   color: #666666;
   line-height: 1.6;
   margin: 4px 0 0;
@@ -7198,14 +7161,14 @@
 }
 .idag__tidsvindue-kort-subtitle {
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: 15px;
-  font-style: italic;
-  color: #777;
+  font-size: 17px;
+
+  color: #555;
   margin: 0 0 12px;
   line-height: 1.5;
 }
 .idag__tidsvindue-kort-link {
-  font-size: 15px;
+  font-size: 17px;
   color: #9678A4;
   font-weight: 500;
 }
@@ -7229,8 +7192,8 @@
 
 .tidsvindue__crosslink-text {
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: 14px;
-  font-style: italic;
+  font-size: 17px;
+
   color: #8B9A9D;
 }
 
@@ -7267,7 +7230,7 @@
   font-size: 24px;
   color: #7B6E9A;
   font-weight: 400;
-  font-style: italic;
+
   text-align: center;
   margin: 0 0 8px 0;
 }
@@ -7276,7 +7239,7 @@
   font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 17px;
   color: #666;
-  font-style: italic;
+
   text-align: center;
   line-height: 1.65;
   margin: 0 auto 20px;
@@ -7313,19 +7276,19 @@
 
 .rel-nav-card__desc {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 16px;
-  color: #777;
+  font-size: 17px;
+  color: #555;
   line-height: 1.55;
-  font-style: italic;
+
 }
 
 .rel-nav-card__arrow {
   display: flex;
   justify-content: flex-end;
   margin-top: 6px;
-  font-size: 15px;
+  font-size: 17px;
   color: #9886B0;
-  font-style: italic;
+
 }
 
 /* Relationer insight box */
@@ -7352,7 +7315,7 @@
   font-size: 17px;
   color: #444;
   line-height: 1.65;
-  font-style: italic;
+
 }
 
 /* Tilføj person (dashed, lilla) */
@@ -7378,17 +7341,17 @@
 
 .rel-add-person__sub {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 14px;
-  color: #999;
+  font-size: 17px;
+  color: #666;
   margin-top: 3px;
-  font-style: italic;
+
 }
 
 .rel-btt {
   text-align: center;
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
-  color: #999;
+  font-size: 17px;
+  color: #666;
   margin-top: 28px;
   cursor: pointer;
 }
@@ -7442,25 +7405,25 @@
 
 .rel-dyn-card__phase {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
+  font-size: 17px;
   color: #9886B0;
-  font-style: italic;
+
 }
 
 .rel-dyn-card__body {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 16px;
+  font-size: 17px;
   color: #555;
   line-height: 1.6;
-  font-style: italic;
+
   margin-bottom: 10px;
 }
 
 .rel-dyn-card__link {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
+  font-size: 17px;
   color: #9886B0;
-  font-style: italic;
+
 }
 
 /* =========================================
@@ -7475,7 +7438,7 @@
   font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 17px;
   color: #555;
-  font-style: italic;
+
   text-align: center;
   line-height: 1.7;
   margin-bottom: 24px;
@@ -7502,8 +7465,8 @@
 
 .rel-twocol__sub {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 13px;
-  color: #777;
+  font-size: 17px;
+  color: #555;
 }
 
 .rel-twocol__main {
@@ -7516,23 +7479,23 @@
 
 .rel-twocol__phase {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 14px;
+  font-size: 17px;
   color: #9886B0;
 }
 
 .rel-twocol__quality {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
+  font-size: 17px;
   color: #9886B0;
-  font-style: italic;
+
   margin-top: 2px;
 }
 
 .rel-twocol__note {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 13px;
-  color: #888;
-  font-style: italic;
+  font-size: 17px;
+  color: #666;
+
   margin-top: 2px;
 }
 
@@ -7555,18 +7518,18 @@
 
 .rel-forskydning__unit {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
-  color: #777;
+  font-size: 17px;
+  color: #555;
   margin-top: 2px;
 }
 
 .rel-forskydning__text {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 16px;
+  font-size: 17px;
   color: #555;
   margin-top: 10px;
   line-height: 1.6;
-  font-style: italic;
+
 }
 
 /* Timeline visualization */
@@ -7598,10 +7561,10 @@
 
 .rel-samtale__text {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 16px;
+  font-size: 17px;
   color: #444;
   line-height: 1.6;
-  font-style: italic;
+
 }
 
 /* Gradient lilla button */
@@ -7617,7 +7580,7 @@
   font-size: 17px;
   text-align: center;
   margin-top: 20px;
-  font-style: italic;
+
   cursor: pointer;
   transition: opacity 0.2s ease;
 }
@@ -7632,8 +7595,8 @@
   text-align: center;
   color: #9886B0;
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 16px;
-  font-style: italic;
+  font-size: 17px;
+
   margin-top: 10px;
   text-decoration: underline;
   text-decoration-color: rgba(152, 134, 176, 0.3);
@@ -7671,16 +7634,16 @@
   font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 24px;
   color: #7B6E9A;
-  font-style: italic;
+
   margin-bottom: 8px;
 }
 
 .rel-rolle__text {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 16px;
+  font-size: 17px;
   color: #555;
   line-height: 1.6;
-  font-style: italic;
+
 }
 
 /* Forbindelse cards */
@@ -7706,16 +7669,16 @@
   font-family: 'Times New Roman', Times, Georgia, serif;
   font-size: 20px;
   color: #7B6E9A;
-  font-style: italic;
+
   margin-bottom: 6px;
 }
 
 .rel-forbindelse__desc {
   font-family: 'Times New Roman', Times, Georgia, serif;
-  font-size: 15px;
+  font-size: 17px;
   color: #666;
   line-height: 1.6;
-  font-style: italic;
+
 }
 
 /* =========================================
@@ -7732,7 +7695,7 @@
   color: #5A74A5;
   font-weight: 400;
   text-align: center;
-  font-style: italic;
+
   margin: 24px 0 8px;
 }
 
@@ -7740,7 +7703,7 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 17px;
   color: #666;
-  font-style: italic;
+
   text-align: center;
   line-height: 1.65;
   margin-bottom: 28px;
@@ -7849,7 +7812,7 @@
   font-size: 17px;
   color: #444;
   line-height: 1.65;
-  font-style: italic;
+
 }
 
 /* Sektionsoverskrifter */
@@ -7859,14 +7822,14 @@
   color: #5A74A5;
   font-weight: 400;
   text-align: center;
-  font-style: italic;
+
   margin-bottom: 8px;
 }
 
 .mc__section-sub {
   font-family: var(--font-serif);
   font-size: 17px;
-  font-style: italic;
+
   color: #666;
   text-align: center;
   line-height: 1.65;
@@ -7902,10 +7865,10 @@
 
 .mc__nav-card p {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 16px;
-  color: #777;
+  font-size: 17px;
+  color: #555;
   line-height: 1.55;
-  font-style: italic;
+
 }
 
 .mc__nav-card .mc__nav-arrow {
@@ -7913,9 +7876,9 @@
   justify-content: flex-end;
   margin-top: 6px;
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 15px;
+  font-size: 17px;
   color: #7690C1;
-  font-style: italic;
+
 }
 
 /* Gradient-boks */
@@ -7939,15 +7902,15 @@
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   font-size: 20px;
   color: white;
-  font-style: italic;
+
   line-height: 1.5;
 }
 
 .mc__gradient-sub {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 16px;
+  font-size: 17px;
   color: rgba(255, 255, 255, 0.7);
-  font-style: italic;
+
   margin-top: 10px;
   line-height: 1.55;
 }
@@ -7987,9 +7950,9 @@
 
 .mc__cycle-desc {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 16px;
-  color: #777;
-  font-style: italic;
+  font-size: 17px;
+  color: #555;
+
   line-height: 1.55;
 }
 
@@ -8031,8 +7994,8 @@
   text-align: center;
   color: #7690C1;
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 16px;
-  font-style: italic;
+  font-size: 17px;
+
   margin-top: 10px;
   text-decoration: underline;
   text-decoration-color: rgba(118, 144, 193, 0.3);
@@ -8055,17 +8018,17 @@
   align-items: center;
   gap: 4px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 13px;
-  color: #888;
+  font-size: 17px;
+  color: #666;
   cursor: pointer;
 }
 
 /* Hint og Tilbage til toppen */
 .mc__hint {
   font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 15px;
-  color: #999;
-  font-style: italic;
+  font-size: 17px;
+  color: #666;
+
   text-align: center;
   margin-top: 16px;
   line-height: 1.6;
@@ -8073,8 +8036,8 @@
 
 .mc__btt {
   text-align: center;
-  font-size: 15px;
-  color: #999;
+  font-size: 17px;
+  color: #666;
   margin-top: 28px;
   cursor: pointer;
 }
@@ -8113,9 +8076,9 @@
   pointer-events: none;
 }
 .mc__dp-sub {
-  font-size: 15px;
-  color: #777;
-  font-style: italic;
+  font-size: 17px;
+  color: #555;
+
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
 }
 .mc__dp-nav {
@@ -8123,9 +8086,9 @@
   justify-content: center;
   gap: 40px;
   margin-top: 12px;
-  font-size: 15px;
+  font-size: 17px;
   color: #7690C1;
-  font-style: italic;
+
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
 }
 .mc__dp-nav span {
@@ -8166,9 +8129,9 @@
   border-radius: 12px;
 }
 .mc__tr-dt {
-  font-size: 16px;
-  color: #777;
-  font-style: italic;
+  font-size: 17px;
+  color: #555;
+
   line-height: 1.55;
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
 }
@@ -8224,9 +8187,9 @@
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
 }
 .mc__tl-text {
-  font-size: 16px;
-  color: #777;
-  font-style: italic;
+  font-size: 17px;
+  color: #555;
+
   line-height: 1.55;
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
 }
@@ -8277,16 +8240,16 @@
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
 }
 .mc__fc-text {
-  font-size: 16px;
-  color: #777;
-  font-style: italic;
+  font-size: 17px;
+  color: #555;
+
   line-height: 1.55;
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
 }
 .mc__fc-link {
-  font-size: 15px;
+  font-size: 17px;
   color: #7690C1;
-  font-style: italic;
+
   margin-top: 6px;
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
 }
@@ -8311,21 +8274,21 @@
 }
 .mc__wc-n {
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
-  font-style: italic;
+
   font-size: 18px;
   color: #5A74A5;
   margin-bottom: 4px;
 }
 .mc__wc-days {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 13px;
-  color: #777;
+  font-size: 17px;
+  color: #555;
   margin-bottom: 6px;
 }
 .mc__wc-s {
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
-  font-style: italic;
-  font-size: 15px;
+
+  font-size: 17px;
   color: #5A74A5;
   margin-bottom: 4px;
 }
@@ -8340,8 +8303,8 @@
 }
 .mc__wc-tx {
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
-  font-style: italic;
-  font-size: 15px;
+
+  font-size: 17px;
   color: #444;
   line-height: 1.55;
 }
@@ -8358,7 +8321,7 @@
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
   font-size: 35px;
   color: #6B5F7B;
-  font-style: italic;
+
   font-weight: 400;
   text-align: center;
   margin: 20px 0 8px;
@@ -8367,8 +8330,8 @@
 .mv__intro {
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
   font-size: 18px;
-  color: #777;
-  font-style: italic;
+  color: #555;
+
   text-align: center;
   line-height: 1.65;
   margin-bottom: 24px;
@@ -8408,7 +8371,7 @@
 
 .mv__chip {
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
-  font-size: 16px;
+  font-size: 17px;
   padding: 8px 16px;
   border-radius: 20px;
   cursor: pointer;
@@ -8448,7 +8411,7 @@
 
 .mv__date-nav {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 15px;
+  font-size: 17px;
   color: #8B7D9B;
   background: none;
   border: none;
@@ -8469,14 +8432,14 @@
 
 .mv__date-month {
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
-  font-size: 16px;
+  font-size: 17px;
   color: #8B7D9B;
 }
 
 .mv__date-relative {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 16px;
-  color: #888;
+  font-size: 17px;
+  color: #666;
   margin-top: 2px;
 }
 
@@ -8493,7 +8456,7 @@
   width: 100%;
   text-align: center;
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
-  font-size: 15px;
+  font-size: 17px;
   color: #8B7D9B;
   background: none;
   border: 1px solid rgba(139,125,155,0.18);
@@ -8512,7 +8475,7 @@
 
 .mv__quick-chip {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 14px;
+  font-size: 17px;
   color: #8B7D9B;
   background: none;
   border: 1px solid rgba(139,125,155,0.18);
@@ -8546,7 +8509,7 @@
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
   font-size: 24px;
   color: #6B5F7B;
-  font-style: italic;
+
   text-align: center;
   margin: 28px 0 16px;
 }
@@ -8587,21 +8550,21 @@
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
   font-size: 17px;
   color: #6B5F7B;
-  font-style: italic;
+
   margin-bottom: 4px;
 }
 
 .mv__compare-element {
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
-  font-size: 15px;
+  font-size: 17px;
   color: #8B7D9B;
-  font-style: italic;
+
 }
 
 .mv__compare-age {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 14px;
-  color: #888;
+  font-size: 17px;
+  color: #666;
   margin-top: 4px;
 }
 
@@ -8641,15 +8604,15 @@
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
   font-size: 20px;
   color: white;
-  font-style: italic;
+
   margin-bottom: 6px;
 }
 
 .mv__moedet-text {
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
-  font-size: 16px;
+  font-size: 17px;
   color: rgba(255,255,255,0.7);
-  font-style: italic;
+
   line-height: 1.55;
 }
 
@@ -8677,7 +8640,7 @@
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
   font-size: 17px;
   color: #444;
-  font-style: italic;
+
   line-height: 1.55;
 }
 
@@ -8704,7 +8667,7 @@
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
   font-size: 17px;
   color: #444;
-  font-style: italic;
+
   line-height: 1.65;
 }
 
@@ -8718,9 +8681,9 @@
 
 .mv__result-link {
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
-  font-size: 16px;
+  font-size: 17px;
   color: #8B7D9B;
-  font-style: italic;
+
   background: none;
   border: none;
   cursor: pointer;
@@ -8741,7 +8704,7 @@
   font-size: var(--text-h2);
   color: #6B5F7B;
   font-weight: 400;
-  font-style: italic;
+
   margin: 28px 0 10px;
   text-align: center;
 }
@@ -8767,7 +8730,7 @@
   font-size: var(--text-small);
   color: #666;
   line-height: 1.6;
-  font-style: italic;
+
 }
 
 .mv__sc-example {
@@ -8775,7 +8738,7 @@
   font-size: var(--text-tiny);
   color: #8B7D9B;
   margin-top: 8px;
-  font-style: italic;
+
   padding-top: 8px;
   border-top: 1px solid rgba(139,125,155,0.08);
 }
@@ -8801,14 +8764,14 @@
   font-family: var(--font-serif);
   font-size: var(--text-body);
   color: white;
-  font-style: italic;
+
   line-height: 1.5;
 }
 
 .mv__xlink-lbl {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 12px;
-  color: #999;
+  color: #666;
   letter-spacing: 2px;
   text-transform: uppercase;
   font-weight: 600;
@@ -8850,7 +8813,7 @@
   font-family: var(--font-serif);
   font-size: var(--text-tiny);
   line-height: 1.5;
-  font-style: italic;
+
 }
 
 .mv__nc-desc--blaa { color: #5A74A5; }
@@ -8863,7 +8826,7 @@
   margin-top: 5px;
   font-family: var(--font-serif);
   font-size: var(--text-tiny);
-  font-style: italic;
+
 }
 
 .mv__nc-arrow--blaa { color: #5A74A5; }
@@ -8919,9 +8882,9 @@
 
 .krydslinks__card-desc {
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
-  font-size: 15px;
-  color: #777;
-  font-style: italic;
+  font-size: 17px;
+  color: #555;
+
   line-height: 1.5;
 }
 
@@ -8940,43 +8903,43 @@
 .epi-pp-dot { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; }
 .epi-pp-dot--me { background: linear-gradient(135deg, #5A74A5, #7690C1); }
 .epi-pp-dot--mor { background: linear-gradient(135deg, #C2735C, #D4946E); }
-.epi-pp-name { font-size: 15px; color: #555; font-weight: 500; }
-.epi-pp-el { font-family: var(--font-serif, Georgia, serif); font-size: 14px; color: #888; font-style: italic; }
+.epi-pp-name { font-size: 17px; color: #555; font-weight: 500; }
+.epi-pp-el { font-family: var(--font-serif, Georgia, serif); font-size: 17px; color: #666; }
 .epi-pp-connector { font-size: 20px; color: #d4cce0; }
 
 .epi-grd { background: linear-gradient(135deg, #7B6E9A 0%, #9886B0 100%); border-radius: 14px; padding: 22px; margin: 16px 0; }
 .epi-grd-lbl { font-size: 12px; color: rgba(255,255,255,0.6); letter-spacing: 2px; text-transform: uppercase; font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin-bottom: 8px; }
 .epi-grd-txt { font-family: var(--font-serif, Georgia, serif); font-size: 20px; color: white; font-style: italic; line-height: 1.5; }
-.epi-grd-sub { font-family: var(--font-serif, Georgia, serif); font-size: 16px; color: rgba(255,255,255,0.7); font-style: italic; margin-top: 10px; line-height: 1.55; }
+.epi-grd-sub { font-family: var(--font-serif, Georgia, serif); font-size: 17px; color: rgba(255,255,255,0.7); margin-top: 10px; line-height: 1.55; }
 
 .epi-twocol { display: flex; gap: 10px; margin: 14px 0; }
 .epi-twocol-box { flex: 1; background: rgba(184,166,192,0.06); border: 1px solid rgba(184,166,192,0.1); border-radius: 14px; padding: 16px 12px; text-align: center; }
 .epi-twocol-lbl { font-size: 12px; color: #9886B0; letter-spacing: 1.5px; text-transform: uppercase; font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 600; margin-bottom: 6px; }
 .epi-twocol-val { font-family: var(--font-serif, Georgia, serif); font-size: 22px; color: #7B6E9A; font-style: italic; }
-.epi-twocol-desc { font-family: var(--font-serif, Georgia, serif); font-size: 14px; color: #777; font-style: italic; margin-top: 4px; }
+.epi-twocol-desc { font-family: var(--font-serif, Georgia, serif); font-size: 17px; color: #555; margin-top: 4px; }
 
 .epi-trad { background: rgba(184,166,192,0.04); border: 1px solid rgba(184,166,192,0.1); border-radius: 14px; padding: 16px; margin: 8px 0; }
 .epi-trad-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-.epi-trad-name { font-family: var(--font-serif, Georgia, serif); font-size: 16px; color: #7B6E9A; font-weight: 500; }
-.epi-trad-origin { font-family: var(--font-serif, Georgia, serif); font-size: 13px; color: #999; font-style: italic; }
-.epi-trad-txt { font-family: var(--font-serif, Georgia, serif); font-size: 16px; color: #555; line-height: 1.6; font-style: italic; }
+.epi-trad-name { font-family: var(--font-serif, Georgia, serif); font-size: 17px; color: #7B6E9A; font-weight: 500; }
+.epi-trad-origin { font-family: var(--font-serif, Georgia, serif); font-size: 17px; color: #666; }
+.epi-trad-txt { font-family: var(--font-serif, Georgia, serif); font-size: 17px; color: #555; line-height: 1.6; }
 
 .epi-prac { background: rgba(107,130,115,0.05); border: 1px solid rgba(107,130,115,0.12); border-radius: 14px; padding: 16px; margin: 8px 0; }
 .epi-prac-lbl { font-size: 12px; color: #6B8273; letter-spacing: 2px; text-transform: uppercase; font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 600; margin-bottom: 6px; }
 .epi-prac-title { font-family: var(--font-serif, Georgia, serif); font-size: 18px; color: #333; font-weight: 500; margin-bottom: 5px; }
-.epi-prac-txt { font-family: var(--font-serif, Georgia, serif); font-size: 16px; color: #555; line-height: 1.6; font-style: italic; }
+.epi-prac-txt { font-family: var(--font-serif, Georgia, serif); font-size: 17px; color: #555; line-height: 1.6; }
 
 .epi-nc { background: rgba(184,166,192,0.04); border: 1px solid rgba(184,166,192,0.12); border-radius: 14px; padding: 16px 18px; margin-bottom: 10px; cursor: pointer; }
 .epi-nc:active { opacity: 0.8; }
 .epi-nc-title { font-family: var(--font-serif, Georgia, serif); font-size: 18px; color: #333; font-weight: 500; margin-bottom: 4px; }
-.epi-nc-desc { font-family: var(--font-serif, Georgia, serif); font-size: 15px; color: #777; line-height: 1.5; font-style: italic; }
-.epi-nc-arrow { display: flex; justify-content: flex-end; margin-top: 5px; font-family: var(--font-serif, Georgia, serif); font-size: 15px; color: #9886B0; font-style: italic; }
+.epi-nc-desc { font-family: var(--font-serif, Georgia, serif); font-size: 17px; color: #555; line-height: 1.5; }
+.epi-nc-arrow { display: flex; justify-content: flex-end; margin-top: 5px; font-family: var(--font-serif, Georgia, serif); font-size: 17px; color: #9886B0; }
 
 .epi-cta { display: block; width: 100%; padding: 16px; background: linear-gradient(135deg, #7B6E9A, #9886B0); color: white; border: none; border-radius: 14px; font-family: var(--font-serif, Georgia, serif); font-size: 20px; font-style: italic; text-align: center; cursor: pointer; margin: 16px 0; }
 .epi-cta:active { opacity: 0.8; }
-.epi-cta-sub { font-family: var(--font-serif, Georgia, serif); font-size: 15px; color: #888; font-style: italic; text-align: center; margin-top: -6px; margin-bottom: 20px; }
+.epi-cta-sub { font-family: var(--font-serif, Georgia, serif); font-size: 17px; color: #666; text-align: center; margin-top: -6px; margin-bottom: 20px; }
 
-.epi-xlink-lbl { font-size: 12px; color: #999; letter-spacing: 2px; text-transform: uppercase; font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 600; text-align: center; margin-bottom: 12px; }
+.epi-xlink-lbl { font-size: 12px; color: #666; letter-spacing: 2px; text-transform: uppercase; font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 600; text-align: center; margin-bottom: 12px; }
 
 /* ========================================
    OM ISABELLE
@@ -9008,9 +8971,9 @@
 .isa__title-line {
   text-align: center;
   font-family: var(--font-serif);
-  font-size: 15px;
-  color: #999;
-  font-style: italic;
+  font-size: 17px;
+  color: #666;
+
   line-height: 1.55;
   margin-bottom: 20px;
 }
@@ -9030,7 +8993,7 @@
   font-size: 17px;
   color: #555;
   line-height: 1.7;
-  font-style: italic;
+
   margin-bottom: 16px;
 }
 
@@ -9039,7 +9002,7 @@
   font-family: var(--font-serif);
   font-size: 19px;
   color: #9B8B7A;
-  font-style: italic;
+
   text-align: center;
   line-height: 1.6;
   margin: 20px 0;
@@ -9070,7 +9033,7 @@
   font-size: 17px;
   color: #444;
   line-height: 1.65;
-  font-style: italic;
+
 }
 
 /* Product cards */
@@ -9105,16 +9068,16 @@
 }
 .isa__prod-tx {
   font-family: var(--font-serif);
-  font-size: 16px;
-  color: #777;
-  font-style: italic;
+  font-size: 17px;
+  color: #555;
+
   line-height: 1.55;
 }
 .isa__prod-lk {
   font-family: var(--font-serif);
-  font-size: 15px;
+  font-size: 17px;
   color: #9B8B7A;
-  font-style: italic;
+
   margin-top: 8px;
   text-decoration: underline;
   text-decoration-color: rgba(155, 139, 122, 0.3);
@@ -9140,14 +9103,14 @@
   font-family: var(--font-serif);
   font-size: 20px;
   color: white;
-  font-style: italic;
+
   line-height: 1.5;
 }
 .isa__grd-sub {
   font-family: var(--font-serif);
-  font-size: 16px;
+  font-size: 17px;
   color: rgba(255, 255, 255, 0.7);
-  font-style: italic;
+
   margin-top: 10px;
   line-height: 1.55;
 }
@@ -9182,9 +9145,9 @@
 }
 .isa__fc-tx {
   font-family: var(--font-serif);
-  font-size: 14px;
-  color: #777;
-  font-style: italic;
+  font-size: 17px;
+  color: #555;
+
   line-height: 1.4;
 }
 
@@ -9194,8 +9157,8 @@
   text-align: center;
   font-family: var(--font-serif);
   color: #9B8B7A;
-  font-size: 16px;
-  font-style: italic;
+  font-size: 17px;
+
   margin-top: 12px;
   text-decoration: underline;
   text-decoration-color: rgba(155, 139, 122, 0.3);
@@ -9215,18 +9178,18 @@
   border-radius: 12px;
   padding: 12px 18px;
   font-family: var(--font-serif);
-  font-size: 15px;
+  font-size: 17px;
   color: #9B8B7A;
-  font-style: italic;
+
   text-decoration: none;
 }
 
 /* Hint */
 .isa__hint {
   font-family: var(--font-serif);
-  font-size: 15px;
-  color: #999;
-  font-style: italic;
+  font-size: 17px;
+  color: #666;
+
   text-align: center;
   margin-top: 16px;
   line-height: 1.6;
@@ -9254,12 +9217,12 @@
 }
 .isa__xlink-txt {
   font-family: var(--font-serif);
-  font-size: 16px;
+  font-size: 17px;
   color: #7690C1;
-  font-style: italic;
+
 }
 .isa__xlink-arr {
-  font-size: 16px;
+  font-size: 17px;
   color: #7690C1;
 }
 .isa__xlink--praksis {
@@ -9285,8 +9248,8 @@
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  font-size: 13px;
-  color: #888;
+  font-size: 17px;
+  color: #666;
   cursor: pointer;
 }
 
