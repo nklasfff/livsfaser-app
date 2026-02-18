@@ -1,0 +1,47 @@
+<svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Pentagram linjer -->
+  <line x1="300" y1="80" x2="120" y2="218" stroke="#4a6a6f" stroke-opacity="0.25" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="300" y1="80" x2="480" y2="218" stroke="#4a6a6f" stroke-opacity="0.25" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="120" y1="218" x2="186" y2="430" stroke="#4a6a6f" stroke-opacity="0.25" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="480" y1="218" x2="414" y2="430" stroke="#4a6a6f" stroke-opacity="0.25" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="186" y1="430" x2="414" y2="430" stroke="#4a6a6f" stroke-opacity="0.25" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- Krydslinjer (pentagram indre) -->
+  <line x1="300" y1="80" x2="186" y2="430" stroke="#4a6a6f" stroke-opacity="0.15" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="300" y1="80" x2="414" y2="430" stroke="#4a6a6f" stroke-opacity="0.15" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="120" y1="218" x2="414" y2="430" stroke="#4a6a6f" stroke-opacity="0.15" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="480" y1="218" x2="186" y2="430" stroke="#4a6a6f" stroke-opacity="0.15" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="120" y1="218" x2="480" y2="218" stroke="#4a6a6f" stroke-opacity="0.15" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- Centrum cirkel -->
+  <circle cx="300" cy="272" r="58" fill="#4a6a6f" fill-opacity="0.7" stroke="#4a6a6f" stroke-opacity="0.5" stroke-width="1"/>
+  <text x="300" y="267" text-anchor="middle" font-family="Times New Roman, serif" font-size="13" font-weight="bold" fill="white">HELE</text>
+  <text x="300" y="283" text-anchor="middle" font-family="Times New Roman, serif" font-size="13" font-weight="bold" fill="white">DIG</text>
+
+  <!-- Top: Frygt (Vand) -->
+  <circle cx="300" cy="80" r="52" fill="#6b8a8f" fill-opacity="0.7" stroke="#6b8a8f" stroke-opacity="0.5" stroke-width="1"/>
+  <text x="300" y="76" text-anchor="middle" font-family="Times New Roman, serif" font-size="13" font-weight="bold" fill="white">Frygt</text>
+  <text x="300" y="92" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" fill="white" font-style="italic">Angst</text>
+
+  <!-- Højre øverst: Vrede (Træ) -->
+  <circle cx="480" cy="218" r="52" fill="#6b8a8f" fill-opacity="0.7" stroke="#6b8a8f" stroke-opacity="0.5" stroke-width="1"/>
+  <text x="480" y="214" text-anchor="middle" font-family="Times New Roman, serif" font-size="13" font-weight="bold" fill="white">Vrede</text>
+  <text x="480" y="230" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" fill="white" font-style="italic">Frustration</text>
+
+  <!-- Højre nede: Glæde (Ild) -->
+  <circle cx="414" cy="430" r="52" fill="#6b8a8f" fill-opacity="0.7" stroke="#6b8a8f" stroke-opacity="0.5" stroke-width="1"/>
+  <text x="414" y="426" text-anchor="middle" font-family="Times New Roman, serif" font-size="13" font-weight="bold" fill="white">Glæde</text>
+  <text x="414" y="442" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" fill="white" font-style="italic">Rastløshed</text>
+
+  <!-- Venstre nede: Bekymring (Jord) -->
+  <circle cx="186" cy="430" r="52" fill="#6b8a8f" fill-opacity="0.7" stroke="#6b8a8f" stroke-opacity="0.5" stroke-width="1"/>
+  <text x="186" y="426" text-anchor="middle" font-family="Times New Roman, serif" font-size="13" font-weight="bold" fill="white">Bekymring</text>
+  <text x="186" y="442" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" fill="white" font-style="italic">Overtænkning</text>
+
+  <!-- Venstre øverst: Sorg (Metal) -->
+  <circle cx="120" cy="218" r="52" fill="#6b8a8f" fill-opacity="0.7" stroke="#6b8a8f" stroke-opacity="0.5" stroke-width="1"/>
+  <text x="120" y="214" text-anchor="middle" font-family="Times New Roman, serif" font-size="13" font-weight="bold" fill="white">Sorg</text>
+  <text x="120" y="230" text-anchor="middle" font-family="Times New Roman, serif" font-size="11" fill="white" font-style="italic">Tomhed</text>
+
+</svg>

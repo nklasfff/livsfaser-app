@@ -1,0 +1,42 @@
+<svg width="600" height="460" viewBox="0 20 600 460" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Tre cirkler i triangulær formation -->
+  <!-- Top -->
+  <circle cx="300" cy="190" r="150" fill="#8A7EA4" fill-opacity="0.35"/>
+
+  <!-- Bund venstre -->
+  <circle cx="223" cy="330" r="150" fill="#9886B0" fill-opacity="0.35"/>
+
+  <!-- Bund højre -->
+  <circle cx="377" cy="330" r="150" fill="#A896B8" fill-opacity="0.35"/>
+
+  <!-- Tekst i cirklerne -->
+  <!-- Top cirkel - LIVSFASE -->
+  <text x="300" y="105" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" font-weight="bold" fill="black">LIVSFASE</text>
+  <text x="300" y="125" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="black">Din plads i livets bue</text>
+
+  <!-- Bund venstre cirkel - ÅRSTID -->
+  <text x="153" y="335" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" font-weight="bold" fill="black">ÅRSTID</text>
+  <text x="153" y="355" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="black">Naturens rytme</text>
+  <text x="153" y="371" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="black">lige nu</text>
+
+  <!-- Bund højre cirkel - RELATIONER -->
+  <text x="447" y="335" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" font-weight="bold" fill="black">RELATIONER</text>
+  <text x="447" y="355" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="black">De mennesker du</text>
+  <text x="447" y="371" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" fill="black">deler livet med</text>
+
+  <!-- Ord i overlappende områder -->
+  <!-- Top-venstre overlap (Livsfase + Årstid) -->
+  <text x="205" y="230" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="black">forstærkning</text>
+
+  <!-- Top-højre overlap (Livsfase + Relationer) -->
+  <text x="380" y="230" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="black">forskydning</text>
+
+  <!-- Bund centrum overlap (Årstid + Relationer) -->
+  <text x="300" y="385" text-anchor="middle" font-family="Times New Roman, serif" font-size="16" font-style="italic" fill="black">timing</text>
+
+  <!-- CENTRUM TEKST - 2 linjer -->
+  <text x="300" y="288" text-anchor="middle" font-family="Times New Roman, serif" font-size="17" font-weight="bold" fill="black">DIN</text>
+  <text x="300" y="305" text-anchor="middle" font-family="Times New Roman, serif" font-size="17" font-weight="bold" fill="black">INDSIGT</text>
+
+</svg>

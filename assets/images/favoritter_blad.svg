@@ -1,0 +1,113 @@
+<svg width="600" height="900" xmlns="http://www.w3.org/2000/svg">
+  <!-- ========== STORT LOTUS-BLAD ========== -->
+  <path d="M300,750 
+           C150,700 80,580 110,430 
+           C140,280 240,180 300,150 
+           C360,180 460,280 490,430 
+           C520,580 450,700 300,750 Z" 
+        fill="#8B7D9B" 
+        stroke="#8B7D9B" 
+        stroke-width="3"/>
+
+  <!-- ========== TEKST ========== -->
+
+  <!-- Overskrift -->
+  <text x="300" y="280" 
+        text-anchor="middle" 
+        font-family="Times New Roman, serif" 
+        font-size="28" 
+        font-weight="bold" 
+        fill="#1A1A1A">Mine Favoritter</text>
+
+  <text x="300" y="318" 
+        text-anchor="middle" 
+        font-family="Times New Roman, serif" 
+        font-size="16" 
+        font-style="italic"
+        fill="#2A2A2A">Alt det, der støtter på din rejse</text>
+
+  <!-- Vandret streg -->
+  <line x1="150" y1="338" x2="450" y2="338" 
+        stroke="#3A3A3A" 
+        stroke-width="1.5"/>
+
+  <!-- Kategorier -->
+  <text x="300" y="368" 
+        text-anchor="middle" 
+        font-family="Times New Roman, serif" 
+        font-size="15" 
+        font-weight="bold"
+        fill="#2A2A2A">Øvelser</text>
+
+  <text x="300" y="392" 
+        text-anchor="middle" 
+        font-family="Times New Roman, serif" 
+        font-size="14" 
+        fill="#3A3A3A">Yin yoga, meridian, vejrtrækning</text>
+
+  <text x="300" y="432" 
+        text-anchor="middle" 
+        font-family="Times New Roman, serif" 
+        font-size="15" 
+        font-weight="bold"
+        fill="#2A2A2A">Kost &amp; Urter</text>
+
+  <text x="300" y="456" 
+        text-anchor="middle" 
+        font-family="Times New Roman, serif" 
+        font-size="14" 
+        fill="#3A3A3A">Opskrifter og anbefalinger</text>
+
+  <text x="300" y="496" 
+        text-anchor="middle" 
+        font-family="Times New Roman, serif" 
+        font-size="15" 
+        font-weight="bold"
+        fill="#2A2A2A">Refleksioner</text>
+
+  <text x="300" y="520" 
+        text-anchor="middle" 
+        font-family="Times New Roman, serif" 
+        font-size="14" 
+        fill="#3A3A3A">Spørgsmål og indsigter</text>
+
+  <text x="300" y="560" 
+        text-anchor="middle" 
+        font-family="Times New Roman, serif" 
+        font-size="15" 
+        font-weight="bold"
+        fill="#2A2A2A">Visdom</text>
+
+  <text x="300" y="584" 
+        text-anchor="middle" 
+        font-family="Times New Roman, serif" 
+        font-size="14" 
+        fill="#3A3A3A">Tekststykker du vil huske</text>
+
+  <!-- Vandret streg -->
+  <line x1="150" y1="608" x2="450" y2="608" 
+        stroke="#3A3A3A" 
+        stroke-width="1.5"/>
+
+  <!-- Hjerte og note -->
+  <text x="300" y="640" 
+        text-anchor="middle" 
+        font-family="Times New Roman, serif" 
+        font-size="22" 
+        fill="#2A2A2A">♥</text>
+
+  <text x="300" y="668" 
+        text-anchor="middle" 
+        font-family="Times New Roman, serif" 
+        font-size="14" 
+        font-style="italic"
+        fill="#2A2A2A">Dyrebare perler</text>
+
+  <text x="300" y="690" 
+        text-anchor="middle" 
+        font-family="Times New Roman, serif" 
+        font-size="14" 
+        font-style="italic"
+        fill="#2A2A2A">— alle med hver deres særlige gave</text>
+
+</svg>
