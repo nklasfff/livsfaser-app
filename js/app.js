@@ -2514,29 +2514,29 @@ function renderIdagVinduer() {
   html += '<div class="idag__vinduer-label">TIDSVINDUET</div>';
 
   // Tidsbue billede
-  html += '<div class="idag__vinduer-fig">';
+  html += '<div class="idag__vinduer-fig" style="margin-top:-20px">';
   html += '<img src="assets/images/vinduer-tid-lilla.png" alt="Tidsvinduet" style="width:100%;height:auto">';
   html += '</div>';
 
-  html += '<h3 class="idag__vinduer-t2" style="margin-top:-60px">Rejse i tid \u2014 alene eller med nogen</h3>';
+  html += '<h3 class="idag__vinduer-t2" style="margin-top:-45px">Rejse i tid \u2014 alene eller med nogen</h3>';
   html += '<p class="idag__vinduer-intr" style="margin-bottom:40px">V\u00e6lg en dato der betyder noget \u2014 og se hvilke cyklusser og elementer der var aktive. Eller kig fremad.</p>';
 
   // Lotus dots
   html += '<div class="idag__vinduer-dots">\u00B7 \u00B7 \u00B7</div>';
 
   // ---- RELATIONSVINDUET ----
-  html += '<div class="idag__vinduer-label">RELATIONSVINDUET</div>';
+  html += '<div class="idag__vinduer-label" style="margin-top:-20px">RELATIONSVINDUET</div>';
 
   // Relationsbillede
-  html += '<div class="idag__vinduer-fig">';
+  html += '<div class="idag__vinduer-fig" style="margin-top:-15px">';
   html += '<img src="assets/images/relationer-forside.png" alt="Relationsvinduet" style="width:100%;height:auto">';
   html += '</div>';
 
-  html += '<h3 class="idag__vinduer-t2" style="margin-top:-12px">Se med nogen</h3>';
+  html += '<h3 class="idag__vinduer-t2" style="margin-top:-22px">Se med nogen</h3>';
   html += '<p class="idag__vinduer-intr">V\u00e6lg en person fra dit liv \u2014 og se hvordan jeres cyklusser og livsfaser m\u00f8des.</p>';
 
   // Gradient-boks
-  html += '<div class="idag__vinduer-grd" style="margin-top:50px">';
+  html += '<div class="idag__vinduer-grd" style="margin-top:45px">';
   html += '<div class="idag__vinduer-grd-label">BEV\u00c6GELSE GENNEM TIDER</div>';
   html += '<div class="idag__vinduer-grd-text">Rejse i tid. Se med nogen. Forst\u00e5 hvad der skete \u2014 eller forbered det der kommer.</div>';
   html += '</div>';
