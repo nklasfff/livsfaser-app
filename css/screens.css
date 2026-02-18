@@ -4204,6 +4204,12 @@
   overflow: visible;
 }
 
+/* Større Venn på Relationer lige nu + Tre Generationer */
+.screen--relationer .venn,
+.screen--tre-generationer .venn {
+  max-width: 504px;
+}
+
 .venn__zone {
   transition: opacity 0.15s ease;
 }

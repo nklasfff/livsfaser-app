@@ -3516,7 +3516,7 @@ function renderPartnerTimeline(userAge, theirAge, theirGender) {
   var isMale = (theirGender === 'mand');
   var theirPhaseData = isMale ? MALE_PHASE_DATA : PHASE_DATA;
   var theirPhaseCount = isMale ? 8 : 9;
-  var W = 340, H = 180;
+  var W = 425, H = 225;
   var padL = 30, padR = 10, padT = 30, padB = 25;
   var trackW = W - padL - padR;
   var trackH = 22;
@@ -7031,36 +7031,10 @@ function initMineRelationerScreen() {
   var userPhase = d ? d.lifePhase : calculateLifePhase(userAge);
   var userEl = userPhase.element;
 
-  // ---- Venn diagram: DIG / MØDET / DIN NÆRMESTE ----
+  // ---- Figur: relationer blad ----
   var vennEl = document.getElementById('mine-relationer-venn');
   if (vennEl) {
-    var nearestEl = 'default';
-    var nearestName = 'din n\u00e6rmeste';
-    if (relations.length > 0) {
-      var nr = relations[0];
-      var nrAge = calculateAge(nr.birthdate);
-      var nrPhase = (nr.gender === 'mand') ? calculateMalePhase(nrAge) : calculateLifePhase(nrAge);
-      nearestEl = nrPhase.element;
-      nearestName = nr.name || 'din n\u00e6rmeste';
-    }
-    vennEl.innerHTML = renderVennTwo({
-      leftTitle: 'DIG',
-      leftLines: [
-        'Fase ' + userPhase.phase + ' \u00B7 ' + ELEMENT_LABELS[userEl]
-      ],
-      rightTitle: 'DIN N\u00c6RMESTE',
-      rightLines: [
-        nearestEl !== 'default' ? ELEMENT_LABELS[nearestEl] : 'Tilf\u00f8j en relation'
-      ],
-      overlapTitle: 'M\u00d8DET',
-      overlapLines: [
-        'faser \u00B7 elementer',
-        '*rytme \u00B7 tid'
-      ],
-      leftElement: userEl,
-      rightElement: nearestEl !== 'default' ? nearestEl : undefined,
-      fillColor: '#B8A6C0'
-    });
+    vennEl.innerHTML = '<div style="text-align:center"><img src="assets/images/relationer_blad.svg" alt="Mine Relationer" style="width:66%;height:auto"></div>';
   }
 
   // ---- Person circles ----
