@@ -3346,6 +3346,7 @@
 /* Profiler (Mine Relationer) */
 .tema__profiler {
   margin: 0;
+  margin-top: 40px;
 }
 
 .tema__profil-row {
