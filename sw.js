@@ -1,4 +1,4 @@
-const CACHE_NAME = 'livsfaser-v264';
+const CACHE_NAME = 'livsfaser-v265';
 const urlsToCache = [
   './',
   './index.html',
@@ -38,6 +38,7 @@ const urlsToCache = [
   './screens/dine-cyklusser-lige-nu.html',
   './screens/epigenetik-arv.html',
   './screens/om-isabelle.html',
+  './screens/eft-tapping.html',
   './assets/images/lotus-divider.png',
   './assets/images/9-cirkler.png',
   './assets/images/vindue_forside.svg',
