@@ -5814,7 +5814,7 @@ const App = {
     'kost-urter': 'screens/kost-urter.html',
     'min-journal': 'screens/min-journal.html',
     'mine-favoritter': 'screens/mine-favoritter.html',
-    'mine-samlinger': 'screens/mine-samlinger.html',
+    'mine-opdagelser': 'screens/mine-opdagelser.html',
     'baggrundsviden': 'screens/baggrundsviden.html',
     'dine-cyklusser-lige-nu': 'screens/dine-cyklusser-lige-nu.html',
     'soeg': 'screens/soeg.html',
@@ -5825,7 +5825,7 @@ const App = {
   // Niveau 1 skærme (tema-overblik)
   niveau1: ['mine-cyklusser', 'mine-relationer', 'min-praksis', 'min-rejse', 'mine-vinduer'],
   // Niveau 2 skærme (specifikt indhold)
-  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'kroppens-store-overgange', 'jeres-energi', 'to-rytmer', 'tre-generationer', 'kost-urter', 'min-journal', 'mine-favoritter', 'mine-samlinger', 'baggrundsviden', 'dine-cyklusser-lige-nu', 'soeg', 'epigenetik-arv'],
+  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'kroppens-store-overgange', 'jeres-energi', 'to-rytmer', 'tre-generationer', 'kost-urter', 'min-journal', 'mine-favoritter', 'mine-opdagelser', 'baggrundsviden', 'dine-cyklusser-lige-nu', 'soeg', 'epigenetik-arv'],
 
   init() {
     repairStoredBirthdate();
@@ -5865,7 +5865,7 @@ const App = {
     'tre-generationer': 'mine-relationer',
     'min-journal': 'min-rejse',
     'mine-favoritter': 'min-rejse',
-    'mine-samlinger': 'min-rejse',
+    'mine-opdagelser': 'min-rejse',
     'baggrundsviden': 'min-rejse',
     'dine-cyklusser-lige-nu': 'mine-cyklusser',
     'soeg': 'idag',
@@ -6035,8 +6035,8 @@ const App = {
           initMineFavoritterScreen();
         } else if (screenName === 'min-journal') {
           initMinJournalScreen();
-        } else if (screenName === 'mine-samlinger') {
-          initMineSamlingerScreen();
+        } else if (screenName === 'mine-opdagelser') {
+          initMineOpdagelserScreen();
         } else if (screenName === 'baggrundsviden') {
           initBaggrundsvidenScreen();
         } else if (screenName === 'dine-cyklusser-lige-nu') {
@@ -7415,10 +7415,10 @@ function initMinRejseScreen() {
   h += '<div class="rejse__nc-arrow">Se dit bibliotek \u2192</div>';
   h += '</div>';
 
-  h += '<div class="rejse__nc" onclick="App.loadScreen(\'mine-samlinger\')">';
-  h += '<h3>Mine samlinger</h3>';
-  h += '<p>Dine egne mapper \u2014 &quot;Min morgenrutine&quot;, &quot;Til min datter&quot;, &quot;N\u00e5r jeg har brug for ro&quot;</p>';
-  h += '<div class="rejse__nc-arrow">Se dine samlinger \u2192</div>';
+  h += '<div class="rejse__nc" onclick="App.loadScreen(\'mine-opdagelser\')">';
+  h += '<h3>Mine opdagelser</h3>';
+  h += '<p>Din tidslinje over indsigter og sammenh\u00e6nge \u2014 alt det der faldt p\u00e5 plads undervejs</p>';
+  h += '<div class="rejse__nc-arrow">Se dine opdagelser \u2192</div>';
   h += '</div>';
 
   h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
@@ -8574,76 +8574,128 @@ window.journalSetFilter = journalSetFilter;
 
 // ---- Niveau 2: Mine Samlinger (lavendel) ----
 
-var SAMLINGER_EXAMPLE = [
+var OPDAGELSER_EXAMPLE = [
   {
-    icon: '\u2600\uFE0F',
-    title: 'Min morgenrutine',
-    meta: '6 elementer \u00B7 Brugt 34 gange',
-    items: 'Vejrtr\u00e6kning (4-4-8) \u00B7 Meridian-strygning \u00B7 Varm citrondrik \u00B7 Yin Yoga Tr\u00e6...'
+    date: 'I dag \u00B7 18. februar 2026',
+    text: 'Din mor var i Fase 5, Ild-energi, da hun bar dig. Den varme du m\u00e6rker i dig \u2014 udstr\u00e5lingen og uroen n\u00e5r du ikke er set \u2014 har rod i hendes element.',
+    source: 'Epigenetik & Arv',
+    dotColor: '#9886B0',
+    highlight: true
   },
   {
-    icon: '\uD83C\uDF19',
-    title: 'N\u00e5r jeg har brug for ro',
-    meta: '5 elementer \u00B7 Brugt 12 gange',
-    items: 'Ventral vagus vejrtr\u00e6kning \u00B7 Barnets stilling \u00B7 Varm suppe \u00B7 EFT for angst...'
+    date: '15. februar 2026',
+    text: 'Fire af dine fem cyklusser peger mod Vand lige nu. Det er sj\u00e6ldent \u2014 og det er m\u00e5ske derfor du m\u00e6rker en trang til stilhed og dybde.',
+    source: 'Lige nu \u2014 Fuld resonans',
+    dotColor: '#5A74A5',
+    highlight: false
   },
   {
-    icon: '\uD83D\uDC8C',
-    title: 'Til min datter',
-    meta: '3 elementer \u00B7 Delt 1 gang',
-    items: 'Fase 3 indsigt \u00B7 Tr\u00e6-element \u00f8velser \u00B7 Samtale\u00e5bnere mor-datter...'
+    date: '12. februar 2026',
+    text: 'Vand n\u00e6rer Tr\u00e6. Din stilhed giver din datter plads til at vokse \u2014 det der f\u00f8les som afstand, er m\u00e5ske det bedste du giver hende.',
+    source: 'Mine Vinduer \u2014 dig og din datter',
+    dotColor: '#6B5F7B',
+    highlight: false
   },
   {
-    icon: '\u2744\uFE0F',
-    title: 'Vinterens \u00f8velser',
-    meta: '3 elementer',
-    items: 'Nyre-strygning \u00B7 Vand-yoga \u00B7 Vinterkost...'
+    date: '8. februar 2026',
+    text: 'Da du var 38, var tre cyklusser i Ild og to i Jord. Det var krydsfeltet \u2014 du br\u00e6ndte og landede p\u00e5 samme tid. Det var ikke kaos. Det var overgang.',
+    source: 'Mine Vinduer \u2014 april 1988',
+    dotColor: '#6B5F7B',
+    highlight: false
+  },
+  {
+    date: '3. februar 2026',
+    text: 'Du og din partner er forskudt med 4 \u00e5r i jeres livscyklusser. Du gik ind i Vand-energi da han stadig var i Metal. Det forklarer en hel del.',
+    source: 'To Rytmer \u2014 Parforholdet',
+    dotColor: '#9886B0',
+    highlight: false
+  },
+  {
+    date: '28. januar 2026',
+    text: 'Nyre-meridianen er mest aktiv om vinteren og mellem kl. 17 og 19. Dine to dybeste cyklusser \u2014 livsfase og \u00e5rstid \u2014 m\u00f8des der.',
+    source: 'Cyklusser i Cyklusser',
+    dotColor: '#5A74A5',
+    highlight: false
   }
 ];
 
-function initMineSamlingerScreen() {
-  var el = document.getElementById('mine-samlinger-content');
+function initMineOpdagelserScreen() {
+  var el = document.getElementById('mine-opdagelser-content');
   if (!el) return;
 
   var h = '';
-  h += '<h1 class="rejse__t1">Mine samlinger</h1>';
-  h += '<p class="rejse__intr">Dine egne mapper med \u00f8velser, kost og visdom \u2014 samlet som du vil have det. Her skaber du dine egne kombinationer af det der virker bedst for dig.</p>';
+  h += '<h1 class="rejse__t1">Mine Opdagelser</h1>';
+  h += '<p class="rejse__intr">Hver gang appen viser dig noget der rykker \u2014 en sammenh\u00e6ng du ikke havde set, en indsigt der falder p\u00e5 plads \u2014 gemmes det her. Din egen tidslinje over det du har forst\u00e5et.</p>';
 
-  // Indsigt-boks
-  h += '<div class="rejse__ins">';
-  h += '<div class="rejse__ins-label">DINE SAMLINGER</div>';
-  h += '<div class="rejse__ins-text">Du har 4 samlinger med 17 gemte elementer. Den du bruger mest er \u201cMin morgenrutine\u201d \u2014 m\u00e5ske kan du tilf\u00f8je en Vand-\u00f8velse der passer til vinteren.</div>';
+  // Filter tabs
+  h += '<div class="opdag__tabs">';
+  h += '<div class="opdag__tab opdag__tab--active">Alle</div>';
+  h += '<div class="opdag__tab">Cyklusser</div>';
+  h += '<div class="opdag__tab">Relationer</div>';
+  h += '<div class="opdag__tab">Vinduer</div>';
+  h += '</div>';
+
+  // Status gradient boks
+  h += '<div class="opdag__grd">';
+  h += '<div class="opdag__grd-lbl">DIN REJSE</div>';
+  h += '<div class="opdag__grd-txt">12 opdagelser p\u00e5 47 dage. Den seneste handlede om din mor og Ild-elementet.</div>';
+  h += '<div class="opdag__grd-sub">Du opdager mest i Mine Vinduer \u2014 det er der, sammenh\u00e6ngene falder p\u00e5 plads.</div>';
   h += '</div>';
 
   // Separator
   h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
-  // Samlings-kort
-  for (var i = 0; i < SAMLINGER_EXAMPLE.length; i++) {
-    var s = SAMLINGER_EXAMPLE[i];
-    h += '<div class="rejse__coll">';
-    h += '<div class="rejse__coll-icon">' + s.icon + '</div>';
-    h += '<h3>' + s.title + '</h3>';
-    h += '<div class="rejse__coll-meta">' + s.meta + '</div>';
-    h += '<div class="rejse__coll-items">' + s.items + '</div>';
-    h += '<div class="rejse__coll-arrow">\u00c5bn \u2192</div>';
+  // Timeline
+  h += '<div class="opdag__tl">';
+  for (var i = 0; i < OPDAGELSER_EXAMPLE.length; i++) {
+    var d = OPDAGELSER_EXAMPLE[i];
+    h += '<div class="opdag__disc' + (d.highlight ? ' opdag__disc--highlight' : '') + '">';
+    h += '<div class="opdag__disc-date">' + d.date + '</div>';
+    h += '<div class="opdag__disc-txt">' + d.text + '</div>';
+    h += '<div class="opdag__disc-source">';
+    h += '<div class="opdag__disc-dot" style="background:' + d.dotColor + '"></div>';
+    h += '<div class="opdag__disc-from">' + d.source + '</div>';
+    h += '<div class="opdag__disc-link">\u00c5bn \u2192</div>';
+    h += '</div>';
     h += '</div>';
   }
+  h += '</div>';
+
+  // Se \u00e6ldre link
+  h += '<a class="opdag__older" href="javascript:void(0)">Se \u00e6ldre opdagelser \u2192</a>';
 
   // Separator
   h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
-  // Opret ny samling
-  h += '<div class="rejse__create" onclick="showActionToast(\'Kommer snart\')">+ Opret ny samling</div>';
+  // Isabelle gradient boks
+  h += '<div class="opdag__grd">';
+  h += '<div class="opdag__grd-lbl">ISABELLE</div>';
+  h += '<div class="opdag__grd-txt">Opdagelser kan ikke fremtvinges. De kommer n\u00e5r du er klar \u2014 og de samler sig over tid til en dybere forst\u00e5else af dig selv og dit liv.</div>';
+  h += '</div>';
 
-  // Hint
-  h += '<div class="rejse__hint">Saml \u00f8velser, kost og visdom der h\u00f8rer sammen for dig. Du kan dele en hel samling med nogen du holder af.</div>';
+  // Separator
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+
+  // Krydslinks
+  h += '<div class="opdag__xlink-lbl">UDFORSK MERE</div>';
+
+  h += '<div class="rejse__nc" onclick="App.loadScreen(\'min-udvikling\')">';
+  h += '<h3>Min udvikling</h3>';
+  h += '<p>Se dine check-ins og energi-m\u00f8nstre over tid.</p>';
+  h += '<div class="rejse__nc-arrow">Min Rejse \u2192</div>';
+  h += '</div>';
+
+  h += '<div class="rejse__nc opdag__nc--deep" onclick="App.loadScreen(\'mine-vinduer\')">';
+  h += '<h3>G\u00f8r en ny opdagelse</h3>';
+  h += '<p>V\u00e6lg en dato, tilf\u00f8j en person \u2014 og se hvad cyklusserne siger.</p>';
+  h += '<div class="rejse__nc-arrow" style="color:#6B5F7B">Mine Vinduer \u2192</div>';
+  h += '</div>';
 
   // Del/Kopi\u00e9r/Gem
   h += '<div class="rejse__acts">';
   h += '<button class="rejse__act" onclick="actionShare()">Del</button>';
   h += '<button class="rejse__act" onclick="actionCopyLink()">Kopi\u00e9r</button>';
-  h += '<button class="rejse__act" onclick="actionToggleSave(\'mine-samlinger\')">Gem</button>';
+  h += '<button class="rejse__act" onclick="actionToggleSave(\'mine-opdagelser\')">Gem</button>';
   h += '</div>';
 
   el.innerHTML = h;
@@ -9754,16 +9806,9 @@ function initFavoritterScreen() {
       : 'Du har endnu ikke gemt noget. Tryk Gem på de sider, der taler til dig.';
   }
 
-  // Venn
+  // Figur
   if (vennEl) {
-    vennEl.innerHTML = renderVennTwo({
-      leftTitle: 'DET DU FINDER',
-      leftLines: ['Indsigter · Øvelser', 'Faser · Følelser'],
-      rightTitle: 'DET DU GEMMER',
-      rightLines: ['Det der rører', 'Det der virker'],
-      overlapTitle: 'DIN SAMLING',
-      overlapLines: ['*Dit personlige', '*bibliotek']
-    });
+    vennEl.innerHTML = '<div style="text-align:center"><img src="assets/images/favoritter_blad.svg" alt="Mine Favoritter" style="width:66%;height:auto"></div>';
   }
 
   // Empty state
@@ -9877,7 +9922,7 @@ var MENU_DATA = [
       { label: 'Min udvikling', action: "App.loadScreen('min-udvikling')" },
       { label: 'Min journal', action: "App.loadScreen('min-journal')" },
       { label: 'Mine favoritter', action: "App.loadScreen('mine-favoritter')" },
-      { label: 'Mine samlinger', action: "App.loadScreen('mine-samlinger')" },
+      { label: 'Mine opdagelser', action: "App.loadScreen('mine-opdagelser')" },
       { label: 'Baggrundsviden', action: "App.loadScreen('baggrundsviden')" }
     ]
   },
