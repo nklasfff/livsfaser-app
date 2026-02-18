@@ -12294,39 +12294,8 @@ function initEftTappingScreen() {
   h += '<h3 class="praksis__section-title">De ni tapping-punkter</h3>';
   h += '<p class="praksis__section-intro">Punkterne ligger alle p\u00e5 meridianer og er lette at finde. Du banker let med to fingerspidser, cirka 10\u201320 bank p\u00e5 hvert punkt.</p>';
 
-  // SVG body diagram
-  h += '<div class="eft__diagram">';
-  h += '<svg width="200" height="260" viewBox="0 0 200 260">';
-  h += '<ellipse cx="100" cy="60" rx="42" ry="50" fill="none" stroke="#8A9F91" stroke-width="1.5" opacity="0.4"/>';
-  h += '<line x1="88" y1="108" x2="88" y2="130" stroke="#8A9F91" stroke-width="1.2" opacity="0.3"/>';
-  h += '<line x1="112" y1="108" x2="112" y2="130" stroke="#8A9F91" stroke-width="1.2" opacity="0.3"/>';
-  h += '<path d="M88 130 Q70 130 55 145" fill="none" stroke="#8A9F91" stroke-width="1.2" opacity="0.3"/>';
-  h += '<path d="M112 130 Q130 130 145 145" fill="none" stroke="#8A9F91" stroke-width="1.2" opacity="0.3"/>';
-  h += '<path d="M55 145 L60 220" fill="none" stroke="#8A9F91" stroke-width="1.2" opacity="0.3"/>';
-  h += '<path d="M145 145 L140 220" fill="none" stroke="#8A9F91" stroke-width="1.2" opacity="0.3"/>';
-  h += '<path d="M55 145 Q35 170 30 200" fill="none" stroke="#8A9F91" stroke-width="1" opacity="0.2"/>';
-  h += '<path d="M145 145 Q165 170 170 200" fill="none" stroke="#8A9F91" stroke-width="1" opacity="0.2"/>';
-  h += '<circle cx="100" cy="12" r="5" fill="#6B8273" opacity="0.8"/>';
-  h += '<text x="100" y="5" text-anchor="middle" font-size="8" fill="#6B8273" font-family="-apple-system, sans-serif">1</text>';
-  h += '<circle cx="72" cy="44" r="4.5" fill="#6B8273" opacity="0.8"/>';
-  h += '<text x="58" y="40" text-anchor="middle" font-size="8" fill="#6B8273" font-family="-apple-system, sans-serif">2</text>';
-  h += '<circle cx="140" cy="52" r="4.5" fill="#6B8273" opacity="0.8"/>';
-  h += '<text x="153" y="48" text-anchor="middle" font-size="8" fill="#6B8273" font-family="-apple-system, sans-serif">3</text>';
-  h += '<circle cx="88" cy="68" r="4.5" fill="#6B8273" opacity="0.8"/>';
-  h += '<text x="74" y="72" text-anchor="middle" font-size="8" fill="#6B8273" font-family="-apple-system, sans-serif">4</text>';
-  h += '<circle cx="100" cy="82" r="4.5" fill="#6B8273" opacity="0.8"/>';
-  h += '<text x="117" y="86" text-anchor="middle" font-size="8" fill="#6B8273" font-family="-apple-system, sans-serif">5</text>';
-  h += '<circle cx="100" cy="96" r="4.5" fill="#6B8273" opacity="0.8"/>';
-  h += '<text x="117" y="100" text-anchor="middle" font-size="8" fill="#6B8273" font-family="-apple-system, sans-serif">6</text>';
-  h += '<circle cx="80" cy="134" r="4.5" fill="#6B8273" opacity="0.8"/>';
-  h += '<text x="68" y="128" text-anchor="middle" font-size="8" fill="#6B8273" font-family="-apple-system, sans-serif">7</text>';
-  h += '<circle cx="50" cy="168" r="4.5" fill="#6B8273" opacity="0.8"/>';
-  h += '<text x="37" y="165" text-anchor="middle" font-size="8" fill="#6B8273" font-family="-apple-system, sans-serif">8</text>';
-  h += '<circle cx="30" cy="208" r="4.5" fill="#6B8273" opacity="0.8"/>';
-  h += '<text x="17" y="205" text-anchor="middle" font-size="8" fill="#6B8273" font-family="-apple-system, sans-serif">9</text>';
-  h += '<text x="100" y="250" text-anchor="middle" font-size="10" fill="#8A9F91" font-family="\'Cormorant Garamond\', serif">De ni punkter</text>';
-  h += '</svg>';
-  h += '</div>';
+  // Tapping-punkter figur
+  h += '<div class="figur-wrap"><img src="assets/images/eft_min_praksis.png" alt="De ni tapping-punkter" style="width:50%"></div>';
 
   // 9 point cards
   var points = [
