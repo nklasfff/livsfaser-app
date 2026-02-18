@@ -9254,60 +9254,16 @@
 }
 
 /* ============================================================
-   EFT Tapping — mockup 1:1
+   EFT Tapping — EFT-specific styles only
+   (standard elements use praksis__ classes)
    ============================================================ */
-.eft__t1 {
-  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 28px; color: #6B8273; font-weight: 400;
-  text-align: center; font-style: italic; margin: 24px 0 4px;
-}
-.eft__t2 {
-  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 17px; color: #8A9F91; font-weight: 300;
-  text-align: center; font-style: italic; margin-bottom: 6px;
-  letter-spacing: 0.5px;
-}
-.eft__intro {
-  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 17px; color: #666; font-style: italic;
-  text-align: center; line-height: 1.65; margin-bottom: 24px;
-}
-.eft__dots {
-  text-align: center; color: #a8c4ab; font-size: 9px;
-  letter-spacing: 10px; margin: 28px 0;
-}
-.eft__body-txt {
-  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 17px; color: #555; line-height: 1.7;
-  font-style: italic; margin-bottom: 16px;
-}
-.eft__sec-l {
-  font-size: 17px; color: #6B8273; letter-spacing: 2px;
-  text-transform: uppercase; margin-bottom: 10px;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 600;
-}
-.eft__ins {
-  background: rgba(107,130,115,0.06);
-  border: 1px solid rgba(107,130,115,0.14);
-  border-radius: 14px; padding: 20px; margin: 16px 0;
-}
-.eft__ins-l {
-  font-size: 17px; color: #6B8273; letter-spacing: 2px;
-  text-transform: uppercase; margin-bottom: 8px;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 600;
-}
-.eft__ins-t {
-  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 17px; color: #555; line-height: 1.65;
-  font-style: italic;
-}
 .eft__dyn-badge {
   display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(107,130,115,0.08);
-  border: 1px solid rgba(107,130,115,0.14);
+  background: rgba(139, 154, 157, 0.08);
+  border: 1px solid rgba(139, 154, 157, 0.14);
   border-radius: 20px; padding: 8px 14px; margin: 10px auto;
-  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 17px; color: #6B8273; font-style: italic;
+  font-family: var(--font-serif);
+  font-size: 17px; color: #6B8273;
 }
 .eft__dyn-badge-dot {
   width: 8px; height: 8px; border-radius: 50%; background: #6B8273;
@@ -9316,132 +9272,96 @@
   display: flex; justify-content: center; margin: 20px 0;
 }
 .eft__pt {
-  background: rgba(107,130,115,0.04);
-  border: 1px solid rgba(107,130,115,0.12);
-  border-radius: 14px; padding: 16px 18px; margin-bottom: 10px;
+  background: rgba(139, 154, 157, 0.04);
+  border: 1px solid rgba(139, 154, 157, 0.12);
+  border-radius: 14px; padding: 18px 20px; margin-bottom: 12px;
 }
 .eft__pt-hd {
   display: flex; justify-content: space-between;
   align-items: center; margin-bottom: 4px;
 }
 .eft__pt-nm {
-  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 17px; color: #6B8273; font-weight: 500;
+  font-family: var(--font-serif);
+  font-size: 19px; color: #333; font-weight: 500;
 }
 .eft__pt-tag {
-  font-size: 17px; color: #6B8273; letter-spacing: 1.5px;
+  font-size: 12px; color: #7A9080; letter-spacing: 1.5px;
   text-transform: uppercase;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: rgba(107,130,115,0.08); padding: 4px 10px;
-  border-radius: 12px;
+  font-family: var(--font-sans);
+  background: rgba(139, 154, 157, 0.08); padding: 4px 10px;
+  border-radius: 12px; font-weight: 600;
 }
 .eft__pt-tx {
-  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 17px; color: #555; font-style: italic; line-height: 1.55;
+  font-family: var(--font-serif);
+  font-size: 17px; color: #555; line-height: 1.55;
 }
 .eft__elem-grid {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 10px; margin: 16px 0;
 }
 .eft__elem-card {
-  background: rgba(107,130,115,0.04);
-  border: 1px solid rgba(107,130,115,0.12);
+  background: rgba(139, 154, 157, 0.04);
+  border: 1px solid rgba(139, 154, 157, 0.12);
   border-radius: 14px; padding: 14px; text-align: center;
 }
 .eft__elem-name {
-  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 17px; color: #6B8273; font-weight: 500; margin-bottom: 2px;
+  font-family: var(--font-serif);
+  font-size: 19px; color: #333; font-weight: 500; margin-bottom: 2px;
 }
 .eft__elem-feel {
-  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 17px; color: #666; font-style: italic;
+  font-family: var(--font-serif);
+  font-size: 17px; color: #666;
 }
 .eft__step {
   display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start;
 }
 .eft__step-num {
   width: 28px; height: 28px; min-width: 28px; border-radius: 50%;
-  background: rgba(107,130,115,0.1);
+  background: rgba(139, 154, 157, 0.1);
   display: flex; align-items: center; justify-content: center;
   font-size: 17px; color: #6B8273;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 600;
+  font-family: var(--font-sans); font-weight: 600;
   margin-top: 2px;
 }
 .eft__step-content { flex: 1; }
 .eft__step-title {
-  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 17px; color: #6B8273; font-weight: 500; margin-bottom: 2px;
+  font-family: var(--font-serif);
+  font-size: 19px; color: #333; font-weight: 500; margin-bottom: 2px;
 }
 .eft__step-txt {
-  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 17px; color: #555; font-style: italic; line-height: 1.55;
+  font-family: var(--font-serif);
+  font-size: 17px; color: #555; line-height: 1.55;
 }
 .eft__phrase {
-  background: rgba(107,130,115,0.08);
-  border-left: 3px solid #6B8273;
-  border-radius: 0 12px 12px 0;
-  padding: 14px 16px; margin: 14px 0;
+  background: rgba(139, 154, 157, 0.07);
+  border: 1px solid rgba(139, 154, 157, 0.14);
+  border-radius: 14px;
+  padding: 16px 20px; margin: 14px 0;
 }
 .eft__phrase-txt {
-  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 17px; color: #555; font-style: italic; line-height: 1.6;
+  font-family: var(--font-serif);
+  font-size: 17px; color: #444; font-style: italic; line-height: 1.6;
 }
 .eft__grd {
-  background: linear-gradient(135deg, #6B8273 0%, #8A9F91 100%);
+  background: rgba(139, 154, 157, 0.07);
+  border: 1px solid rgba(139, 154, 157, 0.14);
   border-radius: 14px; padding: 22px; margin: 20px 0;
 }
 .eft__grd-l {
-  font-size: 17px; color: rgba(255,255,255,0.6);
+  font-size: 12px; color: #7A9080;
   letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-sans); font-weight: 600;
 }
 .eft__grd-t {
-  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 18px; color: white; font-style: italic; line-height: 1.5;
+  font-family: var(--font-serif);
+  font-size: 19px; color: #333; font-weight: 500; line-height: 1.5;
 }
 .eft__grd-sub {
-  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 17px; color: rgba(255,255,255,0.7);
-  font-style: italic; margin-top: 10px; line-height: 1.55;
-}
-.eft__hint {
-  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 17px; color: #999; font-style: italic;
-  text-align: center; margin-top: 16px; line-height: 1.6;
+  font-family: var(--font-serif);
+  font-size: 17px; color: #555;
+  margin-top: 10px; line-height: 1.55;
 }
 .eft__lotus-mini {
   display: flex; justify-content: center; margin: 24px 0; opacity: 0.12;
-}
-.eft__xlink {
-  background: rgba(118,144,193,0.06);
-  border: 1px solid rgba(118,144,193,0.12);
-  border-radius: 14px; padding: 16px 18px; margin-bottom: 10px;
-  display: flex; align-items: center; justify-content: space-between;
-  cursor: pointer;
-}
-.eft__xlink-txt {
-  font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  font-size: 17px; color: #7690C1; font-style: italic;
-}
-.eft__xlink-arr { font-size: 17px; color: #7690C1; }
-.eft__xlink--groen {
-  background: rgba(107,130,115,0.06);
-  border-color: rgba(107,130,115,0.12);
-}
-.eft__xlink--groen .eft__xlink-txt,
-.eft__xlink--groen .eft__xlink-arr { color: #6B8273; }
-.eft__xlink--rel {
-  background: rgba(184,166,192,0.06);
-  border-color: rgba(184,166,192,0.12);
-}
-.eft__xlink--rel .eft__xlink-txt,
-.eft__xlink--rel .eft__xlink-arr { color: #B8A6C0; }
-.eft__acts {
-  display: flex; justify-content: center; gap: 32px;
-  padding: 14px 0; border-top: 1px solid #eee; margin-top: 24px;
-}
-.eft__act {
-  display: flex; flex-direction: column; align-items: center;
-  gap: 4px; font-size: 17px; color: #999; cursor: pointer;
 }
 
