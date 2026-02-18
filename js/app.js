@@ -9785,7 +9785,7 @@ function initFavoritterScreen() {
 
   // Figur
   if (vennEl) {
-    vennEl.innerHTML = '<div style="text-align:center"><img src="assets/images/favoritter_blad.svg" alt="Mine Favoritter" style="width:66%;height:auto"></div>';
+    vennEl.innerHTML = '<div style="text-align:center"><img src="assets/images/favoritter_blad_HQ.png" alt="Mine Favoritter" style="width:66%;height:auto"></div>';
   }
 
   // Empty state
