@@ -2868,7 +2868,7 @@ function getDetailRecommendations(element) {
   var yoga = INSIGHT_YOGA[element];
   if (yoga && yoga.length > 0) {
     html += '<div class="mc__cycle-card">';
-    html += '<div class="mc__cycle-tag">\u00d8VELSE \u00b7 ' + ELEMENT_LABELS[element] + '</div>';
+    html += '<div class="mc__ins-label">\u00d8VELSE \u00b7 ' + ELEMENT_LABELS[element] + '</div>';
     html += '<div class="mc__cycle-name">' + yoga[0].pose + '</div>';
     html += '<div class="mc__cycle-desc">' + yoga[0].desc + '</div>';
     html += '</div>';
@@ -2878,7 +2878,7 @@ function getDetailRecommendations(element) {
   var food = INSIGHT_FOOD[element];
   if (food && food.length > 0) {
     html += '<div class="mc__cycle-card">';
-    html += '<div class="mc__cycle-tag">N\u00c6RING \u00b7 ' + ELEMENT_LABELS[element] + '</div>';
+    html += '<div class="mc__ins-label">N\u00c6RING \u00b7 ' + ELEMENT_LABELS[element] + '</div>';
     html += '<div class="mc__cycle-name">' + food[0].item + '</div>';
     html += '<div class="mc__cycle-desc">' + food[0].desc + '</div>';
     html += '</div>';
@@ -2888,7 +2888,7 @@ function getDetailRecommendations(element) {
   var sound = HEALING_SOUNDS[element];
   if (sound) {
     html += '<div class="mc__cycle-card">';
-    html += '<div class="mc__cycle-tag">HEALINGLYD \u00b7 ' + ELEMENT_LABELS[element] + '</div>';
+    html += '<div class="mc__ins-label">HEALINGLYD \u00b7 ' + ELEMENT_LABELS[element] + '</div>';
     html += '<div class="mc__cycle-name">' + sound.lyd + ' (' + sound.organ + ')</div>';
     html += '<div class="mc__cycle-desc">' + sound.desc + '</div>';
     html += '</div>';
@@ -2901,7 +2901,7 @@ function getDetailRecommendations(element) {
   var questions = REFLEKSION_DATA[phase.phase];
   if (questions && questions.length > 0) {
     html += '<div class="mc__cycle-card">';
-    html += '<div class="mc__cycle-tag">REFLEKSION</div>';
+    html += '<div class="mc__ins-label">REFLEKSION</div>';
     html += '<div class="mc__cycle-name">' + questions[0] + '</div>';
     html += '</div>';
   }
