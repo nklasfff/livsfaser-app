@@ -8661,7 +8661,7 @@ function initBaggrundsvidenScreen() {
 
   // Kontrolcyklus-billede
   h += '<div class="rejse__fig">';
-  h += '<img src="assets/images/kontrolcyklus.png" alt="Kontrolcyklussen" class="baggrund-kontrol-img">';
+  h += '<img src="assets/images/kontrolcyklus_lilla.svg" alt="Kontrolcyklussen" class="baggrund-kontrol-img">';
   h += '</div>';
 
   // Indsigt-boks
@@ -10927,7 +10927,7 @@ function initRefleksionScreen() {
 
   // Refleksion figur (SVG)
   if (figurEl) {
-    figurEl.innerHTML = '<div class="praksis__figur" style="text-align:center"><img src="assets/images/refleksioner_figur.svg" alt="Refleksion: Stilhed, Krop, Hukommelse, Fremtid, Indsigt" style="width:66%;height:auto"></div>';
+    figurEl.innerHTML = '<div class="praksis__figur" style="text-align:center"><img src="assets/images/refleksioner_figur.svg" alt="Refleksion: Stilhed, Krop, Hukommelse, Fremtid, Indsigt" style="width:83%;height:auto"></div>';
   }
 
   var userData = JSON.parse(localStorage.getItem('user') || '{}');
