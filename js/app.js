@@ -683,7 +683,7 @@ var OnbWheelPicker = {
         items[i].style.fontSize = '16px';
         items[i].style.fontWeight = '400';
       } else {
-        items[i].style.color = '#ccc';
+        items[i].style.color = '#999';
         items[i].style.fontSize = '15px';
         items[i].style.fontWeight = '400';
       }
@@ -3158,7 +3158,7 @@ function initSamledeIndsigtScreen() {
     for (var dn = 0; dn < counts[keys[dt]]; dn++) dotsText += '\u25CF';
   }
 
-  var html = '<div style="text-align:center;font-size:15px;color:#aaa;margin:8px 0 20px">' + dotsText + '</div>';
+  var html = '<div style="text-align:center;font-size:15px;color:#888;margin:8px 0 20px">' + dotsText + '</div>';
 
   // Dynamisk tekst (2 afsnit)
   var level = 'present';
@@ -3232,7 +3232,7 @@ function initSamledeIndsigtScreen() {
     }
     var dynamisk = generateDynamiskTekst(d, elements);
     if (dynamisk.tidsdynamik) {
-      html += '<p style="font-size:15px;color:#aaa;margin-top:8px;font-style:italic;font-family:var(--font-serif)">' + dynamisk.tidsdynamik + '</p>';
+      html += '<p style="font-size:15px;color:#888;margin-top:8px;font-style:italic;font-family:var(--font-serif)">' + dynamisk.tidsdynamik + '</p>';
     }
   }
 
