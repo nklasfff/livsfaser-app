@@ -5890,7 +5890,7 @@ const App = {
     'soeg': 'idag',
     'mine-vinduer': 'idag',
     'epigenetik-arv': 'mine-relationer',
-    'om-isabelle': 'min-rejse'
+    'om-isabelle': 'indstillinger'
   },
 
   goBack() {
@@ -7558,12 +7558,6 @@ function initMinRejseScreen() {
   h += '<h3>Baggrundsviden</h3>';
   h += '<p>De fem elementer, vedisk filosofi, ni traditioner med \u00e9n visdom, videnskabens bekr\u00e6ftelse</p>';
   h += '<div class="rejse__nc-arrow">Udforsk baggrunden \u2192</div>';
-  h += '</div>';
-
-  h += '<div class="rejse__nc" onclick="App.loadScreen(\'om-isabelle\')">';
-  h += '<h3>Om Isabelle</h3>';
-  h += '<p>Isabelle Evita S\u00f8ndergaard \u2014 forfatteren bag De 9 Livsfasers Energi, hendes b\u00f8ger og \u00e5rstidsforl\u00f8b</p>';
-  h += '<div class="rejse__nc-arrow">L\u00e6s om Isabelle \u2192</div>';
   h += '</div>';
 
   h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
@@ -10066,8 +10060,7 @@ var MENU_DATA = [
       { label: 'Min journal', action: "App.loadScreen('min-journal')" },
       { label: 'Mine favoritter', action: "App.loadScreen('mine-favoritter')" },
       { label: 'Mine opdagelser', action: "App.loadScreen('mine-opdagelser')" },
-      { label: 'Baggrundsviden', action: "App.loadScreen('baggrundsviden')" },
-      { label: 'Om Isabelle', action: "App.loadScreen('om-isabelle')" }
+      { label: 'Baggrundsviden', action: "App.loadScreen('baggrundsviden')" }
     ]
   },
   { separator: true },
@@ -10085,7 +10078,8 @@ var MENU_DATA = [
       { label: 'Notifikationer', action: "navigateToIndstillinger('notifikationer')" },
       { label: 'Privatliv & deling', action: "navigateToIndstillinger('privatliv')" },
       { label: 'Udseende', action: "navigateToIndstillinger('udseende')" },
-      { label: 'Data', action: "navigateToIndstillinger('data')" }
+      { label: 'Data', action: "navigateToIndstillinger('data')" },
+      { label: 'Om Isabelle', action: "App.loadScreen('om-isabelle')" }
     ]
   }
 ];
