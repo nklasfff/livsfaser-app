@@ -6957,7 +6957,8 @@ function initMineRelationerScreen() {
         '*rytme \u00B7 tid'
       ],
       leftElement: userEl,
-      rightElement: nearestEl !== 'default' ? nearestEl : undefined
+      rightElement: nearestEl !== 'default' ? nearestEl : undefined,
+      fillColor: '#B8A6C0'
     });
   }
 
@@ -9196,9 +9197,10 @@ function renderVennTwo(opts) {
     svg += '<text x="350" y="40" text-anchor="middle" font-family=' + font + ' font-size="20" font-weight="bold" fill="black">' + escapeHtml(opts.heading) + '</text>';
   }
 
-  // Circles — fixed blue, no stroke
-  svg += '<circle cx="' + cx1 + '" cy="' + cy1 + '" r="' + R + '" fill="#7690C1" fill-opacity="0.60"/>';
-  svg += '<circle cx="' + cx2 + '" cy="' + cy2 + '" r="' + R + '" fill="#7690C1" fill-opacity="0.80"/>';
+  // Circles — configurable color, default blue
+  var fc = opts.fillColor || '#7690C1';
+  svg += '<circle cx="' + cx1 + '" cy="' + cy1 + '" r="' + R + '" fill="' + fc + '" fill-opacity="0.60"/>';
+  svg += '<circle cx="' + cx2 + '" cy="' + cy2 + '" r="' + R + '" fill="' + fc + '" fill-opacity="0.80"/>';
 
   // Left zone text (centered vertically in circle, title split over 2 lines)
   var ll = opts.leftLines || [];
