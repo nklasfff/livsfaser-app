@@ -3049,8 +3049,8 @@ function showDetail(type) {
 
   container.innerHTML =
     '<button class="breadcrumb-home" onclick="hideDetail()">\u2039 Forside</button>' +
-    '<h2 class="tema__title">' + title + '</h2>' +
-    (subtitle ? '<p class="tema__subtitle">' + subtitle + '</p>' : '') +
+    '<h1 class="rejse__t1">' + title + '</h1>' +
+    (subtitle ? '<p class="rejse__intr">' + subtitle + '</p>' : '') +
     html;
 
   // Show detail, hide home sections
