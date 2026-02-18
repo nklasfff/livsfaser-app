@@ -24,12 +24,12 @@
   --font-system: "Times New Roman", Times, Georgia, serif;
 
   /* Font Sizes */
-  --text-h1: 30px;
-  --text-h2: 25px;
-  --text-h3: 22px;
-  --text-body: 19px;
-  --text-small: 17px;
-  --text-tiny: 15px;
+  --text-h1: 32px;
+  --text-h2: 27px;
+  --text-h3: 24px;
+  --text-body: 21px;
+  --text-small: 19px;
+  --text-tiny: 17px;
 
   /* Subtle backgrounds */
   --bg-card: linear-gradient(145deg, #FAFBFE 0%, #F5F3F7 100%);
