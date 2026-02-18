@@ -11114,7 +11114,7 @@ function initFoelelserScreen() {
 
   // 1. Pentagram image
   if (figurEl) {
-    figurEl.innerHTML = '<img src="assets/images/foelelsernes-kort.png" alt="F\u00f8lelsernes hjul" class="foelelser-kort-img">';
+    figurEl.innerHTML = '<img src="assets/images/foelsernes_hjul.svg" alt="F\u00f8lelsernes hjul" class="foelelser-kort-img">';
   }
 
   // 2. Dynamisk indsigt-boks
