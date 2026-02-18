@@ -7034,7 +7034,7 @@ function initMineRelationerScreen() {
   // ---- Figur: relationer blad ----
   var vennEl = document.getElementById('mine-relationer-venn');
   if (vennEl) {
-    vennEl.innerHTML = '<div style="text-align:center"><img src="assets/images/relationer_blad_liberation_HQ.png" alt="Mine Relationer" style="width:66%;height:auto"></div>';
+    vennEl.innerHTML = '<div style="text-align:center"><img src="assets/images/relationer_blad_liberation_HQ.png" alt="Mine Relationer" style="width:66%;height:auto;display:block;margin:0 auto"></div>';
   }
 
   // ---- Person circles ----
