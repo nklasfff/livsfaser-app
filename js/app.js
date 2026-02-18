@@ -3141,7 +3141,7 @@ function initSamledeIndsigtScreen() {
     for (var dn = 0; dn < counts[keys[dt]]; dn++) dotsText += '\u25CF';
   }
 
-  var html = '<div style="text-align:center;font-size:13px;color:#aaa;margin:8px 0 20px">' + dotsText + '</div>';
+  var html = '<div style="text-align:center;font-size:15px;color:#aaa;margin:8px 0 20px">' + dotsText + '</div>';
 
   // Dynamisk tekst (2 afsnit)
   var level = 'present';
@@ -3181,7 +3181,7 @@ function initSamledeIndsigtScreen() {
   html += '<h3 class="praksis__section-title">Fokusomr\u00e5der</h3>';
   html += '<p class="praksis__section-intro">Hvor du kan rette din opm\u00e6rksomhed i dag. Dine cyklusser peger mod bestemte temaer \u2014 m\u00e5ske genkender du dem allerede som det din krop beder om.</p>';
   var focusItems = INSIGHT_FOCUS[primaryEl] || [];
-  html += '<div style="font-size:14px;color:#555;line-height:1.8;font-style:italic;font-family:var(--font-serif);padding:0 4px">';
+  html += '<div style="font-size:16px;color:#555;line-height:1.8;font-style:italic;font-family:var(--font-serif);padding:0 4px">';
   for (var fc = 0; fc < focusItems.length; fc++) {
     html += '\u25CB ' + focusItems[fc] + '<br>';
   }
@@ -3195,7 +3195,7 @@ function initSamledeIndsigtScreen() {
   if (dominant.length > 1 && INSIGHT_SUGGESTIONS[dominant[1]]) {
     suggestions.push(INSIGHT_SUGGESTIONS[dominant[1]][0]);
   }
-  html += '<div style="font-size:14px;color:#555;line-height:1.8;font-style:italic;font-family:var(--font-serif);padding:0 4px">';
+  html += '<div style="font-size:16px;color:#555;line-height:1.8;font-style:italic;font-family:var(--font-serif);padding:0 4px">';
   for (var sg = 0; sg < suggestions.length; sg++) {
     html += '\u25CB ' + suggestions[sg] + '<br>';
   }
@@ -3215,7 +3215,7 @@ function initSamledeIndsigtScreen() {
     }
     var dynamisk = generateDynamiskTekst(d, elements);
     if (dynamisk.tidsdynamik) {
-      html += '<p style="font-size:13px;color:#aaa;margin-top:8px;font-style:italic;font-family:var(--font-serif)">' + dynamisk.tidsdynamik + '</p>';
+      html += '<p style="font-size:15px;color:#aaa;margin-top:8px;font-style:italic;font-family:var(--font-serif)">' + dynamisk.tidsdynamik + '</p>';
     }
   }
 
@@ -6802,7 +6802,7 @@ function initEpigenetikArvScreen() {
 
   // 6. Fem traditioner, \u00e9n visdom (4 kort)
   h += '<div class="rel-section-heading">Fem traditioner, \u00e9n visdom</div>';
-  h += '<div class="body-text" style="font-family:var(--font-serif,Georgia,serif);font-size:15px;color:#555;font-style:italic;line-height:1.7;margin-bottom:16px;">Det du arver er mere end DNA. P\u00e5 tv\u00e6rs af kulturer har mennesker altid vidst det.</div>';
+  h += '<div class="body-text" style="font-family:var(--font-serif,Georgia,serif);font-size:17px;color:#555;font-style:italic;line-height:1.7;margin-bottom:16px;">Det du arver er mere end DNA. P\u00e5 tv\u00e6rs af kulturer har mennesker altid vidst det.</div>';
 
   for (var ti = 0; ti < EPIGENETIK_DATA.traditioner.length; ti++) {
     var trad = EPIGENETIK_DATA.traditioner[ti];
@@ -9053,7 +9053,7 @@ function renderCheckinForm() {
     var moodInfo = MOOD_OPTIONS.find(function(m) { return m.id === todayCheckin.mood; });
     el.innerHTML =
       '<p class="tracking__checkin-label">\u2713 Du har allerede tjekket ind i dag</p>' +
-      '<p style="font-size:24px; text-align:center; margin-bottom:8px;">' + (moodInfo ? moodInfo.icon : '') + '</p>' +
+      '<p style="font-size:27px; text-align:center; margin-bottom:8px;">' + (moodInfo ? moodInfo.icon : '') + '</p>' +
       '<p style="font-family:var(--font-serif); font-style:italic; color:var(--text-secondary); text-align:center;">' + (todayCheckin.note || 'Ingen noter') + '</p>';
     return;
   }

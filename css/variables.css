@@ -24,12 +24,12 @@
   --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   /* Font Sizes */
-  --text-h1: 32px;
-  --text-h2: 27px;
-  --text-h3: 24px;
-  --text-body: 21px;
-  --text-small: 19px;
-  --text-tiny: 17px;
+  --text-h1: 35px;
+  --text-h2: 30px;
+  --text-h3: 27px;
+  --text-body: 23px;
+  --text-small: 21px;
+  --text-tiny: 19px;
 
   /* Subtle backgrounds */
   --bg-card: linear-gradient(145deg, #FAFBFE 0%, #F5F3F7 100%);
