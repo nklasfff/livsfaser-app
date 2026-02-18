@@ -12271,39 +12271,40 @@ function initEftTappingScreen() {
 
   var h = '';
 
-  // Title
-  h += '<div class="eft__t1">EFT Tapping</div>';
-  h += '<div class="eft__t2">F\u00f8lelsernes akupunktur</div>';
-  h += '<div class="eft__intro">En simpel metode, hvor du banker let p\u00e5 bestemte punkter p\u00e5 kroppen, mens du m\u00e6rker det der fylder. Uden n\u00e5le, uden udstyr \u2014 bare dig og dine h\u00e6nder.</div>';
-
-  // Dynamic element badge
-  h += '<div style="text-align:center">';
-  h += '<div class="eft__dyn-badge"><span class="eft__dyn-badge-dot"></span>Dit element lige nu: ' + domLabel + '</div>';
+  // Dynamic element badge (kontekst-boks)
+  h += '<div class="tema__kontekst">';
+  h += '<p class="tema__kontekst-label">DIT ELEMENT LIGE NU</p>';
+  h += '<p class="tema__kontekst-value">' + domLabel + '</p>';
+  h += '<p class="tema__kontekst-text">' + eftData.beskrivelse + '</p>';
   h += '</div>';
 
   // Dots
-  h += '<div class="eft__dots">\u00B7 \u00B7 \u00B7 \u00B7 \u00B7</div>';
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // HVAD ER EFT?
-  h += '<div class="eft__sec-l">HVAD ER EFT?</div>';
-  h += '<div class="eft__body-txt">EFT st\u00e5r for Emotional Freedom Technique. Metoden bygger p\u00e5 de samme principper som akupunktur, og id\u00e9en er enkel: n\u00e5r vi oplever noget sv\u00e6rt, kan energien i meridianerne blive blokeret \u2014 f\u00f8lelsen sidder fast og vil ikke slippe.</div>';
-  h += '<div class="eft__body-txt">Ved at stimulere punkterne, mens du fokuserer p\u00e5 f\u00f8lelsen, kan blokeringen l\u00f8snes. Energien begynder at flyde igen, og f\u00f8lelsen letter \u2014 nogle gange overraskende hurtigt.</div>';
+  h += '<div class="livsfase-detail__section">';
+  h += '<h3 class="livsfase-detail__section-title">Hvad er EFT?</h3>';
+  h += '<p class="livsfase-detail__section-subtitle">Emotional Freedom Technique \u2014 f\u00f8lelsernes akupunktur</p>';
+  h += '<div class="livsfase-detail__rec-card"><p class="livsfase-detail__rec-desc">EFT st\u00e5r for Emotional Freedom Technique. Metoden bygger p\u00e5 de samme principper som akupunktur, og id\u00e9en er enkel: n\u00e5r vi oplever noget sv\u00e6rt, kan energien i meridianerne blive blokeret \u2014 f\u00f8lelsen sidder fast og vil ikke slippe.</p></div>';
+  h += '<div class="livsfase-detail__rec-card"><p class="livsfase-detail__rec-desc">Ved at stimulere punkterne, mens du fokuserer p\u00e5 f\u00f8lelsen, kan blokeringen l\u00f8snes. Energien begynder at flyde igen, og f\u00f8lelsen letter \u2014 nogle gange overraskende hurtigt.</p></div>';
+  h += '</div>';
 
-  // Insight box - FORSKNING
-  h += '<div class="eft__ins">';
-  h += '<div class="eft__ins-l">FORSKNING</div>';
-  h += '<div class="eft__ins-t">EFT er unders\u00f8gt i over 100 kliniske studier og har vist effekt ved angst, stress, PTSD og kronisk smerte. Studier viser at cortisolniveauet kan falde med op til 43% efter \u00e9n session. Det er ikke magi \u2014 det er et redskab der kan hj\u00e6lpe med de f\u00f8lelser, der fylder.</div>';
+  // Forskning insight box
+  h += '<div class="tema__kontekst">';
+  h += '<p class="tema__kontekst-label">FORSKNING</p>';
+  h += '<p class="tema__kontekst-text">EFT er unders\u00f8gt i over 100 kliniske studier og har vist effekt ved angst, stress, PTSD og kronisk smerte. Studier viser at cortisolniveauet kan falde med op til 43% efter \u00e9n session. Det er ikke magi \u2014 det er et redskab der kan hj\u00e6lpe med de f\u00f8lelser, der fylder.</p>';
   h += '</div>';
 
   // Dots
-  h += '<div class="eft__dots">\u00B7 \u00B7 \u00B7 \u00B7 \u00B7</div>';
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // DE NI TAPPING-PUNKTER
-  h += '<div class="eft__sec-l">DE NI TAPPING-PUNKTER</div>';
-  h += '<div class="eft__body-txt">Punkterne ligger alle p\u00e5 meridianer og er lette at finde. Du banker let med to fingerspidser, cirka 10-20 bank p\u00e5 hvert punkt.</div>';
+  h += '<div class="livsfase-detail__section">';
+  h += '<h3 class="livsfase-detail__section-title">De ni tapping-punkter</h3>';
+  h += '<p class="livsfase-detail__section-subtitle">Punkterne ligger alle p\u00e5 meridianer og er lette at finde. Du banker let med to fingerspidser, cirka 10\u201320 bank p\u00e5 hvert punkt.</p>';
 
   // SVG body diagram
-  h += '<div class="eft__diagram">';
+  h += '<div class="figur-wrap">';
   h += '<svg width="200" height="260" viewBox="0 0 200 260">';
   h += '<ellipse cx="100" cy="60" rx="42" ry="50" fill="none" stroke="#8A9F91" stroke-width="1.5" opacity="0.4"/>';
   h += '<line x1="88" y1="108" x2="88" y2="130" stroke="#8A9F91" stroke-width="1.2" opacity="0.3"/>';
@@ -12332,7 +12333,7 @@ function initEftTappingScreen() {
   h += '<text x="37" y="165" text-anchor="middle" font-size="8" fill="#6B8273" font-family="-apple-system, sans-serif">8</text>';
   h += '<circle cx="30" cy="208" r="4.5" fill="#6B8273" opacity="0.8"/>';
   h += '<text x="17" y="205" text-anchor="middle" font-size="8" fill="#6B8273" font-family="-apple-system, sans-serif">9</text>';
-  h += '<text x="100" y="250" text-anchor="middle" font-size="10" fill="#8A9F91" font-style="italic" font-family="\'Cormorant Garamond\', serif">De ni punkter</text>';
+  h += '<text x="100" y="250" text-anchor="middle" font-size="10" fill="#8A9F91" font-family="\'Cormorant Garamond\', serif">De ni punkter</text>';
   h += '</svg>';
   h += '</div>';
 
@@ -12350,49 +12351,51 @@ function initEftTappingScreen() {
   ];
   for (var i = 0; i < points.length; i++) {
     var p = points[i];
-    h += '<div class="eft__pt">';
-    h += '<div class="eft__pt-hd"><span class="eft__pt-nm">' + p.num + '. ' + p.name + '</span><span class="eft__pt-tag">' + p.tag + '</span></div>';
-    h += '<div class="eft__pt-tx">' + p.txt + '</div>';
+    h += '<div class="livsfase-detail__rec-card">';
+    h += '<p class="livsfase-detail__rec-label">' + p.tag + '</p>';
+    h += '<p class="livsfase-detail__rec-title">' + p.num + '. ' + p.name + '</p>';
+    h += '<p class="livsfase-detail__rec-desc">' + p.txt + '</p>';
     h += '</div>';
   }
+  h += '</div>';
 
   // Dots
-  h += '<div class="eft__dots">\u00B7 \u00B7 \u00B7 \u00B7 \u00B7</div>';
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // PUNKTER OG ELEMENTER
-  h += '<div class="eft__sec-l">PUNKTER OG ELEMENTER</div>';
-  h += '<div class="eft__body-txt">Hvert tapping-punkt ligger p\u00e5 en meridian, og hver meridian h\u00f8rer til et af de fem elementer. N\u00e5r du tapper, stimulerer du alle fem elementer i \u00e9n runde.</div>';
+  h += '<div class="livsfase-detail__section">';
+  h += '<h3 class="livsfase-detail__section-title">Punkter og elementer</h3>';
+  h += '<p class="livsfase-detail__section-subtitle">Hvert tapping-punkt ligger p\u00e5 en meridian, og hver meridian h\u00f8rer til et af de fem elementer. N\u00e5r du tapper, stimulerer du alle fem elementer i \u00e9n runde.</p>';
 
-  // 2x2 grid
+  // 2x2 grid + Metal
   h += '<div class="eft__elem-grid">';
-  h += '<div class="eft__elem-card"><div class="eft__elem-name">Vand \u6c34</div><div class="eft__elem-feel">Bl\u00e6re \u00B7 Nyre</div><div class="eft__elem-feel">Frygt \u2192 Visdom</div></div>';
-  h += '<div class="eft__elem-card"><div class="eft__elem-name">Tr\u00e6 \u6728</div><div class="eft__elem-feel">Galdebl\u00e6re \u00B7 Lever</div><div class="eft__elem-feel">Vrede \u2192 Beslutsomhed</div></div>';
-  h += '<div class="eft__elem-card"><div class="eft__elem-name">Jord \u571f</div><div class="eft__elem-feel">Mave \u00B7 Milt</div><div class="eft__elem-feel">Bekymring \u2192 Stabilitet</div></div>';
-  h += '<div class="eft__elem-card"><div class="eft__elem-name">Ild \u706b</div><div class="eft__elem-feel">Tyndtarm \u00B7 Hjerte</div><div class="eft__elem-feel">Uro \u2192 Gl\u00e6de</div></div>';
+  h += '<div class="livsfase-detail__rec-card" style="text-align:center"><p class="livsfase-detail__rec-title">Vand \u6c34</p><p class="livsfase-detail__rec-desc">Bl\u00e6re \u00B7 Nyre</p><p class="livsfase-detail__rec-desc">Frygt \u2192 Visdom</p></div>';
+  h += '<div class="livsfase-detail__rec-card" style="text-align:center"><p class="livsfase-detail__rec-title">Tr\u00e6 \u6728</p><p class="livsfase-detail__rec-desc">Galdebl\u00e6re \u00B7 Lever</p><p class="livsfase-detail__rec-desc">Vrede \u2192 Beslutsomhed</p></div>';
+  h += '<div class="livsfase-detail__rec-card" style="text-align:center"><p class="livsfase-detail__rec-title">Jord \u571f</p><p class="livsfase-detail__rec-desc">Mave \u00B7 Milt</p><p class="livsfase-detail__rec-desc">Bekymring \u2192 Stabilitet</p></div>';
+  h += '<div class="livsfase-detail__rec-card" style="text-align:center"><p class="livsfase-detail__rec-title">Ild \u706b</p><p class="livsfase-detail__rec-desc">Tyndtarm \u00B7 Hjerte</p><p class="livsfase-detail__rec-desc">Uro \u2192 Gl\u00e6de</p></div>';
   h += '</div>';
 
   // Metal single card
-  h += '<div class="eft__pt" style="text-align:center">';
-  h += '<div class="eft__pt-nm" style="margin-bottom:4px">Metal \u91d1</div>';
-  h += '<div class="eft__pt-tx">Lunge \u00B7 Tyktarm \u2014 Sorg \u2192 Klarhed</div>';
+  h += '<div class="livsfase-detail__rec-card" style="text-align:center"><p class="livsfase-detail__rec-title">Metal \u91d1</p><p class="livsfase-detail__rec-desc">Lunge \u00B7 Tyktarm \u2014 Sorg \u2192 Klarhed</p></div>';
   h += '</div>';
 
   // Dots
-  h += '<div class="eft__dots">\u00B7 \u00B7 \u00B7 \u00B7 \u00B7</div>';
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // BASIS-SEKVENSEN
-  h += '<div class="eft__sec-l">BASIS-SEKVENSEN</div>';
-  h += '<div class="eft__body-txt">Denne grundl\u00e6ggende metode kan du bruge til alt. N\u00e5r du har l\u00e6rt den, har du et redskab til resten af livet.</div>';
+  h += '<div class="livsfase-detail__section">';
+  h += '<h3 class="livsfase-detail__section-title">Basis-sekvensen</h3>';
+  h += '<p class="livsfase-detail__section-subtitle">Denne grundl\u00e6ggende metode kan du bruge til alt. N\u00e5r du har l\u00e6rt den, har du et redskab til resten af livet.</p>';
 
   var steps = [
     { title: 'Identificer', txt: 'Hvad er det, der fylder lige nu? V\u00e6lg \u00e9n ting ad gangen.' },
     { title: 'Vurd\u00e9r intensiteten', txt: 'Hvor meget fylder det p\u00e5 en skala fra 0 til 10?' },
     { title: 'Setup-s\u00e6tningen', txt: 'Bank p\u00e5 karatepunktet mens du siger s\u00e6tningen tre gange.' },
     null, // phrase box inserted here
-    { title: 'Bank gennem punkterne', txt: 'Bank 10-20 gange p\u00e5 hvert af de ni punkter, fra toppen af hovedet til under armen. Sig en p\u00e5mindelsesfrase mens du banker.' },
+    { title: 'Bank gennem punkterne', txt: 'Bank 10\u201320 gange p\u00e5 hvert af de ni punkter, fra toppen af hovedet til under armen. Sig en p\u00e5mindelsesfrase mens du banker.' },
     { title: 'Pust dybt', txt: 'Tag en dyb ind\u00e5nding og pust langsomt ud. M\u00e6rk efter.' },
-    { title: 'Vurd\u00e9r igen', txt: 'Hvor er du nu p\u00e5 skalaen? Hvis intensiteten stadig er over 2-3, tag endnu en runde.' },
-    { title: 'Gentag', txt: 'De fleste har gavn af 3-4 runder. Just\u00e9r s\u00e6tningen hvis f\u00f8lelsen \u00e6ndrer sig undervejs.' }
+    { title: 'Vurd\u00e9r igen', txt: 'Hvor er du nu p\u00e5 skalaen? Hvis intensiteten stadig er over 2\u20133, tag endnu en runde.' },
+    { title: 'Gentag', txt: 'De fleste har gavn af 3\u20134 runder. Just\u00e9r s\u00e6tningen hvis f\u00f8lelsen \u00e6ndrer sig undervejs.' }
   ];
   var stepNum = 1;
   for (var si = 0; si < steps.length; si++) {
@@ -12407,63 +12410,51 @@ function initEftTappingScreen() {
     h += '</div>';
     stepNum++;
   }
+  h += '</div>';
 
   // Dots
-  h += '<div class="eft__dots">\u00B7 \u00B7 \u00B7 \u00B7 \u00B7</div>';
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // TILPASSET DIT ELEMENT
-  h += '<div class="eft__grd">';
-  h += '<div class="eft__grd-l">TILPASSET DIT ELEMENT LIGE NU</div>';
-  h += '<div class="eft__grd-t">' + eftData.sekvens + '</div>';
-  h += '<div class="eft__grd-sub">' + eftData.beskrivelse + '</div>';
+  h += '<div class="livsfase-detail__section">';
+  h += '<h3 class="livsfase-detail__section-title">Tilpasset dit element lige nu</h3>';
+  h += '<p class="livsfase-detail__section-subtitle">' + domLabel + '-elementet pr\u00e6ger dig lige nu. Her er en sekvens tilpasset dine f\u00f8lelser.</p>';
+  h += '<div class="tema__kontekst">';
+  h += '<p class="tema__kontekst-label">' + eftData.sekvens + '</p>';
+  h += '<p class="tema__kontekst-text">' + eftData.beskrivelse + '</p>';
   h += '</div>';
 
   h += '<div class="eft__phrase"><div class="eft__phrase-txt">\u201C' + eftData.phrase + '\u201D</div></div>';
 
-  h += '<div class="eft__ins">';
-  h += '<div class="eft__ins-t">Pr\u00f8v at sige ordene stille eller h\u00f8jt mens du banker. M\u00e5ske \u00e6ndrer ordene sig undervejs \u2014 det er et godt tegn. F\u00f8lg det der kommer. Der er ingen forkert m\u00e5de at g\u00f8re det p\u00e5.</div>';
+  h += '<div class="livsfase-detail__rec-card"><p class="livsfase-detail__rec-desc">Pr\u00f8v at sige ordene stille eller h\u00f8jt mens du banker. M\u00e5ske \u00e6ndrer ordene sig undervejs \u2014 det er et godt tegn. F\u00f8lg det der kommer. Der er ingen forkert m\u00e5de at g\u00f8re det p\u00e5.</p></div>';
   h += '</div>';
 
   // Dots
-  h += '<div class="eft__dots">\u00B7 \u00B7 \u00B7 \u00B7 \u00B7</div>';
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // EFT TIL BØRN
-  h += '<div class="eft__sec-l">EFT TIL B\u00d8RN</div>';
-  h += '<div class="eft__body-txt">B\u00f8rn beh\u00f8ver ikke lange forklaringer. Kald det \u201Ctryllebanken\u201D og g\u00f8r det til noget I g\u00f8r sammen, n\u00e5r der er brug for det. Brug enkle ord som \u201Cselvom jeg er bange for m\u00f8rket, er jeg en modig pige\u201D \u2014 og lad barnet finde sine egne ord.</div>';
+  h += '<div class="livsfase-detail__section">';
+  h += '<h3 class="livsfase-detail__section-title">EFT til b\u00f8rn</h3>';
+  h += '<div class="livsfase-detail__rec-card"><p class="livsfase-detail__rec-desc">B\u00f8rn beh\u00f8ver ikke lange forklaringer. Kald det \u201Ctryllebanken\u201D og g\u00f8r det til noget I g\u00f8r sammen, n\u00e5r der er brug for det. Brug enkle ord som \u201Cselvom jeg er bange for m\u00f8rket, er jeg en modig pige\u201D \u2014 og lad barnet finde sine egne ord.</p></div>';
+  h += '</div>';
 
   // Dots
-  h += '<div class="eft__dots">\u00B7 \u00B7 \u00B7 \u00B7 \u00B7</div>';
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // GODT AT VIDE
-  h += '<div class="eft__ins">';
-  h += '<div class="eft__ins-l">GODT AT VIDE</div>';
-  h += '<div class="eft__ins-t">EFT er et selvhj\u00e6lpsredskab. Det erstatter ikke terapi ved alvorlige traumer eller psykiske lidelser. For de hverdagsagtige f\u00f8lelser \u2014 stress, bekymring, irritation, tristhed \u2014 kan det v\u00e6re en god st\u00f8tte. Og du har det altid med dig.</div>';
+  h += '<div class="tema__kontekst">';
+  h += '<p class="tema__kontekst-label">GODT AT VIDE</p>';
+  h += '<p class="tema__kontekst-text">EFT er et selvhj\u00e6lpsredskab. Det erstatter ikke terapi ved alvorlige traumer eller psykiske lidelser. For de hverdagsagtige f\u00f8lelser \u2014 stress, bekymring, irritation, tristhed \u2014 kan det v\u00e6re en god st\u00f8tte. Og du har det altid med dig.</p>';
   h += '</div>';
 
   // Hint
-  h += '<div class="eft__hint">Isabelle bruger selv EFT som en del af sit daglige arbejde med f\u00f8lelser og energi. Du kan se hendes gratis EFT-video i hendes app eller p\u00e5 isabelleevita.dk</div>';
+  h += '<div class="livsfase-detail__section-subtitle" style="margin-top:20px">Isabelle bruger selv EFT som en del af sit daglige arbejde med f\u00f8lelser og energi. Du kan se hendes gratis EFT-video i hendes app eller p\u00e5 isabelleevita.dk</div>';
 
-  // Lotus mini
-  h += '<div class="eft__lotus-mini">';
-  h += '<svg width="40" height="30" viewBox="0 0 100 75" fill="none" stroke="#6B8273" stroke-width="2">';
-  h += '<path d="M50 70 C50 70 25 55 25 35 C25 20 37 10 50 10 C63 10 75 20 75 35 C75 55 50 70 50 70Z"/>';
-  h += '<path d="M50 70 C50 70 10 50 15 30 C18 15 35 12 50 18"/>';
-  h += '<path d="M50 70 C50 70 90 50 85 30 C82 15 65 12 50 18"/>';
-  h += '</svg>';
-  h += '</div>';
+  // Lotus divider
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
-  // GÅ VIDERE
-  h += '<div class="eft__sec-l" style="margin-top:16px">G\u00c5 VIDERE</div>';
-  h += '<div class="eft__xlink"><span class="eft__xlink-txt">Se alle EFT-sekvenser fra bogen \u2192</span><span class="eft__xlink-arr">\u203a</span></div>';
-  h += '<div class="eft__xlink eft__xlink--groen" onclick="App.loadScreen(\'foelelser\')"><span class="eft__xlink-txt">F\u00f8lelsernes Hjul \u2014 find din f\u00f8lelse \u2192</span><span class="eft__xlink-arr">\u203a</span></div>';
-  h += '<div class="eft__xlink eft__xlink--rel"><span class="eft__xlink-txt">EFT sammen med nogen \u2014 relationssekvenser \u2192</span><span class="eft__xlink-arr">\u203a</span></div>';
-
-  // Actions
-  h += '<div class="eft__acts">';
-  h += '<div class="eft__act" onclick="actionToggleSave(\'eft-tapping\')"><span>\u2661</span><span>Gem</span></div>';
-  h += '<div class="eft__act" onclick="actionShare()"><span>\u2197</span><span>Del</span></div>';
-  h += '<div class="eft__act" onclick="App.loadScreen(\'min-journal\')"><span>\u25F7</span><span>Journal</span></div>';
-  h += '</div>';
+  // Action bar
+  h += renderActionBar('eft-tapping');
 
   el.innerHTML = h;
 }
