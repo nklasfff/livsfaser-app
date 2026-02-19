@@ -1,4 +1,4 @@
-const CACHE_NAME = 'livsfaser-v270';
+const CACHE_NAME = 'livsfaser-v271';
 const urlsToCache = [
   './',
   './index.html',
@@ -39,6 +39,7 @@ const urlsToCache = [
   './screens/epigenetik-arv.html',
   './screens/om-isabelle.html',
   './screens/eft-tapping.html',
+  './screens/mindfulness.html',
   './assets/images/eft_front.png',
   './assets/images/eft_min_praksis.png',
   './assets/images/lotus-divider.png',

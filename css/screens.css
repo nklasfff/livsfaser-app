@@ -9365,3 +9365,171 @@
   display: flex; justify-content: center; margin: 24px 0; opacity: 0.12;
 }
 
+/* =============================================
+   MINDFULNESS
+   ============================================= */
+.mind__intro {
+  font-family: var(--font-serif);
+  font-size: 15px; color: #888; font-style: italic;
+  text-align: center; line-height: 1.65; margin-bottom: 24px;
+}
+.mind__dots {
+  text-align: center; color: #a8c4ab;
+  font-size: 9px; letter-spacing: 10px; margin: 28px 0;
+}
+.mind__body {
+  font-family: var(--font-serif);
+  font-size: 15px; color: #555; line-height: 1.7;
+  font-style: italic; margin-bottom: 16px;
+}
+.mind__two-col {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0;
+}
+.mind__col-card {
+  background: rgba(139, 154, 157, 0.04);
+  border: 1px solid rgba(139, 154, 157, 0.12);
+  border-radius: 14px; padding: 16px; text-align: center;
+}
+.mind__col-title {
+  font-family: var(--font-serif);
+  font-size: 15px; color: #7A9080; font-weight: 500; margin-bottom: 4px;
+}
+.mind__col-sub {
+  font-family: var(--font-serif);
+  font-size: 12px; color: #888; font-style: italic; line-height: 1.5;
+}
+.mind__qt {
+  text-align: center; padding: 20px 12px; margin: 14px 0;
+}
+.mind__qt-mark {
+  font-family: var(--font-serif);
+  font-size: 42px; color: #a8c4ab; line-height: 1; font-weight: 300; margin-bottom: 4px;
+}
+.mind__qt-txt {
+  font-family: var(--font-serif);
+  font-size: 17px; color: #555; font-style: italic; line-height: 1.6;
+}
+.mind__shen {
+  background: rgba(139, 154, 157, 0.04);
+  border: 1px solid rgba(139, 154, 157, 0.12);
+  border-radius: 14px; padding: 14px 16px; margin-bottom: 8px;
+}
+.mind__shen-hd {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;
+}
+.mind__shen-name {
+  font-family: var(--font-serif);
+  font-size: 16px; color: #7A9080; font-weight: 500;
+}
+.mind__shen-tag {
+  font-size: 10px; color: #7A9080; letter-spacing: 1.5px;
+  text-transform: uppercase; font-family: var(--font-sans);
+  background: rgba(139, 154, 157, 0.08); padding: 4px 10px; border-radius: 12px;
+}
+.mind__shen-txt {
+  font-family: var(--font-serif);
+  font-size: 13px; color: #888; font-style: italic; line-height: 1.5;
+}
+.mind__prin {
+  background: rgba(139, 154, 157, 0.04);
+  border: 1px solid rgba(139, 154, 157, 0.12);
+  border-radius: 14px; padding: 14px 16px; margin-bottom: 8px;
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.mind__prin-icon {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: rgba(139, 154, 157, 0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: #7A9080; flex-shrink: 0;
+  font-family: var(--font-sans); font-weight: 600;
+}
+.mind__prin-name {
+  font-family: var(--font-serif);
+  font-size: 15px; color: #7A9080; font-weight: 500; margin-bottom: 2px;
+}
+.mind__prin-txt {
+  font-family: var(--font-serif);
+  font-size: 13px; color: #888; font-style: italic; line-height: 1.5;
+}
+.mind__grd {
+  background: linear-gradient(135deg, rgba(139, 154, 157, 0.85) 0%, rgba(139, 154, 157, 0.65) 100%);
+  border-radius: 14px; padding: 22px; margin: 20px 0;
+}
+.mind__grd-l {
+  font-size: 10px; color: rgba(255,255,255,0.6);
+  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;
+  font-family: var(--font-sans);
+}
+.mind__grd-t {
+  font-family: var(--font-serif);
+  font-size: 18px; color: white; font-style: italic; line-height: 1.5;
+}
+.mind__grd-sub {
+  font-family: var(--font-serif);
+  font-size: 14px; color: rgba(255,255,255,0.7);
+  font-style: italic; margin-top: 10px; line-height: 1.55;
+}
+.mind__step {
+  display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start;
+}
+.mind__step-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(139, 154, 157, 0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: #7A9080; flex-shrink: 0;
+  font-family: var(--font-sans); font-weight: 600; margin-top: 2px;
+}
+.mind__step-title {
+  font-family: var(--font-serif);
+  font-size: 16px; color: #7A9080; font-weight: 500; margin-bottom: 2px;
+}
+.mind__step-txt {
+  font-family: var(--font-serif);
+  font-size: 14px; color: #777; font-style: italic; line-height: 1.55;
+}
+.mind__badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(139, 154, 157, 0.08);
+  border: 1px solid rgba(139, 154, 157, 0.14);
+  border-radius: 20px; padding: 8px 14px;
+  margin: 10px auto; font-family: var(--font-serif);
+  font-size: 13px; color: #7A9080; font-style: italic;
+}
+.mind__badge-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: #7A9080;
+}
+.mind__hint {
+  font-family: var(--font-serif);
+  font-size: 13px; color: #bbb; font-style: italic;
+  text-align: center; margin-top: 16px; line-height: 1.6;
+}
+.mind__lotus {
+  display: flex; justify-content: center; margin: 24px 0; opacity: 0.12;
+}
+.mind__xlink {
+  background: rgba(118, 144, 193, 0.06);
+  border: 1px solid rgba(118, 144, 193, 0.12);
+  border-radius: 14px; padding: 16px 18px; margin-bottom: 10px;
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer;
+}
+.mind__xlink-txt {
+  font-family: var(--font-serif);
+  font-size: 14px; color: #7690C1; font-style: italic;
+}
+.mind__xlink-arr {
+  font-size: 14px; color: #7690C1;
+}
+.mind__xlink--grn {
+  background: rgba(139, 154, 157, 0.06);
+  border-color: rgba(139, 154, 157, 0.12);
+}
+.mind__xlink--grn .mind__xlink-txt,
+.mind__xlink--grn .mind__xlink-arr { color: #7A9080; }
+.mind__xlink--rel {
+  background: rgba(184, 166, 192, 0.06);
+  border-color: rgba(184, 166, 192, 0.12);
+}
+.mind__xlink--rel .mind__xlink-txt,
+.mind__xlink--rel .mind__xlink-arr { color: #B8A6C0; }
+

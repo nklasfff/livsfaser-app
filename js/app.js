@@ -5840,13 +5840,14 @@ const App = {
     'soeg': 'screens/soeg.html',
     'mine-vinduer': 'screens/mine-vinduer.html',
     'epigenetik-arv': 'screens/epigenetik-arv.html',
-    'om-isabelle': 'screens/om-isabelle.html'
+    'om-isabelle': 'screens/om-isabelle.html',
+    'mindfulness': 'screens/mindfulness.html'
   },
 
   // Niveau 1 skærme (tema-overblik)
   niveau1: ['mine-cyklusser', 'mine-relationer', 'min-praksis', 'min-rejse', 'mine-vinduer'],
   // Niveau 2 skærme (specifikt indhold)
-  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'kroppens-store-overgange', 'jeres-energi', 'to-rytmer', 'tre-generationer', 'kost-urter', 'min-journal', 'mine-favoritter', 'mine-opdagelser', 'baggrundsviden', 'dine-cyklusser-lige-nu', 'soeg', 'epigenetik-arv', 'om-isabelle', 'eft-tapping'],
+  niveau2: ['cyklusser-i-cyklusser', 'samlede-indsigt', 'alle-faser', 'tidsrejse', 'relationer', 'favoritter', 'min-udvikling', 'de-ni-livsfaser', 'livsfase-detail', 'de-fire-uger', 'refleksion', 'kontrolcyklussen', 'foelelser', 'yin-yoga', 'indstillinger', 'hvad-har-hjulpet', 'din-energi', 'kroppens-store-overgange', 'jeres-energi', 'to-rytmer', 'tre-generationer', 'kost-urter', 'min-journal', 'mine-favoritter', 'mine-opdagelser', 'baggrundsviden', 'dine-cyklusser-lige-nu', 'soeg', 'epigenetik-arv', 'om-isabelle', 'eft-tapping', 'mindfulness'],
 
   init() {
     repairStoredBirthdate();
@@ -5877,6 +5878,7 @@ const App = {
     'foelelser': 'min-praksis',
     'yin-yoga': 'min-praksis',
     'eft-tapping': 'min-praksis',
+    'mindfulness': 'min-praksis',
     'hvad-har-hjulpet': 'min-praksis',
     'kost-urter': 'min-praksis',
     'indstillinger': 'min-rejse',
@@ -6037,6 +6039,8 @@ const App = {
           initYinYogaScreen();
         } else if (screenName === 'eft-tapping') {
           initEftTappingScreen();
+        } else if (screenName === 'mindfulness') {
+          initMindfulnessScreen();
         } else if (screenName === 'favoritter') {
           initFavoritterScreen();
         } else if (screenName === 'hvad-har-hjulpet') {
@@ -10052,6 +10056,7 @@ var MENU_DATA = [
       { label: 'Yin Yoga', action: "App.loadScreen('yin-yoga')" },
       { label: 'F\u00f8lelsernes Hjul', action: "App.loadScreen('foelelser')" },
       { label: 'EFT Tapping', action: "App.loadScreen('eft-tapping')" },
+      { label: 'Mindfulness', action: "App.loadScreen('mindfulness')" },
       { label: 'Refleksion', action: "App.loadScreen('refleksion')" },
       { label: 'Kost & Urter', action: "App.loadScreen('kost-urter')" },
       { label: 'Hvad har hjulpet andre', action: "App.loadScreen('hvad-har-hjulpet')" }
@@ -10256,6 +10261,12 @@ var SEARCH_CATEGORIES = [
     desc: 'Hvad sker der, når mange kvinder samler deres erfaringer? Anonyme mønstre, fælles indsigter og den visdom, der vokser frem når vi deler — uden at dele for meget.',
     screen: 'min-rejse',
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><path d="M3 20c0-2.8 2.2-5 5-5h2c2.8 0 5 2.2 5 5"/><path d="M15 15c2.8 0 5 2.2 5 5"/></svg>'
+  },
+  {
+    id: 'mindfulness', title: 'Mindfulness',
+    desc: 'Bevidst nærvær gennem åndedræt, krop og sanser. De fem Shen, syv principper og en øvelse du kan tage med dig — uanset hvor du er i din cyklus.',
+    screen: 'mindfulness',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="#7690C1" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2 2"/><circle cx="12" cy="12" r="2"/></svg>'
   }
 ];
 
@@ -12600,6 +12611,217 @@ function renderForloebCard() {
   html += '<p class="idag__colophon">Denne app er bygget p\u00e5 Isabelle Evita S\u00f8ndergaards bog \u201cDe 9 Livsfasers Energi\u201d \u2014 et v\u00e6rk der samler kinesisk medicin, vedisk filosofi og moderne psykologi i \u00e9n sammenh\u00e6ngende forst\u00e5else af kvinders liv.</p>';
 
   el.innerHTML = html;
+}
+
+// ---- Mindfulness Screen ----
+
+var MINDFULNESS_LIVSFASE_TEKST = {
+  1: 'I den allerførste fase (0\u20137 år) er Vand-elementet bærende \u2014 og det handler om tryghed, tillid og at mærke verden for første gang. Mindfulness kan her styrke den grundlæggende ro og forbindelse til kroppen. Zhi-kraften, som hører til Vand, giver os modet til at være til stede i det ukendte.',
+  2: 'I udforskningsfasen (7\u201314 år) bevæger du dig mellem Vand og Træ \u2014 mellem tryghed og nysgerrighed. Mindfulness kan her støtte evnen til at mærke egne grænser og finde ro midt i al den nye opdagelse. Hun-sjælen i Træ-elementet vækker drømme og retningssans.',
+  3: 'I forvandlingsfasen (14\u201321 år) er Træ-elementet dominerende \u2014 og det handler om retning, kreativitet og mod til at bryde fri. Mindfulness kan her hjælpe med at kanalisere den stærke energi og finde ro i de store forandringer. Hun-sjælen søger mening og muligheder.',
+  4: 'I blomstringsfasen (21\u201328 år) mødes Træ og Ild \u2014 vitalitet, åbenhed og eventyrlyst. Mindfulness kan her hjælpe dig med at mærke, hvornår du udfolder dig \u2014 og hvornår du flyder over. Shen-sindet i Ild bringer klarhed midt i alt det nye.',
+  5: 'I ansvarsfasen (28\u201335 år) er Ild-elementet aktivt \u2014 og det handler om glæde, varme og at rumme andre. Mindfulness kan her hjælpe med at skelne mellem andres behov og dine egne. Shen-sindet, som hører til Ild, er den bevidsthed der lader dig mærke dig selv midt i det hele.',
+  6: 'I modningsfasen (35\u201342 år) mødes Ild og Jord \u2014 dybde, selvindsigt og nærvær. Mindfulness kan her hjælpe med at finde ro i tvivlen og styrke tilliden til din egen viden. Yi-tankekraften i Jord hjælper dig med at omsætte indsigt til handling \u2014 uden grubleri.',
+  7: 'I høstfasen (42\u201349 år) mødes Jord og Metal \u2014 og det handler om at give slip, sortere fra og finde klarhed. Mindfulness kan her hjælpe med at skelne mellem det der stadig nærer dig, og det du holder fast i af vane. Po-sjælen, som hører til Metal, er netop den del af dig der er til stede gennem åndedrættet \u2014 øjeblik for øjeblik.',
+  8: 'I frigørelsesfasen (49\u201356 år) er Metal-elementet dominerende \u2014 og det handler om essens, autenticitet og at slippe det overflødige. Mindfulness kan her hjælpe med at hvile i stilheden uden at fylde den ud. Po-sjælen forbinder dig med nuet gennem åndedrættet \u2014 det mest basale og mest dybtgående.',
+  9: 'I visdomsfasen (56\u201363+ år) vender Vand-elementet tilbage \u2014 og det handler om ro, forbundethed og at stole på det levede liv. Mindfulness kan her hjælpe med at forblive åben og nærværende uden at trække sig tilbage. Zhi-viljekraften giver modet til at møde det ukendte med tillid.'
+};
+
+function initMindfulnessScreen() {
+  var el = document.getElementById('mindfulness-content');
+  if (!el) return;
+
+  ensureIdagData();
+  var d = window._idagData;
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  var phaseNum = 7;
+  var phaseName = 'Høst';
+  var phaseAge = '42\u201349 år';
+  var phaseElement = 'Metal';
+  if (d && d.phase) {
+    phaseNum = d.phase.phase || 7;
+    phaseName = d.phase.name || 'Høst';
+  }
+  var pd = PHASE_DATA[phaseNum];
+  if (pd) {
+    phaseElement = ELEMENT_LABELS[pd.element] || 'Metal';
+    var detailP = null;
+    // Try to find the detailed phase data
+    try {
+      var allPhases = window.LIVSFASE_OVERSIGT_DATA || {};
+      detailP = allPhases[phaseNum];
+    } catch(e) {}
+  }
+  // Get age range from the detailed data at line ~303
+  var detailedPhases = {
+    1: '0\u20137 år', 2: '7\u201314 år', 3: '14\u201321 år', 4: '21\u201328 år',
+    5: '28\u201335 år', 6: '35\u201342 år', 7: '42\u201349 år', 8: '49\u201356 år', 9: '56\u201363+ år'
+  };
+  phaseAge = detailedPhases[phaseNum] || '42\u201349 år';
+
+  var h = '';
+
+  // Intro
+  h += '<p class="mind__intro">At lægge mærke til det, der allerede er her. Åndedrættet, kroppen, lydene, tankerne der kommer og går \u2014 uden at dømme, uden at ændre. Bare iagttage.</p>';
+
+  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+
+  // HVAD ER MINDFULNESS?
+  h += '<div class="praksis__section-title">Hvad er mindfulness?</div>';
+  h += '<p class="mind__body">Mindfulness er en praksis, der bringer os tilbage til nuet. Ikke ved at tvinge tankerne til at stoppe, men ved at lægge mærke til det, der allerede er her: åndedrættet, kroppens fornemmelser, lydene omkring os, de tanker og følelser der kommer og går.</p>';
+  h += '<p class="mind__body">Ordet stammer fra den buddhistiske tradition, som udspringer af den vediske filosofi \u2014 samme rødder som yogaen. Det er altså ikke noget nyt. Vi i Vesten er bare langsomt begyndt at få øjnene op for østens visdom, og den er mindst lige så relevant i dag, som den var for tusinder af år siden.</p>';
+
+  // Isabelle om mindfulness
+  h += '<div class="praksis__indsigt">';
+  h += '<div class="praksis__indsigt-label">ISABELLE OM MINDFULNESS</div>';
+  h += '<div class="praksis__indsigt-text">Mindfulness er et af de mest enkle og effektive redskaber, jeg kender, til at finde ro og bevidst nærvær i hverdagen. Det kan hjælpe os til at mærke og forbinde os med kroppen, skabe nærvær og finde glæde i de små øjeblikke.</div>';
+  h += '</div>';
+
+  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+
+  // TO TILSTANDE
+  h += '<div class="praksis__section-title">To tilstande</div>';
+  h += '<p class="mind__body">I mindfulness taler man om to grundlæggende tilstande, vi kan være i. De fleste af os kender begge, men i den verden vi lever i, er vi langt oftere i den ene end den anden.</p>';
+  h += '<div class="mind__two-col">';
+  h += '<div class="mind__col-card"><div class="mind__col-title">Handlemodus</div><div class="mind__col-sub">Planlægge, vurdere, analysere, stræbe. Hele tiden på vej mod noget.</div></div>';
+  h += '<div class="mind__col-card"><div class="mind__col-title">Værensmodus</div><div class="mind__col-sub">Mærke, iagttage, være til stede. Hvile i det der er, uden at skulle noget.</div></div>';
+  h += '</div>';
+  h += '<p class="mind__body">Balance er idealet. Men for de fleste er det værensmodus, der trænger til mere plads. At tillade sig selv bare at være \u2014 uden planer, uden mål. Komme ud af hovedet og ned i kroppen.</p>';
+
+  // Quote
+  h += '<div class="mind__qt"><div class="mind__qt-mark">\u201c</div><div class="mind__qt-txt">Forbinde os til kroppen, til sanserne, til hjertet.</div></div>';
+
+  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+
+  // SANSERNE OG BEVIDSTHEDEN
+  h += '<div class="praksis__section-title">Sanserne og bevidstheden</div>';
+  h += '<p class="mind__body">I den vediske filosofi handler en del af den indre rejse om at lære at mestre sine sanser, så de ikke mestrer dig. Vi er født med sanserne som redskaber til at opleve verden med, og de forbinder os med alt omkring os. Men egoet kan også bruge sanserne til konstant at søge stimuli udefra \u2014 og det holder fokus væk fra det, der sker indeni.</p>';
+  h += '<p class="mind__body">Mindfulness handler om at bruge sanserne bevidst. At lære at iagttage det vi ser, hører, føler, smager og lugter \u2014 og derigennem komme til stede i stedet for at flygte.</p>';
+
+  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+
+  // MINDFULNESS OG DE FEM ELEMENTER
+  h += '<div class="praksis__section-title">Mindfulness og de fem elementer</div>';
+  h += '<p class="mind__body">I kinesisk medicin har hvert element sit eget aspekt af sindet \u2014 de fem Shen. Mindfulness berører dem alle, men på forskellige måder afhængigt af, hvor du er i din cyklus.</p>';
+
+  // 5 Shen cards
+  h += '<div class="mind__shen"><div class="mind__shen-hd"><span class="mind__shen-name">Shen \u00b7 Sindet</span><span class="mind__shen-tag">ILD \u00b7 HJERTE</span></div><div class="mind__shen-txt">Bevidsthed, klarhed, evnen til at være nærværende. Når Shen er i balance, kan vi mærke ro og glæde.</div></div>';
+  h += '<div class="mind__shen"><div class="mind__shen-hd"><span class="mind__shen-name">Hun \u00b7 Sjælen</span><span class="mind__shen-tag">TRÆ \u00b7 LEVER</span></div><div class="mind__shen-txt">Drømme, kreativitet, retningssans. Når Hun flyder frit, kan vi se muligheder og finde mening.</div></div>';
+  h += '<div class="mind__shen"><div class="mind__shen-hd"><span class="mind__shen-name">Yi \u00b7 Tankekraften</span><span class="mind__shen-tag">JORD \u00b7 MILT</span></div><div class="mind__shen-txt">Koncentration, hukommelse, omsætte tanker til handling. Ubalance viser sig som grubleri og bekymring.</div></div>';
+  h += '<div class="mind__shen"><div class="mind__shen-hd"><span class="mind__shen-name">Po \u00b7 Kropssjælen</span><span class="mind__shen-tag">METAL \u00b7 LUNGE</span></div><div class="mind__shen-txt">Instinkt, sanseindtryk, nærvær i nuet gennem åndedrættet. Po forbinder os med kroppen øjeblik for øjeblik.</div></div>';
+  h += '<div class="mind__shen"><div class="mind__shen-hd"><span class="mind__shen-name">Zhi \u00b7 Viljekraften</span><span class="mind__shen-tag">VAND \u00b7 NYRE</span></div><div class="mind__shen-txt">Viljestyrke, udholdenhed, mod til at møde det ukendte. Når Zhi er stærk, kan vi stole på processen.</div></div>';
+
+  // Insight box after shen cards
+  h += '<div class="praksis__indsigt">';
+  h += '<div class="praksis__indsigt-text">Når du sidder stille og iagttager dine tanker uden at reagere på dem, begynder du at mærke, at der er noget i dig, der er større end tankerne. Noget der observerer. Det er begyndelsen på at kende din egen natur.</div>';
+  h += '</div>';
+
+  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+
+  // SYV PRINCIPPER
+  h += '<div class="praksis__section-title">Syv principper</div>';
+  h += '<p class="mind__body">Jon Kabat-Zinn formulerede syv grundprincipper for mindfulness. Isabelle bruger dem som rettesnor i sin egen praksis \u2014 og de fleste af dem kender du allerede fra livets egne lektioner.</p>';
+
+  var principper = [
+    { name: 'Åbenhed', txt: 'Mød det der kommer med en barnlig nysgerrighed, som var det første gang.' },
+    { name: 'Ikke-dømme', txt: 'Slip filteret, vurderingerne og de briller du normalt ser verden igennem.' },
+    { name: 'Ikke-stræbe', txt: 'Slip forventningerne, så du kan blive positivt overrasket over det der dukker op.' },
+    { name: 'Tillid', txt: 'Tillid til dig selv, til processen. Turde slippe kontrollen og åbne dig for det der kommer.' },
+    { name: 'Tålmodighed', txt: 'Tålmodighed med dig selv \u2014 først og fremmest. Der er ikke noget du skal nå.' },
+    { name: 'Accept', txt: 'Accept\u00e9r det som er. Du er hel, som du er lige nu i dette øjeblik.' },
+    { name: 'Give slip', txt: 'Slip det der ikke nærer dig. Det nye dukker ofte først op, når vi tør slippe det trygge.' }
+  ];
+  for (var i = 0; i < principper.length; i++) {
+    h += '<div class="mind__prin">';
+    h += '<div class="mind__prin-icon">' + (i + 1) + '</div>';
+    h += '<div><div class="mind__prin-name">' + principper[i].name + '</div>';
+    h += '<div class="mind__prin-txt">' + principper[i].txt + '</div></div>';
+    h += '</div>';
+  }
+
+  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+
+  // OM TANKER
+  h += '<div class="praksis__section-title">Om tanker</div>';
+  h += '<p class="mind__body">Vi har op mod 60-80.000 tanker om dagen, og mange af dem er tilbagevendende. Tanker udløser følelser, og pludselig sker der en masse inden i os, uden at vi helt ved hvordan det skete.</p>';
+  h += '<p class="mind__body">Mindfulness lærer os ikke at stoppe tankerne \u2014 sindet kan ikke tvinges. Hvis du siger \u201ctænk ikke på en rød ballon\u201d, ser du straks en. I stedet handler det om at tillade tankerne at komme, anerkende dem venligt og så flytte opmærksomheden. Ingen tvang.</p>';
+
+  h += '<div class="praksis__indsigt">';
+  h += '<div class="praksis__indsigt-label">PRIMÆRE OG SEKUNDÆRE TANKER</div>';
+  h += '<div class="praksis__indsigt-text">Den primære tanke startede tankestrømmen \u2014 måske du så en kat. De sekundære tanker er alt det der følger: minder, associationer, følelser. At finde vej tilbage til den primære tanke kan hjælpe os med at forstå, hvor reaktionerne udsprang, og bryde den automatiske kæde.</div>';
+  h += '</div>';
+
+  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+
+  // ØVELSE — Pusterumsmeditation
+  h += '<div class="mind__grd">';
+  h += '<div class="mind__grd-l">ØVELSE</div>';
+  h += '<div class="mind__grd-t">Pusterumsmeditation</div>';
+  h += '<div class="mind__grd-sub">3-5 minutter, hvor du stopper op midt i hverdagen og laver en stille statusrapport af dig selv.</div>';
+  h += '</div>';
+
+  var steps = [
+    { title: 'Land', txt: 'Sæt dig eller stå stille. Luk øjnene eller lad blikket hvile blødt. Mærk underlaget under dig.' },
+    { title: 'Mærk efter', txt: 'Hvad sker der i tankerne? Hvilke følelser er til stede? Hvordan har kroppen det \u2014 spændinger, tyngde, lethed?' },
+    { title: 'Åndedrættet', txt: 'Flyt opmærksomheden til åndedrættet. Følg det ind og ud, uden at ændre det. Bare iagttag.' },
+    { title: 'Udvid', txt: 'Lad opmærksomheden udvide sig til hele kroppen. Mærk dig selv som en helhed.' },
+    { title: 'Vend tilbage', txt: 'Åbn øjnene langsomt. Tag fornemmelsen med dig videre i din dag.' }
+  ];
+  for (var s = 0; s < steps.length; s++) {
+    h += '<div class="mind__step">';
+    h += '<div class="mind__step-num">' + (s + 1) + '</div>';
+    h += '<div><div class="mind__step-title">' + steps[s].title + '</div>';
+    h += '<div class="mind__step-txt">' + steps[s].txt + '</div></div>';
+    h += '</div>';
+  }
+
+  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+
+  // Dynamic badge
+  h += '<div style="text-align:center"><div class="mind__badge"><span class="mind__badge-dot"></span>Din fase: ' + phaseName + ' \u00b7 Dit element: ' + phaseElement + '</div></div>';
+
+  // MINDFULNESS I DIN LIVSFASE
+  var livsfaseTekst = MINDFULNESS_LIVSFASE_TEKST[phaseNum] || MINDFULNESS_LIVSFASE_TEKST[7];
+  h += '<div class="praksis__indsigt">';
+  h += '<div class="praksis__indsigt-label">MINDFULNESS I DIN LIVSFASE</div>';
+  h += '<div class="praksis__indsigt-text">' + livsfaseTekst + '</div>';
+  h += '</div>';
+
+  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+
+  // KROP OG NERVESYSTEM
+  h += '<div class="praksis__section-title">Krop og nervesystem</div>';
+  h += '<p class="mind__body">Mindfulness virker ikke kun på det mentale plan. Nyere forskning viser at vi har tre grundlæggende nervesystemtilstande \u2014 og mindfulness hjælper os med at finde tilbage til den, hvor vi fungerer bedst.</p>';
+
+  h += '<div class="mind__shen"><div class="mind__shen-hd"><span class="mind__shen-name">Tryghed</span><span class="mind__shen-tag">VENTRAL VAGUS</span></div><div class="mind__shen-txt">Ro, forbindelse, klarhed. Vi er nærværende og har adgang til hele vores kapacitet.</div></div>';
+  h += '<div class="mind__shen"><div class="mind__shen-hd"><span class="mind__shen-name">Alarmberedskab</span><span class="mind__shen-tag">SYMPATISK</span></div><div class="mind__shen-txt">Hjertet slår hurtigere, musklerne spænder. Kroppen reagerer på hverdagsstress, som om det var en trussel.</div></div>';
+  h += '<div class="mind__shen"><div class="mind__shen-hd"><span class="mind__shen-name">Nedlukning</span><span class="mind__shen-tag">DORSAL VAGUS</span></div><div class="mind__shen-txt">Træthed, tungsind, afkobling. Kroppens sidste forsvar når alt bliver for overvældende.</div></div>';
+
+  h += '<p class="mind__body" style="margin-top:16px">Mindfulness, yoga og åndedrætsøvelser er alle veje ind til den ventrale vagus \u2014 tilstanden af tryghed. Det handler om at signalere til nervesystemet, at det er sikkert at slappe af.</p>';
+
+  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+
+  // Quote 2
+  h += '<div class="mind__qt"><div class="mind__qt-mark">\u201c</div><div class="mind__qt-txt">Yoga, mindfulness eller en god gåtur i naturen. Det er de redskaber, jeg selv er glad for. Måske virker de for dig \u2014 måske skal du finde din egen vej.</div></div>';
+
+  // Hint
+  h += '<p class="mind__hint">Du kan fordybe dig i mindfulness, tanker og sanserne i bogen De 5 Årstiders Energi og arbejde med øvelserne i Årstidsdagbogen.</p>';
+
+  // Lotus mini
+  h += '<div class="mind__lotus"><svg width="40" height="30" viewBox="0 0 100 75" fill="none" stroke="#7A9080" stroke-width="2"><path d="M50 70 C50 70 25 55 25 35 C25 20 37 10 50 10 C63 10 75 20 75 35 C75 55 50 70 50 70Z"/><path d="M50 70 C50 70 10 50 15 30 C18 15 35 12 50 18"/><path d="M50 70 C50 70 90 50 85 30 C82 15 65 12 50 18"/></svg></div>';
+
+  // GÅ VIDERE
+  h += '<div class="praksis__section-title" style="margin-top:16px">Gå videre</div>';
+  h += '<div class="mind__xlink mind__xlink--grn" onclick="App.loadScreen(\'kost-urter\')"><span class="mind__xlink-txt">Åndedrætsøvelser \u2014 Kapal Bhati, Nadi Shodan \u2192</span><span class="mind__xlink-arr">\u203a</span></div>';
+  h += '<div class="mind__xlink mind__xlink--grn" onclick="App.loadScreen(\'yin-yoga\')"><span class="mind__xlink-txt">Yin Yoga \u2014 stilhed, krop og følelser \u2192</span><span class="mind__xlink-arr">\u203a</span></div>';
+  h += '<div class="mind__xlink mind__xlink--grn" onclick="App.loadScreen(\'eft-tapping\')"><span class="mind__xlink-txt">EFT Tapping \u2014 følelsernes akupunktur \u2192</span><span class="mind__xlink-arr">\u203a</span></div>';
+  h += '<div class="mind__xlink" onclick="App.loadScreen(\'mine-cyklusser\')"><span class="mind__xlink-txt">Mine Cyklusser \u2014 dit element lige nu \u2192</span><span class="mind__xlink-arr">\u203a</span></div>';
+  h += '<div class="mind__xlink mind__xlink--rel" onclick="App.loadScreen(\'foelelser\')"><span class="mind__xlink-txt">Følelsernes funktion \u2014 fra TCM til hverdag \u2192</span><span class="mind__xlink-arr">\u203a</span></div>';
+
+  // Action bar
+  h += renderActionBar('mindfulness');
+
+  el.innerHTML = h;
 }
 
 // Register Service Worker - force update
