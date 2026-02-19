@@ -4511,131 +4511,7 @@
   border-left: 3px solid var(--morkebla);
 }
 
-/* ============================
-   REFLEKSION
-   ============================ */
-
-.refleksion__question {
-  font-size: 18px;
-  color: #333;
-  font-weight: 500;
-
-  font-family: var(--font-serif);
-  line-height: 1.55;
-  margin-bottom: 10px;
-  padding: 16px 18px;
-  background: rgba(139,154,157,0.05);
-  border: 1px solid rgba(139,154,157,0.10);
-  border-radius: 14px;
-}
-
-.refleksion__input {
-  width: 100%;
-  min-height: 60px;
-  border: 1px solid rgba(139,154,157,0.18);
-  border-radius: 10px;
-  padding: 12px;
-  font-family: var(--font-serif);
-  font-size: 17px;
-  color: #666;
-  margin-bottom: 16px;
-  background: white;
-  resize: vertical;
-  box-sizing: border-box;
-}
-
-.refleksion__input:focus {
-  outline: none;
-  border-color: rgba(139,154,157,0.40);
-}
-
-.refleksion__btn {
-  display: block;
-  width: 100%;
-  padding: 16px;
-  background: linear-gradient(135deg, #7A9080, #6B8273);
-  color: white;
-  border: none;
-  border-radius: 14px;
-  font-family: var(--font-serif);
-  font-size: 17px;
-  text-align: center;
-  margin-top: 20px;
-
-  cursor: pointer;
-}
-
-/* ============================
-   KOST & URTER
-   ============================ */
-
-.kost__card {
-  background: rgba(139,154,157,0.05);
-  border: 1px solid rgba(139,154,157,0.12);
-  border-radius: 14px;
-  padding: 16px 18px;
-  margin-bottom: 10px;
-}
-
-.kost__tag {
-  font-size: 12px;
-  color: #7A9080;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  font-family: var(--font-sans);
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.kost__title {
-  font-family: var(--font-serif);
-  font-size: 18px;
-  color: #333;
-  font-weight: 500;
-  margin-bottom: 4px;
-}
-
-.kost__desc {
-  font-family: var(--font-serif);
-  font-size: 17px;
-  color: #666;
-  line-height: 1.55;
-
-}
-
-/* ============================
-   YIN YOGA SELECTOR
-   ============================ */
-
-.yin-yoga__chips {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  margin: 16px 0;
-  flex-wrap: wrap;
-}
-
-.yin-yoga__chip {
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-family: var(--font-sans);
-  font-size: 17px;
-  border: 1px solid rgba(139, 154, 157, 0.2);
-  color: #555;
-  background: none;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.yin-yoga__chip--active {
-  background: #6B8273;
-  color: white;
-  border-color: #6B8273;
-}
-
-.yin-yoga__chip:active {
-  transform: scale(0.97);
-}
+/* (refleksion__, kost__, yin-yoga__chip classes removed — now using rejse__ shared classes) */
 
 .yin-yoga__intro-text {
   font-family: var(--font-serif);
@@ -4647,93 +4523,355 @@
   margin-bottom: 24px;
 }
 
-/* Øvelseskort (Min Praksis grå-grøn stil) */
-.praksis__exercise {
-  background: rgba(139, 154, 157, 0.05);
-  border: 1px solid rgba(139, 154, 157, 0.12);
-  border-radius: 14px;
-  padding: 18px 20px;
-  margin-bottom: 12px;
+/* (praksis__exercise, praksis__crosslink, praksis__actionbar removed — now using rejse__ shared classes) */
+
+/* =============================================
+   MIN PRAKSIS — grøn farve-override for rejse__
+   Alle Min Praksis screens bruger grøn (#6B8273 / #7A9080)
+   i stedet for rejse__-standardens lavendel (#6B5F7B / #8B7D9B)
+   ============================================= */
+
+.screen--min-praksis .rejse__ins,
+.screen--mindfulness .rejse__ins,
+.screen--eft-tapping .rejse__ins,
+.screen--yin-yoga .rejse__ins,
+.screen--kost-urter .rejse__ins,
+.screen--refleksion .rejse__ins,
+.screen--foelelser .rejse__ins,
+.screen--hvad-har-hjulpet .rejse__ins {
+  background: rgba(139, 154, 157, 0.07);
+  border-color: rgba(139, 154, 157, 0.14);
 }
 
-.praksis__exercise-organ {
-  font-family: var(--font-sans);
-  font-size: 12px;
+.screen--min-praksis .rejse__ins-label,
+.screen--mindfulness .rejse__ins-label,
+.screen--eft-tapping .rejse__ins-label,
+.screen--yin-yoga .rejse__ins-label,
+.screen--kost-urter .rejse__ins-label,
+.screen--refleksion .rejse__ins-label,
+.screen--foelelser .rejse__ins-label,
+.screen--hvad-har-hjulpet .rejse__ins-label {
   color: #7A9080;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  font-weight: 600;
-  margin-bottom: 4px;
 }
 
-.praksis__exercise-title {
-  font-family: var(--font-serif);
-  font-size: 19px;
-  color: #333;
-  font-weight: 500;
-  margin-bottom: 5px;
+.screen--min-praksis .rejse__nc,
+.screen--mindfulness .rejse__nc,
+.screen--eft-tapping .rejse__nc,
+.screen--yin-yoga .rejse__nc,
+.screen--kost-urter .rejse__nc,
+.screen--refleksion .rejse__nc,
+.screen--foelelser .rejse__nc,
+.screen--hvad-har-hjulpet .rejse__nc {
+  background: rgba(139, 154, 157, 0.04);
+  border-color: rgba(139, 154, 157, 0.12);
 }
 
-.praksis__exercise-desc {
-  font-family: var(--font-serif);
-  font-size: 17px;
-  color: #666;
-  line-height: 1.55;
-
-}
-
-.praksis__exercise-time {
-  font-family: var(--font-serif);
-  font-size: 17px;
-  color: #666;
-  margin-top: 6px;
-
-}
-
-.praksis__exercise-link {
-  font-family: var(--font-serif);
-  font-size: 17px;
+.screen--min-praksis .rejse__nc-arrow,
+.screen--mindfulness .rejse__nc-arrow,
+.screen--eft-tapping .rejse__nc-arrow,
+.screen--yin-yoga .rejse__nc-arrow,
+.screen--kost-urter .rejse__nc-arrow,
+.screen--refleksion .rejse__nc-arrow,
+.screen--foelelser .rejse__nc-arrow,
+.screen--hvad-har-hjulpet .rejse__nc-arrow {
   color: #7A9080;
-
-  margin-top: 6px;
 }
 
-/* Crosslink (Min Praksis stil) */
-.praksis__crosslink {
-  display: block;
-  text-align: center;
+.screen--min-praksis .rejse__nc-label,
+.screen--mindfulness .rejse__nc-label,
+.screen--eft-tapping .rejse__nc-label,
+.screen--yin-yoga .rejse__nc-label,
+.screen--kost-urter .rejse__nc-label,
+.screen--refleksion .rejse__nc-label,
+.screen--foelelser .rejse__nc-label,
+.screen--hvad-har-hjulpet .rejse__nc-label {
   color: #7A9080;
-  font-family: var(--font-serif);
-  font-size: 17px;
+}
 
-  margin-top: 10px;
-  text-decoration: underline;
+.screen--min-praksis .rejse__checkin,
+.screen--mindfulness .rejse__checkin,
+.screen--eft-tapping .rejse__checkin,
+.screen--yin-yoga .rejse__checkin,
+.screen--kost-urter .rejse__checkin,
+.screen--refleksion .rejse__checkin,
+.screen--foelelser .rejse__checkin,
+.screen--hvad-har-hjulpet .rejse__checkin {
+  background: linear-gradient(135deg, #6B8273 0%, #7A9080 100%);
+}
+
+.screen--min-praksis .rejse__chip,
+.screen--mindfulness .rejse__chip,
+.screen--eft-tapping .rejse__chip,
+.screen--yin-yoga .rejse__chip,
+.screen--kost-urter .rejse__chip,
+.screen--refleksion .rejse__chip,
+.screen--foelelser .rejse__chip,
+.screen--hvad-har-hjulpet .rejse__chip {
+  border-color: rgba(139, 154, 157, 0.2);
+}
+
+.screen--min-praksis .rejse__chip--active,
+.screen--mindfulness .rejse__chip--active,
+.screen--eft-tapping .rejse__chip--active,
+.screen--yin-yoga .rejse__chip--active,
+.screen--kost-urter .rejse__chip--active,
+.screen--refleksion .rejse__chip--active,
+.screen--foelelser .rejse__chip--active,
+.screen--hvad-har-hjulpet .rejse__chip--active {
+  background: #6B8273;
+  border-color: #6B8273;
+}
+
+.screen--min-praksis .rejse__t1,
+.screen--mindfulness .rejse__t1,
+.screen--eft-tapping .rejse__t1,
+.screen--yin-yoga .rejse__t1,
+.screen--kost-urter .rejse__t1,
+.screen--refleksion .rejse__t1,
+.screen--foelelser .rejse__t1,
+.screen--hvad-har-hjulpet .rejse__t1 {
+  color: #6B8273;
+}
+
+.screen--min-praksis .rejse__dots,
+.screen--mindfulness .rejse__dots,
+.screen--eft-tapping .rejse__dots,
+.screen--yin-yoga .rejse__dots,
+.screen--kost-urter .rejse__dots,
+.screen--refleksion .rejse__dots,
+.screen--foelelser .rejse__dots,
+.screen--hvad-har-hjulpet .rejse__dots {
+  color: #a8c4ab;
+}
+
+.screen--min-praksis .rejse__t2,
+.screen--mindfulness .rejse__t2,
+.screen--eft-tapping .rejse__t2,
+.screen--yin-yoga .rejse__t2,
+.screen--kost-urter .rejse__t2,
+.screen--refleksion .rejse__t2,
+.screen--foelelser .rejse__t2,
+.screen--hvad-har-hjulpet .rejse__t2 {
+  color: #6B8273;
+}
+
+.screen--min-praksis .rejse__exercise,
+.screen--mindfulness .rejse__exercise,
+.screen--eft-tapping .rejse__exercise,
+.screen--yin-yoga .rejse__exercise,
+.screen--kost-urter .rejse__exercise,
+.screen--refleksion .rejse__exercise,
+.screen--foelelser .rejse__exercise,
+.screen--hvad-har-hjulpet .rejse__exercise {
+  background: rgba(139, 154, 157, 0.04);
+  border-color: rgba(139, 154, 157, 0.12);
+}
+
+.screen--min-praksis .rejse__exercise-organ,
+.screen--mindfulness .rejse__exercise-organ,
+.screen--eft-tapping .rejse__exercise-organ,
+.screen--yin-yoga .rejse__exercise-organ,
+.screen--kost-urter .rejse__exercise-organ,
+.screen--refleksion .rejse__exercise-organ,
+.screen--foelelser .rejse__exercise-organ,
+.screen--hvad-har-hjulpet .rejse__exercise-organ {
+  color: #7A9080;
+}
+
+.screen--min-praksis .rejse__exercise-link,
+.screen--mindfulness .rejse__exercise-link,
+.screen--eft-tapping .rejse__exercise-link,
+.screen--yin-yoga .rejse__exercise-link,
+.screen--kost-urter .rejse__exercise-link,
+.screen--refleksion .rejse__exercise-link,
+.screen--foelelser .rejse__exercise-link,
+.screen--hvad-har-hjulpet .rejse__exercise-link {
+  color: #7A9080;
+}
+
+.screen--min-praksis .rejse__crosslink,
+.screen--mindfulness .rejse__crosslink,
+.screen--eft-tapping .rejse__crosslink,
+.screen--yin-yoga .rejse__crosslink,
+.screen--kost-urter .rejse__crosslink,
+.screen--refleksion .rejse__crosslink,
+.screen--foelelser .rejse__crosslink,
+.screen--hvad-har-hjulpet .rejse__crosslink {
+  color: #7A9080;
   text-decoration-color: rgba(122, 144, 128, 0.3);
-  cursor: pointer;
 }
 
-/* Actionbar (Min Praksis stil) */
-.praksis__actionbar {
-  display: flex;
-  justify-content: center;
-  gap: 32px;
-  padding: 14px 0;
-  border-top: 1px solid #eee;
-  margin-top: 24px;
+.screen--min-praksis .rejse__two-col .rejse__col-card,
+.screen--mindfulness .rejse__two-col .rejse__col-card,
+.screen--eft-tapping .rejse__two-col .rejse__col-card {
+  background: rgba(139, 154, 157, 0.04);
+  border-color: rgba(139, 154, 157, 0.12);
 }
 
-.praksis__actionbar-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  font-family: var(--font-sans);
-  font-size: 17px;
-  color: #666;
-  background: none;
-  border: none;
-  cursor: pointer;
+.screen--min-praksis .rejse__col-title,
+.screen--mindfulness .rejse__col-title,
+.screen--eft-tapping .rejse__col-title {
+  color: #7A9080;
 }
+
+.screen--min-praksis .rejse__qt-mark,
+.screen--mindfulness .rejse__qt-mark,
+.screen--eft-tapping .rejse__qt-mark {
+  color: #a8c4ab;
+}
+
+.screen--min-praksis .rejse__info-card,
+.screen--mindfulness .rejse__info-card,
+.screen--eft-tapping .rejse__info-card,
+.screen--yin-yoga .rejse__info-card,
+.screen--kost-urter .rejse__info-card,
+.screen--foelelser .rejse__info-card,
+.screen--hvad-har-hjulpet .rejse__info-card {
+  background: rgba(139, 154, 157, 0.04);
+  border-color: rgba(139, 154, 157, 0.12);
+}
+
+.screen--min-praksis .rejse__info-card-tag,
+.screen--mindfulness .rejse__info-card-tag,
+.screen--eft-tapping .rejse__info-card-tag,
+.screen--yin-yoga .rejse__info-card-tag,
+.screen--kost-urter .rejse__info-card-tag,
+.screen--foelelser .rejse__info-card-tag,
+.screen--hvad-har-hjulpet .rejse__info-card-tag {
+  color: #7A9080;
+  background: rgba(139, 154, 157, 0.08);
+}
+
+.screen--min-praksis .rejse__prin,
+.screen--mindfulness .rejse__prin,
+.screen--eft-tapping .rejse__prin {
+  background: rgba(139, 154, 157, 0.04);
+  border-color: rgba(139, 154, 157, 0.12);
+}
+
+.screen--min-praksis .rejse__prin-icon,
+.screen--mindfulness .rejse__prin-icon,
+.screen--eft-tapping .rejse__prin-icon {
+  background: rgba(139, 154, 157, 0.1);
+  color: #7A9080;
+}
+
+.screen--min-praksis .rejse__prin-name,
+.screen--mindfulness .rejse__prin-name,
+.screen--eft-tapping .rejse__prin-name {
+  color: #7A9080;
+}
+
+.screen--min-praksis .rejse__badge,
+.screen--mindfulness .rejse__badge,
+.screen--eft-tapping .rejse__badge {
+  background: rgba(139, 154, 157, 0.08);
+  border-color: rgba(139, 154, 157, 0.14);
+  color: #6B8273;
+}
+
+.screen--min-praksis .rejse__badge-dot,
+.screen--mindfulness .rejse__badge-dot,
+.screen--eft-tapping .rejse__badge-dot {
+  background: #6B8273;
+}
+
+.screen--min-praksis .rejse__xlink,
+.screen--mindfulness .rejse__xlink,
+.screen--eft-tapping .rejse__xlink {
+  background: rgba(139, 154, 157, 0.06);
+  border-color: rgba(139, 154, 157, 0.12);
+}
+
+.screen--min-praksis .rejse__xlink-txt,
+.screen--mindfulness .rejse__xlink-txt,
+.screen--eft-tapping .rejse__xlink-txt {
+  color: #6B8273;
+}
+
+.screen--min-praksis .rejse__xlink-arr,
+.screen--mindfulness .rejse__xlink-arr,
+.screen--eft-tapping .rejse__xlink-arr {
+  color: #7A9080;
+}
+
+.screen--min-praksis .rejse__elem-grid .rejse__elem-card,
+.screen--mindfulness .rejse__elem-grid .rejse__elem-card,
+.screen--eft-tapping .rejse__elem-grid .rejse__elem-card {
+  background: rgba(139, 154, 157, 0.04);
+  border-color: rgba(139, 154, 157, 0.12);
+}
+
+.screen--min-praksis .rejse__phrase,
+.screen--mindfulness .rejse__phrase,
+.screen--eft-tapping .rejse__phrase {
+  background: rgba(139, 154, 157, 0.07);
+  border-color: rgba(139, 154, 157, 0.14);
+}
+
+.screen--min-praksis .rejse__question,
+.screen--mindfulness .rejse__question,
+.screen--eft-tapping .rejse__question,
+.screen--refleksion .rejse__question {
+  background: rgba(139, 154, 157, 0.05);
+  border-color: rgba(139, 154, 157, 0.12);
+}
+
+.screen--min-praksis .rejse__input,
+.screen--mindfulness .rejse__input,
+.screen--eft-tapping .rejse__input,
+.screen--refleksion .rejse__input {
+  border-color: rgba(139, 154, 157, 0.18);
+}
+
+.screen--min-praksis .rejse__input:focus,
+.screen--mindfulness .rejse__input:focus,
+.screen--eft-tapping .rejse__input:focus,
+.screen--refleksion .rejse__input:focus {
+  border-color: rgba(139, 154, 157, 0.40);
+}
+
+.screen--hvad-har-hjulpet .rejse__hbar-graph {
+  background: rgba(139, 154, 157, 0.05);
+  border-color: rgba(139, 154, 157, 0.12);
+}
+
+.screen--hvad-har-hjulpet .rejse__hbar-track {
+  background: rgba(139, 154, 157, 0.1);
+}
+
+.screen--hvad-har-hjulpet .rejse__hbar-fill {
+  background: linear-gradient(90deg, #8B9A9D, #6B8273);
+}
+
+.screen--hvad-har-hjulpet .rejse__sit {
+  background: rgba(139, 154, 157, 0.06);
+  border-color: rgba(139, 154, 157, 0.12);
+}
+
+.screen--hvad-har-hjulpet .rejse__sit-label {
+  color: #7A9080;
+}
+
+.screen--hvad-har-hjulpet .rejse__pcard {
+  background: rgba(139, 154, 157, 0.04);
+  border-color: rgba(139, 154, 157, 0.12);
+}
+
+.screen--hvad-har-hjulpet .rejse__pcard-num {
+  color: #6B8273;
+}
+
+.screen--hvad-har-hjulpet .rejse__pcard-tag {
+  background: rgba(139, 154, 157, 0.12);
+  color: #6B8273;
+}
+
+.screen--hvad-har-hjulpet .rejse__pcard-link {
+  color: #7A9080;
+}
+
+/* END — Min Praksis grøn farve-override */
 
 /* ============================
    NOTIFIKATIONER TIMELINE (I dag)
@@ -6689,6 +6827,300 @@
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+/* =============================================
+   REJSE__ SHARED COMPONENTS (lavendel standard)
+   ============================================= */
+
+/* Two-column grid */
+.rejse__two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
+.rejse__col-card {
+  background: rgba(139, 125, 155, 0.04);
+  border: 1px solid rgba(139, 125, 155, 0.12);
+  border-radius: 14px; padding: 16px; text-align: center;
+}
+.rejse__col-title {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; color: #333; font-weight: 500; margin-bottom: 4px;
+}
+.rejse__col-sub {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 15px; color: #555; line-height: 1.5;
+}
+
+/* Quote block */
+.rejse__qt { text-align: center; padding: 20px 12px; margin: 14px 0; }
+.rejse__qt-mark {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 42px; color: #c4b8d6; line-height: 1; font-weight: 300; margin-bottom: 4px;
+}
+.rejse__qt-txt {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; color: #555; line-height: 1.6;
+}
+
+/* Info card (shen, nervesystem, tapping-punkter) */
+.rejse__info-card {
+  background: rgba(139, 125, 155, 0.04);
+  border: 1px solid rgba(139, 125, 155, 0.12);
+  border-radius: 14px; padding: 18px 20px; margin-bottom: 8px;
+}
+.rejse__info-card-hd {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;
+}
+.rejse__info-card-name {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 19px; color: #333; font-weight: 500;
+}
+.rejse__info-card-tag {
+  font-size: 12px; color: #8B7D9B; letter-spacing: 2px;
+  text-transform: uppercase; font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: rgba(139, 125, 155, 0.08); padding: 4px 10px; border-radius: 12px;
+  font-weight: 600;
+}
+.rejse__info-card-txt {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; color: #555; line-height: 1.55;
+}
+
+/* Numbered principle/step card */
+.rejse__prin {
+  background: rgba(139, 125, 155, 0.04);
+  border: 1px solid rgba(139, 125, 155, 0.12);
+  border-radius: 14px; padding: 18px 20px; margin-bottom: 8px;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.rejse__prin-icon {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(139, 125, 155, 0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; color: #8B7D9B; flex-shrink: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 600;
+  margin-top: 2px;
+}
+.rejse__prin-name {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 19px; color: #333; font-weight: 500; margin-bottom: 2px;
+}
+.rejse__prin-txt {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; color: #555; line-height: 1.55;
+}
+
+/* Dynamic badge */
+.rejse__badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(139, 125, 155, 0.08);
+  border: 1px solid rgba(139, 125, 155, 0.14);
+  border-radius: 20px; padding: 8px 14px;
+  margin: 10px auto;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; color: #6B5F7B;
+}
+.rejse__badge-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: #6B5F7B;
+}
+
+/* Crosslink navigation card */
+.rejse__xlink {
+  background: rgba(139, 125, 155, 0.04);
+  border: 1px solid rgba(139, 125, 155, 0.12);
+  border-radius: 14px; padding: 16px 18px; margin-bottom: 10px;
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer;
+}
+.rejse__xlink:active { background: rgba(139, 125, 155, 0.10); }
+.rejse__xlink-txt {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; color: #6B5F7B;
+}
+.rejse__xlink-arr { font-size: 17px; color: #8B7D9B; }
+
+/* Lotus mini */
+.rejse__lotus {
+  display: flex; justify-content: center; margin: 24px 0; opacity: 0.12;
+}
+
+/* Element grid (2-col) */
+.rejse__elem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
+.rejse__elem-card {
+  background: rgba(139, 125, 155, 0.04);
+  border: 1px solid rgba(139, 125, 155, 0.12);
+  border-radius: 14px; padding: 14px 16px; text-align: center;
+}
+.rejse__elem-card-name {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 19px; color: #333; font-weight: 500; margin-bottom: 4px;
+}
+.rejse__elem-card-desc {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; color: #555;
+}
+
+/* Phrase/quote box (for EFT etc.) */
+.rejse__phrase {
+  background: rgba(139, 125, 155, 0.07);
+  border: 1px solid rgba(139, 125, 155, 0.14);
+  border-radius: 14px; padding: 16px 20px; margin: 12px 0;
+}
+.rejse__phrase-txt {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; color: #444; font-style: italic; line-height: 1.6;
+}
+
+/* Horizontal bar graph (for Hvad Har Hjulpet etc.) */
+.rejse__hbar-graph {
+  background: rgba(139, 125, 155, 0.05);
+  border: 1px solid rgba(139, 125, 155, 0.12);
+  border-radius: 14px; padding: 18px; margin: 16px 0;
+}
+.rejse__hbar-row {
+  display: flex; align-items: center; margin-bottom: 8px; gap: 8px;
+}
+.rejse__hbar-row:last-child { margin-bottom: 0; }
+.rejse__hbar-label {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; color: #555; width: 80px; text-align: right;
+}
+.rejse__hbar-track {
+  flex: 1; height: 18px; background: rgba(139, 125, 155, 0.1);
+  border-radius: 9px; overflow: hidden;
+}
+.rejse__hbar-fill {
+  height: 100%; border-radius: 9px;
+  background: linear-gradient(90deg, #8B7D9B, #6B5F7B);
+  display: flex; align-items: center; justify-content: flex-end; padding-right: 8px;
+}
+.rejse__hbar-pct {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px; color: white; font-weight: 600;
+}
+.rejse__hbar-foot {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; color: #555; text-align: center; margin-top: 12px;
+}
+
+/* Situation badge */
+.rejse__sit {
+  background: rgba(139, 125, 155, 0.06);
+  border: 1px solid rgba(139, 125, 155, 0.12);
+  border-radius: 14px; padding: 14px 18px; text-align: center; margin: 16px 0;
+}
+.rejse__sit-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px; color: #8B7D9B; letter-spacing: 2px; text-transform: uppercase;
+  font-weight: 600; margin-bottom: 4px;
+}
+.rejse__sit-val {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; color: #333;
+}
+
+/* Percent card (for Hvad Har Hjulpet) */
+.rejse__pcard {
+  background: rgba(139, 125, 155, 0.04);
+  border: 1px solid rgba(139, 125, 155, 0.12);
+  border-radius: 14px; padding: 18px 20px; margin-bottom: 12px;
+}
+.rejse__pcard-top {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;
+}
+.rejse__pcard-num {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 27px; color: #6B5F7B; font-weight: 500;
+}
+.rejse__pcard-tag {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px; padding: 3px 10px; border-radius: 12px;
+  background: rgba(139, 125, 155, 0.12); color: #8B7D9B;
+  letter-spacing: 2px; font-weight: 600; text-transform: uppercase;
+}
+.rejse__pcard-title {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 19px; color: #333; font-weight: 500; margin-bottom: 4px;
+}
+.rejse__pcard-desc {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; color: #555; line-height: 1.55;
+}
+.rejse__pcard-meta {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; color: #666; margin-top: 6px;
+}
+.rejse__pcard-link {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; color: #8B7D9B; margin-top: 6px; cursor: pointer;
+}
+
+/* Disclaimer text */
+.rejse__disclaimer {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; color: #666; text-align: center; margin-top: 12px;
+}
+
+/* Question card (for Refleksion) */
+.rejse__question {
+  background: rgba(139, 125, 155, 0.05);
+  border: 1px solid rgba(139, 125, 155, 0.12);
+  border-radius: 14px; padding: 16px 18px;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 18px; color: #333; font-weight: 500;
+}
+
+/* Text input (for Refleksion) */
+.rejse__input {
+  width: 100%; border: 1px solid rgba(139, 125, 155, 0.18);
+  border-radius: 10px; padding: 12px;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; color: #444; margin-bottom: 16px;
+  resize: vertical; min-height: 60px; box-sizing: border-box;
+  background: white;
+}
+.rejse__input:focus { outline: none; border-color: rgba(139, 125, 155, 0.40); }
+.rejse__input::placeholder { color: #999; }
+
+/* Exercise card (for Yin Yoga, Foelelser) */
+.rejse__exercise {
+  background: rgba(139, 125, 155, 0.04);
+  border: 1px solid rgba(139, 125, 155, 0.12);
+  border-radius: 14px; padding: 18px 20px; margin-bottom: 12px;
+}
+.rejse__exercise-organ {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px; color: #8B7D9B; letter-spacing: 2px;
+  text-transform: uppercase; font-weight: 600; margin-bottom: 6px;
+}
+.rejse__exercise-title {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 19px; color: #333; font-weight: 500; margin-bottom: 4px;
+}
+.rejse__exercise-desc {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; color: #555; line-height: 1.55;
+}
+.rejse__exercise-time {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 17px; color: #666; margin-top: 6px;
+}
+.rejse__exercise-link {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; color: #8B7D9B; margin-top: 6px; cursor: pointer;
+}
+
+/* Crosslink text link */
+.rejse__crosslink {
+  display: block; text-align: center; color: #8B7D9B;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 17px; margin-top: 10px;
+  text-decoration: underline; text-decoration-color: rgba(139, 125, 155, 0.3);
+  cursor: pointer;
+}
+
+/* Foelelser image */
+.rejse__foelelser-img {
+  width: 100%; max-width: 499px; height: auto;
+  display: block; margin: 0 auto;
+}
+
 /* Min Udvikling (praksis/grøn) — legacy */
 .screen--tracking .livsfase-detail__rec-card {
   background: rgba(139, 154, 157, 0.07);
@@ -6710,156 +7142,7 @@
   padding-bottom: var(--space-xl);
 }
 
-/* Graf */
-.hjulpet__graph {
-  background: rgba(139,154,157,0.06);
-  border-radius: 14px;
-  padding: 18px;
-  margin: 16px 0;
-}
-
-.hjulpet__bar {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-  gap: 8px;
-}
-
-.hjulpet__bar-label {
-  font-family: var(--font-sans);
-  font-size: 17px;
-  color: #666;
-  width: 70px;
-  flex-shrink: 0;
-  text-align: right;
-}
-
-.hjulpet__bar-fill {
-  height: 20px;
-  border-radius: 10px;
-  background: linear-gradient(90deg, #8B9A9D, #6B8273);
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-right: 8px;
-}
-
-.hjulpet__bar-pct {
-  font-family: var(--font-sans);
-  font-size: 12px;
-  color: white;
-  font-weight: 600;
-}
-
-.hjulpet__graph-foot {
-  font-family: var(--font-serif);
-  font-size: 17px;
-  color: #666;
-  text-align: center;
-  margin-top: 8px;
-
-}
-
-/* Situation-boks */
-.hjulpet__sit {
-  background: rgba(139,154,157,0.06);
-  border-radius: 14px;
-  padding: 14px 18px;
-  text-align: center;
-  margin: 16px 0;
-}
-
-.hjulpet__sit-lbl {
-  font-family: var(--font-sans);
-  font-size: 12px;
-  color: #7A9080;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.hjulpet__sit-val {
-  font-family: var(--font-serif);
-  font-size: 17px;
-  color: #333;
-}
-
-/* Procent-kort */
-.hjulpet__pc {
-  background: rgba(139,154,157,0.05);
-  border: 1px solid rgba(139,154,157,0.12);
-  border-radius: 14px;
-  padding: 18px 20px;
-  margin-bottom: 12px;
-}
-
-.hjulpet__pc-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 6px;
-}
-
-.hjulpet__pc-num {
-  font-family: var(--font-serif);
-  font-size: 27px;
-  color: #6B8273;
-  font-weight: 500;
-}
-
-.hjulpet__pc-tag {
-  font-family: var(--font-sans);
-  font-size: 12px;
-  padding: 3px 10px;
-  border-radius: 12px;
-  background: rgba(139,154,157,0.12);
-  color: #6B8273;
-  letter-spacing: 0.5px;
-  font-weight: 600;
-}
-
-.hjulpet__pc-title {
-  font-family: var(--font-serif);
-  font-size: 18px;
-  color: #333;
-  font-weight: 500;
-  margin-bottom: 4px;
-}
-
-.hjulpet__pc-desc {
-  font-family: var(--font-serif);
-  font-size: 17px;
-  color: #555;
-
-}
-
-.hjulpet__pc-meta {
-  font-family: var(--font-serif);
-  font-size: 17px;
-  color: #666;
-  margin-top: 6px;
-
-}
-
-.hjulpet__pc-link {
-  font-family: var(--font-serif);
-  font-size: 17px;
-  color: #7A9080;
-
-  margin-top: 6px;
-  cursor: pointer;
-}
-
-/* Disclaimer */
-.hjulpet__disclaimer {
-  text-align: center;
-  font-family: var(--font-serif);
-  font-size: 17px;
-  color: #666;
-  margin-top: 8px;
-
-}
+/* (hjulpet__ classes removed — now using rejse__ shared classes) */
 
 /* ---- Tidsvinduet (Din/Jeres energi p\00e5 en anden dag) ---- */
 
@@ -9253,283 +9536,5 @@
   cursor: pointer;
 }
 
-/* ============================================================
-   EFT Tapping — EFT-specific styles only
-   (standard elements use praksis__ classes)
-   ============================================================ */
-.eft__dyn-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(139, 154, 157, 0.08);
-  border: 1px solid rgba(139, 154, 157, 0.14);
-  border-radius: 20px; padding: 8px 14px; margin: 10px auto;
-  font-family: var(--font-serif);
-  font-size: 17px; color: #6B8273;
-}
-.eft__dyn-badge-dot {
-  width: 8px; height: 8px; border-radius: 50%; background: #6B8273;
-}
-.eft__diagram {
-  display: flex; justify-content: center; margin: 20px 0;
-}
-.eft__pt {
-  background: rgba(139, 154, 157, 0.04);
-  border: 1px solid rgba(139, 154, 157, 0.12);
-  border-radius: 14px; padding: 18px 20px; margin-bottom: 12px;
-}
-.eft__pt-hd {
-  display: flex; justify-content: space-between;
-  align-items: center; margin-bottom: 4px;
-}
-.eft__pt-nm {
-  font-family: var(--font-serif);
-  font-size: 19px; color: #333; font-weight: 500;
-}
-.eft__pt-tag {
-  font-size: 12px; color: #7A9080; letter-spacing: 1.5px;
-  text-transform: uppercase;
-  font-family: var(--font-sans);
-  background: rgba(139, 154, 157, 0.08); padding: 4px 10px;
-  border-radius: 12px; font-weight: 600;
-}
-.eft__pt-tx {
-  font-family: var(--font-serif);
-  font-size: 17px; color: #555; line-height: 1.55;
-}
-.eft__elem-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 10px; margin: 16px 0;
-}
-.eft__elem-card {
-  background: rgba(139, 154, 157, 0.04);
-  border: 1px solid rgba(139, 154, 157, 0.12);
-  border-radius: 14px; padding: 14px; text-align: center;
-}
-.eft__elem-name {
-  font-family: var(--font-serif);
-  font-size: 19px; color: #333; font-weight: 500; margin-bottom: 2px;
-}
-.eft__elem-feel {
-  font-family: var(--font-serif);
-  font-size: 17px; color: #666;
-}
-.eft__step {
-  display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start;
-}
-.eft__step-num {
-  width: 28px; height: 28px; min-width: 28px; border-radius: 50%;
-  background: rgba(139, 154, 157, 0.1);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 17px; color: #6B8273;
-  font-family: var(--font-sans); font-weight: 600;
-  margin-top: 2px;
-}
-.eft__step-content { flex: 1; }
-.eft__step-title {
-  font-family: var(--font-serif);
-  font-size: 19px; color: #333; font-weight: 500; margin-bottom: 2px;
-}
-.eft__step-txt {
-  font-family: var(--font-serif);
-  font-size: 17px; color: #555; line-height: 1.55;
-}
-.eft__phrase {
-  background: rgba(139, 154, 157, 0.07);
-  border: 1px solid rgba(139, 154, 157, 0.14);
-  border-radius: 14px;
-  padding: 16px 20px; margin: 14px 0;
-}
-.eft__phrase-txt {
-  font-family: var(--font-serif);
-  font-size: 17px; color: #444; font-style: italic; line-height: 1.6;
-}
-.eft__grd {
-  background: rgba(139, 154, 157, 0.07);
-  border: 1px solid rgba(139, 154, 157, 0.14);
-  border-radius: 14px; padding: 22px; margin: 20px 0;
-}
-.eft__grd-l {
-  font-size: 12px; color: #7A9080;
-  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;
-  font-family: var(--font-sans); font-weight: 600;
-}
-.eft__grd-t {
-  font-family: var(--font-serif);
-  font-size: 19px; color: #333; font-weight: 500; line-height: 1.5;
-}
-.eft__grd-sub {
-  font-family: var(--font-serif);
-  font-size: 17px; color: #555;
-  margin-top: 10px; line-height: 1.55;
-}
-.eft__lotus-mini {
-  display: flex; justify-content: center; margin: 24px 0; opacity: 0.12;
-}
-
-/* =============================================
-   MINDFULNESS
-   ============================================= */
-.mind__intro {
-  font-family: var(--font-serif);
-  font-size: 15px; color: #888; font-style: italic;
-  text-align: center; line-height: 1.65; margin-bottom: 24px;
-}
-.mind__dots {
-  text-align: center; color: #a8c4ab;
-  font-size: 9px; letter-spacing: 10px; margin: 28px 0;
-}
-.mind__body {
-  font-family: var(--font-serif);
-  font-size: 15px; color: #555; line-height: 1.7;
-  font-style: italic; margin-bottom: 16px;
-}
-.mind__two-col {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0;
-}
-.mind__col-card {
-  background: rgba(139, 154, 157, 0.04);
-  border: 1px solid rgba(139, 154, 157, 0.12);
-  border-radius: 14px; padding: 16px; text-align: center;
-}
-.mind__col-title {
-  font-family: var(--font-serif);
-  font-size: 15px; color: #7A9080; font-weight: 500; margin-bottom: 4px;
-}
-.mind__col-sub {
-  font-family: var(--font-serif);
-  font-size: 12px; color: #888; font-style: italic; line-height: 1.5;
-}
-.mind__qt {
-  text-align: center; padding: 20px 12px; margin: 14px 0;
-}
-.mind__qt-mark {
-  font-family: var(--font-serif);
-  font-size: 42px; color: #a8c4ab; line-height: 1; font-weight: 300; margin-bottom: 4px;
-}
-.mind__qt-txt {
-  font-family: var(--font-serif);
-  font-size: 17px; color: #555; font-style: italic; line-height: 1.6;
-}
-.mind__shen {
-  background: rgba(139, 154, 157, 0.04);
-  border: 1px solid rgba(139, 154, 157, 0.12);
-  border-radius: 14px; padding: 14px 16px; margin-bottom: 8px;
-}
-.mind__shen-hd {
-  display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;
-}
-.mind__shen-name {
-  font-family: var(--font-serif);
-  font-size: 16px; color: #7A9080; font-weight: 500;
-}
-.mind__shen-tag {
-  font-size: 10px; color: #7A9080; letter-spacing: 1.5px;
-  text-transform: uppercase; font-family: var(--font-sans);
-  background: rgba(139, 154, 157, 0.08); padding: 4px 10px; border-radius: 12px;
-}
-.mind__shen-txt {
-  font-family: var(--font-serif);
-  font-size: 13px; color: #888; font-style: italic; line-height: 1.5;
-}
-.mind__prin {
-  background: rgba(139, 154, 157, 0.04);
-  border: 1px solid rgba(139, 154, 157, 0.12);
-  border-radius: 14px; padding: 14px 16px; margin-bottom: 8px;
-  display: flex; align-items: flex-start; gap: 12px;
-}
-.mind__prin-icon {
-  width: 26px; height: 26px; border-radius: 50%;
-  background: rgba(139, 154, 157, 0.1);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; color: #7A9080; flex-shrink: 0;
-  font-family: var(--font-sans); font-weight: 600;
-}
-.mind__prin-name {
-  font-family: var(--font-serif);
-  font-size: 15px; color: #7A9080; font-weight: 500; margin-bottom: 2px;
-}
-.mind__prin-txt {
-  font-family: var(--font-serif);
-  font-size: 13px; color: #888; font-style: italic; line-height: 1.5;
-}
-.mind__grd {
-  background: linear-gradient(135deg, rgba(139, 154, 157, 0.85) 0%, rgba(139, 154, 157, 0.65) 100%);
-  border-radius: 14px; padding: 22px; margin: 20px 0;
-}
-.mind__grd-l {
-  font-size: 10px; color: rgba(255,255,255,0.6);
-  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;
-  font-family: var(--font-sans);
-}
-.mind__grd-t {
-  font-family: var(--font-serif);
-  font-size: 18px; color: white; font-style: italic; line-height: 1.5;
-}
-.mind__grd-sub {
-  font-family: var(--font-serif);
-  font-size: 14px; color: rgba(255,255,255,0.7);
-  font-style: italic; margin-top: 10px; line-height: 1.55;
-}
-.mind__step {
-  display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start;
-}
-.mind__step-num {
-  width: 28px; height: 28px; border-radius: 50%;
-  background: rgba(139, 154, 157, 0.1);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; color: #7A9080; flex-shrink: 0;
-  font-family: var(--font-sans); font-weight: 600; margin-top: 2px;
-}
-.mind__step-title {
-  font-family: var(--font-serif);
-  font-size: 16px; color: #7A9080; font-weight: 500; margin-bottom: 2px;
-}
-.mind__step-txt {
-  font-family: var(--font-serif);
-  font-size: 14px; color: #777; font-style: italic; line-height: 1.55;
-}
-.mind__badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(139, 154, 157, 0.08);
-  border: 1px solid rgba(139, 154, 157, 0.14);
-  border-radius: 20px; padding: 8px 14px;
-  margin: 10px auto; font-family: var(--font-serif);
-  font-size: 13px; color: #7A9080; font-style: italic;
-}
-.mind__badge-dot {
-  width: 8px; height: 8px; border-radius: 50%; background: #7A9080;
-}
-.mind__hint {
-  font-family: var(--font-serif);
-  font-size: 13px; color: #bbb; font-style: italic;
-  text-align: center; margin-top: 16px; line-height: 1.6;
-}
-.mind__lotus {
-  display: flex; justify-content: center; margin: 24px 0; opacity: 0.12;
-}
-.mind__xlink {
-  background: rgba(118, 144, 193, 0.06);
-  border: 1px solid rgba(118, 144, 193, 0.12);
-  border-radius: 14px; padding: 16px 18px; margin-bottom: 10px;
-  display: flex; align-items: center; justify-content: space-between;
-  cursor: pointer;
-}
-.mind__xlink-txt {
-  font-family: var(--font-serif);
-  font-size: 14px; color: #7690C1; font-style: italic;
-}
-.mind__xlink-arr {
-  font-size: 14px; color: #7690C1;
-}
-.mind__xlink--grn {
-  background: rgba(139, 154, 157, 0.06);
-  border-color: rgba(139, 154, 157, 0.12);
-}
-.mind__xlink--grn .mind__xlink-txt,
-.mind__xlink--grn .mind__xlink-arr { color: #7A9080; }
-.mind__xlink--rel {
-  background: rgba(184, 166, 192, 0.06);
-  border-color: rgba(184, 166, 192, 0.12);
-}
-.mind__xlink--rel .mind__xlink-txt,
-.mind__xlink--rel .mind__xlink-arr { color: #B8A6C0; }
+/* (eft__ and mind__ classes removed — now using rejse__ shared classes) */
 

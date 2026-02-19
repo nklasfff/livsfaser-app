@@ -7331,10 +7331,14 @@ function renderMinPraksisFigur() {
 }
 
 function renderPraksisCard(title, desc, link, onclick) {
-  return '<div class="praksis__card" onclick="' + onclick + '">' +
-    '<h3 class="praksis__card-title">' + title + '</h3>' +
-    '<p class="praksis__card-desc">' + desc + '</p>' +
-    '<div class="praksis__card-link">' + link + '</div>' +
+  return '<div class="rejse__nc" onclick="' + onclick + '" style="cursor:pointer">' +
+    '<div style="display:flex;justify-content:space-between;align-items:flex-start">' +
+    '<div style="flex:1">' +
+    '<h3 style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:19px;color:#333;font-weight:500;margin:0 0 4px">' + title + '</h3>' +
+    '<p style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:15px;color:#666;line-height:1.5;margin:0 0 6px">' + desc + '</p>' +
+    '<div style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:15px;color:#7A9080">' + link + '</div>' +
+    '</div>' +
+    '</div>' +
     '</div>';
 }
 
@@ -7358,9 +7362,9 @@ function initMinPraksisScreen() {
   if (indsigtEl) {
     var ligeNuTekst = PRAKSIS_LIGE_NU[primaryEl] || PRAKSIS_LIGE_NU['VAND'];
     indsigtEl.innerHTML =
-      '<div class="praksis__indsigt">' +
-      '<div class="praksis__indsigt-label">Lige nu</div>' +
-      '<div class="praksis__indsigt-text">' + ligeNuTekst + '</div>' +
+      '<div class="rejse__ins">' +
+      '<div class="rejse__ins-label">Lige nu</div>' +
+      '<div class="rejse__ins-text">' + ligeNuTekst + '</div>' +
       '</div>';
   }
 
@@ -7368,9 +7372,9 @@ function initMinPraksisScreen() {
   var html = '';
 
   // --- Krop og bevægelse ---
-  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
-  html += '<h3 class="praksis__section-title">Krop og bev\u00e6gelse</h3>';
-  html += '<p class="praksis__section-intro">\u00d8velser der st\u00f8tter dit element lige nu. Fra yin yoga til vejrtr\u00e6kning \u2014 din krop ved hvad den har brug for, n\u00e5r du giver den de rette stillinger.</p>';
+  html += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h2 class="rejse__t2">Krop og bev\u00e6gelse</h2>';
+  html += '<p style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:17px;color:#555;line-height:1.65;text-align:center;margin-bottom:20px">\u00d8velser der st\u00f8tter dit element lige nu. Fra yin yoga til vejrtr\u00e6kning \u2014 din krop ved hvad den har brug for, n\u00e5r du giver den de rette stillinger.</p>';
   html += renderPraksisCard(
     'Yin Yoga',
     'Dybe stillinger der arbejder med bindev\u00e6vet og meridianerne. V\u00e6lg dit element og find de positioner, der st\u00f8tter dig.',
@@ -7391,9 +7395,9 @@ function initMinPraksisScreen() {
   );
 
   // --- Åndedræt og sind ---
-  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
-  html += '<h3 class="praksis__section-title">\u00c5ndedr\u00e6t og sind</h3>';
-  html += '<p class="praksis__section-intro">N\u00e5r f\u00f8lelserne fylder eller du har brug for ro, kan \u00e5ndedr\u00e6ttet v\u00e6re vejen ind. Her finder du refleksioner og \u00f8velser der bringer sindet i balance.</p>';
+  html += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h2 class="rejse__t2">\u00c5ndedr\u00e6t og sind</h2>';
+  html += '<p style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:17px;color:#555;line-height:1.65;text-align:center;margin-bottom:20px">N\u00e5r f\u00f8lelserne fylder eller du har brug for ro, kan \u00e5ndedr\u00e6ttet v\u00e6re vejen ind. Her finder du refleksioner og \u00f8velser der bringer sindet i balance.</p>';
   html += renderPraksisCard(
     'Vejrtr\u00e6kning',
     '\u00c5ndedr\u00e6ttet er altid tilg\u00e6ngeligt og p\u00e5virker nervesystemet direkte. Start her, hvis du ikke ved, hvad du har brug for.',
@@ -7414,9 +7418,9 @@ function initMinPraksisScreen() {
   );
 
   // --- Næring ---
-  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
-  html += '<h3 class="praksis__section-title">N\u00e6ring</h3>';
-  html += '<p class="praksis__section-intro">Mad og urter der st\u00f8tter dit element indefra. Den rette n\u00e6ring kan \u00e5bne for energi du ikke vidste du havde \u2014 kroppen responderer n\u00e5r den f\u00e5r det den mangler.</p>';
+  html += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h2 class="rejse__t2">N\u00e6ring</h2>';
+  html += '<p style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:17px;color:#555;line-height:1.65;text-align:center;margin-bottom:20px">Mad og urter der st\u00f8tter dit element indefra. Den rette n\u00e6ring kan \u00e5bne for energi du ikke vidste du havde \u2014 kroppen responderer n\u00e5r den f\u00e5r det den mangler.</p>';
   html += renderPraksisCard(
     'Kost & Urter',
     'F\u00f8devarer og urter fra den kinesiske og den indiske tradition, tilpasset dit element og din fase.',
@@ -7425,9 +7429,9 @@ function initMinPraksisScreen() {
   );
 
   // --- Følelserne ---
-  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
-  html += '<h3 class="praksis__section-title">F\u00f8lelserne</h3>';
-  html += '<p class="praksis__section-intro">Alle f\u00f8lelser h\u00f8rer til et element og et organpar. N\u00e5r du forst\u00e5r hvor f\u00f8lelsen kommer fra, kan du m\u00f8de den med omsorg i stedet for modstand.</p>';
+  html += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h2 class="rejse__t2">F\u00f8lelserne</h2>';
+  html += '<p style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:17px;color:#555;line-height:1.65;text-align:center;margin-bottom:20px">Alle f\u00f8lelser h\u00f8rer til et element og et organpar. N\u00e5r du forst\u00e5r hvor f\u00f8lelsen kommer fra, kan du m\u00f8de den med omsorg i stedet for modstand.</p>';
   html += renderPraksisCard(
     'F\u00f8lelsernes Hjul',
     'Frygt, vrede, gl\u00e6de, bekymring, sorg \u2014 se hvor dine f\u00f8lelser bor i kroppen, og hvad de fort\u00e6ller dig.',
@@ -7436,9 +7440,9 @@ function initMinPraksisScreen() {
   );
 
   // --- Fællesskab ---
-  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
-  html += '<h3 class="praksis__section-title">F\u00e6llesskab</h3>';
-  html += '<p class="praksis__section-intro">Anonyme erfaringer fra kvinder i samme situation som dig. Der er en s\u00e6rlig styrke i at vide at andre har g\u00e5et den samme vej og fundet noget der virker.</p>';
+  html += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h2 class="rejse__t2">F\u00e6llesskab</h2>';
+  html += '<p style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:17px;color:#555;line-height:1.65;text-align:center;margin-bottom:20px">Anonyme erfaringer fra kvinder i samme situation som dig. Der er en s\u00e6rlig styrke i at vide at andre har g\u00e5et den samme vej og fundet noget der virker.</p>';
   html += renderPraksisCard(
     'Hvad har hjulpet andre',
     'Se hvad kvinder i din livsfase og med dit element anbefaler. Del dine egne erfaringer anonymt.',
@@ -11135,9 +11139,9 @@ function initRefleksionScreen() {
   var questions = REFLEKSION_DATA[phase] || REFLEKSION_DATA[5];
   var savedReflections = JSON.parse(localStorage.getItem('livsfaser_reflections') || '[]');
 
-  var html = '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
-  html += '<h3 class="praksis__section-title">Refleksioner for Fase ' + phase + ': ' + (PHASE_DATA[phase] ? PHASE_DATA[phase].name : '') + '</h3>';
-  html += '<p class="praksis__section-intro">Sp\u00f8rgsm\u00e5l til stilhed og selvindsigt. Du beh\u00f8ver ikke svare p\u00e5 dem alle \u2014 lad dem leve i dig og m\u00e6rk hvilke der kalder mest p\u00e5 din opm\u00e6rksomhed.</p>';
+  var html = '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h2 class="rejse__t2">Refleksioner for Fase ' + phase + ': ' + (PHASE_DATA[phase] ? PHASE_DATA[phase].name : '') + '</h2>';
+  html += '<p style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:17px;color:#555;line-height:1.65;text-align:center;margin-bottom:20px">Sp\u00f8rgsm\u00e5l til stilhed og selvindsigt. Du beh\u00f8ver ikke svare p\u00e5 dem alle \u2014 lad dem leve i dig og m\u00e6rk hvilke der kalder mest p\u00e5 din opm\u00e6rksomhed.</p>';
 
   for (var i = 0; i < questions.length; i++) {
     var qId = 'refleksion-' + phase + '-' + i;
@@ -11148,12 +11152,12 @@ function initRefleksionScreen() {
         break;
       }
     }
-    html += '<div class="refleksion__question">' + questions[i] + '</div>';
-    html += '<textarea class="refleksion__input" id="' + qId + '" placeholder="Skriv hvad du vil huske\u2026">' + escapeHtml(existing) + '</textarea>';
+    html += '<div class="rejse__question">' + questions[i] + '</div>';
+    html += '<textarea class="rejse__input" id="' + qId + '" placeholder="Skriv hvad du vil huske\u2026">' + escapeHtml(existing) + '</textarea>';
   }
 
-  html += '<button class="refleksion__btn" onclick="saveRefleksion()">Gem refleksion</button>';
-  html += '<div class="praksis__crosslink" onclick="App.loadScreen(\'din-energi\')">Se hvilke refleksioner der passer til dig p\u00e5 en anden dag \u2192</div>';
+  html += '<div class="rejse__checkin" style="text-align:center" onclick="saveRefleksion()"><span style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:17px;color:white">Gem refleksion</span></div>';
+  html += '<div class="rejse__crosslink" onclick="App.loadScreen(\'din-energi\')">Se hvilke refleksioner der passer til dig p\u00e5 en anden dag \u2192</div>';
   html += renderActionBar('refleksion');
 
   contentEl.innerHTML = html;
@@ -11319,14 +11323,14 @@ function initFoelelserScreen() {
   if (indsigtEl) {
     var indsigtTekst = FOELELSER_INDSIGT[primaryEl] || FOELELSER_INDSIGT['VAND'];
     indsigtEl.innerHTML =
-      '<div class="praksis__indsigt">' +
-      '<div class="praksis__indsigt-label">Dit element lige nu</div>' +
-      '<div class="praksis__indsigt-text">' + indsigtTekst + '</div>' +
+      '<div class="rejse__ins">' +
+      '<div class="rejse__ins-label">Dit element lige nu</div>' +
+      '<div class="rejse__ins-text">' + indsigtTekst + '</div>' +
       '</div>';
   }
 
   // 3. Intro-tekst + nav-kort + crosslink + actionbar
-  var html = '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  var html = '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
   html += '<h2 class="rejse__t2">Udforsk dine f\u00f8lelser</h2>';
   html += '<p class="rejse__intr">V\u00e6lg en f\u00f8lelse og se hvilke \u00f8velser, vejrtr\u00e6kninger og refleksioner der kan st\u00f8tte dig. Hver f\u00f8lelse h\u00f8rer til et element \u2014 og n\u00e5r du m\u00f8der den med forst\u00e5else, \u00e5bner der sig en vej.</p>';
 
@@ -11361,7 +11365,7 @@ function initFoelelserScreen() {
     "showEmotionDetail('METAL')"
   );
 
-  html += '<div class="praksis__crosslink" onclick="App.loadScreen(\'din-energi\')">Se hvilke f\u00f8lelser der passer til dig p\u00e5 en anden dag \u2192</div>';
+  html += '<div class="rejse__crosslink" onclick="App.loadScreen(\'din-energi\')">Se hvilke f\u00f8lelser der passer til dig p\u00e5 en anden dag \u2192</div>';
   html += renderActionBar('foelelser');
 
   contentEl.innerHTML = html;
@@ -11378,28 +11382,28 @@ function showEmotionDetail(element) {
   var yoga = INSIGHT_YOGA[element] || [];
   var food = INSIGHT_FOOD[element] || [];
 
-  var html = '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
-  html += '<div class="praksis__indsigt">';
-  html += '<div class="praksis__indsigt-label">' + ELEMENT_LABELS[element] + ' \u00B7 ' + organMap[element] + '</div>';
-  html += '<div class="praksis__indsigt-text">' + emotions.map(function(e) { return e.charAt(0).toUpperCase() + e.slice(1); }).join(', ') + ' \u2014 disse f\u00f8lelser er ikke problemer der skal l\u00f8ses. De er signaler fra ' + ELEMENT_LABELS[element] + '-elementet.</div>';
+  var html = '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<div class="rejse__ins">';
+  html += '<div class="rejse__ins-label">' + ELEMENT_LABELS[element] + ' \u00B7 ' + organMap[element] + '</div>';
+  html += '<div class="rejse__ins-text">' + emotions.map(function(e) { return e.charAt(0).toUpperCase() + e.slice(1); }).join(', ') + ' \u2014 disse f\u00f8lelser er ikke problemer der skal l\u00f8ses. De er signaler fra ' + ELEMENT_LABELS[element] + '-elementet.</div>';
   html += '</div>';
 
   if (yoga.length > 0) {
-    html += '<div class="praksis__exercise">';
-    html += '<div class="praksis__exercise-organ">\u00d8velse</div>';
-    html += '<h3 class="praksis__exercise-title">' + yoga[0].pose + '</h3>';
-    html += '<p class="praksis__exercise-desc">' + yoga[0].desc + '</p>';
+    html += '<div class="rejse__exercise">';
+    html += '<div class="rejse__exercise-organ">\u00d8velse</div>';
+    html += '<h3 class="rejse__exercise-title">' + yoga[0].pose + '</h3>';
+    html += '<p class="rejse__exercise-desc">' + yoga[0].desc + '</p>';
     html += '</div>';
   }
   if (food.length > 0) {
-    html += '<div class="praksis__exercise">';
-    html += '<div class="praksis__exercise-organ">Kost</div>';
-    html += '<h3 class="praksis__exercise-title">' + food[0].item + '</h3>';
-    html += '<p class="praksis__exercise-desc">' + food[0].desc + '</p>';
+    html += '<div class="rejse__exercise">';
+    html += '<div class="rejse__exercise-organ">Kost</div>';
+    html += '<h3 class="rejse__exercise-title">' + food[0].item + '</h3>';
+    html += '<p class="rejse__exercise-desc">' + food[0].desc + '</p>';
     html += '</div>';
   }
 
-  html += '<div class="praksis__crosslink" onclick="App.loadScreen(\'din-energi\')">Se hvilke f\u00f8lelser der passer til dig p\u00e5 en anden dag \u2192</div>';
+  html += '<div class="rejse__crosslink" onclick="App.loadScreen(\'din-energi\')">Se hvilke f\u00f8lelser der passer til dig p\u00e5 en anden dag \u2192</div>';
   html += renderActionBar('foelelser');
 
   contentEl.innerHTML = html;
@@ -11435,10 +11439,10 @@ function renderYinYogaContent() {
 
   // 1. Element chips
   if (chipsEl) {
-    var cHtml = '<div class="yin-yoga__chips">';
+    var cHtml = '<div class="rejse__chips">';
     for (var i = 0; i < elKeys.length; i++) {
       var isActive = (elKeys[i] === selected);
-      cHtml += '<button class="yin-yoga__chip' + (isActive ? ' yin-yoga__chip--active' : '') + '" onclick="selectYogaElement(\'' + elKeys[i] + '\')">' + ELEMENT_LABELS[elKeys[i]] + '</button>';
+      cHtml += '<button class="rejse__chip' + (isActive ? ' rejse__chip--active' : '') + '" onclick="selectYogaElement(\'' + elKeys[i] + '\')">' + ELEMENT_LABELS[elKeys[i]] + '</button>';
     }
     cHtml += '</div>';
     chipsEl.innerHTML = cHtml;
@@ -11446,7 +11450,7 @@ function renderYinYogaContent() {
 
   // 2. Dynamisk intro-tekst
   if (introEl) {
-    introEl.innerHTML = '<p class="yin-yoga__intro-text">Dit dominerende element lige nu er ' + ELEMENT_LABELS[selected] + '.<br>Disse positioner st\u00f8tter dig:</p>';
+    introEl.innerHTML = '<p style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:17px;color:#555;line-height:1.65;text-align:center;margin:16px 0 20px">Dit dominerende element lige nu er ' + ELEMENT_LABELS[selected] + '.<br>Disse positioner st\u00f8tter dig:</p>';
   }
 
   // 3. Øvelseskort for valgt element
@@ -11454,32 +11458,36 @@ function renderYinYogaContent() {
   var html = '';
   for (var p = 0; p < poses.length; p++) {
     var pose = poses[p];
-    html += '<div class="praksis__exercise">';
-    html += '<div class="praksis__exercise-organ">' + pose.meridian + '</div>';
-    html += '<h3 class="praksis__exercise-title">' + pose.pose + '</h3>';
-    html += '<p class="praksis__exercise-desc">' + pose.desc + '</p>';
-    html += '<div class="praksis__exercise-time">' + pose.tid + '</div>';
-    html += '<div class="praksis__exercise-link">Pr\u00f8v nu \u2192</div>';
+    html += '<div class="rejse__exercise">';
+    html += '<div class="rejse__exercise-organ">' + pose.meridian + '</div>';
+    html += '<h3 class="rejse__exercise-title">' + pose.pose + '</h3>';
+    html += '<p class="rejse__exercise-desc">' + pose.desc + '</p>';
+    html += '<div class="rejse__exercise-time">' + pose.tid + '</div>';
+    html += '<div class="rejse__exercise-link">Pr\u00f8v nu \u2192</div>';
     html += '</div>';
   }
   posesEl.innerHTML = html;
 
   // 4. Andre elementer + crosslink + actionbar
   if (andreEl) {
-    var aHtml = '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
-    aHtml += '<h3 class="praksis__section-title">Andre elementer</h3>';
-    aHtml += '<p class="praksis__section-intro">Udforsk \u00f8velser for de \u00f8vrige elementer. Selvom dit dominerende element st\u00e5r st\u00e6rkest, kan de andre \u00e5bne for noget nyt n\u00e5r du er klar til det.</p>';
+    var aHtml = '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+    aHtml += '<h2 class="rejse__t2">Andre elementer</h2>';
+    aHtml += '<p style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:17px;color:#555;line-height:1.65;text-align:center;margin-bottom:20px">Udforsk \u00f8velser for de \u00f8vrige elementer. Selvom dit dominerende element st\u00e5r st\u00e6rkest, kan de andre \u00e5bne for noget nyt n\u00e5r du er klar til det.</p>';
     for (var e = 0; e < elKeys.length; e++) {
       if (elKeys[e] === selected) continue;
       var otherPoses = YIN_YOGA_FULL[elKeys[e]] || [];
       var poseNames = otherPoses.map(function(op) { return op.pose.split('(')[0].trim(); }).join(' \u00B7 ');
-      aHtml += '<div class="praksis__card" onclick="selectYogaElement(\'' + elKeys[e] + '\')">';
-      aHtml += '<h3 class="praksis__card-title">' + ELEMENT_LABELS[elKeys[e]] + '</h3>';
-      aHtml += '<p class="praksis__card-desc">' + poseNames + '</p>';
-      aHtml += '<div class="praksis__card-link">\u2192</div>';
+      aHtml += '<div class="rejse__nc" onclick="selectYogaElement(\'' + elKeys[e] + '\')" style="cursor:pointer">';
+      aHtml += '<div style="display:flex;justify-content:space-between;align-items:center">';
+      aHtml += '<div>';
+      aHtml += '<h3 style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:19px;color:#333;font-weight:500;margin:0 0 4px">' + ELEMENT_LABELS[elKeys[e]] + '</h3>';
+      aHtml += '<p style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:15px;color:#666;line-height:1.5;margin:0">' + poseNames + '</p>';
+      aHtml += '</div>';
+      aHtml += '<span style="font-size:18px;color:#7A9080;opacity:0.6">\u2192</span>';
+      aHtml += '</div>';
       aHtml += '</div>';
     }
-    aHtml += '<div class="praksis__crosslink" onclick="App.loadScreen(\'din-energi\')">Se hvilke stillinger der passer til dig p\u00e5 en anden dag \u2192</div>';
+    aHtml += '<div class="rejse__crosslink" onclick="App.loadScreen(\'din-energi\')">Se hvilke stillinger der passer til dig p\u00e5 en anden dag \u2192</div>';
     aHtml += renderActionBar('yin-yoga');
     andreEl.innerHTML = aHtml;
   }
@@ -11629,51 +11637,51 @@ function initKostUrterScreen() {
   // 1. Indsigt-boks
   if (indsigtEl) {
     indsigtEl.innerHTML =
-      '<div class="praksis__indsigt">' +
-      '<div class="praksis__indsigt-label">Dit element lige nu: ' + ELEMENT_LABELS[primaryEl] + '</div>' +
-      '<div class="praksis__indsigt-text">' + data.indsigt + '</div>' +
+      '<div class="rejse__ins">' +
+      '<div class="rejse__ins-label">Dit element lige nu: ' + ELEMENT_LABELS[primaryEl] + '</div>' +
+      '<div class="rejse__ins-text">' + data.indsigt + '</div>' +
       '</div>';
   }
 
   // 2. Content
-  var html = '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  var html = '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // Spis mere af
-  html += '<h3 class="praksis__section-title">Spis mere af</h3>';
-  html += '<p class="praksis__section-intro">Din krop kalder på bestemte smagskvaliteter lige nu. Disse fødevarer støtter dit element og møder den sult dit system har brug for indefra.</p>';
+  html += '<h2 class="rejse__t2">Spis mere af</h2>';
+  html += '<p style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:17px;color:#555;line-height:1.65;text-align:center;margin-bottom:20px">Din krop kalder p\u00e5 bestemte smagskvaliteter lige nu. Disse f\u00f8devarer st\u00f8tter dit element og m\u00f8der den sult dit system har brug for indefra.</p>';
   html += '<div style="height:12px"></div>';
   for (var i = 0; i < data.spisMere.length; i++) {
     var f = data.spisMere[i];
-    html += '<div class="kost__card">';
-    html += '<div class="kost__tag">' + f.trad + '</div>';
-    html += '<h3 class="kost__title">' + f.title + '</h3>';
-    html += '<p class="kost__desc">' + f.desc + '</p>';
+    html += '<div class="rejse__exercise">';
+    html += '<div class="rejse__exercise-organ">' + f.trad + '</div>';
+    html += '<h3 class="rejse__exercise-title">' + f.title + '</h3>';
+    html += '<p class="rejse__exercise-desc">' + f.desc + '</p>';
     html += '</div>';
   }
 
   // Urter til fasen
-  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
-  html += '<h3 class="praksis__section-title">Urter til fasen</h3>';
-  html += '<p class="praksis__section-intro">Urter arbejder langsomt og dybt. De følgende planter har i tusinder af år støttet kvinder i netop den fase du befinder dig i nu.</p>';
+  html += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h2 class="rejse__t2">Urter til fasen</h2>';
+  html += '<p style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:17px;color:#555;line-height:1.65;text-align:center;margin-bottom:20px">Urter arbejder langsomt og dybt. De f\u00f8lgende planter har i tusinder af \u00e5r st\u00f8ttet kvinder i netop den fase du befinder dig i nu.</p>';
   html += '<div style="height:12px"></div>';
   for (var u = 0; u < data.urter.length; u++) {
     var ur = data.urter[u];
-    html += '<div class="kost__card">';
-    html += '<div class="kost__tag">' + ur.trad + '</div>';
-    html += '<h3 class="kost__title">' + ur.title + '</h3>';
-    html += '<p class="kost__desc">' + ur.desc + '</p>';
+    html += '<div class="rejse__exercise">';
+    html += '<div class="rejse__exercise-organ">' + ur.trad + '</div>';
+    html += '<h3 class="rejse__exercise-title">' + ur.title + '</h3>';
+    html += '<p class="rejse__exercise-desc">' + ur.desc + '</p>';
     html += '</div>';
   }
 
   // Spis mindre af
-  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
-  html += '<div class="praksis__indsigt">';
-  html += '<div class="praksis__indsigt-label">Spis mindre af</div>';
-  html += '<div class="praksis__indsigt-text">' + data.spisMindre + '</div>';
+  html += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<div class="rejse__ins">';
+  html += '<div class="rejse__ins-label">Spis mindre af</div>';
+  html += '<div class="rejse__ins-text">' + data.spisMindre + '</div>';
   html += '</div>';
 
   // Crosslink + actionbar
-  html += '<div class="praksis__crosslink" onclick="App.loadScreen(\'din-energi\')">Se kostvejledning til en anden dato \u2192</div>';
+  html += '<div class="rejse__crosslink" onclick="App.loadScreen(\'din-energi\')">Se kostvejledning til en anden dato \u2192</div>';
   html += renderActionBar('kost-urter');
 
   contentEl.innerHTML = html;
@@ -11707,80 +11715,80 @@ function initHvadHarHjulpetScreen() {
       { label: 'Refleksion', pct: 63 },
       { label: 'F\u00e6llesskab', pct: 58 }
     ];
-    var gHtml = '<div class="hjulpet__graph">';
+    var gHtml = '<div class="rejse__hbar-graph">';
     for (var b = 0; b < bars.length; b++) {
-      gHtml += '<div class="hjulpet__bar">';
-      gHtml += '<div class="hjulpet__bar-label">' + bars[b].label + '</div>';
-      gHtml += '<div class="hjulpet__bar-fill" style="width:' + bars[b].pct + '%"><span class="hjulpet__bar-pct">' + bars[b].pct + '%</span></div>';
+      gHtml += '<div class="rejse__hbar-row">';
+      gHtml += '<div class="rejse__hbar-label">' + bars[b].label + '</div>';
+      gHtml += '<div class="rejse__hbar-track"><div class="rejse__hbar-fill" style="width:' + bars[b].pct + '%"><span class="rejse__hbar-pct">' + bars[b].pct + '%</span></div></div>';
       gHtml += '</div>';
     }
-    gHtml += '<div class="hjulpet__graph-foot">Baseret p\u00e5 anonyme erfaringer fra kvinder i alle ni livsfaser</div>';
+    gHtml += '<div class="rejse__hbar-foot">Baseret p\u00e5 anonyme erfaringer fra kvinder i alle ni livsfaser</div>';
     gHtml += '</div>';
     grafEl.innerHTML = gHtml;
   }
 
   // 2. Content
-  var html = '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  var html = '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // Din situation lige nu
-  html += '<h3 class="praksis__section-title">Din situation lige nu</h3>';
-  html += '<p class="praksis__section-intro">Anbefalingerne nedenfor er tilpasset pr\u00e6cis din kombination af livsfase, element og \u00e5rstid \u2014 ikke generelle r\u00e5d, men noget der m\u00f8der dig hvor du st\u00e5r.</p>';
-  html += '<div class="hjulpet__sit">';
-  html += '<div class="hjulpet__sit-lbl">Din situation lige nu</div>';
-  html += '<div class="hjulpet__sit-val">Fase ' + phase.phase + ' \u00B7 ' + elLabel + ' \u00B7 ' + season.season + '</div>';
+  html += '<h2 class="rejse__t2">Din situation lige nu</h2>';
+  html += '<p style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:17px;color:#555;line-height:1.65;text-align:center;margin-bottom:20px">Anbefalingerne nedenfor er tilpasset pr\u00e6cis din kombination af livsfase, element og \u00e5rstid \u2014 ikke generelle r\u00e5d, men noget der m\u00f8der dig hvor du st\u00e5r.</p>';
+  html += '<div class="rejse__sit">';
+  html += '<div class="rejse__sit-label">Din situation lige nu</div>';
+  html += '<div class="rejse__sit-val">Fase ' + phase.phase + ' \u00B7 ' + elLabel + ' \u00B7 ' + season.season + '</div>';
   html += '</div>';
 
-  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // Det virker for kvinder som dig
-  html += '<h3 class="praksis__section-title">Det virker for kvinder som dig</h3>';
-  html += '<p class="praksis__section-intro">Andre kvinder i din livsfase og med dit element har fundet noget der virker. Her er deres anonyme erfaringer \u2014 m\u00e5ske genkender du noget.</p>';
+  html += '<h2 class="rejse__t2">Det virker for kvinder som dig</h2>';
+  html += '<p style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:17px;color:#555;line-height:1.65;text-align:center;margin-bottom:20px">Andre kvinder i din livsfase og med dit element har fundet noget der virker. Her er deres anonyme erfaringer \u2014 m\u00e5ske genkender du noget.</p>';
 
   // Kort 1: Yoga
-  html += '<div class="hjulpet__pc">';
-  html += '<div class="hjulpet__pc-top"><div class="hjulpet__pc-num">' + data.yoga.pct + '%</div><div class="hjulpet__pc-tag">Fase ' + phase.phase + '</div></div>';
-  html += '<h3 class="hjulpet__pc-title">Yin Yoga for ' + elLabel + '-elementet</h3>';
-  html += '<p class="hjulpet__pc-desc">' + data.yoga.desc + '</p>';
-  html += '<div class="hjulpet__pc-meta">Baseret p\u00e5 ' + data.yoga.count + ' kvinder i Fase ' + phase.phase + '</div>';
-  html += '<div class="hjulpet__pc-link" onclick="navigateToYogaWithElement(\'' + el + '\')">Pr\u00f8v nu \u2192</div>';
+  html += '<div class="rejse__pcard">';
+  html += '<div class="rejse__pcard-top"><div class="rejse__pcard-num">' + data.yoga.pct + '%</div><div class="rejse__pcard-tag">Fase ' + phase.phase + '</div></div>';
+  html += '<h3 class="rejse__pcard-title">Yin Yoga for ' + elLabel + '-elementet</h3>';
+  html += '<p class="rejse__pcard-desc">' + data.yoga.desc + '</p>';
+  html += '<div class="rejse__pcard-meta">Baseret p\u00e5 ' + data.yoga.count + ' kvinder i Fase ' + phase.phase + '</div>';
+  html += '<div class="rejse__pcard-link" onclick="navigateToYogaWithElement(\'' + el + '\')">Pr\u00f8v nu \u2192</div>';
   html += '</div>';
 
   // Kort 2: Kost
-  html += '<div class="hjulpet__pc">';
-  html += '<div class="hjulpet__pc-top"><div class="hjulpet__pc-num">' + data.kost.pct + '%</div><div class="hjulpet__pc-tag">' + elLabel + '</div></div>';
-  html += '<h3 class="hjulpet__pc-title">Kost til ' + elLabel + '-elementet</h3>';
-  html += '<p class="hjulpet__pc-desc">' + data.kost.desc + '</p>';
-  html += '<div class="hjulpet__pc-meta">Baseret p\u00e5 ' + data.kost.count + ' kvinder med ' + elLabel + '-dominans</div>';
-  html += '<div class="hjulpet__pc-link" onclick="App.loadScreen(\'kost-urter\')">Se anbefalinger \u2192</div>';
+  html += '<div class="rejse__pcard">';
+  html += '<div class="rejse__pcard-top"><div class="rejse__pcard-num">' + data.kost.pct + '%</div><div class="rejse__pcard-tag">' + elLabel + '</div></div>';
+  html += '<h3 class="rejse__pcard-title">Kost til ' + elLabel + '-elementet</h3>';
+  html += '<p class="rejse__pcard-desc">' + data.kost.desc + '</p>';
+  html += '<div class="rejse__pcard-meta">Baseret p\u00e5 ' + data.kost.count + ' kvinder med ' + elLabel + '-dominans</div>';
+  html += '<div class="rejse__pcard-link" onclick="App.loadScreen(\'kost-urter\')">Se anbefalinger \u2192</div>';
   html += '</div>';
 
   // Kort 3: Vejrtrækning
-  html += '<div class="hjulpet__pc">';
-  html += '<div class="hjulpet__pc-top"><div class="hjulpet__pc-num">' + data.aande.pct + '%</div><div class="hjulpet__pc-tag">' + season.season + '</div></div>';
-  html += '<h3 class="hjulpet__pc-title">Vejrtr\u00e6kning for ' + season.season.toLowerCase() + '</h3>';
-  html += '<p class="hjulpet__pc-desc">' + data.aande.desc + '</p>';
-  html += '<div class="hjulpet__pc-meta">Baseret p\u00e5 ' + data.aande.count + ' kvinder i ' + season.season.toLowerCase() + '</div>';
-  html += '<div class="hjulpet__pc-link" onclick="App.loadScreen(\'samlede-indsigt\')">Pr\u00f8v nu \u2192</div>';
+  html += '<div class="rejse__pcard">';
+  html += '<div class="rejse__pcard-top"><div class="rejse__pcard-num">' + data.aande.pct + '%</div><div class="rejse__pcard-tag">' + season.season + '</div></div>';
+  html += '<h3 class="rejse__pcard-title">Vejrtr\u00e6kning for ' + season.season.toLowerCase() + '</h3>';
+  html += '<p class="rejse__pcard-desc">' + data.aande.desc + '</p>';
+  html += '<div class="rejse__pcard-meta">Baseret p\u00e5 ' + data.aande.count + ' kvinder i ' + season.season.toLowerCase() + '</div>';
+  html += '<div class="rejse__pcard-link" onclick="App.loadScreen(\'samlede-indsigt\')">Pr\u00f8v nu \u2192</div>';
   html += '</div>';
 
   // Kort 4: EFT
-  html += '<div class="hjulpet__pc">';
-  html += '<div class="hjulpet__pc-top"><div class="hjulpet__pc-num">' + data.eft.pct + '%</div><div class="hjulpet__pc-tag">' + phaseName + '</div></div>';
-  html += '<h3 class="hjulpet__pc-title">' + data.eft.title + '</h3>';
-  html += '<p class="hjulpet__pc-desc">' + data.eft.desc + '</p>';
-  html += '<div class="hjulpet__pc-meta">Baseret p\u00e5 ' + data.eft.count + ' kvinder med ' + elLabel + '-dominans</div>';
-  html += '<div class="hjulpet__pc-link" onclick="App.loadScreen(\'samlede-indsigt\')">Pr\u00f8v nu \u2192</div>';
+  html += '<div class="rejse__pcard">';
+  html += '<div class="rejse__pcard-top"><div class="rejse__pcard-num">' + data.eft.pct + '%</div><div class="rejse__pcard-tag">' + phaseName + '</div></div>';
+  html += '<h3 class="rejse__pcard-title">' + data.eft.title + '</h3>';
+  html += '<p class="rejse__pcard-desc">' + data.eft.desc + '</p>';
+  html += '<div class="rejse__pcard-meta">Baseret p\u00e5 ' + data.eft.count + ' kvinder med ' + elLabel + '-dominans</div>';
+  html += '<div class="rejse__pcard-link" onclick="App.loadScreen(\'samlede-indsigt\')">Pr\u00f8v nu \u2192</div>';
   html += '</div>';
 
   // Hjælp andre kvinder
-  html += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
-  html += '<h3 class="praksis__section-title">Hj\u00e6lp andre kvinder</h3>';
-  html += '<p class="praksis__section-intro">Hvad virker for dig? Dine anonyme erfaringer kan hj\u00e6lpe en anden kvinde i samme fase med at finde det hun har brug for.</p>';
-  html += '<button class="refleksion__btn">Del din erfaring \u2192</button>';
-  html += '<div class="hjulpet__disclaimer">Alle data er anonyme. Vi samler kun hvad der virker, aldrig hvem du er.</div>';
+  html += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
+  html += '<h2 class="rejse__t2">Hj\u00e6lp andre kvinder</h2>';
+  html += '<p style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:17px;color:#555;line-height:1.65;text-align:center;margin-bottom:20px">Hvad virker for dig? Dine anonyme erfaringer kan hj\u00e6lpe en anden kvinde i samme fase med at finde det hun har brug for.</p>';
+  html += '<div class="rejse__checkin" style="text-align:center;cursor:pointer"><span style="font-family:\'Times New Roman\',Times,Georgia,serif;font-size:17px;color:white">Del din erfaring \u2192</span></div>';
+  html += '<div class="rejse__disclaimer">Alle data er anonyme. Vi samler kun hvad der virker, aldrig hvem du er.</div>';
 
   // Crosslink
-  html += '<div class="praksis__crosslink" onclick="App.loadScreen(\'din-energi\')">Se din energi p\u00e5 en anden dag \u2192</div>';
+  html += '<div class="rejse__crosslink" onclick="App.loadScreen(\'din-energi\')">Se din energi p\u00e5 en anden dag \u2192</div>';
 
   contentEl.innerHTML = html;
 }
@@ -12281,29 +12289,27 @@ function initEftTappingScreen() {
 
   var h = '';
 
-  // Dynamic element badge (title + intro are in HTML template with rejse__t1/rejse__intr)
-  h += '<div style="text-align:center"><div class="eft__dyn-badge"><span class="eft__dyn-badge-dot"></span>Dit element lige nu: ' + domLabel + '</div></div>';
+  // Dynamic element badge
+  h += '<div style="text-align:center"><div class="rejse__badge"><span class="rejse__badge-dot"></span>Dit element lige nu: ' + domLabel + '</div></div>';
 
-  // Dots
-  h += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // HVAD ER EFT?
-  h += '<h3 class="praksis__section-title">Hvad er EFT?</h3>';
-  h += '<p class="praksis__section-intro">EFT st\u00e5r for Emotional Freedom Technique. Metoden bygger p\u00e5 de samme principper som akupunktur, og id\u00e9en er enkel: n\u00e5r vi oplever noget sv\u00e6rt, kan energien i meridianerne blive blokeret \u2014 f\u00f8lelsen sidder fast og vil ikke slippe.</p>';
-  h += '<p class="praksis__section-intro">Ved at stimulere punkterne, mens du fokuserer p\u00e5 f\u00f8lelsen, kan blokeringen l\u00f8snes. Energien begynder at flyde igen, og f\u00f8lelsen letter \u2014 nogle gange overraskende hurtigt.</p>';
+  h += '<h2 class="rejse__t2">Hvad er EFT?</h2>';
+  h += '<p class="rejse__intr">EFT st\u00e5r for Emotional Freedom Technique. Metoden bygger p\u00e5 de samme principper som akupunktur, og id\u00e9en er enkel: n\u00e5r vi oplever noget sv\u00e6rt, kan energien i meridianerne blive blokeret \u2014 f\u00f8lelsen sidder fast og vil ikke slippe.</p>';
+  h += '<p class="rejse__intr">Ved at stimulere punkterne, mens du fokuserer p\u00e5 f\u00f8lelsen, kan blokeringen l\u00f8snes. Energien begynder at flyde igen, og f\u00f8lelsen letter \u2014 nogle gange overraskende hurtigt.</p>';
 
   // Forskning insight
-  h += '<div class="praksis__indsigt">';
-  h += '<div class="praksis__indsigt-label">FORSKNING</div>';
-  h += '<div class="praksis__indsigt-text">EFT er unders\u00f8gt i over 100 kliniske studier og har vist effekt ved angst, stress, PTSD og kronisk smerte. Studier viser at cortisolniveauet kan falde med op til 43% efter \u00e9n session. Det er ikke magi \u2014 det er et redskab der kan hj\u00e6lpe med de f\u00f8lelser, der fylder.</div>';
+  h += '<div class="rejse__ins">';
+  h += '<div class="rejse__ins-label">FORSKNING</div>';
+  h += '<div class="rejse__ins-text">EFT er unders\u00f8gt i over 100 kliniske studier og har vist effekt ved angst, stress, PTSD og kronisk smerte. Studier viser at cortisolniveauet kan falde med op til 43% efter \u00e9n session. Det er ikke magi \u2014 det er et redskab der kan hj\u00e6lpe med de f\u00f8lelser, der fylder.</div>';
   h += '</div>';
 
-  // Dots
-  h += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // DE NI TAPPING-PUNKTER
-  h += '<h3 class="praksis__section-title">De ni tapping-punkter</h3>';
-  h += '<p class="praksis__section-intro">Punkterne ligger alle p\u00e5 meridianer og er lette at finde. Du banker let med to fingerspidser, cirka 10\u201320 bank p\u00e5 hvert punkt.</p>';
+  h += '<h2 class="rejse__t2">De ni tapping-punkter</h2>';
+  h += '<p class="rejse__intr">Punkterne ligger alle p\u00e5 meridianer og er lette at finde. Du banker let med to fingerspidser, cirka 10\u201320 bank p\u00e5 hvert punkt.</p>';
 
   // Tapping-punkter figur
   h += '<div class="figur-wrap"><img src="assets/images/eft_min_praksis.png" alt="De ni tapping-punkter" style="width:50%"></div>';
@@ -12322,39 +12328,37 @@ function initEftTappingScreen() {
   ];
   for (var i = 0; i < points.length; i++) {
     var p = points[i];
-    h += '<div class="eft__pt">';
-    h += '<div class="eft__pt-hd"><span class="eft__pt-nm">' + p.num + '. ' + p.name + '</span><span class="eft__pt-tag">' + p.tag + '</span></div>';
-    h += '<div class="eft__pt-tx">' + p.txt + '</div>';
+    h += '<div class="rejse__info-card">';
+    h += '<div class="rejse__info-card-hd"><span class="rejse__info-card-name">' + p.num + '. ' + p.name + '</span><span class="rejse__info-card-tag">' + p.tag + '</span></div>';
+    h += '<div class="rejse__info-card-txt">' + p.txt + '</div>';
     h += '</div>';
   }
 
-  // Dots
-  h += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // PUNKTER OG ELEMENTER
-  h += '<h3 class="praksis__section-title">Punkter og elementer</h3>';
-  h += '<p class="praksis__section-intro">Hvert tapping-punkt ligger p\u00e5 en meridian, og hver meridian h\u00f8rer til et af de fem elementer. N\u00e5r du tapper, stimulerer du alle fem elementer i \u00e9n runde.</p>';
+  h += '<h2 class="rejse__t2">Punkter og elementer</h2>';
+  h += '<p class="rejse__intr">Hvert tapping-punkt ligger p\u00e5 en meridian, og hver meridian h\u00f8rer til et af de fem elementer. N\u00e5r du tapper, stimulerer du alle fem elementer i \u00e9n runde.</p>';
 
   // 2x2 grid
-  h += '<div class="eft__elem-grid">';
-  h += '<div class="eft__elem-card"><div class="eft__elem-name">Vand \u6c34</div><div class="eft__elem-feel">Bl\u00e6re \u00B7 Nyre</div><div class="eft__elem-feel">Frygt \u2192 Visdom</div></div>';
-  h += '<div class="eft__elem-card"><div class="eft__elem-name">Tr\u00e6 \u6728</div><div class="eft__elem-feel">Galdebl\u00e6re \u00B7 Lever</div><div class="eft__elem-feel">Vrede \u2192 Beslutsomhed</div></div>';
-  h += '<div class="eft__elem-card"><div class="eft__elem-name">Jord \u571f</div><div class="eft__elem-feel">Mave \u00B7 Milt</div><div class="eft__elem-feel">Bekymring \u2192 Stabilitet</div></div>';
-  h += '<div class="eft__elem-card"><div class="eft__elem-name">Ild \u706b</div><div class="eft__elem-feel">Tyndtarm \u00B7 Hjerte</div><div class="eft__elem-feel">Uro \u2192 Gl\u00e6de</div></div>';
+  h += '<div class="rejse__elem-grid">';
+  h += '<div class="rejse__elem-card"><div class="rejse__elem-card-name">Vand \u6c34</div><div class="rejse__elem-card-desc">Bl\u00e6re \u00B7 Nyre</div><div class="rejse__elem-card-desc">Frygt \u2192 Visdom</div></div>';
+  h += '<div class="rejse__elem-card"><div class="rejse__elem-card-name">Tr\u00e6 \u6728</div><div class="rejse__elem-card-desc">Galdebl\u00e6re \u00B7 Lever</div><div class="rejse__elem-card-desc">Vrede \u2192 Beslutsomhed</div></div>';
+  h += '<div class="rejse__elem-card"><div class="rejse__elem-card-name">Jord \u571f</div><div class="rejse__elem-card-desc">Mave \u00B7 Milt</div><div class="rejse__elem-card-desc">Bekymring \u2192 Stabilitet</div></div>';
+  h += '<div class="rejse__elem-card"><div class="rejse__elem-card-name">Ild \u706b</div><div class="rejse__elem-card-desc">Tyndtarm \u00B7 Hjerte</div><div class="rejse__elem-card-desc">Uro \u2192 Gl\u00e6de</div></div>';
   h += '</div>';
 
   // Metal single card
-  h += '<div class="eft__pt" style="text-align:center">';
-  h += '<div class="eft__pt-nm" style="margin-bottom:4px">Metal \u91d1</div>';
-  h += '<div class="eft__pt-tx">Lunge \u00B7 Tyktarm \u2014 Sorg \u2192 Klarhed</div>';
+  h += '<div class="rejse__info-card" style="text-align:center">';
+  h += '<div class="rejse__info-card-name" style="margin-bottom:4px">Metal \u91d1</div>';
+  h += '<div class="rejse__info-card-txt">Lunge \u00B7 Tyktarm \u2014 Sorg \u2192 Klarhed</div>';
   h += '</div>';
 
-  // Dots
-  h += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // BASIS-SEKVENSEN
-  h += '<h3 class="praksis__section-title">Basis-sekvensen</h3>';
-  h += '<p class="praksis__section-intro">Denne grundl\u00e6ggende metode kan du bruge til alt. N\u00e5r du har l\u00e6rt den, har du et redskab til resten af livet.</p>';
+  h += '<h2 class="rejse__t2">Basis-sekvensen</h2>';
+  h += '<p class="rejse__intr">Denne grundl\u00e6ggende metode kan du bruge til alt. N\u00e5r du har l\u00e6rt den, har du et redskab til resten af livet.</p>';
 
   var steps = [
     { title: 'Identificer', txt: 'Hvad er det, der fylder lige nu? V\u00e6lg \u00e9n ting ad gangen.' },
@@ -12369,67 +12373,58 @@ function initEftTappingScreen() {
   var stepNum = 1;
   for (var si = 0; si < steps.length; si++) {
     if (steps[si] === null) {
-      h += '<div class="eft__phrase"><div class="eft__phrase-txt">\u201CSelvom jeg f\u00f8ler [din f\u00f8lelse], accepterer jeg mig selv dybt og fuldst\u00e6ndigt.\u201D</div></div>';
+      h += '<div class="rejse__phrase"><div class="rejse__phrase-txt">\u201CSelvom jeg f\u00f8ler [din f\u00f8lelse], accepterer jeg mig selv dybt og fuldst\u00e6ndigt.\u201D</div></div>';
       continue;
     }
-    h += '<div class="eft__step">';
-    h += '<div class="eft__step-num">' + stepNum + '</div>';
-    h += '<div class="eft__step-content"><div class="eft__step-title">' + steps[si].title + '</div><div class="eft__step-txt">' + steps[si].txt + '</div></div>';
+    h += '<div class="rejse__prin">';
+    h += '<div class="rejse__prin-icon">' + stepNum + '</div>';
+    h += '<div><div class="rejse__prin-name">' + steps[si].title + '</div><div class="rejse__prin-txt">' + steps[si].txt + '</div></div>';
     h += '</div>';
     stepNum++;
   }
 
-  // Dots
-  h += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // TILPASSET DIT ELEMENT
-  h += '<div class="eft__grd">';
-  h += '<div class="eft__grd-l">TILPASSET DIT ELEMENT LIGE NU</div>';
-  h += '<div class="eft__grd-t">' + eftData.sekvens + '</div>';
-  h += '<div class="eft__grd-sub">' + eftData.beskrivelse + '</div>';
+  h += '<div class="rejse__checkin">';
+  h += '<div class="rejse__checkin-label">TILPASSET DIT ELEMENT LIGE NU</div>';
+  h += '<div class="rejse__checkin-title">' + eftData.sekvens + '</div>';
+  h += '<div class="rejse__checkin-sub">' + eftData.beskrivelse + '</div>';
   h += '</div>';
 
-  h += '<div class="eft__phrase"><div class="eft__phrase-txt">\u201C' + eftData.phrase + '\u201D</div></div>';
+  h += '<div class="rejse__phrase"><div class="rejse__phrase-txt">\u201C' + eftData.phrase + '\u201D</div></div>';
 
-  h += '<div class="praksis__indsigt">';
-  h += '<div class="praksis__indsigt-text">Pr\u00f8v at sige ordene stille eller h\u00f8jt mens du banker. M\u00e5ske \u00e6ndrer ordene sig undervejs \u2014 det er et godt tegn. F\u00f8lg det der kommer. Der er ingen forkert m\u00e5de at g\u00f8re det p\u00e5.</div>';
+  h += '<div class="rejse__ins">';
+  h += '<div class="rejse__ins-text">Pr\u00f8v at sige ordene stille eller h\u00f8jt mens du banker. M\u00e5ske \u00e6ndrer ordene sig undervejs \u2014 det er et godt tegn. F\u00f8lg det der kommer. Der er ingen forkert m\u00e5de at g\u00f8re det p\u00e5.</div>';
   h += '</div>';
 
-  // Dots
-  h += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // EFT TIL BØRN
-  h += '<h3 class="praksis__section-title">EFT til b\u00f8rn</h3>';
-  h += '<p class="praksis__section-intro">B\u00f8rn beh\u00f8ver ikke lange forklaringer. Kald det \u201Ctryllebanken\u201D og g\u00f8r det til noget I g\u00f8r sammen, n\u00e5r der er brug for det. Brug enkle ord som \u201Cselvom jeg er bange for m\u00f8rket, er jeg en modig pige\u201D \u2014 og lad barnet finde sine egne ord.</p>';
+  h += '<h2 class="rejse__t2">EFT til b\u00f8rn</h2>';
+  h += '<p class="rejse__intr">B\u00f8rn beh\u00f8ver ikke lange forklaringer. Kald det \u201Ctryllebanken\u201D og g\u00f8r det til noget I g\u00f8r sammen, n\u00e5r der er brug for det. Brug enkle ord som \u201Cselvom jeg er bange for m\u00f8rket, er jeg en modig pige\u201D \u2014 og lad barnet finde sine egne ord.</p>';
 
-  // Dots
-  h += '<div class="praksis__dots">\u00B7 \u00B7 \u00B7</div>';
+  h += '<div class="rejse__dots">\u00B7 \u00B7 \u00B7</div>';
 
   // GODT AT VIDE
-  h += '<div class="praksis__indsigt">';
-  h += '<div class="praksis__indsigt-label">GODT AT VIDE</div>';
-  h += '<div class="praksis__indsigt-text">EFT er et selvhj\u00e6lpsredskab. Det erstatter ikke terapi ved alvorlige traumer eller psykiske lidelser. For de hverdagsagtige f\u00f8lelser \u2014 stress, bekymring, irritation, tristhed \u2014 kan det v\u00e6re en god st\u00f8tte. Og du har det altid med dig.</div>';
+  h += '<div class="rejse__ins">';
+  h += '<div class="rejse__ins-label">GODT AT VIDE</div>';
+  h += '<div class="rejse__ins-text">EFT er et selvhj\u00e6lpsredskab. Det erstatter ikke terapi ved alvorlige traumer eller psykiske lidelser. For de hverdagsagtige f\u00f8lelser \u2014 stress, bekymring, irritation, tristhed \u2014 kan det v\u00e6re en god st\u00f8tte. Og du har det altid med dig.</div>';
   h += '</div>';
 
   // Hint
-  h += '<p class="praksis__intro" style="color:#999;margin-top:16px">Isabelle bruger selv EFT som en del af sit daglige arbejde med f\u00f8lelser og energi. Du kan se hendes gratis EFT-video i hendes app eller p\u00e5 isabelleevita.dk</p>';
+  h += '<p class="rejse__hint">Isabelle bruger selv EFT som en del af sit daglige arbejde med f\u00f8lelser og energi. Du kan se hendes gratis EFT-video i hendes app eller p\u00e5 isabelleevita.dk</p>';
 
   // Lotus mini
-  h += '<div class="eft__lotus-mini">';
-  h += '<svg width="40" height="30" viewBox="0 0 100 75" fill="none" stroke="#8B9A9D" stroke-width="2">';
-  h += '<path d="M50 70 C50 70 25 55 25 35 C25 20 37 10 50 10 C63 10 75 20 75 35 C75 55 50 70 50 70Z"/>';
-  h += '<path d="M50 70 C50 70 10 50 15 30 C18 15 35 12 50 18"/>';
-  h += '<path d="M50 70 C50 70 90 50 85 30 C82 15 65 12 50 18"/>';
-  h += '</svg>';
-  h += '</div>';
+  h += '<div class="rejse__lotus"><svg width="40" height="30" viewBox="0 0 100 75" fill="none" stroke="#7A9080" stroke-width="2"><path d="M50 70 C50 70 25 55 25 35 C25 20 37 10 50 10 C63 10 75 20 75 35 C75 55 50 70 50 70Z"/><path d="M50 70 C50 70 10 50 15 30 C18 15 35 12 50 18"/><path d="M50 70 C50 70 90 50 85 30 C82 15 65 12 50 18"/></svg></div>';
 
   // GÅ VIDERE
-  h += '<h3 class="praksis__section-title" style="margin-top:16px">G\u00e5 videre</h3>';
-  h += '<div class="praksis__crosslink" onclick="void(0)">Se alle EFT-sekvenser fra bogen \u2192</div>';
-  h += '<div class="praksis__crosslink" onclick="App.loadScreen(\'foelelser\')">F\u00f8lelsernes Hjul \u2014 find din f\u00f8lelse \u2192</div>';
-  h += '<div class="praksis__crosslink" onclick="void(0)">EFT sammen med nogen \u2014 relationssekvenser \u2192</div>';
+  h += '<h2 class="rejse__t2">G\u00e5 videre</h2>';
+  h += '<div class="rejse__xlink" onclick="void(0)"><span class="rejse__xlink-txt">Se alle EFT-sekvenser fra bogen \u2192</span><span class="rejse__xlink-arr">\u203a</span></div>';
+  h += '<div class="rejse__xlink" onclick="App.loadScreen(\'foelelser\')"><span class="rejse__xlink-txt">F\u00f8lelsernes Hjul \u2014 find din f\u00f8lelse \u2192</span><span class="rejse__xlink-arr">\u203a</span></div>';
+  h += '<div class="rejse__xlink" onclick="void(0)"><span class="rejse__xlink-txt">EFT sammen med nogen \u2014 relationssekvenser \u2192</span><span class="rejse__xlink-arr">\u203a</span></div>';
 
-  // Actions — use shared renderActionBar
+  // Actions
   h += renderActionBar('eft-tapping');
 
   el.innerHTML = h;
@@ -12633,10 +12628,8 @@ function initMindfulnessScreen() {
 
   ensureIdagData();
   var d = window._idagData;
-  var user = JSON.parse(localStorage.getItem('user') || '{}');
   var phaseNum = 7;
   var phaseName = 'Høst';
-  var phaseAge = '42\u201349 år';
   var phaseElement = 'Metal';
   if (d && d.phase) {
     phaseNum = d.phase.phase || 7;
@@ -12645,82 +12638,70 @@ function initMindfulnessScreen() {
   var pd = PHASE_DATA[phaseNum];
   if (pd) {
     phaseElement = ELEMENT_LABELS[pd.element] || 'Metal';
-    var detailP = null;
-    // Try to find the detailed phase data
-    try {
-      var allPhases = window.LIVSFASE_OVERSIGT_DATA || {};
-      detailP = allPhases[phaseNum];
-    } catch(e) {}
   }
-  // Get age range from the detailed data at line ~303
-  var detailedPhases = {
-    1: '0\u20137 år', 2: '7\u201314 år', 3: '14\u201321 år', 4: '21\u201328 år',
-    5: '28\u201335 år', 6: '35\u201342 år', 7: '42\u201349 år', 8: '49\u201356 år', 9: '56\u201363+ år'
-  };
-  phaseAge = detailedPhases[phaseNum] || '42\u201349 år';
 
   var h = '';
 
   // Intro
-  h += '<p class="mind__intro">At lægge mærke til det, der allerede er her. Åndedrættet, kroppen, lydene, tankerne der kommer og går \u2014 uden at dømme, uden at ændre. Bare iagttage.</p>';
+  h += '<p class="rejse__intr">At lægge mærke til det, der allerede er her. Åndedrættet, kroppen, lydene, tankerne der kommer og går \u2014 uden at dømme, uden at ændre. Bare iagttage.</p>';
 
-  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+  h += '<div class="rejse__dots">\u00b7 \u00b7 \u00b7</div>';
 
   // HVAD ER MINDFULNESS?
-  h += '<div class="praksis__section-title">Hvad er mindfulness?</div>';
-  h += '<p class="mind__body">Mindfulness er en praksis, der bringer os tilbage til nuet. Ikke ved at tvinge tankerne til at stoppe, men ved at lægge mærke til det, der allerede er her: åndedrættet, kroppens fornemmelser, lydene omkring os, de tanker og følelser der kommer og går.</p>';
-  h += '<p class="mind__body">Ordet stammer fra den buddhistiske tradition, som udspringer af den vediske filosofi \u2014 samme rødder som yogaen. Det er altså ikke noget nyt. Vi i Vesten er bare langsomt begyndt at få øjnene op for østens visdom, og den er mindst lige så relevant i dag, som den var for tusinder af år siden.</p>';
+  h += '<h2 class="rejse__t2">Hvad er mindfulness?</h2>';
+  h += '<p class="rejse__intr">Mindfulness er en praksis, der bringer os tilbage til nuet. Ikke ved at tvinge tankerne til at stoppe, men ved at lægge mærke til det, der allerede er her: åndedrættet, kroppens fornemmelser, lydene omkring os, de tanker og følelser der kommer og går.</p>';
+  h += '<p class="rejse__intr">Ordet stammer fra den buddhistiske tradition, som udspringer af den vediske filosofi \u2014 samme rødder som yogaen. Det er altså ikke noget nyt. Vi i Vesten er bare langsomt begyndt at få øjnene op for østens visdom, og den er mindst lige så relevant i dag, som den var for tusinder af år siden.</p>';
 
   // Isabelle om mindfulness
-  h += '<div class="praksis__indsigt">';
-  h += '<div class="praksis__indsigt-label">ISABELLE OM MINDFULNESS</div>';
-  h += '<div class="praksis__indsigt-text">Mindfulness er et af de mest enkle og effektive redskaber, jeg kender, til at finde ro og bevidst nærvær i hverdagen. Det kan hjælpe os til at mærke og forbinde os med kroppen, skabe nærvær og finde glæde i de små øjeblikke.</div>';
+  h += '<div class="rejse__ins">';
+  h += '<div class="rejse__ins-label">ISABELLE OM MINDFULNESS</div>';
+  h += '<div class="rejse__ins-text">Mindfulness er et af de mest enkle og effektive redskaber, jeg kender, til at finde ro og bevidst nærvær i hverdagen. Det kan hjælpe os til at mærke og forbinde os med kroppen, skabe nærvær og finde glæde i de små øjeblikke.</div>';
   h += '</div>';
 
-  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+  h += '<div class="rejse__dots">\u00b7 \u00b7 \u00b7</div>';
 
   // TO TILSTANDE
-  h += '<div class="praksis__section-title">To tilstande</div>';
-  h += '<p class="mind__body">I mindfulness taler man om to grundlæggende tilstande, vi kan være i. De fleste af os kender begge, men i den verden vi lever i, er vi langt oftere i den ene end den anden.</p>';
-  h += '<div class="mind__two-col">';
-  h += '<div class="mind__col-card"><div class="mind__col-title">Handlemodus</div><div class="mind__col-sub">Planlægge, vurdere, analysere, stræbe. Hele tiden på vej mod noget.</div></div>';
-  h += '<div class="mind__col-card"><div class="mind__col-title">Værensmodus</div><div class="mind__col-sub">Mærke, iagttage, være til stede. Hvile i det der er, uden at skulle noget.</div></div>';
+  h += '<h2 class="rejse__t2">To tilstande</h2>';
+  h += '<p class="rejse__intr">I mindfulness taler man om to grundlæggende tilstande, vi kan være i. De fleste af os kender begge, men i den verden vi lever i, er vi langt oftere i den ene end den anden.</p>';
+  h += '<div class="rejse__two-col">';
+  h += '<div class="rejse__col-card"><div class="rejse__col-title">Handlemodus</div><div class="rejse__col-sub">Planlægge, vurdere, analysere, stræbe. Hele tiden på vej mod noget.</div></div>';
+  h += '<div class="rejse__col-card"><div class="rejse__col-title">Værensmodus</div><div class="rejse__col-sub">Mærke, iagttage, være til stede. Hvile i det der er, uden at skulle noget.</div></div>';
   h += '</div>';
-  h += '<p class="mind__body">Balance er idealet. Men for de fleste er det værensmodus, der trænger til mere plads. At tillade sig selv bare at være \u2014 uden planer, uden mål. Komme ud af hovedet og ned i kroppen.</p>';
+  h += '<p class="rejse__intr">Balance er idealet. Men for de fleste er det værensmodus, der trænger til mere plads. At tillade sig selv bare at være \u2014 uden planer, uden mål. Komme ud af hovedet og ned i kroppen.</p>';
 
   // Quote
-  h += '<div class="mind__qt"><div class="mind__qt-mark">\u201c</div><div class="mind__qt-txt">Forbinde os til kroppen, til sanserne, til hjertet.</div></div>';
+  h += '<div class="rejse__qt"><div class="rejse__qt-mark">\u201c</div><div class="rejse__qt-txt">Forbinde os til kroppen, til sanserne, til hjertet.</div></div>';
 
-  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+  h += '<div class="rejse__dots">\u00b7 \u00b7 \u00b7</div>';
 
   // SANSERNE OG BEVIDSTHEDEN
-  h += '<div class="praksis__section-title">Sanserne og bevidstheden</div>';
-  h += '<p class="mind__body">I den vediske filosofi handler en del af den indre rejse om at lære at mestre sine sanser, så de ikke mestrer dig. Vi er født med sanserne som redskaber til at opleve verden med, og de forbinder os med alt omkring os. Men egoet kan også bruge sanserne til konstant at søge stimuli udefra \u2014 og det holder fokus væk fra det, der sker indeni.</p>';
-  h += '<p class="mind__body">Mindfulness handler om at bruge sanserne bevidst. At lære at iagttage det vi ser, hører, føler, smager og lugter \u2014 og derigennem komme til stede i stedet for at flygte.</p>';
+  h += '<h2 class="rejse__t2">Sanserne og bevidstheden</h2>';
+  h += '<p class="rejse__intr">I den vediske filosofi handler en del af den indre rejse om at lære at mestre sine sanser, så de ikke mestrer dig. Vi er født med sanserne som redskaber til at opleve verden med, og de forbinder os med alt omkring os. Men egoet kan også bruge sanserne til konstant at søge stimuli udefra \u2014 og det holder fokus væk fra det, der sker indeni.</p>';
+  h += '<p class="rejse__intr">Mindfulness handler om at bruge sanserne bevidst. At lære at iagttage det vi ser, hører, føler, smager og lugter \u2014 og derigennem komme til stede i stedet for at flygte.</p>';
 
-  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+  h += '<div class="rejse__dots">\u00b7 \u00b7 \u00b7</div>';
 
   // MINDFULNESS OG DE FEM ELEMENTER
-  h += '<div class="praksis__section-title">Mindfulness og de fem elementer</div>';
-  h += '<p class="mind__body">I kinesisk medicin har hvert element sit eget aspekt af sindet \u2014 de fem Shen. Mindfulness berører dem alle, men på forskellige måder afhængigt af, hvor du er i din cyklus.</p>';
+  h += '<h2 class="rejse__t2">Mindfulness og de fem elementer</h2>';
+  h += '<p class="rejse__intr">I kinesisk medicin har hvert element sit eget aspekt af sindet \u2014 de fem Shen. Mindfulness berører dem alle, men på forskellige måder afhængigt af, hvor du er i din cyklus.</p>';
 
   // 5 Shen cards
-  h += '<div class="mind__shen"><div class="mind__shen-hd"><span class="mind__shen-name">Shen \u00b7 Sindet</span><span class="mind__shen-tag">ILD \u00b7 HJERTE</span></div><div class="mind__shen-txt">Bevidsthed, klarhed, evnen til at være nærværende. Når Shen er i balance, kan vi mærke ro og glæde.</div></div>';
-  h += '<div class="mind__shen"><div class="mind__shen-hd"><span class="mind__shen-name">Hun \u00b7 Sjælen</span><span class="mind__shen-tag">TRÆ \u00b7 LEVER</span></div><div class="mind__shen-txt">Drømme, kreativitet, retningssans. Når Hun flyder frit, kan vi se muligheder og finde mening.</div></div>';
-  h += '<div class="mind__shen"><div class="mind__shen-hd"><span class="mind__shen-name">Yi \u00b7 Tankekraften</span><span class="mind__shen-tag">JORD \u00b7 MILT</span></div><div class="mind__shen-txt">Koncentration, hukommelse, omsætte tanker til handling. Ubalance viser sig som grubleri og bekymring.</div></div>';
-  h += '<div class="mind__shen"><div class="mind__shen-hd"><span class="mind__shen-name">Po \u00b7 Kropssjælen</span><span class="mind__shen-tag">METAL \u00b7 LUNGE</span></div><div class="mind__shen-txt">Instinkt, sanseindtryk, nærvær i nuet gennem åndedrættet. Po forbinder os med kroppen øjeblik for øjeblik.</div></div>';
-  h += '<div class="mind__shen"><div class="mind__shen-hd"><span class="mind__shen-name">Zhi \u00b7 Viljekraften</span><span class="mind__shen-tag">VAND \u00b7 NYRE</span></div><div class="mind__shen-txt">Viljestyrke, udholdenhed, mod til at møde det ukendte. Når Zhi er stærk, kan vi stole på processen.</div></div>';
+  h += '<div class="rejse__info-card"><div class="rejse__info-card-hd"><span class="rejse__info-card-name">Shen \u00b7 Sindet</span><span class="rejse__info-card-tag">ILD \u00b7 HJERTE</span></div><div class="rejse__info-card-txt">Bevidsthed, klarhed, evnen til at være nærværende. Når Shen er i balance, kan vi mærke ro og glæde.</div></div>';
+  h += '<div class="rejse__info-card"><div class="rejse__info-card-hd"><span class="rejse__info-card-name">Hun \u00b7 Sjælen</span><span class="rejse__info-card-tag">TRÆ \u00b7 LEVER</span></div><div class="rejse__info-card-txt">Drømme, kreativitet, retningssans. Når Hun flyder frit, kan vi se muligheder og finde mening.</div></div>';
+  h += '<div class="rejse__info-card"><div class="rejse__info-card-hd"><span class="rejse__info-card-name">Yi \u00b7 Tankekraften</span><span class="rejse__info-card-tag">JORD \u00b7 MILT</span></div><div class="rejse__info-card-txt">Koncentration, hukommelse, omsætte tanker til handling. Ubalance viser sig som grubleri og bekymring.</div></div>';
+  h += '<div class="rejse__info-card"><div class="rejse__info-card-hd"><span class="rejse__info-card-name">Po \u00b7 Kropssjælen</span><span class="rejse__info-card-tag">METAL \u00b7 LUNGE</span></div><div class="rejse__info-card-txt">Instinkt, sanseindtryk, nærvær i nuet gennem åndedrættet. Po forbinder os med kroppen øjeblik for øjeblik.</div></div>';
+  h += '<div class="rejse__info-card"><div class="rejse__info-card-hd"><span class="rejse__info-card-name">Zhi \u00b7 Viljekraften</span><span class="rejse__info-card-tag">VAND \u00b7 NYRE</span></div><div class="rejse__info-card-txt">Viljestyrke, udholdenhed, mod til at møde det ukendte. Når Zhi er stærk, kan vi stole på processen.</div></div>';
 
   // Insight box after shen cards
-  h += '<div class="praksis__indsigt">';
-  h += '<div class="praksis__indsigt-text">Når du sidder stille og iagttager dine tanker uden at reagere på dem, begynder du at mærke, at der er noget i dig, der er større end tankerne. Noget der observerer. Det er begyndelsen på at kende din egen natur.</div>';
+  h += '<div class="rejse__ins">';
+  h += '<div class="rejse__ins-text">Når du sidder stille og iagttager dine tanker uden at reagere på dem, begynder du at mærke, at der er noget i dig, der er større end tankerne. Noget der observerer. Det er begyndelsen på at kende din egen natur.</div>';
   h += '</div>';
 
-  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+  h += '<div class="rejse__dots">\u00b7 \u00b7 \u00b7</div>';
 
   // SYV PRINCIPPER
-  h += '<div class="praksis__section-title">Syv principper</div>';
-  h += '<p class="mind__body">Jon Kabat-Zinn formulerede syv grundprincipper for mindfulness. Isabelle bruger dem som rettesnor i sin egen praksis \u2014 og de fleste af dem kender du allerede fra livets egne lektioner.</p>';
+  h += '<h2 class="rejse__t2">Syv principper</h2>';
+  h += '<p class="rejse__intr">Jon Kabat-Zinn formulerede syv grundprincipper for mindfulness. Isabelle bruger dem som rettesnor i sin egen praksis \u2014 og de fleste af dem kender du allerede fra livets egne lektioner.</p>';
 
   var principper = [
     { name: 'Åbenhed', txt: 'Mød det der kommer med en barnlig nysgerrighed, som var det første gang.' },
@@ -12732,32 +12713,32 @@ function initMindfulnessScreen() {
     { name: 'Give slip', txt: 'Slip det der ikke nærer dig. Det nye dukker ofte først op, når vi tør slippe det trygge.' }
   ];
   for (var i = 0; i < principper.length; i++) {
-    h += '<div class="mind__prin">';
-    h += '<div class="mind__prin-icon">' + (i + 1) + '</div>';
-    h += '<div><div class="mind__prin-name">' + principper[i].name + '</div>';
-    h += '<div class="mind__prin-txt">' + principper[i].txt + '</div></div>';
+    h += '<div class="rejse__prin">';
+    h += '<div class="rejse__prin-icon">' + (i + 1) + '</div>';
+    h += '<div><div class="rejse__prin-name">' + principper[i].name + '</div>';
+    h += '<div class="rejse__prin-txt">' + principper[i].txt + '</div></div>';
     h += '</div>';
   }
 
-  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+  h += '<div class="rejse__dots">\u00b7 \u00b7 \u00b7</div>';
 
   // OM TANKER
-  h += '<div class="praksis__section-title">Om tanker</div>';
-  h += '<p class="mind__body">Vi har op mod 60-80.000 tanker om dagen, og mange af dem er tilbagevendende. Tanker udløser følelser, og pludselig sker der en masse inden i os, uden at vi helt ved hvordan det skete.</p>';
-  h += '<p class="mind__body">Mindfulness lærer os ikke at stoppe tankerne \u2014 sindet kan ikke tvinges. Hvis du siger \u201ctænk ikke på en rød ballon\u201d, ser du straks en. I stedet handler det om at tillade tankerne at komme, anerkende dem venligt og så flytte opmærksomheden. Ingen tvang.</p>';
+  h += '<h2 class="rejse__t2">Om tanker</h2>';
+  h += '<p class="rejse__intr">Vi har op mod 60-80.000 tanker om dagen, og mange af dem er tilbagevendende. Tanker udløser følelser, og pludselig sker der en masse inden i os, uden at vi helt ved hvordan det skete.</p>';
+  h += '<p class="rejse__intr">Mindfulness lærer os ikke at stoppe tankerne \u2014 sindet kan ikke tvinges. Hvis du siger \u201ctænk ikke på en rød ballon\u201d, ser du straks en. I stedet handler det om at tillade tankerne at komme, anerkende dem venligt og så flytte opmærksomheden. Ingen tvang.</p>';
 
-  h += '<div class="praksis__indsigt">';
-  h += '<div class="praksis__indsigt-label">PRIMÆRE OG SEKUNDÆRE TANKER</div>';
-  h += '<div class="praksis__indsigt-text">Den primære tanke startede tankestrømmen \u2014 måske du så en kat. De sekundære tanker er alt det der følger: minder, associationer, følelser. At finde vej tilbage til den primære tanke kan hjælpe os med at forstå, hvor reaktionerne udsprang, og bryde den automatiske kæde.</div>';
+  h += '<div class="rejse__ins">';
+  h += '<div class="rejse__ins-label">PRIMÆRE OG SEKUNDÆRE TANKER</div>';
+  h += '<div class="rejse__ins-text">Den primære tanke startede tankestrømmen \u2014 måske du så en kat. De sekundære tanker er alt det der følger: minder, associationer, følelser. At finde vej tilbage til den primære tanke kan hjælpe os med at forstå, hvor reaktionerne udsprang, og bryde den automatiske kæde.</div>';
   h += '</div>';
 
-  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+  h += '<div class="rejse__dots">\u00b7 \u00b7 \u00b7</div>';
 
   // ØVELSE — Pusterumsmeditation
-  h += '<div class="mind__grd">';
-  h += '<div class="mind__grd-l">ØVELSE</div>';
-  h += '<div class="mind__grd-t">Pusterumsmeditation</div>';
-  h += '<div class="mind__grd-sub">3-5 minutter, hvor du stopper op midt i hverdagen og laver en stille statusrapport af dig selv.</div>';
+  h += '<div class="rejse__checkin">';
+  h += '<div class="rejse__checkin-label">ØVELSE</div>';
+  h += '<div class="rejse__checkin-title">Pusterumsmeditation</div>';
+  h += '<div class="rejse__checkin-sub">3-5 minutter, hvor du stopper op midt i hverdagen og laver en stille statusrapport af dig selv.</div>';
   h += '</div>';
 
   var steps = [
@@ -12768,55 +12749,55 @@ function initMindfulnessScreen() {
     { title: 'Vend tilbage', txt: 'Åbn øjnene langsomt. Tag fornemmelsen med dig videre i din dag.' }
   ];
   for (var s = 0; s < steps.length; s++) {
-    h += '<div class="mind__step">';
-    h += '<div class="mind__step-num">' + (s + 1) + '</div>';
-    h += '<div><div class="mind__step-title">' + steps[s].title + '</div>';
-    h += '<div class="mind__step-txt">' + steps[s].txt + '</div></div>';
+    h += '<div class="rejse__prin">';
+    h += '<div class="rejse__prin-icon">' + (s + 1) + '</div>';
+    h += '<div><div class="rejse__prin-name">' + steps[s].title + '</div>';
+    h += '<div class="rejse__prin-txt">' + steps[s].txt + '</div></div>';
     h += '</div>';
   }
 
-  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+  h += '<div class="rejse__dots">\u00b7 \u00b7 \u00b7</div>';
 
   // Dynamic badge
-  h += '<div style="text-align:center"><div class="mind__badge"><span class="mind__badge-dot"></span>Din fase: ' + phaseName + ' \u00b7 Dit element: ' + phaseElement + '</div></div>';
+  h += '<div style="text-align:center"><div class="rejse__badge"><span class="rejse__badge-dot"></span>Din fase: ' + phaseName + ' \u00b7 Dit element: ' + phaseElement + '</div></div>';
 
   // MINDFULNESS I DIN LIVSFASE
   var livsfaseTekst = MINDFULNESS_LIVSFASE_TEKST[phaseNum] || MINDFULNESS_LIVSFASE_TEKST[7];
-  h += '<div class="praksis__indsigt">';
-  h += '<div class="praksis__indsigt-label">MINDFULNESS I DIN LIVSFASE</div>';
-  h += '<div class="praksis__indsigt-text">' + livsfaseTekst + '</div>';
+  h += '<div class="rejse__ins">';
+  h += '<div class="rejse__ins-label">MINDFULNESS I DIN LIVSFASE</div>';
+  h += '<div class="rejse__ins-text">' + livsfaseTekst + '</div>';
   h += '</div>';
 
-  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+  h += '<div class="rejse__dots">\u00b7 \u00b7 \u00b7</div>';
 
   // KROP OG NERVESYSTEM
-  h += '<div class="praksis__section-title">Krop og nervesystem</div>';
-  h += '<p class="mind__body">Mindfulness virker ikke kun på det mentale plan. Nyere forskning viser at vi har tre grundlæggende nervesystemtilstande \u2014 og mindfulness hjælper os med at finde tilbage til den, hvor vi fungerer bedst.</p>';
+  h += '<h2 class="rejse__t2">Krop og nervesystem</h2>';
+  h += '<p class="rejse__intr">Mindfulness virker ikke kun på det mentale plan. Nyere forskning viser at vi har tre grundlæggende nervesystemtilstande \u2014 og mindfulness hjælper os med at finde tilbage til den, hvor vi fungerer bedst.</p>';
 
-  h += '<div class="mind__shen"><div class="mind__shen-hd"><span class="mind__shen-name">Tryghed</span><span class="mind__shen-tag">VENTRAL VAGUS</span></div><div class="mind__shen-txt">Ro, forbindelse, klarhed. Vi er nærværende og har adgang til hele vores kapacitet.</div></div>';
-  h += '<div class="mind__shen"><div class="mind__shen-hd"><span class="mind__shen-name">Alarmberedskab</span><span class="mind__shen-tag">SYMPATISK</span></div><div class="mind__shen-txt">Hjertet slår hurtigere, musklerne spænder. Kroppen reagerer på hverdagsstress, som om det var en trussel.</div></div>';
-  h += '<div class="mind__shen"><div class="mind__shen-hd"><span class="mind__shen-name">Nedlukning</span><span class="mind__shen-tag">DORSAL VAGUS</span></div><div class="mind__shen-txt">Træthed, tungsind, afkobling. Kroppens sidste forsvar når alt bliver for overvældende.</div></div>';
+  h += '<div class="rejse__info-card"><div class="rejse__info-card-hd"><span class="rejse__info-card-name">Tryghed</span><span class="rejse__info-card-tag">VENTRAL VAGUS</span></div><div class="rejse__info-card-txt">Ro, forbindelse, klarhed. Vi er nærværende og har adgang til hele vores kapacitet.</div></div>';
+  h += '<div class="rejse__info-card"><div class="rejse__info-card-hd"><span class="rejse__info-card-name">Alarmberedskab</span><span class="rejse__info-card-tag">SYMPATISK</span></div><div class="rejse__info-card-txt">Hjertet slår hurtigere, musklerne spænder. Kroppen reagerer på hverdagsstress, som om det var en trussel.</div></div>';
+  h += '<div class="rejse__info-card"><div class="rejse__info-card-hd"><span class="rejse__info-card-name">Nedlukning</span><span class="rejse__info-card-tag">DORSAL VAGUS</span></div><div class="rejse__info-card-txt">Træthed, tungsind, afkobling. Kroppens sidste forsvar når alt bliver for overvældende.</div></div>';
 
-  h += '<p class="mind__body" style="margin-top:16px">Mindfulness, yoga og åndedrætsøvelser er alle veje ind til den ventrale vagus \u2014 tilstanden af tryghed. Det handler om at signalere til nervesystemet, at det er sikkert at slappe af.</p>';
+  h += '<p class="rejse__intr">Mindfulness, yoga og åndedrætsøvelser er alle veje ind til den ventrale vagus \u2014 tilstanden af tryghed. Det handler om at signalere til nervesystemet, at det er sikkert at slappe af.</p>';
 
-  h += '<div class="mind__dots">\u00b7 \u00b7 \u00b7 \u00b7 \u00b7</div>';
+  h += '<div class="rejse__dots">\u00b7 \u00b7 \u00b7</div>';
 
   // Quote 2
-  h += '<div class="mind__qt"><div class="mind__qt-mark">\u201c</div><div class="mind__qt-txt">Yoga, mindfulness eller en god gåtur i naturen. Det er de redskaber, jeg selv er glad for. Måske virker de for dig \u2014 måske skal du finde din egen vej.</div></div>';
+  h += '<div class="rejse__qt"><div class="rejse__qt-mark">\u201c</div><div class="rejse__qt-txt">Yoga, mindfulness eller en god gåtur i naturen. Det er de redskaber, jeg selv er glad for. Måske virker de for dig \u2014 måske skal du finde din egen vej.</div></div>';
 
   // Hint
-  h += '<p class="mind__hint">Du kan fordybe dig i mindfulness, tanker og sanserne i bogen De 5 Årstiders Energi og arbejde med øvelserne i Årstidsdagbogen.</p>';
+  h += '<p class="rejse__hint">Du kan fordybe dig i mindfulness, tanker og sanserne i bogen De 5 Årstiders Energi og arbejde med øvelserne i Årstidsdagbogen.</p>';
 
   // Lotus mini
-  h += '<div class="mind__lotus"><svg width="40" height="30" viewBox="0 0 100 75" fill="none" stroke="#7A9080" stroke-width="2"><path d="M50 70 C50 70 25 55 25 35 C25 20 37 10 50 10 C63 10 75 20 75 35 C75 55 50 70 50 70Z"/><path d="M50 70 C50 70 10 50 15 30 C18 15 35 12 50 18"/><path d="M50 70 C50 70 90 50 85 30 C82 15 65 12 50 18"/></svg></div>';
+  h += '<div class="rejse__lotus"><svg width="40" height="30" viewBox="0 0 100 75" fill="none" stroke="#7A9080" stroke-width="2"><path d="M50 70 C50 70 25 55 25 35 C25 20 37 10 50 10 C63 10 75 20 75 35 C75 55 50 70 50 70Z"/><path d="M50 70 C50 70 10 50 15 30 C18 15 35 12 50 18"/><path d="M50 70 C50 70 90 50 85 30 C82 15 65 12 50 18"/></svg></div>';
 
   // GÅ VIDERE
-  h += '<div class="praksis__section-title" style="margin-top:16px">Gå videre</div>';
-  h += '<div class="mind__xlink mind__xlink--grn" onclick="App.loadScreen(\'kost-urter\')"><span class="mind__xlink-txt">Åndedrætsøvelser \u2014 Kapal Bhati, Nadi Shodan \u2192</span><span class="mind__xlink-arr">\u203a</span></div>';
-  h += '<div class="mind__xlink mind__xlink--grn" onclick="App.loadScreen(\'yin-yoga\')"><span class="mind__xlink-txt">Yin Yoga \u2014 stilhed, krop og følelser \u2192</span><span class="mind__xlink-arr">\u203a</span></div>';
-  h += '<div class="mind__xlink mind__xlink--grn" onclick="App.loadScreen(\'eft-tapping\')"><span class="mind__xlink-txt">EFT Tapping \u2014 følelsernes akupunktur \u2192</span><span class="mind__xlink-arr">\u203a</span></div>';
-  h += '<div class="mind__xlink" onclick="App.loadScreen(\'mine-cyklusser\')"><span class="mind__xlink-txt">Mine Cyklusser \u2014 dit element lige nu \u2192</span><span class="mind__xlink-arr">\u203a</span></div>';
-  h += '<div class="mind__xlink mind__xlink--rel" onclick="App.loadScreen(\'foelelser\')"><span class="mind__xlink-txt">Følelsernes funktion \u2014 fra TCM til hverdag \u2192</span><span class="mind__xlink-arr">\u203a</span></div>';
+  h += '<h2 class="rejse__t2">Gå videre</h2>';
+  h += '<div class="rejse__xlink" onclick="App.loadScreen(\'kost-urter\')"><span class="rejse__xlink-txt">Åndedrætsøvelser \u2014 Kapal Bhati, Nadi Shodan \u2192</span><span class="rejse__xlink-arr">\u203a</span></div>';
+  h += '<div class="rejse__xlink" onclick="App.loadScreen(\'yin-yoga\')"><span class="rejse__xlink-txt">Yin Yoga \u2014 stilhed, krop og følelser \u2192</span><span class="rejse__xlink-arr">\u203a</span></div>';
+  h += '<div class="rejse__xlink" onclick="App.loadScreen(\'eft-tapping\')"><span class="rejse__xlink-txt">EFT Tapping \u2014 følelsernes akupunktur \u2192</span><span class="rejse__xlink-arr">\u203a</span></div>';
+  h += '<div class="rejse__xlink" onclick="App.loadScreen(\'mine-cyklusser\')"><span class="rejse__xlink-txt">Mine Cyklusser \u2014 dit element lige nu \u2192</span><span class="rejse__xlink-arr">\u203a</span></div>';
+  h += '<div class="rejse__xlink" onclick="App.loadScreen(\'foelelser\')"><span class="rejse__xlink-txt">Følelsernes funktion \u2014 fra TCM til hverdag \u2192</span><span class="rejse__xlink-arr">\u203a</span></div>';
 
   // Action bar
   h += renderActionBar('mindfulness');
