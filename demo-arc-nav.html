@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Bue-navigation — 3 udkast</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#e8e5e1;font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
+
+/* ---- PAGE CHROME ---- */
+.page-top{text-align:center;padding:env(safe-area-inset-top,44px) 20px 0}
+.page-top h1{font-family:'Playfair Display',serif;font-size:20px;font-style:italic;color:#2a2520;font-weight:400}
+.page-top p{font-size:12px;color:#999;font-weight:300;margin-top:3px}
+
+/* ---- VARIATION LABELS ---- */
+.var-label{
+  font-size:9px;letter-spacing:2.5px;text-transform:uppercase;
+  color:#6c82a9;font-weight:500;text-align:center;padding:40px 20px 5px;
+}
+.var-desc{
+  font-family:'Playfair Display',serif;font-size:14px;font-style:italic;
+  color:#999;text-align:center;padding:0 20px 14px;
+}
+
+/* ---- PHONE FRAME ---- */
+.phone{
+  margin:0 12px 44px;border-radius:30px;overflow:hidden;
+  box-shadow:0 4px 30px rgba(0,0,0,0.08);background:#fdfcfb;position:relative;
+}
+
+/* ---- SIMULATED CONTENT ---- */
+.sim{padding:0 20px}
+.sim-fade{height:32px;background:linear-gradient(to bottom,rgba(253,252,251,0),#fdfcfb)}
+.sim-card{
+  background:linear-gradient(135deg,rgba(108,130,169,0.04),rgba(184,166,192,0.04));
+  border:1px solid rgba(108,130,169,0.08);border-radius:14px;padding:14px 16px;margin-bottom:10px;
+}
+.sim-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:#6c82a9;opacity:.5;margin-bottom:4px}
+.sim-ttl{font-family:'Playfair Display',serif;font-style:italic;font-size:15px;color:#3a3530;margin-bottom:3px}
+.sim-txt{font-size:11.5px;color:#aaa;font-weight:300;line-height:1.5}
+.sim-cross{display:flex;gap:8px;justify-content:center;padding:6px 0 10px}
+.sim-cross span{font-size:10px;color:#6c82a9;border:1px solid rgba(108,130,169,0.12);border-radius:20px;padding:4px 12px;font-weight:300}
+.sim-lotus{text-align:center;padding:4px 0 14px;font-size:22px;opacity:.14}
+
+/* ---- NAV AREA ---- */
+.nav-area{position:relative}
+.nav-area svg{display:block;width:100%}
+
+/* ---- HOME INDICATOR ---- */
+.hi{display:flex;justify-content:center;padding:4px 0 env(safe-area-inset-bottom,6px);background:#fdfcfb}
+.hi div{width:134px;height:5px;border-radius:3px;background:rgba(0,0,0,0.10)}
+
+/* ---- FOOTER ---- */
+.foot{text-align:center;padding:20px 20px 60px;font-size:11px;color:#bbb;font-weight:300}
+</style>
+</head>
+<body>
+
+<div class="page-top">
+  <h1>Bue-navigation</h1>
+  <p>Tre udkast &mdash; bunden af Mine Cyklusser</p>
+</div>
+
+
+<!-- ╔══════════════════════════════════════════════╗ -->
+<!-- ║  UDKAST A: FLAD BUE — IKONER + TEKST PÅ BUE  ║ -->
+<!-- ╚══════════════════════════════════════════════╝ -->
+<div class="var-label">Udkast A</div>
+<div class="var-desc">Flad bue &middot; ikoner over buen &middot; labels p&aring; kurven</div>
+<div class="phone">
+  <div class="sim">
+    <div class="sim-fade"></div>
+    <div class="sim-card">
+      <div class="sim-lbl">Livets kapitler</div>
+      <div class="sim-ttl">De ni livsfaser</div>
+      <div class="sim-txt">Fra det f&oslash;rste &aring;ndedrag til visdommens stille rum. Ni faser med hvert sit element, sin krop og sin opgave.</div>
+    </div>
+    <div class="sim-cross">
+      <span>Min Praksis</span>
+      <span>Mine Relationer</span>
+      <span>Min Rejse</span>
+    </div>
+    <div class="sim-lotus">&#10047;</div>
+  </div>
+  <div class="nav-area">
+    <svg viewBox="0 0 375 92" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <!-- Background fill under arc -->
+      <path d="M 0,68 L 25,68 Q 187.5,48 350,68 L 375,68 L 375,92 L 0,92 Z" fill="rgba(253,252,251,0.97)"/>
+      <path d="M 0,68 L 25,68 Q 187.5,48 350,68 L 375,68" fill="none" stroke="rgba(108,130,169,0.10)" stroke-width="0.7"/>
+
+      <!-- HJEM (25, 68) — icon at y-14 -->
+      <g transform="translate(25,53)">
+        <path d="M0,-7 L7,0 V6 H2.5 V1.5 H-2.5 V6 H-7 V0 Z" fill="none" stroke="#c5ccd6" stroke-width="1.1" stroke-linejoin="round"/>
+      </g>
+
+      <!-- CYKLUSSER (88, 62) — ACTIVE -->
+      <g transform="translate(88,47)">
+        <circle r="6.5" fill="none" stroke="#6c82a9" stroke-width="1.1"/>
+        <circle r="3" fill="none" stroke="#6c82a9" stroke-width="0.9"/>
+        <circle r="0.8" fill="#6c82a9"/>
+      </g>
+      <circle cx="88" cy="57" r="2" fill="#6c82a9" opacity="0.45"/>
+
+      <!-- RELATIONER (156, 59) -->
+      <g transform="translate(156,44)">
+        <path d="M0,6 C0,6 -7,1 -7,-2 C-7,-5 -4.5,-7 -2,-5 L0,-3 L2,-5 C4.5,-7 7,-5 7,-2 C7,1 0,6 0,6 Z" fill="none" stroke="#c5ccd6" stroke-width="0.9"/>
+      </g>
+
+      <!-- PRAKSIS (219, 59) -->
+      <g transform="translate(219,44)">
+        <circle r="6" fill="none" stroke="#c5ccd6" stroke-width="0.9"/>
+        <path d="M0,-3 V0.5 L2.5,3" fill="none" stroke="#c5ccd6" stroke-width="0.9" stroke-linecap="round"/>
+      </g>
+
+      <!-- REJSE (287, 62) -->
+      <g transform="translate(287,47)">
+        <circle r="6" fill="none" stroke="#c5ccd6" stroke-width="0.9"/>
+        <path d="M0,-6 V-4 M0,4 V6 M-6,0 H-4 M4,0 H6" stroke="#c5ccd6" stroke-width="0.6"/>
+        <path d="M0,-2.5 L1.5,1 L-1.5,1 Z" fill="#c5ccd6" opacity="0.5"/>
+      </g>
+
+      <!-- VINDUER (350, 68) -->
+      <g transform="translate(350,53)">
+        <rect x="-6" y="-6" width="12" height="12" rx="1.5" fill="none" stroke="#c5ccd6" stroke-width="0.9"/>
+        <line x1="0" y1="-6" x2="0" y2="6" stroke="#c5ccd6" stroke-width="0.6"/>
+        <line x1="-6" y1="0" x2="6" y2="0" stroke="#c5ccd6" stroke-width="0.6"/>
+      </g>
+
+      <!-- LABELS on curved path -->
+      <defs><path id="lA" d="M 12,84 Q 187.5,66 363,84"/></defs>
+
+      <text font-family="'DM Sans',sans-serif" font-size="10" font-weight="300" fill="#c5ccd6">
+        <textPath href="#lA" xlink:href="#lA" startOffset="3.5%" text-anchor="middle">Hjem</textPath>
+      </text>
+      <text font-family="'DM Sans',sans-serif" font-size="10" font-weight="500" fill="#6c82a9">
+        <textPath href="#lA" xlink:href="#lA" startOffset="20.5%" text-anchor="middle">Cyklusser</textPath>
+      </text>
+      <text font-family="'DM Sans',sans-serif" font-size="10" font-weight="300" fill="#c5ccd6">
+        <textPath href="#lA" xlink:href="#lA" startOffset="39.5%" text-anchor="middle">Relationer</textPath>
+      </text>
+      <text font-family="'DM Sans',sans-serif" font-size="10" font-weight="300" fill="#c5ccd6">
+        <textPath href="#lA" xlink:href="#lA" startOffset="57.5%" text-anchor="middle">Praksis</textPath>
+      </text>
+      <text font-family="'DM Sans',sans-serif" font-size="10" font-weight="300" fill="#c5ccd6">
+        <textPath href="#lA" xlink:href="#lA" startOffset="76%" text-anchor="middle">Rejse</textPath>
+      </text>
+      <text font-family="'DM Sans',sans-serif" font-size="10" font-weight="300" fill="#c5ccd6">
+        <textPath href="#lA" xlink:href="#lA" startOffset="96%" text-anchor="middle">Vinduer</textPath>
+      </text>
+    </svg>
+  </div>
+  <div class="hi"><div></div></div>
+</div>
+
+
+<!-- ╔══════════════════════════════════════════════════╗ -->
+<!-- ║  UDKAST B: CIRKLER PÅ BUEN — SOM FIGUREN         ║ -->
+<!-- ╚══════════════════════════════════════════════════╝ -->
+<div class="var-label">Udkast B</div>
+<div class="var-desc">Farvede cirkler p&aring; buen &middot; som bogens figur</div>
+<div class="phone">
+  <div class="sim">
+    <div class="sim-fade"></div>
+    <div class="sim-card">
+      <div class="sim-lbl">Livets kapitler</div>
+      <div class="sim-ttl">De ni livsfaser</div>
+      <div class="sim-txt">Fra det f&oslash;rste &aring;ndedrag til visdommens stille rum. Ni faser med hvert sit element, sin krop og sin opgave.</div>
+    </div>
+    <div class="sim-cross">
+      <span>Min Praksis</span>
+      <span>Mine Relationer</span>
+      <span>Min Rejse</span>
+    </div>
+    <div class="sim-lotus">&#10047;</div>
+  </div>
+  <div class="nav-area">
+    <svg viewBox="0 0 375 105" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <!-- Background fill under arc -->
+      <path d="M 0,75 L 25,75 Q 187.5,40 350,75 L 375,75 L 375,105 L 0,105 Z" fill="rgba(253,252,251,0.97)"/>
+
+      <!-- Arc line (thin, like the figure) -->
+      <path d="M 10,82 Q 187.5,52 365,82" fill="none" stroke="rgba(108,130,169,0.10)" stroke-width="0.7"/>
+
+      <!-- COLORED CIRCLES along arc — graduated tones like the book figure -->
+      <!-- Hjem (25, 75) -->
+      <circle cx="25" cy="66" r="15" fill="rgba(108,130,169,0.10)" stroke="rgba(108,130,169,0.15)" stroke-width="0.8"/>
+      <g transform="translate(25,66)">
+        <path d="M0,-5 L5,0 V4.5 H1.8 V1 H-1.8 V4.5 H-5 V0 Z" fill="none" stroke="rgba(108,130,169,0.45)" stroke-width="0.9" stroke-linejoin="round"/>
+      </g>
+
+      <!-- Cyklusser (88, 64) — ACTIVE: darker, larger -->
+      <circle cx="88" cy="55" r="17" fill="rgba(108,130,169,0.18)" stroke="rgba(108,130,169,0.30)" stroke-width="1"/>
+      <g transform="translate(88,55)">
+        <circle r="5.5" fill="none" stroke="#6c82a9" stroke-width="1"/>
+        <circle r="2.5" fill="none" stroke="#6c82a9" stroke-width="0.8"/>
+        <circle r="0.7" fill="#6c82a9"/>
+      </g>
+
+      <!-- Relationer (156, 58) -->
+      <circle cx="156" cy="49" r="15" fill="rgba(123,122,158,0.12)" stroke="rgba(123,122,158,0.18)" stroke-width="0.8"/>
+      <g transform="translate(156,49)">
+        <path d="M0,4.5 C0,4.5 -5.5,0.5 -5.5,-1.5 C-5.5,-3.5 -3.5,-5.5 -1.5,-4 L0,-2.5 L1.5,-4 C3.5,-5.5 5.5,-3.5 5.5,-1.5 C5.5,0.5 0,4.5 0,4.5 Z" fill="none" stroke="rgba(123,122,158,0.45)" stroke-width="0.8"/>
+      </g>
+
+      <!-- Praksis (219, 58) -->
+      <circle cx="219" cy="49" r="15" fill="rgba(122,144,139,0.12)" stroke="rgba(122,144,139,0.18)" stroke-width="0.8"/>
+      <g transform="translate(219,49)">
+        <circle r="5" fill="none" stroke="rgba(122,144,139,0.45)" stroke-width="0.8"/>
+        <path d="M0,-2.5 V0.5 L2,2.5" fill="none" stroke="rgba(122,144,139,0.45)" stroke-width="0.8" stroke-linecap="round"/>
+      </g>
+
+      <!-- Rejse (287, 64) -->
+      <circle cx="287" cy="55" r="15" fill="rgba(138,150,169,0.12)" stroke="rgba(138,150,169,0.18)" stroke-width="0.8"/>
+      <g transform="translate(287,55)">
+        <circle r="5" fill="none" stroke="rgba(138,150,169,0.45)" stroke-width="0.8"/>
+        <path d="M0,-5 V-3.5 M0,3.5 V5 M-5,0 H-3.5 M3.5,0 H5" stroke="rgba(138,150,169,0.45)" stroke-width="0.5"/>
+        <path d="M0,-2 L1.2,0.8 L-1.2,0.8 Z" fill="rgba(138,150,169,0.4)"/>
+      </g>
+
+      <!-- Vinduer (350, 75) -->
+      <circle cx="350" cy="66" r="15" fill="rgba(107,95,123,0.12)" stroke="rgba(107,95,123,0.18)" stroke-width="0.8"/>
+      <g transform="translate(350,66)">
+        <rect x="-5" y="-5" width="10" height="10" rx="1.2" fill="none" stroke="rgba(107,95,123,0.45)" stroke-width="0.8"/>
+        <line x1="0" y1="-5" x2="0" y2="5" stroke="rgba(107,95,123,0.45)" stroke-width="0.5"/>
+        <line x1="-5" y1="0" x2="5" y2="0" stroke="rgba(107,95,123,0.45)" stroke-width="0.5"/>
+      </g>
+
+      <!-- Active dot under Cyklusser -->
+      <circle cx="88" cy="76" r="2.5" fill="#6c82a9" opacity="0.5"/>
+
+      <!-- LABELS on curved path below circles -->
+      <defs><path id="lB" d="M 8,97 Q 187.5,70 367,97"/></defs>
+
+      <text font-family="'DM Sans',sans-serif" font-size="10" font-weight="300" fill="#b8b2a8">
+        <textPath href="#lB" xlink:href="#lB" startOffset="3.5%" text-anchor="middle">Hjem</textPath>
+      </text>
+      <text font-family="'DM Sans',sans-serif" font-size="10.5" font-weight="500" fill="#6c82a9">
+        <textPath href="#lB" xlink:href="#lB" startOffset="20.5%" text-anchor="middle">Cyklusser</textPath>
+      </text>
+      <text font-family="'DM Sans',sans-serif" font-size="10" font-weight="300" fill="#b8b2a8">
+        <textPath href="#lB" xlink:href="#lB" startOffset="39.5%" text-anchor="middle">Relationer</textPath>
+      </text>
+      <text font-family="'DM Sans',sans-serif" font-size="10" font-weight="300" fill="#b8b2a8">
+        <textPath href="#lB" xlink:href="#lB" startOffset="57.5%" text-anchor="middle">Praksis</textPath>
+      </text>
+      <text font-family="'DM Sans',sans-serif" font-size="10" font-weight="300" fill="#b8b2a8">
+        <textPath href="#lB" xlink:href="#lB" startOffset="76%" text-anchor="middle">Rejse</textPath>
+      </text>
+      <text font-family="'DM Sans',sans-serif" font-size="10" font-weight="300" fill="#b8b2a8">
+        <textPath href="#lB" xlink:href="#lB" startOffset="96%" text-anchor="middle">Vinduer</textPath>
+      </text>
+    </svg>
+  </div>
+  <div class="hi"><div></div></div>
+</div>
+
+
+<!-- ╔══════════════════════════════════════════════════╗ -->
+<!-- ║  UDKAST C: KUN TEKST PÅ KURVEN — MEST MINIMAL    ║ -->
+<!-- ╚══════════════════════════════════════════════════╝ -->
+<div class="var-label">Udkast C</div>
+<div class="var-desc">Flydende tekst p&aring; kurven &middot; ingen cirkler &middot; mest minimal</div>
+<div class="phone">
+  <div class="sim">
+    <div class="sim-fade"></div>
+    <div class="sim-card">
+      <div class="sim-lbl">Livets kapitler</div>
+      <div class="sim-ttl">De ni livsfaser</div>
+      <div class="sim-txt">Fra det f&oslash;rste &aring;ndedrag til visdommens stille rum. Ni faser med hvert sit element, sin krop og sin opgave.</div>
+    </div>
+    <div class="sim-cross">
+      <span>Min Praksis</span>
+      <span>Mine Relationer</span>
+      <span>Min Rejse</span>
+    </div>
+    <div class="sim-lotus">&#10047;</div>
+  </div>
+  <div class="nav-area">
+    <svg viewBox="0 0 375 78" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <!-- Subtle background -->
+      <path d="M 0,58 L 30,58 Q 187.5,36 345,58 L 375,58 L 375,78 L 0,78 Z" fill="rgba(253,252,251,0.97)"/>
+
+      <!-- Very faint arc line -->
+      <path d="M 30,58 Q 187.5,36 345,58" fill="none" stroke="rgba(108,130,169,0.06)" stroke-width="0.5"/>
+
+      <!-- Small indicator dots above text positions -->
+      <!-- Hjem (30, 58) → dot at y-18 -->
+      <circle cx="30" cy="42" r="2" fill="rgba(108,130,169,0.15)"/>
+      <!-- Cyklusser (90, 53.5) → ACTIVE dot -->
+      <circle cx="90" cy="35" r="3" fill="#6c82a9" opacity="0.5"/>
+      <!-- Relationer (155, 50.5) -->
+      <circle cx="155" cy="33" r="2" fill="rgba(123,122,158,0.15)"/>
+      <!-- Praksis (220, 50.5) -->
+      <circle cx="220" cy="33" r="2" fill="rgba(122,144,139,0.15)"/>
+      <!-- Rejse (285, 53.5) -->
+      <circle cx="285" cy="35" r="2" fill="rgba(138,150,169,0.15)"/>
+      <!-- Vinduer (345, 58) -->
+      <circle cx="345" cy="42" r="2" fill="rgba(107,95,123,0.15)"/>
+
+      <!-- TEXT flowing on the arc — the text IS the navigation -->
+      <defs><path id="lC" d="M 18,68 Q 187.5,46 357,68"/></defs>
+
+      <text font-family="'DM Sans',sans-serif" font-size="11" font-weight="300" fill="#c5ccd6">
+        <textPath href="#lC" xlink:href="#lC" startOffset="3%" text-anchor="middle">Hjem</textPath>
+      </text>
+      <text font-family="'DM Sans',sans-serif" font-size="11.5" font-weight="500" fill="#6c82a9">
+        <textPath href="#lC" xlink:href="#lC" startOffset="20%" text-anchor="middle">Cyklusser</textPath>
+      </text>
+      <text font-family="'DM Sans',sans-serif" font-size="11" font-weight="300" fill="#c5ccd6">
+        <textPath href="#lC" xlink:href="#lC" startOffset="39%" text-anchor="middle">Relationer</textPath>
+      </text>
+      <text font-family="'DM Sans',sans-serif" font-size="11" font-weight="300" fill="#c5ccd6">
+        <textPath href="#lC" xlink:href="#lC" startOffset="57.5%" text-anchor="middle">Praksis</textPath>
+      </text>
+      <text font-family="'DM Sans',sans-serif" font-size="11" font-weight="300" fill="#c5ccd6">
+        <textPath href="#lC" xlink:href="#lC" startOffset="76%" text-anchor="middle">Rejse</textPath>
+      </text>
+      <text font-family="'DM Sans',sans-serif" font-size="11" font-weight="300" fill="#c5ccd6">
+        <textPath href="#lC" xlink:href="#lC" startOffset="96%" text-anchor="middle">Vinduer</textPath>
+      </text>
+    </svg>
+  </div>
+  <div class="hi"><div></div></div>
+</div>
+
+
+<div class="foot">
+  Alle tre udkast har 6 items: Hjem &middot; Cyklusser &middot; Relationer &middot; Praksis &middot; Rejse &middot; Vinduer<br>
+  Cyklusser er markeret aktiv (bl&aring;)
+</div>
+
+</body>
+</html>
