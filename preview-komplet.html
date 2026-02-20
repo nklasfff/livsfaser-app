@@ -444,6 +444,24 @@ body { background: #FDFCFB; font-family: 'DM Sans', sans-serif; }
   letter-spacing: 1px;
 }
 
+/* WAVE-TIMELINE — bølge-tidslinje figur */
+.wave-timeline {
+  margin: 28px 0 8px; text-align: center;
+  background: rgba(108,130,169,0.03);
+  border: 1px solid rgba(108,130,169,0.07);
+  border-radius: 14px; padding: 20px 14px 16px;
+}
+.wave-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: #9cabc3; margin-bottom: 4px;
+}
+.wave-caption {
+  font-family: 'Playfair Display', serif; font-size: 13px;
+  font-style: italic; color: #8a96a9; line-height: 1.5;
+  margin-top: 4px;
+}
+
 /* CROSS-LINKS — tynde links til andre sektioner */
 .cross-links {
   margin: 28px 0 8px; text-align: center;
@@ -477,7 +495,7 @@ body { background: #FDFCFB; font-family: 'DM Sans', sans-serif; }
 </style>
 <script>
 // Cache-busting: forces reload when new version is deployed
-const V = '20260220-v23';
+const V = '20260220-v24';
 if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   localStorage.setItem('pk-v', V);
   location.reload(true);
@@ -819,6 +837,63 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
     <div class="pull-quote-text">&laquo;&thinsp;Dine cyklusser er ikke noget du skal mestre. De er noget du kan lytte til &mdash; som en melodi der allerede spiller.&thinsp;&raquo;</div>
     <div class="pull-quote-attr">&mdash; Isabelle</div>
   </div>
+
+  <!-- ★ NY: BØLGE-TIDSLINJE — dine rytmer i bevægelse -->
+  <div class="wave-timeline">
+    <div class="wave-label">Dine rytmer i bev&aelig;gelse</div>
+    <svg viewBox="0 0 320 195" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin:12px 0 8px">
+      <!-- Tidsaksen (tynd, stiplet) -->
+      <line x1="58" y1="188" x2="312" y2="188" stroke="#d5dbe6" stroke-width="0.5" stroke-dasharray="2,3"/>
+      <text x="62" y="195" font-family="'DM Sans',sans-serif" font-size="7" fill="#c5c5c5" letter-spacing="0.5">i g&aring;r</text>
+      <text x="175" y="195" font-family="'DM Sans',sans-serif" font-size="7" fill="#8a9bba" font-weight="500" text-anchor="middle">nu</text>
+      <text x="302" y="195" font-family="'DM Sans',sans-serif" font-size="7" fill="#c5c5c5" text-anchor="end" letter-spacing="0.5">i morgen</text>
+
+      <!-- NU-markør (lodret) -->
+      <line x1="180" y1="10" x2="180" y2="185" stroke="#6c82a9" stroke-width="0.7" opacity="0.25"/>
+      <circle cx="180" cy="8" r="2.5" fill="#6c82a9" opacity="0.4"/>
+
+      <!-- Labels (venstre side) -->
+      <text x="4" y="35" font-family="'DM Sans',sans-serif" font-size="8" fill="#aab5c8" font-weight="300">Livsfase</text>
+      <text x="4" y="70" font-family="'DM Sans',sans-serif" font-size="8" fill="#aab5c8" font-weight="300">&Aring;rstid</text>
+      <text x="4" y="105" font-family="'DM Sans',sans-serif" font-size="8" fill="#aab5c8" font-weight="300">M&aring;ned</text>
+      <text x="4" y="140" font-family="'DM Sans',sans-serif" font-size="8" fill="#aab5c8" font-weight="300">Uge</text>
+      <text x="4" y="175" font-family="'DM Sans',sans-serif" font-size="8" fill="#aab5c8" font-weight="300">D&oslash;gn</text>
+
+      <!-- Element labels (højre side) -->
+      <text x="316" y="35" font-family="'Playfair Display',serif" font-size="7.5" fill="#6c82a9" font-style="italic" text-anchor="end">Vand</text>
+      <text x="316" y="70" font-family="'Playfair Display',serif" font-size="7.5" fill="#6c82a9" font-style="italic" text-anchor="end">Vand</text>
+      <text x="316" y="105" font-family="'Playfair Display',serif" font-size="7.5" fill="#889ec3" font-style="italic" text-anchor="end">Vand</text>
+      <text x="316" y="140" font-family="'Playfair Display',serif" font-size="7.5" fill="#889ec3" font-style="italic" text-anchor="end">Jord</text>
+      <text x="316" y="175" font-family="'Playfair Display',serif" font-size="7.5" fill="#9cabc3" font-style="italic" text-anchor="end">Vand</text>
+
+      <!-- Bølge 1: Livsfase (næsten flad — langsom cyklus) -->
+      <path d="M 62,32 C 95,31 130,30 180,30 C 230,30 275,31 312,32" fill="none" stroke="#6c82a9" stroke-width="1.5" opacity="0.7"/>
+      <circle cx="180" cy="30" r="3" fill="#6c82a9" opacity="0.5"/>
+
+      <!-- Bølge 2: Årstid (blød, bred kurve) -->
+      <path d="M 62,72 C 95,68 130,64 180,62 C 230,60 275,63 312,68" fill="none" stroke="#6c82a9" stroke-width="1.3" opacity="0.55"/>
+      <!-- Subtil udfyldning under bølgen -->
+      <path d="M 62,72 C 95,68 130,64 180,62 C 230,60 275,63 312,68 L 312,72 L 62,72 Z" fill="#6c82a9" opacity="0.04"/>
+      <circle cx="180" cy="62" r="3" fill="#6c82a9" opacity="0.45"/>
+
+      <!-- Bølge 3: Månedscyklus (tydelig bølge) -->
+      <path d="M 62,108 C 85,102 110,95 135,99 C 155,102 165,108 180,100 C 195,92 215,96 245,104 C 270,110 295,106 312,102" fill="none" stroke="#889ec3" stroke-width="1.2" opacity="0.55"/>
+      <path d="M 62,108 C 85,102 110,95 135,99 C 155,102 165,108 180,100 C 195,92 215,96 245,104 C 270,110 295,106 312,102 L 312,110 L 62,110 Z" fill="#889ec3" opacity="0.04"/>
+      <circle cx="180" cy="100" r="3" fill="#889ec3" opacity="0.45"/>
+
+      <!-- Bølge 4: Ugedag (hurtigere bølger) -->
+      <path d="M 62,142 C 80,135 95,128 115,136 C 135,144 145,139 160,131 C 175,123 185,130 200,140 C 215,150 230,143 250,133 C 270,123 290,130 312,138" fill="none" stroke="#889ec3" stroke-width="1.0" opacity="0.45"/>
+      <path d="M 62,142 C 80,135 95,128 115,136 C 135,144 145,139 160,131 C 175,123 185,130 200,140 C 215,150 230,143 250,133 C 270,123 290,130 312,138 L 312,145 L 62,145 Z" fill="#889ec3" opacity="0.03"/>
+      <circle cx="180" cy="131" r="2.5" fill="#889ec3" opacity="0.4"/>
+
+      <!-- Bølge 5: Døgncyklus (hurtigste, mest dynamiske) -->
+      <path d="M 62,174 C 72,168 80,162 90,167 C 100,172 108,178 118,172 C 128,166 135,160 145,165 C 155,170 162,176 172,170 C 182,164 188,158 198,163 C 208,168 215,174 225,168 C 235,162 242,156 252,161 C 262,166 270,172 280,166 C 290,160 298,164 312,170" fill="none" stroke="#9cabc3" stroke-width="0.8" opacity="0.4"/>
+      <circle cx="180" cy="167" r="2.5" fill="#9cabc3" opacity="0.35"/>
+    </svg>
+    <div class="wave-caption">Fem rytmer, &eacute;n retning. Langsomt skifter strømmene — m&aelig;rk hvor de samler sig.</div>
+  </div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
 
   <!-- GRUPPE 3: LIVETS KAPITLER -->
   <div class="group-label" style="color:#6c82a9">Livets kapitler</div>
