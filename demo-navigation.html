@@ -2,516 +2,727 @@
 <html lang="da">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Navigation Demo — De 9 Livsfaser</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>De 9 Livsfasers Energi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
   background: #FDFCFB;
   font-family: 'DM Sans', sans-serif;
-  /* Plads til fixed bottom nav */
-  padding-bottom: 62px;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* ==================== HEADER MED TILBAGE-PIL ==================== */
+/* ==================== HEADER ==================== */
 .header {
   position: sticky; top: 0; z-index: 100;
   background: rgba(253,252,251,0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  padding: env(safe-area-inset-top, 12px) 26px 12px;
+  padding: env(safe-area-inset-top, 14px) 26px 13px;
   display: flex; align-items: center; justify-content: center;
-  /* Relativ for at positionere tilbage-pil */
-  position: relative;
 }
 .header-title {
   font-family: 'Playfair Display', serif;
   font-size: 16px; font-style: italic; color: #2a2520; font-weight: 400;
 }
-
-/* TILBAGE-PIL — kun synlig p&aring; niveau 1 og 2 */
 .header-back {
-  position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
-  display: flex; align-items: center; gap: 6px;
+  position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+  display: none; align-items: center; gap: 5px;
   cursor: pointer; text-decoration: none;
-  padding: 8px 4px; /* Stor klikzone */
+  padding: 10px 6px;
+  -webkit-tap-highlight-color: transparent;
 }
-.header-back-arrow {
-  width: 18px; height: 18px;
-  display: flex; align-items: center; justify-content: center;
+.header-back svg {
+  width: 16px; height: 16px; stroke: #9cabc3; stroke-width: 1.8;
+  fill: none; stroke-linecap: round; stroke-linejoin: round;
 }
-.header-back-arrow svg {
-  width: 14px; height: 14px;
-}
-.header-back-label {
+.header-back span {
   font-family: 'DM Sans', sans-serif;
-  font-size: 11.5px; color: #9cabc3; font-weight: 300;
-  letter-spacing: 0.3px;
+  font-size: 12px; color: #9cabc3; font-weight: 300;
 }
-
 .accent-line {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(108,130,169,0.28) 25%, rgba(108,130,169,0.28) 75%, transparent);
   margin: 0 26px;
 }
 
-/* ==================== BREADCRUMB ==================== */
-.breadcrumb {
-  text-align: center; padding: 10px 26px 0;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 10px; color: #ccc; font-weight: 300;
-  letter-spacing: 0.5px;
-}
-.breadcrumb span { color: #9cabc3; }
+/* ==================== VIEWS ==================== */
+.view { display: none; }
+.view.active { display: block; }
 
-/* ==================== DEMO TOGGLE BAR ==================== */
-.demo-bar {
-  background: linear-gradient(135deg, rgba(108,130,169,0.08), rgba(184,166,192,0.06));
-  border-bottom: 1px solid rgba(108,130,169,0.12);
-  padding: 14px 24px;
-  display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
-}
-.demo-btn {
-  padding: 8px 18px; border-radius: 20px;
-  font-family: 'DM Sans', sans-serif; font-size: 11.5px;
-  font-weight: 400; cursor: pointer; border: none;
-  transition: all 0.3s ease;
-}
-.demo-btn.active {
-  background: linear-gradient(135deg, #6c82a9, #889ec3);
-  color: white;
-}
-.demo-btn:not(.active) {
-  background: white; color: #888;
-  border: 1px solid rgba(108,130,169,0.15);
-}
-.demo-note {
-  text-align: center; padding: 8px 24px 0;
-  font-family: 'DM Sans', sans-serif; font-size: 11px;
-  color: #bbb; font-weight: 300; font-style: italic;
-}
-
-/* ==================== SEKTION-INDHOLD ==================== */
-.section { padding: 36px 24px 44px; }
-.section-num {
+/* ==================== FORSIDE ==================== */
+.forside { padding: 30px 24px 44px; }
+.fs-eyebrow {
   text-align: center; font-family: 'DM Sans', sans-serif;
-  font-size: 9px; color: #bbb; letter-spacing: 2px; text-transform: uppercase;
-  margin-bottom: 6px;
+  font-size: 10px; color: #5A74A5; letter-spacing: 3px;
+  text-transform: uppercase; margin-bottom: 6px; opacity: 0.8;
 }
-.section-eyebrow { text-align: center; font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; opacity: 0.85; color: #6c82a9; }
-.section-title { text-align: center; font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 400; font-style: italic; line-height: 1.3; margin-bottom: 6px; color: #6c82a9; }
-.section-sub { text-align: center; font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 300; font-style: italic; margin-bottom: 28px; line-height: 1.5; color: #9cabc3; }
-.section-intro { text-align: center; font-family: 'DM Sans', sans-serif; font-size: 13px; color: #888; font-weight: 300; line-height: 1.65; margin-bottom: 28px; }
+.fs-title {
+  text-align: center; font-family: 'Playfair Display', serif;
+  font-size: 24px; font-style: italic; color: #2a2520;
+  margin-bottom: 10px; line-height: 1.25; font-weight: 400;
+}
+.fs-body {
+  text-align: center; font-family: 'DM Sans', sans-serif;
+  font-size: 13px; color: #888; font-weight: 300; line-height: 1.65;
+  margin-bottom: 28px;
+}
+.fs-circles { display: flex; justify-content: center; margin: 18px 0 24px; }
+
+/* FORSIDEKORT */
+.fk {
+  background: white; border: 1px solid rgba(0,0,0,0.06); border-radius: 14px;
+  padding: 16px 18px; margin-bottom: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: transform 0.15s ease;
+  display: flex; justify-content: space-between; align-items: flex-start;
+}
+.fk:active { transform: scale(0.98); }
+.fk-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9.5px;
+  letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 7px; opacity: 0.85;
+}
+.fk-title {
+  font-family: 'Playfair Display', serif; font-size: 15px;
+  font-style: italic; color: #3a3530; line-height: 1.5; margin-bottom: 5px;
+}
+.fk-sub {
+  font-family: 'DM Sans', sans-serif; font-size: 12px;
+  color: #999; font-weight: 300; line-height: 1.5;
+}
+.fk-arrow {
+  font-size: 14px; color: #ccc; padding-left: 10px;
+  flex-shrink: 0; margin-top: 12px;
+}
+
+/* Tonefarver forsidekort */
+.fk[data-section="cyklusser"] .fk-label { color: #6c82a9; }
+.fk[data-section="relationer"] .fk-label { color: #7b7a9e; }
+.fk[data-section="praksis"] .fk-label { color: #7a908b; }
+.fk[data-section="rejse"] .fk-label { color: #8a96a9; }
+
+/* ==================== SEKTIONER (NIVEAU 1) ==================== */
+.section { padding: 36px 24px 44px; padding-bottom: 80px; }
+.section-eyebrow {
+  text-align: center; font-family: 'DM Sans', sans-serif;
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 8px; opacity: 0.85;
+}
+.section-title {
+  text-align: center; font-family: 'Playfair Display', serif;
+  font-size: 26px; font-weight: 400; font-style: italic;
+  line-height: 1.3; margin-bottom: 6px;
+}
+.section-sub {
+  text-align: center; font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px; font-weight: 300; font-style: italic;
+  margin-bottom: 28px; line-height: 1.5;
+}
+.section-intro {
+  text-align: center; font-family: 'DM Sans', sans-serif;
+  font-size: 13px; color: #888; font-weight: 300;
+  line-height: 1.65; margin-bottom: 28px;
+}
 
 /* CARDS */
-.card { background: white; border-radius: 14px; padding: 18px; margin-bottom: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); border: 1px solid rgba(108,130,169,0.10); }
-.card-label { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 6px; opacity: 0.85; color: #6c82a9; }
-.card-title { font-family: 'Playfair Display', serif; font-size: 16px; font-style: italic; margin-bottom: 4px; line-height: 1.35; color: #3a3530; }
-.card-desc { font-family: 'DM Sans', sans-serif; font-size: 12.5px; color: #999; font-weight: 300; line-height: 1.55; }
+.card {
+  background: white; border-radius: 14px; padding: 18px;
+  margin-bottom: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: transform 0.15s ease;
+}
+.card:active { transform: scale(0.98); }
 .card-row { display: flex; justify-content: space-between; align-items: flex-start; }
+.card-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 6px; opacity: 0.85;
+}
+.card-title {
+  font-family: 'Playfair Display', serif; font-size: 16px;
+  font-style: italic; margin-bottom: 4px; line-height: 1.35; color: #3a3530;
+}
+.card-desc {
+  font-family: 'DM Sans', sans-serif; font-size: 12.5px;
+  color: #999; font-weight: 300; line-height: 1.55;
+}
 .card-arrow { font-size: 13px; color: #ccc; padding-left: 10px; flex-shrink: 0; margin-top: 2px; }
 
 /* FEATURED */
-.featured { border-radius: 14px; padding: 22px 20px; margin-bottom: 10px; color: white; background: linear-gradient(135deg, #6c82a9, #889ec3); }
-.featured-label { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 8px; }
-.featured-text { font-family: 'Playfair Display', serif; font-size: 16px; font-style: italic; line-height: 1.55; }
-.featured-sub { font-family: 'DM Sans', sans-serif; font-size: 12px; color: rgba(255,255,255,0.85); font-weight: 300; font-style: italic; margin-top: 10px; line-height: 1.5; }
-
-/* DOTS */
-.dots { text-align: center; color: #ccc9c3; font-size: 8px; letter-spacing: 10px; margin: 24px 0; }
-
-/* GROUP LABEL */
-.group-label { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; margin: 24px 0 10px; color: #6c82a9; }
+.featured {
+  border-radius: 14px; padding: 22px 20px; margin-bottom: 10px; color: white;
+}
+.featured-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: rgba(255,255,255,0.7); margin-bottom: 8px;
+}
+.featured-text {
+  font-family: 'Playfair Display', serif; font-size: 16px;
+  font-style: italic; line-height: 1.55;
+}
+.featured-sub {
+  font-family: 'DM Sans', sans-serif; font-size: 12px;
+  color: rgba(255,255,255,0.85); font-weight: 300;
+  font-style: italic; margin-top: 10px; line-height: 1.5;
+}
 
 /* FEELING BOX */
 .feeling-box {
-  border-radius: 14px; padding: 24px 22px;
-  margin: 22px 0; text-align: center;
-  border: 1px solid rgba(108,130,169,0.08);
-  background: linear-gradient(135deg, rgba(108,130,169,0.04), rgba(184,166,192,0.04));
+  border-radius: 14px; padding: 24px 22px; margin: 22px 0;
+  text-align: center;
 }
 .feeling-label {
   font-family: 'DM Sans', sans-serif; font-size: 9px;
   letter-spacing: 2.5px; text-transform: uppercase;
-  margin-bottom: 12px; opacity: 0.6; color: #9cabc3;
+  margin-bottom: 12px; opacity: 0.6;
 }
 .feeling-text {
   font-family: 'Playfair Display', serif; font-size: 15px;
   font-style: italic; line-height: 1.65; color: #6c7a8a;
 }
 
+/* DOTS */
+.dots {
+  text-align: center; color: #ccc9c3; font-size: 8px;
+  letter-spacing: 10px; margin: 24px 0;
+}
+
+/* GROUP LABEL */
+.group-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase; margin: 24px 0 10px;
+}
+
+/* PULL QUOTE */
+.pull-quote { text-align: center; padding: 28px 16px; margin: 8px 0; }
+.pull-quote-text {
+  font-family: 'Playfair Display', serif; font-size: 18px;
+  font-style: italic; line-height: 1.6;
+}
+.pull-quote-attr {
+  font-family: 'DM Sans', sans-serif; font-size: 10px;
+  color: #ccc; font-weight: 300; margin-top: 10px; letter-spacing: 1px;
+}
+
 /* CROSS-LINKS */
 .cross-links { margin: 28px 0 8px; text-align: center; }
-.cross-links-label { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: #ccc; margin-bottom: 12px; }
-.cross-links-row { display: flex; gap: 8px; justify-content: center; }
+.cross-links-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: #ccc; margin-bottom: 12px;
+}
+.cross-links-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
 .cross-link {
   font-family: 'DM Sans', sans-serif; font-size: 11.5px;
   color: #9cabc3; font-weight: 300; font-style: italic;
   padding: 8px 16px; border-radius: 20px;
   border: 1px solid rgba(108,130,169,0.12);
-  text-decoration: none; cursor: pointer;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
 }
+.cross-link:active { background: rgba(108,130,169,0.06); }
 
 /* LOTUS + BACK TO TOP */
 .section-closer { text-align: center; padding: 32px 0 8px; }
-.lotus-fill { display: inline-block; line-height: 0; }
-.lotus-fill img { width: 83px; height: auto; display: block; mix-blend-mode: multiply; filter: saturate(0.62); }
+.lotus-sym { font-size: 32px; color: #d4b8be; opacity: 0.5; }
 .back-to-top { text-align: center; padding: 10px 0 20px; }
-.back-to-top a { font-family: 'DM Sans', sans-serif; font-size: 11.5px; color: #bbb; font-weight: 300; text-decoration: none; letter-spacing: 0.5px; }
+.back-to-top a {
+  font-family: 'DM Sans', sans-serif; font-size: 11.5px;
+  color: #bbb; font-weight: 300; text-decoration: none; letter-spacing: 0.5px;
+}
 
+/* PROFIL ROW */
+.profil-row { display: flex; justify-content: center; gap: 22px; margin-bottom: 24px; }
+.profil-item { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.profil-circle {
+  width: 46px; height: 46px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-size: 15px; font-style: italic;
+}
+.profil-name { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 400; color: #777; }
+.profil-meta { font-family: 'DM Sans', sans-serif; font-size: 9px; color: #bbb; font-weight: 300; }
+
+/* TONEFARVER */
+.t-cyklusser .section-eyebrow, .t-cyklusser .group-label, .t-cyklusser .card-label { color: #6c82a9; }
+.t-cyklusser .section-title { color: #6c82a9; }
+.t-cyklusser .section-sub { color: #9cabc3; }
+.t-cyklusser .card { border: 1px solid rgba(108,130,169,0.10); }
+.t-cyklusser .featured { background: linear-gradient(135deg, #6c82a9, #889ec3); }
+.t-cyklusser .feeling-box { border: 1px solid rgba(108,130,169,0.08); background: linear-gradient(135deg, rgba(108,130,169,0.04), rgba(184,166,192,0.04)); }
+.t-cyklusser .feeling-label { color: #9cabc3; }
+.t-cyklusser .pull-quote-text { color: #8a96a9; }
+.t-cyklusser .cross-link { color: #9cabc3; border-color: rgba(108,130,169,0.12); }
+
+.t-relationer .section-eyebrow, .t-relationer .group-label, .t-relationer .card-label { color: #7b7a9e; }
+.t-relationer .section-title { color: #7b7a9e; }
+.t-relationer .section-sub { color: #a8a3be; }
+.t-relationer .card { border: 1px solid rgba(123,122,158,0.10); }
+.t-relationer .featured { background: linear-gradient(135deg, #7b7a9e, #9e9db8); }
+.t-relationer .feeling-box { border: 1px solid rgba(123,122,158,0.08); background: linear-gradient(135deg, rgba(123,122,158,0.04), rgba(184,166,192,0.04)); }
+.t-relationer .feeling-label { color: #a8a3be; }
+.t-relationer .pull-quote-text { color: #9e9db8; }
+
+.t-praksis .section-eyebrow, .t-praksis .group-label, .t-praksis .card-label { color: #7a908b; }
+.t-praksis .section-title { color: #7a908b; }
+.t-praksis .section-sub { color: #a3b3ae; }
+.t-praksis .card { border: 1px solid rgba(122,144,139,0.10); }
+.t-praksis .featured { background: linear-gradient(135deg, #7a908b, #9db3ad); }
+.t-praksis .feeling-box { border: 1px solid rgba(122,144,139,0.08); background: linear-gradient(135deg, rgba(122,144,139,0.04), rgba(139,154,157,0.04)); }
+.t-praksis .feeling-label { color: #a3b3ae; }
+.t-praksis .pull-quote-text { color: #9db3ad; }
+
+.t-rejse .section-eyebrow, .t-rejse .group-label, .t-rejse .card-label { color: #8a96a9; }
+.t-rejse .section-title { color: #8a96a9; }
+.t-rejse .section-sub { color: #adb5c1; }
+.t-rejse .card { border: 1px solid rgba(138,150,169,0.10); }
+.t-rejse .featured { background: linear-gradient(135deg, #8a96a9, #a8b2c1); }
+.t-rejse .feeling-box { border: 1px solid rgba(138,150,169,0.08); background: linear-gradient(135deg, rgba(138,150,169,0.04), rgba(184,166,192,0.04)); }
+.t-rejse .feeling-label { color: #adb5c1; }
+.t-rejse .pull-quote-text { color: #a8b2c1; }
+
+/* ==================== DETAIL (NIVEAU 2) ==================== */
+.detail-header {
+  text-align: center; padding: 8px 24px 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px; color: #bbb; letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.detail-body {
+  padding: 0 24px; padding-bottom: 80px;
+}
+.detail-body .section-title { font-size: 22px; margin-top: 10px; }
+.detail-body .section-sub { margin-bottom: 20px; }
 
 /* ==================== BOTTOM NAVIGATION ==================== */
-.bottom-nav-new {
+.bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0;
   z-index: 200;
   background: rgba(253,252,251,0.94);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-top: 1px solid rgba(108,130,169,0.12);
-  padding: 8px 0 env(safe-area-inset-bottom, 10px);
-  display: flex; justify-content: space-around;
-  height: 58px;
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  border-top: 1px solid rgba(108,130,169,0.10);
+  padding: 6px 0 env(safe-area-inset-bottom, 8px);
+  display: none; justify-content: space-around; align-items: center;
+  height: 56px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+.bottom-nav.visible { display: flex; }
+.bottom-nav.scroll-hidden { transform: translateY(100%); }
 
-/* Smart hide: skjul ved scroll ned */
-.bottom-nav-new.hidden {
-  transform: translateY(100%);
-}
-
-/* Nav item */
-.nav-item {
+.ni {
   display: flex; flex-direction: column; align-items: center;
-  gap: 3px; cursor: pointer;
-  padding: 4px 16px; border-radius: 12px;
-  transition: all 0.25s ease;
-  text-decoration: none;
+  gap: 2px; cursor: pointer;
+  padding: 5px 14px; border-radius: 10px;
   -webkit-tap-highlight-color: transparent;
-}
-.nav-item:active {
-  background: rgba(108,130,169,0.06);
-}
-
-/* Ikon */
-.nav-icon {
-  width: 22px; height: 22px;
-  display: flex; align-items: center; justify-content: center;
   position: relative;
+  transition: all 0.2s ease;
 }
-.nav-icon svg {
-  width: 20px; height: 20px;
-  stroke-width: 1.5;
-  fill: none;
-  stroke: #c0c8d4;
-  transition: all 0.25s ease;
+.ni:active { background: rgba(108,130,169,0.06); }
+.ni svg {
+  width: 21px; height: 21px; stroke-width: 1.4;
+  fill: none; stroke: #c5ccd6;
+  transition: all 0.2s ease;
 }
-
-/* Label */
-.nav-label {
+.ni span {
   font-family: 'DM Sans', sans-serif;
-  font-size: 9px; font-weight: 300;
-  color: #c0c8d4;
-  letter-spacing: 0.5px;
-  transition: all 0.25s ease;
+  font-size: 9px; font-weight: 300; color: #c5ccd6;
+  letter-spacing: 0.3px;
+  transition: all 0.2s ease;
 }
 
-/* AKTIV tilstand */
-.nav-item.active .nav-icon svg {
-  stroke: #6c82a9;
+/* Aktiv */
+.ni.on svg { stroke: #6c82a9; }
+.ni.on span { color: #6c82a9; font-weight: 500; }
+.ni.on::after {
+  content: ''; position: absolute; bottom: 0;
+  width: 4px; height: 4px; border-radius: 50%;
+  background: #6c82a9; opacity: 0.6;
 }
-.nav-item.active .nav-label {
-  color: #6c82a9;
-  font-weight: 500;
-}
-
-/* Aktiv prik under ikon */
-.nav-item.active::after {
-  content: '';
-  width: 3px; height: 3px;
-  border-radius: 50%;
-  background: #6c82a9;
-  position: absolute; bottom: 2px;
-}
-.nav-item { position: relative; }
-
-
-/* ==================== FORSIDE-SIMULERING ==================== */
-.forside-sim {
-  display: none;
-  padding: 36px 24px 44px;
-}
-.forside-sim.visible { display: block; }
-.section-content { display: block; }
-.section-content.hidden-view { display: none; }
-
-.forside-circles {
-  display: flex; justify-content: center; margin: 20px 0 28px;
-}
-.forside-card {
-  background: white; border: 1px solid rgba(0,0,0,0.06); border-radius: 14px;
-  padding: 16px 18px; margin-bottom: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-  cursor: pointer; transition: all 0.2s ease;
-}
-.forside-card:active { transform: scale(0.985); }
-.forside-card .fc-label { font-family: 'DM Sans', sans-serif; font-size: 9.5px; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 8px; opacity: 0.85; }
-.forside-card .fc-title { font-family: 'Playfair Display', serif; font-size: 15px; font-style: italic; color: #3a3530; line-height: 1.6; margin-bottom: 6px; }
-.forside-card .fc-sub { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #999; font-weight: 300; line-height: 1.5; }
-
-/* Sektionsfarver p&aring; forsidekort */
-.forside-card.fc-cyklusser .fc-label { color: #6c82a9; }
-.forside-card.fc-relationer .fc-label { color: #7b7a9e; }
-.forside-card.fc-praksis .fc-label { color: #7a908b; }
-.forside-card.fc-rejse .fc-label { color: #8a96a9; }
-
 </style>
 </head>
 <body>
 
-<!-- ==================== DEMO CONTROLS ==================== -->
-<div class="demo-bar">
-  <button class="demo-btn active" onclick="showView('forside')">Forside (ingen nav)</button>
-  <button class="demo-btn" onclick="showView('section')">Niveau 1: Mine Cyklusser</button>
-</div>
-<div class="demo-note" id="demo-note">&#x2190; Forsiden bruger kortene som navigation &mdash; ingen bottom bar</div>
-
-<!-- ==================== HEADER ==================== -->
-<div class="header" id="main-header">
-  <!-- Tilbage-pil: skjult p&aring; forsiden, synlig p&aring; sektions-sider -->
-  <a class="header-back" id="header-back" style="display:none" onclick="showView('forside')">
-    <div class="header-back-arrow">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#9cabc3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 18 9 12 15 6"/>
-      </svg>
-    </div>
-    <span class="header-back-label">Hjem</span>
+<!-- HEADER -->
+<div class="header">
+  <a class="header-back" id="backBtn" onclick="goBack()">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    <span id="backLabel">Hjem</span>
   </a>
   <div class="header-title">De&ensp;<span style="color:#6B5F7B;font-size:28px">9</span>&ensp;Livsfaser</div>
 </div>
 <div class="accent-line"></div>
 
+<!-- ==================== FORSIDE ==================== -->
+<div class="view active" id="v-forside">
+  <div class="forside">
+    <div class="fs-eyebrow">I dag</div>
+    <div class="fs-title">Dit krydsfelt<br><span style="font-size:18px;color:#6c82a9">lige nu</span></div>
+    <div class="fs-circles">
+      <svg viewBox="0 0 240 150" style="width:250px;height:auto">
+        <ellipse cx="120" cy="75" rx="110" ry="66" fill="none" stroke="rgba(36,67,130,0.15)" stroke-width="0.8"/>
+        <ellipse cx="120" cy="75" rx="86" ry="52" fill="none" stroke="rgba(56,87,150,0.16)" stroke-width="0.8"/>
+        <ellipse cx="120" cy="75" rx="62" ry="38" fill="none" stroke="rgba(86,117,170,0.18)" stroke-width="0.8"/>
+        <ellipse cx="120" cy="75" rx="40" ry="25" fill="none" stroke="rgba(108,130,169,0.20)" stroke-width="0.8"/>
+        <ellipse cx="120" cy="75" rx="18" ry="12" fill="rgba(108,130,169,0.06)" stroke="rgba(108,130,169,0.22)" stroke-width="0.7"/>
+        <text x="120" y="78" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7" letter-spacing="1.5" fill="#6c82a9">DIG</text>
+      </svg>
+    </div>
+    <div class="fs-body">Fem rytmer l&oslash;ber p&aring; &eacute;n gang i dig lige nu.</div>
 
-<!-- ==================== FORSIDE (HUB) ==================== -->
-<div class="forside-sim visible" id="view-forside">
-  <div style="text-align:center;font-family:'DM Sans',sans-serif;font-size:10px;color:#5A74A5;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px;opacity:0.8">I dag</div>
-  <div style="text-align:center;font-family:'Playfair Display',serif;font-size:24px;font-style:italic;color:#2a2520;margin-bottom:10px;line-height:1.25;font-weight:400">Dit krydsfelt<br><span style="font-size:18px;color:#6c82a9">lige nu</span></div>
-
-  <!-- Simulerede koncentriske cirkler -->
-  <div class="forside-circles">
-    <svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" style="width:260px;height:auto">
-      <ellipse cx="120" cy="75" rx="112" ry="68" fill="none" stroke="rgba(36,67,130,0.18)" stroke-width="1"/>
-      <ellipse cx="120" cy="75" rx="88" ry="54" fill="none" stroke="rgba(56,87,150,0.18)" stroke-width="1"/>
-      <ellipse cx="120" cy="75" rx="64" ry="40" fill="none" stroke="rgba(86,117,170,0.18)" stroke-width="1"/>
-      <ellipse cx="120" cy="75" rx="40" ry="26" fill="none" stroke="rgba(108,130,169,0.22)" stroke-width="1"/>
-      <ellipse cx="120" cy="75" rx="18" ry="13" fill="rgba(108,130,169,0.08)" stroke="rgba(108,130,169,0.25)" stroke-width="0.8"/>
-      <text x="120" y="78" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7" letter-spacing="1.5" fill="#6c82a9" font-weight="400">DIG</text>
-    </svg>
-  </div>
-
-  <div style="text-align:center;font-family:'DM Sans',sans-serif;font-size:13px;color:#888;font-weight:300;line-height:1.65;margin-bottom:28px">Fem rytmer l&oslash;ber p&aring; &eacute;n gang i dig lige nu.<br>Tryk p&aring; en sektion for at udforske.</div>
-
-  <!-- 4 hovedkort — DET HER ER NAVIGATIONEN p&aring; forsiden -->
-  <div class="forside-card fc-cyklusser" onclick="showView('section')">
-    <div class="fc-label">Mine Cyklusser</div>
-    <div class="fc-title">Fem rytmer, &eacute;t billede</div>
-    <div class="fc-sub">4 af 5 cyklusser peger mod Vand. Din energi samler sig i dybden.</div>
-  </div>
-  <div class="forside-card fc-relationer">
-    <div class="fc-label">Mine Relationer</div>
-    <div class="fc-title">De mennesker der former din energi</div>
-    <div class="fc-sub">Se hvordan din fase m&oslash;der dem du holder af.</div>
-  </div>
-  <div class="forside-card fc-praksis">
-    <div class="fc-label">Min Praksis</div>
-    <div class="fc-title">Hvad hj&aelig;lper lige nu</div>
-    <div class="fc-sub">Yoga, &aring;ndedr&aelig;t og n&aelig;ring tilpasset dit element.</div>
-  </div>
-  <div class="forside-card fc-rejse">
-    <div class="fc-label">Min Rejse</div>
-    <div class="fc-title">Din udvikling over tid</div>
-    <div class="fc-sub">Se m&oslash;nstre, gem &oslash;jeblikke, f&oslash;lg din vej.</div>
+    <div class="fk" data-section="cyklusser" onclick="go('cyklusser')">
+      <div><div class="fk-label">Mine Cyklusser</div><div class="fk-title">Fem rytmer, &eacute;t billede</div><div class="fk-sub">4 af 5 cyklusser peger mod Vand. Din energi samler sig i dybden.</div></div>
+      <div class="fk-arrow">&rarr;</div>
+    </div>
+    <div class="fk" data-section="relationer" onclick="go('relationer')">
+      <div><div class="fk-label">Mine Relationer</div><div class="fk-title">De mennesker der former din energi</div><div class="fk-sub">Se hvordan din fase m&oslash;der dem du holder af.</div></div>
+      <div class="fk-arrow">&rarr;</div>
+    </div>
+    <div class="fk" data-section="praksis" onclick="go('praksis')">
+      <div><div class="fk-label">Min Praksis</div><div class="fk-title">Hvad hj&aelig;lper lige nu</div><div class="fk-sub">Yoga, &aring;ndedr&aelig;t og n&aelig;ring tilpasset dit element.</div></div>
+      <div class="fk-arrow">&rarr;</div>
+    </div>
+    <div class="fk" data-section="rejse" onclick="go('rejse')">
+      <div><div class="fk-label">Min Rejse</div><div class="fk-title">Din udvikling over tid</div><div class="fk-sub">Se m&oslash;nstre, gem &oslash;jeblikke, f&oslash;lg din vej.</div></div>
+      <div class="fk-arrow">&rarr;</div>
+    </div>
   </div>
 </div>
 
-
-<!-- ==================== SEKTION 1: MINE CYKLUSSER (NIVEAU 1) ==================== -->
-<div class="section-content hidden-view" id="view-section">
-  <div class="section-num">Sektion 1 af 5</div>
-  <div class="section tone-cyklusser" style="padding:36px 24px 44px">
+<!-- ==================== MINE CYKLUSSER ==================== -->
+<div class="view" id="v-cyklusser">
+  <div class="section t-cyklusser">
     <div class="section-eyebrow">Mine Cyklusser</div>
     <div class="section-title">Fem rytmer,<br>&eacute;t billede</div>
     <div class="section-sub">Forst&aring; de kr&aelig;fter der former din dag</div>
-    <div class="section-intro">Din livsfase, &aring;rstiden, m&aring;neden, ugedagen og dit organur &mdash; de l&oslash;ber alle p&aring; &eacute;n gang. Her kan du se dem hver for sig.</div>
+    <div class="section-intro">Din livsfase, &aring;rstiden, m&aring;neden, ugedagen og dit organur &mdash; de l&oslash;ber alle p&aring; &eacute;n gang.</div>
 
-    <div style="text-align:center;margin:0 auto 8px">
-      <img src="assets/images/krydsfelt-final.png" alt="Dit Krydsfelt" style="width:100%;max-width:300px;mix-blend-mode:multiply;filter:saturate(0.7)" onerror="this.style.display='none'">
-    </div>
-    <div class="dots">&middot; &middot; &middot;</div>
-
-    <!-- FEELING BOX -->
     <div class="feeling-box">
       <div class="feeling-label">Det du m&aring;ske m&aelig;rker</div>
       <div class="feeling-text">N&aring;r Vand dominerer, kan det f&oslash;les som dyb stilhed &mdash; men ogs&aring; som en uro der ikke har ord endnu. Begge dele er &aelig;gte.</div>
     </div>
 
-    <!-- FEATURED -->
     <div class="featured"><div class="featured-label">Lige nu</div><div class="featured-text">4 af dine fem cyklusser peger mod Vand. Din energi samler sig i &eacute;n retning.</div><div class="featured-sub">Se den fulde analyse &rarr;</div></div>
 
     <div class="dots">&middot; &middot; &middot;</div>
-
-    <!-- KORT -->
     <div class="group-label">Forst&aring; dine rytmer</div>
-    <div class="card"><div class="card-row"><div><div class="card-label">Cyklusser i cyklusser</div><div class="card-title">N&aring;r rytmerne m&oslash;des</div><div class="card-desc">Se alle ti par og m&aelig;rk hvor rytmerne synger sammen.</div></div><div class="card-arrow">&rarr;</div></div></div>
-    <div class="card"><div class="card-row"><div><div class="card-label">De fire uger</div><div class="card-title">M&aring;nedens fire ansigter</div><div class="card-desc">Fire uger med fire elementer. M&aelig;rk hvordan din energi skifter.</div></div><div class="card-arrow">&rarr;</div></div></div>
+    <div class="card" onclick="go('detail-cic')"><div class="card-row"><div><div class="card-label">Cyklusser i cyklusser</div><div class="card-title">N&aring;r rytmerne m&oslash;des</div><div class="card-desc">Se alle ti par og m&aelig;rk hvor rytmerne synger sammen.</div></div><div class="card-arrow">&rarr;</div></div></div>
+    <div class="card" onclick="go('detail-dfu')"><div class="card-row"><div><div class="card-label">De fire uger</div><div class="card-title">M&aring;nedens fire ansigter</div><div class="card-desc">Fire uger med fire elementer. M&aelig;rk hvordan din energi skifter.</div></div><div class="card-arrow">&rarr;</div></div></div>
 
     <div class="dots">&middot; &middot; &middot;</div>
-
     <div class="group-label">Kroppen og tiden</div>
     <div class="card"><div class="card-row"><div><div class="card-label">Kroppens store overgange</div><div class="card-title">De skift der m&aelig;rkes</div><div class="card-desc">Puberteten, moderskabet, overgangsalderen.</div></div><div class="card-arrow">&rarr;</div></div></div>
     <div class="card"><div class="card-row"><div><div class="card-label">Kontrolcyklussen</div><div class="card-title">De fem elementers dans</div><div class="card-desc">De fem elementer n&aelig;rer og kontrollerer hinanden.</div></div><div class="card-arrow">&rarr;</div></div></div>
 
-    <div class="dots">&middot; &middot; &middot;</div>
+    <div class="pull-quote">
+      <div class="pull-quote-text">&laquo;&thinsp;Dine cyklusser er ikke noget du skal mestre. De er noget du kan lytte til.&thinsp;&raquo;</div>
+      <div class="pull-quote-attr">&mdash; Isabelle</div>
+    </div>
 
+    <div class="dots">&middot; &middot; &middot;</div>
     <div class="group-label">Livets kapitler</div>
     <div class="card"><div class="card-row"><div><div class="card-label">De ni livsfaser</div><div class="card-title">Ni faser &middot; Ni &aring;rstider</div><div class="card-desc">Fra det f&oslash;rste &aring;ndedrag til visdommens stille rum.</div></div><div class="card-arrow">&rarr;</div></div></div>
 
-    <!-- CROSS-LINKS -->
     <div class="cross-links">
       <div class="cross-links-label">Udforsk ogs&aring;</div>
       <div class="cross-links-row">
-        <span class="cross-link">Min Praksis</span>
-        <span class="cross-link">Mine Relationer</span>
-        <span class="cross-link">Min Rejse</span>
+        <span class="cross-link" onclick="go('praksis')">Min Praksis</span>
+        <span class="cross-link" onclick="go('relationer')">Relationer</span>
+        <span class="cross-link" onclick="go('rejse')">Min Rejse</span>
       </div>
     </div>
 
-    <div class="section-closer"><div class="lotus-fill"><img src="assets/images/rosa-lotus.png" alt="" onerror="this.parentElement.innerHTML='&#x2740;'"></div></div>
+    <div class="section-closer"><div class="lotus-sym">&#x2740;</div></div>
+    <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
+  </div>
+</div>
+
+<!-- ==================== MINE RELATIONER ==================== -->
+<div class="view" id="v-relationer">
+  <div class="section t-relationer">
+    <div class="section-eyebrow">Mine Relationer</div>
+    <div class="section-title">De mennesker<br>der former din energi</div>
+    <div class="section-sub">N&aring;r livsfaser m&oslash;des, opst&aring;r noget nyt</div>
+    <div class="section-intro">Din mor, din datter, din partner &mdash; de er alle i deres egen fase. Se hvordan jeres energier m&oslash;des.</div>
+
+    <div class="profil-row">
+      <div class="profil-item">
+        <div class="profil-circle" style="background:rgba(123,122,158,0.10);color:#7b7a9e">S</div>
+        <div class="profil-name">Sara</div><div class="profil-meta">38 &aring;r</div>
+      </div>
+      <div class="profil-item">
+        <div class="profil-circle" style="background:rgba(123,122,158,0.08);color:#9e9db8">M</div>
+        <div class="profil-name">Martin</div><div class="profil-meta">43 &aring;r</div>
+      </div>
+      <div class="profil-item">
+        <div class="profil-circle" style="background:rgba(123,122,158,0.08);color:#9e9db8">K</div>
+        <div class="profil-name">Karen</div><div class="profil-meta">68 &aring;r</div>
+      </div>
+    </div>
+
+    <div class="feeling-box">
+      <div class="feeling-label">Det du m&aring;ske m&aelig;rker</div>
+      <div class="feeling-text">Nogle dage f&oslash;les det som om I taler forbi hinanden. Andre dage er der en stilf&aelig;rdig harmoni. Begge dele h&oslash;rer til.</div>
+    </div>
+
+    <div class="featured"><div class="featured-label">Lige nu</div><div class="featured-text">Du og Martin er i forskellige elementer &mdash; det skaber kreativ sp&aelig;nding, ikke konflikt.</div></div>
+
+    <div class="dots">&middot; &middot; &middot;</div>
+    <div class="group-label">Forst&aring; jeres dynamik</div>
+    <div class="card"><div class="card-row"><div><div class="card-label">To Rytmer</div><div class="card-title">Hendes 7 &aring;r, hans 8</div><div class="card-desc">I bevæger jer i forskellige takter. Se hvor jeres faser m&oslash;des.</div></div><div class="card-arrow">&rarr;</div></div></div>
+    <div class="card"><div class="card-row"><div><div class="card-label">Tre Generationer</div><div class="card-title">Mor, dig, datter</div><div class="card-desc">Tre kvinder, tre faser, &eacute;t b&aring;nd der b&aelig;rer.</div></div><div class="card-arrow">&rarr;</div></div></div>
+    <div class="card"><div class="card-row"><div><div class="card-label">Jeres Energi</div><div class="card-title">En dato, to perspektiver</div><div class="card-desc">V&aelig;lg en dag og se hvordan jeres energier krydser.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+    <div class="pull-quote">
+      <div class="pull-quote-text">&laquo;&thinsp;Vi er ikke her for at fikse hinanden. Vi er her for at forst&aring; de kr&aelig;fter der bevæger os.&thinsp;&raquo;</div>
+      <div class="pull-quote-attr">&mdash; Isabelle</div>
+    </div>
+
+    <div class="cross-links">
+      <div class="cross-links-label">Udforsk ogs&aring;</div>
+      <div class="cross-links-row">
+        <span class="cross-link" onclick="go('cyklusser')">Cyklusser</span>
+        <span class="cross-link" onclick="go('praksis')">Min Praksis</span>
+        <span class="cross-link" onclick="go('rejse')">Min Rejse</span>
+      </div>
+    </div>
+    <div class="section-closer"><div class="lotus-sym">&#x2740;</div></div>
+    <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
+  </div>
+</div>
+
+<!-- ==================== MIN PRAKSIS ==================== -->
+<div class="view" id="v-praksis">
+  <div class="section t-praksis">
+    <div class="section-eyebrow">Min Praksis</div>
+    <div class="section-title">Hvad hj&aelig;lper<br>lige nu</div>
+    <div class="section-sub">&Oslash;velser, n&aelig;ring og &aring;ndedr&aelig;t for dit element</div>
+    <div class="section-intro">Vand dominerer i dag. Her er det der n&aelig;rer din grundl&aelig;ggende energi &mdash; praktisk, konkret, lige nu.</div>
+
+    <div class="feeling-box">
+      <div class="feeling-label">Det du m&aring;ske m&aelig;rker</div>
+      <div class="feeling-text">En tr&aelig;thed der ikke handler om s&oslash;vn. En tyngde der m&aring;ske bare er kroppen der beder om stilhed.</div>
+    </div>
+
+    <div class="featured"><div class="featured-label">Dagens element</div><div class="featured-text">Vand-energi: N&aelig;r nyrerne, hold varmen, lyt til stilheden.</div></div>
+
+    <div class="dots">&middot; &middot; &middot;</div>
+    <div class="group-label">Krop og &aring;ndedr&aelig;t</div>
+    <div class="card"><div class="card-row"><div><div class="card-label">Yin Yoga</div><div class="card-title">Stillinger for dit element</div><div class="card-desc">Tre yin-stillinger der &aring;bner nyre- og bl&aelig;remeridianen.</div></div><div class="card-arrow">&rarr;</div></div></div>
+    <div class="card"><div class="card-row"><div><div class="card-label">F&oslash;lelser</div><div class="card-title">F&oslash;lelsernes fem elementer</div><div class="card-desc">Frygt h&oslash;rer til Vand. Men ogs&aring; visdom og flow.</div></div><div class="card-arrow">&rarr;</div></div></div>
+    <div class="card"><div class="card-row"><div><div class="card-label">Refleksion</div><div class="card-title">Sp&oslash;rgsm&aring;l til din fase</div><div class="card-desc">Tre sp&oslash;rgsm&aring;l der &aring;bner for det du m&aring;ske allerede ved.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+    <div class="dots">&middot; &middot; &middot;</div>
+    <div class="group-label">N&aelig;ring og hvile</div>
+    <div class="card"><div class="card-row"><div><div class="card-label">Kost</div><div class="card-title">Mad der n&aelig;rer Vand</div><div class="card-desc">B&oslash;nner, tang, sort sesam, valnødder.</div></div><div class="card-arrow">&rarr;</div></div></div>
+    <div class="card"><div class="card-row"><div><div class="card-label">Healinglyd</div><div class="card-title">Chuiii &mdash; Vandets lyd</div><div class="card-desc">En dyb lyd der vibrerer i nyrerne.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+    <div class="cross-links">
+      <div class="cross-links-label">Udforsk ogs&aring;</div>
+      <div class="cross-links-row">
+        <span class="cross-link" onclick="go('cyklusser')">Cyklusser</span>
+        <span class="cross-link" onclick="go('relationer')">Relationer</span>
+        <span class="cross-link" onclick="go('rejse')">Min Rejse</span>
+      </div>
+    </div>
+    <div class="section-closer"><div class="lotus-sym">&#x2740;</div></div>
+    <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
+  </div>
+</div>
+
+<!-- ==================== MIN REJSE ==================== -->
+<div class="view" id="v-rejse">
+  <div class="section t-rejse">
+    <div class="section-eyebrow">Min Rejse</div>
+    <div class="section-title">Din udvikling<br>over tid</div>
+    <div class="section-sub">M&oslash;nstre, &oslash;jeblikke, indsigter</div>
+    <div class="section-intro">Her samler dine check-ins, refleksioner og opdagelser sig til et st&oslash;rre billede.</div>
+
+    <div class="feeling-box">
+      <div class="feeling-label">Det du m&aring;ske m&aelig;rker</div>
+      <div class="feeling-text">Nogle gange kan det f&oslash;les som om du st&aring;r stille. Men se tilbage &mdash; du har allerede bevæget dig.</div>
+    </div>
+
+    <div class="featured"><div class="featured-label">Din fase</div><div class="featured-text">Du er i Fase 6: H&oslash;st &mdash; 4 &aring;r og 3 m&aring;neder inde. Jord-energi modner.</div></div>
+
+    <div class="dots">&middot; &middot; &middot;</div>
+    <div class="group-label">F&oslash;lg din vej</div>
+    <div class="card"><div class="card-row"><div><div class="card-label">Min Udvikling</div><div class="card-title">M&oslash;nstre og check-ins</div><div class="card-desc">Se din energi over tid og opdag m&oslash;nstre du ikke m&aelig;rkede.</div></div><div class="card-arrow">&rarr;</div></div></div>
+    <div class="card"><div class="card-row"><div><div class="card-label">Alle Faser</div><div class="card-title">De ni livsfaser i overblik</div><div class="card-desc">Se alle ni faser og find dig selv p&aring; rejsen.</div></div><div class="card-arrow">&rarr;</div></div></div>
+    <div class="card"><div class="card-row"><div><div class="card-label">Baggrund</div><div class="card-title">Om cyklusserne og bogen</div><div class="card-desc">Hvad er TCM, hvad er 7-&aring;rs cyklusser, og hvorfor virker det.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+    <div class="cross-links">
+      <div class="cross-links-label">Udforsk ogs&aring;</div>
+      <div class="cross-links-row">
+        <span class="cross-link" onclick="go('cyklusser')">Cyklusser</span>
+        <span class="cross-link" onclick="go('relationer')">Relationer</span>
+        <span class="cross-link" onclick="go('praksis')">Min Praksis</span>
+      </div>
+    </div>
+    <div class="section-closer"><div class="lotus-sym">&#x2740;</div></div>
+    <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
+  </div>
+</div>
+
+<!-- ==================== DETAIL: CYKLUSSER I CYKLUSSER (NIVEAU 2) ==================== -->
+<div class="view" id="v-detail-cic">
+  <div class="detail-header">Mine Cyklusser</div>
+  <div class="detail-body t-cyklusser">
+    <div class="section-title">N&aring;r rytmerne<br>m&oslash;des</div>
+    <div class="section-sub">Ti par &mdash; ti samtaler mellem dine cyklusser</div>
+    <div class="section-intro">Hvert par af cyklusser har sin egen dynamik. N&aring;r to deler element, opst&aring;r resonans. N&aring;r de modsiger hinanden, opst&aring;r kreativ sp&aelig;nding.</div>
+
+    <div class="featured"><div class="featured-label">St&aelig;rkeste resonans</div><div class="featured-text">Livsfase + &aring;rstid deler Vand &mdash; en sj&aelig;lden samklang der g&aring;r dybt.</div></div>
+
+    <div class="dots">&middot; &middot; &middot;</div>
+    <div class="card"><div class="card-row"><div><div class="card-label">Livsfase &times; &aring;rstid</div><div class="card-title">Vand m&oslash;der Vand</div><div class="card-desc">To langsomme cyklusser i resonans. Stilheden f&aring;r ekko.</div></div></div></div>
+    <div class="card"><div class="card-row"><div><div class="card-label">Livsfase &times; m&aring;ned</div><div class="card-title">Vand m&oslash;der Vand</div><div class="card-desc">Uge og fase er enige. Din krop ved det allerede.</div></div></div></div>
+    <div class="card"><div class="card-row"><div><div class="card-label">&Aring;rstid &times; organur</div><div class="card-title">Vand m&oslash;der Vand</div><div class="card-desc">Vinteren og nyrerne taler sammen. Det dybeste m&oslash;de.</div></div></div></div>
+
+    <div class="section-closer"><div class="lotus-sym">&#x2740;</div></div>
+    <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
+  </div>
+</div>
+
+<!-- ==================== DETAIL: DE FIRE UGER (NIVEAU 2) ==================== -->
+<div class="view" id="v-detail-dfu">
+  <div class="detail-header">Mine Cyklusser</div>
+  <div class="detail-body t-cyklusser">
+    <div class="section-title">M&aring;nedens<br>fire ansigter</div>
+    <div class="section-sub">Fire uger &middot; Fire elementer &middot; Fire kvaliteter</div>
+    <div class="section-intro">Uanset om du f&oslash;lger din menstruation eller m&aring;nens cyklus &mdash; fire faser gentager sig.</div>
+
+    <div class="featured"><div class="featured-label">Denne uge</div><div class="featured-text">Uge 1: Vand &mdash; menstruation eller nym&aring;ne. Hvile, indadvendthed, stilhed.</div></div>
+
+    <div class="dots">&middot; &middot; &middot;</div>
+    <div class="card"><div class="card-row"><div><div class="card-label">Uge 1 &middot; Vand</div><div class="card-title">Stilheden</div><div class="card-desc">Kroppen renser og hviler. L&aelig;n dig ind i det langsomme.</div></div></div></div>
+    <div class="card"><div class="card-row"><div><div class="card-label">Uge 2 &middot; Tr&aelig;</div><div class="card-title">V&aelig;ksten</div><div class="card-desc">Ny energi spirer. Kroppen vil bevæge sig, sindet vil skabe.</div></div></div></div>
+    <div class="card"><div class="card-row"><div><div class="card-label">Uge 3 &middot; Ild</div><div class="card-title">Flammen</div><div class="card-desc">Fuld kraft. Kommunikation, forbindelse, handlekraft.</div></div></div></div>
+    <div class="card"><div class="card-row"><div><div class="card-label">Uge 4 &middot; Jord</div><div class="card-title">Forankringen</div><div class="card-desc">Energien samler sig. Tid til at afslutte, runde af.</div></div></div></div>
+
+    <div class="section-closer"><div class="lotus-sym">&#x2740;</div></div>
     <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
   </div>
 </div>
 
 
-<!-- ==================== BOTTOM NAVIGATION ==================== -->
-<div class="bottom-nav-new" id="bottomNav">
-
-  <!-- Hjem -->
-  <a class="nav-item" id="nav-hjem" onclick="showView('forside')">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
-        <polyline points="9 22 9 12 15 12 15 22"/>
-      </svg>
-    </div>
-    <span class="nav-label">Hjem</span>
-  </a>
-
-  <!-- Cyklusser -->
-  <a class="nav-item" id="nav-cyklusser" onclick="showView('section')">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"/>
-        <circle cx="12" cy="12" r="6"/>
-        <circle cx="12" cy="12" r="2"/>
-      </svg>
-    </div>
-    <span class="nav-label">Cyklusser</span>
-  </a>
-
-  <!-- Relationer -->
-  <a class="nav-item" id="nav-relationer">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-      </svg>
-    </div>
-    <span class="nav-label">Relationer</span>
-  </a>
-
-  <!-- Praksis -->
-  <a class="nav-item" id="nav-praksis">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
-        <path d="M12 6v6l4 2"/>
-      </svg>
-    </div>
-    <span class="nav-label">Praksis</span>
-  </a>
-
+<!-- ==================== BOTTOM NAV ==================== -->
+<div class="bottom-nav" id="bnav">
+  <div class="ni" data-target="forside" onclick="go('forside')">
+    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Hjem</span>
+  </div>
+  <div class="ni" data-target="cyklusser" onclick="go('cyklusser')">
+    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+    <span>Cyklusser</span>
+  </div>
+  <div class="ni" data-target="relationer" onclick="go('relationer')">
+    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    <span>Relationer</span>
+  </div>
+  <div class="ni" data-target="praksis" onclick="go('praksis')">
+    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+    <span>Praksis</span>
+  </div>
 </div>
 
 <script>
-// ========== VIEW SWITCHING ==========
-function showView(view) {
-  const forside = document.getElementById('view-forside');
-  const section = document.getElementById('view-section');
-  const backBtn = document.getElementById('header-back');
-  const bottomNav = document.getElementById('bottomNav');
-  const demoNote = document.getElementById('demo-note');
+var history_stack = ['forside'];
+var current = 'forside';
 
-  // Demo buttons
-  document.querySelectorAll('.demo-btn').forEach((b, i) => {
-    b.classList.toggle('active', (view === 'forside' && i === 0) || (view === 'section' && i === 1));
-  });
+// Hvilken sektion er parent for detail-sider
+var parents = {
+  'detail-cic': 'cyklusser',
+  'detail-dfu': 'cyklusser'
+};
 
-  if (view === 'forside') {
-    forside.classList.add('visible');
-    section.classList.add('hidden-view');
-    section.classList.remove('section-content');
+// Niveau: forside=0, sektioner=1, detail=2
+function niveau(id) {
+  if (id === 'forside') return 0;
+  if (id.startsWith('detail-')) return 2;
+  return 1;
+}
+
+function go(target) {
+  if (target === current) return;
+  history_stack.push(target);
+  show(target);
+}
+
+function goBack() {
+  if (history_stack.length > 1) {
+    history_stack.pop();
+    show(history_stack[history_stack.length - 1]);
+  }
+}
+
+function show(id) {
+  current = id;
+
+  // Skjul alle views
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+
+  // Vis den rigtige
+  var el = document.getElementById('v-' + id);
+  if (el) el.classList.add('active');
+
+  // Scroll til top
+  window.scrollTo(0, 0);
+
+  // Back-knap
+  var backBtn = document.getElementById('backBtn');
+  var backLabel = document.getElementById('backLabel');
+  var niv = niveau(id);
+
+  if (niv === 0) {
     backBtn.style.display = 'none';
-    bottomNav.style.display = 'none';
-    demoNote.innerHTML = '&#x2190; Forsiden bruger kortene som navigation &mdash; ingen bottom bar';
-
-    // Opdater nav aktiv state
-    setActiveNav('nav-hjem');
-  } else {
-    forside.classList.remove('visible');
-    section.classList.remove('hidden-view');
-    section.classList.add('section-content');
+  } else if (niv === 1) {
     backBtn.style.display = 'flex';
-    bottomNav.style.display = 'flex';
-    demoNote.innerHTML = '&#x2191; P&aring; sektions-sider vises den subtile bottom bar + tilbage-pil';
-
-    setActiveNav('nav-cyklusser');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    backLabel.textContent = 'Hjem';
+  } else {
+    backBtn.style.display = 'flex';
+    var p = parents[id];
+    var names = { cyklusser: 'Cyklusser', relationer: 'Relationer', praksis: 'Praksis', rejse: 'Rejse' };
+    backLabel.textContent = names[p] || 'Tilbage';
   }
-}
 
-function setActiveNav(activeId) {
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.classList.toggle('active', item.id === activeId);
+  // Bottom nav: skjul på forsiden
+  var bnav = document.getElementById('bnav');
+  if (niv === 0) {
+    bnav.classList.remove('visible');
+    document.body.style.paddingBottom = '0';
+  } else {
+    bnav.classList.add('visible');
+    document.body.style.paddingBottom = '62px';
+  }
+
+  // Aktiv tab
+  var activeTarget = id;
+  if (niv === 2) activeTarget = parents[id] || id;
+  document.querySelectorAll('.ni').forEach(n => {
+    n.classList.toggle('on', n.dataset.target === activeTarget);
   });
 }
 
-// ========== SMART SCROLL HIDE ==========
-let lastScrollY = 0;
-let ticking = false;
-
-window.addEventListener('scroll', () => {
-  if (!ticking) {
-    window.requestAnimationFrame(() => {
-      const nav = document.getElementById('bottomNav');
-      const currentY = window.scrollY;
-
-      if (nav.style.display !== 'none') {
-        if (currentY > lastScrollY && currentY > 100) {
-          // Scrolling down — skjul
-          nav.classList.add('hidden');
-        } else {
-          // Scrolling up — vis
-          nav.classList.remove('hidden');
-        }
-      }
-
-      lastScrollY = currentY;
-      ticking = false;
-    });
-    ticking = true;
+// Smart scroll hide
+var lastY = 0;
+window.addEventListener('scroll', function() {
+  var bnav = document.getElementById('bnav');
+  var y = window.scrollY;
+  if (y > lastY && y > 80) {
+    bnav.classList.add('scroll-hidden');
+  } else {
+    bnav.classList.remove('scroll-hidden');
   }
-});
+  lastY = y;
+}, { passive: true });
 
-// Start p&aring; forsiden
-showView('forside');
+// Start
+show('forside');
 </script>
 
 </body>
