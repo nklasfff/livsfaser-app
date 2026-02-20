@@ -366,6 +366,104 @@ body { background: #FDFCFB; font-family: 'DM Sans', sans-serif; }
 /* GROUP LABEL */
 .group-label { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; margin: 24px 0 10px; }
 
+/* FEELING BOX — poetisk smerte-adressering */
+.feeling-box {
+  border-radius: 14px; padding: 24px 22px;
+  margin: 22px 0; text-align: center;
+  border: 1px solid rgba(108,130,169,0.08);
+  background: linear-gradient(135deg, rgba(108,130,169,0.04), rgba(184,166,192,0.04));
+}
+.feeling-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  margin-bottom: 12px; opacity: 0.6;
+}
+.feeling-text {
+  font-family: 'Playfair Display', serif; font-size: 15px;
+  font-style: italic; line-height: 1.65; color: #6c7a8a;
+}
+
+/* TIME-SHIFT — tidsdynamik mini-boks */
+.time-shift {
+  display: flex; gap: 10px; margin: 16px 0 22px;
+}
+.time-shift-item {
+  flex: 1; border-radius: 12px; padding: 14px 16px;
+  background: rgba(108,130,169,0.04);
+  border: 1px solid rgba(108,130,169,0.08);
+}
+.time-shift-when {
+  font-family: 'DM Sans', sans-serif; font-size: 10px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: #aaa; margin-bottom: 4px;
+}
+.time-shift-what {
+  font-family: 'Playfair Display', serif; font-size: 13px;
+  font-style: italic; color: #6c82a9; line-height: 1.4;
+}
+
+/* QUICK-ACTION — hurtig handling boks */
+.quick-action {
+  border-radius: 14px; padding: 22px 20px;
+  margin: 16px 0 8px; text-align: center;
+  background: linear-gradient(135deg, rgba(108,130,169,0.06), rgba(108,130,169,0.02));
+  border: 1px solid rgba(108,130,169,0.10);
+}
+.quick-action-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: #9cabc3; margin-bottom: 8px;
+}
+.quick-action-title {
+  font-family: 'Playfair Display', serif; font-size: 18px;
+  font-style: italic; color: #6c82a9; margin-bottom: 4px;
+}
+.quick-action-desc {
+  font-family: 'DM Sans', sans-serif; font-size: 12.5px;
+  color: #999; font-weight: 300; line-height: 1.5; margin-bottom: 14px;
+}
+.quick-action-btn {
+  display: inline-block; padding: 10px 28px;
+  border-radius: 24px; border: 1px solid rgba(108,130,169,0.25);
+  background: white; font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px; color: #6c82a9; font-weight: 400;
+  letter-spacing: 0.5px; cursor: pointer;
+}
+
+/* PULL-QUOTE — stort centreret Isabelle-citat */
+.pull-quote {
+  text-align: center; padding: 28px 16px; margin: 8px 0;
+}
+.pull-quote-text {
+  font-family: 'Playfair Display', serif; font-size: 18px;
+  font-style: italic; color: #8a96a9; line-height: 1.6;
+}
+.pull-quote-attr {
+  font-family: 'DM Sans', sans-serif; font-size: 10px;
+  color: #ccc; font-weight: 300; margin-top: 10px;
+  letter-spacing: 1px;
+}
+
+/* CROSS-LINKS — tynde links til andre sektioner */
+.cross-links {
+  margin: 28px 0 8px; text-align: center;
+}
+.cross-links-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: #ccc; margin-bottom: 12px;
+}
+.cross-links-row {
+  display: flex; gap: 8px; justify-content: center;
+}
+.cross-link {
+  font-family: 'DM Sans', sans-serif; font-size: 11.5px;
+  color: #9cabc3; font-weight: 300; font-style: italic;
+  padding: 8px 16px; border-radius: 20px;
+  border: 1px solid rgba(108,130,169,0.12);
+  text-decoration: none; cursor: pointer;
+}
+
 /* MOTOR BOX (Vinduer sektion) */
 .motor-box { border-radius: 14px; padding: 22px 20px; margin-bottom: 22px; text-align: center; }
 .motor-label { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 10px; }
@@ -379,7 +477,7 @@ body { background: #FDFCFB; font-family: 'DM Sans', sans-serif; }
 </style>
 <script>
 // Cache-busting: forces reload when new version is deployed
-const V = '20260220-v22';
+const V = '20260220-v23';
 if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   localStorage.setItem('pk-v', V);
   location.reload(true);
@@ -662,6 +760,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   </div>
   <div class="dots">&middot; &middot; &middot;</div>
 
+  <!-- ELEMENT-KLIMA BJÆLKER -->
   <div class="element-analysis">
     <div class="ea-label">Dit element-klima</div>
     <div class="ea-row"><div class="ea-name">Vand</div><div class="ea-bar"><div class="ea-fill" style="width:80%"></div></div><div class="ea-count">4</div></div>
@@ -672,18 +771,68 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
     <div class="ea-text">Vand dominerer. Din energi samler sig i dybden &mdash; det er sj&aelig;ldent, og det m&aelig;rkes.</div>
   </div>
 
+  <!-- ★ NY: DET DU MÅSKE MÆRKER — smerte-adressering -->
+  <div class="feeling-box">
+    <div class="feeling-label" style="color:#9cabc3">Det du m&aring;ske m&aelig;rker</div>
+    <div class="feeling-text">N&aring;r Vand dominerer, kan det f&oslash;les som dyb stilhed &mdash; men ogs&aring; som en uro der ikke har ord endnu. M&aring;ske tr&aelig;kker du dig lidt ind i dig selv. M&aring;ske savner du noget du ikke kan s&aelig;tte navn p&aring;. Begge dele er &aelig;gte. Du beh&oslash;ver ikke v&aelig;lge.</div>
+  </div>
+
+  <!-- FEATURED "LIGE NU" BOKS -->
   <div class="featured feat-cyklusser"><div class="featured-label">Lige nu</div><div class="featured-text">4 af dine fem cyklusser peger mod Vand. Din energi samler sig i &eacute;n retning &mdash; det er sj&aelig;ldent.</div><div class="featured-sub">Se den fulde analyse &rarr;</div></div>
 
+  <!-- ★ NY: NÆSTE SKIFT — tidsdynamik -->
+  <div class="time-shift">
+    <div class="time-shift-item">
+      <div class="time-shift-when">Om 1t 45min</div>
+      <div class="time-shift-what">Nyre-energi &rarr; Perikardium</div>
+    </div>
+    <div class="time-shift-item">
+      <div class="time-shift-when">I morgen</div>
+      <div class="time-shift-what">L&oslash;rdag &middot; Jord-energi</div>
+    </div>
+  </div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- GRUPPE 1: FORSTÅ DINE RYTMER -->
   <div class="group-label" style="color:#6c82a9">Forst&aring; dine rytmer</div>
   <div class="card"><div class="card-row"><div><div class="card-label">Cyklusser i cyklusser</div><div class="card-title">N&aring;r rytmerne m&oslash;des</div><div class="card-desc">N&aring;r livsfase, &aring;rstid og m&aring;ned deler element, opst&aring;r resonans. Se alle ti par og m&aelig;rk hvor rytmerne synger sammen.</div></div><div class="card-arrow">&rarr;</div></div></div>
   <div class="card"><div class="card-row"><div><div class="card-label">De fire uger</div><div class="card-title">M&aring;nedens fire ansigter</div><div class="card-desc">M&aring;necyklus eller menstruation &mdash; fire uger med fire elementer. M&aelig;rk hvordan din energi skifter karakter fra uge til uge.</div></div><div class="card-arrow">&rarr;</div></div></div>
 
+  <!-- ★ NY: HURTIG HANDLING — healinglyd -->
+  <div class="quick-action">
+    <div class="quick-action-label">Pr&oslash;v lige nu</div>
+    <div class="quick-action-title">Chuiii &mdash; Vandets healinglyd</div>
+    <div class="quick-action-desc">En dyb lyd der vibrerer i nyrerne og n&aelig;rer din grundl&aelig;ggende livsenergi. Luk &oslash;jnene, og sig lyden tre gange p&aring; en lang ud&aring;nding.</div>
+    <div class="quick-action-btn">Pr&oslash;v &aring;ndedr&aelig;t &rarr;</div>
+  </div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- GRUPPE 2: KROPPEN OG TIDEN -->
   <div class="group-label" style="color:#6c82a9">Kroppen og tiden</div>
   <div class="card"><div class="card-row"><div><div class="card-label">Kroppens store overgange</div><div class="card-title">De skift der m&aelig;rkes</div><div class="card-desc">Puberteten, moderskabet, overgangsalderen. Hvert stort skifte b&aelig;rer sin egen visdom og sin egen s&aring;rbarhed.</div></div><div class="card-arrow">&rarr;</div></div></div>
   <div class="card"><div class="card-row"><div><div class="card-label">Kontrolcyklussen</div><div class="card-title">De fem elementers dans</div><div class="card-desc">De fem elementer n&aelig;rer og kontrollerer hinanden i en evig dans. Forst&aring; hvad der styrker og udfordrer dit dominerende element.</div></div><div class="card-arrow">&rarr;</div></div></div>
 
+  <!-- ★ NY: PULL-QUOTE — Isabelle -->
+  <div class="pull-quote">
+    <div class="pull-quote-text">&laquo;&thinsp;Dine cyklusser er ikke noget du skal mestre. De er noget du kan lytte til &mdash; som en melodi der allerede spiller.&thinsp;&raquo;</div>
+    <div class="pull-quote-attr">&mdash; Isabelle</div>
+  </div>
+
+  <!-- GRUPPE 3: LIVETS KAPITLER -->
   <div class="group-label" style="color:#6c82a9">Livets kapitler</div>
   <div class="card"><div class="card-row"><div><div class="card-label">De ni livsfaser</div><div class="card-title">Ni faser &middot; Ni &aring;rstider</div><div class="card-desc">Fra det f&oslash;rste &aring;ndedrag til visdommens stille rum. Ni faser med hvert sit element, sin krop og sin opgave.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+  <!-- ★ NY: KRYDSLINKS — andre sektioner -->
+  <div class="cross-links">
+    <div class="cross-links-label">Udforsk ogs&aring;</div>
+    <div class="cross-links-row">
+      <span class="cross-link">Min Praksis</span>
+      <span class="cross-link">Mine Relationer</span>
+      <span class="cross-link">Min Rejse</span>
+    </div>
+  </div>
 
   <div class="section-closer"><div class="lotus-fill"><img src="assets/images/rosa-lotus.png" alt=""></div></div>
   <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
