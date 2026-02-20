@@ -61,14 +61,18 @@ body { background: #FAF9F6; font-family: 'DM Sans', sans-serif; }
 }
 .lotus-fill {
   display: inline-block;
-  background: #cfa4a0;
-  border-radius: 45%;
+  position: relative;
   line-height: 0;
 }
-.lotus-fill img {
-  width: 130px; height: auto;
-  mix-blend-mode: multiply;
-  display: block;
+.lotus-fill .lotus-bg {
+  width: 130px; height: auto; display: block;
+  filter: invert(1) brightness(1.2) sepia(1) hue-rotate(320deg) saturate(1.8) blur(3px);
+  opacity: 0.55;
+}
+.lotus-fill .lotus-fg {
+  width: 130px; height: auto; display: block;
+  position: absolute; top: 0; left: 0;
+  opacity: 0.6;
 }
 .back-to-top {
   text-align: center; padding: 10px 0 20px;
@@ -381,7 +385,7 @@ body { background: #FAF9F6; font-family: 'DM Sans', sans-serif; }
 </style>
 <script>
 // Cache-busting: forces reload when new version is deployed
-const V = '20260220-v12';
+const V = '20260220-v13';
 if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   localStorage.setItem('pk-v', V);
   location.reload(true);
@@ -674,7 +678,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   <div class="group-label" style="color:#6c82a9">Livets kapitler</div>
   <div class="card"><div class="card-row"><div><div class="card-label">De ni livsfaser</div><div class="card-title">Ni faser &middot; Ni &aring;rstider</div><div class="card-desc">Fra det f&oslash;rste &aring;ndedrag til visdommens stille rum. Ni faser med hvert sit element, sin krop og sin opgave.</div></div><div class="card-arrow">&rarr;</div></div></div>
 
-  <div class="section-closer"><div class="lotus-fill"><img src="assets/images/lotus-divider.png" alt=""></div></div>
+  <div class="section-closer"><div class="lotus-fill"><img class="lotus-bg" src="assets/images/lotus-transparent.png" alt=""><img class="lotus-fg" src="assets/images/lotus-transparent.png" alt=""></div></div>
   <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
 </div>
 
@@ -721,7 +725,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   <div class="card"><div class="card-row"><div><div class="card-label">Jeres energi</div><div class="card-title">V&aelig;lg en dato, se et m&oslash;de</div><div class="card-desc">Hvad var aktivt mellem jer da I m&oslash;dtes? Eller n&aring;r barnet fylder 14? V&aelig;lg en dato og se hvad der l&aring; under overfladen.</div></div><div class="card-arrow">&rarr;</div></div></div>
   <div class="card"><div class="card-row"><div><div class="card-label">Epigenetik &amp; Arv</div><div class="card-title">Det du b&aelig;rer med dig</div><div class="card-desc">Hvad blev givet videre fra generationer f&oslash;r, og hvad kan du selv v&aelig;lge at forvandle?</div></div><div class="card-arrow">&rarr;</div></div></div>
 
-  <div class="section-closer"><div class="lotus-fill"><img src="assets/images/lotus-divider.png" alt=""></div></div>
+  <div class="section-closer"><div class="lotus-fill"><img class="lotus-bg" src="assets/images/lotus-transparent.png" alt=""><img class="lotus-fg" src="assets/images/lotus-transparent.png" alt=""></div></div>
   <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
 </div>
 
@@ -764,7 +768,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   <div class="card"><div class="card-row"><div><div class="card-label">Healinglyd &middot; Vand</div><div class="card-title">Chuiii</div><div class="card-desc">En lyd der vibrerer dybt og n&aelig;rer din grundl&aelig;ggende livsenergi.</div></div><div class="card-arrow">&rarr;</div></div></div>
   <div class="card"><div class="card-row"><div><div class="card-label">Hvad har hjulpet andre</div><div class="card-title">Inspiration fra andre kvinder</div><div class="card-desc">Andre kvinder i din fase deler hvad der virkede for dem. Inspiration fra den vej andre har g&aring;et.</div></div><div class="card-arrow">&rarr;</div></div></div>
 
-  <div class="section-closer"><div class="lotus-fill"><img src="assets/images/lotus-divider.png" alt=""></div></div>
+  <div class="section-closer"><div class="lotus-fill"><img class="lotus-bg" src="assets/images/lotus-transparent.png" alt=""><img class="lotus-fg" src="assets/images/lotus-transparent.png" alt=""></div></div>
   <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
 </div>
 
@@ -802,7 +806,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   <div class="group-label" style="color:#8a96a9">Viden</div>
   <div class="card"><div class="card-row"><div><div class="card-label">Baggrundsviden</div><div class="card-title">Om bogen og systemet</div><div class="card-desc">De fem elementer, de ni faser, og tankerne bag.</div></div><div class="card-arrow">&rarr;</div></div></div>
 
-  <div class="section-closer"><div class="lotus-fill"><img src="assets/images/lotus-divider.png" alt=""></div></div>
+  <div class="section-closer"><div class="lotus-fill"><img class="lotus-bg" src="assets/images/lotus-transparent.png" alt=""><img class="lotus-fg" src="assets/images/lotus-transparent.png" alt=""></div></div>
   <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
 </div>
 
@@ -837,7 +841,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   <div class="scenario" style="background:rgba(107,95,123,0.04);border:1px solid rgba(107,95,123,0.08)"><div class="scenario-label" style="color:#a89bb3">Dig og &eacute;n anden</div><div class="scenario-title" style="color:#6B5F7B">Se jeres energier m&oslash;des</div><div class="scenario-text">Hvad var aktivt mellem jer da I m&oslash;dtes f&oslash;rste gang? N&aring;r barnet fylder 18? V&aelig;lg en dato og se hvad der l&aring; under overfladen.</div></div>
   <div class="scenario" style="background:rgba(107,95,123,0.04);border:1px solid rgba(107,95,123,0.08)"><div class="scenario-label" style="color:#a89bb3">Et vigtigt &oslash;jeblik</div><div class="scenario-title" style="color:#6B5F7B">Forst&aring; hvad der skete</div><div class="scenario-text">En f&oslash;dsel, et brud, en ny begyndelse. V&aelig;lg datoen og se hvilke kr&aelig;fter der var p&aring; spil. M&aring;ske giver det mening nu.</div></div>
 
-  <div class="section-closer"><div class="lotus-fill"><img src="assets/images/lotus-divider.png" alt=""></div></div>
+  <div class="section-closer"><div class="lotus-fill"><img class="lotus-bg" src="assets/images/lotus-transparent.png" alt=""><img class="lotus-fg" src="assets/images/lotus-transparent.png" alt=""></div></div>
   <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
 </div>
 
