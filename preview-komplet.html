@@ -66,6 +66,7 @@ body { background: #FAF9F6; font-family: 'DM Sans', sans-serif; }
 .lotus-fill img {
   width: 83px; height: auto; display: block;
   mix-blend-mode: multiply;
+  filter: saturate(0.62) brightness(0.97);
 }
 .back-to-top {
   text-align: center; padding: 10px 0 20px;
@@ -378,7 +379,7 @@ body { background: #FAF9F6; font-family: 'DM Sans', sans-serif; }
 </style>
 <script>
 // Cache-busting: forces reload when new version is deployed
-const V = '20260220-v18';
+const V = '20260220-v19';
 if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   localStorage.setItem('pk-v', V);
   location.reload(true);
