@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Navigation Demo — De 9 Livsfaser</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #FDFCFB;
+  font-family: 'DM Sans', sans-serif;
+  /* Plads til fixed bottom nav */
+  padding-bottom: 62px;
+}
+
+/* ==================== HEADER MED TILBAGE-PIL ==================== */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(253,252,251,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: env(safe-area-inset-top, 12px) 26px 12px;
+  display: flex; align-items: center; justify-content: center;
+  /* Relativ for at positionere tilbage-pil */
+  position: relative;
+}
+.header-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px; font-style: italic; color: #2a2520; font-weight: 400;
+}
+
+/* TILBAGE-PIL — kun synlig p&aring; niveau 1 og 2 */
+.header-back {
+  position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
+  display: flex; align-items: center; gap: 6px;
+  cursor: pointer; text-decoration: none;
+  padding: 8px 4px; /* Stor klikzone */
+}
+.header-back-arrow {
+  width: 18px; height: 18px;
+  display: flex; align-items: center; justify-content: center;
+}
+.header-back-arrow svg {
+  width: 14px; height: 14px;
+}
+.header-back-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11.5px; color: #9cabc3; font-weight: 300;
+  letter-spacing: 0.3px;
+}
+
+.accent-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(108,130,169,0.28) 25%, rgba(108,130,169,0.28) 75%, transparent);
+  margin: 0 26px;
+}
+
+/* ==================== BREADCRUMB ==================== */
+.breadcrumb {
+  text-align: center; padding: 10px 26px 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px; color: #ccc; font-weight: 300;
+  letter-spacing: 0.5px;
+}
+.breadcrumb span { color: #9cabc3; }
+
+/* ==================== DEMO TOGGLE BAR ==================== */
+.demo-bar {
+  background: linear-gradient(135deg, rgba(108,130,169,0.08), rgba(184,166,192,0.06));
+  border-bottom: 1px solid rgba(108,130,169,0.12);
+  padding: 14px 24px;
+  display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+}
+.demo-btn {
+  padding: 8px 18px; border-radius: 20px;
+  font-family: 'DM Sans', sans-serif; font-size: 11.5px;
+  font-weight: 400; cursor: pointer; border: none;
+  transition: all 0.3s ease;
+}
+.demo-btn.active {
+  background: linear-gradient(135deg, #6c82a9, #889ec3);
+  color: white;
+}
+.demo-btn:not(.active) {
+  background: white; color: #888;
+  border: 1px solid rgba(108,130,169,0.15);
+}
+.demo-note {
+  text-align: center; padding: 8px 24px 0;
+  font-family: 'DM Sans', sans-serif; font-size: 11px;
+  color: #bbb; font-weight: 300; font-style: italic;
+}
+
+/* ==================== SEKTION-INDHOLD ==================== */
+.section { padding: 36px 24px 44px; }
+.section-num {
+  text-align: center; font-family: 'DM Sans', sans-serif;
+  font-size: 9px; color: #bbb; letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.section-eyebrow { text-align: center; font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; opacity: 0.85; color: #6c82a9; }
+.section-title { text-align: center; font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 400; font-style: italic; line-height: 1.3; margin-bottom: 6px; color: #6c82a9; }
+.section-sub { text-align: center; font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 300; font-style: italic; margin-bottom: 28px; line-height: 1.5; color: #9cabc3; }
+.section-intro { text-align: center; font-family: 'DM Sans', sans-serif; font-size: 13px; color: #888; font-weight: 300; line-height: 1.65; margin-bottom: 28px; }
+
+/* CARDS */
+.card { background: white; border-radius: 14px; padding: 18px; margin-bottom: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); border: 1px solid rgba(108,130,169,0.10); }
+.card-label { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 6px; opacity: 0.85; color: #6c82a9; }
+.card-title { font-family: 'Playfair Display', serif; font-size: 16px; font-style: italic; margin-bottom: 4px; line-height: 1.35; color: #3a3530; }
+.card-desc { font-family: 'DM Sans', sans-serif; font-size: 12.5px; color: #999; font-weight: 300; line-height: 1.55; }
+.card-row { display: flex; justify-content: space-between; align-items: flex-start; }
+.card-arrow { font-size: 13px; color: #ccc; padding-left: 10px; flex-shrink: 0; margin-top: 2px; }
+
+/* FEATURED */
+.featured { border-radius: 14px; padding: 22px 20px; margin-bottom: 10px; color: white; background: linear-gradient(135deg, #6c82a9, #889ec3); }
+.featured-label { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 8px; }
+.featured-text { font-family: 'Playfair Display', serif; font-size: 16px; font-style: italic; line-height: 1.55; }
+.featured-sub { font-family: 'DM Sans', sans-serif; font-size: 12px; color: rgba(255,255,255,0.85); font-weight: 300; font-style: italic; margin-top: 10px; line-height: 1.5; }
+
+/* DOTS */
+.dots { text-align: center; color: #ccc9c3; font-size: 8px; letter-spacing: 10px; margin: 24px 0; }
+
+/* GROUP LABEL */
+.group-label { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; margin: 24px 0 10px; color: #6c82a9; }
+
+/* FEELING BOX */
+.feeling-box {
+  border-radius: 14px; padding: 24px 22px;
+  margin: 22px 0; text-align: center;
+  border: 1px solid rgba(108,130,169,0.08);
+  background: linear-gradient(135deg, rgba(108,130,169,0.04), rgba(184,166,192,0.04));
+}
+.feeling-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  margin-bottom: 12px; opacity: 0.6; color: #9cabc3;
+}
+.feeling-text {
+  font-family: 'Playfair Display', serif; font-size: 15px;
+  font-style: italic; line-height: 1.65; color: #6c7a8a;
+}
+
+/* CROSS-LINKS */
+.cross-links { margin: 28px 0 8px; text-align: center; }
+.cross-links-label { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: #ccc; margin-bottom: 12px; }
+.cross-links-row { display: flex; gap: 8px; justify-content: center; }
+.cross-link {
+  font-family: 'DM Sans', sans-serif; font-size: 11.5px;
+  color: #9cabc3; font-weight: 300; font-style: italic;
+  padding: 8px 16px; border-radius: 20px;
+  border: 1px solid rgba(108,130,169,0.12);
+  text-decoration: none; cursor: pointer;
+}
+
+/* LOTUS + BACK TO TOP */
+.section-closer { text-align: center; padding: 32px 0 8px; }
+.lotus-fill { display: inline-block; line-height: 0; }
+.lotus-fill img { width: 83px; height: auto; display: block; mix-blend-mode: multiply; filter: saturate(0.62); }
+.back-to-top { text-align: center; padding: 10px 0 20px; }
+.back-to-top a { font-family: 'DM Sans', sans-serif; font-size: 11.5px; color: #bbb; font-weight: 300; text-decoration: none; letter-spacing: 0.5px; }
+
+
+/* ==================== BOTTOM NAVIGATION ==================== */
+.bottom-nav-new {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 200;
+  background: rgba(253,252,251,0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid rgba(108,130,169,0.12);
+  padding: 8px 0 env(safe-area-inset-bottom, 10px);
+  display: flex; justify-content: space-around;
+  height: 58px;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smart hide: skjul ved scroll ned */
+.bottom-nav-new.hidden {
+  transform: translateY(100%);
+}
+
+/* Nav item */
+.nav-item {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 3px; cursor: pointer;
+  padding: 4px 16px; border-radius: 12px;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-item:active {
+  background: rgba(108,130,169,0.06);
+}
+
+/* Ikon */
+.nav-icon {
+  width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.nav-icon svg {
+  width: 20px; height: 20px;
+  stroke-width: 1.5;
+  fill: none;
+  stroke: #c0c8d4;
+  transition: all 0.25s ease;
+}
+
+/* Label */
+.nav-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px; font-weight: 300;
+  color: #c0c8d4;
+  letter-spacing: 0.5px;
+  transition: all 0.25s ease;
+}
+
+/* AKTIV tilstand */
+.nav-item.active .nav-icon svg {
+  stroke: #6c82a9;
+}
+.nav-item.active .nav-label {
+  color: #6c82a9;
+  font-weight: 500;
+}
+
+/* Aktiv prik under ikon */
+.nav-item.active::after {
+  content: '';
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: #6c82a9;
+  position: absolute; bottom: 2px;
+}
+.nav-item { position: relative; }
+
+
+/* ==================== FORSIDE-SIMULERING ==================== */
+.forside-sim {
+  display: none;
+  padding: 36px 24px 44px;
+}
+.forside-sim.visible { display: block; }
+.section-content { display: block; }
+.section-content.hidden-view { display: none; }
+
+.forside-circles {
+  display: flex; justify-content: center; margin: 20px 0 28px;
+}
+.forside-card {
+  background: white; border: 1px solid rgba(0,0,0,0.06); border-radius: 14px;
+  padding: 16px 18px; margin-bottom: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  cursor: pointer; transition: all 0.2s ease;
+}
+.forside-card:active { transform: scale(0.985); }
+.forside-card .fc-label { font-family: 'DM Sans', sans-serif; font-size: 9.5px; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 8px; opacity: 0.85; }
+.forside-card .fc-title { font-family: 'Playfair Display', serif; font-size: 15px; font-style: italic; color: #3a3530; line-height: 1.6; margin-bottom: 6px; }
+.forside-card .fc-sub { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #999; font-weight: 300; line-height: 1.5; }
+
+/* Sektionsfarver p&aring; forsidekort */
+.forside-card.fc-cyklusser .fc-label { color: #6c82a9; }
+.forside-card.fc-relationer .fc-label { color: #7b7a9e; }
+.forside-card.fc-praksis .fc-label { color: #7a908b; }
+.forside-card.fc-rejse .fc-label { color: #8a96a9; }
+
+</style>
+</head>
+<body>
+
+<!-- ==================== DEMO CONTROLS ==================== -->
+<div class="demo-bar">
+  <button class="demo-btn active" onclick="showView('forside')">Forside (ingen nav)</button>
+  <button class="demo-btn" onclick="showView('section')">Niveau 1: Mine Cyklusser</button>
+</div>
+<div class="demo-note" id="demo-note">&#x2190; Forsiden bruger kortene som navigation &mdash; ingen bottom bar</div>
+
+<!-- ==================== HEADER ==================== -->
+<div class="header" id="main-header">
+  <!-- Tilbage-pil: skjult p&aring; forsiden, synlig p&aring; sektions-sider -->
+  <a class="header-back" id="header-back" style="display:none" onclick="showView('forside')">
+    <div class="header-back-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#9cabc3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </div>
+    <span class="header-back-label">Hjem</span>
+  </a>
+  <div class="header-title">De&ensp;<span style="color:#6B5F7B;font-size:28px">9</span>&ensp;Livsfaser</div>
+</div>
+<div class="accent-line"></div>
+
+
+<!-- ==================== FORSIDE (HUB) ==================== -->
+<div class="forside-sim visible" id="view-forside">
+  <div style="text-align:center;font-family:'DM Sans',sans-serif;font-size:10px;color:#5A74A5;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px;opacity:0.8">I dag</div>
+  <div style="text-align:center;font-family:'Playfair Display',serif;font-size:24px;font-style:italic;color:#2a2520;margin-bottom:10px;line-height:1.25;font-weight:400">Dit krydsfelt<br><span style="font-size:18px;color:#6c82a9">lige nu</span></div>
+
+  <!-- Simulerede koncentriske cirkler -->
+  <div class="forside-circles">
+    <svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" style="width:260px;height:auto">
+      <ellipse cx="120" cy="75" rx="112" ry="68" fill="none" stroke="rgba(36,67,130,0.18)" stroke-width="1"/>
+      <ellipse cx="120" cy="75" rx="88" ry="54" fill="none" stroke="rgba(56,87,150,0.18)" stroke-width="1"/>
+      <ellipse cx="120" cy="75" rx="64" ry="40" fill="none" stroke="rgba(86,117,170,0.18)" stroke-width="1"/>
+      <ellipse cx="120" cy="75" rx="40" ry="26" fill="none" stroke="rgba(108,130,169,0.22)" stroke-width="1"/>
+      <ellipse cx="120" cy="75" rx="18" ry="13" fill="rgba(108,130,169,0.08)" stroke="rgba(108,130,169,0.25)" stroke-width="0.8"/>
+      <text x="120" y="78" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7" letter-spacing="1.5" fill="#6c82a9" font-weight="400">DIG</text>
+    </svg>
+  </div>
+
+  <div style="text-align:center;font-family:'DM Sans',sans-serif;font-size:13px;color:#888;font-weight:300;line-height:1.65;margin-bottom:28px">Fem rytmer l&oslash;ber p&aring; &eacute;n gang i dig lige nu.<br>Tryk p&aring; en sektion for at udforske.</div>
+
+  <!-- 4 hovedkort — DET HER ER NAVIGATIONEN p&aring; forsiden -->
+  <div class="forside-card fc-cyklusser" onclick="showView('section')">
+    <div class="fc-label">Mine Cyklusser</div>
+    <div class="fc-title">Fem rytmer, &eacute;t billede</div>
+    <div class="fc-sub">4 af 5 cyklusser peger mod Vand. Din energi samler sig i dybden.</div>
+  </div>
+  <div class="forside-card fc-relationer">
+    <div class="fc-label">Mine Relationer</div>
+    <div class="fc-title">De mennesker der former din energi</div>
+    <div class="fc-sub">Se hvordan din fase m&oslash;der dem du holder af.</div>
+  </div>
+  <div class="forside-card fc-praksis">
+    <div class="fc-label">Min Praksis</div>
+    <div class="fc-title">Hvad hj&aelig;lper lige nu</div>
+    <div class="fc-sub">Yoga, &aring;ndedr&aelig;t og n&aelig;ring tilpasset dit element.</div>
+  </div>
+  <div class="forside-card fc-rejse">
+    <div class="fc-label">Min Rejse</div>
+    <div class="fc-title">Din udvikling over tid</div>
+    <div class="fc-sub">Se m&oslash;nstre, gem &oslash;jeblikke, f&oslash;lg din vej.</div>
+  </div>
+</div>
+
+
+<!-- ==================== SEKTION 1: MINE CYKLUSSER (NIVEAU 1) ==================== -->
+<div class="section-content hidden-view" id="view-section">
+  <div class="section-num">Sektion 1 af 5</div>
+  <div class="section tone-cyklusser" style="padding:36px 24px 44px">
+    <div class="section-eyebrow">Mine Cyklusser</div>
+    <div class="section-title">Fem rytmer,<br>&eacute;t billede</div>
+    <div class="section-sub">Forst&aring; de kr&aelig;fter der former din dag</div>
+    <div class="section-intro">Din livsfase, &aring;rstiden, m&aring;neden, ugedagen og dit organur &mdash; de l&oslash;ber alle p&aring; &eacute;n gang. Her kan du se dem hver for sig.</div>
+
+    <div style="text-align:center;margin:0 auto 8px">
+      <img src="assets/images/krydsfelt-final.png" alt="Dit Krydsfelt" style="width:100%;max-width:300px;mix-blend-mode:multiply;filter:saturate(0.7)" onerror="this.style.display='none'">
+    </div>
+    <div class="dots">&middot; &middot; &middot;</div>
+
+    <!-- FEELING BOX -->
+    <div class="feeling-box">
+      <div class="feeling-label">Det du m&aring;ske m&aelig;rker</div>
+      <div class="feeling-text">N&aring;r Vand dominerer, kan det f&oslash;les som dyb stilhed &mdash; men ogs&aring; som en uro der ikke har ord endnu. Begge dele er &aelig;gte.</div>
+    </div>
+
+    <!-- FEATURED -->
+    <div class="featured"><div class="featured-label">Lige nu</div><div class="featured-text">4 af dine fem cyklusser peger mod Vand. Din energi samler sig i &eacute;n retning.</div><div class="featured-sub">Se den fulde analyse &rarr;</div></div>
+
+    <div class="dots">&middot; &middot; &middot;</div>
+
+    <!-- KORT -->
+    <div class="group-label">Forst&aring; dine rytmer</div>
+    <div class="card"><div class="card-row"><div><div class="card-label">Cyklusser i cyklusser</div><div class="card-title">N&aring;r rytmerne m&oslash;des</div><div class="card-desc">Se alle ti par og m&aelig;rk hvor rytmerne synger sammen.</div></div><div class="card-arrow">&rarr;</div></div></div>
+    <div class="card"><div class="card-row"><div><div class="card-label">De fire uger</div><div class="card-title">M&aring;nedens fire ansigter</div><div class="card-desc">Fire uger med fire elementer. M&aelig;rk hvordan din energi skifter.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+    <div class="dots">&middot; &middot; &middot;</div>
+
+    <div class="group-label">Kroppen og tiden</div>
+    <div class="card"><div class="card-row"><div><div class="card-label">Kroppens store overgange</div><div class="card-title">De skift der m&aelig;rkes</div><div class="card-desc">Puberteten, moderskabet, overgangsalderen.</div></div><div class="card-arrow">&rarr;</div></div></div>
+    <div class="card"><div class="card-row"><div><div class="card-label">Kontrolcyklussen</div><div class="card-title">De fem elementers dans</div><div class="card-desc">De fem elementer n&aelig;rer og kontrollerer hinanden.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+    <div class="dots">&middot; &middot; &middot;</div>
+
+    <div class="group-label">Livets kapitler</div>
+    <div class="card"><div class="card-row"><div><div class="card-label">De ni livsfaser</div><div class="card-title">Ni faser &middot; Ni &aring;rstider</div><div class="card-desc">Fra det f&oslash;rste &aring;ndedrag til visdommens stille rum.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+    <!-- CROSS-LINKS -->
+    <div class="cross-links">
+      <div class="cross-links-label">Udforsk ogs&aring;</div>
+      <div class="cross-links-row">
+        <span class="cross-link">Min Praksis</span>
+        <span class="cross-link">Mine Relationer</span>
+        <span class="cross-link">Min Rejse</span>
+      </div>
+    </div>
+
+    <div class="section-closer"><div class="lotus-fill"><img src="assets/images/rosa-lotus.png" alt="" onerror="this.parentElement.innerHTML='&#x2740;'"></div></div>
+    <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
+  </div>
+</div>
+
+
+<!-- ==================== BOTTOM NAVIGATION ==================== -->
+<div class="bottom-nav-new" id="bottomNav">
+
+  <!-- Hjem -->
+  <a class="nav-item" id="nav-hjem" onclick="showView('forside')">
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    </div>
+    <span class="nav-label">Hjem</span>
+  </a>
+
+  <!-- Cyklusser -->
+  <a class="nav-item" id="nav-cyklusser" onclick="showView('section')">
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <circle cx="12" cy="12" r="6"/>
+        <circle cx="12" cy="12" r="2"/>
+      </svg>
+    </div>
+    <span class="nav-label">Cyklusser</span>
+  </a>
+
+  <!-- Relationer -->
+  <a class="nav-item" id="nav-relationer">
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+    </div>
+    <span class="nav-label">Relationer</span>
+  </a>
+
+  <!-- Praksis -->
+  <a class="nav-item" id="nav-praksis">
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+        <path d="M12 6v6l4 2"/>
+      </svg>
+    </div>
+    <span class="nav-label">Praksis</span>
+  </a>
+
+</div>
+
+<script>
+// ========== VIEW SWITCHING ==========
+function showView(view) {
+  const forside = document.getElementById('view-forside');
+  const section = document.getElementById('view-section');
+  const backBtn = document.getElementById('header-back');
+  const bottomNav = document.getElementById('bottomNav');
+  const demoNote = document.getElementById('demo-note');
+
+  // Demo buttons
+  document.querySelectorAll('.demo-btn').forEach((b, i) => {
+    b.classList.toggle('active', (view === 'forside' && i === 0) || (view === 'section' && i === 1));
+  });
+
+  if (view === 'forside') {
+    forside.classList.add('visible');
+    section.classList.add('hidden-view');
+    section.classList.remove('section-content');
+    backBtn.style.display = 'none';
+    bottomNav.style.display = 'none';
+    demoNote.innerHTML = '&#x2190; Forsiden bruger kortene som navigation &mdash; ingen bottom bar';
+
+    // Opdater nav aktiv state
+    setActiveNav('nav-hjem');
+  } else {
+    forside.classList.remove('visible');
+    section.classList.remove('hidden-view');
+    section.classList.add('section-content');
+    backBtn.style.display = 'flex';
+    bottomNav.style.display = 'flex';
+    demoNote.innerHTML = '&#x2191; P&aring; sektions-sider vises den subtile bottom bar + tilbage-pil';
+
+    setActiveNav('nav-cyklusser');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function setActiveNav(activeId) {
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.classList.toggle('active', item.id === activeId);
+  });
+}
+
+// ========== SMART SCROLL HIDE ==========
+let lastScrollY = 0;
+let ticking = false;
+
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    window.requestAnimationFrame(() => {
+      const nav = document.getElementById('bottomNav');
+      const currentY = window.scrollY;
+
+      if (nav.style.display !== 'none') {
+        if (currentY > lastScrollY && currentY > 100) {
+          // Scrolling down — skjul
+          nav.classList.add('hidden');
+        } else {
+          // Scrolling up — vis
+          nav.classList.remove('hidden');
+        }
+      }
+
+      lastScrollY = currentY;
+      ticking = false;
+    });
+    ticking = true;
+  }
+});
+
+// Start p&aring; forsiden
+showView('forside');
+</script>
+
+</body>
+</html>
