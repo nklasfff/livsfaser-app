@@ -55,6 +55,15 @@ body { background: #FAF9F6; font-family: 'DM Sans', sans-serif; }
   text-align: center; color: #ccc9c3; font-size: 8px;
   letter-spacing: 10px; margin: 24px 0;
 }
+.lotus-divider {
+  text-align: center; margin: 24px 0;
+}
+.lotus-divider img {
+  width: 90px; height: auto;
+  filter: sepia(1) hue-rotate(340deg) saturate(0.8) brightness(1.1);
+  opacity: 0.32;
+  mix-blend-mode: multiply;
+}
 
 /* BUTTONS */
 .btn {
@@ -358,7 +367,7 @@ body { background: #FAF9F6; font-family: 'DM Sans', sans-serif; }
 </style>
 <script>
 // Cache-busting: forces reload when new version is deployed
-const V = '20260220-v8';
+const V = '20260220-v9';
 if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   localStorage.setItem('pk-v', V);
   location.reload(true);
@@ -393,13 +402,13 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
     <p style="margin-top:12px">Tilsammen tegner de et billede af din energi lige nu. Nogle gange peger de i samme retning &mdash; og du m&aelig;rker en dyb ro eller en st&aelig;rk kraft. Andre gange tr&aelig;kker de i hver sin &mdash; og det kan f&oslash;les uroligt, uden at du ved hvorf&aring;r.</p>
   </div>
 
-  <div class="dots" style="margin:22px 0">&middot; &middot; &middot;</div>
+  <div class="lotus-divider" style="margin:22px 0"><img src="assets/images/lotus-divider.png" alt=""></div>
 
   <div style="text-align:center;margin:10px auto 4px;max-width:370px">
     <img src="assets/images/9-cirkler.png" alt="De 9 Livsfaser" style="width:100%;height:auto;mix-blend-mode:multiply;filter:saturate(0.65)">
   </div>
 
-  <div class="dots" style="margin:18px 0">&middot; &middot; &middot;</div>
+  <div class="lotus-divider" style="margin:18px 0"><img src="assets/images/lotus-divider.png" alt=""></div>
 
   <div class="intro-callout">
     <div class="mb-label">Og der er mere</div>
@@ -455,7 +464,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
     <div class="ft">Vand b&aelig;rer roen og tilliden &mdash; men ogs&aring; &aelig;ngstelsen og usikkerheden. N&aring;r fire cyklusser m&oslash;des i Vand, kan begge dele m&aelig;rkes st&aelig;rkere end vanligt. Det er ikke forkert &mdash; det er din energi der samler sig.</div>
   </div>
 
-  <div class="dots">&middot; &middot; &middot;</div>
+  <div class="lotus-divider"><img src="assets/images/lotus-divider.png" alt=""></div>
 
   <div class="alive-section">
     <div class="sl">Hvad kan denne app?</div>
@@ -469,7 +478,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
     </div>
   </div>
 
-  <div class="dots">&middot; &middot; &middot;</div>
+  <div class="lotus-divider"><img src="assets/images/lotus-divider.png" alt=""></div>
 
   <div class="win">
     <div class="wl">Appens hjerte</div>
@@ -551,7 +560,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
     <a class="card-link" href="#">Se den fulde analyse &rarr;</a>
   </div>
 </div>
-<div class="lotus">&middot; &middot; &middot;</div>
+<div class="lotus-divider"><img src="assets/images/lotus-divider.png" alt=""></div>
 <div class="s">
   <div class="eyebrow">Tidsrejsen</div>
   <div class="title">Mine Vinduer</div>
@@ -571,7 +580,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
     </div>
   </div>
 </div>
-<div class="lotus">&middot; &middot; &middot;</div>
+<div class="lotus-divider"><img src="assets/images/lotus-divider.png" alt=""></div>
 <div class="s">
   <div class="eyebrow">Min Praksis</div>
   <div class="title">Hvad du kan g&oslash;re<br>i dag</div>
@@ -580,7 +589,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   <div class="praksis-card"><div><div class="pk-label">Healinglyd &middot; Vand</div><div class="pk-name">Chuiii</div><div class="pk-desc">Lyd der vibrerer dybt og n&aelig;rer din grundl&aelig;ggende livsenergi.</div></div><div class="pk-arrow">&rarr;</div></div>
   <div class="praksis-card"><div><div class="pk-label">N&aelig;ring &middot; Vand</div><div class="pk-name">Sort sesam &amp; valn&oslash;dder</div><div class="pk-desc">N&aelig;rer nyreessensen og styrker livskraften.</div></div><div class="pk-arrow">&rarr;</div></div>
 </div>
-<div class="lotus">&middot; &middot; &middot;</div>
+<div class="lotus-divider"><img src="assets/images/lotus-divider.png" alt=""></div>
 <div class="s" style="padding-bottom: 28px;">
   <div class="eyebrow">M&aelig;rk efter</div>
   <div class="title">Hvordan har du det<br>lige nu?</div>
@@ -626,7 +635,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   <div style="text-align:center;margin:0 auto 8px">
     <img src="assets/images/krydsfelt-final.png" alt="Dit Krydsfelt" style="width:100%;max-width:300px;mix-blend-mode:multiply;filter:saturate(0.7)">
   </div>
-  <div class="dots">&middot; &middot; &middot;</div>
+  <div class="lotus-divider"><img src="assets/images/lotus-divider.png" alt=""></div>
 
   <div class="element-analysis">
     <div class="ea-label">Dit element-klima</div>
@@ -680,7 +689,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   </div>
 
   <div class="insight-box" style="background:rgba(123,122,158,0.05);border:1px solid rgba(123,122,158,0.10)"><div class="insight-label" style="color:#a8a3be">Jeres energi lige nu</div><div class="insight-text" style="color:#7b7a9e">Du er i Vand, Martin i Jord. Det dybe og det trygge m&oslash;des stille &mdash; en sjov kombination der kan overraske jer begge.</div></div>
-  <div class="dots">&middot; &middot; &middot;</div>
+  <div class="lotus-divider"><img src="assets/images/lotus-divider.png" alt=""></div>
 
   <div class="featured feat-relationer"><div class="featured-label">Jeres energi lige nu</div><div class="featured-text">Du er i Vand, din partner i Jord. Det er et stille m&oslash;de &mdash; hvor det dybe og det trygge finder hinanden.</div><div class="featured-sub">Se den fulde sammenligning &rarr;</div></div>
 
@@ -717,7 +726,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   </div>
 
   <div class="insight-box" style="background:rgba(122,144,139,0.05);border:1px solid rgba(122,144,139,0.10)"><div class="insight-label" style="color:#a3b3ae">Dagens element</div><div class="insight-text" style="color:#7a908b">Vand dominerer lige nu. Din krop beder om stilhed, dybde og n&aelig;ring nedefra.</div></div>
-  <div class="dots">&middot; &middot; &middot;</div>
+  <div class="lotus-divider"><img src="assets/images/lotus-divider.png" alt=""></div>
 
   <div class="featured feat-praksis"><div class="featured-label">I dag &middot; Vand</div><div class="featured-text">Vand beder om stilhed og dybde. Lyt indad. N&aelig;r det der allerede er der.</div><div class="featured-sub">Se dagens praksis &rarr;</div></div>
 
@@ -755,7 +764,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   <div style="text-align:center;margin:0 auto 8px">
     <img src="assets/images/min-rejse-ikigai.png" alt="Visdom" style="width:100%;max-width:320px;filter:grayscale(1) sepia(1) hue-rotate(185deg) saturate(0.8) brightness(0.92) contrast(1.05)">
   </div>
-  <div class="dots">&middot; &middot; &middot;</div>
+  <div class="lotus-divider"><img src="assets/images/lotus-divider.png" alt=""></div>
 
   <div class="featured feat-rejse"><div class="featured-label">Din udvikling</div><div class="featured-text">12 check-ins denne m&aring;ned. Dit dominerende element er Vand &mdash; og et m&oslash;nster begynder at vise sig.</div><div class="featured-sub">Se dine m&oslash;nstre &rarr;</div></div>
 
@@ -793,7 +802,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   </div>
 
   <div class="motor-box" style="background:rgba(107,95,123,0.05);border:1px solid rgba(107,95,123,0.10)"><div class="motor-label" style="color:#a89bb3">Hvad er Mine Vinduer?</div><div class="motor-text" style="color:#6B5F7B">V&aelig;lg en dato &mdash; fortid eller fremtid &mdash; og se hvad der var aktivt i dine cyklusser. For dig alene, eller sammen med nogen du holder af. Det er her &oslash;jeblikke f&aring;r forklaring.</div></div>
-  <div class="dots">&middot; &middot; &middot;</div>
+  <div class="lotus-divider"><img src="assets/images/lotus-divider.png" alt=""></div>
 
   <div class="featured feat-vinduer"><div class="featured-label">Tidsrejsen</div><div class="featured-text">Din datter fylder 14 n&aelig;ste &aring;r og tr&aelig;der ind i Tr&aelig;-energi. Du var selv i samme fase da alt forandrede sig. Hvad kan I l&aelig;re af hinanden?</div><div class="featured-sub">&Aring;bn Mine Vinduer &rarr;</div></div>
 
