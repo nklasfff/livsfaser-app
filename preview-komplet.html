@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="9 Livsfaser">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+<title>De 9 Livsfaser &mdash; Komplet Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #FAF9F6; font-family: 'DM Sans', sans-serif; }
+
+/* ==================== SHARED ==================== */
+
+/* HEADER */
+.header {
+  padding: env(safe-area-inset-top, 12px) 26px 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+.header-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px; font-style: italic; color: #2a2520; font-weight: 400;
+}
+.accent-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(108,130,169,0.28) 25%, rgba(108,130,169,0.28) 75%, transparent);
+  margin: 6px 26px 0;
+}
+
+/* DIVIDER */
+.page-divider {
+  height: 8px;
+  background: linear-gradient(180deg, rgba(108,130,169,0.06), rgba(108,130,169,0.02));
+  position: relative;
+}
+.page-divider::before {
+  content: ''; display: block; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(108,130,169,0.15) 25%, rgba(108,130,169,0.15) 75%, transparent);
+}
+.page-label {
+  text-align: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px; color: #bbb; letter-spacing: 2px; text-transform: uppercase;
+  padding: 18px 0 6px;
+}
+
+/* DOTS & LOTUS */
+.dots, .lotus {
+  text-align: center; color: #ccc9c3; font-size: 8px;
+  letter-spacing: 10px; margin: 24px 0;
+}
+
+/* BUTTONS */
+.btn {
+  display: block; width: 100%; padding: 15px;
+  border: none; border-radius: 14px;
+  font-family: 'Playfair Display', serif;
+  font-size: 17px; font-style: italic; cursor: pointer; text-align: center;
+}
+.btn-blue { background: linear-gradient(135deg, #6c82a9, #889ec3); color: white; }
+.btn-outline {
+  background: transparent; border: 1px solid rgba(107,95,123,0.25);
+  color: #6B5F7B; font-style: italic; margin-top: 10px;
+}
+.subtle {
+  text-align: center; margin-top: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; color: #888; font-weight: 300; font-style: italic;
+}
+
+/* NAV */
+.bottom-nav {
+  background: rgba(108,130,169,0.08);
+  padding: 14px 0 22px;
+  display: flex; justify-content: space-around;
+  border-top: 1px solid rgba(108,130,169,0.18);
+}
+.ni {
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  color: #9cabc3; font-family: 'DM Sans', sans-serif;
+  font-size: 9.5px; font-weight: 400; letter-spacing: 0.3px;
+}
+.ni.on { color: #6c82a9; font-weight: 500; }
+.ni-icon {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: rgba(108,130,169,0.10);
+  display: flex; align-items: center; justify-content: center; font-size: 12px;
+}
+.ni.on .ni-icon { background: rgba(108,130,169,0.22); }
+
+/* ==================== SIDE 1: VELKOMST ==================== */
+.content { padding: 0 24px 44px; }
+
+.s1-title {
+  text-align: center; padding: 34px 0 6px;
+  font-family: 'Playfair Display', serif;
+  font-size: 26px; font-weight: 400; font-style: italic;
+  color: #6c82a9; line-height: 1.3;
+}
+.s1-sub {
+  text-align: center; font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px; color: #aaa; font-weight: 300; font-style: italic;
+  margin-bottom: 42px;
+}
+.question-box {
+  background: rgba(108,130,169,0.05); border: 1px solid rgba(108,130,169,0.1);
+  border-radius: 14px; padding: 24px 20px; margin-bottom: 22px;
+}
+.question-box p {
+  font-family: 'Playfair Display', serif; font-size: 16px; color: #555;
+  font-style: italic; line-height: 1.65; text-align: center;
+}
+.reveal-box {
+  background: rgba(108,130,169,0.05); border: 1px solid rgba(108,130,169,0.1);
+  border-radius: 14px; padding: 20px 20px; margin-bottom: 14px;
+}
+.reveal-box p {
+  font-family: 'DM Sans', sans-serif; font-size: 13.5px; color: #888;
+  line-height: 1.65; font-weight: 300; text-align: center;
+}
+.intro-callout {
+  background: linear-gradient(135deg, rgba(107,95,123,0.07), rgba(139,125,155,0.05));
+  border: 1px solid rgba(107,95,123,0.1);
+  border-radius: 14px; padding: 20px 18px; margin-bottom: 42px;
+}
+.intro-callout .mb-label {
+  font-family: 'DM Sans', sans-serif; font-size: 10px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: #8B7D9B; text-align: center; margin-bottom: 10px; opacity: 0.85;
+}
+.intro-callout p {
+  font-family: 'DM Sans', sans-serif; font-size: 13.5px; color: #777;
+  font-weight: 300; line-height: 1.65; text-align: center;
+}
+.birth { text-align: center; }
+.birth h2 {
+  font-family: 'Playfair Display', serif; font-size: 22px;
+  font-weight: 400; color: #6c82a9; font-style: italic; margin-bottom: 6px;
+}
+.birth .bs {
+  font-family: 'DM Sans', sans-serif; font-size: 13px; color: #aaa;
+  font-weight: 300; font-style: italic; margin-bottom: 16px;
+}
+.birth-field {
+  width: 100%; padding: 15px;
+  border: 1px solid rgba(108,130,169,0.2); border-radius: 14px;
+  font-family: 'DM Sans', sans-serif; font-size: 16px; color: #555;
+  text-align: center; background: rgba(108,130,169,0.02); margin-bottom: 16px;
+}
+
+/* ==================== SIDE 2: DIT LIV ==================== */
+.kanji-wrap { text-align: center; padding: 28px 0 4px; }
+.kanji { display: inline-flex; align-items: center; justify-content: center; font-size: 120px; color: #889ec3; }
+.p-title {
+  text-align: center; font-family: 'Playfair Display', serif;
+  font-size: 24px; font-weight: 400; color: #6c82a9; font-style: italic;
+  margin: 8px 0 22px;
+}
+.res {
+  background: linear-gradient(135deg, #6c82a9, #889ec3 50%, #9cabc3);
+  border-radius: 14px; padding: 22px 20px; color: white; margin-bottom: 6px;
+}
+.res .rl { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.78); margin-bottom: 10px; }
+.res .rt { font-family: 'Playfair Display', serif; font-size: 17px; font-style: italic; line-height: 1.55; }
+.res .rd { font-family: 'DM Sans', sans-serif; font-size: 12.5px; color: rgba(255,255,255,0.9); font-weight: 300; font-style: italic; margin-top: 12px; line-height: 1.5; }
+.res-more { text-align: center; margin-bottom: 22px; }
+.res-more a { font-family: 'Playfair Display', serif; font-size: 13px; color: #889ec3; font-style: italic; text-decoration: underline; text-underline-offset: 3px; }
+
+.profil-fold {
+  background: rgba(108,130,169,0.04); border: 1px solid rgba(108,130,169,0.08);
+  border-radius: 14px; padding: 16px 18px; margin-bottom: 22px;
+}
+.profil-fold .ph { display: flex; justify-content: space-between; align-items: center; }
+.profil-fold .pl { font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: #9cabc3; }
+.profil-fold .pa { font-size: 12px; color: #aaa; }
+.profil-fold .pe { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(108,130,169,0.18); }
+.pr { display: flex; justify-content: space-between; padding: 5px 0; font-size: 13px; }
+.pr .k { font-family: 'DM Sans', sans-serif; color: #aaa; font-weight: 300; }
+.pr .v { font-family: 'DM Sans', sans-serif; color: #666; font-weight: 500; }
+
+.feelings {
+  background: rgba(108,130,169,0.04); border: 1px solid rgba(108,130,169,0.08);
+  border-radius: 14px; padding: 16px 18px; margin-bottom: 22px;
+}
+.feelings .fl { font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: #9cabc3; margin-bottom: 10px; }
+.feelings .ft { font-family: 'DM Sans', sans-serif; font-size: 13.5px; color: #777; font-weight: 300; line-height: 1.65; }
+.feelings .ft strong { color: #6c82a9; font-weight: 500; }
+
+.alive-section .sl { font-family: 'DM Sans', sans-serif; font-size: 10.5px; letter-spacing: 2.5px; text-transform: uppercase; color: #9cabc3; text-align: center; margin-bottom: 14px; }
+.ac { background: rgba(108,130,169,0.04); border: 1px solid rgba(108,130,169,0.08); border-radius: 14px; padding: 18px 16px; margin-bottom: 10px; }
+.ac .at { font-family: 'Playfair Display', serif; font-size: 15px; color: #6c82a9; font-style: italic; margin-bottom: 5px; }
+.ac .ax { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #888; font-weight: 300; line-height: 1.55; }
+
+.win {
+  background: rgba(107,95,123,0.05); border: 1px solid rgba(107,95,123,0.1);
+  border-radius: 18px; padding: 24px 18px; margin-bottom: 22px;
+}
+.win .wl { font-family: 'DM Sans', sans-serif; font-size: 10.5px; letter-spacing: 2.5px; text-transform: uppercase; color: #8B7D9B; text-align: center; margin-bottom: 16px; opacity: 0.85; }
+.wm { margin-bottom: 16px; }
+.wm .wp { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #888; font-weight: 300; text-align: center; line-height: 1.55; }
+.wm .wp strong { color: #6B5F7B; font-weight: 500; }
+.wg { background: linear-gradient(135deg, #6B5F7B, #8B7D9B); border-radius: 14px; padding: 18px 16px; text-align: center; margin-top: 14px; }
+.wg p { font-family: 'Playfair Display', serif; font-size: 14px; color: white; font-style: italic; line-height: 1.55; }
+
+.prak { margin-bottom: 22px; text-align: center; }
+.prak .pe { font-family: 'Playfair Display', serif; font-size: 13px; color: #6B5F7B; font-style: italic; }
+
+/* ==================== SIDE 3: FORSIDE ==================== */
+.s { padding: 30px 24px 0; }
+.eyebrow { font-family: 'DM Sans', sans-serif; font-size: 10px; color: #5A74A5; letter-spacing: 3px; text-transform: uppercase; text-align: center; margin-bottom: 6px; opacity: 0.8; }
+.title { font-family: 'Playfair Display', serif; font-size: 24px; font-style: italic; color: #2a2520; text-align: center; margin-top: 18px; margin-bottom: 10px; line-height: 1.25; font-weight: 400; }
+.body-text { font-family: 'DM Sans', sans-serif; font-size: 13.5px; color: #888; text-align: center; line-height: 1.65; font-weight: 300; margin-bottom: 22px; }
+.circles { display: flex; justify-content: center; margin-bottom: 22px; }
+
+.forside-card {
+  background: white; border: 1px solid rgba(0,0,0,0.06); border-radius: 14px;
+  padding: 16px 18px; margin-bottom: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+.forside-card .card-label { font-family: 'DM Sans', sans-serif; font-size: 9.5px; color: #5A74A5; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 8px; opacity: 0.85; }
+.forside-card .card-text { font-family: 'Playfair Display', serif; font-size: 15px; font-style: italic; color: #3a3530; line-height: 1.6; margin-bottom: 6px; }
+.forside-card .card-sub { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #999; font-weight: 300; line-height: 1.5; }
+.forside-card .card-link { display: block; text-align: center; font-family: 'Playfair Display', serif; font-size: 13px; font-style: italic; color: #5A74A5; margin-top: 12px; opacity: 0.8; text-decoration: none; }
+
+.praksis-card {
+  background: white; border: 1px solid rgba(0,0,0,0.06); border-radius: 14px;
+  padding: 14px 16px; margin-bottom: 9px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  display: flex; justify-content: space-between; align-items: flex-start;
+}
+.pk-label { font-family: 'DM Sans', sans-serif; font-size: 9px; color: #6B8273; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; opacity: 0.85; }
+.pk-name { font-family: 'Playfair Display', serif; font-size: 16px; font-style: italic; color: #2a2520; margin-bottom: 3px; }
+.pk-desc { font-family: 'DM Sans', sans-serif; font-size: 12.5px; color: #999; font-weight: 300; line-height: 1.45; }
+.pk-arrow { font-size: 13px; color: #aaa; padding-left: 8px; flex-shrink: 0; margin-top: 2px; }
+
+.vinduer-card { background: white; border: 1px solid rgba(107,95,123,0.14); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.04); margin-bottom: 10px; }
+.vinduer-body { padding: 16px 18px 0; }
+.vinduer-label { font-family: 'DM Sans', sans-serif; font-size: 8px; color: #8B7D9B; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 8px; opacity: 0.7; }
+.vinduer-title { font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic; color: #6B5F7B; margin-bottom: 6px; }
+.vinduer-text { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #aaa; font-weight: 300; line-height: 1.6; margin-bottom: 8px; }
+.bue-wrap { display: flex; justify-content: center; margin-bottom: 0; }
+.vinduer-footer { padding: 12px 18px; background: linear-gradient(135deg, #6B5F7B, #8B7D9B); display: flex; justify-content: space-between; align-items: center; }
+.vinduer-footer-text { font-family: 'Playfair Display', serif; font-size: 14px; font-style: italic; color: white; }
+.vinduer-footer-arrow { color: rgba(255,255,255,0.65); font-size: 15px; }
+
+.checkin-card { background: white; border: 1px solid rgba(90,116,165,0.1); border-radius: 14px; padding: 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+.ci-q { font-family: 'Playfair Display', serif; font-size: 16px; font-style: italic; color: #3a3530; text-align: center; margin-bottom: 5px; line-height: 1.4; }
+.ci-hint { font-family: 'DM Sans', sans-serif; font-size: 12.5px; color: #aaa; text-align: center; font-weight: 300; margin-bottom: 16px; }
+.ci-btns { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; }
+.ci-btn { background: #FAF9F6; border: 1px solid rgba(0,0,0,0.07); border-radius: 20px; padding: 8px 14px; font-family: 'DM Sans', sans-serif; font-size: 12.5px; color: #555; font-weight: 300; cursor: pointer; }
+
+/* ==================== SEKTIONER ==================== */
+.section { padding: 36px 24px 44px; }
+.section-num {
+  text-align: center; font-family: 'DM Sans', sans-serif;
+  font-size: 9px; color: #bbb; letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.section-eyebrow { text-align: center; font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; opacity: 0.85; }
+.section-title { text-align: center; font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 400; font-style: italic; line-height: 1.3; margin-bottom: 6px; }
+.section-sub { text-align: center; font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 300; font-style: italic; margin-bottom: 28px; line-height: 1.5; }
+.section-intro { text-align: center; font-family: 'DM Sans', sans-serif; font-size: 13px; color: #888; font-weight: 300; line-height: 1.65; margin-bottom: 28px; }
+
+/* SECTION CARDS */
+.card { background: white; border-radius: 14px; padding: 18px; margin-bottom: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+.card-label { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 6px; opacity: 0.85; }
+.card-title { font-family: 'Playfair Display', serif; font-size: 16px; font-style: italic; margin-bottom: 4px; line-height: 1.35; }
+.card-desc { font-family: 'DM Sans', sans-serif; font-size: 12.5px; color: #999; font-weight: 300; line-height: 1.55; }
+.card-row { display: flex; justify-content: space-between; align-items: flex-start; }
+.card-arrow { font-size: 13px; color: #ccc; padding-left: 10px; flex-shrink: 0; margin-top: 2px; }
+
+/* TONAL VARIATIONS */
+.tone-cyklusser .section-eyebrow { color: #6c82a9; }
+.tone-cyklusser .section-title { color: #6c82a9; }
+.tone-cyklusser .section-sub { color: #9cabc3; }
+.tone-cyklusser .card { border: 1px solid rgba(108,130,169,0.10); }
+.tone-cyklusser .card-label { color: #6c82a9; }
+.tone-cyklusser .card-title { color: #3a3530; }
+
+.tone-relationer .section-eyebrow { color: #7b7a9e; }
+.tone-relationer .section-title { color: #7b7a9e; }
+.tone-relationer .section-sub { color: #a8a3be; }
+.tone-relationer .card { border: 1px solid rgba(123,122,158,0.10); }
+.tone-relationer .card-label { color: #7b7a9e; }
+.tone-relationer .card-title { color: #3a3530; }
+
+.tone-praksis .section-eyebrow { color: #7a908b; }
+.tone-praksis .section-title { color: #7a908b; }
+.tone-praksis .section-sub { color: #a3b3ae; }
+.tone-praksis .card { border: 1px solid rgba(122,144,139,0.10); }
+.tone-praksis .card-label { color: #7a908b; }
+.tone-praksis .card-title { color: #3a3530; }
+
+.tone-rejse .section-eyebrow { color: #8a96a9; }
+.tone-rejse .section-title { color: #8a96a9; }
+.tone-rejse .section-sub { color: #adb5c1; }
+.tone-rejse .card { border: 1px solid rgba(138,150,169,0.10); }
+.tone-rejse .card-label { color: #8a96a9; }
+.tone-rejse .card-title { color: #3a3530; }
+
+.tone-vinduer .section-eyebrow { color: #6B5F7B; }
+.tone-vinduer .section-title { color: #6B5F7B; }
+.tone-vinduer .section-sub { color: #a89bb3; }
+.tone-vinduer .card { border: 1px solid rgba(107,95,123,0.10); }
+.tone-vinduer .card-label { color: #6B5F7B; }
+.tone-vinduer .card-title { color: #3a3530; }
+
+/* FEATURED CARD */
+.featured { border-radius: 14px; padding: 22px 20px; margin-bottom: 10px; color: white; }
+.featured-label { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 8px; }
+.featured-text { font-family: 'Playfair Display', serif; font-size: 16px; font-style: italic; line-height: 1.55; }
+.featured-sub { font-family: 'DM Sans', sans-serif; font-size: 12px; color: rgba(255,255,255,0.85); font-weight: 300; font-style: italic; margin-top: 10px; line-height: 1.5; }
+.feat-cyklusser { background: linear-gradient(135deg, #6c82a9, #889ec3); }
+.feat-relationer { background: linear-gradient(135deg, #7b7a9e, #9e9db8); }
+.feat-praksis { background: linear-gradient(135deg, #7a908b, #9db3ad); }
+.feat-rejse { background: linear-gradient(135deg, #8a96a9, #a8b2c1); }
+.feat-vinduer { background: linear-gradient(135deg, #6B5F7B, #8B7D9B); }
+
+/* ELEMENT ANALYSIS */
+.element-analysis { background: rgba(108,130,169,0.05); border: 1px solid rgba(108,130,169,0.1); border-radius: 14px; padding: 20px 20px 16px; margin-bottom: 22px; }
+.ea-label { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: #9cabc3; text-align: center; margin-bottom: 16px; }
+.ea-row { display: flex; align-items: center; margin-bottom: 7px; }
+.ea-name { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #888; font-weight: 300; width: 48px; flex-shrink: 0; }
+.ea-bar { flex: 1; height: 5px; border-radius: 3px; background: rgba(108,130,169,0.08); margin: 0 10px; }
+.ea-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #6c82a9, #889ec3); }
+.ea-count { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #bbb; font-weight: 300; width: 18px; text-align: right; flex-shrink: 0; }
+.ea-text { font-family: 'Playfair Display', serif; font-size: 14px; font-style: italic; color: #6c82a9; text-align: center; line-height: 1.55; margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(108,130,169,0.1); }
+
+/* PROFILE ROW */
+.profil-row { display: flex; justify-content: center; gap: 22px; margin-bottom: 24px; }
+.profil-item { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.profil-circle { width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 15px; font-style: italic; }
+.profil-name { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 400; color: #777; }
+.profil-meta { font-family: 'DM Sans', sans-serif; font-size: 9px; color: #bbb; font-weight: 300; }
+
+/* INSIGHT BOX */
+.insight-box { border-radius: 14px; padding: 18px 20px; margin-bottom: 22px; }
+.insight-label { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 8px; }
+.insight-text { font-family: 'Playfair Display', serif; font-size: 14px; font-style: italic; line-height: 1.55; }
+
+/* GROUP LABEL */
+.group-label { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; margin: 24px 0 10px; }
+
+/* MOTOR BOX (Vinduer sektion) */
+.motor-box { border-radius: 14px; padding: 22px 20px; margin-bottom: 22px; text-align: center; }
+.motor-label { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 10px; }
+.motor-text { font-family: 'Playfair Display', serif; font-size: 14px; font-style: italic; line-height: 1.6; }
+
+/* SCENARIO CARDS */
+.scenario { border-radius: 14px; padding: 20px 20px; margin-bottom: 10px; }
+.scenario-label { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 6px; }
+.scenario-title { font-family: 'Playfair Display', serif; font-size: 15px; font-style: italic; line-height: 1.4; margin-bottom: 5px; }
+.scenario-text { font-family: 'DM Sans', sans-serif; font-size: 12.5px; font-weight: 300; line-height: 1.55; color: #999; }
+</style>
+<script>
+// Cache-busting: forces reload when new version is deployed
+const V = '20260220-v2';
+if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
+  localStorage.setItem('pk-v', V);
+  location.reload(true);
+} else {
+  localStorage.setItem('pk-v', V);
+}
+</script>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-title">De&ensp;<span style="color:#6B5F7B;font-size:28px">9</span>&ensp;Livsfaser</div>
+</div>
+<div class="accent-line"></div>
+
+<!-- ======================================================= -->
+<!-- SIDE 1: VELKOMST                                        -->
+<!-- ======================================================= -->
+<div class="page-label">Side 1 &mdash; Velkomst</div>
+<div class="content">
+
+  <div class="s1-title">De 9 Livsfasers Energi</div>
+  <div class="s1-sub">En rejse gennem livets &aring;rstider</div>
+
+  <div class="question-box">
+    <p>Har du nogensinde undret dig over, hvorf&aring;r nogle perioder bare flyder &mdash; og andre f&oslash;les som at g&aring; mod str&oslash;mmen?</p>
+  </div>
+
+  <div class="reveal-box">
+    <p>Fem rytmer l&oslash;ber gennem dit liv p&aring; &eacute;n gang &mdash; din livsfase, &aring;rstiden, m&aring;neden, ugedagen og timen. Hver b&aelig;rer sit eget element: Tr&aelig;, Ild, Jord, Metal eller Vand.</p>
+    <p style="margin-top:12px">Tilsammen tegner de et billede af din energi lige nu. Nogle gange peger de i samme retning &mdash; og du m&aelig;rker en dyb ro eller en st&aelig;rk kraft. Andre gange tr&aelig;kker de i hver sin &mdash; og det kan f&oslash;les uroligt, uden at du ved hvorf&aring;r.</p>
+  </div>
+
+  <div class="dots" style="margin:22px 0">&middot; &middot; &middot;</div>
+
+  <div style="text-align:center;margin:10px auto 4px;max-width:370px">
+    <img src="9-Cirkler.PNG" alt="De 9 Livsfaser" style="width:100%;height:auto;mix-blend-mode:multiply;filter:saturate(0.65)">
+  </div>
+
+  <div class="dots" style="margin:18px 0">&middot; &middot; &middot;</div>
+
+  <div class="intro-callout">
+    <div class="mb-label">Og der er mere</div>
+    <p>Denne app viser dig det billede. Og den lader dig rejse i tid &mdash; tilbage til en dag der betyder noget, eller frem mod det der venter. Alene, eller sammen med nogen du holder af.</p>
+  </div>
+
+  <div class="birth">
+    <h2>Hvorn&aring;r er du f&oslash;dt?</h2>
+    <div class="bs">Indtast din f&oslash;dselsdato, og lad os se</div>
+    <input class="birth-field" type="text" value="19. maj 1969" readonly>
+    <button class="btn btn-blue">Se dit liv lige nu &rarr;</button>
+  </div>
+
+</div>
+
+<!-- DIVIDER -->
+<div class="page-divider"></div>
+
+<!-- ======================================================= -->
+<!-- SIDE 2: DIT LIV LIGE NU                                -->
+<!-- ======================================================= -->
+<div class="page-label">Side 2 &mdash; &Aring;benbaring</div>
+<div class="content">
+
+  <div class="kanji-wrap"><div class="kanji">&#27700;</div></div>
+  <div class="p-title">Dit liv lige nu</div>
+
+  <div class="res">
+    <div class="rl">Fuld resonans</div>
+    <div class="rt">4 af dine fem cyklusser peger mod Vand. Det er sj&aelig;ldent &mdash; og det betyder at din livsfase, &aring;rstiden og de andre matchende taler med &eacute;n stemme.</div>
+    <div class="rd">Du m&aelig;rker det m&aring;ske som en dyb ro, eller som en stille kraft der b&aelig;rer dig.</div>
+  </div>
+  <div class="res-more"><a href="#">Se den fulde analyse &rarr;</a></div>
+
+  <div class="profil-fold">
+    <div class="ph">
+      <span class="pl">Din profil</span>
+      <span class="pa">&#9662;</span>
+    </div>
+    <div class="pe">
+      <div class="pr"><span class="k">Livsfase</span><span class="v">Fase 9: Visdom (56&ndash;63)</span></div>
+      <div class="pr"><span class="k">Element</span><span class="v">Vand</span></div>
+      <div class="pr"><span class="k">&Aring;rstid</span><span class="v">Vinter &mdash; Vand</span></div>
+      <div class="pr"><span class="k">M&aring;ned</span><span class="v">Februar &mdash; Vand</span></div>
+      <div class="pr"><span class="k">Ugedag</span><span class="v">Tirsdag &mdash; Tr&aelig;</span></div>
+      <div class="pr"><span class="k">Organur lige nu</span><span class="v">15&ndash;17 Bl&aelig;re</span></div>
+      <div class="pr"><span class="k">Om 2 timer</span><span class="v">Nyre &mdash; Vand</span></div>
+    </div>
+  </div>
+
+  <div class="feelings">
+    <div class="fl">Vand-energiens f&oslash;lelser</div>
+    <div class="ft">Vand b&aelig;rer roen og tilliden &mdash; men ogs&aring; &aelig;ngstelsen og usikkerheden. N&aring;r fire cyklusser m&oslash;des i Vand, kan begge dele m&aelig;rkes st&aelig;rkere end vanligt. Det er ikke forkert &mdash; det er din energi der samler sig.</div>
+  </div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <div class="alive-section">
+    <div class="sl">Hvad kan denne app?</div>
+    <div class="ac">
+      <div class="at">Den &aelig;ndrer sig &mdash; hver dag, i realtid</div>
+      <div class="ax">N&aring;r du &aring;bner den i morgen, har billedet &aelig;ndret sig. Et nyt organur, m&aring;ske en ny ugedag med et andet element.</div>
+    </div>
+    <div class="ac">
+      <div class="at">Den foresl&aring;r noget konkret</div>
+      <div class="ax">&Oslash;velser, kost og &aring;ndedr&aelig;t tilpasset dit element &mdash; hver dag.</div>
+    </div>
+  </div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <div class="win">
+    <div class="wl">Appens hjerte</div>
+    <div style="text-align:center;margin-bottom:12px">
+      <img src="assets/images/vinduer-tid-lilla.png" alt="Tidsvinduet" style="width:100%;height:auto">
+      <img src="assets/images/relationer-forside.png" alt="Relationsvinduet" style="width:95%;height:auto;margin-top:-80px;display:block;margin-left:auto;margin-right:auto">
+    </div>
+    <div class="wm">
+      <div class="wp">Du var <strong>28 og i Ild-energi</strong> ved &aring;rtusindskiftet. Hvad skete der? Tilf&oslash;j din partner, din datter, din mor &mdash; og se hvordan jeres cyklusser m&oslash;des. Ogs&aring; <strong>tilbage i tid</strong>.</div>
+    </div>
+    <div class="wg">
+      <p>Forst&aring; hvad der skete. Forbered det der kommer. Alene eller sammen med nogen.</p>
+    </div>
+  </div>
+
+  <div class="prak" style="margin-top:72px;margin-bottom:72px">
+    <div class="pe" style="font-size:15px;line-height:1.6">Det her var blot et glimt.<br>Nu er du klar til at opleve hele magien folde sig ud &hellip;</div>
+  </div>
+
+  <button class="btn btn-blue" style="margin-bottom: 10px;">G&aring; til din forside &rarr;</button>
+  <div class="wg" style="margin-top:10px">
+    <p>Pr&oslash;v Mine Vinduer &rarr;</p>
+  </div>
+  <div class="subtle">Rejse i tid &mdash; alene eller med nogen</div>
+
+</div>
+
+<!-- DIVIDER -->
+<div class="page-divider"></div>
+
+<!-- ======================================================= -->
+<!-- SIDE 3: DIN FORSIDE                                     -->
+<!-- ======================================================= -->
+<div class="page-label">Side 3 &mdash; Din forside</div>
+<div style="padding-bottom:0">
+
+<div class="header" style="justify-content:center;">
+  <div class="header-title">De&ensp;<span style="color:#6B5F7B;font-size:28px">9</span>&ensp;Livsfaser</div>
+</div>
+<div class="accent-line" style="margin:0 26px 0;"></div>
+
+<div class="s">
+  <div class="eyebrow">Fredag &middot; 20. februar 2026</div>
+  <div class="title">Lige nu</div>
+  <div class="body-text">Livsfasen, &aring;rstiden, m&aring;neden, ugedagen og dit organ &mdash; disse fem rytmer danner det kryds du lever i.</div>
+  <div class="circles">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-25 0 450 440" style="width:100%;max-width:340px;">
+      <defs>
+        <path id="curve0" d="M 40 120 A 210 90 0 0 1 360 120"/>
+        <path id="curve1" d="M 40 200 A 180 120 0 0 1 360 200"/>
+        <path id="curve2" d="M 75 231 A 140 93 0 0 1 325 231"/>
+        <path id="curve3" d="M 105 260 A 105 70 0 0 1 295 260"/>
+        <path id="curve4" d="M 135 284 A 75 50 0 0 1 265 284"/>
+      </defs>
+      <ellipse cx="200" cy="199" rx="220" ry="147" fill="#7d8fad"/>
+      <text x="200" y="74" text-anchor="middle" font-family="Playfair Display, serif" font-size="11" font-weight="500" fill="rgba(255,255,255,0.88)" letter-spacing="1">LIVSFASE</text>
+      <text font-family="Playfair Display, serif" font-size="11" fill="rgba(255,255,255,0.82)" text-anchor="middle" font-style="italic"><textPath href="#curve0" startOffset="50%">Fase 6 &#8211; Metal</textPath></text>
+      <ellipse cx="200" cy="220" rx="180" ry="120" fill="#8a9bb8"/>
+      <text x="200" y="120" text-anchor="middle" font-family="Playfair Display, serif" font-size="11" font-weight="500" fill="rgba(255,255,255,0.88)" letter-spacing="1">&#197;RSTID</text>
+      <text font-family="Playfair Display, serif" font-size="11" fill="rgba(255,255,255,0.82)" text-anchor="middle" font-style="italic"><textPath href="#curve1" startOffset="50%">Vinter &#8211; Vand</textPath></text>
+      <ellipse cx="200" cy="241" rx="140" ry="93" fill="#9aabc5"/>
+      <text x="200" y="166" text-anchor="middle" font-family="Playfair Display, serif" font-size="11" font-weight="500" fill="rgba(255,255,255,0.88)" letter-spacing="1">M&#197;NED</text>
+      <text font-family="Playfair Display, serif" font-size="11" fill="rgba(255,255,255,0.82)" text-anchor="middle" font-style="italic"><textPath href="#curve2" startOffset="50%">Februar &#8211; Vand</textPath></text>
+      <ellipse cx="200" cy="260" rx="105" ry="70" fill="#adbcd2"/>
+      <text x="200" y="207" text-anchor="middle" font-family="Playfair Display, serif" font-size="11" font-weight="500" fill="rgba(55,75,115,0.7)" letter-spacing="1">UGEDAG</text>
+      <text font-family="Playfair Display, serif" font-size="11" fill="rgba(55,75,115,0.65)" text-anchor="middle" font-style="italic"><textPath href="#curve3" startOffset="50%">Fredag &#8211; Metal</textPath></text>
+      <ellipse cx="200" cy="276" rx="75" ry="50" fill="#c0ccdd"/>
+      <text x="200" y="245" text-anchor="middle" font-family="Playfair Display, serif" font-size="11" font-weight="500" fill="rgba(55,75,115,0.7)" letter-spacing="1">ORGANUR</text>
+      <text font-family="Playfair Display, serif" font-size="11" fill="rgba(55,75,115,0.65)" text-anchor="middle" font-style="italic"><textPath href="#curve4" startOffset="50%">09&#8211;11 &#8211; Milten</textPath></text>
+      <ellipse cx="200" cy="294" rx="38" ry="25" fill="#7d8fad"/>
+      <text x="200" y="289" text-anchor="middle" font-family="Playfair Display, serif" font-size="13" font-weight="500" fill="rgba(255,255,255,0.9)">DIT</text>
+      <text x="200" y="304" text-anchor="middle" font-family="Playfair Display, serif" font-size="13" font-weight="500" fill="rgba(255,255,255,0.9)">LIV</text>
+    </svg>
+  </div>
+  <div class="forside-card">
+    <div class="card-label">Indre storm</div>
+    <div class="card-text">Metal m&oslash;der Metal. Din livsfase og din ugedag deler element &mdash; det er sj&aelig;ldent. M&aelig;rk efter hvad der vil falde v&aelig;k.</div>
+    <div class="card-sub">Om 2 timer: Tyktarmens tid begynder &middot; I morgen: L&oslash;rdag (Jord)</div>
+    <a class="card-link" href="#">Se den fulde analyse &rarr;</a>
+  </div>
+</div>
+<div class="lotus">&middot; &middot; &middot;</div>
+<div class="s">
+  <div class="eyebrow">Tidsrejsen</div>
+  <div class="title">Mine Vinduer</div>
+  <div class="body-text">V&aelig;lg en dato og se hvad der var aktivt &mdash; for dig alene eller med nogen du holder af.</div>
+  <div class="vinduer-card">
+    <div class="vinduer-body">
+      <div class="vinduer-label">Din livsbue</div>
+      <div class="vinduer-title">Ni faser &middot; &Eacute;n rejse</div>
+      <div class="vinduer-text">Se hvad der var aktivt da du m&oslash;dte din partner. Forst&aring; et sv&aelig;rt &aring;r. Kig fremad mod det der kommer.</div>
+      <div class="bue-wrap">
+        <img src="assets/images/vinduer-tid-lilla.png" alt="Tidsvinduet" style="width:115%;height:auto;margin-bottom:-8px">
+      </div>
+    </div>
+    <div class="vinduer-footer">
+      <div class="vinduer-footer-text">&Aring;bn Mine Vinduer</div>
+      <div class="vinduer-footer-arrow">&rarr;</div>
+    </div>
+  </div>
+</div>
+<div class="lotus">&middot; &middot; &middot;</div>
+<div class="s">
+  <div class="eyebrow">Min Praksis</div>
+  <div class="title">Hvad du kan g&oslash;re<br>i dag</div>
+  <div class="body-text">Tilpasset dine elementer. V&aelig;lg det der kalder &mdash; eller lad v&aelig;re. Begge dele er rigtigt.</div>
+  <div class="praksis-card"><div><div class="pk-label">Yin Yoga &middot; Vand</div><div class="pk-name">Butterfly</div><div class="pk-desc">&Aring;bner hofterne og stimulerer nyremeridianen. 3&ndash;5 min.</div></div><div class="pk-arrow">&rarr;</div></div>
+  <div class="praksis-card"><div><div class="pk-label">Healinglyd &middot; Vand</div><div class="pk-name">Chuiii</div><div class="pk-desc">Lyd der vibrerer dybt og n&aelig;rer din grundl&aelig;ggende livsenergi.</div></div><div class="pk-arrow">&rarr;</div></div>
+  <div class="praksis-card"><div><div class="pk-label">N&aelig;ring &middot; Vand</div><div class="pk-name">Sort sesam &amp; valn&oslash;dder</div><div class="pk-desc">N&aelig;rer nyreessensen og styrker livskraften.</div></div><div class="pk-arrow">&rarr;</div></div>
+</div>
+<div class="lotus">&middot; &middot; &middot;</div>
+<div class="s" style="padding-bottom: 28px;">
+  <div class="eyebrow">M&aelig;rk efter</div>
+  <div class="title">Hvordan har du det<br>lige nu?</div>
+  <div class="body-text">M&aelig;rk efter i kroppen &mdash; og lad appen spejle det du allerede ved.</div>
+  <div class="checkin-card">
+    <div class="ci-q">Hvad m&aelig;rker du i kroppen?</div>
+    <div class="ci-hint">V&aelig;lg det der passer &mdash; eller spring over</div>
+    <div class="ci-btns">
+      <div class="ci-btn">&#x1f30a; Stille</div>
+      <div class="ci-btn">&#x1f331; Voksende</div>
+      <div class="ci-btn">&#x1f525; Intens</div>
+      <div class="ci-btn">&#x1f343; Rodf&aelig;stet</div>
+      <div class="ci-btn">&#x2728; Klar</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- BIG DIVIDER — transition to sections -->
+<div class="page-divider"></div>
+<div style="text-align:center;padding:32px 24px 8px">
+  <div style="font-family:'DM Sans',sans-serif;font-size:9px;color:#bbb;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:8px">De fem sektioner</div>
+  <div style="font-family:'Playfair Display',serif;font-size:22px;font-style:italic;color:#6c82a9;line-height:1.35">Udforsk dit liv<br>i dybden</div>
+  <div style="font-family:'DM Sans',sans-serif;font-size:13px;color:#aaa;font-weight:300;margin-top:8px;line-height:1.5;font-style:italic">Hvert afsnit har sin egen figur, sin egen farve<br>og sin egen indgang til systemet</div>
+</div>
+<div class="page-divider" style="margin-top:20px"></div>
+
+<!-- ======================================================= -->
+<!-- SEKTION 1: MINE CYKLUSSER                               -->
+<!-- ======================================================= -->
+<div class="section-num">Sektion 1 af 5</div>
+<div class="section tone-cyklusser">
+  <div class="section-eyebrow">Mine Cyklusser</div>
+  <div class="section-title">Fem rytmer,<br>&eacute;t billede</div>
+  <div class="section-sub">Forst&aring; de kr&aelig;fter der former din dag</div>
+  <div class="section-intro">Din livsfase, &aring;rstiden, m&aring;neden, ugedagen og dit organur &mdash; de l&oslash;ber alle p&aring; &eacute;n gang. Her kan du se dem hver for sig, og forst&aring; hvordan de p&aring;virker hinanden.</div>
+
+  <div style="text-align:center;margin:0 auto 8px">
+    <img src="assets/images/krydsfelt-final.png" alt="Dit Krydsfelt" style="width:100%;max-width:300px;mix-blend-mode:multiply;filter:saturate(0.7)">
+  </div>
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <div class="element-analysis">
+    <div class="ea-label">Dit element-klima</div>
+    <div class="ea-row"><div class="ea-name">Vand</div><div class="ea-bar"><div class="ea-fill" style="width:80%"></div></div><div class="ea-count">4</div></div>
+    <div class="ea-row"><div class="ea-name">Metal</div><div class="ea-bar"><div class="ea-fill" style="width:20%"></div></div><div class="ea-count">1</div></div>
+    <div class="ea-row"><div class="ea-name">Tr&aelig;</div><div class="ea-bar"><div class="ea-fill" style="width:0%"></div></div><div class="ea-count">0</div></div>
+    <div class="ea-row"><div class="ea-name">Ild</div><div class="ea-bar"><div class="ea-fill" style="width:0%"></div></div><div class="ea-count">0</div></div>
+    <div class="ea-row"><div class="ea-name">Jord</div><div class="ea-bar"><div class="ea-fill" style="width:0%"></div></div><div class="ea-count">0</div></div>
+    <div class="ea-text">Vand dominerer. Din energi samler sig i dybden &mdash; det er sj&aelig;ldent, og det m&aelig;rkes.</div>
+  </div>
+
+  <div class="featured feat-cyklusser"><div class="featured-label">Lige nu</div><div class="featured-text">4 af dine fem cyklusser peger mod Vand. Din energi samler sig i &eacute;n retning &mdash; det er sj&aelig;ldent.</div><div class="featured-sub">Se den fulde analyse &rarr;</div></div>
+
+  <div class="group-label" style="color:#6c82a9">Forst&aring; dine rytmer</div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Cyklusser i cyklusser</div><div class="card-title">N&aring;r rytmerne m&oslash;des</div><div class="card-desc">N&aring;r livsfase, &aring;rstid og m&aring;ned deler element, opst&aring;r resonans. Se alle ti par og m&aelig;rk hvor rytmerne synger sammen.</div></div><div class="card-arrow">&rarr;</div></div></div>
+  <div class="card"><div class="card-row"><div><div class="card-label">De fire uger</div><div class="card-title">M&aring;nedens fire ansigter</div><div class="card-desc">M&aring;necyklus eller menstruation &mdash; fire uger med fire elementer. M&aelig;rk hvordan din energi skifter karakter fra uge til uge.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+  <div class="group-label" style="color:#6c82a9">Kroppen og tiden</div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Kroppens store overgange</div><div class="card-title">De skift der m&aelig;rkes</div><div class="card-desc">Puberteten, moderskabet, overgangsalderen. Hvert stort skifte b&aelig;rer sin egen visdom og sin egen s&aring;rbarhed.</div></div><div class="card-arrow">&rarr;</div></div></div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Kontrolcyklussen</div><div class="card-title">De fem elementers dans</div><div class="card-desc">De fem elementer n&aelig;rer og kontrollerer hinanden i en evig dans. Forst&aring; hvad der styrker og udfordrer dit dominerende element.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+  <div class="group-label" style="color:#6c82a9">Livets kapitler</div>
+  <div class="card"><div class="card-row"><div><div class="card-label">De ni livsfaser</div><div class="card-title">Ni faser &middot; Ni &aring;rstider</div><div class="card-desc">Fra det f&oslash;rste &aring;ndedrag til visdommens stille rum. Ni faser med hvert sit element, sin krop og sin opgave.</div></div><div class="card-arrow">&rarr;</div></div></div>
+</div>
+
+<div class="page-divider"></div>
+
+<!-- ======================================================= -->
+<!-- SEKTION 2: MINE RELATIONER                              -->
+<!-- ======================================================= -->
+<div class="section-num">Sektion 2 af 5</div>
+<div class="section tone-relationer">
+  <div class="section-eyebrow">Mine Relationer</div>
+  <div class="section-title">De b&aring;nd<br>der b&aelig;rer dig</div>
+  <div class="section-sub">Se hvordan jeres cyklusser m&oslash;des</div>
+  <div class="section-intro">De mennesker du deler livet med b&aelig;rer deres egne cyklusser og faser. Her kan du m&aelig;rke hvordan jeres energier m&oslash;des, n&aelig;rer hinanden og udfordrer hinanden.</div>
+
+  <div style="text-align:center;margin:0 auto 8px">
+    <img src="assets/images/relationer_blad_liberation_HQ.png" alt="Relationer" style="width:100%;max-width:200px;mix-blend-mode:multiply;filter:saturate(0.7)">
+  </div>
+
+  <div class="profil-row">
+    <div class="profil-item"><div class="profil-circle" style="background:rgba(123,122,158,0.18);color:#7b7a9e">D</div><div class="profil-name">Dig</div><div class="profil-meta">Fase 9 &middot; Vand</div></div>
+    <div class="profil-item"><div class="profil-circle" style="background:rgba(123,122,158,0.12);color:#7b7a9e">M</div><div class="profil-name">Martin</div><div class="profil-meta">Fase 6 &middot; Jord</div></div>
+    <div class="profil-item"><div class="profil-circle" style="background:rgba(123,122,158,0.12);color:#7b7a9e">I</div><div class="profil-name">Inge</div><div class="profil-meta">Fase 9 &middot; Vand</div></div>
+    <div class="profil-item"><div class="profil-circle" style="background:rgba(123,122,158,0.05);border:1.5px dashed rgba(123,122,158,0.25);color:#a8a3be">+</div><div class="profil-name" style="color:#a8a3be">Tilf&oslash;j</div></div>
+  </div>
+
+  <div class="insight-box" style="background:rgba(123,122,158,0.05);border:1px solid rgba(123,122,158,0.10)"><div class="insight-label" style="color:#a8a3be">Jeres energi lige nu</div><div class="insight-text" style="color:#7b7a9e">Du er i Vand, Martin i Jord. Det dybe og det trygge m&oslash;des stille &mdash; en sjov kombination der kan overraske jer begge.</div></div>
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <div class="featured feat-relationer"><div class="featured-label">Jeres energi lige nu</div><div class="featured-text">Du er i Vand, din partner i Jord. Det er et stille m&oslash;de &mdash; hvor det dybe og det trygge finder hinanden.</div><div class="featured-sub">Se den fulde sammenligning &rarr;</div></div>
+
+  <div class="group-label" style="color:#7b7a9e">Lige nu</div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Relationer lige nu</div><div class="card-title">Hvem er t&aelig;t p&aring; dig?</div><div class="card-desc">Se hvem der er i dit liv, og hvad der er aktivt mellem jer. Jeres elementer m&oslash;des &mdash; nogle dage let, andre dage tungt.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+  <div class="group-label" style="color:#7b7a9e">G&aring; i dybden</div>
+  <div class="card"><div class="card-row"><div><div class="card-label">To rytmer</div><div class="card-title">Hendes syv &aring;r, hans otte</div><div class="card-desc">Kvinder f&oslash;lger en syv-&aring;rs cyklus, m&aelig;nd en otte-&aring;rs. Se hvor I m&oslash;des, og hvor jeres faser glider fra hinanden.</div></div><div class="card-arrow">&rarr;</div></div></div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Tre generationer</div><div class="card-title">Mor &middot; Dig &middot; Barn</div><div class="card-desc">Tre livsfaser der spejler og udfordrer hinanden. Arv, frihed og fornyelse flettes sammen p&aring; tv&aelig;rs af generationer.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+  <div class="group-label" style="color:#7b7a9e">Over tid</div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Jeres energi</div><div class="card-title">V&aelig;lg en dato, se et m&oslash;de</div><div class="card-desc">Hvad var aktivt mellem jer da I m&oslash;dtes? Eller n&aring;r barnet fylder 14? V&aelig;lg en dato og se hvad der l&aring; under overfladen.</div></div><div class="card-arrow">&rarr;</div></div></div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Epigenetik &amp; Arv</div><div class="card-title">Det du b&aelig;rer med dig</div><div class="card-desc">Hvad blev givet videre fra generationer f&oslash;r, og hvad kan du selv v&aelig;lge at forvandle?</div></div><div class="card-arrow">&rarr;</div></div></div>
+</div>
+
+<div class="page-divider"></div>
+
+<!-- ======================================================= -->
+<!-- SEKTION 3: MIN PRAKSIS                                  -->
+<!-- ======================================================= -->
+<div class="section-num">Sektion 3 af 5</div>
+<div class="section tone-praksis">
+  <div class="section-eyebrow">Min Praksis</div>
+  <div class="section-title">Hvad kroppen<br>beder om</div>
+  <div class="section-sub">Tilpasset dit element &mdash; hver dag</div>
+  <div class="section-intro">&#216;velser, kost, healinglyde og refleksion. Alt er valgt ud fra det element der dominerer dit liv lige nu. V&aelig;lg det der kalder &mdash; eller lad v&aelig;re.</div>
+
+  <div style="text-align:center;margin:0 auto 8px">
+    <img src="assets/images/din-krop.jpg" alt="Din Krop" style="width:100%;max-width:280px;mix-blend-mode:multiply;filter:saturate(0.7);border-radius:14px">
+  </div>
+
+  <div class="insight-box" style="background:rgba(122,144,139,0.05);border:1px solid rgba(122,144,139,0.10)"><div class="insight-label" style="color:#a3b3ae">Dagens element</div><div class="insight-text" style="color:#7a908b">Vand dominerer lige nu. Din krop beder om stilhed, dybde og n&aelig;ring nedefra.</div></div>
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <div class="featured feat-praksis"><div class="featured-label">I dag &middot; Vand</div><div class="featured-text">Vand beder om stilhed og dybde. Lyt indad. N&aelig;r det der allerede er der.</div><div class="featured-sub">Se dagens praksis &rarr;</div></div>
+
+  <div class="group-label" style="color:#7a908b">Krop</div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Yin Yoga &middot; Vand</div><div class="card-title">Butterfly</div><div class="card-desc">Stille stillinger der &aring;bner meridianer og frigiver sp&aelig;ndinger. Tilpasset dit element &mdash; 3 til 5 minutter.</div></div><div class="card-arrow">&rarr;</div></div></div>
+  <div class="card"><div class="card-row"><div><div class="card-label">EFT Tapping</div><div class="card-title">Bankepunkter for ro</div><div class="card-desc">Enkle bankepunkter der l&oslash;sner f&oslash;lelsesm&aelig;ssige blokeringer. Brug fingrene til at finde ro.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+  <div class="group-label" style="color:#7a908b">Sind</div>
+  <div class="card"><div class="card-row"><div><div class="card-label">F&oslash;lelsernes Hjul</div><div class="card-title">Hvad m&aelig;rker du?</div><div class="card-desc">Fem elementer, fem f&oslash;lelsesfelter. Find det der resonerer og forst&aring; hvad kroppen fort&aelig;ller dig.</div></div><div class="card-arrow">&rarr;</div></div></div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Mindfulness</div><div class="card-title">N&aelig;rv&aelig;r og stilhed</div><div class="card-desc">Korte &oslash;velser i n&aelig;rv&aelig;r tilpasset den energi der dominerer dig lige nu.</div></div><div class="card-arrow">&rarr;</div></div></div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Refleksion</div><div class="card-title">Tre sp&oslash;rgsm&aring;l til din fase</div><div class="card-desc">Skriv, m&aelig;rk efter, og lad tankerne lande i deres eget tempo.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+  <div class="group-label" style="color:#7a908b">N&aelig;ring</div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Kost &amp; Urter</div><div class="card-title">Det der n&aelig;rer dit element</div><div class="card-desc">De retter og urter der passer til dit element. Vand beder om supper, Ild om bittert, Jord om det s&oslash;de.</div></div><div class="card-arrow">&rarr;</div></div></div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Healinglyd &middot; Vand</div><div class="card-title">Chuiii</div><div class="card-desc">En lyd der vibrerer dybt og n&aelig;rer din grundl&aelig;ggende livsenergi.</div></div><div class="card-arrow">&rarr;</div></div></div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Hvad har hjulpet andre</div><div class="card-title">Inspiration fra andre kvinder</div><div class="card-desc">Andre kvinder i din fase deler hvad der virkede for dem. Inspiration fra den vej andre har g&aring;et.</div></div><div class="card-arrow">&rarr;</div></div></div>
+</div>
+
+<div class="page-divider"></div>
+
+<!-- ======================================================= -->
+<!-- SEKTION 4: MIN REJSE                                    -->
+<!-- ======================================================= -->
+<div class="section-num">Sektion 4 af 5</div>
+<div class="section tone-rejse">
+  <div class="section-eyebrow">Min Rejse</div>
+  <div class="section-title">Din vej<br>gennem faserne</div>
+  <div class="section-sub">Tracking, m&oslash;nstre og den st&oslash;rre historie</div>
+  <div class="section-intro">Se tilbage p&aring; dine check-ins, opdag m&oslash;nstre i din energi, og f&oslash;lg din udvikling over tid. Her samler dine oplevelser sig til indsigt.</div>
+
+  <div style="text-align:center;margin:0 auto 8px">
+    <img src="assets/images/min-rejse-ikigai.png" alt="Visdom" style="width:100%;max-width:300px;mix-blend-mode:multiply;filter:saturate(0.7)">
+  </div>
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <div class="featured feat-rejse"><div class="featured-label">Din udvikling</div><div class="featured-text">12 check-ins denne m&aring;ned. Dit dominerende element er Vand &mdash; og et m&oslash;nster begynder at vise sig.</div><div class="featured-sub">Se dine m&oslash;nstre &rarr;</div></div>
+
+  <div class="group-label" style="color:#8a96a9">Din dagbog</div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Min udvikling</div><div class="card-title">Energi, stemning, balance</div><div class="card-desc">Grafer, statistik og tidslinje over dine check-ins. Se m&oslash;nstre i din energi.</div></div><div class="card-arrow">&rarr;</div></div></div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Min journal</div><div class="card-title">Et stille rum til dine tanker</div><div class="card-desc">Skriv frit, eller brug dagens sp&oslash;rgsm&aring;l som afs&aelig;t. Ingen regler &mdash; bare et sted at lande.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+  <div class="group-label" style="color:#8a96a9">Din samling</div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Mine favoritter</div><div class="card-title">Det du har gemt</div><div class="card-desc">&Oslash;velser, indsigter og sider du vil vende tilbage til.</div></div><div class="card-arrow">&rarr;</div></div></div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Mine opdagelser</div><div class="card-title">N&aring;r noget falder p&aring; plads</div><div class="card-desc">De &oslash;jeblikke hvor noget pludselig gav mening. Saml dine aha-oplevelser.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+  <div class="group-label" style="color:#8a96a9">Viden</div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Baggrundsviden</div><div class="card-title">Om bogen og systemet</div><div class="card-desc">De fem elementer, de ni faser, og tankerne bag.</div></div><div class="card-arrow">&rarr;</div></div></div>
+</div>
+
+<div class="page-divider"></div>
+
+<!-- ======================================================= -->
+<!-- SEKTION 5: MINE VINDUER                                 -->
+<!-- ======================================================= -->
+<div class="section-num">Sektion 5 af 5</div>
+<div class="section tone-vinduer">
+  <div class="section-eyebrow">Mine Vinduer</div>
+  <div class="section-title">Rejsen<br>gennem tid</div>
+  <div class="section-sub">Fortid &middot; Nutid &middot; Fremtid</div>
+  <div class="section-intro">Dit liv er ikke bare her og nu. Hvert &oslash;jeblik b&aelig;rer aftryk af de cyklusser der var aktive &mdash; og foran dig venter nye m&oslash;nstre. Mine Vinduer er dit tidsrejse-v&aelig;rkt&oslash;j.</div>
+
+  <div style="text-align:center;margin:0 auto 12px">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 185" style="width:100%;max-width:310px">
+      <path d="M 40 148 Q 95 25 170 25 Q 245 25 300 148" fill="none" stroke="rgba(107,95,123,0.22)" stroke-width="1.2"/>
+      <circle cx="58" cy="112" r="1.8" fill="rgba(107,95,123,0.18)"/><circle cx="78" cy="78" r="1.8" fill="rgba(107,95,123,0.18)"/><circle cx="105" cy="48" r="1.8" fill="rgba(107,95,123,0.18)"/><circle cx="137" cy="30" r="1.8" fill="rgba(107,95,123,0.18)"/><circle cx="203" cy="30" r="1.8" fill="rgba(107,95,123,0.18)"/><circle cx="235" cy="48" r="1.8" fill="rgba(107,95,123,0.18)"/><circle cx="262" cy="78" r="1.8" fill="rgba(107,95,123,0.18)"/><circle cx="282" cy="112" r="1.8" fill="rgba(107,95,123,0.18)"/>
+      <circle cx="40" cy="148" r="5" fill="rgba(107,95,123,0.15)" stroke="rgba(107,95,123,0.28)" stroke-width="0.8"/><text x="40" y="172" text-anchor="middle" font-family="'Playfair Display', serif" font-size="10" font-style="italic" fill="#6B5F7B">FORTID</text>
+      <circle cx="170" cy="25" r="12" fill="rgba(107,95,123,0.08)"/><circle cx="170" cy="25" r="7" fill="rgba(107,95,123,0.25)" stroke="rgba(107,95,123,0.40)" stroke-width="0.8"/><text x="170" y="8" text-anchor="middle" font-family="'Playfair Display', serif" font-size="11" font-weight="500" fill="#6B5F7B" letter-spacing="1.5">NU</text>
+      <circle cx="300" cy="148" r="5" fill="rgba(107,95,123,0.15)" stroke="rgba(107,95,123,0.28)" stroke-width="0.8"/><text x="300" y="172" text-anchor="middle" font-family="'Playfair Display', serif" font-size="10" font-style="italic" fill="#6B5F7B">FREMTID</text>
+    </svg>
+  </div>
+
+  <div class="motor-box" style="background:rgba(107,95,123,0.05);border:1px solid rgba(107,95,123,0.10)"><div class="motor-label" style="color:#a89bb3">Hvad er Mine Vinduer?</div><div class="motor-text" style="color:#6B5F7B">V&aelig;lg en dato &mdash; fortid eller fremtid &mdash; og se hvad der var aktivt i dine cyklusser. For dig alene, eller sammen med nogen du holder af. Det er her &oslash;jeblikke f&aring;r forklaring.</div></div>
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <div class="featured feat-vinduer"><div class="featured-label">Tidsrejsen</div><div class="featured-text">Du var 28 og i Ild-energi ved &aring;rtusindskiftet. Din partner var 32 og i Metal. Hvad skete der mellem jer?</div><div class="featured-sub">&Aring;bn Mine Vinduer &rarr;</div></div>
+
+  <div class="group-label" style="color:#6B5F7B">Tre m&aring;der at rejse p&aring;</div>
+  <div class="scenario" style="background:rgba(107,95,123,0.04);border:1px solid rgba(107,95,123,0.08)"><div class="scenario-label" style="color:#a89bb3">Dig alene</div><div class="scenario-title" style="color:#6B5F7B">Rejse i din egen tid</div><div class="scenario-text">V&aelig;lg en dato og se hvilken livsfase, &aring;rstid og cyklus der var aktiv. Forst&aring; hvad der pr&aelig;gede dig &mdash; eller forbered det der kommer.</div></div>
+  <div class="scenario" style="background:rgba(107,95,123,0.04);border:1px solid rgba(107,95,123,0.08)"><div class="scenario-label" style="color:#a89bb3">Dig og &eacute;n anden</div><div class="scenario-title" style="color:#6B5F7B">Se jeres energier m&oslash;des</div><div class="scenario-text">Hvad var aktivt mellem jer da I m&oslash;dtes f&oslash;rste gang? N&aring;r barnet fylder 18? V&aelig;lg en dato og se hvad der l&aring; under overfladen.</div></div>
+  <div class="scenario" style="background:rgba(107,95,123,0.04);border:1px solid rgba(107,95,123,0.08)"><div class="scenario-label" style="color:#a89bb3">Et vigtigt &oslash;jeblik</div><div class="scenario-title" style="color:#6B5F7B">Forst&aring; hvad der skete</div><div class="scenario-text">En f&oslash;dsel, et brud, en ny begyndelse. V&aelig;lg datoen og se hvilke kr&aelig;fter der var p&aring; spil. M&aring;ske giver det mening nu.</div></div>
+</div>
+
+<!-- NAV -->
+<div class="bottom-nav">
+  <div class="ni on"><div class="ni-icon">&#x25CE;</div><span>Lige nu</span></div>
+  <div class="ni"><div class="ni-icon">&#x25C7;</div><span>Vinduer</span></div>
+  <div class="ni"><div class="ni-icon">&#x25CB;</div><span>S&oslash;g</span></div>
+  <div class="ni"><div class="ni-icon">&#x25FB;</div><span>Profil</span></div>
+</div>
+
+</body>
+</html>
