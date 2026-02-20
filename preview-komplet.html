@@ -462,6 +462,82 @@ body { background: #FDFCFB; font-family: 'DM Sans', sans-serif; }
   margin-top: 4px;
 }
 
+/* SOCIAL-PROOF — mini procent-bjælker */
+.social-proof {
+  border-radius: 14px; padding: 20px 20px 14px;
+  margin: 18px 0; text-align: left;
+  background: rgba(122,144,139,0.04);
+  border: 1px solid rgba(122,144,139,0.08);
+}
+.sp-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: #a3b3ae; margin-bottom: 14px; text-align: center;
+}
+.sp-bar-row {
+  display: flex; align-items: center; margin-bottom: 8px;
+}
+.sp-name {
+  font-family: 'DM Sans', sans-serif; font-size: 11.5px;
+  color: #888; font-weight: 300; width: 82px; flex-shrink: 0;
+}
+.sp-track {
+  flex: 1; height: 5px; border-radius: 3px;
+  background: rgba(122,144,139,0.08); margin: 0 10px;
+}
+.sp-fill {
+  height: 100%; border-radius: 3px;
+  background: linear-gradient(90deg, #7a908b, #9db3ad);
+}
+.sp-pct {
+  font-family: 'DM Sans', sans-serif; font-size: 11px;
+  color: #a3b3ae; font-weight: 300; width: 32px; text-align: right; flex-shrink: 0;
+}
+.sp-caption {
+  font-family: 'DM Sans', sans-serif; font-size: 10px;
+  color: #c5cfc9; font-weight: 300; font-style: italic;
+  text-align: center; margin-top: 10px; padding-top: 10px;
+  border-top: 1px solid rgba(122,144,139,0.08);
+}
+
+/* BREATH-BOX — åndedrætsøvelse */
+.breath-box {
+  border-radius: 14px; padding: 24px 20px;
+  margin: 18px 0; text-align: center;
+  background: linear-gradient(135deg, rgba(122,144,139,0.05), rgba(139,154,157,0.03));
+  border: 1px solid rgba(122,144,139,0.08);
+}
+.breath-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: #a3b3ae; margin-bottom: 16px;
+}
+.breath-circle {
+  width: 90px; height: 90px; margin: 0 auto 14px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  border: 1.5px solid rgba(122,144,139,0.20);
+  background: rgba(122,144,139,0.04);
+}
+.breath-inner {
+  font-family: 'Playfair Display', serif; font-size: 14px;
+  font-style: italic; color: #7a908b;
+}
+.breath-steps {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; margin-bottom: 12px;
+}
+.breath-step {
+  font-family: 'DM Sans', sans-serif; font-size: 12px;
+  color: #7a908b; font-weight: 400; letter-spacing: 0.3px;
+}
+.breath-dot {
+  color: #c5cfc9; font-size: 8px;
+}
+.breath-text {
+  font-family: 'Playfair Display', serif; font-size: 13px;
+  font-style: italic; color: #8a9e98; line-height: 1.5;
+}
+
 /* CROSS-LINKS — tynde links til andre sektioner */
 .cross-links {
   margin: 28px 0 8px; text-align: center;
@@ -495,7 +571,7 @@ body { background: #FDFCFB; font-family: 'DM Sans', sans-serif; }
 </style>
 <script>
 // Cache-busting: forces reload when new version is deployed
-const V = '20260220-v25';
+const V = '20260220-v26';
 if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   localStorage.setItem('pk-v', V);
   location.reload(true);
@@ -1084,23 +1160,142 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   </div>
 
   <div class="insight-box" style="background:rgba(122,144,139,0.05);border:1px solid rgba(122,144,139,0.10)"><div class="insight-label" style="color:#a3b3ae">Dagens element</div><div class="insight-text" style="color:#7a908b">Vand dominerer lige nu. Din krop beder om stilhed, dybde og n&aelig;ring nedefra.</div></div>
-  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- ★ NY: DET KROPPEN PRØVER AT FORTÆLLE DIG — smerte-adressering -->
+  <div class="feeling-box" style="border-color:rgba(122,144,139,0.08);background:linear-gradient(135deg,rgba(122,144,139,0.04),rgba(139,154,157,0.04))">
+    <div class="feeling-label" style="color:#a3b3ae">Det kroppen pr&oslash;ver at fort&aelig;lle dig</div>
+    <div class="feeling-text" style="color:#6b7f79">N&aring;r Vand dominerer, m&aelig;rker du det m&aring;ske som tr&aelig;thed der ikke forsvinder med s&oslash;vn. Eller som en l&aelig;nden der er &oslash;m, en bl&aelig;re der presser, en uro i knoglerne. Kroppen beder ikke om mere. Den beder om dybere.</div>
+  </div>
 
   <div class="featured feat-praksis"><div class="featured-label">I dag &middot; Vand</div><div class="featured-text">Vand beder om stilhed og dybde. Lyt indad. N&aelig;r det der allerede er der.</div><div class="featured-sub">Se dagens praksis &rarr;</div></div>
 
+  <!-- ★ NY: ANBEFALET LIGE NU — fremhævet øvelse -->
+  <div class="quick-action" style="background:linear-gradient(135deg,rgba(122,144,139,0.06),rgba(122,144,139,0.02));border-color:rgba(122,144,139,0.10)">
+    <div class="quick-action-label" style="color:#a3b3ae">Anbefalet lige nu</div>
+    <div class="quick-action-title" style="color:#7a908b">Butterfly &middot; Yin Yoga</div>
+    <div class="quick-action-desc" style="color:#999">&Aring;bner hofterne og stimulerer nyremeridianerne. Sid stille, lad tyngden g&oslash;re arbejdet. 3&ndash;5 minutter.</div>
+    <div class="quick-action-btn" style="border-color:rgba(122,144,139,0.25);color:#7a908b">Pr&oslash;v nu &rarr;</div>
+  </div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- GRUPPE 1: KROP -->
   <div class="group-label" style="color:#7a908b">Krop</div>
   <div class="card"><div class="card-row"><div><div class="card-label">Yin Yoga &middot; Vand</div><div class="card-title">Butterfly</div><div class="card-desc">Stille stillinger der &aring;bner meridianer og frigiver sp&aelig;ndinger. Tilpasset dit element &mdash; 3 til 5 minutter.</div></div><div class="card-arrow">&rarr;</div></div></div>
   <div class="card"><div class="card-row"><div><div class="card-label">EFT Tapping</div><div class="card-title">Bankepunkter for ro</div><div class="card-desc">Enkle bankepunkter der l&oslash;sner f&oslash;lelsesm&aelig;ssige blokeringer. Brug fingrene til at finde ro.</div></div><div class="card-arrow">&rarr;</div></div></div>
 
+  <!-- ★ NY: SOCIAL PROOF — hvad har hjulpet andre (mini-bars) -->
+  <div class="social-proof">
+    <div class="sp-label">Kvinder i din fase bruger mest</div>
+    <div class="sp-bar-row"><div class="sp-name">Yin Yoga</div><div class="sp-track"><div class="sp-fill" style="width:82%"></div></div><div class="sp-pct">82%</div></div>
+    <div class="sp-bar-row"><div class="sp-name">Vejrtr&aelig;kning</div><div class="sp-track"><div class="sp-fill" style="width:78%"></div></div><div class="sp-pct">78%</div></div>
+    <div class="sp-bar-row"><div class="sp-name">Kost &amp; urter</div><div class="sp-track"><div class="sp-fill" style="width:74%"></div></div><div class="sp-pct">74%</div></div>
+    <div class="sp-caption">Baseret p&aring; anonyme erfaringer fra kvinder i alle ni livsfaser</div>
+  </div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- GRUPPE 2: SIND -->
   <div class="group-label" style="color:#7a908b">Sind</div>
   <div class="card"><div class="card-row"><div><div class="card-label">F&oslash;lelsernes Hjul</div><div class="card-title">Hvad m&aelig;rker du?</div><div class="card-desc">Fem elementer, fem f&oslash;lelsesfelter. Find det der resonerer og forst&aring; hvad kroppen fort&aelig;ller dig.</div></div><div class="card-arrow">&rarr;</div></div></div>
   <div class="card"><div class="card-row"><div><div class="card-label">Mindfulness</div><div class="card-title">N&aelig;rv&aelig;r og stilhed</div><div class="card-desc">Korte &oslash;velser i n&aelig;rv&aelig;r tilpasset den energi der dominerer dig lige nu.</div></div><div class="card-arrow">&rarr;</div></div></div>
   <div class="card"><div class="card-row"><div><div class="card-label">Refleksion</div><div class="card-title">Tre sp&oslash;rgsm&aring;l til din fase</div><div class="card-desc">Skriv, m&aelig;rk efter, og lad tankerne lande i deres eget tempo.</div></div><div class="card-arrow">&rarr;</div></div></div>
 
+  <!-- ★ NY: ÅNDEDRÆT — øjeblikkelig hjælp -->
+  <div class="breath-box">
+    <div class="breath-label">Tag tre vejrtr&aelig;kninger</div>
+    <div class="breath-circle">
+      <div class="breath-inner">Ind&aring;nd</div>
+    </div>
+    <div class="breath-steps">
+      <span class="breath-step">Ind 4s</span>
+      <span class="breath-dot">&middot;</span>
+      <span class="breath-step">Hold 4s</span>
+      <span class="breath-dot">&middot;</span>
+      <span class="breath-step">Ud 6s</span>
+    </div>
+    <div class="breath-text">Vandets &aring;ndedr&aelig;t. Langsomt og dybt &mdash; som b&oslash;lger der tr&aelig;kker sig tilbage.</div>
+  </div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- GRUPPE 3: NÆRING -->
   <div class="group-label" style="color:#7a908b">N&aelig;ring</div>
   <div class="card"><div class="card-row"><div><div class="card-label">Kost &amp; Urter</div><div class="card-title">Det der n&aelig;rer dit element</div><div class="card-desc">De retter og urter der passer til dit element. Vand beder om supper, Ild om bittert, Jord om det s&oslash;de.</div></div><div class="card-arrow">&rarr;</div></div></div>
   <div class="card"><div class="card-row"><div><div class="card-label">Healinglyd &middot; Vand</div><div class="card-title">Chuiii</div><div class="card-desc">En lyd der vibrerer dybt og n&aelig;rer din grundl&aelig;ggende livsenergi.</div></div><div class="card-arrow">&rarr;</div></div></div>
   <div class="card"><div class="card-row"><div><div class="card-label">Hvad har hjulpet andre</div><div class="card-title">Inspiration fra andre kvinder</div><div class="card-desc">Andre kvinder i din fase deler hvad der virkede for dem. Inspiration fra den vej andre har g&aring;et.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+  <!-- ★ NY: PULL-QUOTE — Isabelle om kroppen -->
+  <div class="pull-quote">
+    <div class="pull-quote-text" style="color:#8a9e98">&laquo;&thinsp;Kroppen lyver aldrig. Den taler bare et sprog vi har glemt at lytte til.&thinsp;&raquo;</div>
+    <div class="pull-quote-attr">&mdash; Isabelle</div>
+  </div>
+
+  <!-- ★ NY: FIGUR #2 — Praksis-kompas (5 praksisser radierer fra centrum) -->
+  <div class="wave-timeline" style="background:rgba(122,144,139,0.03);border-color:rgba(122,144,139,0.07)">
+    <div class="wave-label" style="color:#a3b3ae">Din praksis lige nu</div>
+    <svg viewBox="0 0 320 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin:12px 0 8px">
+      <!-- Center cirkel -->
+      <circle cx="160" cy="135" r="32" fill="rgba(122,144,139,0.06)" stroke="rgba(122,144,139,0.18)" stroke-width="1"/>
+      <text x="160" y="131" font-family="'DM Sans',sans-serif" font-size="7" fill="#a3b3ae" font-weight="300" letter-spacing="1.5" text-anchor="middle">DIN</text>
+      <text x="160" y="143" font-family="'DM Sans',sans-serif" font-size="7" fill="#a3b3ae" font-weight="300" letter-spacing="1.5" text-anchor="middle">PRAKSIS</text>
+
+      <!-- 5 ydre cirkler (pentagon-placering) -->
+      <!-- 1: KROP (top — 90°) — fremhævet (dominant: Vand) -->
+      <line x1="160" y1="103" x2="160" y2="52" stroke="rgba(122,144,139,0.15)" stroke-width="0.7"/>
+      <circle cx="160" cy="38" r="26" fill="rgba(122,144,139,0.10)" stroke="rgba(122,144,139,0.25)" stroke-width="1.2"/>
+      <text x="160" y="35" font-family="'Playfair Display',serif" font-size="11" fill="#7a908b" font-style="italic" text-anchor="middle">Krop</text>
+      <text x="160" y="47" font-family="'DM Sans',sans-serif" font-size="7" fill="#a3b3ae" font-weight="300" text-anchor="middle">Yin Yoga &middot; EFT</text>
+
+      <!-- 2: SIND (øvre højre — 18°) -->
+      <line x1="187" y1="112" x2="245" y2="68" stroke="rgba(122,144,139,0.12)" stroke-width="0.5"/>
+      <circle cx="258" cy="58" r="24" fill="rgba(122,144,139,0.05)" stroke="rgba(122,144,139,0.15)" stroke-width="0.8"/>
+      <text x="258" y="55" font-family="'Playfair Display',serif" font-size="10" fill="#8a9e98" font-style="italic" text-anchor="middle">Sind</text>
+      <text x="258" y="66" font-family="'DM Sans',sans-serif" font-size="6.5" fill="#b3bfba" font-weight="300" text-anchor="middle">Mindfulness</text>
+
+      <!-- 3: FØLELSER (nedre højre — 306°) -->
+      <line x1="185" y1="155" x2="240" y2="195" stroke="rgba(122,144,139,0.12)" stroke-width="0.5"/>
+      <circle cx="254" cy="206" r="24" fill="rgba(122,144,139,0.05)" stroke="rgba(122,144,139,0.15)" stroke-width="0.8"/>
+      <text x="254" y="203" font-family="'Playfair Display',serif" font-size="10" fill="#8a9e98" font-style="italic" text-anchor="middle">F&oslash;lelser</text>
+      <text x="254" y="214" font-family="'DM Sans',sans-serif" font-size="6.5" fill="#b3bfba" font-weight="300" text-anchor="middle">Hjulet</text>
+
+      <!-- 4: NÆRING (nedre venstre — 234°) -->
+      <line x1="135" y1="155" x2="80" y2="195" stroke="rgba(122,144,139,0.12)" stroke-width="0.5"/>
+      <circle cx="66" cy="206" r="24" fill="rgba(122,144,139,0.05)" stroke="rgba(122,144,139,0.15)" stroke-width="0.8"/>
+      <text x="66" y="203" font-family="'Playfair Display',serif" font-size="10" fill="#8a9e98" font-style="italic" text-anchor="middle">N&aelig;ring</text>
+      <text x="66" y="214" font-family="'DM Sans',sans-serif" font-size="6.5" fill="#b3bfba" font-weight="300" text-anchor="middle">Kost &middot; Urter</text>
+
+      <!-- 5: REFLEKSION (øvre venstre — 162°) -->
+      <line x1="133" y1="112" x2="75" y2="68" stroke="rgba(122,144,139,0.12)" stroke-width="0.5"/>
+      <circle cx="62" cy="58" r="24" fill="rgba(122,144,139,0.05)" stroke="rgba(122,144,139,0.15)" stroke-width="0.8"/>
+      <text x="62" y="55" font-family="'Playfair Display',serif" font-size="10" fill="#8a9e98" font-style="italic" text-anchor="middle">Refleksion</text>
+      <text x="62" y="66" font-family="'DM Sans',sans-serif" font-size="6.5" fill="#b3bfba" font-weight="300" text-anchor="middle">3 sp&oslash;rgsm&aring;l</text>
+
+      <!-- Subtile forbindelseslinjer mellem ydre cirkler (pentagon) -->
+      <path d="M 160,14 L 280,58" fill="none" stroke="rgba(122,144,139,0.06)" stroke-width="0.5" stroke-dasharray="2,4"/>
+      <path d="M 276,58 L 276,206" fill="none" stroke="rgba(122,144,139,0.06)" stroke-width="0.5" stroke-dasharray="2,4"/>
+      <path d="M 254,228 L 66,228" fill="none" stroke="rgba(122,144,139,0.06)" stroke-width="0.5" stroke-dasharray="2,4"/>
+      <path d="M 44,206 L 44,58" fill="none" stroke="rgba(122,144,139,0.06)" stroke-width="0.5" stroke-dasharray="2,4"/>
+      <path d="M 62,34 L 160,14" fill="none" stroke="rgba(122,144,139,0.06)" stroke-width="0.5" stroke-dasharray="2,4"/>
+
+      <!-- Healinglyd i bunden (ekstra element) -->
+      <text x="160" y="260" font-family="'Playfair Display',serif" font-size="11" fill="#a3b3ae" font-style="italic" text-anchor="middle">Chuiii</text>
+      <text x="160" y="273" font-family="'DM Sans',sans-serif" font-size="7" fill="#c5cfc9" font-weight="300" text-anchor="middle">vandets healinglyd</text>
+    </svg>
+    <div class="wave-caption" style="color:#8a9e98">Fem veje ind. V&aelig;lg den der kalder &mdash; eller lad kroppen v&aelig;lge for dig.</div>
+  </div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- ★ NY: KRYDSLINKS — andre sektioner -->
+  <div class="cross-links">
+    <div class="cross-links-label">Udforsk ogs&aring;</div>
+    <div class="cross-links-row">
+      <span class="cross-link" style="border-color:rgba(122,144,139,0.12);color:#a3b3ae">Mine Cyklusser</span>
+      <span class="cross-link" style="border-color:rgba(122,144,139,0.12);color:#a3b3ae">Mine Relationer</span>
+      <span class="cross-link" style="border-color:rgba(122,144,139,0.12);color:#a3b3ae">Min Rejse</span>
+    </div>
+  </div>
 
   <div class="section-closer"><div class="lotus-fill"><img src="assets/images/rosa-lotus.png" alt=""></div></div>
   <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
