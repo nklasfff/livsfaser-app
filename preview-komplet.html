@@ -628,10 +628,132 @@ body { background: #FDFCFB; font-family: 'DM Sans', sans-serif; }
 .scenario-label { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 6px; }
 .scenario-title { font-family: 'Playfair Display', serif; font-size: 15px; font-style: italic; line-height: 1.4; margin-bottom: 5px; }
 .scenario-text { font-family: 'DM Sans', sans-serif; font-size: 12.5px; font-weight: 300; line-height: 1.55; color: #999; }
+
+/* DATE-PREVIEW — interaktiv dato-eksempel */
+.date-preview {
+  border-radius: 14px; padding: 22px 20px 16px;
+  margin: 16px 0; text-align: center;
+  background: rgba(107,95,123,0.04);
+  border: 1px solid rgba(107,95,123,0.08);
+}
+.date-preview-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: #a89bb3; margin-bottom: 14px;
+}
+.date-chips {
+  display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;
+  margin-bottom: 12px;
+}
+.date-chip {
+  padding: 7px 14px; border-radius: 20px;
+  font-family: 'DM Sans', sans-serif; font-size: 11.5px;
+  font-weight: 300; border: 1px solid rgba(107,95,123,0.15);
+  color: #8B7D9B; background: white; cursor: pointer;
+}
+.date-chip.active {
+  background: linear-gradient(135deg, #6B5F7B, #8B7D9B);
+  color: white; border-color: transparent;
+}
+.person-pills {
+  display: flex; gap: 8px; justify-content: center; margin-top: 10px;
+}
+.person-pill {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 20px;
+  font-family: 'DM Sans', sans-serif; font-size: 11px;
+  font-weight: 300; color: #a89bb3;
+  border: 1px solid rgba(107,95,123,0.10);
+  background: rgba(107,95,123,0.02);
+}
+.person-pill-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(107,95,123,0.25);
+}
+.person-pill.active .person-pill-dot { background: #6B5F7B; }
+.person-pill.active {
+  color: #6B5F7B; border-color: rgba(107,95,123,0.22);
+  background: rgba(107,95,123,0.06);
+}
+.date-preview-hint {
+  font-family: 'Playfair Display', serif; font-size: 12.5px;
+  font-style: italic; color: #a89bb3; margin-top: 12px; line-height: 1.5;
+}
+
+/* MOMENT-CARD — gemte øjeblikke */
+.moment-card {
+  background: rgba(107,95,123,0.04); border: 1px solid rgba(107,95,123,0.10);
+  border-radius: 14px; padding: 18px 20px; margin-bottom: 10px;
+}
+.moment-date {
+  font-family: 'DM Sans', sans-serif; font-size: 10px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: #a89bb3; margin-bottom: 6px;
+}
+.moment-title {
+  font-family: 'Playfair Display', serif; font-size: 16px;
+  font-style: italic; color: #6B5F7B; margin-bottom: 4px; line-height: 1.35;
+}
+.moment-elements {
+  font-family: 'DM Sans', sans-serif; font-size: 11px;
+  color: #b5adc0; font-weight: 300; margin-bottom: 8px;
+}
+.moment-text {
+  font-family: 'DM Sans', sans-serif; font-size: 12.5px;
+  color: #999; font-weight: 300; line-height: 1.55;
+}
+.moment-actions {
+  display: flex; gap: 12px; margin-top: 10px; padding-top: 10px;
+  border-top: 1px solid rgba(107,95,123,0.06);
+}
+.moment-action {
+  font-family: 'DM Sans', sans-serif; font-size: 11px;
+  color: #a89bb3; font-weight: 300; font-style: italic; cursor: pointer;
+}
+
+/* PHASE-TIMELINE — fase-blokke i tidslinje */
+.phase-timeline {
+  display: flex; flex-direction: column; gap: 8px; margin: 18px 0;
+}
+.phase-block {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 16px; border-radius: 12px;
+  background: rgba(107,95,123,0.03);
+  border: 1px solid rgba(107,95,123,0.06);
+}
+.phase-block-num {
+  font-family: 'Playfair Display', serif; font-size: 20px;
+  font-style: italic; color: #b5adc0; width: 28px; text-align: center;
+  flex-shrink: 0;
+}
+.phase-block-body { flex: 1; }
+.phase-block-name {
+  font-family: 'Playfair Display', serif; font-size: 14px;
+  font-style: italic; color: #8B7D9B; line-height: 1.3;
+}
+.phase-block-years {
+  font-family: 'DM Sans', sans-serif; font-size: 10.5px;
+  color: #c0b5cc; font-weight: 300;
+}
+.phase-block-element {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: #c0b5cc; flex-shrink: 0;
+}
+.phase-block.current {
+  background: linear-gradient(135deg, rgba(107,95,123,0.08), rgba(139,125,155,0.06));
+  border-color: rgba(107,95,123,0.15);
+}
+.phase-block.current .phase-block-num { color: #6B5F7B; }
+.phase-block.current .phase-block-name { color: #6B5F7B; }
+.phase-block.current .phase-block-element { color: #8B7D9B; }
+.phase-block.future {
+  opacity: 0.5;
+}
 </style>
 <script>
 // Cache-busting: forces reload when new version is deployed
-const V = '20260220-v28';
+const V = '20260220-v29';
 if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   localStorage.setItem('pk-v', V);
   location.reload(true);
@@ -1552,15 +1674,472 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
     <img src="assets/images/relationer-forside.png" alt="Relationsvinduet" style="width:95%;height:auto;margin-top:-80px;display:block;margin-left:auto;margin-right:auto">
   </div>
 
+  <!-- ★ NY: FEELING-BOX — det der ikke har et sprog endnu -->
+  <div class="feeling-box" style="border-color:rgba(107,95,123,0.08);background:linear-gradient(135deg,rgba(107,95,123,0.04),rgba(139,125,155,0.04))">
+    <div class="feeling-label" style="color:#a89bb3">Det der ikke har et sprog endnu</div>
+    <div class="feeling-text" style="color:#6e5f7a">Nogle &aring;r b&aelig;rer vi med os uden helt at vide hvorf&aring;r. En periode der &aelig;ndrede alt. En dato der stadig g&oslash;r ondt. M&aring;ske handler det ikke om at huske bedre &mdash; men om at forst&aring; hvad der var p&aring; spil dengang. Dine cyklusser kan vise dig det.</div>
+  </div>
+
   <div class="motor-box" style="background:rgba(107,95,123,0.05);border:1px solid rgba(107,95,123,0.10)"><div class="motor-label" style="color:#a89bb3">Hvad er Mine Vinduer?</div><div class="motor-text" style="color:#6B5F7B">V&aelig;lg en dato &mdash; fortid eller fremtid &mdash; og se hvad der var aktivt i dine cyklusser. For dig alene, eller sammen med nogen du holder af. Det er her &oslash;jeblikke f&aring;r forklaring.</div></div>
-  <div class="dots">&middot; &middot; &middot;</div>
 
   <div class="featured feat-vinduer"><div class="featured-label">Tidsrejsen</div><div class="featured-text">Din datter fylder 14 n&aelig;ste &aring;r og tr&aelig;der ind i Tr&aelig;-energi. Du var selv i samme fase da alt forandrede sig. Hvad kan I l&aelig;re af hinanden?</div><div class="featured-sub">&Aring;bn Mine Vinduer &rarr;</div></div>
+
+  <!-- ★ NY: INTERACTIVE PREVIEW — HVEM + HVORNÅR fra appen -->
+  <div class="date-preview">
+    <div class="date-preview-label">Pr&oslash;v det &mdash; v&aelig;lg en dato</div>
+    <div class="date-chips">
+      <span class="date-chip">Da vi m&oslash;dtes</span>
+      <span class="date-chip active">Hendes 14-&aring;rsdag</span>
+      <span class="date-chip">Om 5 &aring;r</span>
+      <span class="date-chip">N&aelig;ste jul</span>
+    </div>
+    <div class="person-pills">
+      <div class="person-pill active"><span class="person-pill-dot"></span>Dig</div>
+      <div class="person-pill active"><span class="person-pill-dot"></span>Clara</div>
+      <div class="person-pill"><span class="person-pill-dot"></span>Thomas</div>
+    </div>
+    <div class="date-preview-hint">Se hvordan jeres cyklusser s&aring; ud &mdash; og hvad der l&aring; under overfladen</div>
+  </div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- ★ NY: FIGUR #2 — Tidsspiralen -->
+  <div class="wave-timeline" style="background:rgba(107,95,123,0.03);border-color:rgba(107,95,123,0.07)">
+    <div class="wave-label" style="color:#a89bb3">Tiden bev&aelig;ger sig i spiraler</div>
+    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px;height:auto;display:block;margin:12px auto 8px">
+      <!-- Spiral path fra ydre (fortid) til indre (nutid) -->
+      <path d="M 268,155 C 265,55 55,35 40,150 C 25,268 255,280 258,158 C 261,65 80,58 72,150 C 64,242 230,248 228,160 C 226,92 110,88 108,150 C 106,205 185,210 186,165"
+            fill="none" stroke="rgba(107,95,123,0.18)" stroke-width="1"/>
+      <!-- Prikker langs spiralen — øjeblikke i tid -->
+      <circle cx="268" cy="155" r="3" fill="rgba(107,95,123,0.10)"/>
+      <circle cx="152" cy="38" r="2.5" fill="rgba(107,95,123,0.12)"/>
+      <circle cx="40" cy="150" r="3" fill="rgba(107,95,123,0.14)"/>
+      <circle cx="155" cy="278" r="2.5" fill="rgba(107,95,123,0.12)"/>
+      <circle cx="258" cy="158" r="2.5" fill="rgba(107,95,123,0.16)"/>
+      <circle cx="166" cy="60" r="2" fill="rgba(107,95,123,0.14)"/>
+      <circle cx="72" cy="150" r="2.5" fill="rgba(107,95,123,0.18)"/>
+      <circle cx="150" cy="246" r="2" fill="rgba(107,95,123,0.16)"/>
+      <circle cx="228" cy="160" r="2.5" fill="rgba(107,95,123,0.20)"/>
+      <circle cx="160" cy="90" r="2" fill="rgba(107,95,123,0.18)"/>
+      <circle cx="108" cy="150" r="2.5" fill="rgba(107,95,123,0.22)"/>
+      <circle cx="148" cy="208" r="2" fill="rgba(107,95,123,0.20)"/>
+      <!-- Center: DIG NU -->
+      <circle cx="172" cy="165" r="20" fill="rgba(107,95,123,0.06)" stroke="rgba(107,95,123,0.20)" stroke-width="0.8"/>
+      <text x="172" y="162" font-family="'DM Sans',sans-serif" font-size="7" fill="#8B7D9B" font-weight="400" letter-spacing="1.5" text-anchor="middle">DIG</text>
+      <text x="172" y="173" font-family="'DM Sans',sans-serif" font-size="7" fill="#8B7D9B" font-weight="300" letter-spacing="1" text-anchor="middle">NU</text>
+      <!-- Zone labels -->
+      <text x="268" y="140" font-family="'DM Sans',sans-serif" font-size="6.5" fill="#c0b5cc" font-weight="300" letter-spacing="1" text-anchor="end">FORTID</text>
+      <text x="62" y="132" font-family="'Playfair Display',serif" font-size="9" fill="#a89bb3" font-style="italic" text-anchor="middle">det der var</text>
+      <text x="240" y="192" font-family="'DM Sans',sans-serif" font-size="6.5" fill="#a89bb3" font-weight="300" letter-spacing="1" text-anchor="middle">NUTID</text>
+      <text x="240" y="204" font-family="'Playfair Display',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">det du m&aelig;rker</text>
+      <text x="130" y="108" font-family="'DM Sans',sans-serif" font-size="6.5" fill="#b0a5be" font-weight="300" letter-spacing="1" text-anchor="middle">FREMTID</text>
+      <text x="130" y="120" font-family="'Playfair Display',serif" font-size="9" fill="#8B7D9B" font-style="italic" text-anchor="middle">det der venter</text>
+    </svg>
+    <div class="wave-caption" style="color:#8B7D9B">Hvert &oslash;jeblik i spiralen b&aelig;rer sine cyklusser. V&aelig;lg et punkt &mdash; og se hvad der var p&aring; spil.</div>
+  </div>
 
   <div class="group-label" style="color:#6B5F7B">Tre m&aring;der at rejse p&aring;</div>
   <div class="scenario" style="background:rgba(107,95,123,0.04);border:1px solid rgba(107,95,123,0.08)"><div class="scenario-label" style="color:#a89bb3">Dig alene</div><div class="scenario-title" style="color:#6B5F7B">Rejse i din egen tid</div><div class="scenario-text">V&aelig;lg en dato og se hvilken livsfase, &aring;rstid og cyklus der var aktiv. Forst&aring; hvad der pr&aelig;gede dig &mdash; eller forbered det der kommer.</div></div>
   <div class="scenario" style="background:rgba(107,95,123,0.04);border:1px solid rgba(107,95,123,0.08)"><div class="scenario-label" style="color:#a89bb3">Dig og &eacute;n anden</div><div class="scenario-title" style="color:#6B5F7B">Se jeres energier m&oslash;des</div><div class="scenario-text">Hvad var aktivt mellem jer da I m&oslash;dtes f&oslash;rste gang? N&aring;r barnet fylder 18? V&aelig;lg en dato og se hvad der l&aring; under overfladen.</div></div>
   <div class="scenario" style="background:rgba(107,95,123,0.04);border:1px solid rgba(107,95,123,0.08)"><div class="scenario-label" style="color:#a89bb3">Et vigtigt &oslash;jeblik</div><div class="scenario-title" style="color:#6B5F7B">Forst&aring; hvad der skete</div><div class="scenario-text">En f&oslash;dsel, et brud, en ny begyndelse. V&aelig;lg datoen og se hvilke kr&aelig;fter der var p&aring; spil. M&aring;ske giver det mening nu.</div></div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- ★ NY: DYK DYBERE — 2 undersidekort -->
+  <div class="group-label" style="color:#6B5F7B">Dyk dybere</div>
+
+  <div class="vinduer-card">
+    <div class="vinduer-body">
+      <div class="vinduer-label">Underside</div>
+      <div class="vinduer-title">Mit Livs Tidslinje</div>
+      <div class="vinduer-text">Se hele dit liv som en visuel rejse &mdash; fase for fase, element for element. Fra f&oslash;dsel til nu, og videre frem. Forst&aring; den r&oslash;de tr&aring;d i din historie.</div>
+    </div>
+    <div class="vinduer-footer">
+      <span class="vinduer-footer-text">&Aring;bn tidslinjen</span>
+      <span class="vinduer-footer-arrow">&rarr;</span>
+    </div>
+  </div>
+
+  <div class="vinduer-card">
+    <div class="vinduer-body">
+      <div class="vinduer-label">Underside</div>
+      <div class="vinduer-title">Vigtige &Oslash;jeblikke</div>
+      <div class="vinduer-text">Gem de datoer der betyder noget &mdash; en f&oslash;dsel, et m&oslash;de, et brud, en ny begyndelse. Se hvilke cyklusser der var aktive, og del dem med de mennesker det handler om.</div>
+    </div>
+    <div class="vinduer-footer">
+      <span class="vinduer-footer-text">Se dine &oslash;jeblikke</span>
+      <span class="vinduer-footer-arrow">&rarr;</span>
+    </div>
+  </div>
+
+  <!-- ★ NY: TIME-SHIFT — tidsdynamik -->
+  <div class="time-shift">
+    <div class="time-shift-item" style="background:rgba(107,95,123,0.04);border-color:rgba(107,95,123,0.08)">
+      <div class="time-shift-when" style="color:#a89bb3">N&aelig;ste &aring;rstidsskift</div>
+      <div class="time-shift-what" style="color:#6B5F7B">Om 29 dage &middot; For&aring;r (Tr&aelig;)</div>
+    </div>
+    <div class="time-shift-item" style="background:rgba(107,95,123,0.04);border-color:rgba(107,95,123,0.08)">
+      <div class="time-shift-when" style="color:#a89bb3">Claras n&aelig;ste fase</div>
+      <div class="time-shift-what" style="color:#6B5F7B">Om 11 mdr &middot; Fase 3 (Tr&aelig;)</div>
+    </div>
+  </div>
+
+  <!-- ★ NY: PULL-QUOTE — Isabelle om tid -->
+  <div class="pull-quote">
+    <div class="pull-quote-text" style="color:#8B7D9B">&laquo;&thinsp;Tiden er ikke en linje. Den er en spiral &mdash; og de steder der g&oslash;r ondt, er de steder der vil forst&aring;s.&thinsp;&raquo;</div>
+    <div class="pull-quote-attr">&mdash; Isabelle</div>
+  </div>
+
+  <!-- ★ NY: KRYDSLINKS — andre sektioner -->
+  <div class="cross-links">
+    <div class="cross-links-label">Udforsk ogs&aring;</div>
+    <div class="cross-links-row">
+      <span class="cross-link" style="border-color:rgba(107,95,123,0.12);color:#a89bb3">Mine Cyklusser</span>
+      <span class="cross-link" style="border-color:rgba(107,95,123,0.12);color:#a89bb3">Mine Relationer</span>
+      <span class="cross-link" style="border-color:rgba(107,95,123,0.12);color:#a89bb3">Min Rejse</span>
+    </div>
+  </div>
+
+  <div class="section-closer"><div class="lotus-fill"><img src="assets/images/rosa-lotus.png" alt=""></div></div>
+  <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
+</div>
+
+<div class="page-divider"></div>
+
+<!-- ======================================================= -->
+<!-- UNDERSIDE 5A: MIT LIVS TIDSLINJE                        -->
+<!-- ======================================================= -->
+<div class="section-num">Underside &middot; Mine Vinduer</div>
+<div class="header">
+  <div class="header-title">De&ensp;<span style="color:#6B5F7B;font-size:28px">9</span>&ensp;Livsfaser</div>
+</div>
+<div class="accent-line"></div>
+<div class="section tone-vinduer">
+  <div class="section-eyebrow">Mit Livs Tidslinje</div>
+  <div class="section-title">Fra f&oslash;dsel<br>til visdom</div>
+  <div class="section-sub">Ni faser &middot; &Eacute;n sammenh&aelig;ngende historie</div>
+  <div class="section-intro">Dit liv er ikke en r&aelig;kke tilf&aelig;ldige &aring;r. Det er ni kapitler &mdash; hvert med sit eget element, sin egen energi og sin egen opgave. Her kan du se dem alle p&aring; &eacute;n gang.</div>
+
+  <!-- FIGUR: Livsbuen — 9 faser i en bue -->
+  <div class="wave-timeline" style="background:rgba(107,95,123,0.03);border-color:rgba(107,95,123,0.07)">
+    <div class="wave-label" style="color:#a89bb3">Dit livs bue</div>
+    <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:360px;height:auto;display:block;margin:12px auto 4px">
+      <!-- Bue-sti -->
+      <path d="M 25,165 C 25,35 375,35 375,165" fill="none" stroke="rgba(107,95,123,0.10)" stroke-width="0.8" stroke-dasharray="3,5"/>
+      <!-- Fase-cirkler langs buen -->
+      <circle cx="25" cy="165" r="8" fill="rgba(107,95,123,0.06)" stroke="rgba(107,95,123,0.14)" stroke-width="0.7"/>
+      <circle cx="68" cy="113" r="8" fill="rgba(107,95,123,0.06)" stroke="rgba(107,95,123,0.14)" stroke-width="0.7"/>
+      <circle cx="115" cy="74" r="8" fill="rgba(107,95,123,0.06)" stroke="rgba(107,95,123,0.14)" stroke-width="0.7"/>
+      <circle cx="162" cy="50" r="8" fill="rgba(107,95,123,0.06)" stroke="rgba(107,95,123,0.14)" stroke-width="0.7"/>
+      <circle cx="200" cy="42" r="8" fill="rgba(107,95,123,0.06)" stroke="rgba(107,95,123,0.14)" stroke-width="0.7"/>
+      <circle cx="244" cy="50" r="8" fill="rgba(107,95,123,0.06)" stroke="rgba(107,95,123,0.14)" stroke-width="0.7"/>
+      <circle cx="288" cy="74" r="8" fill="rgba(107,95,123,0.06)" stroke="rgba(107,95,123,0.14)" stroke-width="0.7"/>
+      <circle cx="332" cy="113" r="8" fill="rgba(107,95,123,0.06)" stroke="rgba(107,95,123,0.14)" stroke-width="0.7"/>
+      <!-- Fase 9 = aktiv (st&aelig;rkere) -->
+      <circle cx="375" cy="165" r="10" fill="rgba(107,95,123,0.12)" stroke="rgba(107,95,123,0.28)" stroke-width="1"/>
+      <!-- Fase-numre -->
+      <text x="25" y="168" font-family="'Playfair Display',serif" font-size="8" fill="#c0b5cc" font-style="italic" text-anchor="middle">1</text>
+      <text x="68" y="116" font-family="'Playfair Display',serif" font-size="8" fill="#c0b5cc" font-style="italic" text-anchor="middle">2</text>
+      <text x="115" y="77" font-family="'Playfair Display',serif" font-size="8" fill="#c0b5cc" font-style="italic" text-anchor="middle">3</text>
+      <text x="162" y="53" font-family="'Playfair Display',serif" font-size="8" fill="#c0b5cc" font-style="italic" text-anchor="middle">4</text>
+      <text x="200" y="45" font-family="'Playfair Display',serif" font-size="8" fill="#c0b5cc" font-style="italic" text-anchor="middle">5</text>
+      <text x="244" y="53" font-family="'Playfair Display',serif" font-size="8" fill="#c0b5cc" font-style="italic" text-anchor="middle">6</text>
+      <text x="288" y="77" font-family="'Playfair Display',serif" font-size="8" fill="#c0b5cc" font-style="italic" text-anchor="middle">7</text>
+      <text x="332" y="116" font-family="'Playfair Display',serif" font-size="8" fill="#c0b5cc" font-style="italic" text-anchor="middle">8</text>
+      <text x="375" y="168" font-family="'Playfair Display',serif" font-size="9" fill="#6B5F7B" font-style="italic" text-anchor="middle">9</text>
+      <!-- "DU ER HER" markering p&aring; fase 9 -->
+      <text x="375" y="190" font-family="'DM Sans',sans-serif" font-size="6" fill="#8B7D9B" font-weight="400" letter-spacing="1" text-anchor="middle">DU ER HER</text>
+      <!-- Element-labels under buens ender -->
+      <text x="46" y="185" font-family="'DM Sans',sans-serif" font-size="5.5" fill="#c0b5cc" font-weight="300" letter-spacing="0.5" text-anchor="middle">VAND</text>
+      <text x="92" y="140" font-family="'DM Sans',sans-serif" font-size="5.5" fill="#c0b5cc" font-weight="300" letter-spacing="0.5" text-anchor="middle">VAND</text>
+      <text x="138" y="97" font-family="'DM Sans',sans-serif" font-size="5.5" fill="#c0b5cc" font-weight="300" letter-spacing="0.5" text-anchor="middle">TR&AElig;</text>
+      <text x="181" y="70" font-family="'DM Sans',sans-serif" font-size="5.5" fill="#c0b5cc" font-weight="300" letter-spacing="0.5" text-anchor="middle">TR&AElig;</text>
+      <text x="200" y="28" font-family="'DM Sans',sans-serif" font-size="5.5" fill="#c0b5cc" font-weight="300" letter-spacing="0.5" text-anchor="middle">ILD</text>
+      <text x="222" y="70" font-family="'DM Sans',sans-serif" font-size="5.5" fill="#c0b5cc" font-weight="300" letter-spacing="0.5" text-anchor="middle">JORD</text>
+      <text x="266" y="97" font-family="'DM Sans',sans-serif" font-size="5.5" fill="#c0b5cc" font-weight="300" letter-spacing="0.5" text-anchor="middle">JORD</text>
+      <text x="310" y="140" font-family="'DM Sans',sans-serif" font-size="5.5" fill="#c0b5cc" font-weight="300" letter-spacing="0.5" text-anchor="middle">METAL</text>
+      <text x="375" y="148" font-family="'DM Sans',sans-serif" font-size="5.5" fill="#8B7D9B" font-weight="400" letter-spacing="0.5" text-anchor="middle">VAND</text>
+    </svg>
+    <div class="wave-caption" style="color:#8B7D9B">Ni kapitler. Et element per fase. Den r&oslash;de tr&aring;d er dig.</div>
+  </div>
+
+  <!-- ★ FEELING-BOX -->
+  <div class="feeling-box" style="border-color:rgba(107,95,123,0.08);background:linear-gradient(135deg,rgba(107,95,123,0.04),rgba(139,125,155,0.04))">
+    <div class="feeling-label" style="color:#a89bb3">Det er sv&aelig;rt at se sin egen historie</div>
+    <div class="feeling-text" style="color:#6e5f7a">N&aring;r du st&aring;r midt i et kapitel, kan det f&oslash;les endeligt &mdash; som om det altid har v&aelig;ret s&aring;dan. Men din tidslinje viser noget andet. Den viser at hvert kapitel begyndte, udfoldede sig og slap dig videre. Ogs&aring; dette.</div>
+  </div>
+
+  <!-- ★ FEATURED — aktuel fase fremh&aelig;vet -->
+  <div class="featured feat-vinduer"><div class="featured-label">Dit nuv&aelig;rende kapitel</div><div class="featured-text">Fase 9 &middot; Visdom &middot; Vand-energi. Du er i &aring;r 4 af denne fase. Vandet samler, fordyber og giver slip p&aring; det der ikke l&aelig;ngere tjener dig.</div><div class="featured-sub">Se hele din tidslinje &rarr;</div></div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- ★ FASE-BLOKKE — alle 9 faser -->
+  <div class="group-label" style="color:#6B5F7B">Dine ni kapitler</div>
+
+  <div class="phase-timeline">
+    <div class="phase-block">
+      <div class="phase-block-num">1</div>
+      <div class="phase-block-body">
+        <div class="phase-block-name">Livets begyndelse</div>
+        <div class="phase-block-years">0&ndash;7 &aring;r &middot; 1969&ndash;1976</div>
+      </div>
+      <div class="phase-block-element">VAND</div>
+    </div>
+    <div class="phase-block">
+      <div class="phase-block-num">2</div>
+      <div class="phase-block-body">
+        <div class="phase-block-name">Udforskning</div>
+        <div class="phase-block-years">7&ndash;14 &aring;r &middot; 1976&ndash;1983</div>
+      </div>
+      <div class="phase-block-element">VAND</div>
+    </div>
+    <div class="phase-block">
+      <div class="phase-block-num">3</div>
+      <div class="phase-block-body">
+        <div class="phase-block-name">Forvandling</div>
+        <div class="phase-block-years">14&ndash;21 &aring;r &middot; 1983&ndash;1990</div>
+      </div>
+      <div class="phase-block-element">TR&AElig;</div>
+    </div>
+    <div class="phase-block">
+      <div class="phase-block-num">4</div>
+      <div class="phase-block-body">
+        <div class="phase-block-name">Blomstring</div>
+        <div class="phase-block-years">21&ndash;28 &aring;r &middot; 1990&ndash;1997</div>
+      </div>
+      <div class="phase-block-element">TR&AElig;</div>
+    </div>
+    <div class="phase-block">
+      <div class="phase-block-num">5</div>
+      <div class="phase-block-body">
+        <div class="phase-block-name">Ansvar</div>
+        <div class="phase-block-years">28&ndash;35 &aring;r &middot; 1997&ndash;2004</div>
+      </div>
+      <div class="phase-block-element">ILD</div>
+    </div>
+    <div class="phase-block">
+      <div class="phase-block-num">6</div>
+      <div class="phase-block-body">
+        <div class="phase-block-name">Modning</div>
+        <div class="phase-block-years">35&ndash;42 &aring;r &middot; 2004&ndash;2011</div>
+      </div>
+      <div class="phase-block-element">JORD</div>
+    </div>
+    <div class="phase-block">
+      <div class="phase-block-num">7</div>
+      <div class="phase-block-body">
+        <div class="phase-block-name">H&oslash;st</div>
+        <div class="phase-block-years">42&ndash;49 &aring;r &middot; 2011&ndash;2018</div>
+      </div>
+      <div class="phase-block-element">JORD</div>
+    </div>
+    <div class="phase-block">
+      <div class="phase-block-num">8</div>
+      <div class="phase-block-body">
+        <div class="phase-block-name">Frig&oslash;relse</div>
+        <div class="phase-block-years">49&ndash;56 &aring;r &middot; 2018&ndash;2025</div>
+      </div>
+      <div class="phase-block-element">METAL</div>
+    </div>
+    <div class="phase-block current">
+      <div class="phase-block-num">9</div>
+      <div class="phase-block-body">
+        <div class="phase-block-name">Visdom</div>
+        <div class="phase-block-years">56&ndash;63 &aring;r &middot; 2025&ndash;2032</div>
+      </div>
+      <div class="phase-block-element">VAND</div>
+    </div>
+  </div>
+
+  <!-- ★ QUICK-ACTION — tilf&oslash;j et &oslash;jeblik -->
+  <div class="quick-action" style="background:linear-gradient(135deg,rgba(107,95,123,0.06),rgba(107,95,123,0.02));border-color:rgba(107,95,123,0.10)">
+    <div class="quick-action-label" style="color:#a89bb3">Tilf&oslash;j til din tidslinje</div>
+    <div class="quick-action-title" style="color:#6B5F7B">Var der et &oslash;jeblik der &aelig;ndrede noget?</div>
+    <div class="quick-action-desc" style="color:#999">Tryk p&aring; en fase ovenfor og tilf&oslash;j det du husker. Et brud, en f&oslash;dsel, en flytning, en erkendelse. Din tidslinje bliver rigere for hvert &oslash;jeblik du giver den.</div>
+    <div class="quick-action-btn" style="border-color:rgba(107,95,123,0.25);color:#6B5F7B">Tilf&oslash;j et &oslash;jeblik &rarr;</div>
+  </div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- ★ INSIGHT — hvad tidslinjen afsl&oslash;rer -->
+  <div class="insight-box" style="background:rgba(107,95,123,0.05);border:1px solid rgba(107,95,123,0.10)">
+    <div class="insight-label" style="color:#a89bb3">Hvad tidslinjen viser</div>
+    <div class="insight-text" style="color:#6B5F7B">Vand &aring;bner og lukker din rejse. Det element du begyndte i, vender du tilbage til &mdash; men med en helt anden dybde. Det er ikke en gentagelse. Det er en spiral.</div>
+  </div>
+
+  <!-- ★ TIME-SHIFT -->
+  <div class="time-shift">
+    <div class="time-shift-item" style="background:rgba(107,95,123,0.04);border-color:rgba(107,95,123,0.08)">
+      <div class="time-shift-when" style="color:#a89bb3">N&aelig;ste kapitel</div>
+      <div class="time-shift-what" style="color:#6B5F7B">Om 3 &aring;r &middot; Fase 9 slutter</div>
+    </div>
+    <div class="time-shift-item" style="background:rgba(107,95,123,0.04);border-color:rgba(107,95,123,0.08)">
+      <div class="time-shift-when" style="color:#a89bb3">Din rejse indtil videre</div>
+      <div class="time-shift-what" style="color:#6B5F7B">56 &aring;r &middot; 8 kapitler levet</div>
+    </div>
+  </div>
+
+  <!-- ★ PULL-QUOTE -->
+  <div class="pull-quote">
+    <div class="pull-quote-text" style="color:#8B7D9B">&laquo;&thinsp;Hvert kapitel f&oslash;ltes uendeligt mens du levede det. Men se &mdash; du er kommet videre. Hver gang.&thinsp;&raquo;</div>
+    <div class="pull-quote-attr">&mdash; Isabelle</div>
+  </div>
+
+  <!-- ★ KRYDSLINKS -->
+  <div class="cross-links">
+    <div class="cross-links-label">Udforsk ogs&aring;</div>
+    <div class="cross-links-row">
+      <span class="cross-link" style="border-color:rgba(107,95,123,0.12);color:#a89bb3">Mine Vinduer</span>
+      <span class="cross-link" style="border-color:rgba(107,95,123,0.12);color:#a89bb3">De ni livsfaser</span>
+      <span class="cross-link" style="border-color:rgba(107,95,123,0.12);color:#a89bb3">Min Rejse</span>
+    </div>
+  </div>
+
+  <div class="section-closer"><div class="lotus-fill"><img src="assets/images/rosa-lotus.png" alt=""></div></div>
+  <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
+</div>
+
+<div class="page-divider"></div>
+
+<!-- ======================================================= -->
+<!-- UNDERSIDE 5B: VIGTIGE &Oslash;JEBLIKKE                  -->
+<!-- ======================================================= -->
+<div class="section-num">Underside &middot; Mine Vinduer</div>
+<div class="header">
+  <div class="header-title">De&ensp;<span style="color:#6B5F7B;font-size:28px">9</span>&ensp;Livsfaser</div>
+</div>
+<div class="accent-line"></div>
+<div class="section tone-vinduer">
+  <div class="section-eyebrow">Vigtige &Oslash;jeblikke</div>
+  <div class="section-title">De datoer<br>der betyder noget</div>
+  <div class="section-sub">Gem &middot; Forst&aring; &middot; Del</div>
+  <div class="section-intro">Nogle &oslash;jeblikke b&aelig;rer mere end vi tror. En f&oslash;dsel, et tab, en ny begyndelse. Her kan du gemme dem &mdash; og se hvilke cyklusser der var aktive da det skete.</div>
+
+  <!-- FIGUR: Konstellationen — &oslash;jeblikke forbundet af mening -->
+  <div class="wave-timeline" style="background:rgba(107,95,123,0.03);border-color:rgba(107,95,123,0.07)">
+    <div class="wave-label" style="color:#a89bb3">Dine &oslash;jeblikke, forbundet</div>
+    <svg viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;height:auto;display:block;margin:12px auto 4px">
+      <!-- Forbindelseslinjer mellem &oslash;jeblikke -->
+      <line x1="55" y1="65" x2="150" y2="40" stroke="rgba(107,95,123,0.08)" stroke-width="0.6"/>
+      <line x1="150" y1="40" x2="245" y2="75" stroke="rgba(107,95,123,0.08)" stroke-width="0.6"/>
+      <line x1="55" y1="65" x2="90" y2="145" stroke="rgba(107,95,123,0.08)" stroke-width="0.6"/>
+      <line x1="90" y1="145" x2="195" y2="130" stroke="rgba(107,95,123,0.08)" stroke-width="0.6"/>
+      <line x1="195" y1="130" x2="245" y2="75" stroke="rgba(107,95,123,0.08)" stroke-width="0.6"/>
+      <line x1="90" y1="145" x2="150" y2="210" stroke="rgba(107,95,123,0.08)" stroke-width="0.6"/>
+      <line x1="195" y1="130" x2="150" y2="210" stroke="rgba(107,95,123,0.08)" stroke-width="0.6"/>
+      <line x1="150" y1="210" x2="255" y2="200" stroke="rgba(107,95,123,0.06)" stroke-width="0.6" stroke-dasharray="2,4"/>
+      <!-- &Oslash;jeblikke som prikker -->
+      <circle cx="55" cy="65" r="6" fill="rgba(107,95,123,0.08)" stroke="rgba(107,95,123,0.18)" stroke-width="0.7"/>
+      <circle cx="150" cy="40" r="5" fill="rgba(107,95,123,0.06)" stroke="rgba(107,95,123,0.14)" stroke-width="0.7"/>
+      <circle cx="245" cy="75" r="7" fill="rgba(107,95,123,0.10)" stroke="rgba(107,95,123,0.22)" stroke-width="0.7"/>
+      <circle cx="90" cy="145" r="5.5" fill="rgba(107,95,123,0.08)" stroke="rgba(107,95,123,0.16)" stroke-width="0.7"/>
+      <circle cx="195" cy="130" r="6" fill="rgba(107,95,123,0.08)" stroke="rgba(107,95,123,0.18)" stroke-width="0.7"/>
+      <circle cx="150" cy="210" r="8" fill="rgba(107,95,123,0.12)" stroke="rgba(107,95,123,0.26)" stroke-width="0.8"/>
+      <circle cx="255" cy="200" r="4" fill="rgba(107,95,123,0.04)" stroke="rgba(107,95,123,0.10)" stroke-width="0.6" stroke-dasharray="1.5,2"/>
+      <!-- Labels -->
+      <text x="55" y="52" font-family="'Playfair Display',serif" font-size="8" fill="#a89bb3" font-style="italic" text-anchor="middle">f&oslash;dsel</text>
+      <text x="150" y="28" font-family="'Playfair Display',serif" font-size="8" fill="#b5adc0" font-style="italic" text-anchor="middle">skolestart</text>
+      <text x="245" y="62" font-family="'Playfair Display',serif" font-size="8" fill="#8B7D9B" font-style="italic" text-anchor="middle">vi m&oslash;dtes</text>
+      <text x="78" y="163" font-family="'Playfair Display',serif" font-size="8" fill="#a89bb3" font-style="italic" text-anchor="middle">Clara</text>
+      <text x="207" y="118" font-family="'Playfair Display',serif" font-size="8" fill="#a89bb3" font-style="italic" text-anchor="middle">karriereskift</text>
+      <text x="150" y="232" font-family="'Playfair Display',serif" font-size="9" fill="#6B5F7B" font-style="italic" text-anchor="middle">mor d&oslash;de</text>
+      <text x="255" y="216" font-family="'Playfair Display',serif" font-size="7" fill="#c0b5cc" font-style="italic" text-anchor="middle">n&aelig;ste?</text>
+      <!-- DIT LIV i centrum -->
+      <text x="148" y="140" font-family="'DM Sans',sans-serif" font-size="5.5" fill="#c0b5cc" font-weight="300" letter-spacing="1.5" text-anchor="middle">DIT LIV</text>
+    </svg>
+    <div class="wave-caption" style="color:#8B7D9B">Hvert punkt er et &oslash;jeblik. Linjerne er det der forbinder dem. M&oslash;nsteret er dit.</div>
+  </div>
+
+  <!-- ★ FEELING-BOX -->
+  <div class="feeling-box" style="border-color:rgba(107,95,123,0.08);background:linear-gradient(135deg,rgba(107,95,123,0.04),rgba(139,125,155,0.04))">
+    <div class="feeling-label" style="color:#a89bb3">Nogle datoer b&aelig;rer mere end man tror</div>
+    <div class="feeling-text" style="color:#6e5f7a">Der er &aring;r vi ikke taler om. Datoer vi undg&aring;r. &Oslash;jeblikke der stadig kan f&aring; hjertet til at sl&aring; hurtigere. M&aring;ske beh&oslash;ver de ikke at forklares v&aelig;k. M&aring;ske beh&oslash;ver de bare at blive set &mdash; gennem de cyklusser der var aktive dengang.</div>
+  </div>
+
+  <div class="featured feat-vinduer"><div class="featured-label">Et gemt &oslash;jeblik</div><div class="featured-text">&laquo;&thinsp;Den dag mor d&oslash;de&thinsp;&raquo; &mdash; 14. marts 2019. Du var i Fase 8, Metal-energi: Frig&oslash;relse. Hun var i Fase 9, Vand. I var begge i gang med at slippe &mdash; p&aring; hver jeres m&aring;de.</div><div class="featured-sub">Se alle cyklusser den dag &rarr;</div></div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- ★ GEMTE &Oslash;JEBLIKKE — eksempler -->
+  <div class="group-label" style="color:#6B5F7B">Dine gemte &oslash;jeblikke</div>
+
+  <div class="moment-card">
+    <div class="moment-date">23. juni 1997</div>
+    <div class="moment-title">Dagen vi m&oslash;dtes</div>
+    <div class="moment-elements">Fase 4 &middot; Blomstring &middot; Tr&aelig;-energi &middot; Sommer (Ild)</div>
+    <div class="moment-text">Du var 28, midt i Tr&aelig;s v&aelig;kst. Thomas var 31, i sin Jord-fase. Tr&aelig; og Jord n&aelig;rer hinanden &mdash; og det kunne I m&aelig;rke.</div>
+    <div class="moment-actions">
+      <span class="moment-action">Se alle cyklusser &rarr;</span>
+      <span class="moment-action">Del med Thomas &rarr;</span>
+    </div>
+  </div>
+
+  <div class="moment-card">
+    <div class="moment-date">8. september 2003</div>
+    <div class="moment-title">Clara blev f&oslash;dt</div>
+    <div class="moment-elements">Fase 5 &middot; Ansvar &middot; Ild-energi &middot; Sensommer (Jord)</div>
+    <div class="moment-text">Ild og Jord sammen &mdash; en kraftfuld kombination. Du br&aelig;ndte for dit nye ansvar, og Jorden gav dig grund under f&oslash;dderne.</div>
+    <div class="moment-actions">
+      <span class="moment-action">Se alle cyklusser &rarr;</span>
+      <span class="moment-action">Del med Clara &rarr;</span>
+    </div>
+  </div>
+
+  <div class="moment-card">
+    <div class="moment-date">14. marts 2019</div>
+    <div class="moment-title">Mor d&oslash;de</div>
+    <div class="moment-elements">Fase 8 &middot; Frig&oslash;relse &middot; Metal-energi &middot; Vinter (Vand)</div>
+    <div class="moment-text">Metal handler om at give slip. Vand om at lade det synke ned. Begge dine st&aelig;rkeste cyklusser handlede om det samme den vinter. M&aring;ske var det derfor det b&aring;de var s&aring; tungt og s&aring; rigtigt.</div>
+    <div class="moment-actions">
+      <span class="moment-action">Se alle cyklusser &rarr;</span>
+    </div>
+  </div>
+
+  <div class="moment-card">
+    <div class="moment-date">2. august 2022</div>
+    <div class="moment-title">Karriereskiftet</div>
+    <div class="moment-elements">Fase 8 &middot; Frig&oslash;relse &middot; Metal-energi &middot; Sommer (Ild)</div>
+    <div class="moment-text">Metal ville give slip p&aring; det gamle. Ild ville noget nyt. Sp&aelig;ndingen mellem dem var det der fik dig til at springe.</div>
+    <div class="moment-actions">
+      <span class="moment-action">Se alle cyklusser &rarr;</span>
+    </div>
+  </div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- ★ QUICK-ACTION — gem et nyt &oslash;jeblik -->
+  <div class="quick-action" style="background:linear-gradient(135deg,rgba(107,95,123,0.06),rgba(107,95,123,0.02));border-color:rgba(107,95,123,0.10)">
+    <div class="quick-action-label" style="color:#a89bb3">Tilf&oslash;j et &oslash;jeblik</div>
+    <div class="quick-action-title" style="color:#6B5F7B">Er der en dato du b&aelig;rer med dig?</div>
+    <div class="quick-action-desc" style="color:#999">Et brud, et m&oslash;de, en f&oslash;dsel, et tab. V&aelig;lg datoen, giv den et navn, og se hvilke cyklusser der var aktive. Du kan dele den med dem det handler om.</div>
+    <div class="quick-action-btn" style="border-color:rgba(107,95,123,0.25);color:#6B5F7B">Gem et &oslash;jeblik &rarr;</div>
+  </div>
+
+  <!-- ★ SOCIAL PROOF — hvad andre gemmer -->
+  <div class="social-proof" style="background:rgba(107,95,123,0.04);border-color:rgba(107,95,123,0.08)">
+    <div class="sp-label" style="color:#a89bb3">Hvad andre gemmer</div>
+    <div class="sp-bar-row"><div class="sp-name" style="color:#888">B&oslash;rns f&oslash;dsel</div><div class="sp-track" style="background:rgba(107,95,123,0.08)"><div class="sp-fill" style="width:78%;background:linear-gradient(90deg,#6B5F7B,#8B7D9B)"></div></div><div class="sp-pct" style="color:#a89bb3">78%</div></div>
+    <div class="sp-bar-row"><div class="sp-name" style="color:#888">Tab af n&aelig;re</div><div class="sp-track" style="background:rgba(107,95,123,0.08)"><div class="sp-fill" style="width:64%;background:linear-gradient(90deg,#6B5F7B,#8B7D9B)"></div></div><div class="sp-pct" style="color:#a89bb3">64%</div></div>
+    <div class="sp-bar-row"><div class="sp-name" style="color:#888">Parforhold</div><div class="sp-track" style="background:rgba(107,95,123,0.08)"><div class="sp-fill" style="width:59%;background:linear-gradient(90deg,#6B5F7B,#8B7D9B)"></div></div><div class="sp-pct" style="color:#a89bb3">59%</div></div>
+    <div class="sp-caption" style="color:#b5adc0;border-color:rgba(107,95,123,0.08)">Baseret p&aring; anonyme data fra kvinder i din livsfase</div>
+  </div>
+
+  <!-- ★ PULL-QUOTE -->
+  <div class="pull-quote">
+    <div class="pull-quote-text" style="color:#8B7D9B">&laquo;&thinsp;De &oslash;jeblikke vi b&aelig;rer med os er ikke tilfældige. De er de steder hvor livet insisterede p&aring; at blive m&aelig;rket.&thinsp;&raquo;</div>
+    <div class="pull-quote-attr">&mdash; Isabelle</div>
+  </div>
+
+  <!-- ★ KRYDSLINKS -->
+  <div class="cross-links">
+    <div class="cross-links-label">Udforsk ogs&aring;</div>
+    <div class="cross-links-row">
+      <span class="cross-link" style="border-color:rgba(107,95,123,0.12);color:#a89bb3">Mine Vinduer</span>
+      <span class="cross-link" style="border-color:rgba(107,95,123,0.12);color:#a89bb3">Mit Livs Tidslinje</span>
+      <span class="cross-link" style="border-color:rgba(107,95,123,0.12);color:#a89bb3">Min Rejse</span>
+    </div>
+  </div>
 
   <div class="section-closer"><div class="lotus-fill"><img src="assets/images/rosa-lotus.png" alt=""></div></div>
   <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
