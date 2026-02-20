@@ -1,9 +1,11 @@
-const CACHE_NAME = 'livsfaser-v278';
+const CACHE_NAME = 'livsfaser-v279';
 const urlsToCache = [
   './',
   './index.html',
   './assets/fonts/bodoni-normal-latin.woff2',
   './assets/fonts/bodoni-italic-latin.woff2',
+  './assets/fonts/raleway-normal-latin.woff2',
+  './assets/fonts/raleway-italic-latin.woff2',
   './css/variables.css',
   './css/base.css',
   './css/components.css',
