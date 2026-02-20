@@ -495,7 +495,7 @@ body { background: #FDFCFB; font-family: 'DM Sans', sans-serif; }
 </style>
 <script>
 // Cache-busting: forces reload when new version is deployed
-const V = '20260220-v24';
+const V = '20260220-v25';
 if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   localStorage.setItem('pk-v', V);
   location.reload(true);
@@ -940,21 +940,124 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
     <div class="profil-item"><div class="profil-circle" style="background:rgba(123,122,158,0.05);border:1.5px dashed rgba(123,122,158,0.25);color:#a8a3be">+</div><div class="profil-name" style="color:#a8a3be">Tilf&oslash;j</div></div>
   </div>
 
-  <div class="insight-box" style="background:rgba(123,122,158,0.05);border:1px solid rgba(123,122,158,0.10)"><div class="insight-label" style="color:#a8a3be">Jeres energi lige nu</div><div class="insight-text" style="color:#7b7a9e">Du er i Vand, Martin i Jord. Det dybe og det trygge m&oslash;des stille &mdash; en sjov kombination der kan overraske jer begge.</div></div>
+  <div class="insight-box" style="background:rgba(123,122,158,0.05);border:1px solid rgba(123,122,158,0.10)"><div class="insight-label" style="color:#a8a3be">Jeres energi lige nu</div><div class="insight-text" style="color:#7b7a9e">Du er i Vand, Martin i Jord. Det dybe og det trygge m&oslash;des stille &mdash; en kombination der kan overraske jer begge.</div></div>
+
+  <!-- ★ NY: DET I MÅSKE MÆRKER — relations-smerte -->
+  <div class="feeling-box" style="border-color:rgba(123,122,158,0.08);background:linear-gradient(135deg,rgba(123,122,158,0.04),rgba(184,166,192,0.04))">
+    <div class="feeling-label" style="color:#a8a3be">Det I m&aring;ske m&aelig;rker</div>
+    <div class="feeling-text" style="color:#7b7a8e">M&aring;ske f&oslash;les det som om I taler forbi hinanden. Eller som om noget er forskudt &mdash; uden at nogen af jer kan s&aelig;tte ord p&aring; det. Det er reelt. Vand s&oslash;ger dybde, Jord s&oslash;ger tryghed. I m&oslash;des et sted midt imellem.</div>
+  </div>
+
+  <!-- FEATURED BOKS — unik tekst (ikke duplikat) -->
+  <div class="featured feat-relationer"><div class="featured-label">Lige nu mellem jer</div><div class="featured-text">Vand n&aelig;rer Tr&aelig;, og Jord kontrollerer Vand. Martin giver dig stabilitet &mdash; men du m&aelig;rker ogs&aring; en begr&aelig;nsning.</div><div class="featured-sub">Se den fulde sammenligning &rarr;</div></div>
+
+  <!-- ★ NY: NÆSTE SKIFT — relations-tidsdynamik -->
+  <div class="time-shift">
+    <div class="time-shift-item" style="background:rgba(123,122,158,0.04);border-color:rgba(123,122,158,0.08)">
+      <div class="time-shift-when" style="color:#a8a3be">Martins n&aelig;ste faseskift</div>
+      <div class="time-shift-what" style="color:#7b7a9e">Om 5 &aring;r &middot; Jord &rarr; Metal</div>
+    </div>
+    <div class="time-shift-item" style="background:rgba(123,122,158,0.04);border-color:rgba(123,122,158,0.08)">
+      <div class="time-shift-when" style="color:#a8a3be">I m&oslash;des i samme element</div>
+      <div class="time-shift-what" style="color:#7b7a9e">N&aring;r Martin n&aring;r Metal &middot; 2031</div>
+    </div>
+  </div>
+
   <div class="dots">&middot; &middot; &middot;</div>
 
-  <div class="featured feat-relationer"><div class="featured-label">Jeres energi lige nu</div><div class="featured-text">Du er i Vand, din partner i Jord. Det er et stille m&oslash;de &mdash; hvor det dybe og det trygge finder hinanden.</div><div class="featured-sub">Se den fulde sammenligning &rarr;</div></div>
-
+  <!-- GRUPPE 1: LIGE NU -->
   <div class="group-label" style="color:#7b7a9e">Lige nu</div>
   <div class="card"><div class="card-row"><div><div class="card-label">Relationer lige nu</div><div class="card-title">Hvem er t&aelig;t p&aring; dig?</div><div class="card-desc">Se hvem der er i dit liv, og hvad der er aktivt mellem jer. Jeres elementer m&oslash;des &mdash; nogle dage let, andre dage tungt.</div></div><div class="card-arrow">&rarr;</div></div></div>
 
+  <!-- ★ NY: SAMTALEÅBNER — brug den her sætning i dag -->
+  <div class="quick-action" style="background:linear-gradient(135deg,rgba(123,122,158,0.06),rgba(123,122,158,0.02));border-color:rgba(123,122,158,0.10)">
+    <div class="quick-action-label" style="color:#a8a3be">Brug den her s&aelig;tning i dag</div>
+    <div class="quick-action-title" style="color:#7b7a9e">&laquo;&thinsp;Hvad fylder mest for dig lige nu?&thinsp;&raquo;</div>
+    <div class="quick-action-desc" style="color:#999">Jord-energi har brug for at blive set i sin helhed. Sp&oslash;rgsm&aring;let &aring;bner rummet &mdash; uden at kr&aelig;ve svar.</div>
+    <div class="quick-action-btn" style="border-color:rgba(123,122,158,0.25);color:#7b7a9e">Del med Martin &rarr;</div>
+  </div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- GRUPPE 2: GÅ I DYBDEN -->
   <div class="group-label" style="color:#7b7a9e">G&aring; i dybden</div>
   <div class="card"><div class="card-row"><div><div class="card-label">To rytmer</div><div class="card-title">Hendes syv &aring;r, hans otte</div><div class="card-desc">Kvinder f&oslash;lger en syv-&aring;rs cyklus, m&aelig;nd en otte-&aring;rs. Se hvor I m&oslash;des, og hvor jeres faser glider fra hinanden.</div></div><div class="card-arrow">&rarr;</div></div></div>
   <div class="card"><div class="card-row"><div><div class="card-label">Tre generationer</div><div class="card-title">Mor &middot; Dig &middot; Barn</div><div class="card-desc">Tre livsfaser der spejler og udfordrer hinanden. Arv, frihed og fornyelse flettes sammen p&aring; tv&aelig;rs af generationer.</div></div><div class="card-arrow">&rarr;</div></div></div>
 
+  <!-- ★ NY: FÆLLES HANDLING — noget I kan gøre sammen -->
+  <div class="quick-action" style="background:linear-gradient(135deg,rgba(123,122,158,0.06),rgba(184,166,192,0.03));border-color:rgba(123,122,158,0.10)">
+    <div class="quick-action-label" style="color:#a8a3be">Noget I kan g&oslash;re sammen</div>
+    <div class="quick-action-title" style="color:#7b7a9e">G&aring; en stille tur &mdash; uden at skulle noget</div>
+    <div class="quick-action-desc" style="color:#999">N&aring;r Vand m&oslash;der Jord, er stilheden jeres bedste sprog. G&aring; side om side. Lad ordene komme n&aring;r de er klar.</div>
+  </div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- GRUPPE 3: OVER TID -->
   <div class="group-label" style="color:#7b7a9e">Over tid</div>
   <div class="card"><div class="card-row"><div><div class="card-label">Jeres energi</div><div class="card-title">V&aelig;lg en dato, se et m&oslash;de</div><div class="card-desc">Hvad var aktivt mellem jer da I m&oslash;dtes? Eller n&aring;r barnet fylder 14? V&aelig;lg en dato og se hvad der l&aring; under overfladen.</div></div><div class="card-arrow">&rarr;</div></div></div>
   <div class="card"><div class="card-row"><div><div class="card-label">Epigenetik &amp; Arv</div><div class="card-title">Det du b&aelig;rer med dig</div><div class="card-desc">Hvad blev givet videre fra generationer f&oslash;r, og hvad kan du selv v&aelig;lge at forvandle?</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+  <!-- ★ NY: PULL-QUOTE — Isabelle om relationer -->
+  <div class="pull-quote">
+    <div class="pull-quote-text" style="color:#8a85a0">&laquo;&thinsp;De mennesker der udfordrer dig mest, er ofte dem der b&aelig;rer den energi du selv har brug for at m&oslash;de.&thinsp;&raquo;</div>
+    <div class="pull-quote-attr">&mdash; Isabelle</div>
+  </div>
+
+  <!-- ★ NY: FIGUR #2 — Jeres møde (to dråbeformer der overlapper) -->
+  <div class="wave-timeline" style="background:rgba(123,122,158,0.03);border-color:rgba(123,122,158,0.07)">
+    <div class="wave-label" style="color:#a8a3be">Jeres m&oslash;de</div>
+    <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin:12px 0 8px">
+      <!-- Venstre dråbe: DIG — Vand -->
+      <ellipse cx="125" cy="100" rx="85" ry="70" fill="rgba(123,122,158,0.06)" stroke="rgba(123,122,158,0.18)" stroke-width="1"/>
+      <!-- Højre dråbe: MARTIN — Jord -->
+      <ellipse cx="195" cy="100" rx="85" ry="70" fill="rgba(184,166,192,0.06)" stroke="rgba(184,166,192,0.18)" stroke-width="1"/>
+      <!-- Overlap-zone (mødet) — stærkere fyld -->
+      <clipPath id="clip-left"><ellipse cx="125" cy="100" rx="85" ry="70"/></clipPath>
+      <ellipse cx="195" cy="100" rx="85" ry="70" clip-path="url(#clip-left)" fill="rgba(123,122,158,0.08)" stroke="none"/>
+
+      <!-- Labels: DIG -->
+      <text x="92" y="85" font-family="'DM Sans',sans-serif" font-size="8" fill="#a8a3be" font-weight="300" letter-spacing="1.5" text-anchor="middle">DIG</text>
+      <text x="92" y="100" font-family="'Playfair Display',serif" font-size="14" fill="#7b7a9e" font-style="italic" text-anchor="middle">Vand</text>
+      <text x="92" y="115" font-family="'DM Sans',sans-serif" font-size="8" fill="#b5b0c5" font-weight="300" text-anchor="middle">Fase 9</text>
+
+      <!-- Labels: MARTIN -->
+      <text x="228" y="85" font-family="'DM Sans',sans-serif" font-size="8" fill="#c5b8ce" font-weight="300" letter-spacing="1.5" text-anchor="middle">MARTIN</text>
+      <text x="228" y="100" font-family="'Playfair Display',serif" font-size="14" fill="#9b8da8" font-style="italic" text-anchor="middle">Jord</text>
+      <text x="228" y="115" font-family="'DM Sans',sans-serif" font-size="8" fill="#c5b8ce" font-weight="300" text-anchor="middle">Fase 6</text>
+
+      <!-- Overlap-label -->
+      <text x="160" y="93" font-family="'DM Sans',sans-serif" font-size="7" fill="#8a85a0" font-weight="300" letter-spacing="1" text-anchor="middle">JERES</text>
+      <text x="160" y="107" font-family="'DM Sans',sans-serif" font-size="7" fill="#8a85a0" font-weight="300" letter-spacing="1" text-anchor="middle">M&Oslash;DE</text>
+
+      <!-- Nærings-pile (subtile, stiplede) -->
+      <!-- Jord kontrollerer Vand (stiplet) -->
+      <path d="M 208,78 C 190,68 175,70 160,75" fill="none" stroke="rgba(123,122,158,0.20)" stroke-width="0.7" stroke-dasharray="3,3"/>
+      <!-- Vand nærer Træ (men her mødes de bare) -->
+      <path d="M 112,78 C 130,68 145,70 160,75" fill="none" stroke="rgba(123,122,158,0.15)" stroke-width="0.7" stroke-dasharray="3,3"/>
+
+      <!-- Subtil forbindelseslinje i bunden -->
+      <path d="M 92,130 C 120,145 200,145 228,130" fill="none" stroke="rgba(123,122,158,0.10)" stroke-width="0.5"/>
+      <text x="160" y="150" font-family="'Playfair Display',serif" font-size="9" fill="#a8a3be" font-style="italic" text-anchor="middle">det dybe og det trygge</text>
+
+      <!-- To små prikker ved centrene -->
+      <circle cx="92" cy="100" r="2" fill="rgba(123,122,158,0.25)"/>
+      <circle cx="228" cy="100" r="2" fill="rgba(184,166,192,0.25)"/>
+    </svg>
+    <div class="wave-caption" style="color:#8a85a0">To energier, &eacute;t m&oslash;dested. Jord giver fundament. Vand giver dybde. Sammen finder I balancen.</div>
+  </div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- ★ NY: KRYDSLINKS — andre sektioner -->
+  <div class="cross-links">
+    <div class="cross-links-label">Udforsk ogs&aring;</div>
+    <div class="cross-links-row">
+      <span class="cross-link" style="border-color:rgba(123,122,158,0.12);color:#a8a3be">Mine Cyklusser</span>
+      <span class="cross-link" style="border-color:rgba(123,122,158,0.12);color:#a8a3be">Min Praksis</span>
+      <span class="cross-link" style="border-color:rgba(123,122,158,0.12);color:#a8a3be">Min Rejse</span>
+    </div>
+  </div>
 
   <div class="section-closer"><div class="lotus-fill"><img src="assets/images/rosa-lotus.png" alt=""></div></div>
   <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
