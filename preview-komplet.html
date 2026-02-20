@@ -538,6 +538,66 @@ body { background: #FDFCFB; font-family: 'DM Sans', sans-serif; }
   font-style: italic; color: #8a9e98; line-height: 1.5;
 }
 
+/* MILESTONE-BOX — hvor du er i din fase */
+.milestone-box {
+  border-radius: 14px; padding: 22px 20px;
+  margin: 18px 0; text-align: center;
+  background: rgba(138,150,169,0.04);
+  border: 1px solid rgba(138,150,169,0.08);
+}
+.milestone-phase {
+  font-family: 'Playfair Display', serif; font-size: 18px;
+  font-style: italic; color: #8a96a9; margin-bottom: 2px;
+}
+.milestone-years {
+  font-family: 'DM Sans', sans-serif; font-size: 11px;
+  color: #a8b2c1; font-weight: 300; margin-bottom: 14px;
+}
+.milestone-bar {
+  height: 4px; border-radius: 2px; position: relative;
+  background: rgba(138,150,169,0.10); margin: 0 20px 6px;
+}
+.milestone-fill {
+  height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, #8a96a9, #a8b2c1);
+}
+.milestone-marker {
+  position: absolute; top: -4px; width: 6px; height: 12px;
+  border-radius: 3px; background: #8a96a9;
+  transform: translateX(-50%);
+}
+.milestone-range {
+  display: flex; justify-content: space-between;
+  padding: 0 20px; margin-bottom: 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  color: #c0c8d4; font-weight: 300;
+}
+.milestone-text {
+  font-family: 'Playfair Display', serif; font-size: 13px;
+  font-style: italic; color: #8a96a9; line-height: 1.55;
+  padding-top: 10px; border-top: 1px solid rgba(138,150,169,0.08);
+}
+
+/* STAT-ROW — 4 tal i en række */
+.stat-row {
+  display: flex; gap: 8px; margin: 18px 0;
+}
+.stat-box {
+  flex: 1; text-align: center; padding: 14px 6px;
+  border-radius: 12px;
+  background: rgba(138,150,169,0.04);
+  border: 1px solid rgba(138,150,169,0.08);
+}
+.stat-number {
+  font-family: 'Playfair Display', serif; font-size: 22px;
+  font-style: italic; color: #8a96a9; line-height: 1.2;
+}
+.stat-label-text {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  color: #b5bcc8; font-weight: 300; margin-top: 3px;
+  letter-spacing: 0.3px;
+}
+
 /* CROSS-LINKS — tynde links til andre sektioner */
 .cross-links {
   margin: 28px 0 8px; text-align: center;
@@ -571,7 +631,7 @@ body { background: #FDFCFB; font-family: 'DM Sans', sans-serif; }
 </style>
 <script>
 // Cache-busting: forces reload when new version is deployed
-const V = '20260220-v27';
+const V = '20260220-v28';
 if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   localStorage.setItem('pk-v', V);
   location.reload(true);
@@ -1315,20 +1375,157 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   <div style="text-align:center;margin:0 auto 8px">
     <img src="assets/images/min-rejse-ikigai.png" alt="Visdom" style="width:100%;max-width:320px;filter:grayscale(1) sepia(1) hue-rotate(185deg) saturate(0.8) brightness(0.92) contrast(1.05)">
   </div>
-  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- ★ NY: FEELING-BOX — det der er svært at se -->
+  <div class="feeling-box" style="border-color:rgba(138,150,169,0.08);background:linear-gradient(135deg,rgba(138,150,169,0.04),rgba(168,178,193,0.04))">
+    <div class="feeling-label" style="color:#a8b2c1">Det der er sv&aelig;rt at se</div>
+    <div class="feeling-text" style="color:#6e7d91">Det er n&aelig;sten umuligt at forst&aring; sin egen rejse mens man er midt i den. Du kan ikke se m&oslash;nsteret, n&aring;r du selv er en del af det. Men m&oslash;nsteret er der. Det viser sig i de &oslash;jeblikke hvor noget gentager sig &mdash; og i de &oslash;jeblikke hvor noget pludselig h&oslash;rer op.</div>
+  </div>
+
+  <!-- ★ NY: MILESTONE — hvor du er lige nu -->
+  <div class="milestone-box">
+    <div class="milestone-phase">Fase 9 &middot; Visdom</div>
+    <div class="milestone-years">Du er i &aring;r 4 af denne fase</div>
+    <div class="milestone-bar"><div class="milestone-fill" style="width:57%"></div><div class="milestone-marker" style="left:57%"></div></div>
+    <div class="milestone-range"><span>56 &aring;r</span><span>63 &aring;r</span></div>
+    <div class="milestone-text">Visdomsfasen fordyber sig. Vand-energien n&aelig;rer det du allerede ved &mdash; og slipper det du ikke l&aelig;ngere har brug for.</div>
+  </div>
 
   <div class="featured feat-rejse"><div class="featured-label">Din udvikling</div><div class="featured-text">12 check-ins denne m&aring;ned. Dit dominerende element er Vand &mdash; og et m&oslash;nster begynder at vise sig.</div><div class="featured-sub">Se dine m&oslash;nstre &rarr;</div></div>
 
+  <!-- ★ NY: STAT-BOKSE — din rejse i tal -->
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">47</div>
+      <div class="stat-label-text">Check-ins</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">8</div>
+      <div class="stat-label-text">Refleksioner</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">3<span style="font-size:10px;font-style:normal;opacity:0.6">/5</span></div>
+      <div class="stat-label-text">Elementer</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">14d</div>
+      <div class="stat-label-text">Streak</div>
+    </div>
+  </div>
+
+  <!-- ★ NY: FIGUR #2 — Diamanten (4 retninger af rejsen) — MIDWAY placering -->
+  <div class="wave-timeline" style="background:rgba(138,150,169,0.03);border-color:rgba(138,150,169,0.07)">
+    <div class="wave-label" style="color:#a8b2c1">Din rejse har fire retninger</div>
+    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;height:auto;display:block;margin:12px auto 8px">
+      <!-- Diamant — fire blade/spidser der mødes i centrum -->
+      <!-- Blad OP: Hvem du bliver (fremtid) -->
+      <path d="M 150,18 C 170,75 175,100 150,150 C 125,100 130,75 150,18 Z"
+            fill="rgba(138,150,169,0.08)" stroke="rgba(138,150,169,0.20)" stroke-width="0.8"/>
+      <!-- Blad HØJRE: Hvad du mærker (nutid) -->
+      <path d="M 282,150 C 225,170 200,175 150,150 C 200,125 225,130 282,150 Z"
+            fill="rgba(138,150,169,0.06)" stroke="rgba(138,150,169,0.16)" stroke-width="0.8"/>
+      <!-- Blad NED: Hvem du var (fortid) -->
+      <path d="M 150,282 C 130,225 125,200 150,150 C 175,200 170,225 150,282 Z"
+            fill="rgba(138,150,169,0.05)" stroke="rgba(138,150,169,0.14)" stroke-width="0.8"/>
+      <!-- Blad VENSTRE: Hvad du har lært (indsigt) -->
+      <path d="M 18,150 C 75,130 100,125 150,150 C 100,175 75,170 18,150 Z"
+            fill="rgba(138,150,169,0.06)" stroke="rgba(138,150,169,0.16)" stroke-width="0.8"/>
+
+      <!-- Center cirkel: DIG NU -->
+      <circle cx="150" cy="150" r="22" fill="rgba(138,150,169,0.08)" stroke="rgba(138,150,169,0.22)" stroke-width="0.8"/>
+      <text x="150" y="147" font-family="'DM Sans',sans-serif" font-size="7" fill="#8a96a9" font-weight="400" letter-spacing="1.5" text-anchor="middle">DIG</text>
+      <text x="150" y="158" font-family="'DM Sans',sans-serif" font-size="7" fill="#8a96a9" font-weight="300" letter-spacing="1" text-anchor="middle">NU</text>
+
+      <!-- Labels for hvert blad -->
+      <!-- Top: HVEM DU BLIVER -->
+      <text x="150" y="52" font-family="'DM Sans',sans-serif" font-size="6.5" fill="#a8b2c1" font-weight="300" letter-spacing="1" text-anchor="middle">HVEM DU BLIVER</text>
+      <text x="150" y="64" font-family="'Playfair Display',serif" font-size="9" fill="#8a96a9" font-style="italic" text-anchor="middle">fremtiden</text>
+
+      <!-- Højre: HVAD DU MÆRKER -->
+      <text x="240" y="145" font-family="'DM Sans',sans-serif" font-size="6.5" fill="#a8b2c1" font-weight="300" letter-spacing="1" text-anchor="middle">HVAD DU</text>
+      <text x="240" y="155" font-family="'DM Sans',sans-serif" font-size="6.5" fill="#a8b2c1" font-weight="300" letter-spacing="1" text-anchor="middle">M&AElig;RKER</text>
+      <text x="240" y="167" font-family="'Playfair Display',serif" font-size="9" fill="#8a96a9" font-style="italic" text-anchor="middle">nutiden</text>
+
+      <!-- Bund: HVEM DU VAR -->
+      <text x="150" y="248" font-family="'DM Sans',sans-serif" font-size="6.5" fill="#b5bcc8" font-weight="300" letter-spacing="1" text-anchor="middle">HVEM DU VAR</text>
+      <text x="150" y="260" font-family="'Playfair Display',serif" font-size="9" fill="#a8b2c1" font-style="italic" text-anchor="middle">fortiden</text>
+
+      <!-- Venstre: HVAD DU HAR LÆRT -->
+      <text x="60" y="145" font-family="'DM Sans',sans-serif" font-size="6.5" fill="#a8b2c1" font-weight="300" letter-spacing="1" text-anchor="middle">HVAD DU</text>
+      <text x="60" y="155" font-family="'DM Sans',sans-serif" font-size="6.5" fill="#a8b2c1" font-weight="300" letter-spacing="1" text-anchor="middle">HAR L&AElig;RT</text>
+      <text x="60" y="167" font-family="'Playfair Display',serif" font-size="9" fill="#8a96a9" font-style="italic" text-anchor="middle">indsigten</text>
+
+      <!-- Subtile diagonale forbindelseslinjer -->
+      <line x1="130" y1="130" x2="60" y2="60" stroke="rgba(138,150,169,0.06)" stroke-width="0.5" stroke-dasharray="2,4"/>
+      <line x1="170" y1="130" x2="240" y2="60" stroke="rgba(138,150,169,0.06)" stroke-width="0.5" stroke-dasharray="2,4"/>
+      <line x1="170" y1="170" x2="240" y2="240" stroke="rgba(138,150,169,0.06)" stroke-width="0.5" stroke-dasharray="2,4"/>
+      <line x1="130" y1="170" x2="60" y2="240" stroke="rgba(138,150,169,0.06)" stroke-width="0.5" stroke-dasharray="2,4"/>
+    </svg>
+    <div class="wave-caption" style="color:#8a96a9">Fire retninger. &Eacute;n rejse. Alt m&oslash;des i det &oslash;jeblik du st&aring;r i nu.</div>
+  </div>
+
+  <!-- ★ NY: EN OPDAGELSE — auto-genereret mønster-indsigt -->
+  <div class="insight-box" style="background:rgba(138,150,169,0.05);border:1px solid rgba(138,150,169,0.10)">
+    <div class="insight-label" style="color:#a8b2c1">En opdagelse</div>
+    <div class="insight-text" style="color:#8a96a9">De sidste 30 dage har Vand domineret dine check-ins. Det spejler din livsfase &mdash; du er i resonans med dig selv. Det er sj&aelig;ldent, og det er v&aelig;rd at m&aelig;rke.</div>
+  </div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- GRUPPE 1: DIN DAGBOG -->
   <div class="group-label" style="color:#8a96a9">Din dagbog</div>
-  <div class="card"><div class="card-row"><div><div class="card-label">Min udvikling</div><div class="card-title">Energi, stemning, balance</div><div class="card-desc">Grafer, statistik og tidslinje over dine check-ins. Se m&oslash;nstre i din energi.</div></div><div class="card-arrow">&rarr;</div></div></div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Min udvikling</div><div class="card-title">Energi, stemning, balance</div><div class="card-desc">Grafer, statistik og tidslinje over dine check-ins. Se m&oslash;nstre i din energi &mdash; og opdag hvad der gentager sig.</div></div><div class="card-arrow">&rarr;</div></div></div>
   <div class="card"><div class="card-row"><div><div class="card-label">Min journal</div><div class="card-title">Et stille rum til dine tanker</div><div class="card-desc">Skriv frit, eller brug dagens sp&oslash;rgsm&aring;l som afs&aelig;t. Ingen regler &mdash; bare et sted at lande.</div></div><div class="card-arrow">&rarr;</div></div></div>
 
-  <div class="group-label" style="color:#8a96a9">Din samling</div>
-  <div class="card"><div class="card-row"><div><div class="card-label">Mine favoritter</div><div class="card-title">Det du har gemt</div><div class="card-desc">&Oslash;velser, indsigter og sider du vil vende tilbage til.</div></div><div class="card-arrow">&rarr;</div></div></div>
-  <div class="card"><div class="card-row"><div><div class="card-label">Mine opdagelser</div><div class="card-title">N&aring;r noget falder p&aring; plads</div><div class="card-desc">De &oslash;jeblikke hvor noget pludselig gav mening. Saml dine aha-oplevelser.</div></div><div class="card-arrow">&rarr;</div></div></div>
+  <!-- ★ NY: QUICK-ACTION — dagens check-in -->
+  <div class="quick-action" style="background:linear-gradient(135deg,rgba(138,150,169,0.06),rgba(138,150,169,0.02));border-color:rgba(138,150,169,0.10)">
+    <div class="quick-action-label" style="color:#a8b2c1">Dagens check-in</div>
+    <div class="quick-action-title" style="color:#8a96a9">Hvordan f&oslash;les din energi lige nu?</div>
+    <div class="quick-action-desc" style="color:#999">Et minut. Fem valg. Ingen forkerte svar. Din stemning i dag bliver en del af dit m&oslash;nster i morgen.</div>
+    <div class="quick-action-btn" style="border-color:rgba(138,150,169,0.25);color:#8a96a9">Registr&eacute;r &rarr;</div>
+  </div>
 
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- GRUPPE 2: DIN SAMLING -->
+  <div class="group-label" style="color:#8a96a9">Din samling</div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Mine favoritter</div><div class="card-title">Det du har gemt</div><div class="card-desc">&Oslash;velser, indsigter og sider du vil vende tilbage til. Dit personlige bibliotek.</div></div><div class="card-arrow">&rarr;</div></div></div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Mine opdagelser</div><div class="card-title">N&aring;r noget falder p&aring; plads</div><div class="card-desc">De &oslash;jeblikke hvor noget pludselig gav mening. Saml dine aha-oplevelser &mdash; de er v&aelig;rd at vende tilbage til.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+  <!-- ★ NY: TIME-SHIFT — tidsdynamik -->
+  <div class="time-shift">
+    <div class="time-shift-item" style="background:rgba(138,150,169,0.04);border-color:rgba(138,150,169,0.08)">
+      <div class="time-shift-when" style="color:#a8b2c1">N&aelig;ste faseovergang</div>
+      <div class="time-shift-what" style="color:#8a96a9">Om 3 &aring;r &middot; Fase 9 slutter</div>
+    </div>
+    <div class="time-shift-item" style="background:rgba(138,150,169,0.04);border-color:rgba(138,150,169,0.08)">
+      <div class="time-shift-when" style="color:#a8b2c1">Det nye element</div>
+      <div class="time-shift-what" style="color:#8a96a9">Vand &rarr; en ny cyklus begynder</div>
+    </div>
+  </div>
+
+  <div class="dots">&middot; &middot; &middot;</div>
+
+  <!-- GRUPPE 3: VIDEN -->
   <div class="group-label" style="color:#8a96a9">Viden</div>
-  <div class="card"><div class="card-row"><div><div class="card-label">Baggrundsviden</div><div class="card-title">Om bogen og systemet</div><div class="card-desc">De fem elementer, de ni faser, og tankerne bag.</div></div><div class="card-arrow">&rarr;</div></div></div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Alle ni faser</div><div class="card-title">Fra f&oslash;dsel til visdom</div><div class="card-desc">Se alle ni livsfaser side om side. Find din, og forst&aring; dem der kom f&oslash;r &mdash; og dem der venter.</div></div><div class="card-arrow">&rarr;</div></div></div>
+  <div class="card"><div class="card-row"><div><div class="card-label">Baggrundsviden</div><div class="card-title">Om bogen og systemet</div><div class="card-desc">De fem elementer, de ni faser, og de traditioner der b&aelig;rer det hele. Anishinaabe, keltisk, vedisk, kinesisk.</div></div><div class="card-arrow">&rarr;</div></div></div>
+
+  <!-- ★ NY: PULL-QUOTE — Isabelle om rejsen -->
+  <div class="pull-quote">
+    <div class="pull-quote-text" style="color:#8a96a9">&laquo;&thinsp;Du beh&oslash;ver ikke forst&aring; hele din rejse. Bare det n&aelig;ste skridt. Resten viser sig, n&aring;r du er klar.&thinsp;&raquo;</div>
+    <div class="pull-quote-attr">&mdash; Isabelle</div>
+  </div>
+
+  <!-- ★ NY: KRYDSLINKS — andre sektioner -->
+  <div class="cross-links">
+    <div class="cross-links-label">Udforsk ogs&aring;</div>
+    <div class="cross-links-row">
+      <span class="cross-link" style="border-color:rgba(138,150,169,0.12);color:#a8b2c1">Mine Cyklusser</span>
+      <span class="cross-link" style="border-color:rgba(138,150,169,0.12);color:#a8b2c1">Mine Relationer</span>
+      <span class="cross-link" style="border-color:rgba(138,150,169,0.12);color:#a8b2c1">Min Praksis</span>
+    </div>
+  </div>
 
   <div class="section-closer"><div class="lotus-fill"><img src="assets/images/rosa-lotus.png" alt=""></div></div>
   <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
