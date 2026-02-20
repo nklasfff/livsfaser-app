@@ -448,7 +448,7 @@ function renderMellemstation(userData) {
   var phaseAt2000 = calculateLifePhase(Math.max(0, ageAt2000));
   var vinduerText = 'Du var <strong>' + ageAt2000 + ' og i ' + ELEMENT_LABELS[phaseAt2000.element] + '-energi</strong> ved \u00e5rtusindskiftet. Hvad skete der? Eller kig fremad: <strong>hvordan ser n\u00e6ste vinter ud?</strong>';
 
-  var sf = "'Cormorant Garamond','Times New Roman',Georgia,serif";
+  var sf = "'Bodoni Moda','Times New Roman',Georgia,serif";
 
   var html = '';
 
@@ -514,7 +514,7 @@ function renderMellemstation(userData) {
   // VINDUER-SEKTION — billeder fra Lige Nu
   html += '<div class="mellem__win">';
   html += '<div class="mellem__win-label" style="font-size:15px">Appens hjerte</div>';
-  html += '<div style="font-family:\'Cormorant Garamond\',Georgia,serif;font-size:20px;font-style:italic;color:#6B5F7B;text-align:center;margin-bottom:16px;line-height:1.4">Mine Liv oplevet gennem Mine Vinduer</div>';
+  html += '<div style="font-family:\'Bodoni Moda\',Georgia,serif;font-size:20px;font-style:italic;color:#6B5F7B;text-align:center;margin-bottom:16px;line-height:1.4">Mine Liv oplevet gennem Mine Vinduer</div>';
   html += '<div style="text-align:center">';
   html += '<img src="assets/images/vinduer-tid-lilla.png" alt="Tidsvinduet" style="width:100%;height:auto">';
   html += '<img src="assets/images/relationer-forside.png" alt="Relationsvinduet" style="width:75%;height:auto;margin-top:-50px;display:block;margin-left:auto;margin-right:auto">';
@@ -2357,7 +2357,7 @@ function renderVennIndsigt() {
   var phaseLabel = ELEMENT_LABELS[d.lifePhase.element] + ' \u00B7 ' + d.lifePhase.name;
   var seasonLabel = d.season.season + ' \u00B7 ' + ELEMENT_LABELS[d.season.element];
 
-  var serifFont = "'Cormorant Garamond','Times New Roman',Georgia,serif";
+  var serifFont = "'Bodoni Moda','Times New Roman',Georgia,serif";
   var svg = '<svg width="280" height="240" viewBox="0 0 280 240" xmlns="http://www.w3.org/2000/svg">';
 
   // Tre overlappende cirkler
@@ -2516,7 +2516,7 @@ function renderIdagVinduer() {
     activePhase = lp.phase || 9;
   }
 
-  var sf = "'Cormorant Garamond','Times New Roman',Georgia,serif";
+  var sf = "'Bodoni Moda','Times New Roman',Georgia,serif";
   var html = '<div class="idag__vinduer-zone">';
 
   // ---- TIDSVINDUET ----
@@ -2578,7 +2578,7 @@ function renderIdagTidsvinduetLink_OLD() {
   html += '<img src="assets/images/bue_forside_livsfaser.png" alt="De 9 livsfaser i bue" class="idag__window-img idag__window-img--bue">';
   html += '</div>';
   // Tidslinje under buen (fase 5 centreret over "nu")
-  var sf = "'Cormorant Garamond','Times New Roman',Georgia,serif";
+  var sf = "'Bodoni Moda','Times New Roman',Georgia,serif";
   html += '<div class="idag__window-fig" style="margin-top:-8px">';
   html += '<svg width="310" height="36" xmlns="http://www.w3.org/2000/svg">';
   html += '<line x1="40" y1="14" x2="270" y2="14" stroke="rgba(139,125,155,0.2)" stroke-width="1"/>';
@@ -5482,7 +5482,7 @@ function renderMineVinduerInput() {
 function renderMineVinduerScenarier() {
   var el = document.getElementById('mine-vinduer-scenarier');
   if (!el) return;
-  var sf = "'Cormorant Garamond','Times New Roman',Georgia,serif";
+  var sf = "'Bodoni Moda','Times New Roman',Georgia,serif";
 
   var html = '<div class="mv__dots">\u00B7 \u00B7 \u00B7</div>';
 
@@ -7042,19 +7042,19 @@ function renderMcThreeCircleSvg(d) {
   // Bottom-right circle (CYKLUS)
   svg += '<circle cx="195" cy="168" r="72" fill="rgba(118,144,193,0.06)" stroke="rgba(118,144,193,0.18)" stroke-width="1"/>';
   // Labels
-  svg += '<text x="140" y="50" font-family="\'Cormorant Garamond\',serif" font-size="11" fill="#5A74A5" text-anchor="middle" letter-spacing="1.5" font-weight="600">LIVSFASE</text>';
-  svg += '<text x="140" y="66" font-family="\'Cormorant Garamond\',serif" font-size="10" fill="#7690C1" font-style="italic" text-anchor="middle">' + phaseLabel + '</text>';
-  svg += '<text x="60" y="190" font-family="\'Cormorant Garamond\',serif" font-size="11" fill="#5A74A5" text-anchor="middle" letter-spacing="1.5" font-weight="600">\u00c5RSTID</text>';
-  svg += '<text x="60" y="206" font-family="\'Cormorant Garamond\',serif" font-size="10" fill="#7690C1" font-style="italic" text-anchor="middle">' + seasonLabel + '</text>';
-  svg += '<text x="220" y="190" font-family="\'Cormorant Garamond\',serif" font-size="11" fill="#5A74A5" text-anchor="middle" letter-spacing="1.5" font-weight="600">CYKLUS</text>';
-  svg += '<text x="220" y="206" font-family="\'Cormorant Garamond\',serif" font-size="10" fill="#7690C1" font-style="italic" text-anchor="middle">' + cyclusLabel + '</text>';
+  svg += '<text x="140" y="50" font-family="\'Bodoni Moda\',serif" font-size="11" fill="#5A74A5" text-anchor="middle" letter-spacing="1.5" font-weight="600">LIVSFASE</text>';
+  svg += '<text x="140" y="66" font-family="\'Bodoni Moda\',serif" font-size="10" fill="#7690C1" font-style="italic" text-anchor="middle">' + phaseLabel + '</text>';
+  svg += '<text x="60" y="190" font-family="\'Bodoni Moda\',serif" font-size="11" fill="#5A74A5" text-anchor="middle" letter-spacing="1.5" font-weight="600">\u00c5RSTID</text>';
+  svg += '<text x="60" y="206" font-family="\'Bodoni Moda\',serif" font-size="10" fill="#7690C1" font-style="italic" text-anchor="middle">' + seasonLabel + '</text>';
+  svg += '<text x="220" y="190" font-family="\'Bodoni Moda\',serif" font-size="11" fill="#5A74A5" text-anchor="middle" letter-spacing="1.5" font-weight="600">CYKLUS</text>';
+  svg += '<text x="220" y="206" font-family="\'Bodoni Moda\',serif" font-size="10" fill="#7690C1" font-style="italic" text-anchor="middle">' + cyclusLabel + '</text>';
   // Overlap labels
-  svg += '<text x="100" y="112" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#7690C1" font-style="italic" text-anchor="middle">tid \u00B7 natur</text>';
-  svg += '<text x="180" y="112" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#7690C1" font-style="italic" text-anchor="middle">tid \u00B7 krop</text>';
-  svg += '<text x="140" y="192" font-family="\'Cormorant Garamond\',serif" font-size="8" fill="#7690C1" font-style="italic" text-anchor="middle">natur \u00B7 krop</text>';
+  svg += '<text x="100" y="112" font-family="\'Bodoni Moda\',serif" font-size="8" fill="#7690C1" font-style="italic" text-anchor="middle">tid \u00B7 natur</text>';
+  svg += '<text x="180" y="112" font-family="\'Bodoni Moda\',serif" font-size="8" fill="#7690C1" font-style="italic" text-anchor="middle">tid \u00B7 krop</text>';
+  svg += '<text x="140" y="192" font-family="\'Bodoni Moda\',serif" font-size="8" fill="#7690C1" font-style="italic" text-anchor="middle">natur \u00B7 krop</text>';
   // Center
-  svg += '<text x="140" y="132" font-family="\'Cormorant Garamond\',serif" font-size="13" fill="#5A74A5" font-weight="600" text-anchor="middle">DIT</text>';
-  svg += '<text x="140" y="148" font-family="\'Cormorant Garamond\',serif" font-size="11" fill="#5A74A5" text-anchor="middle" letter-spacing="1">KRYDSFELT</text>';
+  svg += '<text x="140" y="132" font-family="\'Bodoni Moda\',serif" font-size="13" fill="#5A74A5" font-weight="600" text-anchor="middle">DIT</text>';
+  svg += '<text x="140" y="148" font-family="\'Bodoni Moda\',serif" font-size="11" fill="#5A74A5" text-anchor="middle" letter-spacing="1">KRYDSFELT</text>';
   svg += '</svg>';
   return svg;
 }
