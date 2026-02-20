@@ -358,7 +358,7 @@ body { background: #FAF9F6; font-family: 'DM Sans', sans-serif; }
 </style>
 <script>
 // Cache-busting: forces reload when new version is deployed
-const V = '20260220-v2';
+const V = '20260220-v3';
 if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   localStorage.setItem('pk-v', V);
   location.reload(true);
@@ -768,19 +768,14 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   <div class="section-intro">Dit liv er ikke bare her og nu. Hvert &oslash;jeblik b&aelig;rer aftryk af de cyklusser der var aktive &mdash; og foran dig venter nye m&oslash;nstre. Mine Vinduer er dit tidsrejse-v&aelig;rkt&oslash;j.</div>
 
   <div style="text-align:center;margin:0 auto 12px">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 185" style="width:100%;max-width:310px">
-      <path d="M 40 148 Q 95 25 170 25 Q 245 25 300 148" fill="none" stroke="rgba(107,95,123,0.22)" stroke-width="1.2"/>
-      <circle cx="58" cy="112" r="1.8" fill="rgba(107,95,123,0.18)"/><circle cx="78" cy="78" r="1.8" fill="rgba(107,95,123,0.18)"/><circle cx="105" cy="48" r="1.8" fill="rgba(107,95,123,0.18)"/><circle cx="137" cy="30" r="1.8" fill="rgba(107,95,123,0.18)"/><circle cx="203" cy="30" r="1.8" fill="rgba(107,95,123,0.18)"/><circle cx="235" cy="48" r="1.8" fill="rgba(107,95,123,0.18)"/><circle cx="262" cy="78" r="1.8" fill="rgba(107,95,123,0.18)"/><circle cx="282" cy="112" r="1.8" fill="rgba(107,95,123,0.18)"/>
-      <circle cx="40" cy="148" r="5" fill="rgba(107,95,123,0.15)" stroke="rgba(107,95,123,0.28)" stroke-width="0.8"/><text x="40" y="172" text-anchor="middle" font-family="'Playfair Display', serif" font-size="10" font-style="italic" fill="#6B5F7B">FORTID</text>
-      <circle cx="170" cy="25" r="12" fill="rgba(107,95,123,0.08)"/><circle cx="170" cy="25" r="7" fill="rgba(107,95,123,0.25)" stroke="rgba(107,95,123,0.40)" stroke-width="0.8"/><text x="170" y="8" text-anchor="middle" font-family="'Playfair Display', serif" font-size="11" font-weight="500" fill="#6B5F7B" letter-spacing="1.5">NU</text>
-      <circle cx="300" cy="148" r="5" fill="rgba(107,95,123,0.15)" stroke="rgba(107,95,123,0.28)" stroke-width="0.8"/><text x="300" y="172" text-anchor="middle" font-family="'Playfair Display', serif" font-size="10" font-style="italic" fill="#6B5F7B">FREMTID</text>
-    </svg>
+    <img src="assets/images/vinduer-tid-lilla.png" alt="Tidsvinduet" style="width:100%;height:auto">
+    <img src="assets/images/relationer-forside.png" alt="Relationsvinduet" style="width:95%;height:auto;margin-top:-80px;display:block;margin-left:auto;margin-right:auto">
   </div>
 
   <div class="motor-box" style="background:rgba(107,95,123,0.05);border:1px solid rgba(107,95,123,0.10)"><div class="motor-label" style="color:#a89bb3">Hvad er Mine Vinduer?</div><div class="motor-text" style="color:#6B5F7B">V&aelig;lg en dato &mdash; fortid eller fremtid &mdash; og se hvad der var aktivt i dine cyklusser. For dig alene, eller sammen med nogen du holder af. Det er her &oslash;jeblikke f&aring;r forklaring.</div></div>
   <div class="dots">&middot; &middot; &middot;</div>
 
-  <div class="featured feat-vinduer"><div class="featured-label">Tidsrejsen</div><div class="featured-text">Du var 28 og i Ild-energi ved &aring;rtusindskiftet. Din partner var 32 og i Metal. Hvad skete der mellem jer?</div><div class="featured-sub">&Aring;bn Mine Vinduer &rarr;</div></div>
+  <div class="featured feat-vinduer"><div class="featured-label">Tidsrejsen</div><div class="featured-text">Din datter fylder 14 n&aelig;ste &aring;r og tr&aelig;der ind i Tr&aelig;-energi. Du var selv i samme fase da alt forandrede sig. Hvad kan I l&aelig;re af hinanden?</div><div class="featured-sub">&Aring;bn Mine Vinduer &rarr;</div></div>
 
   <div class="group-label" style="color:#6B5F7B">Tre m&aring;der at rejse p&aring;</div>
   <div class="scenario" style="background:rgba(107,95,123,0.04);border:1px solid rgba(107,95,123,0.08)"><div class="scenario-label" style="color:#a89bb3">Dig alene</div><div class="scenario-title" style="color:#6B5F7B">Rejse i din egen tid</div><div class="scenario-text">V&aelig;lg en dato og se hvilken livsfase, &aring;rstid og cyklus der var aktiv. Forst&aring; hvad der pr&aelig;gede dig &mdash; eller forbered det der kommer.</div></div>
