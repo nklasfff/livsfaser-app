@@ -1,7 +1,7 @@
 # PREVIEW-KAPITEL-LOG — De 9 Livsfasers Energi
 
 *Komplet inventar over alle skærme, komponenter og indhold i preview-komplet.html*
-*Opdateret: 21. februar 2026 · v35*
+*Opdateret: 21. februar 2026 · v36*
 
 ---
 
@@ -16,8 +16,8 @@
 | Undersider (Relationer) | 4 | ✅ Bygget |
 | Undersider (Praksis) | 7 | ✅ Bygget |
 | Undersider (Rejse) | 5 | ✅ Bygget |
-| Cirkel-detail-overlays | 6 | ❌ Mangler i preview |
-| **Total i preview nu** | **30** | |
+| Cirkel-detail-overlays | 6 | ✅ Bygget |
+| **Total i preview nu** | **36** | |
 | **Total i gammel app** | **~46** | |
 
 ---
@@ -527,83 +527,95 @@
 
 ---
 
-## DE 6 CIRKEL-DETAIL-OVERLAYS (fra gammel app — MANGLER i preview)
+## DE 6 CIRKEL-DETAIL-OVERLAYS (fra forsiden)
 
-Disse vises i den gamle app når man trykker på de koncentriske cirkler på forsiden (I dag). De er **ikke med i preview'en endnu**.
+Vises når man trykker på de koncentriske cirkler på forsiden. Placeret mellem Side 3 (Forside) og BIG DIVIDER.
 
-### 1. "DIG" (centrum-cirkel)
+### 0B. DIT LIV (centrum-cirklen)
 
 | Felt | Indhold |
 |------|---------|
-| **Titel** | "Dit liv — lige nu" |
-| **Undertitel** | "Fem cyklusser løber gennem dig i dette øjeblik..." |
-| **Info-boks** | DOMINERENDE ELEMENT: Vand. 4/5 cyklusser. |
-| **Brødtekst** | 3 afsnit om at se sine cyklusser, forstå sig selv, ingen rigtig/forkert fase |
-| **Anbefalinger** | 4 kort: Øvelse / Næring / Healinglyd / Refleksion |
-| **Kanji** | Element-specifikt kinesisk tegn |
-| **Status** | ❌ Mangler i preview |
+| **Titel** | "Dit samlede billede" |
+| **Undertitel** | Alt det du bærer — samlet i ét øjeblik |
+| **Kanji** | 水 (Vand — dominant element) |
+| **Info-boks** | DOMINERENDE ELEMENT: Vand. Flydende, dyb, intuitiv, modtagelig |
+| **Brødtekst** | 4/5 cyklusser peger mod Vand — resonans |
+| **5 cyklus-kort** | Livsfase/Årstid/Måned/Ugedag/Organur |
+| **4 anbefalinger** | Butterfly / Sort sesam / Chuiii / Refleksion |
+| **Status** | ✅ Bygget |
 
-### 2. LIVSFASE (ydre ring)
+### 0C. LIVSFASE (ydre ring)
 
 | Felt | Indhold |
 |------|---------|
 | **Titel** | "Fase 9: Visdom" |
-| **Undertitel** | "Din livsfase former det dybeste lag i din energi..." |
-| **Info-boks** | DIT ELEMENT: Vand. 56-63 år. |
-| **Brødtekst** | Fase-specifik beskrivelse fra PHASE_DESCRIPTIONS |
-| **Anbefalinger** | 4 kort: Øvelse / Næring / Healinglyd / Refleksion |
-| **Status** | ❌ Mangler i preview |
+| **Undertitel** | 56–63 år · Vandets tilbagevenden |
+| **Kanji** | 水 (Vand) |
+| **Beskrivelse** | PHASE_DESCRIPTIONS[9] — exact tekst bevaret |
+| **Feeling-box** | "I den niende fase kan det føles som om alt falder på plads..." |
+| **3 info-kort** | Alder / Element / Organpar |
+| **4 anbefalinger** | Butterfly / Sort sesam / Chuiii / Refleksion |
+| **Status** | ✅ Bygget |
 
-### 3. ÅRSTID (ring 1)
+### 0D. ÅRSTID (ring 1)
 
 | Felt | Indhold |
 |------|---------|
 | **Titel** | "Vinter" |
-| **Undertitel** | "Naturen omkring dig bærer sit eget element..." |
-| **Info-boks** | ÅRSTIDENS ELEMENT: Vand. |
-| **Brødtekst** | Sæson-specifik fra SEASON_DESCRIPTIONS |
-| **Anbefalinger** | 4 kort |
-| **Status** | ❌ Mangler i preview |
+| **Undertitel** | Vandets årstid · December–marts |
+| **Kanji** | 水 (Vand) |
+| **Beskrivelse** | SEASON_DESCRIPTIONS['Vinter'] — exact tekst bevaret |
+| **Måned-tekst** | MONTH_DESCRIPTIONS['Februar'] — exact tekst bevaret |
+| **3 info-kort** | Periode / Element / Organer |
+| **4 anbefalinger** | Butterfly / Sort sesam / Chuiii / Refleksion |
+| **Status** | ✅ Bygget |
 
-### 4. MÅNED (ring 2)
-
-| Felt | Indhold |
-|------|---------|
-| **Titel** | "Menstruation" ELLER "Februar" (afhængig af tracking) |
-| **Undertitel** | "Din månedlige cyklus er en indre årstid..." ELLER "Månens cyklus spejler..." |
-| **Info-boks** | CYKLUS-ELEMENT / MÅNENS ELEMENT |
-| **Brødtekst** | Menstrual- eller måne-specifik beskrivelse |
-| **Anbefalinger** | 4 kort |
-| **Status** | ❌ Mangler i preview |
-
-### 5. UGEDAG (ring 3)
+### 0E. MÅNED (ring 2)
 
 | Felt | Indhold |
 |------|---------|
-| **Titel** | "Torsdag" (dynamisk) |
-| **Undertitel** | "Hver dag i ugen bærer sin egen energi..." |
-| **Info-boks** | DAGENS ELEMENT: Jord. |
-| **Brødtekst** | Ugedags-specifik fra WEEKDAY_DESCRIPTIONS |
-| **Anbefalinger** | 4 kort |
-| **Status** | ❌ Mangler i preview |
+| **Titel** | "Februar · Nymåne" |
+| **Undertitel** | Vandets måned · Månecyklussens uge 1 |
+| **Kanji** | 水 (Vand) |
+| **Måned-beskrivelse** | MONTH_DESCRIPTIONS['Februar'] — exact tekst bevaret |
+| **Månecyklus-tekst** | Nymåne: Indre vinter, stilhed og fornyelse |
+| **3 info-kort** | Måned / Månefase / Kvalitet |
+| **4 anbefalinger** | Sleeping Swan / Misosuppe / Chuiii / Refleksion |
+| **Status** | ✅ Bygget |
 
-### 6. ORGANUR (inderste ring)
+### 0F. UGEDAG (ring 3)
 
 | Felt | Indhold |
 |------|---------|
-| **Titel** | "Nyrer" (dynamisk) |
-| **Undertitel** | "Kroppens organer følger døgnets rytme..." |
-| **Info-boks** | AKTIVT ELEMENT: Vand. Kl. 17-19. |
-| **Brødtekst** | Organ-specifik fra ORGAN_DESCRIPTIONS |
-| **Anbefalinger** | 4 kort |
-| **Status** | ❌ Mangler i preview |
+| **Titel** | "Lørdag" |
+| **Undertitel** | Jordens dag · Saturns dag |
+| **Kanji** | 土 (Jord) |
+| **Beskrivelse** | WEEKDAY_DESCRIPTIONS['Lørdag'] — exact tekst bevaret |
+| **3 info-kort** | I dag / I morgen / Kvalitet |
+| **4 anbefalinger** | Child's Pose / Søde rodfrugter / Huuuuu / Refleksion (JORD) |
+| **Status** | ✅ Bygget |
+
+### 0G. ORGANUR (inderste ring)
+
+| Felt | Indhold |
+|------|---------|
+| **Titel** | "Nyrer" |
+| **Undertitel** | 17–19 · Vandets organ |
+| **Kanji** | 水 (Vand) |
+| **Beskrivelse** | ORGAN_DESCRIPTIONS['Nyrer'] — exact tekst bevaret |
+| **12 organur-grid** | Alle 12 organer i 2-kolonne grid, "NU" markeret |
+| **3 info-kort** | Tidsvindue / Element / Næste skift |
+| **4 anbefalinger** | Caterpillar / Ingefærte / Chuiii / Refleksion |
+| **Status** | ✅ Bygget |
 
 ### Fælles for alle 6 overlays
 
-- Kanji (element-tegn) som visuel hero
-- Back-knap "‹ Forside"
-- Action bar (Del/Kopiér/Gem)
-- Alle bruger `getDetailRecommendations(element)` for 4 anbefalingskort
+- Kanji (element-tegn) som visuel hero i SVG-cirkel
+- Element-infoboks med kvalitetsbeskrivelse
+- Feeling-box (smerte-adressering)
+- 4 anbefalingskort: Øvelse / Næring / Healinglyd / Refleksion
+- Alle tekster fra gammel app bevaret ordret (HTML-entities for æøå)
+- Lotus + Tilbage til toppen
 
 ---
 
@@ -783,7 +795,7 @@ Disse vises i den gamle app når man trykker på de koncentriske cirkler på for
 
 | Skærm | Preview-status |
 |-------|----------------|
-| 6 cirkel-detail-overlays | ❌ Mangler |
+| 6 cirkel-detail-overlays | ✅ Bygget (0B-0G) |
 | Søg | ❌ Mangler |
 | Indstillinger (6 sub-routes) | ❌ Mangler |
 | Om Isabelle | ❌ Mangler |
@@ -793,9 +805,9 @@ Disse vises i den gamle app når man trykker på de koncentriske cirkler på for
 ## NÆSTE SKRIDT — PRIORITERET
 
 ### Høj prioritet (kerneindhold)
-1. 6 cirkel-detail-overlays (brugeren møder dem først)
-2. Undersider for Sektion 1 (Mine Cyklusser) — mest indhold
-3. Undersider for Sektion 2 (Mine Relationer) — mest unikt
+1. ~~6 cirkel-detail-overlays (brugeren møder dem først)~~ ✅ DONE (0B-0G)
+2. ~~Undersider for Sektion 1 (Mine Cyklusser)~~ ✅ DONE (4 undersider)
+3. ~~Undersider for Sektion 2 (Mine Relationer)~~ ✅ DONE (4 undersider)
 
 ### Medium prioritet
 4. ~~Undersider for Sektion 3 (Min Praksis)~~ ✅ DONE (7 undersider)
@@ -809,6 +821,23 @@ Disse vises i den gamle app når man trykker på de koncentriske cirkler på for
 ---
 
 ## ÆNDRINGSLOG
+
+### v36 — 21. februar 2026
+
+- **6 cirkel-detail-overlays bygget (0B-0G):**
+  - 0B: Dit Liv (centrum — samlede billede, 5 cyklus-kort, Vand-dominant)
+  - 0C: Livsfase (Fase 9: Visdom, PHASE_DESCRIPTIONS[9] exact tekst)
+  - 0D: Årstid (Vinter, SEASON_DESCRIPTIONS + MONTH_DESCRIPTIONS exact tekst)
+  - 0E: Måned (Februar + Nymåne, måne-cyklus, dobbelt Vand)
+  - 0F: Ugedag (Lørdag, JORD-element, WEEKDAY_DESCRIPTIONS exact tekst)
+  - 0G: Organur (Nyrer 17-19, ORGAN_DESCRIPTIONS exact tekst + 12-organ grid)
+- **Alle tekster fra gammel app bevaret ordret** — PHASE/SEASON/WEEKDAY/ORGAN/MONTH_DESCRIPTIONS
+- **Kanji-tegn som visuel hero:** 水 (Vand), 土 (Jord) i SVG-cirkler
+- **Element-specifikke anbefalinger:** INSIGHT_YOGA, INSIGHT_FOOD, HEALING_SOUNDS — varieret per overlay
+- **Organur-overlay har 12-organ grid** med "NU"-markør på Nyrer 17-19
+- **Feeling-boxes på alle overlays** — smerte-adressering tilpasset hvert emne
+- **tone-rejse farvebjælke tilføjet** til alle 5 Min Rejse undersider (4A-4E) — var glemt
+- **Total i preview nu: 36 sider** (var 30)
 
 ### v35 — 21. februar 2026
 
