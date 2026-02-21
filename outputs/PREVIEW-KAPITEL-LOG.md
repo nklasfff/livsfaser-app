@@ -1,7 +1,7 @@
 # PREVIEW-KAPITEL-LOG — De 9 Livsfasers Energi
 
 *Komplet inventar over alle skærme, komponenter og indhold i preview-komplet.html*
-*Opdateret: 21. februar 2026 · v31*
+*Opdateret: 21. februar 2026 · v34*
 
 ---
 
@@ -14,9 +14,10 @@
 | Undersider (Vinduer) | 2 | ✅ Bygget |
 | Undersider (Cyklusser) | 4 | ✅ Bygget |
 | Undersider (Relationer) | 4 | ✅ Bygget |
+| Undersider (Praksis) | 7 | ✅ Bygget |
 | Cirkel-detail-overlays | 6 | ❌ Mangler i preview |
-| Undersider sekt. 3-4 | 0 | ⏳ Ikke planlagt endnu |
-| **Total i preview nu** | **18** | |
+| Undersider sekt. 4 | 0 | ⏳ Ikke planlagt endnu |
+| **Total i preview nu** | **25** | |
 | **Total i gammel app** | **~46** | |
 
 ---
@@ -673,6 +674,13 @@ Disse vises i den gamle app når man trykker på de koncentriske cirkler på for
 | 2B | To Rytmer | Forskydningstidslinje | SVG: Dual-track faseblokke | Møde-kompas | SVG: 2 cirkler med progress |
 | 2C | Tre Generationer | Stammertræ | SVG: 3 cirkler vertikalt | Generationsbølger | SVG: 3 lagdelte bølger |
 | 2D | Jeres Energi | Pentagon | SVG: 5 elementer + pile | Tidsvindue | SVG: Portal med dato |
+| 3A | Yin Yoga | Meridian-silhuet | SVG: Kropsform + energilinjer | Element-lotus | SVG: 5 kronblade i ring |
+| 3B | Følelsernes Hjul | Følelseshjul | SVG: 5 zoner (frygt/vrede/glæde/bekymring/sorg) | Krop-element-kort | SVG: Kropsfigur med 5 zoner |
+| 3C | EFT Tapping | Tapping-punkter | SVG: Ansigt/krop med 9 nummererede punkter | Beroligelses-bølge | SVG: Urolig→rolig kurve |
+| 3D | Mindfulness | Åndedræts-cirkler | SVG: Koncentriske pulserende ringe | Bevidsthedslag | SVG: 3 horisontale lag (tanker/krop/stilhed) |
+| 3E | Refleksion | Spejl-figur | SVG: To halvdele (ydre selv/indre selv) | Stilhedens spiral | SVG: Indadgående spiral med spørgsmål |
+| 3F | Kost & Urter | Elementernes tallerken | SVG: Cirkel delt i 5 sektorer | Sæson-næring | SVG: 4 årstids-kolonner med madvarer |
+| 3G | Hvad har hjulpet andre | Fællesskabs-cirkler | SVG: Overlappende fase-bobler | Erfarings-strøm | SVG: Vertikal flow med citater |
 
 ---
 
@@ -748,13 +756,13 @@ Disse vises i den gamle app når man trykker på de koncentriske cirkler på for
 
 | Skærm | Indhold i gammel app | Preview-status |
 |-------|---------------------|----------------|
-| Yin Yoga | Element-vælger + 3 poser per element | ❌ Mangler |
-| Følelsernes Hjul | 5-zone hjul + detalje | ❌ Mangler |
-| EFT Tapping | Tapping-meridian øvelse | ❌ Mangler |
-| Mindfulness | Guidet mindfulness | ❌ Mangler |
-| Refleksion | Venn + spørgsmål + noter | ❌ Mangler |
-| Kost & Urter | Mad-anbefalinger per element | ❌ Mangler |
-| Hvad har hjulpet andre | Community-data | ❌ Mangler |
+| Yin Yoga | Meridian-silhuet + element-lotus + 3 poser VAND + 4 andre elementer | ✅ Underside 3A |
+| Følelsernes Hjul | Følelseshjul + krop-element-kort + 5 følelsesfelter + anbefalinger | ✅ Underside 3B |
+| EFT Tapping | Tapping-punkter + beroligelses-bølge + 9 punkter + 5 element-sætninger | ✅ Underside 3C |
+| Mindfulness | Åndedræts-cirkler + bevidsthedslag + 5 element-meditationer + årstider | ✅ Underside 3D |
+| Refleksion | Spejl-figur + stilhedens spiral + 3 fase-spørgsmål + 5 element-spørgsmål + skriveøvelser | ✅ Underside 3E |
+| Kost & Urter + Healinglyd | Elementernes tallerken + sæson-næring + 4 VAND-madvarer + 5 healinglyde | ✅ Underside 3F |
+| Hvad har hjulpet andre | Fællesskabs-cirkler + erfarings-strøm + social proof bars + anonyme citater | ✅ Underside 3G |
 
 ### Niveau 2 under Min Rejse (5 skærme)
 
@@ -785,7 +793,7 @@ Disse vises i den gamle app når man trykker på de koncentriske cirkler på for
 3. Undersider for Sektion 2 (Mine Relationer) — mest unikt
 
 ### Medium prioritet
-4. Undersider for Sektion 3 (Min Praksis)
+4. ~~Undersider for Sektion 3 (Min Praksis)~~ ✅ DONE (7 undersider)
 5. Undersider for Sektion 4 (Min Rejse)
 
 ### Lav prioritet (utility-skærme)
@@ -796,6 +804,24 @@ Disse vises i den gamle app når man trykker på de koncentriske cirkler på for
 ---
 
 ## ÆNDRINGSLOG
+
+### v34 — 21. februar 2026
+
+- **7 undersider til Min Praksis bygget:**
+  - 3A: Yin Yoga (meridian-silhuet + element-lotus)
+  - 3B: Følelsernes Hjul (følelseshjul + krop-element-kort)
+  - 3C: EFT Tapping (tapping-punkter + beroligelses-bølge)
+  - 3D: Mindfulness (åndedræts-cirkler + bevidsthedslag)
+  - 3E: Refleksion (spejl-figur + stilhedens spiral)
+  - 3F: Kost & Urter + Healinglyd (elementernes tallerken + sæson-næring)
+  - 3G: Hvad har hjulpet andre (fællesskabs-cirkler + erfarings-strøm)
+- **Alle 7 har unikt design** — 14 nye unikke figurer, ingen gentagelser
+- **Healinglyd integreret i 3F** (Kost & Urter) da den ikke har selvstændig underside
+- **Fuld volumen på alle sider** — også de der var korte i den gamle app
+- **Nye figurtyper:** meridian-silhuet, element-lotus, følelseshjul, krop-element-kort, tapping-punkter, beroligelses-bølge, åndedræts-cirkler, bevidsthedslag, spejl, stilhedens spiral, elementernes tallerken, sæson-næring, fællesskabs-cirkler, erfarings-strøm
+- **FIGUR-INVENTAR opdateret** med 14 nye figurer (2 per underside)
+- **GAMMEL APP sektion opdateret** — 7 Praksis-undersider markeret som bygget
+- **Total i preview nu: 25 sider** (var 18)
 
 ### v33 — 21. februar 2026
 
