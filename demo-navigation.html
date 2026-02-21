@@ -951,7 +951,7 @@ body { padding-bottom: 155px; }
 <div class="arc-nav" id="nb">
   <svg id="arc-svg" viewBox="0 0 375 160" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   </svg>
-  <div style="height:env(safe-area-inset-bottom,6px);background:rgba(253,252,251,0.96)"></div>
+  <div style="height:env(safe-area-inset-bottom,6px);background:#FDFCFB"></div>
 </div>
 
 <script>
@@ -1029,32 +1029,14 @@ body { padding-bottom: 155px; }
   var bx2e = cx + R_border * Math.cos(angleEnd + angleExtend);
   var by2e = cy + R_border * Math.sin(angleEnd + angleExtend);
 
-  // ====== TEXT ARC ======
-  // Text sits below circles, so smaller radius from center
-  var textGap = 12;
-  var R_text = R - 15 - textGap; // radius for text baseline
-
-  // Text arc endpoints (for SVG textPath)
-  var tx1 = cx + R_text * Math.cos(angleStart - 0.08);
-  var ty1 = cy + R_text * Math.sin(angleStart - 0.08);
-  var tx2 = cx + R_text * Math.cos(angleEnd + 0.08);
-  var ty2 = cy + R_text * Math.sin(angleEnd + 0.08);
-
-  // ====== BACKGROUND FILL ======
-  // The background fill goes from the border arc down to the bottom
-  // It should share EXACTLY the same path as the border line (no white gap above)
+  // ====== SVG PATHS ======
+  // CRITICAL: sweep-flag=1 for UPWARD arc (clockwise from left to right)
   var bgPath = 'M 0,' + by1e.toFixed(1) + ' L ' + bx1e.toFixed(1) + ',' + by1e.toFixed(1) +
-    ' A ' + R_border.toFixed(1) + ',' + R_border.toFixed(1) + ' 0 0,0 ' + bx2e.toFixed(1) + ',' + by2e.toFixed(1) +
+    ' A ' + R_border.toFixed(1) + ',' + R_border.toFixed(1) + ' 0 0,1 ' + bx2e.toFixed(1) + ',' + by2e.toFixed(1) +
     ' L 375,' + by2e.toFixed(1) + ' L 375,160 L 0,160 Z';
 
-  // The border line itself
   var borderArcPath = 'M ' + bx1e.toFixed(1) + ',' + by1e.toFixed(1) +
-    ' A ' + R_border.toFixed(1) + ',' + R_border.toFixed(1) + ' 0 0,0 ' + bx2e.toFixed(1) + ',' + by2e.toFixed(1);
-
-  // The text path (for textPath, needs to go left-to-right for correct text direction)
-  // Since our arc goes upward (concave down from text perspective), we need sweep=0
-  var textArcPath = 'M ' + tx1.toFixed(1) + ',' + ty1.toFixed(1) +
-    ' A ' + R_text.toFixed(1) + ',' + R_text.toFixed(1) + ' 0 0,0 ' + tx2.toFixed(1) + ',' + ty2.toFixed(1);
+    ' A ' + R_border.toFixed(1) + ',' + R_border.toFixed(1) + ' 0 0,1 ' + bx2e.toFixed(1) + ',' + by2e.toFixed(1);
 
   // ====== BUILD SVG ======
   var svg = document.getElementById('arc-svg');
@@ -1064,7 +1046,7 @@ body { padding-bottom: 155px; }
   // 1. Background fill
   var bgEl = document.createElementNS(svgNS, 'path');
   bgEl.setAttribute('d', bgPath);
-  bgEl.setAttribute('fill', 'rgba(253,252,251,0.96)');
+  bgEl.setAttribute('fill', '#FDFCFB');
   svg.appendChild(bgEl);
 
   // 2. Thin blue border line
@@ -1119,49 +1101,29 @@ body { padding-bottom: 155px; }
   actDot.setAttribute('opacity', '0.45');
   svg.appendChild(actDot);
 
-  // 5. Text path definition
-  var defs = document.createElementNS(svgNS, 'defs');
-  var tpath = document.createElementNS(svgNS, 'path');
-  tpath.setAttribute('id', 'lbl');
-  tpath.setAttribute('d', textArcPath);
-  defs.appendChild(tpath);
-  svg.appendChild(defs);
-
-  // 6. Text labels on the curved path
-  // Compute startOffset for each item based on their angular position on the text arc
+  // 5. Text labels — individually positioned below each circle
+  // Equal gap from circle bottom to text for ALL items (including active)
+  // Active item text pushed down because its circle is bigger
+  var labelGap = 10;
   for (var i = 0; i < N; i++) {
-    var t = (i + 0.5) / N;
-    // Map t to a percentage of the text path length
-    // Since the text arc is slightly extended (±0.08 rad), adjust t
-    var totalAngleText = (angleEnd + 0.08) - (angleStart - 0.08);
-    var totalAngleItems = angleEnd - angleStart;
-    var itemAngle = angleStart + t * totalAngleItems;
-    var tOnTextPath = (itemAngle - (angleStart - 0.08)) / totalAngleText;
-    var offsetPct = (tOnTextPath * 100).toFixed(1) + '%';
-
+    var it = items[i];
+    var tx = it.x;
+    var ty = it.y + it.r + labelGap;
+    // Tangent rotation (follows arc curve, dampened 55% for readability)
+    var tangentDeg = (it.angle + Math.PI / 2) * 180 / Math.PI * 0.55;
     var txt = document.createElementNS(svgNS, 'text');
+    txt.setAttribute('x', tx.toFixed(1));
+    txt.setAttribute('y', ty.toFixed(1));
+    txt.setAttribute('text-anchor', 'middle');
     txt.setAttribute('font-family', "'DM Sans',sans-serif");
-    txt.setAttribute('font-size', items[i].active ? '10.5' : '10');
-    txt.setAttribute('font-weight', items[i].active ? '500' : '300');
-    txt.setAttribute('fill', items[i].textC);
-
-    var tp = document.createElementNS(svgNS, 'textPath');
-    tp.setAttribute('href', '#lbl');
-    tp.setAttributeNS(xlinkNS, 'xlink:href', '#lbl');
-    tp.setAttribute('startOffset', offsetPct);
-    tp.setAttribute('text-anchor', 'middle');
-    tp.textContent = items[i].name;
-
-    txt.appendChild(tp);
+    txt.setAttribute('font-size', it.active ? '10.5' : '10');
+    txt.setAttribute('font-weight', it.active ? '500' : '300');
+    txt.setAttribute('fill', it.textC);
+    if (Math.abs(tangentDeg) > 0.5) {
+      txt.setAttribute('transform', 'rotate(' + tangentDeg.toFixed(1) + ' ' + tx.toFixed(1) + ' ' + ty.toFixed(1) + ')');
+    }
+    txt.textContent = it.name;
     svg.appendChild(txt);
-  }
-
-  // Debug: verify equal gaps
-  console.log('Arc R=' + R.toFixed(1) + ', R_border=' + R_border.toFixed(1) + ', equalGap=' + equalGap);
-  for (var i = 0; i < N; i++) {
-    var R_i = R_border - equalGap - items[i].r;
-    var perpGap = R_border - R_i - items[i].r;
-    console.log(items[i].name + ': (' + items[i].x.toFixed(1) + ',' + items[i].y.toFixed(1) + ') r=' + items[i].r + ' gap=' + perpGap.toFixed(1));
   }
 })();
 
