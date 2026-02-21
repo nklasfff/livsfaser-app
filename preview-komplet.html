@@ -733,6 +733,335 @@ body { background: #FDFCFB; font-family: 'DM Sans', sans-serif; }
   opacity: 0.5;
 }
 
+/* ==================== SØG, INDSTILLINGER, OM ISABELLE ==================== */
+
+/* SØG */
+.soeg-field { position: relative; margin-bottom: 24px; }
+.soeg-input {
+  width: 100%; padding: 14px 18px 14px 42px;
+  border: 1px solid rgba(108,130,169,0.18); border-radius: 14px;
+  background: rgba(108,130,169,0.03);
+  font-family: 'DM Sans', sans-serif; font-size: 14px; color: #555;
+  font-weight: 300; outline: none;
+}
+.soeg-input::placeholder { color: #bbb; font-style: italic; }
+.soeg-icon {
+  position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+  font-size: 15px; color: #9cabc3; pointer-events: none;
+}
+.soeg-group { margin-bottom: 22px; }
+.soeg-group-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: #9cabc3; margin-bottom: 10px;
+}
+.soeg-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+.soeg-tag {
+  padding: 8px 14px; border-radius: 20px;
+  font-family: 'DM Sans', sans-serif; font-size: 12px;
+  font-weight: 300; color: #777;
+  background: rgba(108,130,169,0.04);
+  border: 1px solid rgba(108,130,169,0.10);
+}
+.soeg-tag--hot {
+  background: rgba(108,130,169,0.08);
+  border-color: rgba(108,130,169,0.18);
+  color: #5A74A5; font-weight: 400;
+}
+.soeg-cats-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: #9cabc3; margin-bottom: 14px; margin-top: 6px;
+}
+.soeg-cat {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 16px 18px; margin-bottom: 8px;
+  background: white; border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.soeg-cat-icon {
+  width: 28px; flex-shrink: 0; text-align: center;
+  font-size: 18px; color: #9cabc3; margin-top: 2px;
+}
+.soeg-cat-body { flex: 1; }
+.soeg-cat-title {
+  font-family: 'Playfair Display', serif; font-size: 15px;
+  font-style: italic; color: #3a3530; margin-bottom: 3px;
+}
+.soeg-cat-desc {
+  font-family: 'DM Sans', sans-serif; font-size: 12px;
+  color: #999; font-weight: 300; line-height: 1.5;
+}
+
+/* INDSTILLINGER */
+.ind-section { margin-bottom: 8px; }
+.ind-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: #9cabc3; margin-bottom: 14px;
+}
+.ind-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 12px 0; border-bottom: 1px solid rgba(108,130,169,0.06);
+}
+.ind-row:last-child { border-bottom: none; }
+.ind-row-info { flex: 1; padding-right: 14px; }
+.ind-row-name {
+  font-family: 'DM Sans', sans-serif; font-size: 14px;
+  color: #555; font-weight: 400; margin-bottom: 2px;
+}
+.ind-row-desc {
+  font-family: 'DM Sans', sans-serif; font-size: 12px;
+  color: #aaa; font-weight: 300; line-height: 1.45;
+}
+.ind-toggle {
+  width: 42px; height: 24px; border-radius: 12px; flex-shrink: 0;
+  background: rgba(108,130,169,0.12); position: relative;
+  margin-top: 2px;
+}
+.ind-toggle::after {
+  content: ''; position: absolute; width: 18px; height: 18px; border-radius: 50%;
+  background: white; top: 3px; left: 3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  transition: transform 0.2s;
+}
+.ind-toggle--on { background: linear-gradient(135deg, #6c82a9, #889ec3); }
+.ind-toggle--on::after { transform: translateX(18px); }
+.ind-input {
+  width: 100%; padding: 12px 16px; margin-top: 6px;
+  border: 1px solid rgba(108,130,169,0.15); border-radius: 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; color: #555;
+  font-weight: 300; background: rgba(108,130,169,0.02);
+}
+.ind-input--short { max-width: 100px; }
+.ind-input--narrow { max-width: 130px; }
+.ind-setting-name {
+  font-family: 'DM Sans', sans-serif; font-size: 13px;
+  color: #666; font-weight: 400; margin-bottom: 2px;
+}
+.ind-setting-desc {
+  font-family: 'DM Sans', sans-serif; font-size: 11.5px;
+  color: #bbb; font-weight: 300; margin-bottom: 4px;
+}
+.ind-setting-info {
+  font-family: 'DM Sans', sans-serif; font-size: 12px;
+  color: #9cabc3; font-weight: 300; font-style: italic;
+  margin-top: 6px;
+}
+.ind-link {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 0; border-bottom: 1px solid rgba(108,130,169,0.06);
+}
+.ind-link:last-child { border-bottom: none; }
+.ind-link-icon {
+  width: 28px; text-align: center; font-size: 16px; color: #9cabc3; flex-shrink: 0;
+}
+.ind-link-body { flex: 1; }
+.ind-link-name {
+  font-family: 'DM Sans', sans-serif; font-size: 14px;
+  color: #555; font-weight: 400; margin-bottom: 2px;
+}
+.ind-link-desc {
+  font-family: 'DM Sans', sans-serif; font-size: 12px;
+  color: #aaa; font-weight: 300; line-height: 1.45;
+}
+.ind-link-arrow { font-size: 13px; color: #ccc; flex-shrink: 0; }
+.ind-btn {
+  display: block; width: 100%; padding: 13px;
+  border: 1px solid rgba(108,130,169,0.20); border-radius: 12px;
+  background: white; font-family: 'DM Sans', sans-serif;
+  font-size: 14px; color: #5A74A5; font-weight: 400;
+  text-align: center; cursor: pointer;
+}
+.ind-btn--danger { border-color: rgba(200,90,84,0.25); color: #C85A54; }
+.ind-btn-hint {
+  font-family: 'DM Sans', sans-serif; font-size: 11.5px;
+  color: #bbb; font-weight: 300; text-align: center;
+  margin-top: 5px; line-height: 1.4;
+}
+.ind-btn-hint--danger { color: #C85A54; opacity: 0.6; }
+.ind-hint {
+  font-family: 'DM Sans', sans-serif; font-size: 12px;
+  color: #bbb; font-weight: 300; font-style: italic;
+  margin-top: 6px;
+}
+.ind-insight {
+  background: rgba(108,130,169,0.04);
+  border: 1px solid rgba(108,130,169,0.08);
+  border-radius: 14px; padding: 18px 20px; margin: 16px 0 0;
+}
+.ind-insight-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: #9cabc3; margin-bottom: 8px;
+}
+.ind-insight-text {
+  font-family: 'DM Sans', sans-serif; font-size: 12.5px;
+  color: #888; font-weight: 300; line-height: 1.6;
+}
+.ind-footer-links {
+  display: flex; gap: 14px; justify-content: center; margin-top: 16px;
+}
+.ind-footer-link {
+  font-family: 'DM Sans', sans-serif; font-size: 12px;
+  color: #bbb; font-weight: 300; background: none;
+  border: none; cursor: pointer; text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* OM ISABELLE */
+.isa-portrait {
+  width: 100px; height: 100px; border-radius: 50%;
+  background: linear-gradient(135deg, rgba(108,130,169,0.08), rgba(184,166,192,0.08));
+  border: 1px solid rgba(108,130,169,0.10);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+}
+.isa-portrait-inner {
+  font-family: 'Playfair Display', serif; font-size: 30px;
+  font-style: italic; color: #b5bcc8;
+}
+.isa-name {
+  text-align: center; font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 400; font-style: italic;
+  color: #3a3530; margin-bottom: 4px;
+}
+.isa-role {
+  text-align: center; font-family: 'DM Sans', sans-serif;
+  font-size: 12px; color: #aaa; font-weight: 300;
+  letter-spacing: 0.5px; margin-bottom: 22px;
+}
+.isa-body {
+  font-family: 'DM Sans', sans-serif; font-size: 13.5px;
+  color: #888; font-weight: 300; line-height: 1.65;
+  text-align: center; margin-bottom: 14px;
+}
+.isa-quote {
+  text-align: center; padding: 22px 16px; margin: 8px 0;
+  font-family: 'Playfair Display', serif; font-size: 18px;
+  font-style: italic; color: #6c82a9; line-height: 1.6;
+}
+.isa-sec-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: #9cabc3; text-align: center; margin: 24px 0 14px;
+}
+.isa-prod {
+  background: white; border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 14px; padding: 18px; margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.isa-prod-hd {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
+}
+.isa-prod-nm {
+  font-family: 'Playfair Display', serif; font-size: 15px;
+  font-style: italic; color: #3a3530;
+}
+.isa-prod-tag {
+  font-family: 'DM Sans', sans-serif; font-size: 8px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: #5A74A5; background: rgba(108,130,169,0.08);
+  padding: 3px 8px; border-radius: 10px;
+}
+.isa-prod-tx {
+  font-family: 'DM Sans', sans-serif; font-size: 12.5px;
+  color: #999; font-weight: 300; line-height: 1.55;
+}
+.isa-prod-lk {
+  font-family: 'Playfair Display', serif; font-size: 12.5px;
+  font-style: italic; color: #5A74A5; margin-top: 8px; cursor: pointer;
+}
+.isa-grd {
+  background: linear-gradient(135deg, #6c82a9, #889ec3);
+  border-radius: 14px; padding: 22px 20px; margin-bottom: 10px;
+  color: white; text-align: center;
+}
+.isa-grd-label {
+  font-family: 'DM Sans', sans-serif; font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: rgba(255,255,255,0.7); margin-bottom: 8px;
+}
+.isa-grd-title {
+  font-family: 'Playfair Display', serif; font-size: 18px;
+  font-style: italic; margin-bottom: 6px;
+}
+.isa-grd-sub {
+  font-family: 'DM Sans', sans-serif; font-size: 12.5px;
+  color: rgba(255,255,255,0.85); font-weight: 300; line-height: 1.55;
+}
+.isa-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  margin-bottom: 10px;
+}
+.isa-fc {
+  background: rgba(108,130,169,0.04);
+  border: 1px solid rgba(108,130,169,0.08);
+  border-radius: 12px; padding: 14px 14px; text-align: center;
+}
+.isa-fc-season {
+  font-family: 'Playfair Display', serif; font-size: 15px;
+  font-style: italic; color: #5A74A5; margin-bottom: 3px;
+}
+.isa-fc-el {
+  font-family: 'DM Sans', sans-serif; font-size: 8.5px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: #9cabc3; margin-bottom: 4px;
+}
+.isa-fc-tx {
+  font-family: 'DM Sans', sans-serif; font-size: 11.5px;
+  color: #aaa; font-weight: 300;
+}
+.isa-ins {
+  background: rgba(108,130,169,0.04);
+  border: 1px solid rgba(108,130,169,0.08);
+  border-radius: 14px; padding: 18px 20px; margin-bottom: 14px;
+}
+.isa-ins-t {
+  font-family: 'DM Sans', sans-serif; font-size: 13px;
+  color: #888; font-weight: 300; line-height: 1.6; text-align: center;
+}
+.isa-cta {
+  text-align: center; font-family: 'Playfair Display', serif;
+  font-size: 14px; font-style: italic; color: #5A74A5;
+  margin: 12px 0; cursor: pointer;
+}
+.isa-social {
+  display: flex; gap: 10px; justify-content: center; margin-bottom: 8px;
+}
+.isa-social-btn {
+  padding: 9px 18px; border-radius: 20px;
+  border: 1px solid rgba(108,130,169,0.18);
+  font-family: 'DM Sans', sans-serif; font-size: 12.5px;
+  color: #5A74A5; font-weight: 300; text-decoration: none;
+  background: white;
+}
+.isa-hint {
+  text-align: center; font-family: 'DM Sans', sans-serif;
+  font-size: 11px; color: #bbb; font-weight: 300; margin-top: 8px;
+}
+.isa-xlink {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 18px; margin-bottom: 8px;
+  background: rgba(108,130,169,0.04);
+  border: 1px solid rgba(108,130,169,0.08);
+  border-radius: 14px; cursor: pointer;
+}
+.isa-xlink-txt {
+  font-family: 'Playfair Display', serif; font-size: 14px;
+  font-style: italic; color: #5A74A5;
+}
+.isa-xlink-arr { color: #9cabc3; font-size: 16px; }
+.isa-acts {
+  display: flex; gap: 24px; justify-content: center; margin-top: 24px;
+}
+.isa-act {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  font-family: 'DM Sans', sans-serif; font-size: 11px;
+  color: #bbb; font-weight: 300; cursor: pointer;
+}
+.isa-act span:first-child { font-size: 18px; }
+
 /* ARC NAVIGATION — fixed at bottom, only visible on sections */
 .arc-nav {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
@@ -743,7 +1072,7 @@ body { background: #FDFCFB; font-family: 'DM Sans', sans-serif; }
 </style>
 <script>
 // Cache-busting: forces reload when new version is deployed
-const V = '20260221-v31';
+const V = '20260221-v32';
 if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   localStorage.setItem('pk-v', V);
   location.reload(true);
@@ -7032,6 +7361,603 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   <div class="section-closer"><div class="lotus-fill"><img src="assets/images/rosa-lotus.png" alt=""></div></div>
   <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
 </div>
+
+<div class="page-divider"></div>
+
+<!-- ======================================================= -->
+<!-- SIDE 37: S&Oslash;G                                            -->
+<!-- ======================================================= -->
+<div class="section-num">Side 37 &middot; S&oslash;g</div>
+<div class="header">
+  <div class="header-back">&larr;</div>
+  <div class="header-title">De&ensp;<span style="color:#6B5F7B;font-size:28px">9</span>&ensp;Livsfaser</div>
+</div>
+<div class="accent-line"></div>
+<div class="s">
+  <div class="eyebrow">S&oslash;g &middot; Udforsk</div>
+  <div class="title">Find det du leder efter</div>
+  <div class="body-text">&Oslash;velser, f&oslash;lelser, faser, elementer &mdash; alt det du kan udforske i appen, samlet &eacute;t sted.</div>
+
+  <!-- SØGEFELT -->
+  <div class="soeg-field">
+    <div class="soeg-icon">&#x1F50D;</div>
+    <input type="text" class="soeg-input" placeholder="S&oslash;g i &oslash;velser, f&oslash;lelser, faser&hellip;" disabled>
+  </div>
+
+  <!-- POPULÆRT LIGE NU -->
+  <div class="soeg-group">
+    <div class="soeg-group-label">Popul&aelig;rt lige nu</div>
+    <div class="soeg-tags">
+      <span class="soeg-tag soeg-tag--hot">Vrede</span>
+      <span class="soeg-tag soeg-tag--hot">Bekymring</span>
+      <span class="soeg-tag">Overgangsalder</span>
+      <span class="soeg-tag">Frygt</span>
+      <span class="soeg-tag">Sorg</span>
+      <span class="soeg-tag">Gl&aelig;de</span>
+    </div>
+  </div>
+
+  <!-- TILPASSET DIG -->
+  <div class="soeg-group">
+    <div class="soeg-group-label">Tilpasset dig</div>
+    <div class="soeg-tags">
+      <span class="soeg-tag soeg-tag--hot">Fase 9</span>
+      <span class="soeg-tag">Vinter&oslash;velser</span>
+      <span class="soeg-tag">Yin Yoga</span>
+      <span class="soeg-tag">Vand-element</span>
+      <span class="soeg-tag">Vand-kost</span>
+    </div>
+  </div>
+</div>
+
+<div class="dots">&middot; &middot; &middot;</div>
+
+<div class="s">
+  <div class="soeg-cats-label">Kategorier</div>
+
+  <div class="soeg-cat">
+    <div class="soeg-cat-icon">&#x262F;</div>
+    <div class="soeg-cat-body">
+      <div class="soeg-cat-title">&Oslash;velser</div>
+      <div class="soeg-cat-desc">Yin yoga, &aring;ndedr&aelig;t, EFT-tapping, meditation og meridianstrygning &mdash; tilpasset det element dine cyklusser kalder p&aring;.</div>
+    </div>
+  </div>
+
+  <div class="soeg-cat">
+    <div class="soeg-cat-icon">&#x2661;</div>
+    <div class="soeg-cat-body">
+      <div class="soeg-cat-title">F&oslash;lelser</div>
+      <div class="soeg-cat-desc">Vrede, frygt, bekymring, sorg og gl&aelig;de &mdash; hver f&oslash;lelse h&oslash;rer til et element. Forst&aring; hvad din krop pr&oslash;ver at fort&aelig;lle dig.</div>
+    </div>
+  </div>
+
+  <div class="soeg-cat">
+    <div class="soeg-cat-icon">&#x25D0;</div>
+    <div class="soeg-cat-body">
+      <div class="soeg-cat-title">Livsfaser</div>
+      <div class="soeg-cat-desc">Ni syv-&aring;rs cyklusser fra f&oslash;dsel til visdom. Hver fase b&aelig;rer sit eget element og sin egen energi.</div>
+    </div>
+  </div>
+
+  <div class="soeg-cat">
+    <div class="soeg-cat-icon">&#x25B3;</div>
+    <div class="soeg-cat-body">
+      <div class="soeg-cat-title">Elementer</div>
+      <div class="soeg-cat-desc">Vand, Tr&aelig;, Ild, Jord og Metal &mdash; de fem kr&aelig;fter der styrer alt fra &aring;rstider til organer. L&aelig;r dem at kende.</div>
+    </div>
+  </div>
+
+  <div class="soeg-cat">
+    <div class="soeg-cat-icon">&#x22BB;</div>
+    <div class="soeg-cat-body">
+      <div class="soeg-cat-title">Relationer</div>
+      <div class="soeg-cat-desc">N&aring;r to mennesker m&oslash;des, m&oslash;des to cyklus-systemer. Se hvordan jeres livsfaser, elementer og energier interagerer.</div>
+    </div>
+  </div>
+
+  <div class="soeg-cat">
+    <div class="soeg-cat-icon">&#x274A;</div>
+    <div class="soeg-cat-body">
+      <div class="soeg-cat-title">Kost &amp; N&aelig;ring</div>
+      <div class="soeg-cat-desc">Mad er medicin &mdash; det vidste kinesisk medicin for tusind &aring;r siden. Find f&oslash;devarer, urter og tilberedning tilpasset dit element.</div>
+    </div>
+  </div>
+
+  <div class="soeg-cat">
+    <div class="soeg-cat-icon">&#x25F7;</div>
+    <div class="soeg-cat-body">
+      <div class="soeg-cat-title">Tidsrejse</div>
+      <div class="soeg-cat-desc">Rejse i tid &mdash; bagud for at forst&aring;, fremad for at forberede. Se hvilke cyklusser der var aktive ved vigtige tidspunkter.</div>
+    </div>
+  </div>
+
+  <div class="soeg-cat">
+    <div class="soeg-cat-icon">&#x2312;</div>
+    <div class="soeg-cat-body">
+      <div class="soeg-cat-title">Kroppens overgange</div>
+      <div class="soeg-cat-desc">Pubertet, graviditet, overgangsalder &mdash; de store vendepunkter, hvor &eacute;t element afl&oslash;ser et andet.</div>
+    </div>
+  </div>
+
+  <div class="soeg-cat">
+    <div class="soeg-cat-icon">&#x27CB;</div>
+    <div class="soeg-cat-body">
+      <div class="soeg-cat-title">Tracking &amp; M&oslash;nstre</div>
+      <div class="soeg-cat-desc">Over tid vokser din egen visdom. Registr&eacute;r din energi, dine m&oslash;nstre og dine indsigter &mdash; og se dem i sammenh&aelig;ng.</div>
+    </div>
+  </div>
+
+  <div class="soeg-cat">
+    <div class="soeg-cat-icon">&#x2299;</div>
+    <div class="soeg-cat-body">
+      <div class="soeg-cat-title">Epigenetik &amp; Arv</div>
+      <div class="soeg-cat-desc">Din mors livsfase da hun f&oslash;dte dig p&aring;virkede dit udgangspunkt. Udforsk den forskning der viser, hvordan cyklusser nedarves.</div>
+    </div>
+  </div>
+
+  <div class="soeg-cat">
+    <div class="soeg-cat-icon">&#x25A4;</div>
+    <div class="soeg-cat-body">
+      <div class="soeg-cat-title">Baggrundsviden</div>
+      <div class="soeg-cat-desc">Ni forskellige kulturer har opdaget det samme: livet bev&aelig;ger sig i cyklusser. Fra kinesisk medicin til vedisk filosofi.</div>
+    </div>
+  </div>
+
+  <div class="soeg-cat">
+    <div class="soeg-cat-icon">&#x2726;</div>
+    <div class="soeg-cat-body">
+      <div class="soeg-cat-title">Kollektiv visdom</div>
+      <div class="soeg-cat-desc">Hvad sker der, n&aring;r mange kvinder samler deres erfaringer? Anonyme m&oslash;nstre og f&aelig;lles indsigter der vokser over tid.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-closer"><div class="lotus-fill"><img src="assets/images/rosa-lotus.png" alt=""></div></div>
+<div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
+
+<div class="page-divider"></div>
+
+<!-- ======================================================= -->
+<!-- SIDE 38: INDSTILLINGER                                  -->
+<!-- ======================================================= -->
+<div class="section-num">Side 38 &middot; Indstillinger</div>
+<div class="header">
+  <div class="header-back">&larr;</div>
+  <div class="header-title">De&ensp;<span style="color:#6B5F7B;font-size:28px">9</span>&ensp;Livsfaser</div>
+</div>
+<div class="accent-line"></div>
+<div class="s">
+  <div class="eyebrow">Indstillinger &middot; Din profil</div>
+  <div class="title">Indstillinger</div>
+  <div class="body-text">Din profil, dine cyklusser og alt det praktiske &mdash; samlet &eacute;t sted.</div>
+
+  <!-- SEKTION 1: MIN PROFIL -->
+  <div class="ind-section">
+    <div class="ind-label">Min profil</div>
+    <div class="ind-setting-name">F&oslash;dselsdato</div>
+    <div class="ind-input" style="color:#555">15. juni 1965</div>
+    <div class="ind-setting-info">Du er 60 &aring;r &middot; Fase 9: Visdom &middot; Vand</div>
+    <div style="margin-top:16px">
+      <div class="ind-setting-name">Navn (valgfrit)</div>
+      <div class="ind-input" style="color:#bbb;font-style:italic">Dit fornavn &mdash; bruges kun i appen</div>
+    </div>
+  </div>
+</div>
+
+<div class="dots">&middot; &middot; &middot;</div>
+
+<div class="s">
+  <!-- SEKTION 2: CYKLUS-INDSTILLINGER -->
+  <div class="ind-section">
+    <div class="ind-label">Cyklus-indstillinger</div>
+
+    <div class="ind-row">
+      <div class="ind-row-info">
+        <div class="ind-row-name">M&aring;nedscyklus</div>
+        <div class="ind-row-desc">F&oslash;lg din menstruationscyklus som den femte cyklus</div>
+      </div>
+      <div class="ind-toggle"></div>
+    </div>
+
+    <div class="ind-row">
+      <div class="ind-row-info">
+        <div class="ind-row-name">M&aring;nens faser</div>
+        <div class="ind-row-desc">F&oslash;lg m&aring;nefaser i stedet &mdash; til dig uden menstruation, eller som supplement</div>
+      </div>
+      <div class="ind-toggle ind-toggle--on"></div>
+    </div>
+
+    <div style="margin-top:12px">
+      <div class="ind-setting-name">Cyklusl&aelig;ngde</div>
+      <div class="ind-setting-desc">Gennemsnit i dage &mdash; bruges til at beregne uge 1&ndash;4</div>
+      <div class="ind-input ind-input--short" style="color:#555">28</div>
+    </div>
+  </div>
+</div>
+
+<div class="dots">&middot; &middot; &middot;</div>
+
+<div class="s">
+  <!-- SEKTION 3: NOTIFIKATIONER -->
+  <div class="ind-section">
+    <div class="ind-label">Notifikationer</div>
+
+    <div class="ind-row">
+      <div class="ind-row-info">
+        <div class="ind-row-name">Morgen-indsigt</div>
+        <div class="ind-row-desc">Kort besked om dagens energi, element og cyklusser n&aring;r du v&aring;gner</div>
+      </div>
+      <div class="ind-toggle ind-toggle--on"></div>
+    </div>
+
+    <div class="ind-row">
+      <div class="ind-row-info">
+        <div class="ind-row-name">Aften-refleksion</div>
+        <div class="ind-row-desc">En invitation til at m&aelig;rke efter &mdash; hvordan var din dag?</div>
+      </div>
+      <div class="ind-toggle ind-toggle--on"></div>
+    </div>
+
+    <div class="ind-row">
+      <div class="ind-row-info">
+        <div class="ind-row-name">Cyklus-skift</div>
+        <div class="ind-row-desc">Besked n&aring;r du skifter fra &eacute;t element til et andet i dine cyklusser</div>
+      </div>
+      <div class="ind-toggle"></div>
+    </div>
+
+    <div class="ind-row">
+      <div class="ind-row-info">
+        <div class="ind-row-name">S&aelig;son-skift</div>
+        <div class="ind-row-desc">Besked ved overgang til en ny &aring;rstid med nye anbefalinger</div>
+      </div>
+      <div class="ind-toggle ind-toggle--on"></div>
+    </div>
+
+    <div class="ind-row">
+      <div class="ind-row-info">
+        <div class="ind-row-name">Ugentlig opsummering</div>
+        <div class="ind-row-desc">Et kort overblik over din uge &mdash; m&oslash;nstre, check-ins og hvad der kommer</div>
+      </div>
+      <div class="ind-toggle"></div>
+    </div>
+
+    <div style="margin-top:12px">
+      <div class="ind-setting-name">Morgentidspunkt</div>
+      <div class="ind-input ind-input--narrow" style="color:#555">07:30</div>
+    </div>
+    <div style="margin-top:8px">
+      <div class="ind-setting-name">Aftentidspunkt</div>
+      <div class="ind-input ind-input--narrow" style="color:#555">21:00</div>
+    </div>
+  </div>
+</div>
+
+<div class="dots">&middot; &middot; &middot;</div>
+
+<div class="s">
+  <!-- SEKTION 4: PRIVATLIV & DELING -->
+  <div class="ind-section">
+    <div class="ind-label">Privatliv &amp; deling</div>
+
+    <div class="ind-row">
+      <div class="ind-row-info">
+        <div class="ind-row-name">Del anonyme data</div>
+        <div class="ind-row-desc">Bidrag til &ldquo;Hvad andre i din fase g&oslash;r&rdquo; &mdash; helt anonymt, ingen persondata deles</div>
+      </div>
+      <div class="ind-toggle ind-toggle--on"></div>
+    </div>
+
+    <div class="ind-row">
+      <div class="ind-row-info">
+        <div class="ind-row-name">Vis kollektiv visdom</div>
+        <div class="ind-row-desc">Se anonyme m&oslash;nstre og erfaringer fra andre kvinder i din livsfase</div>
+      </div>
+      <div class="ind-toggle ind-toggle--on"></div>
+    </div>
+
+    <div class="ind-row">
+      <div class="ind-row-info">
+        <div class="ind-row-name">Del indsigter</div>
+        <div class="ind-row-desc">Mulighed for at dele specifikke sider, &oslash;velser eller indsigter med veninder</div>
+      </div>
+      <div class="ind-toggle ind-toggle--on"></div>
+    </div>
+  </div>
+
+  <div class="ind-insight">
+    <div class="ind-insight-label">Om dine data</div>
+    <div class="ind-insight-text">Alt gemmes lokalt p&aring; din enhed. Hvis du v&aelig;lger at dele anonyme data, fjernes al personlig information f&oslash;rst. Vi kan aldrig se hvem du er &mdash; kun at en kvinde i din fase valgte en bestemt &oslash;velse.</div>
+  </div>
+</div>
+
+<div class="dots">&middot; &middot; &middot;</div>
+
+<div class="s">
+  <!-- SEKTION 5: MINE RELATIONER -->
+  <div class="ind-section">
+    <div class="ind-label">Mine relationer</div>
+
+    <div class="ind-link">
+      <div class="ind-link-icon">&hearts;</div>
+      <div class="ind-link-body">
+        <div class="ind-link-name">Tilf&oslash;j eller rediger relationer</div>
+        <div class="ind-link-desc">Partner, b&oslash;rn, for&aelig;ldre, veninder &mdash; se jeres cyklusser sammen</div>
+      </div>
+      <div class="ind-link-arrow">&rarr;</div>
+    </div>
+
+    <div class="ind-hint">Du har 3 relationer tilf&oslash;jet.</div>
+  </div>
+</div>
+
+<div class="dots">&middot; &middot; &middot;</div>
+
+<div class="s">
+  <!-- SEKTION 6: ISABELLE & INDHOLD -->
+  <div class="ind-section">
+    <div class="ind-label">Isabelle &amp; indhold</div>
+
+    <div class="ind-link">
+      <div class="ind-link-icon">&#x25CE;</div>
+      <div class="ind-link-body">
+        <div class="ind-link-name">Isabelles forl&oslash;b</div>
+        <div class="ind-link-desc">S&aelig;sonbestemte forl&oslash;b med yoga, kost, refleksion og vejledning</div>
+      </div>
+      <div class="ind-link-arrow">&rarr;</div>
+    </div>
+
+    <div class="ind-link">
+      <div class="ind-link-icon">&#x2197;</div>
+      <div class="ind-link-body">
+        <div class="ind-link-name">isabelleevita.dk</div>
+        <div class="ind-link-desc">Isabelles hjemmeside med kurser, workshops og retreats</div>
+      </div>
+      <div class="ind-link-arrow">&rarr;</div>
+    </div>
+
+    <div class="ind-link">
+      <div class="ind-link-icon">&#x1F4D6;</div>
+      <div class="ind-link-body">
+        <div class="ind-link-name">Om bogen</div>
+        <div class="ind-link-desc">&ldquo;De 9 Livsfasers Energi&rdquo; &mdash; kinesisk medicin, vedisk filosofi og moderne psykologi</div>
+      </div>
+      <div class="ind-link-arrow">&rarr;</div>
+    </div>
+
+    <div class="ind-link">
+      <div class="ind-link-icon">&#x2709;</div>
+      <div class="ind-link-body">
+        <div class="ind-link-name">Nyhedsbrev</div>
+        <div class="ind-link-desc">Tilmeld dig Isabelles nyhedsbrev med s&aelig;sonens r&aring;d og nye indsigter</div>
+      </div>
+      <div class="ind-link-arrow">&rarr;</div>
+    </div>
+  </div>
+</div>
+
+<div class="dots">&middot; &middot; &middot;</div>
+
+<div class="s">
+  <!-- SEKTION 7: UDSEENDE -->
+  <div class="ind-section">
+    <div class="ind-label">Udseende</div>
+
+    <div class="ind-row">
+      <div class="ind-row-info">
+        <div class="ind-row-name">M&oslash;rk tilstand</div>
+        <div class="ind-row-desc">Skifte til m&oslash;rke farver &mdash; lettere at bruge om aftenen</div>
+      </div>
+      <div class="ind-toggle"></div>
+    </div>
+
+    <div class="ind-row">
+      <div class="ind-row-info">
+        <div class="ind-row-name">F&oslash;lg system</div>
+        <div class="ind-row-desc">Skift automatisk mellem lys og m&oslash;rk baseret p&aring; din enheds indstilling</div>
+      </div>
+      <div class="ind-toggle ind-toggle--on"></div>
+    </div>
+  </div>
+</div>
+
+<div class="dots">&middot; &middot; &middot;</div>
+
+<div class="s">
+  <!-- SEKTION 8: DATA -->
+  <div class="ind-section">
+    <div class="ind-label">Data</div>
+
+    <button class="ind-btn">Eksport&eacute;r mine data</button>
+    <div class="ind-btn-hint">Download dine check-ins, refleksioner og favoritter som fil</div>
+
+    <button class="ind-btn" style="margin-top:16px">Import&eacute;r data</button>
+    <div class="ind-btn-hint">Gendan data fra en tidligere eksport</div>
+
+    <button class="ind-btn" style="margin-top:16px">Vis onboarding igen</button>
+    <div class="ind-btn-hint">Start forfra med velkomst og ops&aelig;tning &mdash; dine data beholdes</div>
+
+    <button class="ind-btn ind-btn--danger" style="margin-top:24px">Nulstil alle data</button>
+    <div class="ind-btn-hint ind-btn-hint--danger">Slet alt &mdash; profil, relationer, check-ins, favoritter. Kan ikke fortrydes.</div>
+  </div>
+</div>
+
+<div class="dots">&middot; &middot; &middot;</div>
+
+<div class="s" style="padding-bottom:28px">
+  <div class="ind-insight">
+    <div class="ind-insight-label">Om appen</div>
+    <div class="ind-insight-text">De 9 Livsfaser er bygget med k&aelig;rlighed og kinesisk medicin. Baseret p&aring; Isabelle Evita S&oslash;ndergaards bog &ldquo;De 9 Livsfasers Energi.&rdquo; Version 1.0.</div>
+  </div>
+
+  <div class="ind-footer-links">
+    <button class="ind-footer-link">Vilk&aring;r</button>
+    <button class="ind-footer-link">Privatlivspolitik</button>
+    <button class="ind-footer-link">Kontakt</button>
+  </div>
+</div>
+
+<div class="section-closer"><div class="lotus-fill"><img src="assets/images/rosa-lotus.png" alt=""></div></div>
+<div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
+
+<div class="page-divider"></div>
+
+<!-- ======================================================= -->
+<!-- SIDE 39: OM ISABELLE                                    -->
+<!-- ======================================================= -->
+<div class="section-num">Side 39 &middot; Om Isabelle</div>
+<div class="header">
+  <div class="header-back">&larr;</div>
+  <div class="header-title">De&ensp;<span style="color:#6B5F7B;font-size:28px">9</span>&ensp;Livsfaser</div>
+</div>
+<div class="accent-line"></div>
+<div class="s">
+  <div class="eyebrow">Om Isabelle &middot; Baggrund</div>
+  <div class="title">Isabelle Evita<br>S&oslash;ndergaard</div>
+
+  <!-- PORTRÆT -->
+  <div class="isa-portrait">
+    <div class="isa-portrait-inner">IE</div>
+  </div>
+
+  <div class="isa-role">Forfatter &middot; Yogal&aelig;rer &middot; Coach &middot; Foredragsholder</div>
+
+  <!-- INTRO-TEKST -->
+  <div class="isa-body">Isabelle har brugt en stor del af sit liv p&aring; at udforske forbindelsen mellem krop, sind og energi. Hun er uddannet i interkulturel kommunikation fra CBS, har boet p&aring; ashram i Indien og har i over ti &aring;r undervist i yin yoga, mindfulness og traditionel kinesisk medicin.</div>
+  <div class="isa-body">Hendes tilgang er varm og jordn&aelig;r. Hun m&oslash;der dig der, hvor du er &mdash; og deler sin viden som en klog veninde der har g&aring;et vejen selv.</div>
+
+  <!-- CITAT -->
+  <div class="isa-quote">&ldquo;Dit forhold til dig selv er dit vigtigste forhold.&rdquo;</div>
+</div>
+
+<div class="dots">&middot; &middot; &middot;</div>
+
+<div class="s">
+  <!-- ISABELLES BØGER -->
+  <div class="isa-sec-label">Isabelles b&oslash;ger</div>
+
+  <div class="isa-prod">
+    <div class="isa-prod-hd">
+      <span class="isa-prod-nm">De 5 &Aring;rstiders Energi</span>
+      <span class="isa-prod-tag">Bestseller</span>
+    </div>
+    <div class="isa-prod-tx">Solgt i over 14.500 eksemplarer. En guide til &aring;rstidernes energi med kinesisk medicin, vedisk filosofi, &oslash;velser og kostr&aring;d. Nu i 3. udgave.</div>
+    <div class="isa-prod-lk">L&aelig;s mere p&aring; isabelleevita.dk &rarr;</div>
+  </div>
+
+  <div class="isa-prod">
+    <div class="isa-prod-hd">
+      <span class="isa-prod-nm">Mine 5 &Aring;rstiders Energi</span>
+      <span class="isa-prod-tag">Dagbog</span>
+    </div>
+    <div class="isa-prod-tx">En personlig dagbog til refleksion og fordybelse gennem &aring;rets skiftende energier. Kan bruges alene eller sammen med bogen.</div>
+    <div class="isa-prod-lk">L&aelig;s mere &rarr;</div>
+  </div>
+
+  <!-- Gradient boks: kommende bog -->
+  <div class="isa-grd">
+    <div class="isa-grd-label">Kommende bog</div>
+    <div class="isa-grd-title">De 9 Livsfasers Energi</div>
+    <div class="isa-grd-sub">Den bog der f&oslash;lger med denne app. Ni livsfaser, fem elementer, og det store billede af et helt kvindeliv &mdash; fra barndom til visdom.</div>
+  </div>
+</div>
+
+<div class="dots">&middot; &middot; &middot;</div>
+
+<div class="s">
+  <!-- ISABELLES ÅRSTIDSFORLØB -->
+  <div class="isa-sec-label">Isabelles &aring;rstidsforl&oslash;b</div>
+
+  <div class="isa-ins">
+    <div class="isa-ins-t">Isabelle tilbyder online forl&oslash;b til hver af de fem &aring;rstider, med yin yoga, vejrtr&aelig;knings&oslash;velser, akupressur og guidet fordybelse. Forl&oslash;bene f&oslash;lger de samme principper som denne app &mdash; tilpasset &aring;rstidens element og energi.</div>
+  </div>
+
+  <!-- 2×2 grid -->
+  <div class="isa-grid">
+    <div class="isa-fc">
+      <div class="isa-fc-season">For&aring;r</div>
+      <div class="isa-fc-el">TR&AElig; &middot; Lever&ndash;Galde</div>
+      <div class="isa-fc-tx">V&aelig;kst, rensning, fornyelse</div>
+    </div>
+    <div class="isa-fc">
+      <div class="isa-fc-season">Sommer</div>
+      <div class="isa-fc-el">ILD &middot; Hjerte&ndash;Tyndtarm</div>
+      <div class="isa-fc-tx">Gl&aelig;de, lethed, &aring;benhed</div>
+    </div>
+    <div class="isa-fc">
+      <div class="isa-fc-season">Sensommer</div>
+      <div class="isa-fc-el">JORD &middot; Milt&ndash;Mave</div>
+      <div class="isa-fc-tx">N&aelig;ring, balance, centrum</div>
+    </div>
+    <div class="isa-fc">
+      <div class="isa-fc-season">Efter&aring;r</div>
+      <div class="isa-fc-el">METAL &middot; Lunge&ndash;Tyktarm</div>
+      <div class="isa-fc-tx">Slip, &aring;ndedr&aelig;t, klarhed</div>
+    </div>
+  </div>
+
+  <!-- Vinter (full width) -->
+  <div class="isa-prod">
+    <div class="isa-prod-hd">
+      <span class="isa-prod-nm">Vinter</span>
+      <span class="isa-prod-tag">Vand &middot; Bl&aelig;re&ndash;Nyre</span>
+    </div>
+    <div class="isa-prod-tx">Hvile, fordybelse, egenomsorg. Vintertiden er tid til at vende blikket indad og styrke relationen til dig selv.</div>
+  </div>
+
+  <!-- CTA -->
+  <div class="isa-cta">Se alle forl&oslash;b p&aring; isabelleevita.dk &rarr;</div>
+</div>
+
+<div class="dots">&middot; &middot; &middot;</div>
+
+<div class="s">
+  <!-- DENNE APP OG BOGEN -->
+  <div class="isa-sec-label">Denne app og bogen</div>
+
+  <div class="isa-ins">
+    <div class="isa-ins-t">Appen g&oslash;r det, bogen ikke kan: den viser dig pr&aelig;cis hvor DU er lige nu, i alle dine cyklusser p&aring; &eacute;n gang. Og den lader dig rejse i tid &mdash; alene eller sammen med en du holder af. Bogen giver dig forst&aring;elsen, appen g&oslash;r den personlig og levende.</div>
+  </div>
+</div>
+
+<div class="dots">&middot; &middot; &middot;</div>
+
+<div class="s">
+  <!-- FØLG ISABELLE -->
+  <div class="isa-sec-label">F&oslash;lg Isabelle</div>
+
+  <div class="isa-social">
+    <a class="isa-social-btn" href="#">Instagram</a>
+    <a class="isa-social-btn" href="#">Facebook</a>
+    <a class="isa-social-btn" href="#">Hjemmeside</a>
+  </div>
+  <div class="isa-hint">@isabelle_sondergaard &middot; isabelleevita.dk</div>
+</div>
+
+<div class="dots">&middot; &middot; &middot;</div>
+
+<div class="s" style="padding-bottom:28px">
+  <!-- GÅ VIDERE -->
+  <div class="isa-sec-label">G&aring; videre</div>
+
+  <div class="isa-xlink">
+    <span class="isa-xlink-txt">Udforsk dine cyklusser &rarr;</span>
+    <span class="isa-xlink-arr">&rsaquo;</span>
+  </div>
+  <div class="isa-xlink">
+    <span class="isa-xlink-txt">Pr&oslash;v en &oslash;velse for dit element &rarr;</span>
+    <span class="isa-xlink-arr">&rsaquo;</span>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="isa-acts">
+    <div class="isa-act"><span>&hearts;</span><span>Gem</span></div>
+    <div class="isa-act"><span>&#x2197;</span><span>Del</span></div>
+  </div>
+</div>
+
+<div class="section-closer"><div class="lotus-fill"><img src="assets/images/rosa-lotus.png" alt=""></div></div>
+<div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
 
 <div class="page-divider"></div>
 

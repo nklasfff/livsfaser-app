@@ -1,7 +1,7 @@
 # PREVIEW-KAPITEL-LOG — De 9 Livsfasers Energi
 
 *Komplet inventar over alle skærme, komponenter og indhold i preview-komplet.html*
-*Opdateret: 21. februar 2026 · v36*
+*Opdateret: 21. februar 2026 · v39*
 
 ---
 
@@ -17,7 +17,8 @@
 | Undersider (Praksis) | 7 | ✅ Bygget |
 | Undersider (Rejse) | 5 | ✅ Bygget |
 | Cirkel-detail-overlays | 6 | ✅ Bygget |
-| **Total i preview nu** | **36** | |
+| Utility-sider | 3 | ✅ Bygget |
+| **Total i preview nu** | **39** | |
 | **Total i gammel app** | **~46** | |
 
 ---
@@ -796,9 +797,9 @@ Vises når man trykker på de koncentriske cirkler på forsiden. Placeret mellem
 | Skærm | Preview-status |
 |-------|----------------|
 | 6 cirkel-detail-overlays | ✅ Bygget (0B-0G) |
-| Søg | ❌ Mangler |
-| Indstillinger (6 sub-routes) | ❌ Mangler |
-| Om Isabelle | ❌ Mangler |
+| Søg | ✅ Bygget (Side 37) |
+| Indstillinger (8 sektioner) | ✅ Bygget (Side 38) |
+| Om Isabelle | ✅ Bygget (Side 39) |
 
 ---
 
@@ -885,6 +886,16 @@ Vises når man trykker på de koncentriske cirkler på forsiden. Placeret mellem
 - **Samtaleåbnere fra TCM** integreret i To Rytmer (3 VAND-baserede samtaleåbnere)
 - **FIGUR-INVENTAR opdateret** med 8 nye figurer (2 per underside)
 - **GAMMEL APP sektion opdateret** — 4 Relationer-undersider markeret som bygget
+
+### v39 — 21. februar 2026
+
+- **3 utility-sider tilføjet:**
+  - Side 37: **Søg** — søgefelt, 2 tag-grupper (Populært lige nu / Tilpasset dig), 12 kategori-kort (Øvelser, Følelser, Livsfaser, Elementer, Relationer, Kost, Tidsrejse, Overgange, Tracking, Epigenetik, Baggrund, Kollektiv)
+  - Side 38: **Indstillinger** — 8 sektioner (Min profil, Cyklus-indstillinger, Notifikationer, Privatliv & deling, Mine relationer, Isabelle & indhold, Udseende, Data) + Om appen footer
+  - Side 39: **Om Isabelle** — portræt, bio, citat, 3 bøger (bestseller + dagbog + kommende), årstidsforløb med 2×2 grid + vinter, app-og-bogen insight, sociale links, gå-videre links
+- **Alle 3 bruger forsiden/neutral farvepalet** (#5A74A5 eyebrow, default accent-line) — ingen sektions-tone
+- **CSS tilføjet:** 90+ nye klasser for søg, indstillinger og Isabelle-komponenter
+- **Total: 39 sider i preview**
 
 ### v32 — 21. februar 2026
 
