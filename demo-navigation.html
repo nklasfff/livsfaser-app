@@ -779,7 +779,7 @@ body { background: #FDFCFB; font-family: 'DM Sans', sans-serif; }
 .arc-nav.hide { transform: translateY(100%); }
 
 /* Padding for arc nav */
-body { padding-bottom: 155px; }
+body { padding-bottom: 130px; }
 </style>
 </head>
 <body>
@@ -971,7 +971,7 @@ body { padding-bottom: 155px; }
 
   // Y coordinate of chord (where endpoints sit)
   // We place the chord at y=118 in the SVG so there's room above for the arc
-  var chordY = 118;
+  var chordY = 134; // shifted down 16px (7mm→4mm gap at bottom)
 
   // Circle center is BELOW the chord (for an upward arc)
   var halfChord = chord / 2;
@@ -1016,27 +1016,19 @@ body { padding-bottom: 155px; }
     items[i].angle = angle;
   }
 
-  // Border arc endpoints
-  var bx1 = cx + R_border * Math.cos(angleStart);
-  var by1 = cy + R_border * Math.sin(angleStart);
-  var bx2 = cx + R_border * Math.cos(angleEnd);
-  var by2 = cy + R_border * Math.sin(angleEnd);
-
-  // Extend border arc a tiny bit beyond the items
-  var angleExtend = 0.03;
-  var bx1e = cx + R_border * Math.cos(angleStart - angleExtend);
-  var by1e = cy + R_border * Math.sin(angleStart - angleExtend);
-  var bx2e = cx + R_border * Math.cos(angleEnd + angleExtend);
-  var by2e = cy + R_border * Math.sin(angleEnd + angleExtend);
+  // Extend border arc to FULL SCREEN WIDTH (x=0 to x=375)
+  // Screen is symmetric (cx=187.5=375/2) so both edges have same y
+  var edgeDy = Math.sqrt(R_border * R_border - cx * cx);
+  var edgeY = cy - edgeDy; // y where arc meets screen edges
 
   // ====== SVG PATHS ======
-  // CRITICAL: sweep-flag=1 for UPWARD arc (clockwise from left to right)
-  var bgPath = 'M 0,' + by1e.toFixed(1) + ' L ' + bx1e.toFixed(1) + ',' + by1e.toFixed(1) +
-    ' A ' + R_border.toFixed(1) + ',' + R_border.toFixed(1) + ' 0 0,1 ' + bx2e.toFixed(1) + ',' + by2e.toFixed(1) +
-    ' L 375,' + by2e.toFixed(1) + ' L 375,160 L 0,160 Z';
+  // sweep-flag=1 for UPWARD arc · Arc goes FULL WIDTH edge-to-edge
+  var bgPath = 'M 0,' + edgeY.toFixed(1) +
+    ' A ' + R_border.toFixed(1) + ',' + R_border.toFixed(1) + ' 0 0,1 375,' + edgeY.toFixed(1) +
+    ' L 375,160 L 0,160 Z';
 
-  var borderArcPath = 'M ' + bx1e.toFixed(1) + ',' + by1e.toFixed(1) +
-    ' A ' + R_border.toFixed(1) + ',' + R_border.toFixed(1) + ' 0 0,1 ' + bx2e.toFixed(1) + ',' + by2e.toFixed(1);
+  var borderArcPath = 'M 0,' + edgeY.toFixed(1) +
+    ' A ' + R_border.toFixed(1) + ',' + R_border.toFixed(1) + ' 0 0,1 375,' + edgeY.toFixed(1);
 
   // ====== BUILD SVG ======
   var svg = document.getElementById('arc-svg');
