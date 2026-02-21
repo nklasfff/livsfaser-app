@@ -11,10 +11,12 @@
 |----------|-------|--------|
 | Forsider (Side 1-3) | 3 | ✅ Bygget |
 | Hovedsektioner (1-5) | 5 | ✅ Bygget |
-| Undersider | 2 | ✅ Bygget (kun Vinduer) |
+| Undersider (Vinduer) | 2 | ✅ Bygget |
+| Undersider (Cyklusser) | 4 | ✅ Bygget |
+| Undersider (Relationer) | 4 | ✅ Bygget |
 | Cirkel-detail-overlays | 6 | ❌ Mangler i preview |
-| Undersider sekt. 1-4 | 0 | ⏳ Ikke planlagt endnu |
-| **Total i preview nu** | **10** | |
+| Undersider sekt. 3-4 | 0 | ⏳ Ikke planlagt endnu |
+| **Total i preview nu** | **18** | |
 | **Total i gammel app** | **~46** | |
 
 ---
@@ -383,6 +385,147 @@
 
 ---
 
+## UNDERSIDE 1A: CYKLUSSER I CYKLUSSER
+
+| Felt | Indhold |
+|------|---------|
+| **Tone** | tone-cyklusser (#6c82a9 / #889ec3 / #9cabc3) |
+| **Parent** | Mine Cyklusser (Sektion 1) |
+| **Formål** | Vise hvordan 5 samtidige cyklusser interagerer indbyrdes (TCM-par) |
+
+### Komponenter brugt
+
+| Komponent | Indhold | ✓ |
+|-----------|---------|---|
+| section-eyebrow | "Cyklusser i Cyklusser" | ✅ |
+| section-title | "N&aring;r fem rytmer m&oslash;des i dig" | ✅ |
+| section-sub | "Ti par &middot; Tre typer &middot; &Eacute;t krydsfelt" | ✅ |
+| section-intro | Poetisk intro om at b&aelig;re fem rytmer | ✅ |
+| Figur #1 (SVG) | **5-blads blomst** (roterede ellipser, ét for hvert cykluspar) | ✅ |
+| **feeling-box** | **"Den uro ingen kan forklare"** — n&aring;r cyklusser tr&aelig;kker i forskellige retninger | ✅ |
+| **featured** | **"Dit indre klima"** — Fuld resonans, 4 Vand + 1 Træ | ✅ |
+| klima-diagram | Tre kategorier: n&aelig;rer (5), udfordrer (3), spejler (2) med bjælker | ✅ |
+| 3 grupper kort | "Det der n&aelig;rer" (5 par), "Det der udfordrer" (3 par), "Det der spejler" (2 par) | ✅ |
+| **quick-action** | **"M&aelig;rk efter lige nu"** — krop-scanning | ✅ |
+| insight-box | "Dit krydsfelt" — forklaring af resonans | ✅ |
+| Figur #2 (SVG) | **Str&oslash;mmende vandstr&oslash;mme** (5 parallelle streams med m&oslash;depunkter) | ✅ |
+| **time-shift** | N&aelig;ste cyklusskift + S&aelig;sonskift | ✅ |
+| **pull-quote** | "N&aring;r dine cyklusser m&oslash;des i stilhed..." — Isabelle | ✅ |
+| **cross-links** | Mine Cyklusser, Min Praksis, Mine Relationer | ✅ |
+| Lotus + Tilbage | ✅ | ✅ |
+
+### Unikke komponenter
+
+- klima-diagram (3 bjælker: nærer/udfordrer/spejler)
+- 10 par-kort fordelt i 3 grupper
+
+---
+
+## UNDERSIDE 1B: KROPPENS STORE OVERGANGE
+
+| Felt | Indhold |
+|------|---------|
+| **Tone** | tone-cyklusser (#6c82a9 / #889ec3 / #9cabc3) |
+| **Parent** | Mine Cyklusser (Sektion 1) |
+| **Formål** | Vise livets store overgange mellem faser — vendepunkter, transformationer |
+
+### Komponenter brugt
+
+| Komponent | Indhold | ✓ |
+|-----------|---------|---|
+| section-eyebrow | "Kroppens Store Overgange" | ✅ |
+| section-title | "De &aring;r hvor alt forandres" | ✅ |
+| section-sub | "Vendepunkter &middot; Forvandling &middot; Nye begyndelser" | ✅ |
+| section-intro | Poetisk intro om kroppens vendepunkter | ✅ |
+| Figur #1 (SVG) | **Overgangs-bue** (9 cirkler i bue med 4 forstørrede overgangspunkter) | ✅ |
+| **feeling-box** | **"Det &aring;r hvor kroppen &aelig;ndrede sig"** — pubertet, moderskab, overgangsalder | ✅ |
+| **featured** | **"Din overgang lige nu"** — Fase 8→9, Metal til Vand, 56 &aring;r | ✅ |
+| 4 overgangs-kort | Pubertet (7→14), Modning (28→35), Overgangsalder (42→49), Visdommen (56→63) | ✅ |
+| **quick-action** | **"Hvad er din krops st&oslash;rste forandring?"** — refleksion | ✅ |
+| insight-box | "Den overgang du er i nu" — Metal→Vand transformation | ✅ |
+| Figur #2 (SVG) | **Chrysalis** (metamorfose-figur: kokon der åbner sig) | ✅ |
+| **time-shift** | N&aelig;ste overgang + Tilbageblik | ✅ |
+| **pull-quote** | "Overgangene er ikke det der g&aring;r i stykker..." — Isabelle | ✅ |
+| **cross-links** | Mine Cyklusser, De Ni Livsfaser, Min Praksis | ✅ |
+| Lotus + Tilbage | ✅ | ✅ |
+
+### Unikke komponenter
+
+- 4 overgangs-kort (specifikt for livets vendepunkter)
+- Chrysalis-figur (unik metamorfose-illustration)
+
+---
+
+## UNDERSIDE 1C: DE NI LIVSFASER
+
+| Felt | Indhold |
+|------|---------|
+| **Tone** | tone-cyklusser (#6c82a9 / #889ec3 / #9cabc3) |
+| **Parent** | Mine Cyklusser (Sektion 1) |
+| **Formål** | Overblik over alle 9 livsfaser — narrativ rejse fra fødsel til visdom |
+
+### Komponenter brugt
+
+| Komponent | Indhold | ✓ |
+|-----------|---------|---|
+| section-eyebrow | "De Ni Livsfaser" | ✅ |
+| section-title | "Ni kapitler &middot; &Eacute;n historie" | ✅ |
+| section-sub | "Fra f&oslash;dsel til visdom" | ✅ |
+| section-intro | Poetisk intro om livets ni kapitler | ✅ |
+| Figur #1 (SVG) | **Fasehjulet** (9 cirkler i ring med elementer og fasenavne) | ✅ |
+| **feeling-box** | **"Kapitlet du ikke selv valgte"** — vi v&aelig;lger ikke vores fase | ✅ |
+| **featured** | **"Dit kapitel"** — Fase 9 · Visdom · Vand | ✅ |
+| 3 narrative grupper | De tidlige &aring;r (1-3), Livets midte (4-6), Den modne rejse (7-9) | ✅ |
+| 9 fase-kort | Alle 9 faser med element, &aring;rstal, beskrivelse | ✅ |
+| Figur #2 (SVG) | **Elementernes vandring** (vertikal zigzag gennem 5 elementer) | ✅ |
+| insight-box | "Cirklen der slutter sig" — Vand åbner og lukker | ✅ |
+| **pull-quote** | "Hvert kapitel bærer sin egen gave..." — Isabelle | ✅ |
+| **cross-links** | Mine Cyklusser, Kroppens Store Overgange, Min Rejse | ✅ |
+| Lotus + Tilbage | ✅ | ✅ |
+
+### Unikke komponenter
+
+- 3 narrative grupper (tidlige/midte/modne) med group-labels
+- 9 fase-kort med "Du er her"-badge på Fase 9
+- Elementernes vandring (zigzag SVG)
+
+---
+
+## UNDERSIDE 1D: DE FIRE UGER
+
+| Felt | Indhold |
+|------|---------|
+| **Tone** | tone-cyklusser (#6c82a9 / #889ec3 / #9cabc3) |
+| **Parent** | Mine Cyklusser (Sektion 1) |
+| **Formål** | Den månedlige cyklus — menstruation eller måne-cyklus |
+
+### Komponenter brugt
+
+| Komponent | Indhold | ✓ |
+|-----------|---------|---|
+| section-eyebrow | "De Fire Uger" | ✅ |
+| section-title | "M&aring;nens fire ansigter" | ✅ |
+| section-sub | "Nym&aring;ne · Tiltagende · Fuldm&aring;ne · Aftagende" | ✅ |
+| section-intro | Poetisk intro om den månedlige cyklus som indre årstid | ✅ |
+| Figur #1 (SVG) | **4-sektors cirkel** (månedens 4 faser i cirkel) | ✅ |
+| **feeling-box** | **"Den rytme du m&aring;ske har glemt"** — efter menopausen, månecyklus | ✅ |
+| **featured** | **"Din uge"** — Nymåne · Vand · Stilhed og indadvendthed | ✅ |
+| 4 ugekort | Nymåne/Tiltagende/Fuldmåne/Aftagende med element og kvalitet | ✅ |
+| dual-cycle box | Anerkendelse af både menstruation og månecyklus | ✅ |
+| Figur #2 (SVG) | **Energi-kurven** (parabolisk bue fra stilhed til intensitet og tilbage) | ✅ |
+| insight-box | "To cyklusser, ét sprog" — menstruation og måne | ✅ |
+| **pull-quote** | "Uanset om du bløder eller ej..." — Isabelle | ✅ |
+| **cross-links** | Mine Cyklusser, Cyklusser i Cyklusser, Min Praksis | ✅ |
+| Lotus + Tilbage | ✅ | ✅ |
+
+### Unikke komponenter
+
+- 4 månefase-kort (persona er 60, post-menopause → månecyklus)
+- Energi-kurven (parabolisk bue)
+- Dual-cycle anerkendelse
+
+---
+
 ## DE 6 CIRKEL-DETAIL-OVERLAYS (fra gammel app — MANGLER i preview)
 
 Disse vises i den gamle app når man trykker på de koncentriske cirkler på forsiden (I dag). De er **ikke med i preview'en endnu**.
@@ -522,6 +665,14 @@ Disse vises i den gamle app når man trykker på de koncentriske cirkler på for
 | 5 | Mine Vinduer | vinduer-tid-lilla.png + krydsfelt | 2 billeder | Tidsspiral | SVG: Spiral med prikker |
 | 5A | Mit Livs Tidslinje | Livsbue | SVG: 9 cirkler i bue | Lagdelte ellipser | SVG: 3 koncentriske ovaler |
 | 5B | Vigtige Øjeblikke | Konstellation | SVG: Prikker + linjer | Blomsterkronblade | SVG: 5 overlappende cirkler |
+| 1A | Cyklusser i Cyklusser | 5-blads blomst | SVG: Roterede ellipser | Strømmende vandstrømme | SVG: 5 parallelle streams |
+| 1B | Kroppens Store Overgange | Overgangs-bue | SVG: 9 cirkler + 4 highlights | Chrysalis | SVG: Metamorfose-figur |
+| 1C | De Ni Livsfaser | Fasehjulet | SVG: 9 cirkler i ring | Elementernes vandring | SVG: Vertikal zigzag |
+| 1D | De Fire Uger | 4-sektors cirkel | SVG: Månens 4 faser | Energi-kurven | SVG: Parabolisk bue |
+| 2A | Relationer lige nu | Forbindelsesfelt | SVG: DIG + 2 relationer radialt | To-søjle sammenligning | SVG: Nærer vs Udfordrer |
+| 2B | To Rytmer | Forskydningstidslinje | SVG: Dual-track faseblokke | Møde-kompas | SVG: 2 cirkler med progress |
+| 2C | Tre Generationer | Stammertræ | SVG: 3 cirkler vertikalt | Generationsbølger | SVG: 3 lagdelte bølger |
+| 2D | Jeres Energi | Pentagon | SVG: 5 elementer + pile | Tidsvindue | SVG: Portal med dato |
 
 ---
 
@@ -575,21 +726,22 @@ Disse vises i den gamle app når man trykker på de koncentriske cirkler på for
 
 | Skærm | Indhold i gammel app | Preview-status |
 |-------|---------------------|----------------|
-| Cyklusser i Cyklusser | Climate box + 10 par-kort (TCM) | ❌ Mangler |
-| De Ni Livsfaser | Cirkulær figur + 9 fasekort | ❌ Mangler |
+| Cyklusser i Cyklusser | Climate box + 10 par-kort (TCM) | ✅ Underside 1A |
+| De Ni Livsfaser | Cirkulær figur + 9 fasekort | ✅ Underside 1C |
 | Livsfase-detail | Fuld fasedetalje (krop, sind, øvelse, kost) | ❌ Mangler |
-| De Fire Uger | 4-sektors cirkel + ugekort | ❌ Mangler |
+| De Fire Uger | 4-sektors cirkel + ugekort | ✅ Underside 1D |
 | Kontrolcyklussen | TCM-pentagon + elementtekster | ❌ Mangler |
 | Samlede Indsigt | Daglig dyb cyklus-indsigt | ❌ Mangler |
+| Kroppens Store Overgange | Overgange mellem faser | ✅ Underside 1B (ny) |
 
 ### Niveau 2 under Mine Relationer (5 skærme)
 
 | Skærm | Indhold i gammel app | Preview-status |
 |-------|---------------------|----------------|
-| Relationer (oversigt/tilføj/detalje) | VennFour + person-kort + tilføj-flow | ❌ Mangler |
-| To Rytmer | 7-år vs 8-år sammenligning | ❌ Mangler |
-| Tre Generationer | 3-generations VennThree | ❌ Mangler |
-| Jeres Energi | Dato-baseret energi-sammenligning | ❌ Mangler |
+| Relationer lige nu | Forbindelsesfelt + to-søjle sammenligning | ✅ Underside 2A |
+| To Rytmer | Forskydningstidslinje + møde-kompas | ✅ Underside 2B |
+| Tre Generationer | Stammertræ + generationsbølger | ✅ Underside 2C |
+| Jeres Energi | Pentagon + tidsvindue | ✅ Underside 2D |
 | Epigenetik & Arv | Nedarvede mønstre | ❌ Mangler |
 
 ### Niveau 2 under Min Praksis (8 skærme)
@@ -644,6 +796,30 @@ Disse vises i den gamle app når man trykker på de koncentriske cirkler på for
 ---
 
 ## ÆNDRINGSLOG
+
+### v33 — 21. februar 2026
+
+- **4 undersider til Mine Relationer bygget:**
+  - 2A: Relationer lige nu (forbindelsesfelt + to-søjle sammenligning)
+  - 2B: To Rytmer (forskydningstidslinje + møde-kompas)
+  - 2C: Tre Generationer (stammertræ + generationsbølger)
+  - 2D: Jeres Energi (pentagon + tidsvindue/portal)
+- **Alle 4 har unikt design** — nye figurtyper: forbindelsesfelt, to-søjle, dual-track, stammertræ, bølge-overlay, pentagon, tidsportal
+- **Persona-data:** Dig (60, Vand), Martin (43, Jord), Inge (85, Vand), Clara (32, Ild)
+- **Samtaleåbnere fra TCM** integreret i To Rytmer (3 VAND-baserede samtaleåbnere)
+- **FIGUR-INVENTAR opdateret** med 8 nye figurer (2 per underside)
+- **GAMMEL APP sektion opdateret** — 4 Relationer-undersider markeret som bygget
+
+### v32 — 21. februar 2026
+
+- **4 undersider til Mine Cyklusser bygget:**
+  - 1A: Cyklusser i Cyklusser (5-blads blomst + strømmende vandstrømme)
+  - 1B: Kroppens Store Overgange (overgangs-bue + chrysalis)
+  - 1C: De Ni Livsfaser (fasehjulet + elementernes vandring)
+  - 1D: De Fire Uger (4-sektors cirkel + energi-kurven)
+- **Alle 4 har unikt design** — forskellige figurtyper, narrativ tilgang, og stemning
+- **FIGUR-INVENTAR opdateret** med 8 nye figurer (2 per underside)
+- **GAMMEL APP sektion opdateret** — 3 Cyklusser-undersider markeret som bygget + 1 ny (KSO)
 
 ### v31 — 21. februar 2026
 
