@@ -998,29 +998,23 @@ body { padding-bottom: 155px; }
     { name: 'Rejse',      r: 15, fillC: 'rgba(138,150,169,0.10)', strokeC: 'rgba(138,150,169,0.16)', textC: '#b8b2a8', active: false }
   ];
 
-  // Compute positions using angular parameterization
+  // ====== BORDER ARC (thin blue line) ======
+  // EQUAL perpendicular gap from TOP of ALL circles to the border
+  // Method: border at fixed radius R_border from center.
+  // Each item placed at R_i = R_border - equalGap - item.r
+  // This ensures: border - circleTop = R_border - (R_i + item.r) = equalGap for ALL items
+  var equalGap = 11; // pixels gap between circle top and border (equal for all)
+  var R_border = R + 15 + equalGap; // designed so inactive items (r=15) sit on arc R
+
+  // Compute positions: each item on its own radius R_i for equal gap
   for (var i = 0; i < N; i++) {
     var t = (i + 0.5) / N;
     var angle = angleStart + t * (angleEnd - angleStart);
-    items[i].x = cx + R * Math.cos(angle);
-    items[i].y = cy + R * Math.sin(angle);
+    var R_i = R_border - equalGap - items[i].r; // per-item radius
+    items[i].x = cx + R_i * Math.cos(angle);
+    items[i].y = cy + R_i * Math.sin(angle);
+    items[i].angle = angle;
   }
-
-  // ====== BORDER ARC (thin blue line) ======
-  // Equal perpendicular gap from TOP of every circle to the border line
-  // For a circular arc: parallel offset = same center, different radius
-  var gap = 10; // pixels gap between circle top and border
-  var maxR = 19; // biggest circle (active Cyklusser)
-  // Border radius = item arc radius + maxR + gap
-  // But we want equal gap from TOP of each circle, and circles have different radii
-  // The TOP of each circle is at distance (R - item.r) from center
-  // So we set border at distance R - maxR - gap from center
-  // That gives gap = (R_border - (R - item.r)) for each item
-  // Actually: border arc should be at R_border = R + maxR + gap from center (ABOVE items)
-  // Wait — items are ON the arc at radius R from center (which is below).
-  // Top of each circle = cy - sqrt(... ) = at radius (R + item.r) from center
-  // So border should be at R_border = R + maxR + gap
-  var R_border = R + maxR + gap; // ≈ 192 + 19 + 10 = 221
 
   // Border arc endpoints
   var bx1 = cx + R_border * Math.cos(angleStart);
@@ -1162,11 +1156,12 @@ body { padding-bottom: 155px; }
     svg.appendChild(txt);
   }
 
-  // Debug: log computed positions
-  console.log('Arc R=' + R.toFixed(1) + ', center=(' + cx.toFixed(1) + ',' + cy.toFixed(1) + '), arcTop=' + arcTopY.toFixed(1));
+  // Debug: verify equal gaps
+  console.log('Arc R=' + R.toFixed(1) + ', R_border=' + R_border.toFixed(1) + ', equalGap=' + equalGap);
   for (var i = 0; i < N; i++) {
-    var distFromBorder = R_border - Math.sqrt(Math.pow(items[i].x - cx, 2) + Math.pow(items[i].y - cy, 2)) - items[i].r;
-    console.log(items[i].name + ': (' + items[i].x.toFixed(1) + ',' + items[i].y.toFixed(1) + ') gap-to-border=' + distFromBorder.toFixed(1));
+    var R_i = R_border - equalGap - items[i].r;
+    var perpGap = R_border - R_i - items[i].r;
+    console.log(items[i].name + ': (' + items[i].x.toFixed(1) + ',' + items[i].y.toFixed(1) + ') r=' + items[i].r + ' gap=' + perpGap.toFixed(1));
   }
 })();
 
