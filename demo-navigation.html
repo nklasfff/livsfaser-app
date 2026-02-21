@@ -945,93 +945,232 @@ body { padding-bottom: 155px; }
   <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
 </div>
 
-<!-- ARC NAVIGATION (Udkast B — cirkler på rund bue) -->
+<!-- ARC NAVIGATION — Cirkulær bue (SVG A-kommando, ikke Q) -->
+<!-- Beregnet med: R = c²/(8s) + s/2, chord=279, sagitta=60 → R≈192 -->
 <!-- Rækkefølge: Hjem · Vinduer · Cyklusser · Relationer · Praksis · Rejse -->
 <div class="arc-nav" id="nb">
-  <svg viewBox="0 0 375 145" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Background fill under arc (frosted, follows the curve) -->
-    <path d="M 0,82 Q 187.5,48 375,82 L 375,145 L 0,145 Z" fill="rgba(253,252,251,0.96)"/>
-
-    <!-- Thin blue line — top boundary of nav area -->
-    <path d="M 18,82 Q 187.5,50 357,82" fill="none" stroke="rgba(108,130,169,0.18)" stroke-width="0.7"/>
-
-    <!-- === CIRCLES ON ARC === -->
-    <!-- Arc: M 48,110 Q 187.5,58 327,110 (52px rise) -->
-    <!-- Positions: (48,110), (104,93), (160,85), (215,85), (271,93), (327,110) -->
-
-    <!-- 1. HJEM (48, 110) — pulled in from corner -->
-    <circle cx="48" cy="110" r="15" fill="rgba(108,130,169,0.10)" stroke="rgba(108,130,169,0.14)" stroke-width="0.7"/>
-    <g transform="translate(48,110)">
-      <path d="M0,-5.5 L5.5,0 V4.5 H2 V1 H-2 V4.5 H-5.5 V0 Z" fill="none" stroke="rgba(108,130,169,0.40)" stroke-width="0.9" stroke-linejoin="round"/>
-    </g>
-
-    <!-- 2. VINDUER (104, 93) -->
-    <circle cx="104" cy="93" r="15" fill="rgba(107,95,123,0.10)" stroke="rgba(107,95,123,0.16)" stroke-width="0.7"/>
-    <g transform="translate(104,93)">
-      <rect x="-5" y="-5" width="10" height="10" rx="1.2" fill="none" stroke="rgba(107,95,123,0.40)" stroke-width="0.8"/>
-      <line x1="0" y1="-5" x2="0" y2="5" stroke="rgba(107,95,123,0.35)" stroke-width="0.5"/>
-      <line x1="-5" y1="0" x2="5" y2="0" stroke="rgba(107,95,123,0.35)" stroke-width="0.5"/>
-    </g>
-
-    <!-- 3. CYKLUSSER (160, 85) — ACTIVE (bigger circle) -->
-    <circle cx="160" cy="85" r="18" fill="rgba(108,130,169,0.18)" stroke="rgba(108,130,169,0.30)" stroke-width="1"/>
-    <g transform="translate(160,85)">
-      <circle r="6" fill="none" stroke="#6c82a9" stroke-width="1.1"/>
-      <circle r="2.8" fill="none" stroke="#6c82a9" stroke-width="0.9"/>
-      <circle r="0.8" fill="#6c82a9"/>
-    </g>
-
-    <!-- 4. RELATIONER (215, 85) -->
-    <circle cx="215" cy="85" r="15" fill="rgba(123,122,158,0.10)" stroke="rgba(123,122,158,0.16)" stroke-width="0.7"/>
-    <g transform="translate(215,85)">
-      <path d="M0,4.5 C0,4.5 -5.5,0.5 -5.5,-1.5 C-5.5,-3.5 -3.5,-5.5 -1.5,-4 L0,-2.5 L1.5,-4 C3.5,-5.5 5.5,-3.5 5.5,-1.5 C5.5,0.5 0,4.5 0,4.5 Z" fill="none" stroke="rgba(123,122,158,0.40)" stroke-width="0.8"/>
-    </g>
-
-    <!-- 5. PRAKSIS (271, 93) -->
-    <circle cx="271" cy="93" r="15" fill="rgba(122,144,139,0.10)" stroke="rgba(122,144,139,0.16)" stroke-width="0.7"/>
-    <g transform="translate(271,93)">
-      <circle r="5" fill="none" stroke="rgba(122,144,139,0.40)" stroke-width="0.8"/>
-      <path d="M0,-2.5 V0.5 L2,2.5" fill="none" stroke="rgba(122,144,139,0.40)" stroke-width="0.8" stroke-linecap="round"/>
-    </g>
-
-    <!-- 6. REJSE (327, 110) — pulled in from corner -->
-    <circle cx="327" cy="110" r="15" fill="rgba(138,150,169,0.10)" stroke="rgba(138,150,169,0.16)" stroke-width="0.7"/>
-    <g transform="translate(327,110)">
-      <circle r="5" fill="none" stroke="rgba(138,150,169,0.40)" stroke-width="0.8"/>
-      <path d="M0,-5 V-3.5 M0,3.5 V5 M-5,0 H-3.5 M3.5,0 H5" stroke="rgba(138,150,169,0.35)" stroke-width="0.5"/>
-      <path d="M0,-2 L1.2,0.8 L-1.2,0.8 Z" fill="rgba(138,150,169,0.35)"/>
-    </g>
-
-    <!-- Active indicator dot under Cyklusser -->
-    <circle cx="160" cy="106" r="2.5" fill="#6c82a9" opacity="0.45"/>
-
-    <!-- LABELS on curved path — more space below circles, text follows curve -->
-    <defs><path id="lbl" d="M 32,138 Q 187.5,110 343,138"/></defs>
-
-    <text font-family="'DM Sans',sans-serif" font-size="10" font-weight="300" fill="#b8b2a8">
-      <textPath href="#lbl" xlink:href="#lbl" startOffset="4%" text-anchor="middle">Hjem</textPath>
-    </text>
-    <text font-family="'DM Sans',sans-serif" font-size="10" font-weight="300" fill="#a89bb3">
-      <textPath href="#lbl" xlink:href="#lbl" startOffset="21%" text-anchor="middle">Vinduer</textPath>
-    </text>
-    <text font-family="'DM Sans',sans-serif" font-size="10.5" font-weight="500" fill="#6c82a9">
-      <textPath href="#lbl" xlink:href="#lbl" startOffset="40%" text-anchor="middle">Cyklusser</textPath>
-    </text>
-    <text font-family="'DM Sans',sans-serif" font-size="10" font-weight="300" fill="#b8b2a8">
-      <textPath href="#lbl" xlink:href="#lbl" startOffset="58%" text-anchor="middle">Relationer</textPath>
-    </text>
-    <text font-family="'DM Sans',sans-serif" font-size="10" font-weight="300" fill="#b8b2a8">
-      <textPath href="#lbl" xlink:href="#lbl" startOffset="77%" text-anchor="middle">Praksis</textPath>
-    </text>
-    <text font-family="'DM Sans',sans-serif" font-size="10" font-weight="300" fill="#b8b2a8">
-      <textPath href="#lbl" xlink:href="#lbl" startOffset="96%" text-anchor="middle">Rejse</textPath>
-    </text>
+  <svg id="arc-svg" viewBox="0 0 375 160" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   </svg>
-  <!-- Safe area spacer for iPhone home bar -->
   <div style="height:env(safe-area-inset-bottom,6px);background:rgba(253,252,251,0.96)"></div>
 </div>
 
 <script>
+(function(){
+  // ====== CIRCULAR ARC MATH ======
+  // Chord endpoints (pulled inward from edges for tappability)
+  var x1 = 48, x2 = 327;
+  var chord = x2 - x1; // 279
+  var sagitta = 62; // arc height — rounder than before
+
+  // Radius from chord + sagitta: R = c²/(8s) + s/2
+  var R = (chord * chord) / (8 * sagitta) + sagitta / 2;
+  // R ≈ 188.7
+
+  // Midpoint of chord
+  var midX = (x1 + x2) / 2; // 187.5
+
+  // Y coordinate of chord (where endpoints sit)
+  // We place the chord at y=118 in the SVG so there's room above for the arc
+  var chordY = 118;
+
+  // Circle center is BELOW the chord (for an upward arc)
+  var halfChord = chord / 2;
+  var d = Math.sqrt(R * R - halfChord * halfChord);
+  var cx = midX;
+  var cy = chordY + d; // center is below
+
+  // Verify: top of arc = cy - R
+  var arcTopY = cy - R; // should be chordY - sagitta = 56
+
+  // Angles of the two endpoints on the generating circle
+  var angleStart = Math.atan2(chordY - cy, x1 - cx); // left endpoint
+  var angleEnd = Math.atan2(chordY - cy, x2 - cx);   // right endpoint
+
+  // ====== ITEM POSITIONS ======
+  // 6 items evenly spaced (centered in segments)
+  var N = 6;
+  var items = [
+    { name: 'Hjem',       r: 15, fillC: 'rgba(108,130,169,0.10)', strokeC: 'rgba(108,130,169,0.14)', textC: '#b8b2a8', active: false },
+    { name: 'Vinduer',    r: 15, fillC: 'rgba(107,95,123,0.10)',  strokeC: 'rgba(107,95,123,0.16)',  textC: '#a89bb3', active: false },
+    { name: 'Cyklusser',  r: 19, fillC: 'rgba(108,130,169,0.18)', strokeC: 'rgba(108,130,169,0.30)', textC: '#6c82a9', active: true  },
+    { name: 'Relationer', r: 15, fillC: 'rgba(123,122,158,0.10)', strokeC: 'rgba(123,122,158,0.16)', textC: '#b8b2a8', active: false },
+    { name: 'Praksis',    r: 15, fillC: 'rgba(122,144,139,0.10)', strokeC: 'rgba(122,144,139,0.16)', textC: '#b8b2a8', active: false },
+    { name: 'Rejse',      r: 15, fillC: 'rgba(138,150,169,0.10)', strokeC: 'rgba(138,150,169,0.16)', textC: '#b8b2a8', active: false }
+  ];
+
+  // Compute positions using angular parameterization
+  for (var i = 0; i < N; i++) {
+    var t = (i + 0.5) / N;
+    var angle = angleStart + t * (angleEnd - angleStart);
+    items[i].x = cx + R * Math.cos(angle);
+    items[i].y = cy + R * Math.sin(angle);
+  }
+
+  // ====== BORDER ARC (thin blue line) ======
+  // Equal perpendicular gap from TOP of every circle to the border line
+  // For a circular arc: parallel offset = same center, different radius
+  var gap = 10; // pixels gap between circle top and border
+  var maxR = 19; // biggest circle (active Cyklusser)
+  // Border radius = item arc radius + maxR + gap
+  // But we want equal gap from TOP of each circle, and circles have different radii
+  // The TOP of each circle is at distance (R - item.r) from center
+  // So we set border at distance R - maxR - gap from center
+  // That gives gap = (R_border - (R - item.r)) for each item
+  // Actually: border arc should be at R_border = R + maxR + gap from center (ABOVE items)
+  // Wait — items are ON the arc at radius R from center (which is below).
+  // Top of each circle = cy - sqrt(... ) = at radius (R + item.r) from center
+  // So border should be at R_border = R + maxR + gap
+  var R_border = R + maxR + gap; // ≈ 192 + 19 + 10 = 221
+
+  // Border arc endpoints
+  var bx1 = cx + R_border * Math.cos(angleStart);
+  var by1 = cy + R_border * Math.sin(angleStart);
+  var bx2 = cx + R_border * Math.cos(angleEnd);
+  var by2 = cy + R_border * Math.sin(angleEnd);
+
+  // Extend border arc a tiny bit beyond the items
+  var angleExtend = 0.03;
+  var bx1e = cx + R_border * Math.cos(angleStart - angleExtend);
+  var by1e = cy + R_border * Math.sin(angleStart - angleExtend);
+  var bx2e = cx + R_border * Math.cos(angleEnd + angleExtend);
+  var by2e = cy + R_border * Math.sin(angleEnd + angleExtend);
+
+  // ====== TEXT ARC ======
+  // Text sits below circles, so smaller radius from center
+  var textGap = 12;
+  var R_text = R - 15 - textGap; // radius for text baseline
+
+  // Text arc endpoints (for SVG textPath)
+  var tx1 = cx + R_text * Math.cos(angleStart - 0.08);
+  var ty1 = cy + R_text * Math.sin(angleStart - 0.08);
+  var tx2 = cx + R_text * Math.cos(angleEnd + 0.08);
+  var ty2 = cy + R_text * Math.sin(angleEnd + 0.08);
+
+  // ====== BACKGROUND FILL ======
+  // The background fill goes from the border arc down to the bottom
+  // It should share EXACTLY the same path as the border line (no white gap above)
+  var bgPath = 'M 0,' + by1e.toFixed(1) + ' L ' + bx1e.toFixed(1) + ',' + by1e.toFixed(1) +
+    ' A ' + R_border.toFixed(1) + ',' + R_border.toFixed(1) + ' 0 0,0 ' + bx2e.toFixed(1) + ',' + by2e.toFixed(1) +
+    ' L 375,' + by2e.toFixed(1) + ' L 375,160 L 0,160 Z';
+
+  // The border line itself
+  var borderArcPath = 'M ' + bx1e.toFixed(1) + ',' + by1e.toFixed(1) +
+    ' A ' + R_border.toFixed(1) + ',' + R_border.toFixed(1) + ' 0 0,0 ' + bx2e.toFixed(1) + ',' + by2e.toFixed(1);
+
+  // The text path (for textPath, needs to go left-to-right for correct text direction)
+  // Since our arc goes upward (concave down from text perspective), we need sweep=0
+  var textArcPath = 'M ' + tx1.toFixed(1) + ',' + ty1.toFixed(1) +
+    ' A ' + R_text.toFixed(1) + ',' + R_text.toFixed(1) + ' 0 0,0 ' + tx2.toFixed(1) + ',' + ty2.toFixed(1);
+
+  // ====== BUILD SVG ======
+  var svg = document.getElementById('arc-svg');
+  var svgNS = 'http://www.w3.org/2000/svg';
+  var xlinkNS = 'http://www.w3.org/1999/xlink';
+
+  // 1. Background fill
+  var bgEl = document.createElementNS(svgNS, 'path');
+  bgEl.setAttribute('d', bgPath);
+  bgEl.setAttribute('fill', 'rgba(253,252,251,0.96)');
+  svg.appendChild(bgEl);
+
+  // 2. Thin blue border line
+  var borderEl = document.createElementNS(svgNS, 'path');
+  borderEl.setAttribute('d', borderArcPath);
+  borderEl.setAttribute('fill', 'none');
+  borderEl.setAttribute('stroke', 'rgba(108,130,169,0.18)');
+  borderEl.setAttribute('stroke-width', '0.7');
+  svg.appendChild(borderEl);
+
+  // 3. Circles with icons
+  var icons = [
+    // Hjem — house
+    function(g){ var p=document.createElementNS(svgNS,'path'); p.setAttribute('d','M0,-5.5 L5.5,0 V4.5 H2 V1 H-2 V4.5 H-5.5 V0 Z'); p.setAttribute('fill','none'); p.setAttribute('stroke','rgba(108,130,169,0.40)'); p.setAttribute('stroke-width','0.9'); p.setAttribute('stroke-linejoin','round'); g.appendChild(p); },
+    // Vinduer — window grid
+    function(g){ var r=document.createElementNS(svgNS,'rect'); r.setAttribute('x','-5'); r.setAttribute('y','-5'); r.setAttribute('width','10'); r.setAttribute('height','10'); r.setAttribute('rx','1.2'); r.setAttribute('fill','none'); r.setAttribute('stroke','rgba(107,95,123,0.40)'); r.setAttribute('stroke-width','0.8'); g.appendChild(r); var l1=document.createElementNS(svgNS,'line'); l1.setAttribute('x1','0'); l1.setAttribute('y1','-5'); l1.setAttribute('x2','0'); l1.setAttribute('y2','5'); l1.setAttribute('stroke','rgba(107,95,123,0.35)'); l1.setAttribute('stroke-width','0.5'); g.appendChild(l1); var l2=document.createElementNS(svgNS,'line'); l2.setAttribute('x1','-5'); l2.setAttribute('y1','0'); l2.setAttribute('x2','5'); l2.setAttribute('y2','0'); l2.setAttribute('stroke','rgba(107,95,123,0.35)'); l2.setAttribute('stroke-width','0.5'); g.appendChild(l2); },
+    // Cyklusser — concentric circles
+    function(g){ var c1=document.createElementNS(svgNS,'circle'); c1.setAttribute('r','6'); c1.setAttribute('fill','none'); c1.setAttribute('stroke','#6c82a9'); c1.setAttribute('stroke-width','1.1'); g.appendChild(c1); var c2=document.createElementNS(svgNS,'circle'); c2.setAttribute('r','2.8'); c2.setAttribute('fill','none'); c2.setAttribute('stroke','#6c82a9'); c2.setAttribute('stroke-width','0.9'); g.appendChild(c2); var c3=document.createElementNS(svgNS,'circle'); c3.setAttribute('r','0.8'); c3.setAttribute('fill','#6c82a9'); g.appendChild(c3); },
+    // Relationer — heart
+    function(g){ var p=document.createElementNS(svgNS,'path'); p.setAttribute('d','M0,4.5 C0,4.5 -5.5,0.5 -5.5,-1.5 C-5.5,-3.5 -3.5,-5.5 -1.5,-4 L0,-2.5 L1.5,-4 C3.5,-5.5 5.5,-3.5 5.5,-1.5 C5.5,0.5 0,4.5 0,4.5 Z'); p.setAttribute('fill','none'); p.setAttribute('stroke','rgba(123,122,158,0.40)'); p.setAttribute('stroke-width','0.8'); g.appendChild(p); },
+    // Praksis — clock
+    function(g){ var c=document.createElementNS(svgNS,'circle'); c.setAttribute('r','5'); c.setAttribute('fill','none'); c.setAttribute('stroke','rgba(122,144,139,0.40)'); c.setAttribute('stroke-width','0.8'); g.appendChild(c); var p=document.createElementNS(svgNS,'path'); p.setAttribute('d','M0,-2.5 V0.5 L2,2.5'); p.setAttribute('fill','none'); p.setAttribute('stroke','rgba(122,144,139,0.40)'); p.setAttribute('stroke-width','0.8'); p.setAttribute('stroke-linecap','round'); g.appendChild(p); },
+    // Rejse — compass
+    function(g){ var c=document.createElementNS(svgNS,'circle'); c.setAttribute('r','5'); c.setAttribute('fill','none'); c.setAttribute('stroke','rgba(138,150,169,0.40)'); c.setAttribute('stroke-width','0.8'); g.appendChild(c); var p1=document.createElementNS(svgNS,'path'); p1.setAttribute('d','M0,-5 V-3.5 M0,3.5 V5 M-5,0 H-3.5 M3.5,0 H5'); p1.setAttribute('stroke','rgba(138,150,169,0.35)'); p1.setAttribute('stroke-width','0.5'); g.appendChild(p1); var p2=document.createElementNS(svgNS,'path'); p2.setAttribute('d','M0,-2 L1.2,0.8 L-1.2,0.8 Z'); p2.setAttribute('fill','rgba(138,150,169,0.35)'); g.appendChild(p2); }
+  ];
+
+  for (var i = 0; i < N; i++) {
+    var it = items[i];
+    // Circle
+    var circ = document.createElementNS(svgNS, 'circle');
+    circ.setAttribute('cx', it.x.toFixed(1));
+    circ.setAttribute('cy', it.y.toFixed(1));
+    circ.setAttribute('r', it.r);
+    circ.setAttribute('fill', it.fillC);
+    circ.setAttribute('stroke', it.strokeC);
+    circ.setAttribute('stroke-width', it.active ? '1' : '0.7');
+    svg.appendChild(circ);
+
+    // Icon group
+    var g = document.createElementNS(svgNS, 'g');
+    g.setAttribute('transform', 'translate(' + it.x.toFixed(1) + ',' + it.y.toFixed(1) + ')');
+    icons[i](g);
+    svg.appendChild(g);
+  }
+
+  // 4. Active indicator dot under Cyklusser
+  var actDot = document.createElementNS(svgNS, 'circle');
+  actDot.setAttribute('cx', items[2].x.toFixed(1));
+  actDot.setAttribute('cy', (items[2].y + items[2].r + 4).toFixed(1));
+  actDot.setAttribute('r', '2.5');
+  actDot.setAttribute('fill', '#6c82a9');
+  actDot.setAttribute('opacity', '0.45');
+  svg.appendChild(actDot);
+
+  // 5. Text path definition
+  var defs = document.createElementNS(svgNS, 'defs');
+  var tpath = document.createElementNS(svgNS, 'path');
+  tpath.setAttribute('id', 'lbl');
+  tpath.setAttribute('d', textArcPath);
+  defs.appendChild(tpath);
+  svg.appendChild(defs);
+
+  // 6. Text labels on the curved path
+  // Compute startOffset for each item based on their angular position on the text arc
+  for (var i = 0; i < N; i++) {
+    var t = (i + 0.5) / N;
+    // Map t to a percentage of the text path length
+    // Since the text arc is slightly extended (±0.08 rad), adjust t
+    var totalAngleText = (angleEnd + 0.08) - (angleStart - 0.08);
+    var totalAngleItems = angleEnd - angleStart;
+    var itemAngle = angleStart + t * totalAngleItems;
+    var tOnTextPath = (itemAngle - (angleStart - 0.08)) / totalAngleText;
+    var offsetPct = (tOnTextPath * 100).toFixed(1) + '%';
+
+    var txt = document.createElementNS(svgNS, 'text');
+    txt.setAttribute('font-family', "'DM Sans',sans-serif");
+    txt.setAttribute('font-size', items[i].active ? '10.5' : '10');
+    txt.setAttribute('font-weight', items[i].active ? '500' : '300');
+    txt.setAttribute('fill', items[i].textC);
+
+    var tp = document.createElementNS(svgNS, 'textPath');
+    tp.setAttribute('href', '#lbl');
+    tp.setAttributeNS(xlinkNS, 'xlink:href', '#lbl');
+    tp.setAttribute('startOffset', offsetPct);
+    tp.setAttribute('text-anchor', 'middle');
+    tp.textContent = items[i].name;
+
+    txt.appendChild(tp);
+    svg.appendChild(txt);
+  }
+
+  // Debug: log computed positions
+  console.log('Arc R=' + R.toFixed(1) + ', center=(' + cx.toFixed(1) + ',' + cy.toFixed(1) + '), arcTop=' + arcTopY.toFixed(1));
+  for (var i = 0; i < N; i++) {
+    var distFromBorder = R_border - Math.sqrt(Math.pow(items[i].x - cx, 2) + Math.pow(items[i].y - cy, 2)) - items[i].r;
+    console.log(items[i].name + ': (' + items[i].x.toFixed(1) + ',' + items[i].y.toFixed(1) + ') gap-to-border=' + distFromBorder.toFixed(1));
+  }
+})();
+
+// Scroll-hide behavior
 var lastY=0;
 window.addEventListener('scroll',function(){
   var n=document.getElementById('nb'),y=window.scrollY;
