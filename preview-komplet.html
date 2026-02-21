@@ -66,7 +66,7 @@ body { background: #FDFCFB; font-family: 'DM Sans', sans-serif; }
 .lotus-fill img {
   width: 83px; height: auto; display: block;
   mix-blend-mode: multiply;
-  filter: saturate(0.62);
+  filter: saturate(0) contrast(3) brightness(1.15);
 }
 .back-to-top {
   text-align: center; padding: 10px 0 20px;
@@ -95,25 +95,7 @@ body { background: #FDFCFB; font-family: 'DM Sans', sans-serif; }
   font-size: 12px; color: #888; font-weight: 300; font-style: italic;
 }
 
-/* NAV */
-.bottom-nav {
-  background: rgba(108,130,169,0.08);
-  padding: 14px 0 22px;
-  display: flex; justify-content: space-around;
-  border-top: 1px solid rgba(108,130,169,0.18);
-}
-.ni {
-  display: flex; flex-direction: column; align-items: center; gap: 5px;
-  color: #9cabc3; font-family: 'DM Sans', sans-serif;
-  font-size: 9.5px; font-weight: 400; letter-spacing: 0.3px;
-}
-.ni.on { color: #6c82a9; font-weight: 500; }
-.ni-icon {
-  width: 26px; height: 26px; border-radius: 50%;
-  background: rgba(108,130,169,0.10);
-  display: flex; align-items: center; justify-content: center; font-size: 12px;
-}
-.ni.on .ni-icon { background: rgba(108,130,169,0.22); }
+/* Old flat nav removed — arc nav is now in use */
 
 /* ==================== SIDE 1: VELKOMST ==================== */
 .content { padding: 0 24px 44px; }
@@ -750,10 +732,18 @@ body { background: #FDFCFB; font-family: 'DM Sans', sans-serif; }
 .phase-block.future {
   opacity: 0.5;
 }
+
+/* ARC NAVIGATION — fixed at bottom, only visible on sections */
+.arc-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.arc-nav svg { display: block; width: 100%; }
+.arc-nav.hide { transform: translateY(100%); }
 </style>
 <script>
 // Cache-busting: forces reload when new version is deployed
-const V = '20260220-v30';
+const V = '20260221-v31';
 if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   localStorage.setItem('pk-v', V);
   location.reload(true);
@@ -1009,7 +999,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
 </div>
 
 <!-- BIG DIVIDER — transition to sections -->
-<div class="page-divider"></div>
+<div class="page-divider" id="sections-start"></div>
 <div style="text-align:center;padding:32px 24px 8px">
   <div style="font-family:'DM Sans',sans-serif;font-size:9px;color:#bbb;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:8px">De fem sektioner</div>
   <div style="font-family:'Playfair Display',serif;font-size:22px;font-style:italic;color:#6c82a9;line-height:1.35">Udforsk dit liv<br>i dybden</div>
@@ -1020,7 +1010,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
 <!-- ======================================================= -->
 <!-- SEKTION 1: MINE CYKLUSSER                               -->
 <!-- ======================================================= -->
-<div class="section-num">Sektion 1 af 5</div>
+<div class="section-num" id="sek-cyklusser">Sektion 1 af 5</div>
 <div class="header">
   <div class="header-title">De&ensp;<span style="color:#6B5F7B;font-size:28px">9</span>&ensp;Livsfaser</div>
 </div>
@@ -1176,7 +1166,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
 <!-- ======================================================= -->
 <!-- SEKTION 2: MINE RELATIONER                              -->
 <!-- ======================================================= -->
-<div class="section-num">Sektion 2 af 5</div>
+<div class="section-num" id="sek-relationer">Sektion 2 af 5</div>
 <div class="header">
   <div class="header-title">De&ensp;<span style="color:#6B5F7B;font-size:28px">9</span>&ensp;Livsfaser</div>
 </div>
@@ -1326,7 +1316,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
 <!-- ======================================================= -->
 <!-- SEKTION 3: MIN PRAKSIS                                  -->
 <!-- ======================================================= -->
-<div class="section-num">Sektion 3 af 5</div>
+<div class="section-num" id="sek-praksis">Sektion 3 af 5</div>
 <div class="header">
   <div class="header-title">De&ensp;<span style="color:#6B5F7B;font-size:28px">9</span>&ensp;Livsfaser</div>
 </div>
@@ -1483,7 +1473,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
 <!-- ======================================================= -->
 <!-- SEKTION 4: MIN REJSE                                    -->
 <!-- ======================================================= -->
-<div class="section-num">Sektion 4 af 5</div>
+<div class="section-num" id="sek-rejse">Sektion 4 af 5</div>
 <div class="header">
   <div class="header-title">De&ensp;<span style="color:#6B5F7B;font-size:28px">9</span>&ensp;Livsfaser</div>
 </div>
@@ -1658,7 +1648,7 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
 <!-- ======================================================= -->
 <!-- SEKTION 5: MINE VINDUER                                 -->
 <!-- ======================================================= -->
-<div class="section-num">Sektion 5 af 5</div>
+<div class="section-num" id="sek-vinduer">Sektion 5 af 5</div>
 <div class="header">
   <div class="header-title">De&ensp;<span style="color:#6B5F7B;font-size:28px">9</span>&ensp;Livsfaser</div>
 </div>
@@ -2193,13 +2183,217 @@ if (localStorage.getItem('pk-v') && localStorage.getItem('pk-v') !== V) {
   <div class="back-to-top"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Tilbage til toppen &uarr;</a></div>
 </div>
 
-<!-- NAV -->
-<div class="bottom-nav">
-  <div class="ni on"><div class="ni-icon">&#x25CE;</div><span>Lige nu</span></div>
-  <div class="ni"><div class="ni-icon">&#x25C7;</div><span>Vinduer</span></div>
-  <div class="ni"><div class="ni-icon">&#x25CB;</div><span>S&oslash;g</span></div>
-  <div class="ni"><div class="ni-icon">&#x25FB;</div><span>Profil</span></div>
+<!-- ARC NAVIGATION — visible only on the 5 main sections -->
+<div class="arc-nav hide" id="nb">
+  <svg id="arc-svg" viewBox="0 0 375 160" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  </svg>
+  <div style="height:env(safe-area-inset-bottom,6px);background:#FDFCFB"></div>
 </div>
+
+<script>
+(function(){
+  // ====== CIRCULAR ARC MATH ======
+  var x1 = 15, x2 = 360;
+  var chord = x2 - x1;
+  var sagitta = 32;
+  var R = (chord * chord) / (8 * sagitta) + sagitta / 2;
+  var midX = (x1 + x2) / 2;
+  var chordY = 125.7;
+  var halfChord = chord / 2;
+  var d = Math.sqrt(R * R - halfChord * halfChord);
+  var cx = midX;
+  var cy = chordY + d;
+
+  var angleStart = Math.atan2(chordY - cy, x1 - cx);
+  var angleEnd = Math.atan2(chordY - cy, x2 - cx);
+
+  // ====== ITEMS ======
+  var N = 6;
+  var items = [
+    { name: 'Hjem',       r: 15, fillC: 'rgba(108,130,169,0.10)', strokeC: 'rgba(108,130,169,0.14)', textC: '#b8b2a8', active: false, sek: null },
+    { name: 'Vinduer',    r: 15, fillC: 'rgba(107,95,123,0.10)',  strokeC: 'rgba(107,95,123,0.16)',  textC: '#a89bb3', active: false, sek: 'sek-vinduer' },
+    { name: 'Cyklusser',  r: 15, fillC: 'rgba(108,130,169,0.10)', strokeC: 'rgba(108,130,169,0.14)', textC: '#b8b2a8', active: false, sek: 'sek-cyklusser' },
+    { name: 'Relationer', r: 15, fillC: 'rgba(123,122,158,0.10)', strokeC: 'rgba(123,122,158,0.16)', textC: '#b8b2a8', active: false, sek: 'sek-relationer' },
+    { name: 'Praksis',    r: 15, fillC: 'rgba(122,144,139,0.10)', strokeC: 'rgba(122,144,139,0.16)', textC: '#b8b2a8', active: false, sek: 'sek-praksis' },
+    { name: 'Rejse',      r: 15, fillC: 'rgba(138,150,169,0.10)', strokeC: 'rgba(138,150,169,0.16)', textC: '#b8b2a8', active: false, sek: 'sek-rejse' }
+  ];
+
+  // Active styles
+  var ACTIVE_R = 19;
+  var ACTIVE_FILL = 'rgba(108,130,169,0.18)';
+  var ACTIVE_STROKE = 'rgba(108,130,169,0.30)';
+  var ACTIVE_TEXT = '#6c82a9';
+
+  // ====== BORDER ARC ======
+  var equalGap = 11;
+  var R_border = R + 15 + equalGap;
+
+  // ====== ICONS ======
+  var svgNS = 'http://www.w3.org/2000/svg';
+  var iconFns = [
+    // Hjem — house
+    function(g,c){ var p=document.createElementNS(svgNS,'path'); p.setAttribute('d','M0,-5.5 L5.5,0 V4.5 H2 V1 H-2 V4.5 H-5.5 V0 Z'); p.setAttribute('fill','none'); p.setAttribute('stroke',c); p.setAttribute('stroke-width','0.9'); p.setAttribute('stroke-linejoin','round'); g.appendChild(p); },
+    // Vinduer — window grid
+    function(g,c){ var r=document.createElementNS(svgNS,'rect'); r.setAttribute('x','-5'); r.setAttribute('y','-5'); r.setAttribute('width','10'); r.setAttribute('height','10'); r.setAttribute('rx','1.2'); r.setAttribute('fill','none'); r.setAttribute('stroke',c); r.setAttribute('stroke-width','0.8'); g.appendChild(r); var l1=document.createElementNS(svgNS,'line'); l1.setAttribute('x1','0'); l1.setAttribute('y1','-5'); l1.setAttribute('x2','0'); l1.setAttribute('y2','5'); l1.setAttribute('stroke',c); l1.setAttribute('stroke-width','0.5'); g.appendChild(l1); var l2=document.createElementNS(svgNS,'line'); l2.setAttribute('x1','-5'); l2.setAttribute('y1','0'); l2.setAttribute('x2','5'); l2.setAttribute('y2','0'); l2.setAttribute('stroke',c); l2.setAttribute('stroke-width','0.5'); g.appendChild(l2); },
+    // Cyklusser — concentric circles
+    function(g,c){ var c1=document.createElementNS(svgNS,'circle'); c1.setAttribute('r','6'); c1.setAttribute('fill','none'); c1.setAttribute('stroke',c); c1.setAttribute('stroke-width','1.1'); g.appendChild(c1); var c2=document.createElementNS(svgNS,'circle'); c2.setAttribute('r','2.8'); c2.setAttribute('fill','none'); c2.setAttribute('stroke',c); c2.setAttribute('stroke-width','0.9'); g.appendChild(c2); var c3=document.createElementNS(svgNS,'circle'); c3.setAttribute('r','0.8'); c3.setAttribute('fill',c); g.appendChild(c3); },
+    // Relationer — heart
+    function(g,c){ var p=document.createElementNS(svgNS,'path'); p.setAttribute('d','M0,4.5 C0,4.5 -5.5,0.5 -5.5,-1.5 C-5.5,-3.5 -3.5,-5.5 -1.5,-4 L0,-2.5 L1.5,-4 C3.5,-5.5 5.5,-3.5 5.5,-1.5 C5.5,0.5 0,4.5 0,4.5 Z'); p.setAttribute('fill','none'); p.setAttribute('stroke',c); p.setAttribute('stroke-width','0.8'); g.appendChild(p); },
+    // Praksis — clock
+    function(g,c){ var ci=document.createElementNS(svgNS,'circle'); ci.setAttribute('r','5'); ci.setAttribute('fill','none'); ci.setAttribute('stroke',c); ci.setAttribute('stroke-width','0.8'); g.appendChild(ci); var p=document.createElementNS(svgNS,'path'); p.setAttribute('d','M0,-2.5 V0.5 L2,2.5'); p.setAttribute('fill','none'); p.setAttribute('stroke',c); p.setAttribute('stroke-width','0.8'); p.setAttribute('stroke-linecap','round'); g.appendChild(p); },
+    // Rejse — compass
+    function(g,c){ var ci=document.createElementNS(svgNS,'circle'); ci.setAttribute('r','5'); ci.setAttribute('fill','none'); ci.setAttribute('stroke',c); ci.setAttribute('stroke-width','0.8'); g.appendChild(ci); var p1=document.createElementNS(svgNS,'path'); p1.setAttribute('d','M0,-5 V-3.5 M0,3.5 V5 M-5,0 H-3.5 M3.5,0 H5'); p1.setAttribute('stroke',c); p1.setAttribute('stroke-width','0.5'); g.appendChild(p1); var p2=document.createElementNS(svgNS,'path'); p2.setAttribute('d','M0,-2 L1.2,0.8 L-1.2,0.8 Z'); p2.setAttribute('fill',c); g.appendChild(p2); }
+  ];
+
+  // ====== RENDER FUNCTION ======
+  function renderNav(activeIndex) {
+    var svg = document.getElementById('arc-svg');
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+    // Set active state
+    for (var i = 0; i < N; i++) {
+      items[i].active = (i === activeIndex);
+      items[i]._r = items[i].active ? ACTIVE_R : 15;
+    }
+
+    // Compute positions
+    for (var i = 0; i < N; i++) {
+      var t = (i + 0.5) / N;
+      var angle = angleStart + t * (angleEnd - angleStart);
+      var R_i = R_border - equalGap - items[i]._r;
+      items[i].x = cx + R_i * Math.cos(angle);
+      items[i].y = cy + R_i * Math.sin(angle);
+      items[i].angle = angle;
+    }
+
+    // Edge-to-edge border arc
+    var edgeDy = Math.sqrt(R_border * R_border - cx * cx);
+    var edgeY = cy - edgeDy;
+
+    // SVG paths
+    var bgPath = 'M 0,' + edgeY.toFixed(1) +
+      ' A ' + R_border.toFixed(1) + ',' + R_border.toFixed(1) + ' 0 0,1 375,' + edgeY.toFixed(1) +
+      ' L 375,160 L 0,160 Z';
+    var borderArcPath = 'M 0,' + edgeY.toFixed(1) +
+      ' A ' + R_border.toFixed(1) + ',' + R_border.toFixed(1) + ' 0 0,1 375,' + edgeY.toFixed(1);
+
+    // 1. Background
+    var bgEl = document.createElementNS(svgNS, 'path');
+    bgEl.setAttribute('d', bgPath);
+    bgEl.setAttribute('fill', '#FDFCFB');
+    svg.appendChild(bgEl);
+
+    // 2. Border line
+    var borderEl = document.createElementNS(svgNS, 'path');
+    borderEl.setAttribute('d', borderArcPath);
+    borderEl.setAttribute('fill', 'none');
+    borderEl.setAttribute('stroke', 'rgba(108,130,169,0.18)');
+    borderEl.setAttribute('stroke-width', '0.7');
+    svg.appendChild(borderEl);
+
+    // 3. Circles + icons
+    for (var i = 0; i < N; i++) {
+      var it = items[i];
+      var circ = document.createElementNS(svgNS, 'circle');
+      circ.setAttribute('cx', it.x.toFixed(1));
+      circ.setAttribute('cy', it.y.toFixed(1));
+      circ.setAttribute('r', it._r);
+      circ.setAttribute('fill', it.active ? ACTIVE_FILL : it.fillC);
+      circ.setAttribute('stroke', it.active ? ACTIVE_STROKE : it.strokeC);
+      circ.setAttribute('stroke-width', it.active ? '1' : '0.7');
+      svg.appendChild(circ);
+
+      var iconColor = it.active ? '#6c82a9' : 'rgba(108,130,169,0.40)';
+      var g = document.createElementNS(svgNS, 'g');
+      g.setAttribute('transform', 'translate(' + it.x.toFixed(1) + ',' + it.y.toFixed(1) + ')');
+      iconFns[i](g, iconColor);
+      svg.appendChild(g);
+    }
+
+    // 4. Active dot
+    if (activeIndex >= 0) {
+      var ai = items[activeIndex];
+      var actDot = document.createElementNS(svgNS, 'circle');
+      actDot.setAttribute('cx', ai.x.toFixed(1));
+      actDot.setAttribute('cy', (ai.y + ai._r + 4).toFixed(1));
+      actDot.setAttribute('r', '2.5');
+      actDot.setAttribute('fill', '#6c82a9');
+      actDot.setAttribute('opacity', '0.45');
+      svg.appendChild(actDot);
+    }
+
+    // 5. Text labels
+    var labelGap = 10;
+    for (var i = 0; i < N; i++) {
+      var it = items[i];
+      var tx = it.x;
+      var ty = it.y + it._r + labelGap;
+      var tangentDeg = (it.angle + Math.PI / 2) * 180 / Math.PI * 0.55;
+      var txt = document.createElementNS(svgNS, 'text');
+      txt.setAttribute('x', tx.toFixed(1));
+      txt.setAttribute('y', ty.toFixed(1));
+      txt.setAttribute('text-anchor', 'middle');
+      txt.setAttribute('font-family', "'DM Sans',sans-serif");
+      txt.setAttribute('font-size', it.active ? '10.5' : '10');
+      txt.setAttribute('font-weight', it.active ? '500' : '300');
+      txt.setAttribute('fill', it.active ? ACTIVE_TEXT : it.textC);
+      if (Math.abs(tangentDeg) > 0.5) {
+        txt.setAttribute('transform', 'rotate(' + tangentDeg.toFixed(1) + ' ' + tx.toFixed(1) + ' ' + ty.toFixed(1) + ')');
+      }
+      txt.textContent = it.name;
+      svg.appendChild(txt);
+    }
+  }
+
+  // Initial render (no active)
+  renderNav(-1);
+
+  // ====== SCROLL BEHAVIOR ======
+  var lastY = 0;
+  var sectionsStart = document.getElementById('sections-start');
+  var sekEls = {
+    'sek-cyklusser': 2,
+    'sek-relationer': 3,
+    'sek-praksis': 4,
+    'sek-rejse': 5,
+    'sek-vinduer': 1
+  };
+  var currentActive = -1;
+
+  window.addEventListener('scroll', function(){
+    var nb = document.getElementById('nb');
+    var y = window.scrollY;
+    var threshold = sectionsStart ? sectionsStart.offsetTop - window.innerHeight / 2 : 0;
+
+    // Hide on onboarding/forside
+    if (y < threshold) {
+      nb.classList.add('hide');
+      lastY = y;
+      return;
+    }
+
+    // Scroll-hide: down=hide, up=show
+    if (y > lastY && y > threshold + 80) nb.classList.add('hide');
+    else nb.classList.remove('hide');
+    lastY = y;
+
+    // Determine active section
+    var newActive = 2; // default: Cyklusser
+    var ids = ['sek-vinduer','sek-rejse','sek-praksis','sek-relationer','sek-cyklusser'];
+    for (var i = 0; i < ids.length; i++) {
+      var el = document.getElementById(ids[i]);
+      if (el && y + window.innerHeight / 3 >= el.offsetTop) {
+        newActive = sekEls[ids[i]];
+        break;
+      }
+    }
+    if (newActive !== currentActive) {
+      currentActive = newActive;
+      renderNav(currentActive);
+    }
+  }, {passive: true});
+})();
+</script>
 
 </body>
 </html>
