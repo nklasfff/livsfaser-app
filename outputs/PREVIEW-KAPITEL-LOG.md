@@ -1,7 +1,7 @@
 # PREVIEW-KAPITEL-LOG — De 9 Livsfasers Energi
 
 *Komplet inventar over alle skærme, komponenter og indhold i preview-komplet.html*
-*Opdateret: 21. februar 2026 · v34*
+*Opdateret: 21. februar 2026 · v35*
 
 ---
 
@@ -15,9 +15,9 @@
 | Undersider (Cyklusser) | 4 | ✅ Bygget |
 | Undersider (Relationer) | 4 | ✅ Bygget |
 | Undersider (Praksis) | 7 | ✅ Bygget |
+| Undersider (Rejse) | 5 | ✅ Bygget |
 | Cirkel-detail-overlays | 6 | ❌ Mangler i preview |
-| Undersider sekt. 4 | 0 | ⏳ Ikke planlagt endnu |
-| **Total i preview nu** | **25** | |
+| **Total i preview nu** | **30** | |
 | **Total i gammel app** | **~46** | |
 
 ---
@@ -681,6 +681,11 @@ Disse vises i den gamle app når man trykker på de koncentriske cirkler på for
 | 3E | Refleksion | Spejl-figur | SVG: To halvdele (ydre selv/indre selv) | Stilhedens spiral | SVG: Indadgående spiral med spørgsmål |
 | 3F | Kost & Urter | Elementernes tallerken | SVG: Cirkel delt i 5 sektorer | Sæson-næring | SVG: 4 årstids-kolonner med madvarer |
 | 3G | Hvad har hjulpet andre | Fællesskabs-cirkler | SVG: Overlappende fase-bobler | Erfarings-strøm | SVG: Vertikal flow med citater |
+| 4A | Min Udvikling | Bølgeform (energirytme) | SVG: Sinuskurve med DIG NU-markør | Energi-søjler (bar chart) | HTML/CSS: 8 bars + note |
+| 4B | Min Journal | Sider der folder sig ud | SVG: Lagvise ellipser (tid) | Bog-billede | Billede: min-journal-bog.jpeg |
+| 4C | Mine Favoritter | Samlede sten | SVG: 5 organiske former | Blad-billede | Billede: favoritter_blad_HQ.png |
+| 4D | Mine Opdagelser | Konstellationer | SVG: Prikker forbundet til mønstre | Cirkler-billede | Billede: opdagelser_cirkler_HQ.png |
+| 4E | Baggrundsviden | Vidensstrømme | SVG: 5 floder samlet i ét punkt | Kontrolcyklus-billede | Billede: kontrolcyklus_lilla.svg |
 
 ---
 
@@ -768,11 +773,11 @@ Disse vises i den gamle app når man trykker på de koncentriske cirkler på for
 
 | Skærm | Indhold i gammel app | Preview-status |
 |-------|---------------------|----------------|
-| Min Udvikling | Tracking + graf + check-in | ❌ Mangler |
-| Min Journal | Journal-indlæg | ❌ Mangler |
-| Mine Favoritter | Gemte favoritter | ❌ Mangler |
-| Mine Opdagelser | Bruger-indsigter | ❌ Mangler |
-| Baggrundsviden | Uddannelsesindhold | ❌ Mangler |
+| Min Udvikling | Tracking + graf + check-in | ✅ Underside 4A |
+| Min Journal | Journal-indlæg | ✅ Underside 4B |
+| Mine Favoritter | Gemte favoritter | ✅ Underside 4C |
+| Mine Opdagelser | Bruger-indsigter | ✅ Underside 4D |
+| Baggrundsviden | Uddannelsesindhold | ✅ Underside 4E |
 
 ### Andre skærme
 
@@ -794,7 +799,7 @@ Disse vises i den gamle app når man trykker på de koncentriske cirkler på for
 
 ### Medium prioritet
 4. ~~Undersider for Sektion 3 (Min Praksis)~~ ✅ DONE (7 undersider)
-5. Undersider for Sektion 4 (Min Rejse)
+5. ~~Undersider for Sektion 4 (Min Rejse)~~ ✅ DONE (5 undersider)
 
 ### Lav prioritet (utility-skærme)
 6. Søg
@@ -804,6 +809,22 @@ Disse vises i den gamle app når man trykker på de koncentriske cirkler på for
 ---
 
 ## ÆNDRINGSLOG
+
+### v35 — 21. februar 2026
+
+- **5 undersider til Min Rejse bygget:**
+  - 4A: Min Udvikling (bølgeform + energi-søjler + stat-bokse + elementbalance + check-in form)
+  - 4B: Min Journal (sider-figur + bog-billede + refleksions-boks + 3 journal-indlæg + mønstre)
+  - 4C: Mine Favoritter (samlede-sten + blad-billede + tab-filter + 13 favoritkort med hjerter)
+  - 4D: Mine Opdagelser (konstellationer + cirkler-billede + 6 opdagelses-indlæg i tidslinje)
+  - 4E: Baggrundsviden (vidensstrømme + kontrolcyklus-billede + 3 traditioner + 5 tradKort + 3 videnskab)
+- **Alle 5 beholder gammel figur + får ny SVG-figur** — per brugerens instruktion
+- **Alt indhold fra gammel app tilpasset ny stil** — chips, insight-boxes, time-shifts, pull-quotes, cross-links
+- **10 nye figurer:** bølgeform, sider-der-folder-sig-ud, samlede-sten, konstellationer, vidensstrømme + 5 gamle billeder beholdt
+- **Persona-data genbrugt:** 60-årig kvinde i Fase 9, 47 check-ins, 8 refleksioner, 14d streak, Vand-dominans
+- **FIGUR-INVENTAR opdateret** med 10 nye figurer (2 per underside)
+- **GAMMEL APP sektion opdateret** — 5 Rejse-undersider markeret som bygget
+- **Total i preview nu: 30 sider** (var 25)
 
 ### v34 — 21. februar 2026
 
