@@ -779,7 +779,7 @@ body { background: #FDFCFB; font-family: 'DM Sans', sans-serif; }
 .arc-nav.hide { transform: translateY(100%); }
 
 /* Padding for arc nav */
-body { padding-bottom: 130px; }
+body { padding-bottom: 100px; }
 </style>
 </head>
 <body>
@@ -957,21 +957,21 @@ body { padding-bottom: 130px; }
 <script>
 (function(){
   // ====== CIRCULAR ARC MATH ======
-  // Chord endpoints (pulled inward from edges for tappability)
-  var x1 = 48, x2 = 327;
-  var chord = x2 - x1; // 279
-  var sagitta = 62; // arc height — rounder than before
+  // Chord endpoints (wide spread for flatter arc)
+  var x1 = 15, x2 = 360;
+  var chord = x2 - x1; // 345
+  var sagitta = 32; // flatter arc — less dome, more subtle
 
   // Radius from chord + sagitta: R = c²/(8s) + s/2
   var R = (chord * chord) / (8 * sagitta) + sagitta / 2;
-  // R ≈ 188.7
+  // R ≈ 480.9
 
   // Midpoint of chord
   var midX = (x1 + x2) / 2; // 187.5
 
   // Y coordinate of chord (where endpoints sit)
   // We place the chord at y=118 in the SVG so there's room above for the arc
-  var chordY = 134; // shifted down 16px (7mm→4mm gap at bottom)
+  var chordY = 125.7; // positioned so Hjem/Rejse text has ~19px gap to bottom
 
   // Circle center is BELOW the chord (for an upward arc)
   var halfChord = chord / 2;
